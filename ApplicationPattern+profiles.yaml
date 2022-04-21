@@ -1,0 +1,51 @@
+profiles:
+
+  - profile-name: ApplicationProfile
+    uuid: application-p-0000
+    application-name: RegistryOffice
+    release-number: 0.0.1
+    approval-status: approved
+
+  - profile-name: IntegerProfile
+    uuid: integer-p-0000
+    integer-name: maximumNumberOfEntries
+    unit: records
+    minimum: 0
+    maximum: 17
+    configured-value: 8
+
+  - profile-name: StringProfile
+    uuid: string-p-0000
+    string-name: operationMode
+    configured-value: sanitation
+
+  - profile-name: ActionProfile
+    uuid: action-p-0000
+    operation-name: /v1/start-application-in-generic-representation
+    label: Inform about Application
+    request: https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-op-s-2002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]
+    display-in-new-browser-window: false
+
+  - profile-name: ActionProfile
+    uuid: action-p-0010
+    operation-name: /v1/inform-about-application-in-generic-representation
+    label: Release History
+    request: https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-op-s-2004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]
+    display-in-new-browser-window: false
+
+  - profile-name: ActionProfile
+    uuid: action-p-0011
+    operation-name: /v1/inform-about-application-in-generic-representation
+    label: API Documentation
+    request: https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/v1/inform-about-api
+    display-in-new-browser-window: true
+
+  - profile-name: ActionProfile
+    uuid: action-p-0020
+    operation-name: 
+    label: 
+    request: 
+    input-value-list:
+      - field-name:
+        unit:
+    display-in-new-browser-window: false

@@ -1,0 +1,261 @@
+servers:
+
+  operation-servers:
+    own-oam:
+      basic:
+        - service-name: /v1/register-yourself
+          uuid: op-s-0000
+        - service-name: /v1/embed-yourself
+          uuid: op-s-0001
+        - service-name: /v1/redirect-service-request-information
+          uuid: op-s-0002
+        - service-name: /v1/redirect-oam-request-information
+          uuid: op-s-0003
+        - service-name: /v1/end-subscription
+          uuid: op-s-0004
+        - service-name: /v1/inquire-oam-request-approvals
+          uuid: op-s-0005
+        - service-name: /v1/update-client
+          uuid: op-s-0007
+        - service-name: /v1/list-ltps-and-fcs
+          uuid: op-s-0008
+        - service-name: /v1/redirect-topology-change-information
+          uuid: op-s-0009
+        - service-name: /v1/update-operation-key
+          uuid: op-s-0010
+        - service-name: /v1/update-operation-client
+          uuid: op-s-0011
+      individual:
+        - service-name: /v1/bequeath-your-data-and-die
+          uuid: op-s-1000
+    service:
+      basic:
+        - service-name: /v1/inform-about-application
+          uuid: op-s-2001
+        - service-name: /v1/inform-about-application-in-generic-representation
+          uuid: op-s-2002
+        - service-name: /v1/inform-about-release-history
+          uuid: op-s-2003
+        - service-name: /v1/inform-about-release-history-in-generic-representation
+          uuid: op-s-2004
+      individual:
+        - service-name: /v1/start-application-in-generic-representation
+          uuid: op-s-3000
+        ## Services specific to this application
+  http-server:
+    own-application-name: ## OwnApplicationName
+    own-release-number: ## OwnReleaseNumber (e.g. 0.0.1)
+    uuid: http-s-0000
+  tpc-server:
+    own-ip-address: ## OwnIpAddress
+    own-tcp-port: ## OwnTcpPort
+    uuid: tcp-s-0000
+
+
+
+clients:
+
+  - http-client:
+      application-name: OldRelease
+      release-number: ## Number of Release to be substituted (e.g. 0.0.1)
+      uuid: http-c-0000
+    tcp:
+      ip-address: ## IpAddress of Release to be substituted
+      tcp-port: ## TcpPort of Release to be substituted
+      uuid: tcp-c-0000
+    operation-clients:
+      own-oam:
+        basic:
+          - service-name: /v1/bequeath-your-data-and-die
+            uuid: op-c-0000
+        individual:
+      service:
+        basic:
+        individual:
+
+  - http-client:
+      application-name: NewRelease
+      release-number: ## Number of substituting Release (e.g. 0.0.2)
+      uuid: http-c-0010
+    tcp:
+      ip-address: ## IpAddress of substituting Release
+      tcp-port: ## TcpPort of substituting Release
+      uuid: tcp-c-0010
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+          ## Services required for handing-over configuration or data during update
+      service:
+        basic:
+        individual:
+
+  - http-client:
+      application-name: RegistryOffice
+      release-number: 0.0.1
+      uuid: http-c-0020
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1000
+      uuid: tcp-c-0020
+    operation-clients:
+      own-oam:
+        basic:
+          - service-name: /v1/register-application
+            uuid: op-c-0020
+          - service-name: /v1/relay-server-replacement
+            uuid: op-c-0021
+          - service-name: /v1/deregister-application
+            uuid: op-c-0022
+          - service-name: /v1/relay-operation-update
+            uuid: op-c-0023
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: TypeApprovalRegister
+      release-number: 0.0.1
+      uuid: http-c-2030
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1001
+      uuid: tcp-c-2030
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: ExecutionAndTraceLog
+      release-number: 0.0.1
+      uuid: http-c-0040
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1002
+      uuid: tcp-c-0040
+    operation-clients:
+      own-oam:
+        basic:
+          - service-name: /v1/record-service-request
+            uuid: op-c-0040
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: OamLog
+      release-number: 0.0.1
+      uuid: http-c-0050
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1003
+      uuid: tcp-c-0050
+    operation-clients:
+      own-oam:
+        basic:
+          - service-name: /v1/record-oam-request
+            uuid: op-c-0050
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: AdministratorAdministration
+      release-number: 0.0.1
+      uuid: http-c-0060
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1004
+      uuid: tcp-c-0060
+    operation-clients:
+      own-oam:
+        basic:
+          - service-name: /v1/approve-oam-request
+            uuid: op-c-0060
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: ApplicationLayerTopology
+      release-number: 0.0.1
+      uuid: http-c-0070
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1005
+      uuid: tcp-c-0070
+    operation-clients:
+      own-oam:
+        basic:
+          - service-name: /v1/update-all-ltps-and-fcs
+            uuid: op-c-0070
+          - service-name: /v1/update-ltp
+            uuid: op-c-0071
+          - service-name: /v1/delete-ltp-and-dependents
+            uuid: op-c-0072
+          - service-name: /v1/update-fc
+            uuid: op-c-0073
+          - service-name: /v1/update-fc-port
+            uuid: op-c-0074
+          - service-name: /v1/delete-fc-port
+            uuid: op-c-0075
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: OperationKeyManagement
+      release-number: 0.0.1
+      uuid: http-c-2080
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 1006
+      uuid: tcp-c-2080
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application
+
+  - http-client:
+      application-name: CurrentController
+      release-number: 0.0.1
+      uuid: http-c-2300
+    tcp:
+      ip-address: 10.118.125.157
+      tcp-port: 2000
+      uuid: tcp-c-2300
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## Clients specific to this application, but addressing all other applications
+        individual:
+          ## Clients specific to this application

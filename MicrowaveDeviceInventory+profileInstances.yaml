@@ -1,0 +1,56 @@
+profileInstances:
+
+  - profile-name: ActionProfile
+    uuid: action-p-1000
+    operation-name: /v1/start-application-in-generic-representation
+    label: Inform about Application
+    request: https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-op-s-2002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]
+    display-in-new-browser-window: false
+
+  - profile-name: ActionProfile
+    uuid: action-p-1001
+    operation-name: /v1/inform-about-application-in-generic-representation
+    label: Release History
+    request: https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-op-s-2004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]
+    display-in-new-browser-window: false
+
+  - profile-name: ActionProfile
+    uuid: action-p-1002
+    operation-name: /v1/inform-about-application-in-generic-representation
+    label: API Documentation
+    request: https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/v1/inform-about-api
+    display-in-new-browser-window: true
+
+  - profile-name: ActionProfile
+    uuid: action-p-1003
+    operation-name: ## Generic representation operation that shall result in a new button and potentially new input fields
+    label: ## Label of the new button
+    request: ## URL that shall be addressed, as soon as button gets pushed
+    input-value-list:
+      - field-name: ## Label of a field for providing input to the request that gets called by pushing the button
+        unit: ## Unit that shall be represented aside the input field
+      ## Potentially further input fields to be added
+    display-in-new-browser-window: ## to be set on true, if result of pushing the button has to be represented in a new browser window
+
+  ## Potentially further instances of ActionProfile to be added
+
+
+  - profile-name: IntegerProfile
+    uuid: integer-p-1000
+    integer-name: ## Name of the Integer attribute
+    unit: ## Unit of the Integer attribute
+    minimum: ## Minimum value to be accepted, while configuration
+    maximum: ## Maximum value to be accepted, while configuration
+    configured-value: ## Current value of the attribute
+
+  ## Potentially further instances of IntegerProfile to be added
+
+
+  - profile-name: StringProfile
+    uuid: string-p-1000
+    string-name: ## Name of the String attribute
+    enumeration: ## Set of allowed values in cornered brackets
+    pattern: ## Regex for validating configuration values
+    configured-value: ## Current value of the attribute
+
+  ## Potentially further instances of StringProfile to be added

@@ -44,7 +44,7 @@ servers:
         ## Services specific to this application
   http-server:
     own-application-name: ## OwnApplicationName
-    own-release-number: ## OwnReleaseNumber (e.g. 0.0.1)
+    own-release-number: ## OwnReleaseNumber (e.g. 1.0.0)
     uuid: http-s-0000
   tpc-server:
     own-ip-address: ## OwnIpAddress
@@ -57,7 +57,7 @@ clients:
 
   - http-client:
       application-name: OldRelease
-      release-number: ## Number of Release to be substituted (e.g. 0.0.1)
+      release-number: ## Number of Release to be substituted (e.g. 1.0.0)
       uuid: http-c-0000
     tcp-client:
       ip-address: ## IpAddress of Release to be substituted
@@ -75,7 +75,7 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: ## Number of substituting Release (e.g. 0.0.2)
+      release-number: ## Number of substituting Release (e.g. 1.0.1)
       uuid: http-c-0010
     tcp-client:
       ip-address: ## IpAddress of substituting Release
@@ -92,7 +92,7 @@ clients:
 
   - http-client:
       application-name: RegistryOffice
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-0020
     tcp-client:
       ip-address: 10.118.125.157
@@ -118,7 +118,7 @@ clients:
 
   - http-client:
       application-name: TypeApprovalRegister
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-2030
     tcp-client:
       ip-address: 10.118.125.157
@@ -136,7 +136,7 @@ clients:
 
   - http-client:
       application-name: ExecutionAndTraceLog
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-0040
     tcp-client:
       ip-address: 10.118.125.157
@@ -156,7 +156,7 @@ clients:
 
   - http-client:
       application-name: OamLog
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-0050
     tcp-client:
       ip-address: 10.118.125.157
@@ -176,7 +176,7 @@ clients:
 
   - http-client:
       application-name: AdministratorAdministration
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-0060
     tcp-client:
       ip-address: 10.118.125.157
@@ -196,7 +196,7 @@ clients:
 
   - http-client:
       application-name: ApplicationLayerTopology
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-0070
     tcp-client:
       ip-address: 10.118.125.157
@@ -226,7 +226,7 @@ clients:
 
   - http-client:
       application-name: OperationKeyManagement
-      release-number: 0.0.1
+      release-number: 1.0.0
       uuid: http-c-2080
     tcp-client:
       ip-address: 10.118.125.157
@@ -243,13 +243,13 @@ clients:
           ## Clients specific to this application
 
   - http-client:
-      application-name: CurrentController
-      release-number: 0.0.1
-      uuid: http-c-2300
+      application-name: ## Name of application to be addressed
+      release-number: ## Release number of application to be addressed
+      uuid: ## UUID of the HttpClient
     tcp-client:
-      ip-address: 10.118.125.157
-      tcp-port: 2000
-      uuid: tcp-c-2300
+      ip-address: ## IP address of application to be addressed
+      tcp-port: ## TCP port of application to be addressed
+      uuid: ## UUID of the TcpClient
     operation-clients:
       own-oam:
         basic:

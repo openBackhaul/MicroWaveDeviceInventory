@@ -1,0 +1,93 @@
+profile-instances:
+
+  - profile-name: 'ActionProfile'
+    uuid: 'mwdi-1-0-0-action-p-10000' ## Replace * by ApplicationID and ReleaseNumber
+    capability:
+      operation-name: '/v1/start-application-in-generic-representation'
+      label: 'Inform about Application'
+      display-in-new-browser-window: false
+    configuration:
+      request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-op-s-2002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
+
+  - profile-name: 'ActionProfile'
+    uuid: 'mwdi-1-0-0-action-p-10010' ## Replace * by ApplicationID and ReleaseNumber
+    capability:
+      operation-name: '/v1/inform-about-application-in-generic-representation'
+      label: 'Release History'
+      display-in-new-browser-window: false
+    configuration:
+      request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-op-s-2004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
+
+  - profile-name: 'ActionProfile'
+    uuid: 'mwdi-1-0-0-action-p-10020' ## Replace * by ApplicationID and ReleaseNumber
+    capability:
+      operation-name: '/v1/inform-about-application-in-generic-representation'
+      label: 'API Documentation'
+      display-in-new-browser-window: true
+    configuration:
+      request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/docs'
+
+
+## so far no new ActionProfiles -> template -->
+##  - profile-name: 'ActionProfile'
+##    uuid: '*-action-p-10??' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+##    capability:
+##      operation-name: ## Generic representation operation that shall result in a new button and potentially new input fields
+##      label: ## Label of the new button
+##      input-value-list:
+##        - field-name: ## Label of a field for providing input to the request that gets called by pushing the button
+##          unit: ## Unit that shall be represented aside the input field
+##        ## Potentially further input fields to be added
+##      display-in-new-browser-window: ## to be set on true, if result of pushing the button has to be represented in a new browser window
+##    configuration:
+##      request: ## URL that shall be addressed, as soon as button gets pushed
+
+  ## Potentially further instances of ActionProfile to be added
+
+## so far no IntegerProfiles -> template -->
+##  - profile-name: 'IntegerProfile'
+##    uuid: '*-integer-p-10??' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+##    capability:
+##      integer-name: ## Name of the Integer attribute
+##      unit: ## Unit of the Integer attribute
+##      minimum: ## Minimum value to be accepted, while configuration
+##      maximum: ## Maximum value to be accepted, while configuration
+##    configuration:
+##      integer-value: ## Current value of the attribute
+
+  ## Potentially further instances of IntegerProfile to be added
+
+## template for stringProfiles
+##  - profile-name: 'StringProfile'
+##    uuid: '*-string-p-10??' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+##    capability:
+##      string-name: ## Name of the String attribute
+##      enumeration: ## Set of allowed values in cornered brackets
+##      pattern: ## Regex for validating configuration values
+##    configuration:
+##      string-value: ## Current value of the attribute
+
+  ## Potentially further instances of StringProfile to be added
+
+
+## examples for discussion on Friday meeting, list not yet finalized!
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-0-0-string-p-10000' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+    capability:
+      string-name: mountname ## Name of the String attribute
+      pattern: '\\d{9}[AB]{0,1}$' ## Regex for validating configuration values
+    ##configuration:
+    ##  string-value: ## Current value of the attribute  ##there is no predefined value
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-0-0-string-p-10001' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+    capability:
+      string-name: granularityPeriod ## Name of the String attribute
+      pattern: '.*:GRANULARITY_PERIOD_TYPE_PERIOD-[15-MIN|24-HOURS]' ## Regex for validating configuration values
+    ##configuration:
+    ##  string-value: ## Current value of the attribute  ##there is no predefined value   
+    ## -----
+    ## examples:
+    ##  "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+    ##  "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-24-HOURS",
+    ##

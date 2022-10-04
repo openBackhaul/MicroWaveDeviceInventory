@@ -10,7 +10,7 @@ profile-instances:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-s-bm-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-s-bm-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
 
   - profile-name: 'ActionProfile'
-    uuid: 'mwdi-1-0-0--action-p-001' 
+    uuid: 'mwdi-1-0-0-action-p-001' 
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'Release History'
@@ -19,7 +19,7 @@ profile-instances:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-s-bm-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-s-bm-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port][/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
 
   - profile-name: 'ActionProfile'
-    uuid: 'mwdi-1-0-0--action-p-002' 
+    uuid: 'mwdi-1-0-0-action-p-002' 
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'API Documentation'

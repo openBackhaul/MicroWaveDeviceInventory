@@ -667,12 +667,12 @@ servers:
 
 
   http-server:
-    own-application-name: MicroWaveDeviceInventory ## DONE: Add OwnApplicationName
-    own-release-number: 1.0.0 ## DONE: Add OwnReleaseNumber (e.g. 1.0.0)
+    own-application-name: MicroWaveDeviceInventory 
+    own-release-number: 1.0.0 
     uuid: mwdi-1-0-0-http-s-bm-000
   tcp-server:
-    own-ip-address: 1.1.4.4 ## DONE: Add OwnIpAddress
-    own-tcp-port: 4004 ## DONE: Add OwnTcpPort
+    own-ip-address: 1.1.4.4 
+    own-tcp-port: 4004 
     uuid: mwdi-1-0-0-tcp-s-bm-000
 
 
@@ -680,11 +680,11 @@ clients:
 
   - http-client:
       application-name: OldRelease
-      release-number: 1.0.0 ## DONE: Add Number of Release to be substituted (e.g. 1.0.0)
+      release-number: 1.0.0 
       uuid: mwdi-1-0-0-http-c-bm-or-1-0-0-000
     tcp-client:
-      ip-address: 1.1.4.4 ## DONE: Add IpAddress of Release to be substituted
-      tcp-port: 4004 ## DONE: Add TcpPort of Release to be substituted
+      ip-address: 1.1.4.4 
+      tcp-port: 4004 
       uuid: mwdi-1-0-0-tcp-c-bm-or-1-0-0-000
     operation-clients:
       own-oam:
@@ -698,11 +698,11 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: 1.0.0 ## DONE:  Add Number of substituting Release (e.g. 1.0.1)
+      release-number: 1.0.0 
       uuid: mwdi-1-0-0-http-c-bm-nr-1-0-0-000
     tcp-client:
-      ip-address: 1.1.4.4 ## DONE: Add IpAddress of substituting Release
-      tcp-port: 4004 ## DONE: Add TcpPort of substituting Release
+      ip-address: 1.1.4.4 
+      tcp-port: 4004 
       uuid: mwdi-1-0-0-tcp-c-bm-nr-1-0-0-000
     operation-clients:
       own-oam:
@@ -724,23 +724,23 @@ clients:
 
   - http-client:
       application-name: RegistryOffice
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-bm-ro-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-bm-ro-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.1
-      tcp-port: 3001
-      uuid: mwdi-1-0-0-tcp-c-bm-ro-1-0-0-000
+      ip-address: 1.1.3.8
+      tcp-port: 3008
+      uuid: mwdi-1-0-0-tcp-c-bm-ro-2-0-0-000
     operation-clients:
       own-oam:
         basic:
           - service-name: /v1/register-application
-            uuid: mwdi-1-0-0-op-c-bm-ro-1-0-0-000
+            uuid: mwdi-1-0-0-op-c-bm-ro-2-0-0-000
           - service-name: /v1/relay-server-replacement
-            uuid: mwdi-1-0-0-op-c-bm-ro-1-0-0-001
+            uuid: mwdi-1-0-0-op-c-bm-ro-2-0-0-001
           - service-name: /v1/deregister-application
-            uuid: mwdi-1-0-0-op-c-bm-ro-1-0-0-002
+            uuid: mwdi-1-0-0-op-c-bm-ro-2-0-0-002
           - service-name: /v1/relay-operation-update
-            uuid: mwdi-1-0-0-op-c-bm-ro-1-0-0-003
+            uuid: mwdi-1-0-0-op-c-bm-ro-2-0-0-003
         individual:
       service:
         basic:
@@ -752,12 +752,12 @@ clients:
 
   - http-client:
       application-name: TypeApprovalRegister
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-is-tar-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-is-tar-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.2
-      tcp-port: 3002
-      uuid: mwdi-1-0-0-tcp-c-is-tar-1-0-0-000
+      ip-address: 1.1.3.9
+      tcp-port: 3009
+      uuid: mwdi-1-0-0-tcp-c-is-tar-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -772,17 +772,17 @@ clients:
 
   - http-client:
       application-name: ExecutionAndTraceLog
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-bm-eatl-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-bs-eatl-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.3
-      tcp-port: 3003
-      uuid: mwdi-1-0-0-tcp-c-bm-eatl-1-0-0-000
+      ip-address: 1.1.3.10
+      tcp-port: 3010
+      uuid: mwdi-1-0-0-tcp-c-bs-eatl-2-0-0-000
     operation-clients:
       own-oam:
         basic:
           - service-name: /v1/record-service-request
-            uuid: mwdi-1-0-0-op-c-bm-eatl-1-0-0-000
+            uuid: mwdi-1-0-0-op-c-bs-eatl-2-0-0-000
         individual:
       service:
         basic:
@@ -794,17 +794,17 @@ clients:
 
   - http-client:
       application-name: OamLog
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-bm-ol-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-bs-ol-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.4
-      tcp-port: 3004
-      uuid: mwdi-1-0-0-tcp-c-bm-ol-1-0-0-000
+      ip-address: 1.1.3.11
+      tcp-port: 3011
+      uuid: mwdi-1-0-0-tcp-c-bs-ol-2-0-0-000
     operation-clients:
       own-oam:
         basic:
           - service-name: /v1/record-oam-request
-            uuid: mwdi-1-0-0-op-c-bm-ol-1-0-0-000
+            uuid: mwdi-1-0-0-op-c-bs-ol-2-0-0-000
         individual:
       service:
         basic:
@@ -816,17 +816,17 @@ clients:
 
   - http-client:
       application-name: AdministratorAdministration
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-bm-aa-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-bs-aa-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.5
-      tcp-port: 3005
-      uuid: mwdi-1-0-0-tcp-c-bm-aa-1-0-0-000
+      ip-address: 1.1.3.12
+      tcp-port: 3012
+      uuid: mwdi-1-0-0-tcp-c-bs-aa-2-0-0-000
     operation-clients:
       own-oam:
         basic:
           - service-name: /v1/approve-oam-request
-            uuid: mwdi-1-0-0-op-c-bm-aa-1-0-0-000
+            uuid: mwdi-1-0-0-op-c-bs-aa-2-0-0-000
         individual:
       service:
         basic:
@@ -838,27 +838,27 @@ clients:
 
   - http-client:
       application-name: ApplicationLayerTopology
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-bm-alt-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-bm-alt-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.6
-      tcp-port: 3006
-      uuid: mwdi-1-0-0-tcp-c-bm-alt-1-0-0-000
+      ip-address: 1.1.3.13
+      tcp-port: 3013
+      uuid: mwdi-1-0-0-tcp-c-bm-alt-2-0-0-000
     operation-clients:
       own-oam:
         basic:
           - service-name: /v1/update-all-ltps-and-fcs
-            uuid: mwdi-1-0-0-op-c-bm-alt-1-0-0-000
+            uuid: mwdi-1-0-0-op-c-bm-alt-2-0-0-000
           - service-name: /v1/update-ltp
-            uuid: mwdi-1-0-0-op-c-bm-alt-1-0-0-001
+            uuid: mwdi-1-0-0-op-c-bm-alt-2-0-0-001
           - service-name: /v1/delete-ltp-and-dependents
-            uuid: mwdi-1-0-0-op-c-bm-alt-1-0-0-002
+            uuid: mwdi-1-0-0-op-c-bm-alt-2-0-0-002
           - service-name: /v1/update-fc
-            uuid: mwdi-1-0-0-op-c-bm-alt-1-0-0-003
+            uuid: mwdi-1-0-0-op-c-bm-alt-2-0-0-003
           - service-name: /v1/update-fc-port
-            uuid: mwdi-1-0-0-op-c-bm-alt-1-0-0-004
+            uuid: mwdi-1-0-0-op-c-bm-alt-2-0-0-004
           - service-name: /v1/delete-fc-port
-            uuid: mwdi-1-0-0-op-c-bm-alt-1-0-0-005
+            uuid: mwdi-1-0-0-op-c-bm-alt-2-0-0-005
         individual:
       service:
         basic:
@@ -870,12 +870,12 @@ clients:
 
   - http-client:
       application-name: OperationKeyManagement
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-is-okm-1-0-0-000
+      release-number: 2.0.0
+      uuid: mwdi-1-0-0-http-c-is-okm-2-0-0-000
     tcp-client:
-      ip-address: 1.1.3.7
-      tcp-port: 3007
-      uuid: mwdi-1-0-0-tcp-c-is-okm-1-0-0-000
+      ip-address: 1.1.3.14
+      tcp-port: 3014
+      uuid: mwdi-1-0-0-tcp-c-is-okm-2-0-0-000
     operation-clients:
       own-oam:
         basic:

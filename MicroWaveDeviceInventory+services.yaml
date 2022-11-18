@@ -30,6 +30,8 @@ servers:
           uuid: mwdi-1-0-0-op-s-im-000
     service:
       basic:
+        - service-name: /v1/start-application-in-generic-representation
+          uuid: mwdi-1-0-0-op-s-bs-000
         - service-name: /v1/inform-about-application
           uuid: mwdi-1-0-0-op-s-bs-001
         - service-name: /v1/inform-about-application-in-generic-representation
@@ -38,6 +40,8 @@ servers:
           uuid: mwdi-1-0-0-op-s-bs-003
         - service-name: /v1/inform-about-release-history-in-generic-representation
           uuid: mwdi-1-0-0-op-s-bs-004
+        - service-name: /docs
+          uuid: mwdi-1-0-0-op-s-bs-005
       individual:
         - service-name: /v1/start-application-in-generic-representation
           uuid: mwdi-1-0-0-op-s-is-000
@@ -669,14 +673,36 @@ servers:
   http-server:
     own-application-name: MicroWaveDeviceInventory 
     own-release-number: 1.0.0 
-    uuid: mwdi-1-0-0-http-s-bm-000
+    uuid: mwdi-1-0-0-http-s-is-000
   tcp-server:
-    own-ip-address: 1.1.4.4 
-    own-tcp-port: 4004 
-    uuid: mwdi-1-0-0-tcp-s-bm-000
+    - description: Without TLS layer
+      local-protocol: http
+      own-ip-address: 1.1.4.4 
+      own-tcp-port: 4004 
+      uuid: mwdi-1-0-0-tcp-s-is-000
+    - description: With TLS layer
+      local-protocol: https
+      own-ip-address: 1.1.4.4 
+      own-tcp-port: 4004 
+      uuid: mwdi-1-0-0-tcp-s-is-001
+
 
 
 clients:
+
+  - http-client:
+      application-name: ElasticSearch
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-is-es-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.3.15
+      tcp-port: 3015
+      uuid: mwdi-1-0-0-tcp-c-is-es-1-0-0-000
+    elasticsearch-client:
+      uuid: mwdi-1-0-0-es-c-is-es-1-0-0-000
+      index-alias: ## TODO: Add IndexAlias
+
 
   - http-client:
       application-name: OldRelease
@@ -699,11 +725,11 @@ clients:
   - http-client:
       application-name: NewRelease
       release-number: 1.0.0 
-      uuid: mwdi-1-0-0-http-c-bm-nr-1-0-0-000
+      uuid: mwdi-1-0-0-http-c-is-nr-1-0-0-000
     tcp-client:
       ip-address: 1.1.4.4 
       tcp-port: 4004 
-      uuid: mwdi-1-0-0-tcp-c-bm-nr-1-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-is-nr-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -750,6 +776,8 @@ clients:
           ## DONE: Add Clients specific to this application
 					## none
 
+
+	# KMO: as there are no client entries this theoretically could be removed...
   - http-client:
       application-name: TypeApprovalRegister
       release-number: 2.0.0

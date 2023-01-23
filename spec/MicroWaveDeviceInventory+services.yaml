@@ -682,8 +682,8 @@ servers:
       uuid: mwdi-1-0-0-tcp-s-is-000
     - description: With TLS layer
       local-protocol: https
-      own-ip-address: 1.1.4.4 
-      own-tcp-port: 4004 
+      own-ip-address: 1.2.4.4 
+      own-tcp-port: 4204 
       uuid: mwdi-1-0-0-tcp-s-is-001
 
 
@@ -693,25 +693,25 @@ clients:
   - http-client:
       application-name: ElasticSearch
       release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-is-es-1-0-0-000
+      uuid: mwdi-1-0-0-http-c-es-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.15
       tcp-port: 3015
-      uuid: mwdi-1-0-0-tcp-c-is-es-1-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-es-1-0-0-000
     elasticsearch-client:
-      uuid: mwdi-1-0-0-es-c-is-es-1-0-0-000
+      uuid: mwdi-1-0-0-es-c-es-1-0-0-000
       index-alias: ## TODO: Add IndexAlias
 
 
   - http-client:
       application-name: OldRelease
       release-number: 1.0.0 
-      uuid: mwdi-1-0-0-http-c-bm-or-1-0-0-000
+      uuid: mwdi-1-0-0-http-c-or-1-0-0-000
     tcp-client:
       ip-address: 1.1.4.4 
       tcp-port: 4004 
-      uuid: mwdi-1-0-0-tcp-c-bm-or-1-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-or-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -725,11 +725,11 @@ clients:
   - http-client:
       application-name: NewRelease
       release-number: 1.0.0 
-      uuid: mwdi-1-0-0-http-c-is-nr-1-0-0-000
+      uuid: mwdi-1-0-0-http-c-nr-1-0-0-000
     tcp-client:
       ip-address: 1.1.4.4 
       tcp-port: 4004 
-      uuid: mwdi-1-0-0-tcp-c-is-nr-1-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-nr-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -751,11 +751,11 @@ clients:
   - http-client:
       application-name: RegistryOffice
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-bm-ro-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-ro-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.8
       tcp-port: 3008
-      uuid: mwdi-1-0-0-tcp-c-bm-ro-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-ro-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -777,15 +777,14 @@ clients:
 					## none
 
 
-	# KMO: as there are no client entries this theoretically could be removed...
   - http-client:
       application-name: TypeApprovalRegister
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-is-tar-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-tar-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.9
       tcp-port: 3009
-      uuid: mwdi-1-0-0-tcp-c-is-tar-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-tar-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -801,11 +800,11 @@ clients:
   - http-client:
       application-name: ExecutionAndTraceLog
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-bs-eatl-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-eatl-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.10
       tcp-port: 3010
-      uuid: mwdi-1-0-0-tcp-c-bs-eatl-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-eatl-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -823,11 +822,11 @@ clients:
   - http-client:
       application-name: OamLog
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-bs-ol-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-ol-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.11
       tcp-port: 3011
-      uuid: mwdi-1-0-0-tcp-c-bs-ol-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-ol-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -845,11 +844,11 @@ clients:
   - http-client:
       application-name: AdministratorAdministration
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-bs-aa-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-aa-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.12
       tcp-port: 3012
-      uuid: mwdi-1-0-0-tcp-c-bs-aa-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-aa-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -867,11 +866,11 @@ clients:
   - http-client:
       application-name: ApplicationLayerTopology
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-bm-alt-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-alt-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.13
       tcp-port: 3013
-      uuid: mwdi-1-0-0-tcp-c-bm-alt-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-alt-2-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -899,11 +898,11 @@ clients:
   - http-client:
       application-name: OperationKeyManagement
       release-number: 2.0.0
-      uuid: mwdi-1-0-0-http-c-is-okm-2-0-0-000
+      uuid: mwdi-1-0-0-http-c-okm-2-0-0-000
     tcp-client:
       ip-address: 1.1.3.14
       tcp-port: 3014
-      uuid: mwdi-1-0-0-tcp-c-is-okm-2-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-okm-2-0-0-000
     operation-clients:
       own-oam:
         basic:

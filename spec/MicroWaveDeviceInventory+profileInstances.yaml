@@ -29,6 +29,7 @@ profile-instances:
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-000'
+    capability:
       operation-name: '/v1/start-application-in-generic-representation'
       static-field-name: 'applicationName'
       description: 'Own application name'

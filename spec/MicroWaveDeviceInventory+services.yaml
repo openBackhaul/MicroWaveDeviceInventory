@@ -55,7 +55,7 @@ servers:
         ##
         ## ----------------------------------------------
         ## GENERAL SERVICES
-        ## ----------------------------------------------        
+        ## ----------------------------------------------
         ## 1) return list of all mount-names for which MWDI has cached data
         ##    no parameters
         ## 2) return the status (date+time) of the last retrieval of the control construct for the given mount-name (query parameter) or all cached devices (no parameter)
@@ -71,7 +71,7 @@ servers:
         ##                  would have to be updated (a) or the control construct for this device should be requested initially (b) (rather than waiting for the
         ##                  regular extraction to take place)
         ## both services could be also triggered by notifications (-> services would have to be included in operation clients section),
-        ## but this would require an application inside the app framework which sends those notifications. 
+        ## but this would require an application inside the app framework which sends those notifications.
         ## this is why both these services are included here and can be called from external applications (i.e. from outside of SDN app scope)
         ##
         ## parameters for both: mount-name as query parameter
@@ -85,7 +85,7 @@ servers:
         ##
         ## ----------------------------------------------
         ## SERVICES DERIVED FROM CONTROLLER OAS
-        ## ----------------------------------------------  
+        ## ----------------------------------------------
         ## complete control construct
 				- operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
 					uuid: mwdi-1-0-0-op-s-is-011
@@ -672,18 +672,18 @@ servers:
 
   http-server:
     own-application-name: MicroWaveDeviceInventory 
-    own-release-number: 1.0.0 
+    own-release-number: 1.0.0
     uuid: mwdi-1-0-0-http-s-is-000
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
-      own-ip-address: 1.1.4.4 
-      own-tcp-port: 4004 
+      own-ip-address: 1.1.4.4
+      own-tcp-port: 4004
       uuid: mwdi-1-0-0-tcp-s-is-000
     - description: With TLS layer
       local-protocol: https
-      own-ip-address: 1.2.4.4 
-      own-tcp-port: 4204 
+      own-ip-address: 1.2.4.4
+      own-tcp-port: 4204
       uuid: mwdi-1-0-0-tcp-s-is-001
 
 

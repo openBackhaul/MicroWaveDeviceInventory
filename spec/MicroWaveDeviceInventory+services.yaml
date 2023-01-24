@@ -86,7 +86,7 @@ servers:
         ## ----------------------------------------------
         ## SERVICES DERIVED FROM CONTROLLER OAS
         ## ----------------------------------------------
-				## complete control construct
+        ## complete control construct
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
           uuid: mwdi-1-0-0-op-s-is-011
         ## only subparts of the control construct -->
@@ -770,10 +770,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
 
   - http-client:
@@ -791,10 +791,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
   - http-client:
       application-name: ExecutionAndTraceLog
@@ -813,10 +813,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
   - http-client:
       application-name: OamLog
@@ -835,10 +835,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
   - http-client:
       application-name: AdministratorAdministration
@@ -857,10 +857,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
   - http-client:
       application-name: ApplicationLayerTopology
@@ -889,10 +889,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
   - http-client:
       application-name: OperationKeyManagement
@@ -909,10 +909,10 @@ clients:
       service:
         basic:
           ## DONE: Add Clients specific to this application, but addressing all other applications
-					## none
+          ## none
         individual:
           ## DONE: Add Clients specific to this application
-					## none
+          ## none
 
 
-	## no other http-clients to be considered, yet
+  ## no other http-clients to be considered, yet

@@ -534,7 +534,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_connector provided'
           content:
             application/json:
@@ -576,7 +576,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_connector_name provided'
           content:
             application/json:
@@ -618,7 +618,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_connector_label provided'
           content:
             application/json:
@@ -660,7 +660,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_connector_extension provided'
           content:
             application/json:
@@ -701,7 +701,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder provided'
           content:
             application/json:
@@ -742,7 +742,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder provided'
           content:
             application/json:
@@ -783,7 +783,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_spatial-properties-of-type provided'
           content:
             application/json:
@@ -824,7 +824,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_environmental-rating provided'
           content:
             application/json:
@@ -865,7 +865,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_environmental-rating_thermal-rating provided'
           content:
             application/json:
@@ -906,7 +906,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_environmental-rating_power-rating provided'
           content:
             application/json:
@@ -947,7 +947,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_position provided'
           content:
             application/json:
@@ -988,7 +988,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_holder-structure provided'
           content:
             application/json:
@@ -1030,7 +1030,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_name provided'
           content:
             application/json:
@@ -1072,7 +1072,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_label provided'
           content:
             application/json:
@@ -1114,7 +1114,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_expected-holder_extension provided'
           content:
             application/json:
@@ -1155,7 +1155,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder provided'
           content:
             application/json:
@@ -1196,7 +1196,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_spatial-properties-of-type provided'
           content:
             application/json:
@@ -1237,7 +1237,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_environmental-rating provided'
           content:
             application/json:
@@ -1278,7 +1278,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_environmental-rating_thermal-rating provided'
           content:
             application/json:
@@ -1319,7 +1319,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_environmental-rating_power-rating provided'
           content:
             application/json:
@@ -1360,7 +1360,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_position provided'
           content:
             application/json:
@@ -1401,7 +1401,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_holder-structure provided'
           content:
             application/json:
@@ -1443,7 +1443,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_name provided'
           content:
             application/json:
@@ -1485,7 +1485,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_label provided'
           content:
             application/json:
@@ -1527,7 +1527,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_actual-holder_extension provided'
           content:
             application/json:
@@ -1569,7 +1569,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_name provided'
           content:
             application/json:
@@ -1611,7 +1611,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_label provided'
           content:
             application/json:
@@ -1653,7 +1653,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_contained-holder_extension provided'
           content:
             application/json:
@@ -1694,7 +1694,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment provided'
           content:
             application/json:
@@ -1735,7 +1735,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_location provided'
           content:
             application/json:
@@ -1776,7 +1776,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_structure provided'
           content:
             application/json:
@@ -1817,7 +1817,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_swappability provided'
           content:
             application/json:
@@ -1858,7 +1858,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_physical-properties provided'
           content:
             application/json:
@@ -1899,7 +1899,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_function-enablers provided'
           content:
             application/json:
@@ -1940,7 +1940,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_mechanical-functions provided'
           content:
             application/json:
@@ -1981,7 +1981,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_physical-characteristics provided'
           content:
             application/json:
@@ -2022,7 +2022,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_mechanical-features provided'
           content:
             application/json:
@@ -2063,7 +2063,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_spatial-properties-of-type provided'
           content:
             application/json:
@@ -2104,7 +2104,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_environmental-rating provided'
           content:
             application/json:
@@ -2145,7 +2145,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_environmental-rating_thermal-rating provided'
           content:
             application/json:
@@ -2186,7 +2186,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_environmental-rating_power-rating provided'
           content:
             application/json:
@@ -2227,7 +2227,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_manufactured-thing provided'
           content:
             application/json:
@@ -2268,7 +2268,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_manufactured-thing_manufacturer-properties provided'
           content:
             application/json:
@@ -2309,7 +2309,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_manufactured-thing_equipment-type provided'
           content:
             application/json:
@@ -2350,7 +2350,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_manufactured-thing_equipment-instance provided'
           content:
             application/json:
@@ -2391,7 +2391,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_manufactured-thing_operator-augmented-equipment-type provided'
           content:
             application/json:
@@ -2432,7 +2432,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_manufactured-thing_operator-augmented-equipment-instance provided'
           content:
             application/json:
@@ -2474,7 +2474,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_name provided'
           content:
             application/json:
@@ -2516,7 +2516,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_label provided'
           content:
             application/json:
@@ -2558,7 +2558,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'expected-equipment_extension provided'
           content:
             application/json:
@@ -2598,7 +2598,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment provided'
           content:
             application/json:
@@ -2638,7 +2638,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_location provided'
           content:
             application/json:
@@ -2678,7 +2678,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_structure provided'
           content:
             application/json:
@@ -2718,7 +2718,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_swappability provided'
           content:
             application/json:
@@ -2758,7 +2758,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_physical-properties provided'
           content:
             application/json:
@@ -2798,7 +2798,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_function-enablers provided'
           content:
             application/json:
@@ -2838,7 +2838,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_mechanical-functions provided'
           content:
             application/json:
@@ -2878,7 +2878,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_physical-characteristics provided'
           content:
             application/json:
@@ -2918,7 +2918,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_mechanical-features provided'
           content:
             application/json:
@@ -2958,7 +2958,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_spatial-properties-of-type provided'
           content:
             application/json:
@@ -2998,7 +2998,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_environmental-rating provided'
           content:
             application/json:
@@ -3038,7 +3038,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_environmental-rating_thermal-rating provided'
           content:
             application/json:
@@ -3078,7 +3078,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_environmental-rating_power-rating provided'
           content:
             application/json:
@@ -3118,7 +3118,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_manufactured-thing provided'
           content:
             application/json:
@@ -3158,7 +3158,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_manufactured-thing_manufacturer-properties provided'
           content:
             application/json:
@@ -3198,7 +3198,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_manufactured-thing_equipment-type provided'
           content:
             application/json:
@@ -3238,7 +3238,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_manufactured-thing_equipment-instance provided'
           content:
             application/json:
@@ -3278,7 +3278,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_manufactured-thing_operator-augmented-equipment-type provided'
           content:
             application/json:
@@ -3318,7 +3318,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_manufactured-thing_operator-augmented-equipment-instance provided'
           content:
             application/json:
@@ -3359,7 +3359,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_name provided'
           content:
             application/json:
@@ -3400,7 +3400,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_label provided'
           content:
             application/json:
@@ -3441,7 +3441,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'actual-equipment_extension provided'
           content:
             application/json:
@@ -3481,7 +3481,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_external-managed-id provided'
           content:
             application/json:
@@ -3522,7 +3522,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_name provided'
           content:
             application/json:
@@ -3563,7 +3563,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_label provided'
           content:
             application/json:
@@ -3604,7 +3604,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment_extension provided'
           content:
             application/json:
@@ -3644,7 +3644,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'logical-termination-point provided'
           content:
             application/json:
@@ -3685,7 +3685,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol provided'
           content:
             application/json:
@@ -3727,7 +3727,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_name provided'
           content:
             application/json:
@@ -3769,7 +3769,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_label provided'
           content:
             application/json:
@@ -3811,7 +3811,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_extension provided'
           content:
             application/json:
@@ -3852,7 +3852,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac provided'
           content:
             application/json:
@@ -3892,7 +3892,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-capability provided'
           content:
             application/json:
@@ -3933,7 +3933,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
           content:
             application/json:
@@ -3981,7 +3981,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_pcp-bit-to-priority-mapping-list provided'
           content:
             application/json:
@@ -4036,7 +4036,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_pcp-bits-encoding-mapping-list provided'
           content:
             application/json:
@@ -4084,7 +4084,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_received-priority-overwriting-list provided'
           content:
             application/json:
@@ -4132,7 +4132,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_external-to-internal-vlan-id-mapping-list provided'
           content:
             application/json:
@@ -4180,7 +4180,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_internal-to-egress-vlan-id-mapping-list provided'
           content:
             application/json:
@@ -4228,7 +4228,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_forwarded-protocol-vlan-id-grouping-list provided'
           content:
             application/json:
@@ -4276,7 +4276,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_service-access-priority-mapping-list provided'
           content:
             application/json:
@@ -4324,7 +4324,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_priority-to-traffic-class-mapping-list provided'
           content:
             application/json:
@@ -4364,7 +4364,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-status provided'
           content:
             application/json:
@@ -4405,7 +4405,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_tdm-container-pac provided'
           content:
             application/json:
@@ -4445,7 +4445,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-capability provided'
           content:
             application/json:
@@ -4492,7 +4492,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-capability_supported-tdm-container-kind-list provided'
           content:
             application/json:
@@ -4533,7 +4533,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-configuration provided'
           content:
             application/json:
@@ -4573,7 +4573,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-status provided'
           content:
             application/json:
@@ -4614,7 +4614,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac provided'
           content:
             application/json:
@@ -4654,7 +4654,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability provided'
           content:
             application/json:
@@ -4701,7 +4701,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability_transmission-mode-list provided'
           content:
             application/json:
@@ -4742,7 +4742,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration provided'
           content:
             application/json:
@@ -4783,7 +4783,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_transmitted-radio-signal-id provided'
           content:
             application/json:
@@ -4824,7 +4824,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_expected-radio-signal-id provided'
           content:
             application/json:
@@ -4873,7 +4873,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_g-826-threshold-cross-alarm-list provided'
           content:
             application/json:
@@ -4935,7 +4935,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_xlts-threshold-cross-alarm-list provided'
           content:
             application/json:
@@ -4990,7 +4990,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_acm-threshold-cross-alarm-list provided'
           content:
             application/json:
@@ -5030,7 +5030,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status provided'
           content:
             application/json:
@@ -5070,7 +5070,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status_received-radio-signal-id provided'
           content:
             application/json:
@@ -5110,7 +5110,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance provided'
           content:
             application/json:
@@ -5157,7 +5157,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance_current-performance-data-list provided'
           content:
             application/json:
@@ -5204,7 +5204,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance_current-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -5258,7 +5258,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance_current-performance-data-list_performance-data_time-xstates-list provided'
           content:
             application/json:
@@ -5298,7 +5298,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances provided'
           content:
             application/json:
@@ -5346,7 +5346,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances_historical-performance-data-list provided'
           content:
             application/json:
@@ -5394,7 +5394,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances_historical-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -5449,7 +5449,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances_historical-performance-data-list_performance-data_time-xstates-list provided'
           content:
             application/json:
@@ -5490,7 +5490,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac provided'
           content:
             application/json:
@@ -5530,7 +5530,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-capability provided'
           content:
             application/json:
@@ -5571,7 +5571,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-configuration provided'
           content:
             application/json:
@@ -5620,7 +5620,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-configuration_g-826-threshold-cross-alarm-list provided'
           content:
             application/json:
@@ -5660,7 +5660,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-status provided'
           content:
             application/json:
@@ -5707,7 +5707,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-status_segment-status-list provided'
           content:
             application/json:
@@ -5747,7 +5747,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-current-performance provided'
           content:
             application/json:
@@ -5794,7 +5794,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-current-performance_current-performance-data-list provided'
           content:
             application/json:
@@ -5841,7 +5841,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-current-performance_current-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -5881,7 +5881,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances provided'
           content:
             application/json:
@@ -5929,7 +5929,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances_historical-performance-data-list provided'
           content:
             application/json:
@@ -5977,7 +5977,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances_historical-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -6018,7 +6018,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac provided'
           content:
             application/json:
@@ -6058,7 +6058,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-capability provided'
           content:
             application/json:
@@ -6099,7 +6099,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-configuration provided'
           content:
             application/json:
@@ -6147,7 +6147,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-configuration_problem-kind-severity-list provided'
           content:
             application/json:
@@ -6187,7 +6187,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-status provided'
           content:
             application/json:
@@ -6227,7 +6227,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-problems provided'
           content:
             application/json:
@@ -6274,7 +6274,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-problems_current-problem-list provided'
           content:
             application/json:
@@ -6314,7 +6314,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-performance provided'
           content:
             application/json:
@@ -6361,7 +6361,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-performance_current-performance-data-list provided'
           content:
             application/json:
@@ -6408,7 +6408,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-performance_current-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -6448,7 +6448,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances provided'
           content:
             application/json:
@@ -6496,7 +6496,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances_historical-performance-data-list provided'
           content:
             application/json:
@@ -6544,7 +6544,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances_historical-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -6585,7 +6585,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac provided'
           content:
             application/json:
@@ -6625,7 +6625,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-capability provided'
           content:
             application/json:
@@ -6672,7 +6672,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-capability_supported-tdm-structure-kind-list provided'
           content:
             application/json:
@@ -6713,7 +6713,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-configuration provided'
           content:
             application/json:
@@ -6762,7 +6762,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-configuration_g-826-threshold-cross-alarm-list provided'
           content:
             application/json:
@@ -6802,7 +6802,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-status provided'
           content:
             application/json:
@@ -6849,7 +6849,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-status_segment-status-list provided'
           content:
             application/json:
@@ -6889,7 +6889,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance provided'
           content:
             application/json:
@@ -6936,7 +6936,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance_current-performance-data-list provided'
           content:
             application/json:
@@ -6983,7 +6983,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance_current-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -7023,7 +7023,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances provided'
           content:
             application/json:
@@ -7071,7 +7071,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances_historical-performance-data-list provided'
           content:
             application/json:
@@ -7119,7 +7119,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances_historical-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -7160,7 +7160,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac provided'
           content:
             application/json:
@@ -7200,7 +7200,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-capability provided'
           content:
             application/json:
@@ -7241,7 +7241,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list provided'
           content:
             application/json:
@@ -7288,7 +7288,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-capability_supported-header-compression-kind-list provided'
           content:
             application/json:
@@ -7329,7 +7329,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration provided'
           content:
             application/json:
@@ -7371,7 +7371,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration_queue-behavior-list provided'
           content:
             application/json:
@@ -7427,7 +7427,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration_queue-behavior-list_wred-behavior-list provided'
           content:
             application/json:
@@ -7475,7 +7475,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration_problem-kind-severity-list provided'
           content:
             application/json:
@@ -7515,7 +7515,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-status provided'
           content:
             application/json:
@@ -7555,7 +7555,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-problems provided'
           content:
             application/json:
@@ -7602,7 +7602,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-problems_current-problem-list provided'
           content:
             application/json:
@@ -7642,7 +7642,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance provided'
           content:
             application/json:
@@ -7689,7 +7689,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list provided'
           content:
             application/json:
@@ -7736,7 +7736,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -7784,7 +7784,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list_performance-data_queue-utilization-list provided'
           content:
             application/json:
@@ -7824,7 +7824,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances provided'
           content:
             application/json:
@@ -7872,7 +7872,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_historical-performance-data-list provided'
           content:
             application/json:
@@ -7920,7 +7920,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_historical-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -7969,7 +7969,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_historical-performance-data-list_performance-data_queue-utilization-list provided'
           content:
             application/json:
@@ -8010,7 +8010,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac provided'
           content:
             application/json:
@@ -8050,7 +8050,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-capability provided'
           content:
             application/json:
@@ -8097,7 +8097,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-capability_supported-pmd-kind-list provided'
           content:
             application/json:
@@ -8138,7 +8138,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-configuration provided'
           content:
             application/json:
@@ -8186,7 +8186,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-configuration_transceiver-configuration-list provided'
           content:
             application/json:
@@ -8226,7 +8226,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
           content:
             application/json:
@@ -8273,7 +8273,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status_receiver-status-list provided'
           content:
             application/json:
@@ -8313,7 +8313,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-current-performance provided'
           content:
             application/json:
@@ -8360,7 +8360,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-current-performance_current-performance-data-list provided'
           content:
             application/json:
@@ -8407,7 +8407,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-current-performance_current-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -8447,7 +8447,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances provided'
           content:
             application/json:
@@ -8495,7 +8495,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances_historical-performance-data-list provided'
           content:
             application/json:
@@ -8543,7 +8543,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances_historical-performance-data-list_performance-data provided'
           content:
             application/json:
@@ -8584,7 +8584,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock provided'
           content:
             application/json:
@@ -8626,7 +8626,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc provided'
           content:
             application/json:
@@ -8669,7 +8669,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port provided'
           content:
             application/json:
@@ -8713,7 +8713,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port_name provided'
           content:
             application/json:
@@ -8757,7 +8757,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port_label provided'
           content:
             application/json:
@@ -8801,7 +8801,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port_extension provided'
           content:
             application/json:
@@ -8844,7 +8844,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch provided'
           content:
             application/json:
@@ -8888,7 +8888,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port provided'
           content:
             application/json:
@@ -8933,7 +8933,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port_name provided'
           content:
             application/json:
@@ -8978,7 +8978,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port_label provided'
           content:
             application/json:
@@ -9023,7 +9023,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port_extension provided'
           content:
             application/json:
@@ -9066,7 +9066,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_control-parameters provided'
           content:
             application/json:
@@ -9110,7 +9110,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_name provided'
           content:
             application/json:
@@ -9154,7 +9154,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_label provided'
           content:
             application/json:
@@ -9198,7 +9198,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_extension provided'
           content:
             application/json:
@@ -9240,7 +9240,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_external-managed-id provided'
           content:
             application/json:
@@ -9283,7 +9283,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_name provided'
           content:
             application/json:
@@ -9326,7 +9326,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_label provided'
           content:
             application/json:
@@ -9369,7 +9369,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_encapsulated-fc_extension provided'
           content:
             application/json:
@@ -9411,7 +9411,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_name provided'
           content:
             application/json:
@@ -9453,7 +9453,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_label provided'
           content:
             application/json:
@@ -9495,7 +9495,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_embedded-clock_extension provided'
           content:
             application/json:
@@ -9535,7 +9535,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_external-managed-id provided'
           content:
             application/json:
@@ -9576,7 +9576,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_name provided'
           content:
             application/json:
@@ -9617,7 +9617,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_label provided'
           content:
             application/json:
@@ -9658,7 +9658,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_extension provided'
           content:
             application/json:
@@ -9698,7 +9698,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_ltp-augment-pac provided'
           content:
             application/json:
@@ -9737,7 +9737,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
           content:
             application/json:
@@ -9777,7 +9777,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding-domain provided'
           content:
             application/json:
@@ -9818,7 +9818,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc provided'
           content:
             application/json:
@@ -9860,7 +9860,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-port provided'
           content:
             application/json:
@@ -9903,7 +9903,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-port_name provided'
           content:
             application/json:
@@ -9946,7 +9946,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-port_label provided'
           content:
             application/json:
@@ -9989,7 +9989,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-port_extension provided'
           content:
             application/json:
@@ -10031,7 +10031,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch provided'
           content:
             application/json:
@@ -10074,7 +10074,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port provided'
           content:
             application/json:
@@ -10118,7 +10118,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port_name provided'
           content:
             application/json:
@@ -10162,7 +10162,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port_label provided'
           content:
             application/json:
@@ -10206,7 +10206,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port_extension provided'
           content:
             application/json:
@@ -10248,7 +10248,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_control-parameters provided'
           content:
             application/json:
@@ -10291,7 +10291,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_name provided'
           content:
             application/json:
@@ -10334,7 +10334,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_label provided'
           content:
             application/json:
@@ -10377,7 +10377,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_fc-switch_extension provided'
           content:
             application/json:
@@ -10418,7 +10418,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_external-managed-id provided'
           content:
             application/json:
@@ -10460,7 +10460,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_name provided'
           content:
             application/json:
@@ -10502,7 +10502,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_label provided'
           content:
             application/json:
@@ -10544,7 +10544,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_extension provided'
           content:
             application/json:
@@ -10585,7 +10585,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_vlan-fc-pac provided'
           content:
             application/json:
@@ -10625,7 +10625,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_vlan-fc-pac_vlan-fc-capability provided'
           content:
             application/json:
@@ -10666,7 +10666,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fc_vlan-fc-pac_vlan-fc-configuration provided'
           content:
             application/json:
@@ -10707,7 +10707,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fd-port provided'
           content:
             application/json:
@@ -10749,7 +10749,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fd-port_name provided'
           content:
             application/json:
@@ -10791,7 +10791,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fd-port_label provided'
           content:
             application/json:
@@ -10833,7 +10833,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_fd-port_extension provided'
           content:
             application/json:
@@ -10873,7 +10873,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_external-managed-id provided'
           content:
             application/json:
@@ -10914,7 +10914,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_name provided'
           content:
             application/json:
@@ -10955,7 +10955,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_label provided'
           content:
             application/json:
@@ -10996,7 +10996,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_extension provided'
           content:
             application/json:
@@ -11036,7 +11036,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_mac-fd-pac provided'
           content:
             application/json:
@@ -11075,7 +11075,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_mac-fd-pac_mac-fd-capability provided'
           content:
             application/json:
@@ -11115,7 +11115,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_mac-fd-pac_mac-fd-configuration provided'
           content:
             application/json:
@@ -11154,7 +11154,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_mac-fd-pac_mac-fd-status provided'
           content:
             application/json:
@@ -11194,7 +11194,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_vlan-fd-pac provided'
           content:
             application/json:
@@ -11233,7 +11233,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-capability provided'
           content:
             application/json:
@@ -11273,7 +11273,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-configuration provided'
           content:
             application/json:
@@ -11320,7 +11320,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-configuration_protocol-group-list provided'
           content:
             application/json:
@@ -11359,7 +11359,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-status provided'
           content:
             application/json:
@@ -11398,7 +11398,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection provided'
           content:
             application/json:
@@ -11438,7 +11438,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile provided'
           content:
             application/json:
@@ -11478,7 +11478,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_external-managed-id provided'
           content:
             application/json:
@@ -11519,7 +11519,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_name provided'
           content:
             application/json:
@@ -11560,7 +11560,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_label provided'
           content:
             application/json:
@@ -11601,7 +11601,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_extension provided'
           content:
             application/json:
@@ -11641,7 +11641,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_wred-profile-pac provided'
           content:
             application/json:
@@ -11680,7 +11680,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_wred-profile-pac_wred-profile-capability provided'
           content:
             application/json:
@@ -11720,7 +11720,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_wred-profile-pac_wred-profile-configuration provided'
           content:
             application/json:
@@ -11760,7 +11760,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_co-channel-profile-pac provided'
           content:
             application/json:
@@ -11799,7 +11799,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_co-channel-profile-pac_co-channel-profile-capability provided'
           content:
             application/json:
@@ -11839,7 +11839,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'profile-collection_profile_co-channel-profile-pac_co-channel-profile-configuration provided'
           content:
             application/json:
@@ -11878,7 +11878,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'external-managed-id provided'
           content:
             application/json:
@@ -11918,7 +11918,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'name provided'
           content:
             application/json:
@@ -11958,7 +11958,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'label provided'
           content:
             application/json:
@@ -11998,7 +11998,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'extension provided'
           content:
             application/json:
@@ -12037,7 +12037,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac provided'
           content:
             application/json:
@@ -12075,7 +12075,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_alarm-capability provided'
           content:
             application/json:
@@ -12127,7 +12127,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_alarm-capability_alarm-inventory-list provided'
           content:
             application/json:
@@ -12166,7 +12166,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_alarm-configuration provided'
           content:
             application/json:
@@ -12212,7 +12212,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_alarm-configuration_severity-configuration-list provided'
           content:
             application/json:
@@ -12250,7 +12250,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_current-alarms provided'
           content:
             application/json:
@@ -12295,7 +12295,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_current-alarms_current-alarm-list provided'
           content:
             application/json:
@@ -12333,7 +12333,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_alarm-event-records provided'
           content:
             application/json:
@@ -12378,7 +12378,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'alarm-pac_alarm-event-records_alarm-event-record-list provided'
           content:
             application/json:
@@ -12417,7 +12417,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection provided'
           content:
             application/json:
@@ -12456,7 +12456,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list provided'
           content:
             application/json:
@@ -12495,7 +12495,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac provided'
           content:
             application/json:
@@ -12534,7 +12534,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
           content:
             application/json:
@@ -12573,7 +12573,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'
           content:
             application/json:
@@ -12613,7 +12613,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list_name provided'
           content:
             application/json:
@@ -12653,7 +12653,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list_label provided'
           content:
             application/json:
@@ -12693,7 +12693,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_firmware-component-list_extension provided'
           content:
             application/json:
@@ -12731,7 +12731,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'firmware-collection_download provided'
           content:
             application/json:

@@ -499,7 +499,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: #/components/schemas/retrieval-status                    
+                  $ref: #/components/schemas/retrieval-status
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':

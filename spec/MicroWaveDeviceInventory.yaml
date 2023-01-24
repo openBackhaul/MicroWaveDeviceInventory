@@ -430,8 +430,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-# mwdi-specific services derived from controller-oas -->
-# url/service format corresponds to how the request would look like in the controller
+  # mwdi-specific services derived from controller-oas -->
+  # url/service format corresponds to how the request would look like in the controller
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     parameters:
       - $ref: '#/components/parameters/mount-name'

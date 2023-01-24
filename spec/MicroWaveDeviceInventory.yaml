@@ -9259,6 +9259,79 @@ components:
         type: string
         example: 'Unknown value'
       description: 'Holds information supporting customer’s journey to which the execution applies'
+    # mwdi-specific parameters (derived from controller-oas services) -->
+    mount-name:
+      name: mount-name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: '222250001'
+        pattern: '\\d{9}[AB]{0,1}$'
+      description: 'The mount-name of the node for which data shall be fetched.'
+    uuid:
+      name: uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'UUID: An identifier that is universally unique\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)\nThe uuid should be treated as opaque by the user.'
+    local-id1:
+      name: local-id1
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
+    queue-name:
+      name: queue-name
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'Name of the queue.'
+    period-end-time:
+      name: period-end-time
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'Time when the counter values have been recorded and the counter reset.'
+    uuid1:
+      name: uuid1
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'UUID: An identifier that is universally unique\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)\nThe uuid should be treated as opaque by the user.'
+    value-name:
+      name: value-name
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'The name of the value. The value need not have a name.'
+    g-826-value-kind:
+      name: g-826-value-kind
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'Kind of performance value that shall be equipped with a threshold alarm.'
+    local-id2:
+      name: local-id2
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
+    local-id:
+      name: local-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
   responses:
     responseForErroredServiceRequests:
       description: 'Response in case of errored service requests'

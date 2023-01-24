@@ -671,7 +671,7 @@ servers:
 
 
   http-server:
-    own-application-name: MicroWaveDeviceInventory 
+    own-application-name: MicroWaveDeviceInventory
     own-release-number: 1.0.0
     uuid: mwdi-1-0-0-http-s-is-000
   tcp-server:
@@ -737,12 +737,12 @@ clients:
           ## only few of the services from above need to be added here:
           ## services for providing mount-name list and status and the complete control construct request
           ## other requests from controller OAS section only deliver subsets of the CC data -> already covered by storing the complete CC
-        - operation-name: /v1/provide-list-of-mwdi-mount-names
-          uuid: mwdi-1-0-0-op-c-is-001
-        - operation-name: /v1/provide-control-construct-stateinfo
-          uuid: mwdi-1-0-0-op-c-is-002
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-          uuid: mwdi-1-0-0-op-c-is-011
+          - operation-name: /v1/provide-list-of-mwdi-mount-names
+            uuid: mwdi-1-0-0-op-c-is-001
+          - operation-name: /v1/provide-control-construct-stateinfo
+            uuid: mwdi-1-0-0-op-c-is-002
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+            uuid: mwdi-1-0-0-op-c-is-011
       service:
         basic:
         individual:

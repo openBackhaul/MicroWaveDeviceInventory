@@ -86,7 +86,7 @@ servers:
         ## ----------------------------------------------
         ## SERVICES DERIVED FROM CONTROLLER OAS
         ## ----------------------------------------------
-				## return complete control construct
+				## complete control construct
 				- operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
 					uuid: mwdi-1-0-0-op-s-is-011
         ## only subparts of the control construct -->

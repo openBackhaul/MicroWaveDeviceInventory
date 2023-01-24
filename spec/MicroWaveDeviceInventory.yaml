@@ -19232,7 +19232,7 @@ components:
         hybrid-mw-structure-pac:
           $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_hybrid-mw-structure-pac
     core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port:
-      description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is 'high impedance'\n.'
+      description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is high impedance\n.'
       type: object
       properties:
         logical-termination-point:

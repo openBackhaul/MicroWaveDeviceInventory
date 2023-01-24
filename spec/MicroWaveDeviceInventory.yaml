@@ -430,6 +430,95 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  # mwdi-specific services, which are not derived from the controller oas -->
+  # 1) /v1/provide-list-of-mwdi-mount-names
+  # 2) /v1/provide-control-construct-stateinfo
+  # 3) /v1/initiate-update-after-device-change: possibly part of mwdi-2-0-0
+  # 4) /v1/initiate-control-construct-retrieval: possibly part of mwdi-2-0-0
+
+  # 1) /v1/provide-list-of-mwdi-mount-names: return a list of all mount-names for which MWDI has cached data
+  /v1/provide-list-of-mwdi-mount-names:
+    parameters:
+      # there are no parameters
+    get:
+      operationId: getListOfMwdiMountNames
+      summary: 'Returns the list of mount names handled by the MWDI'
+      tags:
+        - additional-service
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'list of mount names handled by MWDI provided'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  # 2) /v1/provide-control-construct-stateinfo: return the status (date+time) of the last retrieval of the control construct for the given mount-name (query parameter) or all cached devices (no parameter)
+  #    optional query parameter: mount-name
+  #    - if not provided: the retrieval status for all mount names is returned
+  #    - if provided: the returned list only contains info for the given mount name
+  /v1/provide-control-construct-stateinfo:
+    parameters:
+      - in: query
+        name: mount-name
+        description: 'optional query parameter, if set retrieval status is only returned for given mount-name'
+        required: false
+        schema:
+          type: string
+          example: '222250001'
+          pattern: '\\d{9}[AB]{0,1}$'
+    get:
+      operationId: getCCRetrievalStatus
+      summary: 'Returns a list with the control construct retrieval status (optionally filtered for a given mount-name)'
+      tags:
+        - additional-service
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'list of control construct retrieval status provided'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: #/components/schemas/retrieval-status
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  #
+  # placeholder for maintainance services for mwdi-2-0-0
+  # 3) /v1/initiate-update-after-device-change: possibly part of mwdi-2-0-0
+  # 4) /v1/initiate-control-construct-retrieval: possibly part of mwdi-2-0-0
+  #
+
   # mwdi-specific services derived from controller-oas -->
   # url/service format corresponds to how the request would look like in the controller
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
@@ -21693,6 +21782,22 @@ components:
           format: int32
         message:
           type: string
+    # mwdi-specific schemas for non-controller-oas (additional) services -->
+    retrieval-status:
+      # is an array containing the [mount-name, cc-retrieval-timestamp] information
+      type: array
+      required:
+        - mount-name
+        - status
+      properties:
+        mount-name:
+          type: string
+          pattern: '\\d{9}[AB]{0,1}$'
+          example: '222250001'
+        status:
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list_TOP:

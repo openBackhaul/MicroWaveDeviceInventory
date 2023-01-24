@@ -453,7 +453,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'core-model-1-4_control-construct provided'
           content:
             application/json:
@@ -493,7 +493,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200:'
+        '200':
           description: 'equipment provided'
           content:
             application/json:

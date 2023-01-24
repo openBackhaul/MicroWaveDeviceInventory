@@ -441,7 +441,7 @@ paths:
   /v1/provide-list-of-mwdi-mount-names:
     parameters:
       # there are no parameters
-    get: 
+    get:
       operationId: getListOfMwdiMountNames
       summary: 'Returns the list of mount names handled by the MWDI'
       tags:
@@ -471,10 +471,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 2) /v1/provide-control-construct-stateinfo: return the status (date+time) of the last retrieval of the control construct for the given mount-name (query parameter) or all cached devices (no parameter)
-  #    optional query parameter: mount-name 
-  #    - if not provided: the retrieval status for all mount names is returned 
+  #    optional query parameter: mount-name
+  #    - if not provided: the retrieval status for all mount names is returned
   #    - if provided: the returned list only contains info for the given mount name
-  /v1/provide-control-construct-stateinfo
+  /v1/provide-control-construct-stateinfo:
     parameters:
       - in: query
         name: mount-name
@@ -484,7 +484,7 @@ paths:
           type: string
           example: '222250001'
           pattern: '\\d{9}[AB]{0,1}$'
-    get: 
+    get:
       operationId: getCCRetrievalStatus
       summary: 'Returns a list with the control construct retrieval status (optionally filtered for a given mount-name)'
       tags:
@@ -511,10 +511,9 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'          
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
-
+  #
   # placeholder for maintainance services for mwdi-2-0-0
   # 3) /v1/initiate-update-after-device-change: possibly part of mwdi-2-0-0
   # 4) /v1/initiate-control-construct-retrieval: possibly part of mwdi-2-0-0
@@ -21793,8 +21792,8 @@ components:
       properties:
         mount-name:
           type: string
-          pattern: '\\d{9}[AB]{0,1}$'   
-          example: '222250001'                 
+          pattern: '\\d{9}[AB]{0,1}$'
+          example: '222250001'
         status:
           type: string
           format: date-time

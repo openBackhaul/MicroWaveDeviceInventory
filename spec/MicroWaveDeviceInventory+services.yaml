@@ -65,7 +65,7 @@ servers:
         - operation-name: /v1/provide-control-construct-stateinfo
           uuid: mwdi-1-0-0-op-s-is-002
         ## ----------------------------------------------
-        ## MAINTENANCE SERVICES
+        ## MAINTENANCE SERVICES - possibly as part of mwdi-2-0-0
         ## ----------------------------------------------
         ## 3) & 4) purpose: in the events of (a) an attribute change inside a device or if (b) a new device becomes available, the device information
         ##                  would have to be updated (a) or the control construct for this device should be requested initially (b) (rather than waiting for the
@@ -75,10 +75,10 @@ servers:
         ## this is why both these services are included here and can be called from external applications (i.e. from outside of SDN app scope)
         ##
         ## parameters for both: mount-name as query parameter
-        - operation-name: /v1/initiate-update-after-device-change
-          uuid: mwdi-1-0-0-op-s-is-003
-        - operation-name: /v1/initiate-control-construct-retrieval
-          uuid: mwdi-1-0-0-op-s-is-004
+        ## - operation-name: /v1/initiate-update-after-device-change
+        ##  uuid: mwdi-1-0-0-op-s-is-003
+        ##- operation-name: /v1/initiate-control-construct-retrieval
+        ##  uuid: mwdi-1-0-0-op-s-is-004
         ##
         ##
         ## RESERVED UUIDs: op-s-is-005 to op-s-is-010

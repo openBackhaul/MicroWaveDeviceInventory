@@ -430,6 +430,24 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  # mwdi-specific services, which are not derived from the controller oas -->
+  # 1) /v1/provide-list-of-mwdi-mount-names
+  # 2) /v1/provide-control-construct-stateinfo
+  # 3) /v1/initiate-update-after-device-change: possibly part of mwdi-2-0-0
+  # 4) /v1/initiate-control-construct-retrieval: possibly part of mwdi-2-0-0
+
+  # 1) /v1/provide-list-of-mwdi-mount-names: return list of all mount-names for which MWDI has cached data
+
+
+  # 2) /v1/provide-control-construct-stateinfo: return the status (date+time) of the last retrieval of the control construct for the given mount-name (query parameter) or all cached devices (no parameter)
+  #    optional query parameter: mount-name
+
+
+  # 3) /v1/initiate-update-after-device-change: possibly part of mwdi-2-0-0
+  # 4) /v1/initiate-control-construct-retrieval: possibly part of mwdi-2-0-0
+
+
   # mwdi-specific services derived from controller-oas -->
   # url/service format corresponds to how the request would look like in the controller
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:

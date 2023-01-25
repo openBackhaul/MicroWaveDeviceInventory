@@ -744,7 +744,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease:://v1/provide-list-of-mwdi-mount-names
-        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-001    
+        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-001
 
 ## handover control construct state info
   - forwarding-name: PromptForBequeathingDataCausesTransferOfListOfControlConstructStateInfo
@@ -777,7 +777,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease::///node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-011         
+        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-011
 
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 ## added none for now

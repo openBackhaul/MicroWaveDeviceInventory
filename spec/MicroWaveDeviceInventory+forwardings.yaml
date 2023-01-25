@@ -90,9 +90,9 @@ forwardings:
       - server-name: /v1/provide-control-construct-stateinfo
         uuid: mwdi-1-0-0-op-s-is-002
       ## added for later usage
-      ## - operation-name: /v1/initiate-update-after-device-change
+      ##- server-name: /v1/initiate-update-after-device-change
       ##  uuid: mwdi-1-0-0-op-s-is-003
-      ##- operation-name: /v1/initiate-control-construct-retrieval
+      ##- server-name: /v1/initiate-control-construct-retrieval
       ##  uuid: mwdi-1-0-0-op-s-is-004
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-s-is-011

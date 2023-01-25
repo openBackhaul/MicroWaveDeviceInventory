@@ -723,11 +723,11 @@ forwardings:
 ## comment to be deleted later ------------->
 ## operation-names listed in service list as relevant to bequeath-your-data-and-die are:
 ##          - operation-name: /v1/provide-list-of-mwdi-mount-names
-##            uuid: mwdi-1-0-0-op-c-is-001
+##            uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-001
 ##          - operation-name: /v1/provide-control-construct-stateinfo
-##            uuid: mwdi-1-0-0-op-c-is-002
+##            uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-002
 ##          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-##            uuid: mwdi-1-0-0-op-c-is-011
+##            uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-011
 ## <----------------------------------------
 
 ## handover mountname list to new release
@@ -744,8 +744,40 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease:://v1/provide-list-of-mwdi-mount-names
-        uuid: aa-2-0-1-op-c-im-nr-2-0-1-000    
+        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-001    
 
+## handover control construct state info
+  - forwarding-name: PromptForBequeathingDataCausesTransferOfListOfControlConstructStateInfo
+    uuid: mwdi-1-0-0-op-fc-im-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/provide-control-construct-stateinfo
+        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-002
+
+## handover control construct information
+## this is parametrized via {mount-name}, so technically this would require to first get the list of all handled mount names and then execute the control construct retrieval query for each of the mount names
+  - forwarding-name: PromptForBequeathingDataCausesTransferControlConstructData
+    uuid: mwdi-1-0-0-op-fc-im-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease::///node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-c-is-nr-1-0-0-011         
 
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 ## added none for now

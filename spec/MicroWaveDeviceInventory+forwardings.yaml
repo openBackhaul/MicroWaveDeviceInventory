@@ -88,7 +88,7 @@ forwardings:
       - server-name: /v1/provide-list-of-mwdi-mount-names
         uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/provide-control-construct-stateinfo
-        uuid: mwdi-1-0-0-op-s-is-002  
+        uuid: mwdi-1-0-0-op-s-is-002
       ## added for later usage
       ## - operation-name: /v1/initiate-update-after-device-change
       ##  uuid: mwdi-1-0-0-op-s-is-003

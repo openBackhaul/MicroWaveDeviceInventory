@@ -62,7 +62,7 @@ servers:
         #     optional query-parameter: mount-name
         - operation-name: /v1/provide-list-of-mwdi-mount-names
           uuid: mwdi-1-0-0-op-s-is-001
-        - operation-name: /v1/provide-control-construct-stateinfo
+  (Updates      - operation-name: /v1/provide-control-construct-stateinfo
           uuid: mwdi-1-0-0-op-s-is-002
         ## ----------------------------------------------
         ## MAINTENANCE SERVICES - possibly as part of mwdi-2-0-0
@@ -733,7 +733,7 @@ clients:
         basic:
         individual:
           ## DONE: Add Services required for handing-over configuration or data during update
-          ## mwdi data will be stored inside a database so there are no 
+          ## mwdi data will be stored inside a database so there are no
           ## requests relevant to bequeath-your-data-and-die anymore
       service:
         basic:

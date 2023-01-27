@@ -62,7 +62,7 @@ servers:
         #     optional query-parameter: mount-name
         - operation-name: /v1/provide-list-of-mwdi-mount-names
           uuid: mwdi-1-0-0-op-s-is-001
-  (Updates      - operation-name: /v1/provide-control-construct-stateinfo
+        - operation-name: /v1/provide-control-construct-stateinfo
           uuid: mwdi-1-0-0-op-s-is-002
         ## ----------------------------------------------
         ## MAINTENANCE SERVICES - possibly as part of mwdi-2-0-0

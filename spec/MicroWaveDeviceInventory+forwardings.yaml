@@ -835,7 +835,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
-      ## currently none      
+      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
@@ -854,7 +854,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
-      ## currently none      
+      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
@@ -873,7 +873,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
-      ## currently none      
+      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
@@ -894,7 +894,7 @@ forwardings:
       - server-name: /v1/end-subscription
         uuid: mwdi-1-0-0-op-s-bm-004
       ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
-      ## currently none      
+      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005

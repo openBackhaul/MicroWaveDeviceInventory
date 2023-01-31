@@ -89,7 +89,7 @@ servers:
         ## - Retrieval after device change: ??
         ## - Retrieval for new devicves: I would see that as a service the MOUNTING ORCHESTRATOR should offer, as this app is in charge of
         ##   adding new devices to the controller.
-        ## 
+        ##
         ## RESERVED UUIDs: op-s-is-005 to op-s-is-010
         ##
         ## ----------------------------------------------

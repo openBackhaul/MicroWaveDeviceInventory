@@ -64,6 +64,7 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-001
         - operation-name: /v1/provide-control-construct-stateinfo
           uuid: mwdi-1-0-0-op-s-is-002
+        ##
         ## ----------------------------------------------
         ## MAINTENANCE SERVICES - possibly as part of mwdi-2-0-0
         ## ----------------------------------------------
@@ -72,7 +73,6 @@ servers:
         ##                  regular extraction to take place)
         ## both services could be also triggered by notifications (-> services would have to be included in operation clients section),
         ## but this would require an application inside the app framework which sends those notifications.
-        ## this is why both these services are included here and can be called from external applications (i.e. from outside of SDN app scope)
         ##
         ## parameters for both: mount-name as query parameter
         ## - operation-name: /v1/initiate-update-after-device-change
@@ -80,6 +80,15 @@ servers:
         ##- operation-name: /v1/initiate-control-construct-retrieval
         ##  uuid: mwdi-1-0-0-op-s-is-004
         ##
+        ## ALTERNATIVE:
+        ## The alternative implementation would be to have other applications, which send notifications, if a new device is added or if
+        ## there is a change in a device. The MWDI would then have to subscribe to the respective services offered by these applications
+        ## (i.e. forwarding entries to be added) and the respective operation clients would have to be added to the service list.
+        ## Currently we are lacking other applications to provide those services.
+        ##
+        ## - Retrieval after device change: ??
+        ## - Retrieval for new devicves: I would see that as a service the MOUNTING ORCHESTRATOR should offer, as this app is in charge of
+        ##   adding new devices to the controller.
         ##
         ## RESERVED UUIDs: op-s-is-005 to op-s-is-010
         ##

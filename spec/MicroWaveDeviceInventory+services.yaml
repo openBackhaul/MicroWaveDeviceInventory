@@ -66,31 +66,28 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-002
         ##
         ## ----------------------------------------------
-        ## MAINTENANCE SERVICES - possibly as part of mwdi-2-0-0
+        ## MAINTENANCE SERVICES
         ## ----------------------------------------------
-        ## 3) & 4) purpose: in the events of (a) an attribute change inside a device or if (b) a new device becomes available, the device information
-        ##                  would have to be updated (a) or the control construct for this device should be requested initially (b) (rather than waiting for the
-        ##                  regular extraction to take place)
-        ## both services could be also triggered by notifications (-> services would have to be included in operation clients section),
-        ## but this would require an application inside the app framework which sends those notifications.
+        ## 
+        ## there are the following 2 possible update scenarios:
+        ## a) a new device is mounted on the controller
+        ## b) there is a change in a control construct attribute (or multiple ones)
         ##
-        ## parameters for both: mount-name as query parameter
-        ## - operation-name: /v1/initiate-update-after-device-change
-        ##  uuid: mwdi-1-0-0-op-s-is-003
-        ##- operation-name: /v1/initiate-control-construct-retrieval
-        ##  uuid: mwdi-1-0-0-op-s-is-004
+        ## for a) this does not require offering a new service here to be called, instead: the MountingOrchestrator
+        ##        will send a notification to the MWDI (with mount-name) and this triggers the CC retrieval for said mount-name
+        ##        will be specified in the forwardingList
         ##
-        ## ALTERNATIVE:
-        ## The alternative implementation would be to have other applications, which send notifications, if a new device is added or if
-        ## there is a change in a device. The MWDI would then have to subscribe to the respective services offered by these applications
-        ## (i.e. forwarding entries to be added) and the respective operation clients would have to be added to the service list.
-        ## Currently we are lacking other applications to provide those services.
+        ## for b) the MWDI offers a service to other applications to update data inside an device's cached control construct
+        ##        if one/multiple attribute value(s) change, said apps should call that request and provide a list of (key,value) pairs for all changed attributes
+        ##        together with the mount-name of the device.
+        ##        this will be a POST request (all other services offered by are just GET services)
         ##
-        ## - Retrieval after device change: ??
-        ## - Retrieval for new devicves: I would see that as a service the MOUNTING ORCHESTRATOR should offer, as this app is in charge of
-        ##   adding new devices to the controller.
+        ## (b) takes the mount-name plus information about changed CC attributes as input
+        - operation-name: /v1/initiate-control-construct-retrieval
+          uuid: mwdi-1-0-0-op-s-is-003
         ##
-        ## RESERVED UUIDs: op-s-is-005 to op-s-is-010
+        ##
+        ## RESERVED UUIDs: op-s-is-004 to op-s-is-010
         ##
         ## ----------------------------------------------
         ## SERVICES DERIVED FROM CONTROLLER OAS
@@ -915,5 +912,30 @@ clients:
           ## DONE: Add Clients specific to this application
           ## none
 
+# the MWDI needs to retrieve the list of mounted devices and the control constructs for those devices directly from the controller
+# this might require an own user account for the MWDI in the controller 
+  - http-client:
+      application-name: OpenDaylight
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-c-1-0-0-000
+    tcp-client:
+      ip-address: 1.1.1.1
+      tcp-port: 1001
+      uuid: mwdi-1-0-0-tcp-c-c-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+        individual:
+          ## get list of mounted devices
+          - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf?content=nonconfig&fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)
+            uuid: mwdi-1-0-0-op-c-is-c-1-0-0-000
+          ## get control construct for a given device
+          - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+            uuid: mwdi-1-0-0-op-c-is-c-1-0-0-001
 
   ## no other http-clients to be considered, yet

@@ -1,0 +1,587 @@
+## complete list of services (operations) derived from the controller OAS
+## the services will not all be part of MWDI v1-0-0, but in order to still have a complete list
+## they are listed below
+## the numbering in the uuids will be kept, as it is
+
+
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+          uuid: mwdi-1-0-0-op-s-is-011
+        ## only subparts of the control construct -->
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+          uuid: mwdi-1-0-0-op-s-is-012
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+          uuid: mwdi-1-0-0-op-s-is-013
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-014
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-015
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-016
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+          uuid: mwdi-1-0-0-op-s-is-017
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder
+          uuid: mwdi-1-0-0-op-s-is-018
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/spatial-properties-of-type
+          uuid: mwdi-1-0-0-op-s-is-019
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/environmental-rating
+          uuid: mwdi-1-0-0-op-s-is-020
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/environmental-rating/thermal-rating
+          uuid: mwdi-1-0-0-op-s-is-021
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/environmental-rating/power-rating
+          uuid: mwdi-1-0-0-op-s-is-022
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/position
+          uuid: mwdi-1-0-0-op-s-is-023
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/holder-structure
+          uuid: mwdi-1-0-0-op-s-is-024
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-025
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-026
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/expected-holder/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-027
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder
+          uuid: mwdi-1-0-0-op-s-is-028
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/spatial-properties-of-type
+          uuid: mwdi-1-0-0-op-s-is-029
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/environmental-rating
+          uuid: mwdi-1-0-0-op-s-is-030
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/environmental-rating/thermal-rating
+          uuid: mwdi-1-0-0-op-s-is-031
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/environmental-rating/power-rating
+          uuid: mwdi-1-0-0-op-s-is-032
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/position
+          uuid: mwdi-1-0-0-op-s-is-033
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/holder-structure
+          uuid: mwdi-1-0-0-op-s-is-034
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-035
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-036
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-037
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-038
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-039
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-040
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}
+          uuid: mwdi-1-0-0-op-s-is-041
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/location
+          uuid: mwdi-1-0-0-op-s-is-042
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/structure
+          uuid: mwdi-1-0-0-op-s-is-043
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/swappability
+          uuid: mwdi-1-0-0-op-s-is-044
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/physical-properties
+          uuid: mwdi-1-0-0-op-s-is-045
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/function-enablers
+          uuid: mwdi-1-0-0-op-s-is-046
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/mechanical-functions
+          uuid: mwdi-1-0-0-op-s-is-047
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/physical-characteristics
+          uuid: mwdi-1-0-0-op-s-is-048
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/mechanical-features
+          uuid: mwdi-1-0-0-op-s-is-049
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/spatial-properties-of-type
+          uuid: mwdi-1-0-0-op-s-is-050
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/environmental-rating
+          uuid: mwdi-1-0-0-op-s-is-051
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/environmental-rating/thermal-rating
+          uuid: mwdi-1-0-0-op-s-is-052
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/environmental-rating/power-rating
+          uuid: mwdi-1-0-0-op-s-is-053
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/manufactured-thing
+          uuid: mwdi-1-0-0-op-s-is-054
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/manufactured-thing/manufacturer-properties
+          uuid: mwdi-1-0-0-op-s-is-055
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/manufactured-thing/equipment-type
+          uuid: mwdi-1-0-0-op-s-is-056
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/manufactured-thing/equipment-instance
+          uuid: mwdi-1-0-0-op-s-is-057
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/manufactured-thing/operator-augmented-equipment-type
+          uuid: mwdi-1-0-0-op-s-is-058
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/manufactured-thing/operator-augmented-equipment-instance
+          uuid: mwdi-1-0-0-op-s-is-059
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-060
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-061
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-062
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment
+          uuid: mwdi-1-0-0-op-s-is-063
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/location
+          uuid: mwdi-1-0-0-op-s-is-064
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/structure
+          uuid: mwdi-1-0-0-op-s-is-065
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/swappability
+          uuid: mwdi-1-0-0-op-s-is-066
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/physical-properties
+          uuid: mwdi-1-0-0-op-s-is-067
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/function-enablers
+          uuid: mwdi-1-0-0-op-s-is-068
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/mechanical-functions
+          uuid: mwdi-1-0-0-op-s-is-069
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/physical-characteristics
+          uuid: mwdi-1-0-0-op-s-is-070
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/mechanical-features
+          uuid: mwdi-1-0-0-op-s-is-071
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/spatial-properties-of-type
+          uuid: mwdi-1-0-0-op-s-is-072
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/environmental-rating
+          uuid: mwdi-1-0-0-op-s-is-073
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/environmental-rating/thermal-rating
+          uuid: mwdi-1-0-0-op-s-is-074
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/environmental-rating/power-rating
+          uuid: mwdi-1-0-0-op-s-is-075
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+          uuid: mwdi-1-0-0-op-s-is-076
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing/manufacturer-properties
+          uuid: mwdi-1-0-0-op-s-is-077
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing/equipment-type
+          uuid: mwdi-1-0-0-op-s-is-078
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing/equipment-instance
+          uuid: mwdi-1-0-0-op-s-is-079
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing/operator-augmented-equipment-type
+          uuid: mwdi-1-0-0-op-s-is-080
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing/operator-augmented-equipment-instance
+          uuid: mwdi-1-0-0-op-s-is-081
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-082
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-083
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-084
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-085
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-086
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-087
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-088
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+          uuid: mwdi-1-0-0-op-s-is-089
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}
+          uuid: mwdi-1-0-0-op-s-is-090
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-091
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-092
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-093
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac
+          uuid: mwdi-1-0-0-op-s-is-094
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
+          uuid: mwdi-1-0-0-op-s-is-095
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+          uuid: mwdi-1-0-0-op-s-is-096
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/pcp-bit-to-priority-mapping-list={to-be-decoded-pcp-bits-value}
+          uuid: mwdi-1-0-0-op-s-is-097
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/pcp-bits-encoding-mapping-list={to-be-encoded-priority-value},{to-be-encoded-drop-eligibility}
+          uuid: mwdi-1-0-0-op-s-is-098
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/received-priority-overwriting-list={to-be-overwritten-priority-value}
+          uuid: mwdi-1-0-0-op-s-is-099
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/external-to-internal-vlan-id-mapping-list={external-vlan-id}
+          uuid: mwdi-1-0-0-op-s-is-100
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/internal-to-egress-vlan-id-mapping-list={internal-vlan-id}
+          uuid: mwdi-1-0-0-op-s-is-101
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/forwarded-protocol-vlan-id-grouping-list={forwarded-protocol-group-id}
+          uuid: mwdi-1-0-0-op-s-is-102
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/service-access-priority-mapping-list={c-vlan-priority-value}
+          uuid: mwdi-1-0-0-op-s-is-103
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration/priority-to-traffic-class-mapping-list={priority-value}
+          uuid: mwdi-1-0-0-op-s-is-104
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
+          uuid: mwdi-1-0-0-op-s-is-105
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/tdm-container-2-0:tdm-container-pac
+          uuid: mwdi-1-0-0-op-s-is-106
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/tdm-container-2-0:tdm-container-pac/tdm-container-capability
+          uuid: mwdi-1-0-0-op-s-is-107
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/tdm-container-2-0:tdm-container-pac/tdm-container-capability/supported-tdm-container-kind-list={tdm-container-name}
+          uuid: mwdi-1-0-0-op-s-is-108
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/tdm-container-2-0:tdm-container-pac/tdm-container-configuration
+          uuid: mwdi-1-0-0-op-s-is-109
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/tdm-container-2-0:tdm-container-pac/tdm-container-status
+          uuid: mwdi-1-0-0-op-s-is-110
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac
+          uuid: mwdi-1-0-0-op-s-is-111
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+          uuid: mwdi-1-0-0-op-s-is-112
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability/transmission-mode-list={transmission-mode-name}
+          uuid: mwdi-1-0-0-op-s-is-113
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+          uuid: mwdi-1-0-0-op-s-is-114
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitted-radio-signal-id
+          uuid: mwdi-1-0-0-op-s-is-115
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/expected-radio-signal-id
+          uuid: mwdi-1-0-0-op-s-is-116
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/g-826-threshold-cross-alarm-list={g-826-value-kind},{granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-117
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/xlts-threshold-cross-alarm-list={level-threshold-second-kind},{granularity-period},{xlts-threshold-cross-alarm-definition-number}
+          uuid: mwdi-1-0-0-op-s-is-118
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/acm-threshold-cross-alarm-list={acm-threshold-cross-alarm-definition-number},{granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-119
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+          uuid: mwdi-1-0-0-op-s-is-120
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/received-radio-signal-id
+          uuid: mwdi-1-0-0-op-s-is-121
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance
+          uuid: mwdi-1-0-0-op-s-is-122
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance/current-performance-data-list={granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-123
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance/current-performance-data-list={granularity-period}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-124
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance/current-performance-data-list={granularity-period}/performance-data/time-xstates-list={time-xstate-sequence-number}
+          uuid: mwdi-1-0-0-op-s-is-125
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-126
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}
+          uuid: mwdi-1-0-0-op-s-is-127
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-128
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data/time-xstates-list={time-xstate-sequence-number}
+          uuid: mwdi-1-0-0-op-s-is-129
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac
+          uuid: mwdi-1-0-0-op-s-is-130
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
+          uuid: mwdi-1-0-0-op-s-is-131
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
+          uuid: mwdi-1-0-0-op-s-is-132
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration/g-826-threshold-cross-alarm-list={g-826-value-kind},{granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-133
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
+          uuid: mwdi-1-0-0-op-s-is-134
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status/segment-status-list={segment-status-type-id}
+          uuid: mwdi-1-0-0-op-s-is-135
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance
+          uuid: mwdi-1-0-0-op-s-is-136
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance/current-performance-data-list={granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-137
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance/current-performance-data-list={granularity-period}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-138
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-139
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}
+          uuid: mwdi-1-0-0-op-s-is-140
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-141
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac
+          uuid: mwdi-1-0-0-op-s-is-142
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
+          uuid: mwdi-1-0-0-op-s-is-143
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
+          uuid: mwdi-1-0-0-op-s-is-144
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration/problem-kind-severity-list={problem-kind-name}
+          uuid: mwdi-1-0-0-op-s-is-145
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
+          uuid: mwdi-1-0-0-op-s-is-146
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-problems
+          uuid: mwdi-1-0-0-op-s-is-147
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-problems/current-problem-list={sequence-number}
+          uuid: mwdi-1-0-0-op-s-is-148
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
+          uuid: mwdi-1-0-0-op-s-is-149
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance/current-performance-data-list={granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-150
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance/current-performance-data-list={granularity-period}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-151
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-152
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}
+          uuid: mwdi-1-0-0-op-s-is-153
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-154
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac
+          uuid: mwdi-1-0-0-op-s-is-155
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
+          uuid: mwdi-1-0-0-op-s-is-156
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability/supported-tdm-structure-kind-list={tdm-structure-name}
+          uuid: mwdi-1-0-0-op-s-is-157
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
+          uuid: mwdi-1-0-0-op-s-is-158
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration/g-826-threshold-cross-alarm-list={g-826-value-kind},{granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-159
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
+          uuid: mwdi-1-0-0-op-s-is-160
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status/segment-status-list={segment-status-type-id}
+          uuid: mwdi-1-0-0-op-s-is-161
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance
+          uuid: mwdi-1-0-0-op-s-is-162
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance/current-performance-data-list={granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-163
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance/current-performance-data-list={granularity-period}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-164
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-165
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}
+          uuid: mwdi-1-0-0-op-s-is-166
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-167
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac
+          uuid: mwdi-1-0-0-op-s-is-168
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
+          uuid: mwdi-1-0-0-op-s-is-169
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability/available-queue-list={queue-name}
+          uuid: mwdi-1-0-0-op-s-is-170
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability/supported-header-compression-kind-list={header-compression-name}
+          uuid: mwdi-1-0-0-op-s-is-171
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
+          uuid: mwdi-1-0-0-op-s-is-172
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration/queue-behavior-list={queue-name}
+          uuid: mwdi-1-0-0-op-s-is-173
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration/queue-behavior-list={queue-name}/wred-behavior-list={affected-drop-precedence},{affected-protocol}
+          uuid: mwdi-1-0-0-op-s-is-174
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration/problem-kind-severity-list={problem-kind-name}
+          uuid: mwdi-1-0-0-op-s-is-175
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+          uuid: mwdi-1-0-0-op-s-is-176
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-problems
+          uuid: mwdi-1-0-0-op-s-is-177
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-problems/current-problem-list={sequence-number}
+          uuid: mwdi-1-0-0-op-s-is-178
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance
+          uuid: mwdi-1-0-0-op-s-is-179
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance/current-performance-data-list={granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-180
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance/current-performance-data-list={granularity-period}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-181
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance/current-performance-data-list={granularity-period}/performance-data/queue-utilization-list={queue-name}
+          uuid: mwdi-1-0-0-op-s-is-182
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-183
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}
+          uuid: mwdi-1-0-0-op-s-is-184
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-185
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data/queue-utilization-list={queue-name}
+          uuid: mwdi-1-0-0-op-s-is-186
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
+          uuid: mwdi-1-0-0-op-s-is-187
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+          uuid: mwdi-1-0-0-op-s-is-188
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability/supported-pmd-kind-list={pmd-name}
+          uuid: mwdi-1-0-0-op-s-is-189
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
+          uuid: mwdi-1-0-0-op-s-is-190
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration/transceiver-configuration-list={transceiver-index}
+          uuid: mwdi-1-0-0-op-s-is-191
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+          uuid: mwdi-1-0-0-op-s-is-192
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status/receiver-status-list={receiver-index}
+          uuid: mwdi-1-0-0-op-s-is-193
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
+          uuid: mwdi-1-0-0-op-s-is-194
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance/current-performance-data-list={granularity-period}
+          uuid: mwdi-1-0-0-op-s-is-195
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance/current-performance-data-list={granularity-period}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-196
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-197
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}
+          uuid: mwdi-1-0-0-op-s-is-198
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances/historical-performance-data-list={granularity-period},{period-end-time}/performance-data
+          uuid: mwdi-1-0-0-op-s-is-199
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}
+          uuid: mwdi-1-0-0-op-s-is-200
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}
+          uuid: mwdi-1-0-0-op-s-is-201
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-port={local-id1}
+          uuid: mwdi-1-0-0-op-s-is-202
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-port={local-id1}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-203
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-port={local-id1}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-204
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-port={local-id1}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-205
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}
+          uuid: mwdi-1-0-0-op-s-is-206
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/selected-fc-port={local-id2}
+          uuid: mwdi-1-0-0-op-s-is-207
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/selected-fc-port={local-id2}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-208
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/selected-fc-port={local-id2}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-209
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/selected-fc-port={local-id2}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-210
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/control-parameters
+          uuid: mwdi-1-0-0-op-s-is-211
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-212
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-213
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/fc-switch={local-id1}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-214
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-215
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-216
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-217
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/encapsulated-fc={uuid1}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-218
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-219
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-220
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/embedded-clock={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-221
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-222
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-223
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-224
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-225
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+          uuid: mwdi-1-0-0-op-s-is-226
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+          uuid: mwdi-1-0-0-op-s-is-227
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}
+          uuid: mwdi-1-0-0-op-s-is-228
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}
+          uuid: mwdi-1-0-0-op-s-is-229
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-port={local-id}
+          uuid: mwdi-1-0-0-op-s-is-230
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-port={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-231
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-port={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-232
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-port={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-233
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}
+          uuid: mwdi-1-0-0-op-s-is-234
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/selected-fc-port={local-id1}
+          uuid: mwdi-1-0-0-op-s-is-235
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/selected-fc-port={local-id1}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-236
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/selected-fc-port={local-id1}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-237
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/selected-fc-port={local-id1}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-238
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/control-parameters
+          uuid: mwdi-1-0-0-op-s-is-239
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-240
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-241
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/fc-switch={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-242
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-243
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-244
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-245
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-246
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/vlan-fc-1-0:vlan-fc-pac
+          uuid: mwdi-1-0-0-op-s-is-247
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/vlan-fc-1-0:vlan-fc-pac/vlan-fc-capability
+          uuid: mwdi-1-0-0-op-s-is-248
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}/vlan-fc-1-0:vlan-fc-pac/vlan-fc-configuration
+          uuid: mwdi-1-0-0-op-s-is-249
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fd-port={local-id}
+          uuid: mwdi-1-0-0-op-s-is-250
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fd-port={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-251
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fd-port={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-252
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fd-port={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-253
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-254
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-255
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-256
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-257
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/mac-fd-1-0:mac-fd-pac
+          uuid: mwdi-1-0-0-op-s-is-258
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/mac-fd-1-0:mac-fd-pac/mac-fd-capability
+          uuid: mwdi-1-0-0-op-s-is-259
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/mac-fd-1-0:mac-fd-pac/mac-fd-configuration
+          uuid: mwdi-1-0-0-op-s-is-260
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/mac-fd-1-0:mac-fd-pac/mac-fd-status
+          uuid: mwdi-1-0-0-op-s-is-261
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/vlan-fd-1-0:vlan-fd-pac
+          uuid: mwdi-1-0-0-op-s-is-262
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/vlan-fd-1-0:vlan-fd-pac/vlan-fd-capability
+          uuid: mwdi-1-0-0-op-s-is-263
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/vlan-fd-1-0:vlan-fd-pac/vlan-fd-configuration
+          uuid: mwdi-1-0-0-op-s-is-264
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/vlan-fd-1-0:vlan-fd-pac/vlan-fd-configuration/protocol-group-list={db-index}
+          uuid: mwdi-1-0-0-op-s-is-265
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/vlan-fd-1-0:vlan-fd-pac/vlan-fd-status
+          uuid: mwdi-1-0-0-op-s-is-266
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection
+          uuid: mwdi-1-0-0-op-s-is-267
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}
+          uuid: mwdi-1-0-0-op-s-is-268
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-269
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-270
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-271
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-272
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac
+          uuid: mwdi-1-0-0-op-s-is-273
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
+          uuid: mwdi-1-0-0-op-s-is-274
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
+          uuid: mwdi-1-0-0-op-s-is-275
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac
+          uuid: mwdi-1-0-0-op-s-is-276
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
+          uuid: mwdi-1-0-0-op-s-is-277
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
+          uuid: mwdi-1-0-0-op-s-is-278
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/external-managed-id
+          uuid: mwdi-1-0-0-op-s-is-279
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-280
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-281
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-282
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac
+          uuid: mwdi-1-0-0-op-s-is-283
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-capability
+          uuid: mwdi-1-0-0-op-s-is-284
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-capability/alarm-inventory-list={alarm-type-id},{alarm-type-qualifier}
+          uuid: mwdi-1-0-0-op-s-is-285
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-configuration
+          uuid: mwdi-1-0-0-op-s-is-286
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-configuration/severity-configuration-list={severity-configuration-identifier}
+          uuid: mwdi-1-0-0-op-s-is-287
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+          uuid: mwdi-1-0-0-op-s-is-288
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms/current-alarm-list={current-alarm-identifier}
+          uuid: mwdi-1-0-0-op-s-is-289
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-event-records
+          uuid: mwdi-1-0-0-op-s-is-290
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-event-records/alarm-event-record-list={alarm-event-sequence-number}
+          uuid: mwdi-1-0-0-op-s-is-291
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+          uuid: mwdi-1-0-0-op-s-is-292
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}
+          uuid: mwdi-1-0-0-op-s-is-293
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac
+          uuid: mwdi-1-0-0-op-s-is-294
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+          uuid: mwdi-1-0-0-op-s-is-295
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+          uuid: mwdi-1-0-0-op-s-is-296
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/name={value-name}
+          uuid: mwdi-1-0-0-op-s-is-297
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/label={value-name}
+          uuid: mwdi-1-0-0-op-s-is-298
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/extension={value-name}
+          uuid: mwdi-1-0-0-op-s-is-299
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/download
+          uuid: mwdi-1-0-0-op-s-is-300

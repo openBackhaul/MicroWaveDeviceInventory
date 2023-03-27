@@ -50,41 +50,50 @@ servers:
         ## SELF-MANAGEMENT-SERVICES - FOR MWDI INTERNAL MANAGEMENT
         ## =======================================================================================================
         ## management of the MWDI-internal deviceList (and CC database)
-        ## Only called once to initialize the MWDI deviceList, queries the controller actively for the mounted devices in connected state
+        ## 001) /v1/addConnectedDevicesFromControllerToMwdiDeviceList
+        ##      Only called once to initialize the MWDI deviceList, queries the controller actively for the mounted devices in connected state
+        ##
+        ## 002) /v1/addDeviceToMwdiDeviceList
+        ##      when contoller sends a notification: device has change state to connected -> add it to the deviceList
+        ##      - input parameter = mount-name
+        ##      - no immediate ControlConstruct retrieval when device is added
+        ##
+        ## 003) /v1/removeDeviceFromMwdiDeviceList
+        ##      when controller sends notification: device has change state to connecting/device removed -> delete it from the deviceList
+        ##      - input parameter: mount-name
+        ##      - 1st part of deletion cascade
+        ##
+        ## 004) /v1/removeDeviceControlConstructFromMwdiDatabase
+        ##      when controller sends notification: device has change state to connecting/device removed -> delete the devices Control Construct from the MWDI          
+        ##      - input parameter: mount-name
+        ##      - 2nd part of deletion cascade
+        ##
+        ## 005) /v1/provideCompleteMwdiDeviceList
+        ##      return the MWDI internal deviceList with all management parameters
+        ##      - used for testing
+        ##
+        ## 006) /v1/retrieveControlConstructsForDeviceBatch
+        ##      actual control construct retrieval from Controller for devices (in batches)
+        ##      - build a batch (= list of mount-names) with the next n devices for which the CC shall be retrieved next
+        ##      - send request to the Controller to derive the CCs
+        ##      - updates the deviceList with the retrieval status, writes the CC to the ElasticSearch if retrieved successfully
+        ##    
+        ## 007) /v1/changeParameterValueInDeviceControlConstruct                         
+        ##      only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed 
+        ##
+        ##        
         - operation-name: /v1/addConnectedDevicesFromControllerToMwdiDeviceList
           uuid: mwdi-1-0-0-op-s-is-001
-        ##
-        ## when contoller sends a notification: device has change state to connected -> add it to the deviceList
-        ## - input parameter = mount-name
-        ## - no immediate ControlConstruct retrieval when device is added
         - operation-name: /v1/addDeviceToMwdiDeviceList
           uuid: mwdi-1-0-0-op-s-is-002
-        ##
-        ## when controller sends notification: device has change state to connecting/device removed -> delete it from the deviceList
-        ## - input parameter: mount-name
-        ## - 1st part of deletion cascade
         - operation-name: /v1/removeDeviceFromMwdiDeviceList
           uuid: mwdi-1-0-0-op-s-is-003
-        ##
-        ## when controller sends notification: device has change state to connecting/device removed -> delete the devices Control Construct from the MWDI          
-        ## - input parameter: mount-name
-        ## - 2nd part of deletion cascade
         - operation-name: /v1/removeDeviceControlConstructFromMwdiDatabase
           uuid: mwdi-1-0-0-op-s-is-004
-        ##
-        ## return the MWDI internal deviceList with all management parameters
-        ## - used for testing
         - operation-name: /v1/provideCompleteMwdiDeviceList
           uuid: mwdi-1-0-0-op-s-is-005
-        ##
-        ## actual control construct retrieval from Controller for devices (in batches)
-        ## - build a batch (= list of mount-names) with the next n devices for which the CC shall be retrieved next
-        ## - send request to the Controller to derive the CCs
-        ## - updates the deviceList with the retrieval status, writes the CC to the ElasticSearch if retrieved successfully
         - operation-name: /v1/retrieveControlConstructsForDeviceBatch
           uuid: mwdi-1-0-0-op-s-is-006
-        ##                             
-        ## only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed 
         - operation-name: /v1/changeParameterValueInDeviceControlConstruct
           uuid: mwdi-1-0-0-op-s-is-007
         ##
@@ -96,8 +105,8 @@ servers:
         ##       
         ## Service to access the highest topology layer, this needs to be used to get the list of connected devices from the MWDI
         ## {topology-path} resembles the path https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf
-        ## - it can either be an empty string (when the apps are sending requests to the MWDI), or if the external app is communication with the controller
-        ##   instead of MWDI it would have to provide the path shown above (with correct ip+port) as parameter value
+        ## - it can either be an empty string (when the apps are sending requests to the MWDI), or if the external app is communicating with the
+        ##   controller instead of MWDI it would have to provide the path shown above (with correct ip+port) as parameter value
         ## - it is necessary to have this, as the list of connected MWDI devices can only be delivered by using a fields filter (query parameter), but the
         ##   path cannot start with the filter in order to request the list of connected devices send the request to the MWDI:
         ##   {topology-path}?fields=node(node-id)

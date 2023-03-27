@@ -100,7 +100,7 @@ servers:
         ## uuids: mwdi-1-0-0-op-s-is-008+009 reserved for later usage
         ##
         ## =======================================================================================================
-        ## SERVICES TO BE USED BY OTHER APPLICATIONS -->
+        ## SERVICES TO BE USED BY OTHER APPLICATIONS: RESSOURCE-PATHS -->
         ## =======================================================================================================
         ##       
         ## Service to access the highest topology layer, this needs to be used to get the list of connected devices from the MWDI

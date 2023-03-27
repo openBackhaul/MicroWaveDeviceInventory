@@ -404,8 +404,8 @@ clients:
           ## DONE: Add Clients specific to this application, but addressing all other applications
           ## none
         individual:
-          ## get list of mounted devices
-          - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf?content=nonconfig&fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)
+          ## get list of (all) mounted devices on the controller with connection status
+          - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)
             uuid: mwdi-1-0-0-op-c-is-c-1-0-0-000
           ## get control construct for a given device
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct

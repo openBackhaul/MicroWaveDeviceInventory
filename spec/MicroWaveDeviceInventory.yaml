@@ -431,8 +431,11 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
- # MWDI-specific maintenance services, which are not derived from the controller OAS --->
-  # 1.) /v1/addConnectedDevicesFromControllerToMwdiDeviceList
+
+ # TODO: wo müssen callbacks hinzugefügt werden?
+
+ # == MWDI-specific maintenance services, which are not derived from the controller OAS ========================================================
+  # 1.) /v1/initializeMwdiDeviceList
   # 2.) /v1/addDeviceToMwdiDeviceList
   # 3.) /v1/removeDeviceFromMwdiDeviceList
   # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase
@@ -443,8 +446,50 @@ paths:
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}        
 
+ # 1.) /v1/initializeMwdiDeviceList: execute at MWDI startup to first request the list of connected devices from the controller and 2nd write it to the MWDI deviceList
+ # TODO: noch unklar, wie das aussehen muss
+ # 2 Möglichkeiten:
+ #    (i) die DeviceList vom Controller abrufen und dann alle Einträge auf einmal in die DeviceList schreiben
+ #   (ii) die DeviceList vom Controller abrufen, aber dann für jedes Device aus der Liste /v1/addDeviceToMwdiDeviceList aufrufen
+  /v1/initializeMwdiDeviceList
+  # uuid: mwdi-1-0-0-op-s-is-001
+  # parameters: none so far
+  post: 
+    operationId: addAllConnectedDevicesToDeviceList
+    summary: 'After retrieving list of connected devices from controller, the devices are added to MWDI deviceList'
+    tags:
+      - maintenance
+    security:
+      - basicAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    responses:
+      '201':
+        description: 'deviceList intialized'
+      '400':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '401':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '403':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '404':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '500':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      default:
+        $ref: '#/components/responses/responseForErroredServiceRequests'
 
- # Paths derived from controller OAS
+
+
+
+
+ # == Paths derived from controller OAS ========================================================================================================
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     # uuid: mwdi-1-0-0-op-s-is-011  
     parameters:
@@ -9792,21 +9837,7 @@ components:
         message:
           type: string
     # mwdi-specific schemas for non-controller-oas (additional) services -->
-    retrieval-status:
-      # is an array containing the [mount-name, cc-retrieval-timestamp] information
-      type: array
-      required:
-        - mount-name
-        - status
-      properties:
-        mount-name:
-          type: string
-          pattern: '\\d{9}[AB]{0,1}$'
-          example: '222250001'
-        status:
-          type: string
-          format: date-time
-          example: '2017-07-21T17:32:28Z'
+
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list_TOP:

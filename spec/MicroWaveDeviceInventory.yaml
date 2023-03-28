@@ -9674,7 +9674,7 @@ components:
       schema:
         type: string
         example: ''
-      description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, then it will automatically be resolved to "https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf" (it is required to allow for applying the fields filter on controller level).'    
+      description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'    
     mount-name:
       name: mount-name
       in: path

@@ -446,44 +446,43 @@ paths:
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}        
 
- # 1.) /v1/initializeMwdiDeviceList: execute at MWDI startup to first request the list of connected devices from the controller and 2nd write it to the MWDI deviceList
- # TODO: noch unklar, wie das aussehen muss
- # 2 Möglichkeiten:
- #    (i) die DeviceList vom Controller abrufen und dann alle Einträge auf einmal in die DeviceList schreiben
- #   (ii) die DeviceList vom Controller abrufen, aber dann für jedes Device aus der Liste /v1/addDeviceToMwdiDeviceList aufrufen
+ # 1.) /v1/initializeMwdiDeviceList: 
+ ## TODO: wie muss das aussehen?
+  # execute at MWDI startup; 1st retrieve list of connected devices from controller, then call add each device to the deviceList 
+  # subsequently by calling /v1/addDeviceToMwdiDeviceList (request cascade, defined under forwardings)
   /v1/initializeMwdiDeviceList
   # uuid: mwdi-1-0-0-op-s-is-001
   # parameters: none so far
-  post: 
-    operationId: addAllConnectedDevicesToDeviceList
-    summary: 'After retrieving list of connected devices from controller, the devices are added to MWDI deviceList'
-    tags:
-      - maintenance
-    security:
-      - basicAuth: []
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              type: string
-    responses:
-      '201':
-        description: 'deviceList intialized'
-      '400':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '401':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '403':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '404':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '500':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      default:
-        $ref: '#/components/responses/responseForErroredServiceRequests'
+  #post: 
+  #  operationId: addAllConnectedDevicesToDeviceList
+  #  summary: 'After retrieving list of connected devices from controller, the devices are added to MWDI deviceList'
+  #  tags:
+  #    - maintenance
+  #  security:
+  #    - basicAuth: []
+  #  requestBody:
+  #    required: true
+  #    content:
+  #      application/json:
+  #        schema:
+  #          type: array
+  #          items:
+  #            type: string
+  #  responses:
+  #    '201':
+  #      description: 'deviceList intialized'
+  #   '400':
+  #     $ref: '#/components/responses/responseForErroredServiceRequests'
+  #   '401':
+  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  #    '403':
+  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  #    '404':
+  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  #    '500':
+  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  #    default:
+  #      $ref: '#/components/responses/responseForErroredServiceRequests'
 
 
 

@@ -9673,6 +9673,8 @@ components:
       required: true
       schema:
         type: string
+        #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
+        pattern: '^$|https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rest/data/network-topology:network-topology/topology-netconf'
         example: ''
       description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'    
     mount-name:

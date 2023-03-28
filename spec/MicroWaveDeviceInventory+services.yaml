@@ -86,17 +86,17 @@ servers:
         ##        
         - operation-name: /v1/initializeMwdiDeviceList
           uuid: mwdi-1-0-0-op-s-is-001
-        - operation-name: /v1/addDeviceToMwdiDeviceList
+        - operation-name: /v1/addDeviceToMwdiDeviceList/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-002
-        - operation-name: /v1/removeDeviceFromMwdiDeviceList
+        - operation-name: /v1/removeDeviceFromMwdiDeviceList/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-003
-        - operation-name: /v1/removeDeviceControlConstructFromMwdiDatabase
+        - operation-name: /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-004
-        - operation-name: /v1/provideCompleteMwdiDeviceList
+        - operation-name: /v1/provideCompleteMwdiDeviceList/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-005
         - operation-name: /v1/retrieveControlConstructsForDeviceBatch
           uuid: mwdi-1-0-0-op-s-is-006
-        - operation-name: /v1/changeParameterValueInDeviceControlConstruct
+        - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-007
         ##
         ## uuids: mwdi-1-0-0-op-s-is-008+009 reserved for later usage

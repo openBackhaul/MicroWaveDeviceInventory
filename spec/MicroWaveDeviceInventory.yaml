@@ -436,12 +436,12 @@ paths:
 
  # == MWDI-specific maintenance services, which are not derived from the controller OAS ========================================================
   # 1.) /v1/initializeMwdiDeviceList
-  # 2.) /v1/addDeviceToMwdiDeviceList
-  # 3.) /v1/removeDeviceFromMwdiDeviceList
-  # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase
-  # 5.) /v1/provideCompleteMwdiDeviceList
+  # 2.) /v1/addDeviceToMwdiDeviceList/{mount-name}
+  # 3.) /v1/removeDeviceFromMwdiDeviceList/{mount-name}
+  # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+  # 5.) /v1/provideCompleteMwdiDeviceList/{mount-name}
   # 6.) /v1/retrieveControlConstructsForDeviceBatch
-  # 7.) /v1/changeParameterValueInDeviceControlConstruct
+  # 7.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
 
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}        
@@ -484,7 +484,94 @@ paths:
   #    default:
   #      $ref: '#/components/responses/responseForErroredServiceRequests'
 
+  # 2.) /v1/addDeviceToMwdiDeviceList
+  /v1/addDeviceToMwdiDeviceList/{mount-name}
+    # uuid: mwdi-1-0-0-op-s-is-002
+    parameters:
+      - $ref: '#/components/parameters/mount-name'   
+    post:
+      operationId: addDeviceToMwdiDeviceList
+      summary: 'Adds the mount-name to the MWDI deviceList'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Added mount-name to the MWDI deviceList'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      
+  # 3.) /v1/removeDeviceFromMwdiDeviceList
+  /v1/removeDeviceFromMwdiDeviceList
+    # uuid: mwdi-1-0-0-op-s-is-003
+    parameters:
+      - $ref: '#/components/parameters/mount-name'   
+    delete:
+      operationId: removeDeviceFromMwdiDeviceList
+      summary: 'Removes the mount-name from the MWDI deviceList'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Added mount-name to the MWDI deviceList'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'           
 
+  # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+  /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+    # uuid: mwdi-1-0-0-op-s-is-004
+    parameters:
+      - $ref: '#/components/parameters/mount-name'   
+    delete:
+      operationId: removeDeviceControlConstructFromMwdiDatabase
+      summary: 'Removes the Control Construct for the mount-name from the MWDI database.'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Removed ControlConstruct for the mount-name from MWDI database'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'  
+
+
+  # 5.) /v1/provideCompleteMwdiDeviceList
+  # 6.) /v1/retrieveControlConstructsForDeviceBatch
+  # 7.) /v1/changeParameterValueInDeviceControlConstruct
 
 
 
@@ -9729,7 +9816,7 @@ components:
         type: string
         example: '222250001'
         pattern: '\\d{9}[AB]{0,1}$'
-      description: 'The mount-name of the node for which data shall be fetched.'
+      description: 'The mount-name of the node for which the request should be executed.'
     uuid:
       name: uuid
       in: path

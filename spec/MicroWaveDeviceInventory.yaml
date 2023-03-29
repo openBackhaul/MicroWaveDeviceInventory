@@ -9955,43 +9955,59 @@ components:
           type: string
     # mwdi-specific schemas for non-controller-oas (additional) services -->
     deviceList:
+    # dictionary with key=mount-name, value=deviceListAttributes instances
+    # keys do not have to be defined explicity, they are always strings 
+    # -> added them here as fixed key to make it more clear that the keys are the mount-names
+    #   (see https://swagger.io/docs/specification/data-models/dictionaries/)
+      type: object
+      properties:
+        mount-name:
+          type: string
+      required:
+        - mount-name
+      additionalProperties:
+        type: #/components/schemas/deviceListAttributes
+      example: '100250001: [false, "2023-01-20T17:32:28Z" , "error", 3, "2023-01-21T18:32:28Z"]'         
+    #    
+    deviceListAttributes:
+    # describe attributes in own schema for simplify handling
       type: array
-      uniqueItems: True
       items:
         type: object
         required:
-          - mount-name
           - retrievalRunning
         properties:
-          mount-name:
-            type: string
           retrievalRunning:
-            # true if the retrieval for a mount-name is currently running, then no additonal retrieval should be started for that mount-name
             type: boolean
             enum:
               - true
-              - false            
+              - false
+            description: 'Indicates whether currently a retrieval is running for the related mount-name\n(if yes, no additional retrieval should be started until the already running retrieval is finished)'
           retrievalTimestamp:
-            # datetime of last CC retrieval
             type: string
             format: date-time
+            description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'             
           retrievalStatus:
+            # indicates whether last CC retrieval try was successful (ok/error) or if mount-name is new and no retrieval has taken place, yet
             type: String
             enum:
               - 'ok'
               - 'error'
               - 'new'
+            description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'              
           retriesLeft:
-            # the number of still available CC retrieval retries for the current retrieval period
             type: integer
             format: int32
             minimum: 1
             maximum: 5 # TODO: to be defined
+            description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'            
           lastRetryTimestamp:
             # timestamp of the last CC retrieval attempt
             type: string
             format: date-time
-
+            description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
+      example: '[false, "2023-01-20T17:32:28Z" , "error", 3, "2023-01-21T18:32:28Z"]'                     
+    #
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list_TOP:

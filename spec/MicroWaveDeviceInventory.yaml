@@ -444,10 +444,6 @@ paths:
   # 7.) /v1/retrieveControlConstructsForDeviceBatchFromController
   # 8.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
 
-        - operation-name: 
-          uuid: mwdi-1-0-0-op-s-is-006          
-        - operation-name: /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
-          uuid: mwdi-1-0-0-op-s-is-007
 
 
 
@@ -507,16 +503,16 @@ paths:
       responses:
         '200':
           # return the deviceList attributes of the mount-name for validation, they should be set to their default values:
-          #   retrievalRunning: false
-          #   retrievalTimestamp: 'null'
-          #   retrievalStatus: "new"
-          #   retriesLeft: <max number of allowed retries>
-          #   lastRetryTimestamp: 'null'
+          #   retrieval-running: false
+          #   retrieval-timestamp: 'null'
+          #   retrieval-status: "new"
+          #   retries-left: <max number of allowed retries>
+          #   last-retry-timestamp: 'null'
           description: 'Added mount-name to the MWDI deviceList'
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/deviceListAttributes          
+                $ref: '#/components/schemas/deviceListAttributes'         
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -603,7 +599,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/deviceList
+                $ref: '#/components/schemas/deviceList'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -617,9 +613,44 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'         
 
-  # 6.) /v1/retrieveControlConstructsForDeviceBatchFromController
+ 
+  # 6.) /v1/updateDeviceListAttributes/{mount-name}
+  /v1/updateDeviceListAttributes/{mount-name}
+    # uuid: mwdi-1-0-0-op-s-is-007
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/retrieval-running'
+      - $ref: '#/components/parameters/retrieval-timestamp'
+      - $ref: '#/components/parameters/retrieval-status'
+      - $ref: '#/components/parameters/retries-left'
+      - $ref: '#/components/parameters/last-retry-timestamp'
+    post:
+      operationId: updateDeviceListAttributes
+      summary: 'Updates the deviceList attributes of the mount-name with the attribute values provided as query parameters.'
+      description: 'Updates at least one of the attributes for the mount-name in the deviceList.\nThe attributes are marked as optional query parameters, so they can be set independently.'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+        '200': 
+          description: 'deviceList attribute(s) for mount-name updated'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  # 7.) /v1/retrieveControlConstructsForDeviceBatchFromController
   /v1/retrieveControlConstructsForDeviceBatchFromController
-    # uuid: mwdi-1-0-0-op-s-is-006
+    # uuid: mwdi-1-0-0-op-s-is-007
     post:
       operationId: retrieveCCsForDeviceBatchFromController
       summary: 'Builds the list of mount-names (=batch) for which the ControlConstructs should be requested next.\nAfter list is compiled, CCs are retrieved and stored in the MWDI ElasticSearchDB.\nDuring and after CC retrieval for a mount-name the deviceList attributes are updated.'
@@ -629,10 +660,12 @@ paths:
         - basicAuth: []
       responses:
   
-  # 7.) /v1/changeParameterValueInDeviceControlConstruct
-
-
-
+  # 8.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+ 
+ 
+ #
+ #
+ #
  # == Paths derived from controller OAS ========================================================================================================
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     # uuid: mwdi-1-0-0-op-s-is-011  
@@ -659,7 +692,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -698,7 +731,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -738,7 +771,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-capability_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-capability_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -778,7 +811,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-configuration_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-configuration_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -818,7 +851,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-status_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-status_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -857,7 +890,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -895,7 +928,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_alarm-pac_current-alarms_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_alarm-pac_current-alarms_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -933,7 +966,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_firmware-collection_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -972,7 +1005,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -1011,7 +1044,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: #/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status_TOP
+                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -9855,7 +9888,71 @@ components:
         type: string
         example: 'Unknown value'
       description: 'Holds information supporting customer’s journey to which the execution applies'
-    # mwdi-specific parameters (derived from controller-oas services) -->
+    # mwdi-specific parameters for maintenance services (mount-name also for controller-oas services) ------------->
+    mount-name:
+      name: mount-name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: '222250001'
+        pattern: '^\\d{9}[AB]{0,1}$'
+      description: 'The mount-name of the node for which the request should be executed.'
+    #
+    retrieval-running:
+      name: retrieval-running
+      in: query
+      description: 'Indicates whether currently a retrieval is running for the related mount-name\n(if yes, no additional retrieval should be started until the already running retrieval is finished)'
+      required: false
+      schema:             
+        type: boolean
+          enum:
+            - true
+            - false
+    #
+    retrieval-timestamp:      
+      name: retrieval-timestamp
+      in: query
+      description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'
+      required: false
+      schema:
+        type: string
+        format: date-time
+        example: '2023-01-20T17:32:28Z'
+    #
+    retrieval-status:    
+      name: retrieval-status
+      in: query        
+      description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'
+      required: false
+      schema:
+        type: string
+        enum:
+          - 'ok'
+          - 'error'
+          - 'new'
+    #
+    retries-left:
+      name: retries-left
+      in: query
+      description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+    #
+    last-retry-timestamp:
+      name: last-retry-timestamp    
+      in: query
+      description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
+      required: false
+      schema:
+        type: string
+        format: date-time
+        example: '2023-01-20T17:32:28Z'
+    #
+    # mwdi-specific parameters (derived from controller-oas services) ---------------------------------------------->
     topology-path:
       name: topology-path
       in: path
@@ -9866,15 +9963,7 @@ components:
         pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rest/data/network-topology:network-topology/topology-netconf$'
         example: ''
       description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'    
-    mount-name:
-      name: mount-name
-      in: path
-      required: true
-      schema:
-        type: string
-        example: '222250001'
-        pattern: '^\\d{9}[AB]{0,1}$'
-      description: 'The mount-name of the node for which the request should be executed.'
+    #
     uuid:
       name: uuid
       in: path
@@ -9882,6 +9971,7 @@ components:
       schema:
         type: string
       description: 'UUID: An identifier that is universally unique\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)\nThe uuid should be treated as opaque by the user.'
+    #
     local-id1:
       name: local-id1
       in: path
@@ -9889,6 +9979,7 @@ components:
       schema:
         type: string
       description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
+    #
     queue-name:
       name: queue-name
       in: path
@@ -9896,6 +9987,7 @@ components:
       schema:
         type: string
       description: 'Name of the queue.'
+    #
     period-end-time:
       name: period-end-time
       in: path
@@ -9903,6 +9995,7 @@ components:
       schema:
         type: string
       description: 'Time when the counter values have been recorded and the counter reset.'
+    #
     uuid1:
       name: uuid1
       in: path
@@ -9910,6 +10003,7 @@ components:
       schema:
         type: string
       description: 'UUID: An identifier that is universally unique\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)\nThe uuid should be treated as opaque by the user.'
+    #
     value-name:
       name: value-name
       in: path
@@ -9917,6 +10011,7 @@ components:
       schema:
         type: string
       description: 'The name of the value. The value need not have a name.'
+    #
     g-826-value-kind:
       name: g-826-value-kind
       in: path
@@ -9924,6 +10019,7 @@ components:
       schema:
         type: string
       description: 'Kind of performance value that shall be equipped with a threshold alarm.'
+    #
     local-id2:
       name: local-id2
       in: path
@@ -9931,6 +10027,7 @@ components:
       schema:
         type: string
       description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
+    #
     local-id:
       name: local-id
       in: path
@@ -9938,6 +10035,7 @@ components:
       schema:
         type: string
       description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
+    #
   responses:
     responseForErroredServiceRequests:
       description: 'Response in case of errored service requests'
@@ -10001,19 +10099,19 @@ components:
       items:
         type: object
         required:
-          - retrievalRunning
+          - retrieval-running
         properties:
-          retrievalRunning:
+          retrieval-running:
             type: boolean
             enum:
               - true
               - false
             description: 'Indicates whether currently a retrieval is running for the related mount-name\n(if yes, no additional retrieval should be started until the already running retrieval is finished)'
-          retrievalTimestamp:
+          retrieval-timestamp:
             type: string
             format: date-time
             description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'             
-          retrievalStatus:
+          retrieval-status:
             # indicates whether last CC retrieval try was successful (ok/error) or if mount-name is new and no retrieval has taken place, yet
             type: String
             enum:
@@ -10021,23 +10119,23 @@ components:
               - 'error'
               - 'new'
             description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'              
-          retriesLeft:
+          retries-left:
             type: integer
             format: int32
-            minimum: 1
+            minimum: 0
             maximum: 5 # TODO: to be defined
             description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'            
-          lastRetryTimestamp:
+          last-retry-timestamp:
             # timestamp of the last CC retrieval attempt
             type: string
             format: date-time
             description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
       example:
-        - retrievalRunning: false
-          retrievalTimestamp: "2023-01-20T17:32:28Z"
-          retrievalStatus: "error"
-          retriesLeft: 3
-          lastRetryTimestamp: "2023-01-21T18:32:28Z"
+        - retrieval-running: false
+          retrieval-timestamp: "2023-01-20T17:32:28Z"
+          retrieval-status: "error"
+          retries-left: 3
+          last-retry-timestamp: "2023-01-21T18:32:28Z"    
     #
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)

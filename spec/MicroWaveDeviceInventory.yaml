@@ -440,8 +440,16 @@ paths:
   # 3.) /v1/removeDeviceFromMwdiDeviceList/{mount-name}
   # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
   # 5.) /v1/provideCompleteMwdiDeviceList/{mount-name}
-  # 6.) /v1/retrieveControlConstructsForDeviceBatchFromController
-  # 7.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 6.) /v1/updateDeviceListAttributes/{mount-name}
+  # 7.) /v1/retrieveControlConstructsForDeviceBatchFromController
+  # 8.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+
+        - operation-name: 
+          uuid: mwdi-1-0-0-op-s-is-006          
+        - operation-name: /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
+          uuid: mwdi-1-0-0-op-s-is-007
+
+
 
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}        

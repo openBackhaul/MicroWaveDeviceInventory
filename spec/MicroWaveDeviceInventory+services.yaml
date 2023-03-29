@@ -98,9 +98,9 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-004
         - operation-name: /v1/provideCompleteMwdiDeviceList/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-005
+        - operation-name: /v1/updateDeviceListAttributes/{mount-name}
+          uuid: mwdi-1-0-0-op-s-is-006          
         - operation-name: /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
-          uuid: mwdi-1-0-0-op-s-is-006
-        - operation-name: /v1/updateDeviceListAttributes
           uuid: mwdi-1-0-0-op-s-is-007
         - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-008

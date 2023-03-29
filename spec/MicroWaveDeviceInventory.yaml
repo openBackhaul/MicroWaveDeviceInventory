@@ -441,8 +441,9 @@ paths:
   # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
   # 5.) /v1/provideCompleteMwdiDeviceList/{mount-name}
   # 6.) /v1/updateDeviceListAttributes/{mount-name}
-  # 7.) /v1/retrieveControlConstructsForDeviceBatchFromController
-  # 8.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 7.) /v1/buildDeviceRetrievalBatch
+  # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
+  # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
 
 
 
@@ -582,7 +583,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'  
 
-
   # 5.) /v1/provideCompleteMwdiDeviceList
   /v1/provideCompleteMwdiDeviceList
     # uuid: mwdi-1-0-0-op-s-is-005
@@ -613,7 +613,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'         
 
- 
   # 6.) /v1/updateDeviceListAttributes/{mount-name}
   /v1/updateDeviceListAttributes/{mount-name}
     # uuid: mwdi-1-0-0-op-s-is-007
@@ -648,19 +647,51 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 7.) /v1/retrieveControlConstructsForDeviceBatchFromController
-  /v1/retrieveControlConstructsForDeviceBatchFromController
+  # 7.) /v1/buildDeviceRetrievalBatch
+  /v1/buildDeviceRetrievalBatch
     # uuid: mwdi-1-0-0-op-s-is-007
+    get:
+      operationId: buildDeviceRetrievalBatch
+      summary: 'Creates the list of mount-names for which the ControlConstruct shall be requested from the controller in the next retrieval iteration'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Provide list of mount-names to be queried for ControlConstruct on the Controller'             
+          content:
+            application/json:
+              schema:
+                type: array
+                  items:
+                    type: string
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+          
+  # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
+  /v1/retrieveControlConstructsForDeviceBatchFromController
+    # uuid: mwdi-1-0-0-op-s-is-008
     post:
       operationId: retrieveCCsForDeviceBatchFromController
-      summary: 'Builds the list of mount-names (=batch) for which the ControlConstructs should be requested next.\nAfter list is compiled, CCs are retrieved and stored in the MWDI ElasticSearchDB.\nDuring and after CC retrieval for a mount-name the deviceList attributes are updated.'
+      summary: 'Builds the list of mount-names (=batch) for which the ControlConstructs should be requested next, then retrieves the CCs and stores them in the MWDI ElasticSearchDB.\nThe deviceList attributes are updated accordingly throughout the retrieval process.'
       tags:
         - maintenance
       security:
         - basicAuth: []
       responses:
   
-  # 8.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
  
  
  #

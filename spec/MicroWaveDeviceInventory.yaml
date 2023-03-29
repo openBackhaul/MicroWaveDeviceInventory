@@ -678,21 +678,39 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-          
+
   # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
   /v1/retrieveControlConstructsForDeviceBatchFromController
     # uuid: mwdi-1-0-0-op-s-is-008
     post:
       operationId: retrieveCCsForDeviceBatchFromController
-      summary: 'Builds the list of mount-names (=batch) for which the ControlConstructs should be requested next, then retrieves the CCs and stores them in the MWDI ElasticSearchDB.\nThe deviceList attributes are updated accordingly throughout the retrieval process.'
+      summary: 'Builds the mount-name list for CC retrieval, sends retrieval requests for all those mount-names to the controller, stores the retrieved CCs in the ElasticSearchDB and updates the deviceList throughout the retrieval process.'
       tags:
         - maintenance
       security:
         - basicAuth: []
       responses:
+        '200':
+          description: 'ControlConstructs for mount-name list retrieved and stored. DeviceList updated accordingly.'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      # hier ggf. Callbacks einfügen für Request-Kaskade und Notification ans Historical-MWDI                    
   
   # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
- 
+  # parameter: nur mount-name
+  # post-request: 
+  # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
+  # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
  
  #
  #

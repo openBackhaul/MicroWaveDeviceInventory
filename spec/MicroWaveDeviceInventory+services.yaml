@@ -59,6 +59,7 @@ servers:
         ##      or (b) the request is called during inialization of the MWDI deviceList
         ##      - input parameter = mount-name
         ##      - no immediate ControlConstruct retrieval when device is added
+        ##      - the related attribute values in the deviceList should be set to their initial default values
         ##
         ## 003) /v1/removeDeviceFromMwdiDeviceList
         ##      when controller sends notification: device has change state to connecting/device removed -> delete it from the deviceList
@@ -74,13 +75,16 @@ servers:
         ##      return the MWDI internal deviceList with all management parameters
         ##      - used for testing
         ##
-        ## 006) /v1/retrieveControlConstructsForDeviceBatch
+        ## 006) /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
         ##      actual control construct retrieval from Controller for devices (in batches)
         ##      - build a batch (= list of mount-names) with the next n devices for which the CC shall be retrieved next
         ##      - send request to the Controller to derive the CCs
         ##      - updates the deviceList with the retrieval status, writes the CC to the ElasticSearch if retrieved successfully
-        ##    
-        ## 007) /v1/changeParameterValueInDeviceControlConstruct                         
+        ##
+        ## 007) /v1/updateDeviceListAttributes
+        ##      updates (an) attribute(s) of the deviceList for a mount-name
+        ##
+        ## 008) /v1/changeParameterValueInDeviceControlConstruct                         
         ##      only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed 
         ##
         ##        
@@ -94,10 +98,12 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-004
         - operation-name: /v1/provideCompleteMwdiDeviceList/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-005
-        - operation-name: /v1/retrieveControlConstructsForDeviceBatch
+        - operation-name: /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
           uuid: mwdi-1-0-0-op-s-is-006
-        - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+        - operation-name: /v1/updateDeviceListAttributes
           uuid: mwdi-1-0-0-op-s-is-007
+        - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+          uuid: mwdi-1-0-0-op-s-is-008
         ##
         ## uuids: mwdi-1-0-0-op-s-is-008+009 reserved for later usage
         ##

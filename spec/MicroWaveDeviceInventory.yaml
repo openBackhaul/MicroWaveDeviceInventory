@@ -440,7 +440,7 @@ paths:
   # 3.) /v1/removeDeviceFromMwdiDeviceList/{mount-name}
   # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
   # 5.) /v1/provideCompleteMwdiDeviceList/{mount-name}
-  # 6.) /v1/retrieveControlConstructsForDeviceBatch
+  # 6.) /v1/retrieveControlConstructsForDeviceBatchFromController
   # 7.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
 
   # top-level ressource & Control construct path
@@ -498,7 +498,17 @@ paths:
         - basicAuth: []
       responses:
         '200':
+          # return the deviceList attributes of the mount-name for validation, they should be set to their default values:
+          #   retrievalRunning: false
+          #   retrievalTimestamp: 'null'
+          #   retrievalStatus: "new"
+          #   retriesLeft: <max number of allowed retries>
+          #   lastRetryTimestamp: 'null'
           description: 'Added mount-name to the MWDI deviceList'
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/deviceListAttributes          
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -571,7 +581,7 @@ paths:
 
   # 5.) /v1/provideCompleteMwdiDeviceList
   /v1/provideCompleteMwdiDeviceList
-    uuid: mwdi-1-0-0-op-s-is-005
+    # uuid: mwdi-1-0-0-op-s-is-005
     get:
       operationId: provideCompleteDeviceList
       summary: 'Returns the complete device list with all relevant parameters'
@@ -599,9 +609,18 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'         
 
-
-
-  # 6.) /v1/retrieveControlConstructsForDeviceBatch
+  # 6.) /v1/retrieveControlConstructsForDeviceBatchFromController
+  /v1/retrieveControlConstructsForDeviceBatchFromController
+    # uuid: mwdi-1-0-0-op-s-is-006
+    post:
+      operationId: retrieveCCsForDeviceBatchFromController
+      summary: 'Builds the list of mount-names (=batch) for which the ControlConstructs should be requested next.\nAfter list is compiled, CCs are retrieved and stored in the MWDI ElasticSearchDB.\nDuring and after CC retrieval for a mount-name the deviceList attributes are updated.'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+  
   # 7.) /v1/changeParameterValueInDeviceControlConstruct
 
 
@@ -9966,8 +9985,7 @@ components:
       required:
         - mount-name
       additionalProperties:
-        type: #/components/schemas/deviceListAttributes
-      example: '100250001: [false, "2023-01-20T17:32:28Z" , "error", 3, "2023-01-21T18:32:28Z"]'         
+        type: #/components/schemas/deviceListAttributes         
     #    
     deviceListAttributes:
     # describe attributes in own schema for simplify handling
@@ -10006,7 +10024,12 @@ components:
             type: string
             format: date-time
             description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
-      example: '[false, "2023-01-20T17:32:28Z" , "error", 3, "2023-01-21T18:32:28Z"]'                     
+      example:
+        - retrievalRunning: false
+          retrievalTimestamp: "2023-01-20T17:32:28Z"
+          retrievalStatus: "error"
+          retriesLeft: 3
+          lastRetryTimestamp: "2023-01-21T18:32:28Z"
     #
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)

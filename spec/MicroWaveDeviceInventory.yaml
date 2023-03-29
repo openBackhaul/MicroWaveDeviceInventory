@@ -490,7 +490,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/mount-name'   
     post:
-      operationId: addDeviceToMwdiDeviceList
+      operationId: addDeviceToDeviceList
       summary: 'Adds the mount-name to the MWDI deviceList'
       tags:
         - maintenance
@@ -518,7 +518,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/mount-name'   
     delete:
-      operationId: removeDeviceFromMwdiDeviceList
+      operationId: removeDeviceFromDeviceList
       summary: 'Removes the mount-name from the MWDI deviceList'
       tags:
         - maintenance
@@ -546,7 +546,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/mount-name'   
     delete:
-      operationId: removeDeviceControlConstructFromMwdiDatabase
+      operationId: removeDeviceControlConstructFromDatabase
       summary: 'Removes the Control Construct for the mount-name from the MWDI database.'
       tags:
         - maintenance
@@ -570,6 +570,37 @@ paths:
 
 
   # 5.) /v1/provideCompleteMwdiDeviceList
+  /v1/provideCompleteMwdiDeviceList
+    uuid: mwdi-1-0-0-op-s-is-005
+    get:
+      operationId: provideCompleteDeviceList
+      summary: 'Returns the complete device list with all relevant parameters'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'deviceList with parameters provided'
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/deviceList
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'         
+
+
+
   # 6.) /v1/retrieveControlConstructsForDeviceBatch
   # 7.) /v1/changeParameterValueInDeviceControlConstruct
 
@@ -9805,7 +9836,7 @@ components:
       schema:
         type: string
         #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
-        pattern: '^$|https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rest/data/network-topology:network-topology/topology-netconf'
+        pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rest/data/network-topology:network-topology/topology-netconf$'
         example: ''
       description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'    
     mount-name:
@@ -9815,7 +9846,7 @@ components:
       schema:
         type: string
         example: '222250001'
-        pattern: '\\d{9}[AB]{0,1}$'
+        pattern: '^\\d{9}[AB]{0,1}$'
       description: 'The mount-name of the node for which the request should be executed.'
     uuid:
       name: uuid
@@ -9923,6 +9954,43 @@ components:
         message:
           type: string
     # mwdi-specific schemas for non-controller-oas (additional) services -->
+    deviceList:
+      type: array
+      uniqueItems: True
+      items:
+        type: object
+        required:
+          - mount-name
+          - retrievalRunning
+        properties:
+          mount-name:
+            type: string
+          retrievalRunning:
+            # true if the retrieval for a mount-name is currently running, then no additonal retrieval should be started for that mount-name
+            type: boolean
+            enum:
+              - true
+              - false            
+          retrievalTimestamp:
+            # datetime of last CC retrieval
+            type: string
+            format: date-time
+          retrievalStatus:
+            type: String
+            enum:
+              - 'ok'
+              - 'error'
+              - 'new'
+          retriesLeft:
+            # the number of still available CC retrieval retries for the current retrieval period
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 5 # TODO: to be defined
+          lastRetryTimestamp:
+            # timestamp of the last CC retrieval attempt
+            type: string
+            format: date-time
 
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)

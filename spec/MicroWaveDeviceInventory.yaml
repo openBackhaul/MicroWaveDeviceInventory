@@ -9966,13 +9966,13 @@ components:
       in: query
       description: 'Indicates whether currently a retrieval is running for the related mount-name\n(if yes, no additional retrieval should be started until the already running retrieval is finished)'
       required: false
-      schema:             
+      schema:
         type: boolean
           enum:
             - true
             - false
     #
-    retrieval-timestamp:      
+    retrieval-timestamp:
       name: retrieval-timestamp
       in: query
       description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'
@@ -9982,9 +9982,9 @@ components:
         format: date-time
         example: '2023-01-20T17:32:28Z'
     #
-    retrieval-status:    
+    retrieval-status:
       name: retrieval-status
-      in: query        
+      in: query
       description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'
       required: false
       schema:
@@ -10005,7 +10005,7 @@ components:
         minimum: 0
     #
     last-retry-timestamp:
-      name: last-retry-timestamp    
+      name: last-retry-timestamp
       in: query
       description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
       required: false
@@ -10033,7 +10033,7 @@ components:
         #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
         pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rests/data/network-topology:network-topology/topology-netconf$'
         example: ''
-      description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'    
+      description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'
     #
     uuid:
       name: uuid
@@ -10152,7 +10152,7 @@ components:
     # mwdi-specific schemas for non-controller-oas (additional) services -->
     deviceList:
     # dictionary with key=mount-name, value=deviceListAttributes instances
-    # keys do not have to be defined explicity, they are always strings 
+    # keys do not have to be defined explicity, they are always strings
     # -> added them here as fixed key to make it more clear that the keys are the mount-names
     #   (see https://swagger.io/docs/specification/data-models/dictionaries/)
       type: object
@@ -10162,8 +10162,8 @@ components:
       required:
         - mount-name
       additionalProperties:
-        type: #/components/schemas/deviceListAttributes         
-    #    
+        type: #/components/schemas/deviceListAttributes
+    #
     deviceListAttributes:
     # describe attributes in own schema for simplify handling
       type: array
@@ -10181,7 +10181,7 @@ components:
           retrieval-timestamp:
             type: string
             format: date-time
-            description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'             
+            description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'
           retrieval-status:
             # indicates whether last CC retrieval try was successful (ok/error) or if mount-name is new and no retrieval has taken place, yet
             type: String
@@ -10189,13 +10189,13 @@ components:
               - 'ok'
               - 'error'
               - 'new'
-            description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'              
+            description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'
           retries-left:
             type: integer
             format: int32
             minimum: 0
             maximum: 5 # TODO: to be defined
-            description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'            
+            description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'
           last-retry-timestamp:
             # timestamp of the last CC retrieval attempt
             type: string
@@ -10206,7 +10206,7 @@ components:
           retrieval-timestamp: "2023-01-20T17:32:28Z"
           retrieval-status: "error"
           retries-left: 3
-          last-retry-timestamp: "2023-01-21T18:32:28Z"    
+          last-retry-timestamp: "2023-01-21T18:32:28Z"
     #
     # controller topology (top level) schema (not found in controller oas) -->
     controller_topology_TOP:

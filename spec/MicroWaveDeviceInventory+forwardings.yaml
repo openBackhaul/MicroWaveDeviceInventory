@@ -105,8 +105,8 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-009
       - operation-name: {topology-path}
         uuid: mwdi-1-0-0-op-s-is-020
-      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-        uuid: mwdi-1-0-0-op-s-is-021
+#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+#        uuid: mwdi-1-0-0-op-s-is-021
       - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
         uuid: mwdi-1-0-0-op-s-is-086
       - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability

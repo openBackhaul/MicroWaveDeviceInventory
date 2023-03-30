@@ -449,13 +449,13 @@ paths:
 
 
   # top-level ressource & Control construct path
-  # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}        
+  # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
 
- # 1.) /v1/initializeMwdiDeviceList: 
+ # 1.) /v1/initializeMwdiDeviceList:
  ## TODO: wie muss das aussehen?
-  # execute at MWDI startup; 1st retrieve list of connected devices from controller, then call add each device to the deviceList 
+  # execute at MWDI startup; 1st retrieve list of connected devices from controller, then call add each device to the deviceList
   # subsequently by calling /v1/addDeviceToMwdiDeviceList (request cascade, defined under forwardings)
-  /v1/initializeMwdiDeviceList
+  #/v1/initializeMwdiDeviceList
   # uuid: mwdi-1-0-0-op-s-is-001
   # parameters: none so far
   #post: 

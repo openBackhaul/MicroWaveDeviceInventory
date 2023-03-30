@@ -452,10 +452,10 @@ paths:
  ## TODO: wie muss das aussehen?
   # execute at MWDI startup; 1st retrieve list of connected devices from controller, then call add each device to the deviceList
   # subsequently by calling /v1/addDeviceToMwdiDeviceList (request cascade, defined under forwardings)
-  #/v1/initializeMwdiDeviceList
+  #/v1/initializeMwdiDeviceList:
   # uuid: mwdi-1-0-0-op-s-is-001
   # parameters: none so far
-  #post: 
+  #post:
   #  operationId: addAllConnectedDevicesToDeviceList
   #  summary: 'After retrieving list of connected devices from controller, the devices are added to MWDI deviceList'
   #  tags:
@@ -487,7 +487,7 @@ paths:
   #      $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 2.) /v1/addDeviceToMwdiDeviceList
-  /v1/addDeviceToMwdiDeviceList/{mount-name}
+  /v1/addDeviceToMwdiDeviceList/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-002
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -523,9 +523,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      
+
   # 3.) /v1/removeDeviceFromMwdiDeviceList
-  /v1/removeDeviceFromMwdiDeviceList
+  /v1/removeDeviceFromMwdiDeviceList:
     # uuid: mwdi-1-0-0-op-s-is-003
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -553,7 +553,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
-  /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+  /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-004
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -581,7 +581,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 5.) /v1/provideCompleteMwdiDeviceList
-  /v1/provideCompleteMwdiDeviceList
+  /v1/provideCompleteMwdiDeviceList:
     # uuid: mwdi-1-0-0-op-s-is-005
     get:
       operationId: provideCompleteDeviceList
@@ -611,7 +611,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 6.) /v1/updateDeviceListAttributes/{mount-name}
-  /v1/updateDeviceListAttributes/{mount-name}
+  /v1/updateDeviceListAttributes/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-007
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -645,7 +645,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 7.) /v1/buildDeviceRetrievalBatch
-  /v1/buildDeviceRetrievalBatch
+  /v1/buildDeviceRetrievalBatch:
     # uuid: mwdi-1-0-0-op-s-is-007
     get:
       operationId: buildDeviceRetrievalBatch
@@ -677,7 +677,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
-  /v1/retrieveControlConstructsForDeviceBatchFromController
+  /v1/retrieveControlConstructsForDeviceBatchFromController:
     # uuid: mwdi-1-0-0-op-s-is-008
     post:
       operationId: retrieveCCsForDeviceBatchFromController
@@ -708,7 +708,7 @@ paths:
   # post-request: 
   # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
-  /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  /v1/changeParameterValueInDeviceControlConstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-009
     parameters:
       - $ref: '#/components/parameters/mount-name'    
@@ -757,7 +757,7 @@ paths:
  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
  # to be used with filters to get the list of connected devices
  # possibly would be better to have a MWDI-specific service for getting the devices rather than including the ressource path
-  {topology-path}
+  {topology-path}:
     # uuid: mwdi-1-0-0-op-s-is-020  
     parameters:
       - $ref: '#/components/parameters/topology-path'

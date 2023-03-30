@@ -711,7 +711,7 @@ paths:
   /v1/changeParameterValueInDeviceControlConstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-009
     parameters:
-      - $ref: '#/components/parameters/mount-name'    
+      - $ref: '#/components/parameters/mount-name'
     post:
       operationId: changeParameterValueInControlConstruct
       summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
@@ -762,37 +762,37 @@ paths:
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/fields'
-      get:
-        operationId: getControllerTopology
-        summary: 'Allows to query the controller topology. Due to large reponse the fields filter must be used! Must not be used unless usage approved by project team!'
-        tags:
-          - controller-topology
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'core-model-1-4_control-construct provided'
-          content:
-            application/json:
-              schema:
-                # schema still needs to be defined!
-                $ref: '#/components/schemas/controller_topology_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+    get:
+      operationId: getControllerTopology
+      summary: 'Allows to query the controller topology. Due to large reponse the fields filter must be used! Must not be used unless usage approved by project team!'
+      tags:
+        - controller-topology
+    security:
+      - basicAuth: []
+    responses:
+      '200':
+        description: 'core-model-1-4_control-construct provided'
+        content:
+          application/json:
+            schema:
+              # schema still needs to be defined!
+              $ref: '#/components/schemas/controller_topology_TOP'
+      '400':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '401':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '403':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '404':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '500':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      default:
+        $ref: '#/components/responses/responseForErroredServiceRequests'
  #
  # == Paths derived from controller OAS ========================================================================================================
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
-    # uuid: mwdi-1-0-0-op-s-is-021  
+    # uuid: mwdi-1-0-0-op-s-is-021
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
@@ -1121,8 +1121,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-
-
 
 ########################################################################################################################
 #   Service Layer - Basic Part - Following paths must be copied into every application

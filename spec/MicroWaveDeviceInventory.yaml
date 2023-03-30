@@ -445,9 +445,6 @@ paths:
   # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
   # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
 
-
-
-
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
 

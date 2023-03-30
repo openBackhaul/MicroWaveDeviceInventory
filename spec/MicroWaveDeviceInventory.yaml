@@ -713,22 +713,61 @@ paths:
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
   /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
     # uuid: mwdi-1-0-0-op-s-is-009
- 
-
-
+    parameters:
+      - $ref: '#/components/parameters/mount-name'    
+    post:
+      operationId: changeParameterValueInControlConstruct
+      summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
+      tags:
+        - maintenance
+      securityAuth: []
+      requestBody:
+        description: 'The response body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - parameter-path
+                - parameter-value
+              properties:
+                parameter-path:
+                  type: string
+                  description: 'the complete (ressource) path to the parameter'
+                  example: '/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/received-radio-signal-id/numeric-radio-signal-id'
+                parameter-value:
+                  type: string
+                  description: 'the new value for the parameter'
+                  example: '102'
+      responses:
+        '200':
+          description: 'The parameter value has been changed'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'            
  #
  #
- 
  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
  # to be used with filters to get the list of connected devices
+ # possibly would be better to have a MWDI-specific service for getting the devices rather than including the ressource path
   {topology-path}
     # uuid: mwdi-1-0-0-op-s-is-020  
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/fields'
       get:
-        OperationId: getControllerTopology
-        summary: 'Allows to query the controller topology, should be used carefully'
+        operationId: getControllerTopology
+        summary: 'Allows to query the controller topology. Due to large reponse the fields filter must be used! Must not be used unless usage approved by project team!'
         tags:
           - controller-topology
       security:
@@ -10176,6 +10215,14 @@ components:
           retries-left: 3
           last-retry-timestamp: "2023-01-21T18:32:28Z"    
     #
+    # controller topology (top level) schema (not found in controller oas) -->
+    controller_topology_TOP:
+      ##TODO: needs to be defined
+      type: todo
+      properties:
+        todo
+    #
+
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list_TOP:

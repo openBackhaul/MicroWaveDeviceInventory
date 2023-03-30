@@ -711,23 +711,58 @@ paths:
   # post-request: 
   # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
+  /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+    # uuid: mwdi-1-0-0-op-s-is-009
  
+
+
  #
  #
+ 
+ # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
+ # to be used with filters to get the list of connected devices
+  {topology-path}
+    # uuid: mwdi-1-0-0-op-s-is-020  
+    parameters:
+      - $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/fields'
+      get:
+        OperationId: getControllerTopology
+        summary: 'Allows to query the controller topology, should be used carefully'
+        tags:
+          - controller-topology
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'core-model-1-4_control-construct provided'
+          content:
+            application/json:
+              schema:
+                # schema still needs to be defined!
+                $ref: '#/components/schemas/controller_topology_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'          
+        
+
  #
  # == Paths derived from controller OAS ========================================================================================================
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
-    # uuid: mwdi-1-0-0-op-s-is-011  
+    # uuid: mwdi-1-0-0-op-s-is-021  
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getControlConstruct
       summary: 'Returns core-model-1-4 - control-construct'
@@ -755,18 +790,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
-    # uuid: mwdi-1-0-0-op-s-is-076
+    # uuid: mwdi-1-0-0-op-s-is-086
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelActualEquipManufacturedThing
       summary: 'Returns core-model-1-4 - manufactured-thing'
@@ -794,19 +823,13 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
-    # uuid: mwdi-1-0-0-op-s-is-112
+    # uuid: mwdi-1-0-0-op-s-is-122
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelLtpLayerProtocolAirIfCap
       summary: 'Returns core-model-1-4 - air-interface-capability'
@@ -834,19 +857,13 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
-    # uuid: mwdi-1-0-0-op-s-is-114
+    # uuid: mwdi-1-0-0-op-s-is-124
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelLtpLayerProtocolAirIfConfig
       summary: 'Returns core-model-1-4 - air-interface-configuration'
@@ -874,19 +891,13 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
-    # uuid: mwdi-1-0-0-op-s-is-120
+    # uuid: mwdi-1-0-0-op-s-is-130
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelLtpLayerProtocolAifIfStatus
       summary: 'Returns core-model-1-4 - air-interface-status'
@@ -914,18 +925,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
-    # uuid: mwdi-1-0-0-op-s-is-227
+    # uuid: mwdi-1-0-0-op-s-is-237
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelLtpAugmentCap
       summary: 'Returns core-model-1-4 - ltp-augment-capability'
@@ -953,17 +958,11 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
-    # uuid: mwdi-1-0-0-op-s-is-288
+    # uuid: mwdi-1-0-0-op-s-is-298
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelCurAlarms
       summary: 'Returns core-model-1-4 - current-alarms'
@@ -991,17 +990,11 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection:
-    # uuid: mwdi-1-0-0-op-s-is-292  
+    # uuid: mwdi-1-0-0-op-s-is-302
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelFirmwareCollection
       summary: 'Returns core-model-1-4 - firmware-collection'
@@ -1029,18 +1022,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
-    # uuid: mwdi-1-0-0-op-s-is-295
+    # uuid: mwdi-1-0-0-op-s-is-305
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/local-id'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelFirmwareComponentCap
       summary: 'Returns core-model-1-4 - firmware-component-capability'
@@ -1068,18 +1055,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
-    # uuid: mwdi-1-0-0-op-s-is-296  
+    # uuid: mwdi-1-0-0-op-s-is-306
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/local-id'
-      - in: query
-        name: fields
-        description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
-        required: false
-        schema:
-          type: string
-          example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status;netconf-node-topology:host)'
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelFirmwareComponentStatus
       summary: 'Returns core-model-1-4 - firmware-component-status'
@@ -10001,6 +9982,15 @@ components:
         format: date-time
         example: '2023-01-20T17:32:28Z'
     #
+    # Fields filter query parameter
+    fields:
+      name: fields
+      in: query
+      description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
+      required: false
+      schema:
+        type: string
+        example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status)'
     # mwdi-specific parameters (derived from controller-oas services) ---------------------------------------------->
     topology-path:
       name: topology-path
@@ -10009,7 +9999,7 @@ components:
       schema:
         type: string
         #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
-        pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rest/data/network-topology:network-topology/topology-netconf$'
+        pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rests/data/network-topology:network-topology/topology-netconf$'
         example: ''
       description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'    
     #

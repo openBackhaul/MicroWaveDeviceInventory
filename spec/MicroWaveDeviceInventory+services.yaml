@@ -111,6 +111,8 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-009
         ##
         ##
+        ## uuids to 019 are reserved for further management services
+        ##
         ## =======================================================================================================
         ## SERVICES TO BE USED BY OTHER APPLICATIONS: RESSOURCE-PATHS -->
         ## =======================================================================================================
@@ -123,14 +125,14 @@ servers:
         ##   path cannot start with the filter in order to request the list of connected devices send the request to the MWDI:
         ##   {topology-path}?fields=node(node-id)
         - operation-name: {topology-path}
-          uuid: mwdi-1-0-0-op-s-is-010
+          uuid: mwdi-1-0-0-op-s-is-020
         ##
         ## ----------------------------------------------
         ## SERVICES DERIVED FROM CONTROLLER OAS
         ## ----------------------------------------------
         ## complete control construct
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-          uuid: mwdi-1-0-0-op-s-is-011
+          uuid: mwdi-1-0-0-op-s-is-021
         ##
         ## only subparts of the control construct -->
         ## ~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~
@@ -142,31 +144,31 @@ servers:
         ## ~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~
         ##
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
-          uuid: mwdi-1-0-0-op-s-is-076
+          uuid: mwdi-1-0-0-op-s-is-086
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
-          uuid: mwdi-1-0-0-op-s-is-112
+          uuid: mwdi-1-0-0-op-s-is-122
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
-          uuid: mwdi-1-0-0-op-s-is-114
+          uuid: mwdi-1-0-0-op-s-is-124
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
-          uuid: mwdi-1-0-0-op-s-is-120
+          uuid: mwdi-1-0-0-op-s-is-130
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
-          uuid: mwdi-1-0-0-op-s-is-227
+          uuid: mwdi-1-0-0-op-s-is-237
         
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
-          uuid: mwdi-1-0-0-op-s-is-288
+          uuid: mwdi-1-0-0-op-s-is-298
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
-          uuid: mwdi-1-0-0-op-s-is-292
+          uuid: mwdi-1-0-0-op-s-is-302
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
-          uuid: mwdi-1-0-0-op-s-is-295
+          uuid: mwdi-1-0-0-op-s-is-305
 
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
-          uuid: mwdi-1-0-0-op-s-is-296
+          uuid: mwdi-1-0-0-op-s-is-306
 
 
 

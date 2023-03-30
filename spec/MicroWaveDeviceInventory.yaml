@@ -629,7 +629,7 @@ paths:
       security:
         - basicAuth: []
       responses:
-        '200': 
+        '200':
           description: 'deviceList attribute(s) for mount-name updated'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -656,13 +656,13 @@ paths:
         - basicAuth: []
       responses:
         '200':
-          description: 'Provide list of mount-names to be queried for ControlConstruct on the Controller'             
+          description: 'Provide list of mount-names to be queried for ControlConstruct on the Controller'
           content:
             application/json:
               schema:
                 type: array
-                  items:
-                    type: string
+                items:
+                  type: string
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -702,10 +702,10 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       # hier ggf. Callbacks einfügen für Request-Kaskade und Notification ans Historical-MWDI
-  
+
   # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
   # parameter: nur mount-name
-  # post-request: 
+  # post-request:
   # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
   /v1/changeParameterValueInDeviceControlConstruct/{mount-name}:
@@ -751,14 +751,14 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'            
+          $ref: '#/components/responses/responseForErroredServiceRequests'
  #
  #
  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
  # to be used with filters to get the list of connected devices
  # possibly would be better to have a MWDI-specific service for getting the devices rather than including the ressource path
   {topology-path}:
-    # uuid: mwdi-1-0-0-op-s-is-020  
+    # uuid: mwdi-1-0-0-op-s-is-020
     parameters:
       - $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/fields'
@@ -788,9 +788,7 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'          
-        
-
+          $ref: '#/components/responses/responseForErroredServiceRequests'
  #
  # == Paths derived from controller OAS ========================================================================================================
   {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:

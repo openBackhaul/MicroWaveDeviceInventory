@@ -451,14 +451,15 @@ paths:
  # 1.) /v1/syncMwdiDeviceList:
  ## TODO: wie muss das aussehen?
   # execute at MWDI startup (and after some time again to sync, because there could e.g. be dcn disconnects to the controller)
-  # first retrieve list of connected devices from controller, then call add each device to the deviceList
-  # subsequently by calling /v1/addDeviceToMwdiDeviceList (request cascade, defined under forwardings)
+  # first retrieve list of connected devices from controller and compare it to the MWDI deviceList, 
+  # - then call /v1/addDeviceToMwdiDeviceList for each new device to add it the deviceList
+  # - or call /v1/removeDeviceFromMwdiDeviceList for each device no longer connected on the controller
   #/v1/syncMwdiDeviceList:
   # uuid: mwdi-1-0-0-op-s-is-001
   # parameters: none so far
   #post:
-  #  operationId: addAllConnectedDevicesToDeviceList
-  #  summary: 'After retrieving list of connected devices from controller, the devices are added to MWDI deviceList'
+  #  operationId: syncMwdiDeviceListWithController
+  #  summary: 'After retrieving list of connected devices from controller and comparing it against the MWDI deviceList, devices are added to/removed from the MWDI deviceList based on the comparison result'
   #  tags:
   #    - maintenance
   #  security:
@@ -473,7 +474,7 @@ paths:
   #            type: string
   #  responses:
   #    '201':
-  #      description: 'deviceList intialized'
+  #      description: 'deviceList synchronized with Controller'
   #   '400':
   #     $ref: '#/components/responses/responseForErroredServiceRequests'
   #   '401':

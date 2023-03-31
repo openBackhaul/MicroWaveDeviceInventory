@@ -760,7 +760,7 @@ paths:
  #   # uuid: mwdi-1-0-0-op-s-is-020
  #   parameters:
  #     - $ref: '#/components/parameters/topology-path'
- #     - in: query      
+ #     - in: query
  #       name: fields
  #       description: 'query parameter to filter on controller level (limited usage)'
  #       required: true
@@ -9975,9 +9975,9 @@ components:
       required: false
       schema:
         type: boolean
-          enum:
-            - true
-            - false
+        enum:
+          - true
+          - false
     #
     retrieval-timestamp:
       name: retrieval-timestamp

@@ -54,7 +54,7 @@ servers:
         ##      Called once at MWDI startup to initialize the MWDI deviceList, queries the controller actively for the mounted devices in connected state
         ##      Then called periodically to ensure that MWDI deviceList is in sync with the devices in connected state on the controller.
         ##      (Due to DCN connection issued not all Controller notifications may be received by the MWDI, so a sync has to happen every now and then.)
-        ##      For each 
+        ##      For each
         ##      - new connected device found on the Controller /v1/addDeviceToMwdiDeviceList is called
         ##      - device in the MWDI deviceList, which is no longer found in the list of connected devices from the Controller:
         ##        device is deleted from the deviceList and ControlConstruct is purged from the ElasticSearch db

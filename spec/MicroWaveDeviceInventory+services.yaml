@@ -50,7 +50,7 @@ servers:
         ## SELF-MANAGEMENT-SERVICES - FOR MWDI INTERNAL MANAGEMENT
         ## =======================================================================================================
         ## management of the MWDI-internal deviceList (and CC database)
-        ## 001) /v1/initializeMwdiDeviceList
+        ## 001) /v1/syncMwdiDeviceList
         ##      Only called once to initialize the MWDI deviceList, queries the controller actively for the mounted devices in connected state
         ##      For each found device /v1/addDeviceToMwdiDeviceList is called
         ##
@@ -91,7 +91,7 @@ servers:
         ##      only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed
         ##
         ##
-        - operation-name: /v1/initializeMwdiDeviceList
+        - operation-name: /v1/syncMwdiDeviceList
           uuid: mwdi-1-0-0-op-s-is-001
         - operation-name: /v1/addDeviceToMwdiDeviceList/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-002

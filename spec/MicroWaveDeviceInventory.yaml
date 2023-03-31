@@ -10281,7 +10281,7 @@ components:
       type: object
       properties:
         interface-status:
-          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE4',
+          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE4'
         bundling-is-up:
           description: '802.3 and ITU-T Rec. G.998.3 Appendix II aGroupStatus. 1 = Algorithm for bundling Ethernet segments is operative (, even if only a single Structure would be associated).'
           default: false

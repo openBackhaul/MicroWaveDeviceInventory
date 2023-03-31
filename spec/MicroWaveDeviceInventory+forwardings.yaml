@@ -101,32 +101,31 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-007
       - operation-name: /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
         uuid: mwdi-1-0-0-op-s-is-008
-# Linting-error due to the path starting with {...}
-# -> 110:40 syntax error: expected <block end>, but found '<scalar>' (syntax)
-#      - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
-#        uuid: mwdi-1-0-0-op-s-is-009
-#      - operation-name: {topology-path}
-#        uuid: mwdi-1-0-0-op-s-is-020
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-#        uuid: mwdi-1-0-0-op-s-is-021
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
-#        uuid: mwdi-1-0-0-op-s-is-086
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
-#        uuid: mwdi-1-0-0-op-s-is-122
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
-#        uuid: mwdi-1-0-0-op-s-is-124
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
-#        uuid: mwdi-1-0-0-op-s-is-130
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
-#        uuid: mwdi-1-0-0-op-s-is-237
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
-#        uuid: mwdi-1-0-0-op-s-is-298
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
-#        uuid: mwdi-1-0-0-op-s-is-302
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
-#        uuid: mwdi-1-0-0-op-s-is-305
-#      - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
-#        uuid: mwdi-1-0-0-op-s-is-306
+      - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-009
+      # replace with get-mount-name-list service
+      #- operation-name: {topology-path}
+      #  uuid: mwdi-1-0-0-op-s-is-020
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-021
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-086
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-122
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-124
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-130
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+        uuid: mwdi-1-0-0-op-s-is-237
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-298
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-302
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-305
+      - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-306
 
 
     consequent-requests:

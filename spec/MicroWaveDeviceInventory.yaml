@@ -756,52 +756,52 @@ paths:
  #
  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
  # to be used with a filter to get the list of connected devices, only filter values from enum are allowed
-  {topology-path}:
-    # uuid: mwdi-1-0-0-op-s-is-020
-    parameters:
-      - $ref: '#/components/parameters/topology-path'
-      - in: query      
-        name: fields
-        description: 'query parameter to filter on controller level (limited usage)'
-        required: true
-        schema:
-          type: string
-          example: 'fields=node(node-id)'
-          enum:
-            - 'fields=node(node-id)'
-    get:
-      operationId: getControllerTopology
-      summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
-      tags:
-        - controller-topology
-    security:
-      - basicAuth: []
-    responses:
-      '200':
-        description: 'core-model-1-4_control-construct provided'
-        content:
-          application/json:
-            schema:
-              # schema still needs to be defined! would be not the complete topology schema, but only that corresponding to the allowed fields filter(s)
-              $ref: '#/components/schemas/controller_topology_TOP'
-      '400':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '401':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '403':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '404':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '500':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      default:
-        $ref: '#/components/responses/responseForErroredServiceRequests'
+ # {topology-path}:
+ #   # uuid: mwdi-1-0-0-op-s-is-020
+ #   parameters:
+ #     - $ref: '#/components/parameters/topology-path'
+ #     - in: query      
+ #       name: fields
+ #       description: 'query parameter to filter on controller level (limited usage)'
+ #       required: true
+ #       schema:
+ #         type: string
+ #         example: 'fields=node(node-id)'
+ #         enum:
+ #           - 'fields=node(node-id)'
+ #   get:
+ #     operationId: getControllerTopology
+ #     summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
+ #     tags:
+ #       - controller-topology
+ #   security:
+ #     - basicAuth: []
+ #   responses:
+ #     '200':
+ #       description: 'core-model-1-4_control-construct provided'
+ #       content:
+ #         application/json:
+ #           schema:
+ #             # schema still needs to be defined! would be not the complete topology schema, but only that corresponding to the allowed fields filter(s)
+ #             $ref: '#/components/schemas/controller_topology_TOP'
+ #     '400':
+ #       $ref: '#/components/responses/responseForErroredServiceRequests'
+ #     '401':
+ #       $ref: '#/components/responses/responseForErroredServiceRequests'
+ #     '403':
+ #       $ref: '#/components/responses/responseForErroredServiceRequests'
+ #    '404':
+ #       $ref: '#/components/responses/responseForErroredServiceRequests'
+ #     '500':
+ #       $ref: '#/components/responses/responseForErroredServiceRequests'
+ #     default:
+ #      $ref: '#/components/responses/responseForErroredServiceRequests'
  #
  # == Paths derived from controller OAS ========================================================================================================
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     # uuid: mwdi-1-0-0-op-s-is-021
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
@@ -830,10 +830,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
     # uuid: mwdi-1-0-0-op-s-is-086
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
@@ -863,10 +863,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
     # uuid: mwdi-1-0-0-op-s-is-122
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -897,10 +897,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
     # uuid: mwdi-1-0-0-op-s-is-124
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -931,10 +931,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
     # uuid: mwdi-1-0-0-op-s-is-130
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -965,10 +965,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
     # uuid: mwdi-1-0-0-op-s-is-237
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
@@ -998,10 +998,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
     # uuid: mwdi-1-0-0-op-s-is-298
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
@@ -1030,10 +1030,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection:
     # uuid: mwdi-1-0-0-op-s-is-302
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
@@ -1062,10 +1062,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
     # uuid: mwdi-1-0-0-op-s-is-305
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
@@ -1095,10 +1095,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
     # uuid: mwdi-1-0-0-op-s-is-306
     parameters:
-      - $ref: '#/components/parameters/topology-path'
+      #- $ref: '#/components/parameters/topology-path'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
@@ -10031,16 +10031,16 @@ components:
         type: string
         example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status)'
     # mwdi-specific parameters (derived from controller-oas services) ---------------------------------------------->
-    topology-path:
-      name: topology-path
-      in: path
-      required: true
-      schema:
-        type: string
-        #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
-        pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rests/data/network-topology:network-topology/topology-netconf$'
-        example: ''
-      description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'
+    #topology-path:
+    #  name: topology-path
+    #  in: path
+    #  required: true
+    #  schema:
+    #    type: string
+    #    #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
+    #    pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rests/data/network-topology:network-topology/topology-netconf$'
+    #    example: ''
+    #  description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'
     #
     uuid:
       name: uuid

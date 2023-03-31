@@ -1,4 +1,4 @@
-﻿openapi: 3.0.0
+openapi: 3.0.0
 info:
   title: MicrowaveDeviceInventory
   version: 1.0.0
@@ -755,16 +755,23 @@ paths:
  #
  #
  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
- # to be used with filters to get the list of connected devices
- # possibly would be better to have a MWDI-specific service for getting the devices rather than including the ressource path
+ # to be used with a filter to get the list of connected devices, only filter values from enum are allowed
   {topology-path}:
     # uuid: mwdi-1-0-0-op-s-is-020
     parameters:
       - $ref: '#/components/parameters/topology-path'
-      - $ref: '#/components/parameters/fields'
+      - in: query      
+        name: fields
+        description: 'query parameter to filter on controller level (limited usage)'
+        required: true
+        schema:
+          type: string
+          example: 'fields=node(node-id)'
+          enum:
+            - 'fields=node(node-id)'
     get:
       operationId: getControllerTopology
-      summary: 'Allows to query the controller topology. Due to large reponse the fields filter must be used! Must not be used unless usage approved by project team!'
+      summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
       tags:
         - controller-topology
     security:
@@ -775,7 +782,7 @@ paths:
         content:
           application/json:
             schema:
-              # schema still needs to be defined!
+              # schema still needs to be defined! would be not the complete topology schema, but only that corresponding to the allowed fields filter(s)
               $ref: '#/components/schemas/controller_topology_TOP'
       '400':
         $ref: '#/components/responses/responseForErroredServiceRequests'

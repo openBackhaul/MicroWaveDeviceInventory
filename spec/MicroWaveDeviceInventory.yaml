@@ -450,7 +450,8 @@ paths:
 
  # 1.) /v1/initializeMwdiDeviceList:
  ## TODO: wie muss das aussehen?
-  # execute at MWDI startup; 1st retrieve list of connected devices from controller, then call add each device to the deviceList
+  # execute at MWDI startup (and after some time again to sync, because there could e.g. be dcn disconnects to the controller); 
+  # first retrieve list of connected devices from controller, then call add each device to the deviceList
   # subsequently by calling /v1/addDeviceToMwdiDeviceList (request cascade, defined under forwardings)
   #/v1/initializeMwdiDeviceList:
   # uuid: mwdi-1-0-0-op-s-is-001

@@ -85,7 +85,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-005
       ##
       ## DONE: added all server-names derived from individual operation-names in service list -->
-      - operation-name: /v1/initializeMwdiDeviceList
+      - operation-name: /v1/syncMwdiDeviceList
         uuid: mwdi-1-0-0-op-s-is-001
       - operation-name: /v1/addDeviceToMwdiDeviceList/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-002

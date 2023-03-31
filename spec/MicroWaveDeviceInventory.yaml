@@ -10291,7 +10291,7 @@ components:
           default: false
           type: boolean
         loop-back-kind-up:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE3',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE3'
         statistics-is-up:
           description: '1 = Statistics are currently counted'
           default: false
@@ -10760,7 +10760,7 @@ components:
           default: 'History Data ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE'
         period-end-time:
           description: 'Time when the counter values have been recorded and the counter reset.'
           minLength: 0
@@ -10772,7 +10772,7 @@ components:
       type: object
       properties:
         category:
-          $ref: '#/components/schemas/EQUIPMENT_CATEGORY',
+          $ref: '#/components/schemas/EQUIPMENT_CATEGORY'
     core-model-1-4_control-construct_forwarding-domain_mac-fd-pac_mac-fd-configuration_TOP:
       type: object
       properties:
@@ -10829,7 +10829,7 @@ components:
       type: object
       properties:
         queue-name:
-          $ref: '#/components/schemas/QUEUE_NAME_TYPE',
+          $ref: '#/components/schemas/QUEUE_NAME_TYPE'
         max-queue-length:
           description: 'Maximum observed queue length. openconfig-qos-interfaces.yang'
           format: int32
@@ -10877,7 +10877,7 @@ components:
       type: object
       properties:
         level-threshold-second-kind:
-          $ref: '#/components/schemas/XLEVEL_THRESHOLD_SECOND_KIND_TYPE',
+          $ref: '#/components/schemas/XLEVEL_THRESHOLD_SECOND_KIND_TYPE'
         xlts-level:
           description: 'If (LevelThresholdSecondKindType==RLTS): Receive level, which has to be undercut, for the performance counter incrementing the number of seconds. If (LevelThresholdSecondKindType==TLTS): Transmit level, which has to be exceeded, for the performance counter incrementing the number of seconds. See also ETSI EN 301 129 V1.1.2 (1999-05).'
           format: int32
@@ -10889,7 +10889,7 @@ components:
           default: -1
           type: integer
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE'
         xlts-threshold-cross-alarm-definition-number:
           description: 'Sequence number of the definitions.'
           format: int32
@@ -10905,7 +10905,7 @@ components:
       type: object
       properties:
         alarm-type-id:
-          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE',
+          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE'
         alarm-type-qualifier:
           description: 'The optionally defined alarm type identifier for this possible alarm.'
           default: 'Some alarm-type-qualifier'
@@ -10919,7 +10919,7 @@ components:
           default: 'Not yet defined.'
           type: string
         alarm-category:
-          $ref: '#/components/schemas/ALARM_CATEGORY_TYPE',
+          $ref: '#/components/schemas/ALARM_CATEGORY_TYPE'
         probable-cause:
           description: 'If the value of the alarm-category attribute is chosen from ITU-T X.733, values 1-57 of this attribute have to be applied according to ITU-T X.721 section 14.2. If the value of the alarm-category attribute is chosen from ITU-T X.736, values 1-18 of this attribute have to be applied according to ITU-T X.721 section 14.2. If probable-cause and alarm-category cannot be mapped to those defined in ITU-T X.733 and ITU-T X.736, then the default value shall be represented in this attribute. In such case, the probable-cause-string attribute might be used.'
           format: int32
@@ -11093,7 +11093,7 @@ components:
       type: object
       properties:
         holder-category:
-          $ref: '#/components/schemas/HOLDER_CATEGORY',
+          $ref: '#/components/schemas/HOLDER_CATEGORY'
         is-captive:
           description: 'none'
           default: true
@@ -11201,7 +11201,7 @@ components:
           type: string
           default: '0'
         supported-radio-signal-id-datatype:
-          $ref: '#/components/schemas/RADIO_SIGNAL_ID_DATATYPE_TYPE',
+          $ref: '#/components/schemas/RADIO_SIGNAL_ID_DATATYPE_TYPE'
         supported-radio-signal-id-length:
           description: 'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.'
           format: int32
@@ -11239,7 +11239,7 @@ components:
           default: false
           type: boolean
         direction-of-acm-performance-values:
-          $ref: '#/components/schemas/DIRECTION_TYPE',
+          $ref: '#/components/schemas/DIRECTION_TYPE'
     core-model-1-4_control-construct_alarm-pac_current-alarms_current-alarm-list:
       description: 'Number of currently active alarms in the device.'
       type: object
@@ -11249,7 +11249,7 @@ components:
           default: 'Some current-alarm-identifier'
           type: string
         alarm-type-id:
-          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE',
+          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE'
         alarm-type-qualifier:
           description: 'This attribute is used whenever the alarm-type-id attribute cannot uniquely identify the type of alarm. Usually, this is not required and this leaf is an empty string.'
           default: 'Some alarm-type-qualifier'
@@ -11259,7 +11259,7 @@ components:
           default: '/core-model:control-construct'
           type: string
         alarm-severity:
-          $ref: '#/components/schemas/SEVERITY_TYPE',
+          $ref: '#/components/schemas/SEVERITY_TYPE'
         timestamp:
           description: 'Time when this alarm occurred. This represents the first time the alarm appeared; it can also represent that the alarm re-appeared after a purge.'
           minLength: 0
@@ -11281,7 +11281,7 @@ components:
           default: 'History Data ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE2',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE2'
         period-end-time:
           description: 'Time when the counter values have been recorded and the counter reset.'
           minLength: 0
@@ -11347,13 +11347,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
         alarm-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_alarm-pac'
         firmware-collection:
@@ -11416,13 +11416,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_equipment_contained-holder_expected-holder_extension:
       description: 'List of simple name-value extensions.'
       type: object
@@ -11477,7 +11477,7 @@ components:
             type: string
           description: 'References one or more LTPs in other views that represent this LTP.\nThe referencing LTP is the provider of capability.'
         ltp-direction:
-          $ref: '#/components/schemas/TERMINATION_DIRECTION',
+          $ref: '#/components/schemas/TERMINATION_DIRECTION'
         transfer-capacity-pac:
           description: 'The LTP has as an inherent capacity derived from underlying capability.\nThe capacity of a particular LTP may be dependent upon other uses of resource in the device and hence it may vary over time.\nThe capacity of a Link is dependent upon the capacity of the LTPs at its ends.\nAn LTP may be an abstraction and virtualization of a subset of the underlying capability offered in a view or may be directly reflecting the underlying realization.'
           default: 'Some transfer-capacity-pac'
@@ -11529,13 +11529,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
         ltp-augment-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-current-performance:
@@ -11574,7 +11574,7 @@ components:
       type: object
       properties:
         run-mode:
-          $ref: '#/components/schemas/RUN_MODE',
+          $ref: '#/components/schemas/RUN_MODE'
         encompassed-clock:
           type: array
           items:
@@ -11630,13 +11630,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_equipment_contained-holder_expected-holder_name_TOP:
       type: object
       properties:
@@ -11682,7 +11682,7 @@ components:
           default: -1
           type: integer
         fd-status:
-          $ref: '#/components/schemas/FD_STATUS_TYPE1',
+          $ref: '#/components/schemas/FD_STATUS_TYPE1'
     core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_equipment-type:
       description: 'none'
       type: object
@@ -11906,7 +11906,7 @@ components:
           default: 'Forwarding Domain name not yet defined.'
           type: string
         sub-layer-protocol-name:
-          $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE2',
+          $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE2'
         mac-address:
           description: 'Unique EUI-48 Universally Administered MAC address configured on a Bridge Component. Name in ieee802-dot1q-bridge.yang: address.'
           default: '00:00:00:00:00:00'
@@ -12289,7 +12289,7 @@ components:
           default: -1
           type: integer
         protocol-frame-format:
-          $ref: '#/components/schemas/PROTOCOL_FRAME_FORMAT_TYPE',
+          $ref: '#/components/schemas/PROTOCOL_FRAME_FORMAT_TYPE'
         ethertype:
           description: 'ethertype. Only relevant if (protocolFrameFormat==ETHERNET) OR (protocolFrameFormat==RFC1042) OR (protocolFrameFormat==SNAP8021H). Format containing the 16-bit IEEE 802 EtherType field. The EtherType value represented in the canonical order defined by IEEE 802. The canonical representation uses uppercase characters. Pattern "[0-9a-fA-F]{2}-[0-9a-fA-F]{2}". Name in ieee802-dot1q-bridge.yang: ethertype.'
           default: 'Ethertype not yet defined.'
@@ -12382,9 +12382,9 @@ components:
           default: false
           type: boolean
         fixed-signal-ordering-kind:
-          $ref: '#/components/schemas/SIGNAL_ORDERING_KIND_TYPE',
+          $ref: '#/components/schemas/SIGNAL_ORDERING_KIND_TYPE'
         rx-sync-preference:
-          $ref: '#/components/schemas/RX_SYNC_PREFERENCE_TYPE',
+          $ref: '#/components/schemas/RX_SYNC_PREFERENCE_TYPE'
         short-reach-mode-is-on:
           description: 'Only relevant if (shortReachModeIsAvail == 1). Activation of the Short Reach Mode for 10GBASE-T according to 802.3 45.2.1.64'
           default: false
@@ -12407,7 +12407,7 @@ components:
           default: false
           type: boolean
         loop-back-kind-on:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE4',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE4'
         maintenance-timer:
           description: 'Time of existence of any maintenance configuration (e.g. the loop back). Valid values are defined in WireInterface::WireInterfaceCapability::maintenanceTimerRange. In case the hardware would implement just a single timer for maintenance at all kinds and instances of interfaces, this attribute should affect this single timer.'
           format: int32
@@ -12584,7 +12584,7 @@ components:
           default: 'Some prot-type'
           type: string
         reversion-mode:
-          $ref: '#/components/schemas/REVERSION_MODE',
+          $ref: '#/components/schemas/REVERSION_MODE'
         selected-fc-port:
           type: array
           items:
@@ -12605,11 +12605,11 @@ components:
           default: 'Some internal-configuration-and-switch-control'
           type: string
         switch-control:
-          $ref: '#/components/schemas/SWITCH_CONTROL',
+          $ref: '#/components/schemas/SWITCH_CONTROL'
         switch-selects-ports:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         switch-selection-reason:
-          $ref: '#/components/schemas/SWITCH_STATE_REASON',
+          $ref: '#/components/schemas/SWITCH_STATE_REASON'
         control-parameters:
           $ref: '#/components/schemas/core-model-1-4_control-construct_forwarding-domain_fc_fc-switch_control-parameters'
         wait-to-restore-time:
@@ -12643,13 +12643,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_tdm-container-pac_TOP:
       type: object
       properties:
@@ -12722,7 +12722,7 @@ components:
           default: 'Scanner ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE1',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE1'
     core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_external-managed-id:
       description: 'A list of external managed universal identifiers set by an external tool. There must not be any function implemented on the ControlConstruct itself next to updating the list on request and storing it persitenly.'
       type: object
@@ -12764,21 +12764,21 @@ components:
       type: object
       properties:
         queue-name:
-          $ref: '#/components/schemas/QUEUE_NAME_TYPE',
+          $ref: '#/components/schemas/QUEUE_NAME_TYPE'
         queue-depth:
           description: 'Only relevant if (queueDepthConfigurationIsAvail==1). Size of the queue in Byte.'
           format: int32
           default: -1
           type: integer
         dropping-behavior-kind:
-          $ref: '#/components/schemas/DROPPING_BEHAVIOR_KIND_TYPE',
+          $ref: '#/components/schemas/DROPPING_BEHAVIOR_KIND_TYPE'
         wred-behavior-list:
           type: array
           items:
             $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-configuration_queue-behavior-list_wred-behavior-list'
           description: 'Only relevant if (droppingBehaviorKind==WRED).'
         scheduler-kind:
-          $ref: '#/components/schemas/SCHEDULER_KIND_TYPE',
+          $ref: '#/components/schemas/SCHEDULER_KIND_TYPE'
         weighting:
           description: 'Only relevant if (schedulerKind==WFQ) OR (schedulerKind==DWRR) OR (schedulerKind==WRR). Serving rate for this weighted fair queueing queue as a percentage value.'
           format: int32
@@ -12937,13 +12937,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_equipment_expected-equipment_spatial-properties-of-type_TOP:
       type: object
       properties:
@@ -13023,7 +13023,7 @@ components:
           default: 'Scanner ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE5',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE5'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-current-performance_current-performance-data-list_performance-data:
       description: 'none'
       type: object
@@ -13276,7 +13276,7 @@ components:
           default: 'Firmware component version not yet defined.'
           type: string
         firmware-component-class:
-          $ref: '#/components/schemas/FIRMWARE_COMPONENT_CLASS_TYPE',
+          $ref: '#/components/schemas/FIRMWARE_COMPONENT_CLASS_TYPE'
         individual-activation-is-avail:
           description: 'True = Firmware component could be individually activated. False = Firmware component would be activated together with a superior component.'
           default: false
@@ -13317,7 +13317,7 @@ components:
           default: 'Name of profile not yet defined.'
           type: string
         kind-of-co-channel-group:
-          $ref: '#/components/schemas/KIND_OF_CO_CHANNEL_GROUP_TYPE',
+          $ref: '#/components/schemas/KIND_OF_CO_CHANNEL_GROUP_TYPE'
         logical-termination-point-list:
           type: array
           items:
@@ -13369,11 +13369,11 @@ components:
           default: false
           type: boolean
         mii-kind:
-          $ref: '#/components/schemas/MII_KIND_TYPE',
+          $ref: '#/components/schemas/MII_KIND_TYPE'
         mdi-kind:
-          $ref: '#/components/schemas/MDI_KIND_TYPE',
+          $ref: '#/components/schemas/MDI_KIND_TYPE'
         required-medium-kind:
-          $ref: '#/components/schemas/MEDIUM_KIND_TYPE',
+          $ref: '#/components/schemas/MEDIUM_KIND_TYPE'
         wavelength-min-list:
           type: array
           maxItems: 3
@@ -13473,7 +13473,7 @@ components:
           default: 'Some prot-type'
           type: string
         reversion-mode:
-          $ref: '#/components/schemas/REVERSION_MODE',
+          $ref: '#/components/schemas/REVERSION_MODE'
         selected-fc-port:
           type: array
           items:
@@ -13494,11 +13494,11 @@ components:
           default: 'Some internal-configuration-and-switch-control'
           type: string
         switch-control:
-          $ref: '#/components/schemas/SWITCH_CONTROL',
+          $ref: '#/components/schemas/SWITCH_CONTROL'
         switch-selects-ports:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         switch-selection-reason:
-          $ref: '#/components/schemas/SWITCH_STATE_REASON',
+          $ref: '#/components/schemas/SWITCH_STATE_REASON'
         control-parameters:
           $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-switch_control-parameters'
         wait-to-restore-time:
@@ -13532,13 +13532,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_equipment_expected-equipment_label_TOP:
       type: object
       properties:
@@ -13595,13 +13595,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_forwarding-domain_fd-port_label_TOP:
       type: object
       properties:
@@ -13979,7 +13979,7 @@ components:
           default: false
           type: boolean
         operational-status:
-          $ref: '#/components/schemas/OPERATIONAL_STATE_TYPE1',
+          $ref: '#/components/schemas/OPERATIONAL_STATE_TYPE1'
     core-model-1-4_control-construct_equipment_contained-holder_expected-holder_name:
       description: 'List of names.'
       type: object
@@ -14018,11 +14018,11 @@ components:
           default: -1
           type: integer
         fragmentation-allowed:
-          $ref: '#/components/schemas/FRAGMENTATION_TYPE',
+          $ref: '#/components/schemas/FRAGMENTATION_TYPE'
         transmitted-frame-format:
-          $ref: '#/components/schemas/FRAME_FORMAT_TYPE',
+          $ref: '#/components/schemas/FRAME_FORMAT_TYPE'
         flow-control-mode:
-          $ref: '#/components/schemas/FLOW_CONTROL_MODE_TYPE',
+          $ref: '#/components/schemas/FLOW_CONTROL_MODE_TYPE'
         link-loss-forwarding-is-on:
           description: '1 = Sending a Link Loss message in case of link failure is activated.'
           default: false
@@ -14050,7 +14050,7 @@ components:
           default: false
           type: boolean
         loop-back-kind-on:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE2',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE2'
         maintenance-timer:
           description: 'Time of existence of any maintenance configuration. 0 = maintenance timer is switched off. Valid values are defined in *Capability::maintenanceTimerRange.'
           format: int32
@@ -14085,7 +14085,7 @@ components:
           default: 'Some role'
           type: string
         fc-port-direction:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         is-protection-lock-out:
           description: 'The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.\nThis overrides all other protection control states including forced.\nIf the item is locked out, then it cannot be used under any circumstances.\nNote: Only relevant when part of a protection scheme.'
           default: true
@@ -14144,13 +14144,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     LAYER_PROTOCOL_NAME_TYPE:
       description: 'none'
       type: string
@@ -14226,7 +14226,7 @@ components:
           default: 'Filename not yet defined.'
           type: string
         download-status:
-          $ref: '#/components/schemas/DOWNLOAD_STATUS_TYPE',
+          $ref: '#/components/schemas/DOWNLOAD_STATUS_TYPE'
         download-status-description:
           description: 'Free text field for additional information about the download status.'
           default: 'Status description not yet defined.'
@@ -14248,7 +14248,7 @@ components:
           default: 'Some severity-configuration-identifier'
           type: string
         alarm-type-id:
-          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE',
+          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE'
         alarm-type-qualifier:
           description: 'The optionally defined alarm type identifier for this possible alarm.'
           default: 'Some alarm-type-qualifier'
@@ -14407,7 +14407,7 @@ components:
           default: -32768
           type: integer
         operational-status:
-          $ref: '#/components/schemas/OPERATIONAL_STATE_TYPE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE_TYPE'
     core-model-1-4_control-construct_equipment_contained-holder_actual-holder_TOP:
       type: object
       properties:
@@ -15472,7 +15472,7 @@ components:
       type: object
       properties:
         interface-status:
-          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE1',
+          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE1'
         statistics-is-up:
           description: 'true = Statistics are currently counted'
           default: false
@@ -15532,21 +15532,21 @@ components:
           default: -1
           type: integer
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol:
       description: 'Ordered list of LayerProtocols that this LTP is comprised of where the first entry in the list is the lowest server layer (e.g. physical).'
       type: object
       properties:
         layer-protocol-name:
-          $ref: '#/components/schemas/LAYER_PROTOCOL_NAME_TYPE',
+          $ref: '#/components/schemas/LAYER_PROTOCOL_NAME_TYPE'
         configured-client-capacity:
           description: 'Provides a summarized view of the client capacity that is configurable for use.\nNote the client LTP association should provide all necessary detail hence this attribute is questionable.'
           default: 'Some configured-client-capacity'
           type: string
         lp-direction:
-          $ref: '#/components/schemas/TERMINATION_DIRECTION',
+          $ref: '#/components/schemas/TERMINATION_DIRECTION'
         termination-state:
-          $ref: '#/components/schemas/TERMINATION_STATE',
+          $ref: '#/components/schemas/TERMINATION_STATE'
         configuration-and-switch-control:
           type: array
           items:
@@ -15587,13 +15587,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
         vlan-interface-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_vlan-interface-pac'
         tdm-container-pac:
@@ -15746,7 +15746,7 @@ components:
       type: object
       properties:
         queue-name:
-          $ref: '#/components/schemas/QUEUE_NAME_TYPE',
+          $ref: '#/components/schemas/QUEUE_NAME_TYPE'
         max-queue-depth:
           description: 'Maximum configurable depth of the queue in Byte. openconfig-qos-interfaces.yang'
           format: int32
@@ -15847,7 +15847,7 @@ components:
       type: object
       properties:
         category:
-          $ref: '#/components/schemas/EQUIPMENT_CATEGORY',
+          $ref: '#/components/schemas/EQUIPMENT_CATEGORY'
     core-model-1-4_control-construct_equipment_contained-holder_name:
       description: 'List of names.'
       type: object
@@ -15874,7 +15874,7 @@ components:
           default: 'Some problem-kind-name'
           type: string
         problem-kind-severity:
-          $ref: '#/components/schemas/SEVERITY_TYPE2',
+          $ref: '#/components/schemas/SEVERITY_TYPE2'
     core-model-1-4_control-construct_equipment_contained-holder_name_TOP:
       type: object
       properties:
@@ -15944,9 +15944,9 @@ components:
           default: 'Interface name not yet defined.'
           type: string
         sub-layer-protocol-name:
-          $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE',
+          $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE'
         interface-kind:
-          $ref: '#/components/schemas/INTERFACE_KIND_TYPE',
+          $ref: '#/components/schemas/INTERFACE_KIND_TYPE'
         default-vlan-id:
           description: 'pvid. Not effective if (subLayerProtocolName==D_BRIDGE_COMPONENT). Untagged frames on the ingress of this VlanInterface get amended by a VLAN header and its 12 VID-bits (VLAN ID) get filled with the default VLAN ID (1-4094). If a value between 4096 and 4294967295 gets assigned, then it represents a local VLAN. Name in ieee802-dot1q-bridge.yang: pvid.'
           format: int64
@@ -15958,13 +15958,13 @@ components:
           default: -1
           type: integer
         ingress-tag-filtering:
-          $ref: '#/components/schemas/INGRESS_TAG_FILTERING_TYPE',
+          $ref: '#/components/schemas/INGRESS_TAG_FILTERING_TYPE'
         ingress-vlan-id-filtering-is-on:
           description: 'enable-ingress-filtering. Only effective if (ingressVlanIdFilteringIsAvail==true) and (subLayerProtocolName!=D_BRIDGE_COMPONENT). true = Received frames with a VID that is unknown to the interface get discarded already at the ingress. Name in ieee802-dot1q-bridge.yang: enable-ingress-filtering.'
           default: false
           type: boolean
         pcp-bits-interpretation-kind:
-          $ref: '#/components/schemas/PCP_BITS_INTERPRETATION_KIND_TYPE',
+          $ref: '#/components/schemas/PCP_BITS_INTERPRETATION_KIND_TYPE'
         pcp-bit-to-priority-mapping-list:
           type: array
           items:
@@ -16034,7 +16034,7 @@ components:
           default: false
           type: boolean
         admin-point-to-point:
-          $ref: '#/components/schemas/ADMIN_POINT_TO_POINT_TYPE',
+          $ref: '#/components/schemas/ADMIN_POINT_TO_POINT_TYPE'
         statistics-is-on:
           description: 'Only effective if (statisticsIsAvail==true). true = Continuous statistics counters are switched on.'
           default: false
@@ -16160,7 +16160,7 @@ components:
       type: object
       properties:
         layer-protocol-name:
-          $ref: '#/components/schemas/LAYER_PROTOCOL_NAME_TYPE',
+          $ref: '#/components/schemas/LAYER_PROTOCOL_NAME_TYPE'
         lower-level-fc:
           type: array
           items:
@@ -16188,7 +16188,7 @@ components:
             type: string
           description: 'Reference to a ConfigurationAndSwitchController that coordinates switches encapsulated in the FC.\nThe controller coordinates multiple switches in the same FC.'
         forwarding-direction:
-          $ref: '#/components/schemas/FORWARDING_DIRECTION',
+          $ref: '#/components/schemas/FORWARDING_DIRECTION'
         is-protection-lock-out:
           description: 'The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.\nThis overrides all other protection control states including forced.\nIf the item is locked out then it cannot be used under any circumstances.\nNote: Only relevant when part of a protection scheme.'
           default: true
@@ -16240,13 +16240,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-historical-performances_historical-performance-data-list:
       description: 'none'
       type: object
@@ -16262,7 +16262,7 @@ components:
           default: 'History Data ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE3',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE3'
         period-end-time:
           description: 'Time when the counter values have been recorded and the counter reset.'
           minLength: 0
@@ -16304,7 +16304,7 @@ components:
           default: 'NOT_YET_DEFINED'
           type: string
         duplex:
-          $ref: '#/components/schemas/DUPLEX_TYPE',
+          $ref: '#/components/schemas/DUPLEX_TYPE'
     core-model-1-4_control-construct_equipment_expected-equipment_location:
       description: 'none'
       type: object
@@ -16347,7 +16347,7 @@ components:
           default: -1
           type: integer
         loop-back-kind-on:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE1',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE1'
         maintenance-timer:
           description: 'Time of existence of any maintenance configuration. 0 = maintenance timer is switched off. Valid values are defined in *Capability::maintenanceTimerRange.'
           format: int32
@@ -16433,7 +16433,7 @@ components:
           default: 'Scanner ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_tdm-container-pac_tdm-container-capability_supported-tdm-container-kind-list_TOP:
       type: object
       properties:
@@ -16499,7 +16499,7 @@ components:
       type: object
       properties:
         interface-status:
-          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE',
+          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE'
         tx-frequency-cur:
           description: 'Center frequency of the currently operated transmit channel.'
           format: int32
@@ -16549,7 +16549,7 @@ components:
           default: 'not-supported'
           type: string
         loop-back-kind-up:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE'
         performance-monitoring-is-up:
           description: 'true = Performance values are currently collected and aggregated.'
           default: false
@@ -16670,7 +16670,7 @@ components:
       type: object
       properties:
         g-826-value-kind:
-          $ref: '#/components/schemas/G_826_TYPE1',
+          $ref: '#/components/schemas/G_826_TYPE1'
         alarm-raising-threshold:
           description: 'Number of events required for raising the threshold cross alarm.'
           format: int32
@@ -16682,7 +16682,7 @@ components:
           default: -1
           type: integer
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE1',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE1'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-current-problems_current-problem-list:
       description: 'none'
       type: object
@@ -16703,7 +16703,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         problem-severity:
-          $ref: '#/components/schemas/SEVERITY_TYPE1',
+          $ref: '#/components/schemas/SEVERITY_TYPE1'
     core-model-1-4_control-construct_forwarding-domain_vlan-fd-pac:
       description: 'none'
       type: object
@@ -16830,7 +16830,7 @@ components:
           default: 'History Data ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE4',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE4'
         period-end-time:
           description: 'Time when the counter values have been recorded and the counter reset.'
           minLength: 0
@@ -17001,7 +17001,7 @@ components:
           default: false
           type: boolean
         protocol-frame-format:
-          $ref: '#/components/schemas/PROTOCOL_FRAME_FORMAT_TYPE',
+          $ref: '#/components/schemas/PROTOCOL_FRAME_FORMAT_TYPE'
         maximum-number-of-msti:
           description: 'Maximum number of Multiple Spanning Tree Instances (MSTIs) supported within an MST region (i.e., the number of spanning tree instances that can be supported in addition to the CIST), for MST Bridges. For SST Bridges, this parameter may be either omitted or reported as 0.  Name in ieee802-dot1q-bridge.yang: max-msti.'
           format: int32
@@ -17093,7 +17093,7 @@ components:
       type: object
       properties:
         queue-name:
-          $ref: '#/components/schemas/QUEUE_NAME_TYPE',
+          $ref: '#/components/schemas/QUEUE_NAME_TYPE'
         max-queue-length:
           description: 'Maximum observed queue length. openconfig-qos-interfaces.yang'
           format: int32
@@ -17123,7 +17123,7 @@ components:
           default: 0
           type: integer
         alarm-type-id:
-          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE',
+          $ref: '#/components/schemas/ALARM_TYPE_ID_TYPE'
         alarm-type-qualifier:
           description: 'This attribute is used when the alarm-type-id attribute does not suffice for uniquely identifying the alarm type.'
           default: 'Some alarm-type-qualifier'
@@ -17133,7 +17133,7 @@ components:
           default: '/core-model:control-construct'
           type: string
         alarm-severity:
-          $ref: '#/components/schemas/SEVERITY_AND_CLEARED_TYPE',
+          $ref: '#/components/schemas/SEVERITY_AND_CLEARED_TYPE'
         timestamp:
           description: 'The time-stamp when this alarm event occured.'
           minLength: 0
@@ -17226,13 +17226,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_equipment_actual-equipment_physical-properties:
       description: 'none'
       type: object
@@ -17316,7 +17316,7 @@ components:
           default: 'Some problem-kind-name'
           type: string
         problem-kind-severity:
-          $ref: '#/components/schemas/SEVERITY_TYPE1',
+          $ref: '#/components/schemas/SEVERITY_TYPE1'
     core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac:
       description: 'none'
       type: object
@@ -17328,7 +17328,7 @@ components:
       type: object
       properties:
         reversion-mode:
-          $ref: '#/components/schemas/REVERSION_MODE',
+          $ref: '#/components/schemas/REVERSION_MODE'
         wait-to-revert-time:
           description: 'If the protection system is revertive, this attribute specifies the time, in minutes, to wait after a fault clears on a higher priority (preferred) resource before switching to the preferred resource.\nIf a further fault occurs on the preferred resource in the waitToRevertTime then the reversion attempt is cancelled.\nThe WTR timer is overridden by the needs of a higher priority signal. Depending upon which resource is requested this may simply cancel the attempt to revert of may cause immediate reversion.'
           format: int64
@@ -17460,7 +17460,7 @@ components:
           default: 'Scanner ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE4',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE4'
     LOOP_BACK_TYPE1:
       description: 'none'
       type: string
@@ -17532,7 +17532,7 @@ components:
           default: 'Some role'
           type: string
         fc-port-direction:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         is-protection-lock-out:
           description: 'The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.\nThis overrides all other protection control states including forced.\nIf the item is locked out, then it cannot be used under any circumstances.\nNote: Only relevant when part of a protection scheme.'
           default: true
@@ -17591,13 +17591,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-status_received-radio-signal-id:
       description: 'Radio signal ID of the signal which the receiver is currently synchronized on.'
       type: object
@@ -17655,7 +17655,7 @@ components:
       type: object
       properties:
         layer-protocol-name:
-          $ref: '#/components/schemas/LAYER_PROTOCOL_NAME_TYPE',
+          $ref: '#/components/schemas/LAYER_PROTOCOL_NAME_TYPE'
         lower-level-fc:
           type: array
           items:
@@ -17683,7 +17683,7 @@ components:
             type: string
           description: 'Reference to a ConfigurationAndSwitchController that coordinates switches encapsulated in the FC.\nThe controller coordinates multiple switches in the same FC.'
         forwarding-direction:
-          $ref: '#/components/schemas/FORWARDING_DIRECTION',
+          $ref: '#/components/schemas/FORWARDING_DIRECTION'
         is-protection-lock-out:
           description: 'The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.\nThis overrides all other protection control states including forced.\nIf the item is locked out then it cannot be used under any circumstances.\nNote: Only relevant when part of a protection scheme.'
           default: true
@@ -17735,13 +17735,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
         vlan-fc-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_forwarding-domain_fc_vlan-fc-pac'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance_current-performance-data-list:
@@ -17770,7 +17770,7 @@ components:
           default: 'Scanner ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE2',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE2'
     core-model-1-4_control-construct_logical-termination-point_embedded-clock_name:
       description: 'List of names.'
       type: object
@@ -17902,11 +17902,11 @@ components:
           default: -1
           type: integer
         fec-redundancy-size:
-          $ref: '#/components/schemas/FEC_REDUNDANCY_SIZE_TYPE',
+          $ref: '#/components/schemas/FEC_REDUNDANCY_SIZE_TYPE'
         fec-interleaver-kind:
-          $ref: '#/components/schemas/FEC_INTERLEAVER_KIND_TYPE',
+          $ref: '#/components/schemas/FEC_INTERLEAVER_KIND_TYPE'
         fec-interleaver-depth:
-          $ref: '#/components/schemas/FEC_INTERLEAVER_DEPTH_TYPE',
+          $ref: '#/components/schemas/FEC_INTERLEAVER_DEPTH_TYPE'
         encryption-is-on:
           description: 'Activates encryption of the Ethernet payload.'
           default: false
@@ -17916,7 +17916,7 @@ components:
           default: 'Cryptographic key not yet defined.'
           type: string
         loop-back-kind-on:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE3',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE3'
         maintenance-timer:
           description: 'Time of existence of any maintenance configuration. 0 = maintenance timer is switched off. Valid values are defined in *Capability::maintenanceTimerRange.'
           format: int32
@@ -18293,7 +18293,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         problem-severity:
-          $ref: '#/components/schemas/SEVERITY_TYPE2',
+          $ref: '#/components/schemas/SEVERITY_TYPE2'
     core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_equipment-type_TOP:
       type: object
       properties:
@@ -18495,9 +18495,9 @@ components:
       type: object
       properties:
         interface-status:
-          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE2',
+          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE2'
         loop-back-kind-up:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE1',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE1'
     core-model-1-4_control-construct_forwarding-domain_fc_fc-port_extension:
       description: 'List of simple name-value extensions.'
       type: object
@@ -18587,13 +18587,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_forwarding-domain_name:
       description: 'List of names.'
       type: object
@@ -18673,7 +18673,7 @@ components:
       type: object
       properties:
         reversion-mode:
-          $ref: '#/components/schemas/REVERSION_MODE',
+          $ref: '#/components/schemas/REVERSION_MODE'
         wait-to-revert-time:
           description: 'If the protection system is revertive, this attribute specifies the time, in minutes, to wait after a fault clears on a higher priority (preferred) resource before switching to the preferred resource.\nIf a further fault occurs on the preferred resource in the waitToRevertTime then the reversion attempt is cancelled.\nThe WTR timer is overridden by the needs of a higher priority signal. Depending upon which resource is requested this may simply cancel the attempt to revert of may cause immediate reversion.'
           format: int64
@@ -18826,7 +18826,7 @@ components:
           default: 'VLAN name not yet defined.'
           type: string
         sub-layer-protocol-name:
-          $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE1',
+          $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE1'
         vlan-id:
           description: 'The VLAN ID, which identifies the frames to be forwarded. Range "1..4094 | 4096..4294967295". Name in ieee802-dot1q-bridge.yang: vid.'
           format: int64
@@ -18912,7 +18912,7 @@ components:
           default: 'History Data ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE5',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE5'
         period-end-time:
           description: 'Time when the counter values have been recorded and the counter reset.'
           minLength: 0
@@ -19100,7 +19100,7 @@ components:
           default: 'Some role'
           type: string
         fd-port-direction:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         fc-port:
           type: array
           items:
@@ -19140,13 +19140,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_forwarding-domain_label:
       description: 'List of labels.'
       type: object
@@ -19185,7 +19185,7 @@ components:
           default: 'Scanner ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE3',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE3'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance_TOP:
       type: object
       properties:
@@ -19207,7 +19207,7 @@ components:
           default: 'Some role'
           type: string
         fc-port-direction:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         is-protection-lock-out:
           description: 'The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.\nThis overrides all other protection control states including forced.\nIf the item is locked out, then it cannot be used under any circumstances.\nNote: Only relevant when part of a protection scheme.'
           default: true
@@ -19266,13 +19266,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_profile-collection_profile_external-managed-id_TOP:
       type: object
       properties:
@@ -19572,9 +19572,9 @@ components:
       type: object
       properties:
         affected-drop-precedence:
-          $ref: '#/components/schemas/DROP_PRECEDENCE_TYPE',
+          $ref: '#/components/schemas/DROP_PRECEDENCE_TYPE'
         affected-protocol:
-          $ref: '#/components/schemas/PROTOCOL_LAYER_TYPE',
+          $ref: '#/components/schemas/PROTOCOL_LAYER_TYPE'
         wred-profile:
           description: 'Associates a WRED profile to the queue, respectively drop precedence. Attribute to point to an instance of Profile with profileName=="PROFILE_NAME_TYPE_WRED_PROFILE".'
           default: 'Some wred-profile'
@@ -19636,7 +19636,7 @@ components:
       type: object
       properties:
         g-826-value-kind:
-          $ref: '#/components/schemas/G_826_TYPE2',
+          $ref: '#/components/schemas/G_826_TYPE2'
         alarm-raising-threshold:
           description: 'Number of events required for raising the threshold cross alarm.'
           format: int32
@@ -19648,7 +19648,7 @@ components:
           default: -1
           type: integer
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE2',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE2'
     core-model-1-4_control-construct_logical-termination-point_label:
       description: 'List of labels.'
       type: object
@@ -19679,7 +19679,7 @@ components:
       type: object
       properties:
         g-826-value-kind:
-          $ref: '#/components/schemas/G_826_TYPE',
+          $ref: '#/components/schemas/G_826_TYPE'
         alarm-raising-threshold:
           description: 'Number of events required for raising the threshold cross alarm.'
           format: int32
@@ -19691,7 +19691,7 @@ components:
           default: -1
           type: integer
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac:
       description: 'none'
       type: object
@@ -19778,13 +19778,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_hybrid-mw-structure-pac:
       description: 'none'
       type: object
@@ -19812,7 +19812,7 @@ components:
       type: object
       properties:
         firmware-component-status:
-          $ref: '#/components/schemas/FIRMWARE_COMPONENT_STATUS_TYPE',
+          $ref: '#/components/schemas/FIRMWARE_COMPONENT_STATUS_TYPE'
         firmware-component-activation-date:
           description: 'Date and time of the activation of this firmware component.'
           minLength: 0
@@ -19877,13 +19877,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_equipment_external-managed-id:
       description: 'A list of external managed universal identifiers set by an external tool. There must not be any function implemented on the ControlConstruct itself next to updating the list on request and storing it persitenly.'
       type: object
@@ -19997,19 +19997,19 @@ components:
       type: object
       properties:
         interface-status:
-          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE3',
+          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE3'
         mac-address-cur:
           description: 'If (macAddressConfigurationIsAvail==0), maxAddressCur = MacInterfaceCapability::hardwareMacAddress. If (macAddressConfigurationIsAvail==1 AND macAddressConfigurationIsOn==1), maxAddressCur = MacInterfaceConfiguration::configuredMacAddress.'
           default: '00:00:00:00:00:00'
           type: string
         received-ethernet-frame-format-cur:
-          $ref: '#/components/schemas/FRAME_FORMAT_TYPE',
+          $ref: '#/components/schemas/FRAME_FORMAT_TYPE'
         flow-control-mode-cur:
-          $ref: '#/components/schemas/FLOW_CONTROL_MODE_TYPE',
+          $ref: '#/components/schemas/FLOW_CONTROL_MODE_TYPE'
         loop-detection-result:
-          $ref: '#/components/schemas/LOOP_DETECTION_RESULT_TYPE',
+          $ref: '#/components/schemas/LOOP_DETECTION_RESULT_TYPE'
         loop-back-kind-up:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE2',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE2'
         statistics-is-up:
           description: '1 = Statistics are currently collected and aggregated.'
           default: false
@@ -20169,7 +20169,7 @@ components:
           default: 'Some role'
           type: string
         fc-port-direction:
-          $ref: '#/components/schemas/PORT_DIRECTION',
+          $ref: '#/components/schemas/PORT_DIRECTION'
         is-protection-lock-out:
           description: 'The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.\nThis overrides all other protection control states including forced.\nIf the item is locked out, then it cannot be used under any circumstances.\nNote: Only relevant when part of a protection scheme.'
           default: true
@@ -20228,26 +20228,26 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-status:
       description: 'none'
       type: object
       properties:
         interface-status:
-          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE5',
+          $ref: '#/components/schemas/INTERFACE_STATUS_TYPE5'
         receiver-status-list:
           type: array
           items:
             $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-status_receiver-status-list'
           description: 'One or several receive signals in case of a multilane Medium Attachment Unit (MAU).'
         pmd-negotiation-state:
-          $ref: '#/components/schemas/PMD_NEGOTIATION_STATE_TYPE',
+          $ref: '#/components/schemas/PMD_NEGOTIATION_STATE_TYPE'
         pmd-is-up:
           description: 'Source: Inverse of 802.3 45.2.1.2.3 Fault (1.1.7). If (interfaceIsUp==1) BUT (pmdIsUp==0) : there is a fault in either transmit or receive path'
           default: false
@@ -20257,9 +20257,9 @@ components:
           default: 'Some pmd-kind-cur'
           type: string
         signal-ordering-kind-cur:
-          $ref: '#/components/schemas/SIGNAL_ORDERING_KIND_TYPE',
+          $ref: '#/components/schemas/SIGNAL_ORDERING_KIND_TYPE'
         rx-sync-role:
-          $ref: '#/components/schemas/RX_SYNC_ROLE_TYPE',
+          $ref: '#/components/schemas/RX_SYNC_ROLE_TYPE'
         eee-is-up:
           description: '1 = Energy Efficient Ethernet is supported at both ends of the link and it is activated'
           default: false
@@ -20273,7 +20273,7 @@ components:
           default: false
           type: boolean
         loop-back-kind-up:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE4',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE4'
         tx-level-cur:
           description: 'Current transmit power'
           format: int32
@@ -20444,7 +20444,7 @@ components:
       type: object
       properties:
         holder-category:
-          $ref: '#/components/schemas/HOLDER_CATEGORY',
+          $ref: '#/components/schemas/HOLDER_CATEGORY'
         is-captive:
           description: 'none'
           default: true
@@ -20489,7 +20489,7 @@ components:
           default: 'History Data ID not defined.'
           type: string
         granularity-period:
-          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE1',
+          $ref: '#/components/schemas/GRANULARITY_PERIOD_TYPE1'
         period-end-time:
           description: 'Time when the counter values have been recorded and the counter reset.'
           minLength: 0
@@ -20783,7 +20783,7 @@ components:
           default: 'Cryptographic key not yet defined.'
           type: string
         loop-back-kind-on:
-          $ref: '#/components/schemas/LOOP_BACK_TYPE',
+          $ref: '#/components/schemas/LOOP_BACK_TYPE'
         maintenance-timer:
           description: 'Time of existence of any maintenance configuration (e.g. the loop back of microwave header information). 0 = maintenance timer is switched off. Valid values are defined in AirInterface::AirInterfaceCapability::maintenanceTimerRange. '
           format: int32
@@ -20902,13 +20902,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
         mac-fd-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_forwarding-domain_mac-fd-pac'
         vlan-fd-pac:
@@ -20950,7 +20950,7 @@ components:
       type: object
       properties:
         profile-name:
-          $ref: '#/components/schemas/PROFILE_NAME_TYPE',
+          $ref: '#/components/schemas/PROFILE_NAME_TYPE'
         external-managed-id:
           $ref: '#/components/schemas/core-model-1-4_control-construct_profile-collection_profile_external-managed-id'
         local-id:
@@ -20983,13 +20983,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
         wred-profile-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_profile-collection_profile_wred-profile-pac'
         co-channel-profile-pac:
@@ -21046,7 +21046,7 @@ components:
           default: -1
           type: integer
         fd-status:
-          $ref: '#/components/schemas/FD_STATUS_TYPE',
+          $ref: '#/components/schemas/FD_STATUS_TYPE'
     TERMINATION_STATE:
       description: 'none'
       type: string
@@ -21088,7 +21088,7 @@ components:
           default: 'Some connector'
           type: string
         orientation:
-          $ref: '#/components/schemas/CONNECTOR_AND_PIN_ORIENTATION',
+          $ref: '#/components/schemas/CONNECTOR_AND_PIN_ORIENTATION'
         pin-layout:
           description: 'none'
           default: 'Some pin-layout'
@@ -21127,13 +21127,13 @@ components:
             type: string
           description: 'One or more descriptions of the location.'
         operational-state:
-          $ref: '#/components/schemas/OPERATIONAL_STATE',
+          $ref: '#/components/schemas/OPERATIONAL_STATE'
         administrative-control:
-          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL',
+          $ref: '#/components/schemas/ADMINISTRATIVE_CONTROL'
         administrative-state:
-          $ref: '#/components/schemas/ADMINISTRATIVE_STATE',
+          $ref: '#/components/schemas/ADMINISTRATIVE_STATE'
         lifecycle-state:
-          $ref: '#/components/schemas/LIFECYCLE_STATE',
+          $ref: '#/components/schemas/LIFECYCLE_STATE'
     RUN_MODE:
       description: 'none'
       type: string
@@ -21151,7 +21151,7 @@ components:
           default: 'Some header-compression-name'
           type: string
         header-compression-mode:
-          $ref: '#/components/schemas/HEADER_COMPRESSION_MODE_TYPE',
+          $ref: '#/components/schemas/HEADER_COMPRESSION_MODE_TYPE'
         compressed-protocol-layer-list:
           type: array
           minItems: 1

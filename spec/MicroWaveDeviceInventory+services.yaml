@@ -125,7 +125,7 @@ servers:
         # der Wert "https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf" sein.
         - operation-name: {topology-path}
           uuid: mwdi-1-0-0-op-s-is-010
-        
+
         # {topology-path} als Präfix der "normalen" Ressource-Pfade
         - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
           uuid: mwdi-1-0-0-op-s-is-011

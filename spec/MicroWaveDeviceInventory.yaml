@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: MicrowaveDeviceInventory
   version: 1.0.0
-
+#dast ist ein test
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part - Following paths can be taken as a base for individualization

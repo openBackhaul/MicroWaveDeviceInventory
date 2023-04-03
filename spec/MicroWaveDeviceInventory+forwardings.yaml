@@ -104,8 +104,8 @@ forwardings:
       - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-009
       # replace with get-mount-name-list service
-      #- operation-name: {topology-path}
-      #  uuid: mwdi-1-0-0-op-s-is-020
+      - operation-name: {topology-path}
+        uuid: mwdi-1-0-0-op-s-is-020
       - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-s-is-021
       - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing

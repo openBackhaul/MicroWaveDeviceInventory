@@ -117,6 +117,19 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-009
         ##
         ##
+        ## zum zeigen:
+        # 1. Request, um die Mount-name-Liste abzufragen
+        # muss mit filter aufgerufen werden:
+        # {topology-path}?fields=node(node-id)
+        # bei Abfrage ans MWDI würde {topology-path} leer bleiben, bei Abfrage am Controller würde
+        # der Wert "https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf" sein.
+        - operation-name: {topology-path}
+          uuid: mwdi-1-0-0-op-s-is-010
+        
+        # {topology-path} als Präfix der "normalen" Ressource-Pfade
+        - operation-name: {topology-path}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+          uuid: mwdi-1-0-0-op-s-is-011
+        #
         ## uuids to 019 are reserved for further management services
         ##
         ## =======================================================================================================

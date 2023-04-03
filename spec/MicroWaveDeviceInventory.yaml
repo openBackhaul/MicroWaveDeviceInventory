@@ -508,6 +508,7 @@ paths:
           #   retrieval-status: "new"
           #   retries-left: <max number of allowed retries>
           #   last-retry-timestamp: 'null'
+          #   retrieval-priority: 'high'
           description: 'Added mount-name to the MWDI deviceList'
           content:
             application/json:
@@ -10210,6 +10211,15 @@ components:
             type: string
             format: date-time
             description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
+          retrieval-priority:
+            # priority for batch building
+            type: string
+            enum:
+              - 'none'
+              - 'high'
+              - 'medium'
+              - 'low'
+            description: 'The priority of this device for batch building.'
       example:
         - retrieval-running: false
           retrieval-timestamp: "2023-01-20T17:32:28Z"

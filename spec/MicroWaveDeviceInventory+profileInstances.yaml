@@ -108,7 +108,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-001' 
+    uuid: 'mwdi-1-0-0-integer-p-001'
     capability:
       integer-name: 'ccRetrievalBatchsize'
       ##unit: no unit
@@ -119,7 +119,7 @@ profile-instances:
       integer-value: 300
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-002' 
+    uuid: 'mwdi-1-0-0-integer-p-002'
     capability:
       integer-name: 'ccBatchRetrievalWaitingTime'
       unit: 'second'
@@ -130,7 +130,7 @@ profile-instances:
       integer-value: 4
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-003' 
+    uuid: 'mwdi-1-0-0-integer-p-003'
     capability:
       integer-name: 'ccRetrievalDelay'
       unit: 'second'
@@ -141,7 +141,7 @@ profile-instances:
       integer-value: 5 # e.g. 5 seconds
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-004' 
+    uuid: 'mwdi-1-0-0-integer-p-004'
     capability:
       integer-name: 'controlConstructRetentionTime'
       unit: 'hour'
@@ -152,7 +152,7 @@ profile-instances:
       integer-value: 12
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-005' 
+    uuid: 'mwdi-1-0-0-integer-p-005'
     capability:
       integer-name: 'ccRetrievalAllowedRetries'
       #unit: no unit
@@ -163,7 +163,7 @@ profile-instances:
       integer-value: 3
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-006' 
+    uuid: 'mwdi-1-0-0-integer-p-006'
     capability:
       integer-name: 'ccRetrievalWaitingTime'
       unit: 'second'

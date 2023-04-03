@@ -106,3 +106,69 @@ profile-instances:
       datatype: string
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-001' 
+    capability:
+      integer-name: 'ccRetrievalBatchsize'
+      ##unit: no unit
+      minimum: 1
+      maximum: 500
+      description: 'Size of mount-name batches for ControlConstruct retrieval'
+    configuration:
+      integer-value: 300
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-002' 
+    capability:
+      integer-name: 'ccBatchRetrievalWaitingTime'
+      unit: 'second'
+      minimum: 3
+      maximum: 15
+      description: 'Waiting time before building the next retrieval batch'
+    configuration:
+      integer-value: 4
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-003' 
+    capability:
+      integer-name: 'ccRetrievalDelay'
+      unit: 'second'
+      minimum: 0
+      maximum: 15
+      description: 'Waiting time inside a batch between ControlConstruct retrieval requests to the Controller'
+    configuration:
+      integer-value: 5 # e.g. 5 seconds
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-004' 
+    capability:
+      integer-name: 'controlConstructRetentionTime'
+      unit: 'hour'
+      minimum: 1
+      maximum: 24
+      description: 'The time until the ControlConstruct of a device expires if it is not updated inside the ElasticSearch db'
+    configuration:
+      integer-value: 12
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-005' 
+    capability:
+      integer-name: 'ccRetrievalAllowedRetries'
+      #unit: no unit
+      minimum: 0
+      maximum: 5
+      description: 'In case the CC retrieval fails for a device, there may be this much retries within respective the retrieval period'
+    configuration:
+      integer-value: 3
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-006' 
+    capability:
+      integer-name: 'ccRetrievalWaitingTime'
+      unit: 'second'
+      minimum: 900
+      maximum: 3600
+      description: 'Minimum waiting time until the next CC retrieval retry may be started'
+    configuration:
+      integer-value: 900

@@ -31,5 +31,6 @@ profiles:
       unit: string
       minimum: integer
       maximum: integer
+      description: string
     configuration:
       integer-value: integer

@@ -23,3 +23,13 @@ profiles:
     configuration:
       static-value: string
       value-reference: string
+
+  - profile-name: 'IntegerProfile'
+    uuid: '^[a-z]{2,6}-([0-9]+)-([0-9]+)-([0-9]+)-integer-p-[0-9]{3}$'
+    capability:
+      integer-name: string
+      unit: string
+      minimum: integer
+      maximum: integer
+    configuration:
+      integer-value: integer

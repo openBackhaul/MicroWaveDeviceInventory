@@ -40,8 +40,8 @@ The MWDI will only store ControlConstructs for devices that are in _connected_ s
   - notifications: the Controller will send notifications about connection state changes or removal
   - and periodically executed synchronisations (needed as there might be DCN connection issues between MWDI and Controller and therefore missed notifications)
 
-_HMDI:_  
-Thus, the MWDI will not include historical ControlConstruct data. However, it might be possible that a device becomes disconnected only because of network connection issues. (E.g. it is still running, but connection to the Controller is lost for a short time.) In such cases it would be beneficial if the ControlConstruct data could still somehow be retrieved. And that is where another application mostly similar to the MWDI will come into play: the **HistoricalMicrowaveDeviceInventory (HMDI)**.  
+_HistoricalMicrowaveDeviceInventory (HMDI):_  
+Thus, the MWDI will not include historical ControlConstruct data. However, it might be possible that a device becomes disconnected only because of network connection issues. (E.g. it is still running, but connection to the Controller is lost for a short time.) In such cases it would be beneficial if the ControlConstruct data could still somehow be retrieved. And that is where another application mostly similar to the MWDI will come into play: the HMDI.  
 - It will also retrieve the ControlConstructs of all connected devices (from the MWDI, not from the Controller),
 - but if a device becomes disconnected/removed its data will not be purged from the HMDI.
 - Of course data will not be kept forever. If there has been no update for some time (retention period/TTL) if will be purged from the HMDI.  

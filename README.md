@@ -6,6 +6,7 @@ Delete this link at the end of the specification process:
 ### Location
 The MicroWaveDeviceInventory is part of the HighPerformanceNetworkInterface.
 
+---
 ### Description-Updates
 
 **Offered services:**  
@@ -57,14 +58,17 @@ _Original Text:_
 - The MicroWaveDeviceInventory shall massively accelerate response time for providing live data and reduce load on device controllers.  
 - It is a precondition for many other applications.
 
+---
 ### Relevance
 The MicroWaveDeviceInventory holds the inventory of the live network at Telefonica Germany.
 As such, it is more close to be a component of the controller than of the application layer.
 
+---
 ### Resources
 - [Specification](./spec/)
 - [TestSuite](./testing/)
 - [Implementation](./server/)
 
+---
 ### Comments
 This application will be specified during [training for ApplicationOwners](https://gist.github.com/openBackhaul/5aabdbc90257b83b9fe7fc4da059d3cd).

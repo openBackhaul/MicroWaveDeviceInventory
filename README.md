@@ -16,7 +16,7 @@ The actual services offered by the MWDI can be seen from the serviceList.
 - However, the MWDI will only offer _GET_ requests, where the Controller would allowd also other methods like _POST_ or _DELETE_ on the ressources.
 - In addition the MWDI will have some _own_ services, i.e. not ressources, which are only to be used for internal app management, and not to be called by other apps from within the ApplicationFramework.
 
-![colorline_blue](https://user-images.githubusercontent.com/57349523/154715704-2e1a7c51-17c2-47af-a46a-85bd613f4a53.jpg)
+![violet_line](https://user-images.githubusercontent.com/57349523/229762553-010c3fdd-d1b4-4df9-ab86-955cadfc502a.jpg)
 
 **Filtering:**  
 - The MWDI allows for filtering on the ressource paths via the *fields* filter
@@ -28,14 +28,14 @@ The actual services offered by the MWDI can be seen from the serviceList.
   - e.g. instead of having `{ressourcePath}?myfilter=equipment-type;equipment-instance` it could be `{ressourcePath}?myfilter=equipment-type;equipment-instance='foo'` which would only return those records, where the equipment instance would have the value 'foo'
 - other filters (e.g. `?content=config` or `?content=non-config`) will not be supported
 
-![colorline_blue](https://user-images.githubusercontent.com/57349523/154715704-2e1a7c51-17c2-47af-a46a-85bd613f4a53.jpg)
+![violet_line](https://user-images.githubusercontent.com/57349523/229762553-010c3fdd-d1b4-4df9-ab86-955cadfc502a.jpg)
 
 **Historical Performance data:**  
 - Currently it is forseen that the MWDI retrieves the complete ControlConstruct for the MW devices. This also includes historical performance data.  
 - If the MWDI should provide the historical PM data in the future, it would need to be ensured that the retrieval intervals would be aligned with the storage periods on the devices. (E.g. if a device only stores the historical PM data for six hours, then the ControlConstructs retrieval for those devices would need to be aligned with that timeframe. If data would only be retrieved once a day, there would be data loss. However, if the historical data would be stored for 24 hours, retrieving the ControlConstructs less often would suffice.)  
 - As the current performance data is not included in the historical performance data, a second application would be needed anyways for handling of that PM data. This application could also be in charge of handling the historical PM data. It would need to be discussed if the MWDI should still retrieve the historical PM data and serve it to that other application, or if the other application should not query the controller for both current and historical PM data. (As it needs to do that for the current PM data anyways.)  
 
-![colorline_blue](https://user-images.githubusercontent.com/57349523/154715704-2e1a7c51-17c2-47af-a46a-85bd613f4a53.jpg)
+![violet_line](https://user-images.githubusercontent.com/57349523/229762553-010c3fdd-d1b4-4df9-ab86-955cadfc502a.jpg)
 
 **HMDI: Historical ControlConstruct data**  
 The MWDI will only store ControlConstructs for devices that are in _connected_ state on the Controller.
@@ -45,7 +45,7 @@ The MWDI will only store ControlConstructs for devices that are in _connected_ s
   - notifications: the Controller will send notifications about connection state changes or removal
   - and periodically executed synchronisations (needed as there might be DCN connection issues between MWDI and Controller and therefore missed notifications)
 
-![colorline_blue](https://user-images.githubusercontent.com/57349523/154715704-2e1a7c51-17c2-47af-a46a-85bd613f4a53.jpg)
+![violet_line](https://user-images.githubusercontent.com/57349523/229762553-010c3fdd-d1b4-4df9-ab86-955cadfc502a.jpg)
 
 _HistoricalMicrowaveDeviceInventory (HMDI):_  
 Thus, the MWDI will not include historical ControlConstruct data. However, it might be possible that a device becomes disconnected only because of network connection issues. (E.g. it is still running, but connection to the Controller is lost for a short time.) In such cases it would be beneficial if the ControlConstruct data could still somehow be retrieved. And that is where another application mostly similar to the MWDI will come into play: the HMDI.  

@@ -151,8 +151,20 @@ servers:
         ## - once the additional services have been implemented the info file will be deleted
         ## ~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~
         ##
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+          uuid: mwdi-1-0-0-op-s-is-022
+  
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+          uuid: mwdi-1-0-0-op-s-is-023
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+          uuid: mwdi-1-0-0-op-s-is-027
+
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
           uuid: mwdi-1-0-0-op-s-is-086
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+          uuid: mwdi-1-0-0-op-s-is-099
 
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
           uuid: mwdi-1-0-0-op-s-is-122

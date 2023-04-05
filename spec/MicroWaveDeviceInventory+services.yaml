@@ -43,14 +43,12 @@ servers:
         - operation-name: /docs
           uuid: mwdi-1-0-0-op-s-bs-005
       individual:
-        - operation-name: /v1/start-application-in-generic-representation
-          uuid: mwdi-1-0-0-op-s-is-000
         ## DONE: Add Services specific to this application
         ## =======================================================================================================
         ## SELF-MANAGEMENT-SERVICES - FOR MWDI INTERNAL MANAGEMENT
         ## =======================================================================================================
         ## management of the MWDI-internal deviceList (and CC database)
-        ## 001) /v1/syncMwdiDeviceList
+        ## 000) /v1/syncMwdiDeviceList
         ##      Called once at MWDI startup to initialize the MWDI deviceList, queries the controller actively for the mounted devices in connected state
         ##      Then called periodically to ensure that MWDI deviceList is in sync with the devices in connected state on the controller.
         ##      (Due to DCN connection issued not all Controller notifications may be received by the MWDI, so a sync has to happen every now and then.)
@@ -60,61 +58,61 @@ servers:
         ##        device is deleted from the deviceList and ControlConstruct is purged from the ElasticSearch db
         ##      - device already in the MWDI deviceList, which is still in connected state on the controller: no change
         ##
-        ## 002) /v1/addDeviceToMwdiDeviceList
+        ## 001) /v1/addDeviceToMwdiDeviceList
         ##      when (a) contoller sends a notification: device has change state to connected -> add it to the deviceList
         ##      or (b) the request is called during inialization of the MWDI deviceList
         ##      - input parameter = mount-name
         ##      - no immediate ControlConstruct retrieval when device is added
         ##      - the related attribute values in the deviceList should be set to their initial default values
         ##
-        ## 003) /v1/removeDeviceFromMwdiDeviceList
+        ## 002) /v1/removeDeviceFromMwdiDeviceList
         ##      when controller sends notification: device has change state to connecting/device removed -> delete it from the deviceList
         ##      - input parameter: mount-name
         ##      - 1st part of deletion cascade
         ##
-        ## 004) /v1/removeDeviceControlConstructFromMwdiDatabase
+        ## 003) /v1/removeDeviceControlConstructFromMwdiDatabase
         ##      when controller sends notification: device has change state to connecting/device removed -> delete the devices Control Construct from the MWDI
         ##      - input parameter: mount-name
         ##      - 2nd part of deletion cascade
         ##
-        ## 005) /v1/provideCompleteMwdiDeviceList
+        ## 004) /v1/provideCompleteMwdiDeviceList
         ##      return the MWDI internal deviceList with all management parameters
         ##      - used for testing
         ##
-        ## 006) /v1/updateDeviceListAttributes
+        ## 005) /v1/updateDeviceListAttributes
         ##      updates (an) attribute(s) of the deviceList for a mount-name
         ##
-        ## 007) /v1/buildDeviceRetrievalBatch
+        ## 006) /v1/buildDeviceRetrievalBatch
         ##
         ##
-        ## 008) /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
+        ## 007) /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
         ##      actual control construct retrieval from Controller for devices (in batches)
         ##      - build a batch (= list of mount-names) with the next n devices for which the CC shall be retrieved next
         ##      - send request to the Controller to derive the CCs
         ##      - updates the deviceList with the retrieval status, writes the CC to the ElasticSearch if retrieved successfully
         ##
-        ## 009) /v1/changeParameterValueInDeviceControlConstruct
+        ## 008) /v1/changeParameterValueInDeviceControlConstruct
         ##      only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed
         ##
         ##
         - operation-name: /v1/syncMwdiDeviceList
-          uuid: mwdi-1-0-0-op-s-is-001
+          uuid: mwdi-1-0-0-op-s-is-000
         - operation-name: /v1/addDeviceToMwdiDeviceList/{mount-name}
-          uuid: mwdi-1-0-0-op-s-is-002
+          uuid: mwdi-1-0-0-op-s-is-001
         - operation-name: /v1/removeDeviceFromMwdiDeviceList/{mount-name}
-          uuid: mwdi-1-0-0-op-s-is-003
+          uuid: mwdi-1-0-0-op-s-is-002
         - operation-name: /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
-          uuid: mwdi-1-0-0-op-s-is-004
+          uuid: mwdi-1-0-0-op-s-is-003
         - operation-name: /v1/provideCompleteMwdiDeviceList/{mount-name}
-          uuid: mwdi-1-0-0-op-s-is-005
+          uuid: mwdi-1-0-0-op-s-is-004
         - operation-name: /v1/updateDeviceListAttributes/{mount-name}
-          uuid: mwdi-1-0-0-op-s-is-006
+          uuid: mwdi-1-0-0-op-s-is-005
         - operation-name: /v1/buildDeviceRetrievalBatch
-          uuid: mwdi-1-0-0-op-s-is-007
+          uuid: mwdi-1-0-0-op-s-is-006
         - operation-name: /v1/retrieveControlConstructsForDeviceBatchFromControllerFromController
-          uuid: mwdi-1-0-0-op-s-is-008
+          uuid: mwdi-1-0-0-op-s-is-007
         - operation-name: /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
-          uuid: mwdi-1-0-0-op-s-is-009
+          uuid: mwdi-1-0-0-op-s-is-008
         ##
         ##
         ## uuids to 019 are reserved for further management services

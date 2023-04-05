@@ -435,27 +435,27 @@ paths:
  # TODO: wo müssen callbacks hinzugefügt werden?
 
  # == MWDI-specific maintenance services, which are not derived from the controller OAS ========================================================
-  # 1.) /v1/syncMwdiDeviceList
-  # 2.) /v1/addDeviceToMwdiDeviceList/{mount-name}
-  # 3.) /v1/removeDeviceFromMwdiDeviceList/{mount-name}
-  # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
-  # 5.) /v1/provideCompleteMwdiDeviceList/{mount-name}
-  # 6.) /v1/updateDeviceListAttributes/{mount-name}
-  # 7.) /v1/buildDeviceRetrievalBatch
-  # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
-  # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 000) /v1/syncMwdiDeviceList
+  # 001) /v1/addDeviceToMwdiDeviceList/{mount-name}
+  # 002) /v1/removeDeviceFromMwdiDeviceList/{mount-name}
+  # 003) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+  # 004) /v1/provideCompleteMwdiDeviceList/{mount-name}
+  # 005) /v1/updateDeviceListAttributes/{mount-name}
+  # 006) /v1/buildDeviceRetrievalBatch
+  # 007) /v1/retrieveControlConstructsForDeviceBatchFromController
+  # 008) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
 
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
 
- # 1.) /v1/syncMwdiDeviceList:
+ # 000) /v1/syncMwdiDeviceList:
  ## TODO: wie muss das aussehen?
   # execute at MWDI startup (and after some time again to sync, because there could e.g. be dcn disconnects to the controller)
   # first retrieve list of connected devices from controller and compare it to the MWDI deviceList,
   # - then call /v1/addDeviceToMwdiDeviceList for each new device to add it the deviceList
   # - or call /v1/removeDeviceFromMwdiDeviceList for each device no longer connected on the controller
   #/v1/syncMwdiDeviceList:
-  # uuid: mwdi-1-0-0-op-s-is-001
+  # uuid: mwdi-1-0-0-op-s-is-000
   # parameters: none so far
   #post:
   #  operationId: syncMwdiDeviceListWithController
@@ -488,9 +488,9 @@ paths:
   #    default:
   #      $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 2.) /v1/addDeviceToMwdiDeviceList
+  # 001) /v1/addDeviceToMwdiDeviceList
   /v1/addDeviceToMwdiDeviceList/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-002
+    # uuid: mwdi-1-0-0-op-s-is-001
     parameters:
       - $ref: '#/components/parameters/mount-name'
     post:
@@ -527,9 +527,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 3.) /v1/removeDeviceFromMwdiDeviceList
+  # 002) /v1/removeDeviceFromMwdiDeviceList
   /v1/removeDeviceFromMwdiDeviceList:
-    # uuid: mwdi-1-0-0-op-s-is-003
+    # uuid: mwdi-1-0-0-op-s-is-002
     parameters:
       - $ref: '#/components/parameters/mount-name'
     delete:
@@ -555,9 +555,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 4.) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+  # 003) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
   /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-004
+    # uuid: mwdi-1-0-0-op-s-is-003
     parameters:
       - $ref: '#/components/parameters/mount-name'
     delete:
@@ -583,9 +583,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 5.) /v1/provideCompleteMwdiDeviceList
+  # 004) /v1/provideCompleteMwdiDeviceList
   /v1/provideCompleteMwdiDeviceList:
-    # uuid: mwdi-1-0-0-op-s-is-005
+    # uuid: mwdi-1-0-0-op-s-is-004
     get:
       operationId: provideCompleteDeviceList
       summary: 'Returns the complete device list with all relevant parameters'
@@ -613,9 +613,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 6.) /v1/updateDeviceListAttributes/{mount-name}
+  # 005) /v1/updateDeviceListAttributes/{mount-name}
   /v1/updateDeviceListAttributes/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-007
+    # uuid: mwdi-1-0-0-op-s-is-005
     parameters:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/retrieval-running'
@@ -647,9 +647,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 7.) /v1/buildDeviceRetrievalBatch
+  # 006) /v1/buildDeviceRetrievalBatch
   /v1/buildDeviceRetrievalBatch:
-    # uuid: mwdi-1-0-0-op-s-is-007
+    # uuid: mwdi-1-0-0-op-s-is-006
     get:
       operationId: buildDeviceRetrievalBatch
       summary: 'Creates the list of mount-names for which the ControlConstruct shall be requested from the controller in the next retrieval iteration'
@@ -679,9 +679,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 8.) /v1/retrieveControlConstructsForDeviceBatchFromController
+  # 007) /v1/retrieveControlConstructsForDeviceBatchFromController
   /v1/retrieveControlConstructsForDeviceBatchFromController:
-    # uuid: mwdi-1-0-0-op-s-is-008
+    # uuid: mwdi-1-0-0-op-s-is-007
     post:
       operationId: retrieveCCsForDeviceBatchFromController
       summary: 'Builds the mount-name list for CC retrieval, sends retrieval requests for all those mount-names to the controller, stores the retrieved CCs in the ElasticSearchDB and updates the deviceList throughout the retrieval process.'
@@ -706,13 +706,13 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       # hier ggf. Callbacks einfügen für Request-Kaskade und Notification ans Historical-MWDI
 
-  # 9.) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 008) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
   # parameter: nur mount-name
   # post-request:
   # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
   /v1/changeParameterValueInDeviceControlConstruct/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-009
+    # uuid: mwdi-1-0-0-op-s-is-008
     parameters:
       - $ref: '#/components/parameters/mount-name'
     post:

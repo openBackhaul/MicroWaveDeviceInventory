@@ -833,6 +833,106 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
+    # uuid: mwdi-1-0-0-op-s-is-022
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCoreModelEquip
+      summary: 'Returns core-model-1-4 - equipment'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'equipment provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}:
+    # uuid: mwdi-1-0-0-op-s-is-023
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCoreModelEquipConnector
+      summary: 'Returns core-model-1-4 - connector'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'equipment_connector provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_connector_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}:
+    # uuid: mwdi-1-0-0-op-s-is-027
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCoreModelEquipContainedHolder
+      summary: 'Returns core-model-1-4 - contained-holder'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'equipment_contained-holder provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_contained-holder_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
     # uuid: mwdi-1-0-0-op-s-is-086
     parameters:
@@ -854,6 +954,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}:
+    # uuid: mwdi-1-0-0-op-s-is-099
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCoreModelLtp
+      summary: 'Returns core-model-1-4 - logical-termination-point'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'logical-termination-point provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_TOP'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':

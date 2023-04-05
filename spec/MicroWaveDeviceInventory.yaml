@@ -838,7 +838,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'      
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelEquip
       summary: 'Returns core-model-1-4 - equipment'
@@ -866,12 +866,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}:
-    # uuid: mwdi-1-0-0-op-s-is-023  
+    # uuid: mwdi-1-0-0-op-s-is-023
     parameters:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'      
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelEquipConnector
       summary: 'Returns core-model-1-4 - connector'
@@ -899,12 +899,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}:
-    # uuid: mwdi-1-0-0-op-s-is-027  
+    # uuid: mwdi-1-0-0-op-s-is-027
     parameters:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'      
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelEquipContainedHolder
       summary: 'Returns core-model-1-4 - contained-holder'
@@ -967,11 +967,11 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}:
-    # uuid: mwdi-1-0-0-op-s-is-099  
+    # uuid: mwdi-1-0-0-op-s-is-099
     parameters:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'      
+      - $ref: '#/components/parameters/fields'
     get:
       operationId: getCoreModelLtp
       summary: 'Returns core-model-1-4 - logical-termination-point'

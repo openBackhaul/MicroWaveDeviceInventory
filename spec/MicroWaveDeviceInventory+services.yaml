@@ -153,7 +153,7 @@ servers:
         ##
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
           uuid: mwdi-1-0-0-op-s-is-022
-  
+
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
           uuid: mwdi-1-0-0-op-s-is-023
 

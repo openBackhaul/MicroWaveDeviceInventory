@@ -48,34 +48,34 @@ servers:
         ## SELF-MANAGEMENT-SERVICES - FOR MWDI INTERNAL MANAGEMENT
         ## =======================================================================================================
         ## management of the MWDI-internal deviceList (and CC database)
-        ## 000) /v1/sync-mwdi-devicelist
+        ## 000) /v1/sync-devicelist
         ##      Called once at MWDI startup to initialize the MWDI deviceList, queries the controller actively for the mounted devices in connected state
         ##      Then called periodically to ensure that MWDI deviceList is in sync with the devices in connected state on the controller.
         ##      (Due to DCN connection issued not all Controller notifications may be received by the MWDI, so a sync has to happen every now and then.)
         ##      For each
-        ##      - new connected device found on the Controller /v1/add-device-to-mwdi-devicelist is called
+        ##      - new connected device found on the Controller /v1/add-device-to-devicelist is called
         ##      - device in the MWDI deviceList, which is no longer found in the list of connected devices from the Controller:
         ##        device is deleted from the deviceList and ControlConstruct is purged from the ElasticSearch db
         ##      - device already in the MWDI deviceList, which is still in connected state on the controller: no change
         ##
-        ## 001) /v1/add-device-to-mwdi-devicelist
+        ## 001) /v1/add-device-to-devicelist
         ##      when (a) contoller sends a notification: device has change state to connected -> add it to the deviceList
         ##      or (b) the request is called during inialization of the MWDI deviceList
         ##      - input parameter = mount-name
         ##      - no immediate ControlConstruct retrieval when device is added
         ##      - the related attribute values in the deviceList should be set to their initial default values
         ##
-        ## 002) /v1/remove-device-from-mwdi-devicelist
+        ## 002) /v1/remove-device-from-devicelist
         ##      when controller sends notification: device has change state to connecting/device removed -> delete it from the deviceList
         ##      - input parameter: mount-name
         ##      - 1st part of deletion cascade
         ##
-        ## 003) /v1/remove-controlconstruct-from-mwdi-database
+        ## 003) /v1/remove-controlconstruct-from-database
         ##      when controller sends notification: device has change state to connecting/device removed -> delete the devices Control Construct from the MWDI
         ##      - input parameter: mount-name
         ##      - 2nd part of deletion cascade
         ##
-        ## 004) /v1/provide-complete-mwdi-devicelist
+        ## 004) /v1/provide-complete-devicelist
         ##      return the MWDI internal deviceList with all management parameters
         ##      - used for testing
         ##
@@ -96,7 +96,7 @@ servers:
         ##
         ## 009) /v1/notify-new-device-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new device is added to the MWDI deviceList
-        ##      - notification is send when /v1/add-device-to-mwdi-devicelist is executed
+        ##      - notification is send when /v1/add-device-to-devicelist is executed
         ##
         ## 010) /v1/notify-new-control-construct-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new or updated ControlConstruct for the device is available
@@ -104,15 +104,15 @@ servers:
         ##        - from within /v1/retrieve-controlconstructs-for-devicebatch-from-controllerFromController processing or
         ##        - triggered by /v1/change-paramete-value-in-controlconstruct
         ##
-        - operation-name: /v1/sync-mwdi-devicelist
+        - operation-name: /v1/sync-devicelist
           uuid: mwdi-1-0-0-op-s-is-000
-        - operation-name: /v1/add-device-to-mwdi-devicelist/{mount-name}
+        - operation-name: /v1/add-device-to-devicelist/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-001
-        - operation-name: /v1/remove-device-from-mwdi-devicelist/{mount-name}
+        - operation-name: /v1/remove-device-from-devicelist/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-002
-        - operation-name: /v1/remove-controlconstruct-from-mwdi-database/{mount-name}
+        - operation-name: /v1/remove-controlconstruct-from-database/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-003
-        - operation-name: /v1/provide-complete-mwdi-devicelist/{mount-name}
+        - operation-name: /v1/provide-complete-devicelist/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-004
         - operation-name: /v1/update-devicelist-attributes/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-005

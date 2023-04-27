@@ -435,12 +435,12 @@ paths:
  # TODO: wo müssen callbacks hinzugefügt werden?
 
  # == MWDI-specific maintenance services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/syncMwdiDeviceList
-  # 001) /v1/addDeviceToMwdiDeviceList/{mount-name}
-  # 002) /v1/removeDeviceFromMwdiDeviceList/{mount-name}
-  # 003) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
-  # 004) /v1/provideCompleteMwdiDeviceList/{mount-name}
-  # 005) /v1/updateDeviceListAttributes/{mount-name}
+  # 000) /v1/sync-devicelist
+  # 001) /v1/add-device-to-devicelist/{mount-name}
+  # 002) /v1/remove-device-from-devicelist/{mount-name}
+  # 003) /v1/remove-controlconstruct-from-database/{mount-name}
+  # 004) /v1/provide-complete-devicelist/{mount-name}
+  # 005) /v1/update-devicelist-attributes/{mount-name}
   # 006) /v1/buildDeviceRetrievalBatch
   # 007) /v1/retrieveControlConstructsForDeviceBatchFromController
   # 008) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
@@ -448,13 +448,13 @@ paths:
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
 
- # 000) /v1/syncMwdiDeviceList:
+ # 000) /v1/sync-devicelist:
  ## TODO: wie muss das aussehen?
   # execute at MWDI startup (and after some time again to sync, because there could e.g. be dcn disconnects to the controller)
   # first retrieve list of connected devices from controller and compare it to the MWDI deviceList,
-  # - then call /v1/addDeviceToMwdiDeviceList for each new device to add it the deviceList
-  # - or call /v1/removeDeviceFromMwdiDeviceList for each device no longer connected on the controller
-  #/v1/syncMwdiDeviceList:
+  # - then call /v1/add-device-to-devicelist for each new device to add it the deviceList
+  # - or call /v1/remove-device-from-devicelist for each device no longer connected on the controller
+  #/v1/sync-devicelist:
   # uuid: mwdi-1-0-0-op-s-is-000
   # parameters: none so far
   #post:
@@ -488,8 +488,8 @@ paths:
   #    default:
   #      $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 001) /v1/addDeviceToMwdiDeviceList
-  /v1/addDeviceToMwdiDeviceList/{mount-name}:
+  # 001) /v1/add-device-to-devicelist
+  /v1/add-device-to-devicelist/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-001
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -527,8 +527,8 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 002) /v1/removeDeviceFromMwdiDeviceList
-  /v1/removeDeviceFromMwdiDeviceList:
+  # 002) /v1/remove-device-from-devicelist
+  /v1/remove-device-from-devicelist:
     # uuid: mwdi-1-0-0-op-s-is-002
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -555,8 +555,8 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 003) /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
-  /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}:
+  # 003) /v1/remove-controlconstruct-from-database/{mount-name}
+  /v1/remove-controlconstruct-from-database/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-003
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -583,8 +583,8 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 004) /v1/provideCompleteMwdiDeviceList
-  /v1/provideCompleteMwdiDeviceList:
+  # 004) /v1/provide-complete-devicelist
+  /v1/provide-complete-devicelist:
     # uuid: mwdi-1-0-0-op-s-is-004
     get:
       operationId: provideCompleteDeviceList
@@ -613,8 +613,8 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 005) /v1/updateDeviceListAttributes/{mount-name}
-  /v1/updateDeviceListAttributes/{mount-name}:
+  # 005) /v1/update-devicelist-attributes/{mount-name}
+  /v1/update-devicelist-attributes/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-005
     parameters:
       - $ref: '#/components/parameters/mount-name'

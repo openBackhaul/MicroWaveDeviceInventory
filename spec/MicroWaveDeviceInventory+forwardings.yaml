@@ -85,17 +85,17 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-005
       ##
       ## DONE: added all server-names derived from individual operation-names in service list -->
-      - operation-name: /v1/syncMwdiDeviceList
+      - operation-name: /v1/sync-mwdi-devicelist
         uuid: mwdi-1-0-0-op-s-is-001
-      - operation-name: /v1/addDeviceToMwdiDeviceList/{mount-name}
+      - operation-name: /v1/add-device-to-mwdi-devicelist/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-002
-      - operation-name: /v1/removeDeviceFromMwdiDeviceList/{mount-name}
+      - operation-name: /v1/remove-device-from-mwdi-devicelist/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-003
-      - operation-name: /v1/removeDeviceControlConstructFromMwdiDatabase/{mount-name}
+      - operation-name: /v1/remove-controlconstruct-from-mwdi-database/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-004
-      - operation-name: /v1/provideCompleteMwdiDeviceList/{mount-name}
+      - operation-name: /v1/provide-complete-mwdi-devicelist/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-005
-      - operation-name: /v1/updateDeviceListAttributes/{mount-name}
+      - operation-name: /v1/update-devicelist-attributes/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-006
       - operation-name: /v1/buildDeviceRetrievalBatch
         uuid: mwdi-1-0-0-op-s-is-007

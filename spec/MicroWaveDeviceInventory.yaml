@@ -760,6 +760,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
  # 009) /v1/notify-new-device-available
+  /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-009
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -794,6 +795,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
  # 010) /v1/notify-new-control-construct-available
+  /v1/notify-new-control-construct-available:
      # uuid: mwdi-1-0-0-op-s-is-010
     parameters:
       - $ref: '#/components/parameters/mount-name'

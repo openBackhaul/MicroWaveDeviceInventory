@@ -86,8 +86,6 @@ forwardings:
       ##
       ## TODO -> replace by forwarding branch
 
-
-
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
         uuid: mwdi-1-0-0-op-c-bs-eatl-2-0-1-000

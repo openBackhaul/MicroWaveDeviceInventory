@@ -85,7 +85,7 @@ servers:
         ## 006) /v1/build-device-retrieval-batch
         ##
         ##
-        ## 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controllerFromController
+        ## 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller
         ##      actual control construct retrieval from Controller for devices (in batches)
         ##      - build a batch (= list of mount-names) with the next n devices for which the CC shall be retrieved next
         ##      - send request to the Controller to derive the CCs
@@ -101,7 +101,7 @@ servers:
         ## 010) /v1/notify-new-control-construct-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new or updated ControlConstruct for the device is available
         ##      - called either after retrieval or update of a CC
-        ##        - from within /v1/retrieve-controlconstructs-for-devicebatch-from-controllerFromController processing or
+        ##        - from within /v1/retrieve-controlconstructs-for-devicebatch-from-controller processing or
         ##        - triggered by /v1/change-paramete-value-in-controlconstruct
         ##
         - operation-name: /v1/sync-devicelist
@@ -118,7 +118,7 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-005
         - operation-name: /v1/build-device-retrieval-batch
           uuid: mwdi-1-0-0-op-s-is-006
-        - operation-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controllerFromController
+        - operation-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
           uuid: mwdi-1-0-0-op-s-is-007
         - operation-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-008

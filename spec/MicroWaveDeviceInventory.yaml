@@ -441,9 +441,12 @@ paths:
   # 003) /v1/remove-controlconstruct-from-database/{mount-name}
   # 004) /v1/provide-complete-devicelist/{mount-name}
   # 005) /v1/update-devicelist-attributes/{mount-name}
-  # 006) /v1/buildDeviceRetrievalBatch
-  # 007) /v1/retrieveControlConstructsForDeviceBatchFromController
-  # 008) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 006) /v1/build-device-retrieval-batch
+  # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller
+  # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
+  # 009) /v1/notify-new-device-available/{mount-name}
+  # 010) /v1/notify-new-control-construct-available/{mount-name}
+
 
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
@@ -541,7 +544,7 @@ paths:
         - basicAuth: []
       responses:
         '200':
-          description: 'Added mount-name to the MWDI deviceList'
+          description: 'Removed mount-name from the MWDI deviceList'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -647,8 +650,8 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 006) /v1/buildDeviceRetrievalBatch
-  /v1/buildDeviceRetrievalBatch:
+  # 006) /v1/build-device-retrieval-batch
+  /v1/build-device-retrieval-batch:
     # uuid: mwdi-1-0-0-op-s-is-006
     get:
       operationId: buildDeviceRetrievalBatch
@@ -679,8 +682,8 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 007) /v1/retrieveControlConstructsForDeviceBatchFromController
-  /v1/retrieveControlConstructsForDeviceBatchFromController:
+  # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller
+  /v1/retrieve-controlconstructs-for-devicebatch-from-controller:
     # uuid: mwdi-1-0-0-op-s-is-007
     post:
       operationId: retrieveCCsForDeviceBatchFromController
@@ -706,12 +709,12 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       # hier ggf. Callbacks einfügen für Request-Kaskade und Notification ans Historical-MWDI
 
-  # 008) /v1/changeParameterValueInDeviceControlConstruct/{mount-name}
+  # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
   # parameter: nur mount-name
   # post-request:
   # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
-  /v1/changeParameterValueInDeviceControlConstruct/{mount-name}:
+  /v1/change-paramete-value-in-controlconstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-008
     parameters:
       - $ref: '#/components/parameters/mount-name'
@@ -755,7 +758,76 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
- #
+
+ # 009) /v1/notify-new-device-available
+  /v1/notify-new-device-available:
+    # uuid: mwdi-1-0-0-op-s-is-009
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+    post:
+      operationId: notifyAboutNewAvailableDevice
+      summary: 'Notifies about a new device (mount-name) being now available'
+      tags:
+        - maintenance
+        - subscription
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'New mount-name available '
+          content:
+            application/json:
+              schema:
+                type: string
+                description: 'mount-name'
+                example: '100250001'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+ # 010) /v1/notify-new-control-construct-available
+  /v1/notify-new-control-construct-available:
+     # uuid: mwdi-1-0-0-op-s-is-010
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+    post:
+      operationId: notifyAboutNewAvailableControlConstruct
+      summary: 'Notifies about a new or updated control construct for the device being available'
+      tags:
+        - maintenance
+        - subscription
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'New control construct for mount-name available '
+          content:
+            application/json:
+              schema:
+                type: string
+                description: 'mount-name'
+                example: '100250001'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
  #
  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
  # to be used with a filter to get the list of connected devices, only filter values from enum are allowed

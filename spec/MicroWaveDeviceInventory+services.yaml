@@ -122,6 +122,10 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-007
         - operation-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-008
+        - operation-name: /v1/notify-new-device-available
+          uuid: mwdi-1-0-0-op-s-is-009
+        - operation-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-010                 
         ##
         ##
         ## uuids to 019 are reserved for further management services

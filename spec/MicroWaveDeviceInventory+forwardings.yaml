@@ -83,7 +83,61 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-004
       - server-name: /docs
         uuid: mwdi-1-0-0-op-s-bs-005
-      ## TODO: All service requests to be complemented
+      ## DONE: All service requests to be complemented
+      # management services
+      - server-name: /v1/sync-devicelist
+        uuid: mwdi-1-0-0-op-s-is-000
+      - server-name: /v1/add-device-to-devicelist/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-001
+      - server-name: /v1/remove-device-from-devicelist/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-002
+      - server-name: /v1/remove-controlconstruct-from-database/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-003
+      - server-name: /v1/provide-complete-devicelist/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-004
+      - server-name: /v1/update-devicelist-attributes/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-005
+      - server-name: /v1/build-device-retrieval-batch
+        uuid: mwdi-1-0-0-op-s-is-006
+      - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
+        uuid: mwdi-1-0-0-op-s-is-007
+      - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-008
+      # notification services
+      - server-name: /v1/notify-new-device-available/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-009
+      - server-name: /v1/notify-new-control-construct-available/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-010
+      # ressources
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-021
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-022
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-023
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-027
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-086
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-099
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-122
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-124
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-130
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+        uuid: mwdi-1-0-0-op-s-is-237
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-298
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-302
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-305
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-306
+
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
         uuid: mwdi-1-0-0-op-c-bs-eatl-2-0-1-000

@@ -222,6 +222,10 @@ forwardings:
 
 
 ## TODO: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
+# the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
+# the MWDI needs to subscribe to the following URL:
+# https://<controller_IP>:8443/rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+
 
 ## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 

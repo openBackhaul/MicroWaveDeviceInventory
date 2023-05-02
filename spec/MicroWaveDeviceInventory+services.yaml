@@ -477,5 +477,8 @@ clients:
           ## get control construct for a given device
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
             uuid: mwdi-1-0-0-op-c-is-c-1-0-0-001
+          ## subscription URL for device status changes (not sure if it needs to be included here)
+          - operation-name: /rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+            uuid: mwdi-1-0-0-op-c-is-c-1-0-0-002
 
   ## no other http-clients to be considered, yet

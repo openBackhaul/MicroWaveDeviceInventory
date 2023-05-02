@@ -83,8 +83,60 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-004
       - server-name: /docs
         uuid: mwdi-1-0-0-op-s-bs-005
-      ##
-      ## TODO -> replace by forwarding branch
+      ## DONE: All service requests to be complemented
+      # management services
+      - server-name: /v1/sync-devicelist
+        uuid: mwdi-1-0-0-op-s-is-000
+      - server-name: /v1/add-device-to-devicelist/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-001
+      - server-name: /v1/remove-device-from-devicelist/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-002
+      - server-name: /v1/remove-controlconstruct-from-database/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-003
+      - server-name: /v1/provide-complete-devicelist/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-004
+      - server-name: /v1/update-devicelist-attributes/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-005
+      - server-name: /v1/build-device-retrieval-batch
+        uuid: mwdi-1-0-0-op-s-is-006
+      - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
+        uuid: mwdi-1-0-0-op-s-is-007
+      - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-008
+      # notification services
+      - server-name: /v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-s-is-009
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-s-is-010
+      # ressources
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-021
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-022
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-023
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-027
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-086
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-099
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-122
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-124
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-130
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+        uuid: mwdi-1-0-0-op-s-is-237
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-298
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-302
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-305
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-306
 
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
@@ -125,17 +177,87 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-bs-aa-2-0-1-000
 
 ## DONE: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
-## added none for now
+  # purpose: if MWDI would offer subscriptions to other apps, subscriptions that might already
+  # exist at the time of the future upgrade shall be configured by the old release
+  # >> the MWDI will offer 2 subscriptions (to the HMDI):
+  # 1. /v1/notify-new-device-available to inform about new managed device
+  # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
+  #
+  # 1. new device notification
+  - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications
+    uuid: mwdi-1-0-0-op-fc-im-05
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+  #
+  # 2. new control construct notification
+  - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
+    uuid: mwdi-1-0-0-op-fc-im-05
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
 
 ## DONE: Add Forwardings for transferring data to NewRelease
-## no relevant operation-names to be included inside bequeath-your-data-and-die as mwdi
-## data will be stored inside ElasticSearch database: so nothing to be added here
+# - MWDI stores its deviceList and CC data inside ElasticSearch db, so there is nothing to hand over
+# - there are profileInstances used for the deviceList management, but these are not learned from calling OperationServers,
+#   but (are constants) defined in the profileInstanceList explicitly, so there are no services for handing over them
+
 
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
-## added none for now
+# the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
+# the MWDI needs to subscribe to the following URL:
+# https://<controller_IP>:8443/rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+# TODO: is this correct?
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
+    uuid: mwdi-1-0-0-op-fc-im-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-1-0-0-003
 
-## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
-## added none for now
+## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+# here the subscription to the Controller would need to be canceled
+# it is not clear how this can be done -> requested information from Arun
+  - forwarding-name: PromptForBequeathingDataCausesEndingSubscriptionToOldRelease
+    uuid: mwdi-1-0-0-op-fc-im-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: # todo: something like OpenDaylight://end-subscription
+        uuid: #mwdi-1-0-0-op-c-is-c-1-0-0-004
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: mwdi-1-0-0-op-fc-bm-105
@@ -225,8 +347,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
-      ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
-      ## currently none
+      ## TODO: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
@@ -245,7 +366,6 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
-      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
@@ -264,7 +384,6 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
-      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
@@ -283,7 +402,6 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
-      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
@@ -304,7 +422,6 @@ forwardings:
       - server-name: /v1/end-subscription
         uuid: mwdi-1-0-0-op-s-bm-004
       ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
-      ## currently none
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
@@ -395,4 +512,3 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
   ## TODO: Potential INDIVIDUAL Forwardings to be added
-  ## currently none

@@ -269,10 +269,10 @@ clients:
           # mwdi data will be stored inside a database so there are no
           # requests relevant for that to bequeath-your-data-and-die
           # but subscription services are listed here
-          operation-name: /v1/notify-new-device-available
-          uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
-          operation-name: /v1/notify-new-control-construct-available
-          uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
+          - operation-name: /v1/notify-new-device-available
+            uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+          - operation-name: /v1/notify-new-control-construct-available
+            uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
       service:
         basic:
         individual:

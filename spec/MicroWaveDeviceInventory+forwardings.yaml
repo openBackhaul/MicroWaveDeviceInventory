@@ -102,7 +102,7 @@ forwardings:
       - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
         uuid: mwdi-1-0-0-op-s-is-007
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-008   
+        uuid: mwdi-1-0-0-op-s-is-008
       # notification services
       - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-009
@@ -178,7 +178,7 @@ forwardings:
 
 ## DONE: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
   # purpose: if MWDI would offer subscriptions to other apps, subscriptions that might already
-  # exist at the time of the future upgrade shall be configured by the old release 
+  # exist at the time of the future upgrade shall be configured by the old release
   # >> the MWDI will offer 2 subscriptions (to the HMDI):
   # 1. /v1/notify-new-device-available to inform about new managed device
   # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
@@ -218,7 +218,7 @@ forwardings:
 ## DONE: Add Forwardings for transferring data to NewRelease
 # - MWDI stores its deviceList and CC data inside ElasticSearch db, so there is nothing to hand over
 # - there are profileInstances used for the deviceList management, but these are not learned from calling OperationServers,
-#   but (are constants) defined in the profileInstanceList explicitly, so there are no services for handing over them 
+#   but (are constants) defined in the profileInstanceList explicitly, so there are no services for handing over them
 
 
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
@@ -512,3 +512,4 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
   ## TODO: Potential INDIVIDUAL Forwardings to be added
+  

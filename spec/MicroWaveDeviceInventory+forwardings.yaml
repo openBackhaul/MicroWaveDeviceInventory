@@ -176,10 +176,10 @@ forwardings:
       - client-name: AdministratorAdministration://v1/approve-oam-request
         uuid: mwdi-1-0-0-op-c-bs-aa-2-0-1-000
 
-## TODO: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
-  # from docs: if MWDI would offer subscriptions to other apps, subscriptions that might already
+## DONE: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
+  # purpose: if MWDI would offer subscriptions to other apps, subscriptions that might already
   # exist at the time of the future upgrade shall be configured by the old release 
-  # the MWDI will offer 2 subscriptions to the HMDI:
+  # >> the MWDI will offer 2 subscriptions (to the HMDI):
   # 1. /v1/notify-new-device-available to inform about new managed device
   # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
   #
@@ -215,7 +215,11 @@ forwardings:
       - client-name: NewRelease:://v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
 
-## TODO: Add Forwardings for transferring data to NewRelease
+## DONE: Add Forwardings for transferring data to NewRelease
+# - MWDI stores its deviceList and CC data inside ElasticSearch db, so there is nothing to hand over
+# - there are profileInstances used for the deviceList management, but these are not learned from calling OperationServers,
+#   but (are constants) defined in the profileInstanceList explicitly, so there are no services for handing over them 
+
 
 ## TODO: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 

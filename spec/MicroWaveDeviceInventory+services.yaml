@@ -104,12 +104,6 @@ servers:
         ##        - from within /v1/retrieve-controlconstructs-for-devicebatch-from-controller processing or
         ##        - triggered by /v1/change-paramete-value-in-controlconstruct
         ##
-        ## 011) /v1/end-subscription-new-device
-        ##      - used to unsubscribe from /v1/notify-new-device-available
-        ##
-        ## 012) /v1/end-subscription-new-control-construct
-        ##      - used to unsubscribe from /v1/notify-new-control-construct-available
-        ##
         - operation-name: /v1/sync-devicelist
           uuid: mwdi-1-0-0-op-s-is-000
         - operation-name: /v1/add-device-to-devicelist/{mount-name}

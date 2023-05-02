@@ -444,8 +444,8 @@ paths:
   # 006) /v1/build-device-retrieval-batch
   # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller
   # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
-  # 009) /v1/notify-new-device-available/{mount-name}
-  # 010) /v1/notify-new-control-construct-available/{mount-name}
+  # 009) /v1/notify-new-device-available
+  # 010) /v1/notify-new-control-construct-available
 
 
   # top-level ressource & Control construct path
@@ -763,7 +763,6 @@ paths:
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-009
     parameters:
-      - $ref: '#/components/parameters/mount-name'
     post:
       operationId: notifyAboutNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
@@ -798,10 +797,9 @@ paths:
   /v1/notify-new-control-construct-available:
      # uuid: mwdi-1-0-0-op-s-is-010
     parameters:
-      - $ref: '#/components/parameters/mount-name'
     post:
       operationId: notifyAboutNewAvailableControlConstruct
-      summary: 'Notifies about a new or updated control construct for the device being available'
+      summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
         - maintenance
         - subscription

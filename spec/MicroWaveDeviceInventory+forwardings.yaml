@@ -177,6 +177,28 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-bs-aa-2-0-1-000
 
 ## TODO: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
+  # from docs: if MWDI would offer subscriptions to other apps, subscriptions that might already
+  # exist at the time of the future upgrade shall be configured by the old release 
+  # the MWDI will offer 2 subscriptions to the HMDI:
+  # 1. /v1/notify-new-device-available to inform about new managed device
+  # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
+  #
+  # 1. new device notification
+  - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications
+    uuid: mwdi-1-0-0-op-fc-im-05
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+
 
 ## TODO: Add Forwardings for transferring data to NewRelease
 

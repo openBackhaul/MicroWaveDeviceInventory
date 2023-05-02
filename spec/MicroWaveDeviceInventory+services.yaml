@@ -122,9 +122,9 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-007
         - operation-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-008
-        - operation-name: /v1/notify-new-device-available/{mount-name}
+        - operation-name: /v1/notify-new-device-available
           uuid: mwdi-1-0-0-op-s-is-009
-        - operation-name: /v1/notify-new-control-construct-available/{mount-name}
+        - operation-name: /v1/notify-new-control-construct-available
           uuid: mwdi-1-0-0-op-s-is-010
         ##
         ##
@@ -266,8 +266,17 @@ clients:
         basic:
         individual:
           ## DONE: Add Services required for handing-over configuration or data during update
-          ## mwdi data will be stored inside a database so there are no
-          ## requests relevant to bequeath-your-data-and-die
+          # mwdi data will be stored inside a database so there are no
+          # requests relevant for that to bequeath-your-data-and-die
+          # but subscription services are listed here
+          operation-name: /v1/notify-new-device-available
+          uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+          operation-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
+
+
+            # 1. /v1/notify-new-device-available to inform about new managed device
+  # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
       service:
         basic:
         individual:

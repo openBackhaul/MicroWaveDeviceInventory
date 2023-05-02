@@ -221,13 +221,43 @@ forwardings:
 #   but (are constants) defined in the profileInstanceList explicitly, so there are no services for handing over them 
 
 
-## TODO: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
+## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 # the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
 # the MWDI needs to subscribe to the following URL:
 # https://<controller_IP>:8443/rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
-
+# TODO: is this correct?
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
+    uuid: mwdi-1-0-0-op-fc-im-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-1-0-0-003
 
 ## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+# here the subscription to the Controller would need to be canceled
+# it is not clear how this can be done -> requested information from Arun
+  - forwarding-name: PromptForBequeathingDataCausesEndingSubscriptionToOldRelease
+    uuid: mwdi-1-0-0-op-fc-im-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: # todo: something like OpenDaylight://end-subscription
+        uuid: #mwdi-1-0-0-op-c-is-c-1-0-0-004
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: mwdi-1-0-0-op-fc-bm-105

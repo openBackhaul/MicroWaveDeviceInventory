@@ -273,10 +273,6 @@ clients:
           uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
           operation-name: /v1/notify-new-control-construct-available
           uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
-
-
-            # 1. /v1/notify-new-device-available to inform about new managed device
-  # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
       service:
         basic:
         individual:

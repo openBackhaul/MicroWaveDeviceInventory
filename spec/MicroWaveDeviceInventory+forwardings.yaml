@@ -103,6 +103,10 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-007
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-008
+      - server-name: /v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002      
       # notification services
       - server-name: /v1/notify-new-device-available/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-009
@@ -198,7 +202,22 @@ forwardings:
     consequent-requests:
       - client-name: NewRelease:://v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
-
+  #
+  # 2. new control construct notification
+  - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
+    uuid: mwdi-1-0-0-op-fc-im-05
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
 
 ## TODO: Add Forwardings for transferring data to NewRelease
 

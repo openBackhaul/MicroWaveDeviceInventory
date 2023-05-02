@@ -102,15 +102,11 @@ forwardings:
       - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
         uuid: mwdi-1-0-0-op-s-is-007
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-008
-      - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
-      - server-name: /v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002      
+        uuid: mwdi-1-0-0-op-s-is-008   
       # notification services
-      - server-name: /v1/notify-new-device-available/{mount-name}
+      - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-009
-      - server-name: /v1/notify-new-control-construct-available/{mount-name}
+      - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-010
       # ressources
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct

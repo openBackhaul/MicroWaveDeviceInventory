@@ -347,7 +347,12 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
-      ## TODO: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
+      # add servers for notifications
+      - server-name: /v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-s-is-009
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-s-is-010
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
@@ -365,7 +370,8 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
+      # none - correct?
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
@@ -383,7 +389,12 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
+      # add servers for notifications
+      - server-name: /v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-s-is-009
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-s-is-010
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
@@ -401,7 +412,8 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
+      # nothing to add
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
@@ -421,7 +433,8 @@ forwardings:
     initiating-requests:
       - server-name: /v1/end-subscription
         uuid: mwdi-1-0-0-op-s-bm-004
-      ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
+      # nothing to add
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005

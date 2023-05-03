@@ -449,7 +449,7 @@ paths:
 
 
   # top-level ressource & Control construct path
-  # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
+  # uuid: mwdi-1-0-0-op-s-is-011 {topology-path}
 
  # 000) /v1/sync-devicelist:
  ## TODO: wie muss das aussehen?
@@ -761,7 +761,7 @@ paths:
 
  # 009) /v1/notify-new-device-available
   /v1/notify-new-device-available:
-    # uuid: mwdi-1-0-0-op-s-is-009
+    # uuid: mwdi-1-0-0-op-s-is-010
     parameters:
     post:
       operationId: notifyAboutNewAvailableDevice
@@ -795,7 +795,7 @@ paths:
 
  # 010) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:
-     # uuid: mwdi-1-0-0-op-s-is-010
+     # uuid: mwdi-1-0-0-op-s-is-011
     parameters:
     post:
       operationId: notifyAboutNewAvailableControlConstruct

@@ -394,7 +394,7 @@ forwardings:
       - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-009
       - server-name: /v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-010      
+        uuid: mwdi-1-0-0-op-s-is-010
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003

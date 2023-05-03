@@ -172,3 +172,14 @@ profile-instances:
       description: 'Minimum waiting time until the next CC retrieval retry may be started'
     configuration:
       integer-value: 900
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-007'
+    capability:
+      integer-name: 'deviceListSyncInterval'
+      unit: 'second'
+      minimum: 900
+      maximum: 86400
+      description: 'Waiting time until the next synchronization of the deviceList with the Controller is started (default: 2 hours)'
+    configuration:
+      integer-value: 7200

@@ -435,21 +435,22 @@ paths:
  # TODO: wo müssen callbacks hinzugefügt werden?
 
  # == MWDI-specific maintenance services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/sync-devicelist
-  # 001) /v1/add-device-to-devicelist/{mount-name}
-  # 002) /v1/remove-device-from-devicelist/{mount-name}
-  # 003) /v1/remove-controlconstruct-from-database/{mount-name}
-  # 004) /v1/provide-complete-devicelist/{mount-name}
-  # 005) /v1/update-devicelist-attributes/{mount-name}
-  # 006) /v1/build-device-retrieval-batch
-  # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller
-  # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
-  # 009) /v1/notify-new-device-available
-  # 010) /v1/notify-new-control-construct-available
+  # 000) /v1/sync-devicelist - POST
+  # 001) /v1/add-device-to-devicelist/{mount-name} - POST
+  # 002) /v1/remove-device-from-devicelist/{mount-name} - POST (or DELETE?)
+  # 003) /v1/remove-controlconstruct-from-database/{mount-name} - POST (or DELETE?)
+  # 004) /v1/provide-complete-devicelist/{mount-name} - GET
+  # 005) /v1/update-devicelist-attributes/{mount-name} - POST
+  # 006) /v1/build-device-retrieval-batch - GET
+  # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller - GET
+  # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name} - POST
+  # 009) /v1/write-controlconstruct-to-database/{mount-name} - POST
+  # 010) /v1/notify-new-device-available - GET
+  # 011) /v1/notify-new-control-construct-available - GET
 
 
   # top-level ressource & Control construct path
-  # uuid: mwdi-1-0-0-op-s-is-010 {topology-path}
+  # uuid: mwdi-1-0-0-op-s-is-011 {topology-path}
 
  # 000) /v1/sync-devicelist:
  ## TODO: wie muss das aussehen?
@@ -687,7 +688,7 @@ paths:
     # uuid: mwdi-1-0-0-op-s-is-007
     post:
       operationId: retrieveCCsForDeviceBatchFromController
-      summary: 'Builds the mount-name list for CC retrieval, sends retrieval requests for all those mount-names to the controller, stores the retrieved CCs in the ElasticSearchDB and updates the deviceList throughout the retrieval process.'
+      summary: 'Builds the mount-name list for CC retrieval and then sends retrieval requests for all those mount-names to the controller'
       tags:
         - maintenance
       security:
@@ -712,7 +713,7 @@ paths:
   # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
   # parameter: nur mount-name
   # post-request:
-  # requst-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
+  # reqeust-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
   # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
   /v1/change-paramete-value-in-controlconstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-008
@@ -725,7 +726,7 @@ paths:
         - maintenance
       securityAuth: []
       requestBody:
-        description: 'The response body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
+        description: 'The request body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
         required: true
         content:
           application/json:
@@ -759,11 +760,52 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
- # 009) /v1/notify-new-device-available
-  /v1/notify-new-device-available:
-    # uuid: mwdi-1-0-0-op-s-is-009
+  # 009) /v1/write-controlconstruct-to-database/{mount-name}
+   /v1/write-controlconstruct-to-database/{mount-name}:
+    # uuid: mwdi-1-0-0-op-s-is-008
     parameters:
+      - $ref: '#/components/parameters/mount-name'
     post:
+      operationId: writeControlConstructToDatabase
+      summary: 'Writes the retrieved control construct for the mount-name to the MWDI ElasticSearch database.'
+      tags:
+        - maintenance
+      securityAuth: []
+      requestBody:
+        description: 'The request body contains the retrieved control construct for the mount-name.'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - control-construct
+              properties:
+                control-construct:
+                  type: string
+                  description: 'the complete control construct of the mount-name'
+                  # no example, as CC is too big
+      responses:
+        '200':
+          description: 'The parameter value has been changed'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests' 
+
+  # 010) /v1/notify-new-device-available
+  /v1/notify-new-device-available:
+    # uuid: mwdi-1-0-0-op-s-is-010
+    parameters:
+    get:
       operationId: notifyAboutNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
@@ -793,11 +835,11 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
- # 010) /v1/notify-new-control-construct-available
+  # 011) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:
-     # uuid: mwdi-1-0-0-op-s-is-010
+     # uuid: mwdi-1-0-0-op-s-is-011
     parameters:
-    post:
+    get:
       operationId: notifyAboutNewAvailableControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
@@ -826,50 +868,51 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
- #
- # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
- # to be used with a filter to get the list of connected devices, only filter values from enum are allowed
- # {topology-path}:
- #   # uuid: mwdi-1-0-0-op-s-is-020
- #   parameters:
- #     - $ref: '#/components/parameters/topology-path'
- #     - in: query
- #       name: fields
- #       description: 'query parameter to filter on controller level (limited usage)'
- #       required: true
- #       schema:
- #         type: string
- #         example: 'fields=node(node-id)'
- #         enum:
- #           - 'fields=node(node-id)'
- #   get:
- #     operationId: getControllerTopology
- #     summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
- #     tags:
- #       - controller-topology
- #   security:
- #     - basicAuth: []
- #   responses:
- #     '200':
- #       description: 'core-model-1-4_control-construct provided'
- #       content:
- #         application/json:
- #           schema:
- #             # schema still needs to be defined! would be not the complete topology schema, but only that corresponding to the allowed fields filter(s)
- #             $ref: '#/components/schemas/controller_topology_TOP'
- #     '400':
- #       $ref: '#/components/responses/responseForErroredServiceRequests'
- #     '401':
- #       $ref: '#/components/responses/responseForErroredServiceRequests'
- #     '403':
- #       $ref: '#/components/responses/responseForErroredServiceRequests'
- #    '404':
- #       $ref: '#/components/responses/responseForErroredServiceRequests'
- #     '500':
- #       $ref: '#/components/responses/responseForErroredServiceRequests'
- #     default:
- #      $ref: '#/components/responses/responseForErroredServiceRequests'
- #
+  #
+  # ---------------------------------------------------------------
+  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
+  # to be used with a filter to get the list of connected devices, only filter values from enum are allowed
+  # {topology-path}:
+  #   # uuid: mwdi-1-0-0-op-s-is-020
+  #   parameters:
+  #     - $ref: '#/components/parameters/topology-path'
+  #     - in: query
+  #       name: fields
+  #       description: 'query parameter to filter on controller level (limited usage)'
+  #       required: true
+  #       schema:
+  #         type: string
+  #         example: 'fields=node(node-id)'
+  #         enum:
+  #           - 'fields=node(node-id)'
+  #   get:
+  #     operationId: getControllerTopology
+  #     summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
+  #     tags:
+  #       - controller-topology
+  #   security:
+  #     - basicAuth: []
+  #   responses:
+  #     '200':
+  #       description: 'core-model-1-4_control-construct provided'
+  #       content:
+  #         application/json:
+  #           schema:
+  #             # schema still needs to be defined! would be not the complete topology schema, but only that corresponding to the allowed fields filter(s)
+  #             $ref: '#/components/schemas/controller_topology_TOP'
+  #     '400':
+  #       $ref: '#/components/responses/responseForErroredServiceRequests'
+  #     '401':
+  #       $ref: '#/components/responses/responseForErroredServiceRequests'
+  #     '403':
+  #       $ref: '#/components/responses/responseForErroredServiceRequests'
+  #    '404':
+  #       $ref: '#/components/responses/responseForErroredServiceRequests'
+  #     '500':
+  #       $ref: '#/components/responses/responseForErroredServiceRequests'
+  #     default:
+  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  #
  # == Paths derived from controller OAS ========================================================================================================
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     # uuid: mwdi-1-0-0-op-s-is-021

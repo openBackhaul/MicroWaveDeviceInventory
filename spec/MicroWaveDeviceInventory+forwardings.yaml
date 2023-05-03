@@ -613,6 +613,10 @@ forwardings:
   #       - (i)   call /v1/build-device-retrieval-batch
   #       - (ii)  once (i) is finished, send the CC request to the Controller for each device from the new retrievalBatch
   #       - (iii) after retrieval is finished for a given device:
-  #               - write the CC into the ElasticSearchDB 
+  #               - write the CC into the ElasticSearchDB /v1/write-controlconstruct-to-database
   #               - update the deviceList attributes (/v1/update-devicelist-attributes)
   #               - send a notification to all subscribers (HMDI) that a new/update CC is available (/v1/notify-new-control-construct-available)
+  #
+  
+
+  # there is also a forwarding if a stored CC is updated (send notification)

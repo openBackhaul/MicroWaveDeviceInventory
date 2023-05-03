@@ -104,7 +104,7 @@ forwardings:
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-008
       - server-name: /v1/write-controlconstruct-to-database/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-009      
+        uuid: mwdi-1-0-0-op-s-is-009
       # notification services
       - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-010
@@ -532,13 +532,13 @@ forwardings:
   # - a change in a stored ControlConstruct leads to a notificaion
   #
   # -------------------------------------------------------------------------------------------
-  # 1) periodic sync with the Controller: 
+  # 1) periodic sync with the Controller:
   #    - purpose is to synchronize the devices contained in the MWDI deviceList with the Controller at a periodic interval
   #      (intervals defined in IntegerProfile "deviceListSyncInterval")
   #    - 1a) Event: periodic execution of /v1/sync-devicelist
   #    - 1b) Reactions: (compare devices from deviceList with list of connected devices from the Controller)
-  #          the actual reaction depends on the outcome of the comparison for each device 
-  #          - new connected device: 
+  #          the actual reaction depends on the outcome of the comparison for each device
+  #          - new connected device:
   #            - call: /v1/add-device-to-deviceList
   #          - previously connected device no longer connected on Controller: remove from MWDI
   #            - call /v1/remove-device-from-devicelist
@@ -546,8 +546,8 @@ forwardings:
   #
   #    - 1c) if a new device is added via /v1/add-device-to-devicelist
   #          - also update the deviceList attributes: /v1/update-devicelist-attributes
-  #          - and send a notification to all subscribers informing them about the new device: 
-  #            /v1/notify-new-device-available  
+  #          - and send a notification to all subscribers informing them about the new device:
+  #            /v1/notify-new-device-available
   #
   - forwarding-name: CyclicOperationCausesDeviceListSyncWithController
     uuid: mwdi-1-0-0-op-fc-is-016
@@ -558,8 +558,8 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: 
-        uuid: 
+      - server-name:
+        uuid:
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/sync-devicelist
         uuid: mwdi-1-0-0-op-s-is-000
@@ -624,8 +624,8 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: 
-        uuid: 
+      - server-name:
+        uuid:
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/retrieve-controlconstructs-for-devicebatch-from-controller
         uuid: mwdi-1-0-0-op-s-is-007

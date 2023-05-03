@@ -94,11 +94,14 @@ servers:
         ## 008) /v1/change-paramete-value-in-controlconstruct
         ##      only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed
         ##
-        ## 009) /v1/notify-new-device-available
+        ## 009) /v1/write-controlconstruct-to-database/{mount-name}
+        ##      writes the retrieved control construct for the mount-name to the database
+        ##
+        ## 010) /v1/notify-new-device-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new device is added to the MWDI deviceList
         ##      - notification is send when /v1/add-device-to-devicelist is executed
         ##
-        ## 010) /v1/notify-new-control-construct-available
+        ## 011) /v1/notify-new-control-construct-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new or updated ControlConstruct for the device is available
         ##      - called either after retrieval or update of a CC
         ##        - from within /v1/retrieve-controlconstructs-for-devicebatch-from-controller processing or
@@ -122,10 +125,12 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-007
         - operation-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-008
-        - operation-name: /v1/notify-new-device-available
+        - operation-name: /v1/write-controlconstruct-to-database/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-009
-        - operation-name: /v1/notify-new-control-construct-available
+        - operation-name: /v1/notify-new-device-available
           uuid: mwdi-1-0-0-op-s-is-010
+        - operation-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-011  
         ##
         ##
         ## uuids to 019 are reserved for further management services

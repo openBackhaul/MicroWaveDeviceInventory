@@ -103,11 +103,13 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-007
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-008
+      - server-name: /v1/write-controlconstruct-to-database/{mount-name}
+        uuid: mwdi-1-0-0-op-s-is-009      
       # notification services
       - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-009
-      - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-010
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-s-is-011
       # ressources
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-s-is-021
@@ -350,9 +352,9 @@ forwardings:
       ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
       # add servers for notifications
       - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-009
-      - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-010
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-s-is-011
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
@@ -392,9 +394,9 @@ forwardings:
       ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
       # add servers for notifications
       - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-009
-      - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-010
+      - server-name: /v1/notify-new-control-construct-available
+        uuid: mwdi-1-0-0-op-s-is-011
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
@@ -600,6 +602,17 @@ forwardings:
       - client-name: MicroWaveDeviceInventory:://v1/update-devicelist-attributes/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-005
       - client-name: MicroWaveDeviceInventory:://v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-009
+        uuid: mwdi-1-0-0-op-s-is-010
 
   # 2) perodic retrieval of CCs
+  #    The CCs need to be retrieved in periodic intervals for a subset of the devices from the deviceList (retrievalBatch).
+  #    For each occurence of the retrieval a new retrievalBatch is build from the deviceList (waiting time between these occurences is
+  #    defined by profileInstance "ccBatchRetrievalWaitingTime").
+  #    Event: the retrieval is initiated by /v1/retrieve-controlconstructs-for-devicebatch-from-controller
+  #    Reaction: steps are as follows:
+  #       - (i)   call /v1/build-device-retrieval-batch
+  #       - (ii)  once (i) is finished, send the CC request to the Controller for each device from the new retrievalBatch
+  #       - (iii) after retrieval is finished for a given device:
+  #               - write the CC into the ElasticSearchDB 
+  #               - update the deviceList attributes (/v1/update-devicelist-attributes)
+  #               - send a notification to all subscribers (HMDI) that a new/update CC is available (/v1/notify-new-control-construct-available)

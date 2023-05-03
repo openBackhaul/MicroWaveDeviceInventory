@@ -524,4 +524,14 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
-  ## TODO: Potential INDIVIDUAL Forwardings to be added
+  ## DONE: Potential INDIVIDUAL Forwardings to be added
+  # there are 2 individual forwardings related to cyclic operations for MWDI internal management:
+  # 1) periodic sync of the deviceList with the Controller
+  # 2) periodic retrieval of CCs for the next retrieval chunk
+  # 
+  #
+  # 1) periodic sync with the Controller: 
+  #    purpose is to synchronize the devices contained in the MWDI deviceList with the Controller at a periodic interval 
+  #
+  #
+  #

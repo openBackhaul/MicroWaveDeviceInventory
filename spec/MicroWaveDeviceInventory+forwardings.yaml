@@ -687,7 +687,7 @@ forwardings:
   # -------------------------------------------------------------------------------------------
   # there is also a forwarding if a stored CC is updated (send notification)
   - forwarding-name: ControlConstructUpdatedCausesNewControlConstructAvailableNotification
-    uuid: mwdi-1-0-0-op-fc-is-022
+    uuid: mwdi-1-0-0-op-fc-is-023
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

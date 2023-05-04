@@ -148,8 +148,8 @@ servers:
         ##   {topology-path}?fields=node(node-id)
         ##
         ## REPLACE WITH MWDI-OWN SERVICE? (clarify with Thorsten)
-        #- operation-name: {topology-path}
-        #  uuid: mwdi-1-0-0-op-s-is-020
+        - operation-name: {topology-path}
+          uuid: mwdi-1-0-0-op-s-is-020
         ##
         ## ----------------------------------------------
         ## SERVICES DERIVED FROM CONTROLLER OAS

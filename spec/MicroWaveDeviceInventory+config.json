@@ -1386,30 +1386,6 @@
                 "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-server-interface-1-0:operation-server-interface-pac": {
                   "operation-server-interface-capability": {
-                    "operation-name": ""
-                  },
-                  "operation-server-interface-configuration": {
-                    "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                    "operation-key": "n.a."
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "uuid": "mwdi-1-0-0-op-s-is-",
-            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
-            "server-ltp": [
-              "mwdi-1-0-0-http-s-000"
-            ],
-            "layer-protocol": [
-              {
-                "local-id": "0",
-                "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                "operation-server-interface-1-0:operation-server-interface-pac": {
-                  "operation-server-interface-capability": {
                     "operation-name": "/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status"
                   },
                   "operation-server-interface-configuration": {
@@ -1441,7 +1417,34 @@
               "mwdi-1-0-0-op-s-bs-002",
               "mwdi-1-0-0-op-s-bs-003",
               "mwdi-1-0-0-op-s-bs-004",
-              "mwdi-1-0-0-op-s-bs-005"
+              "mwdi-1-0-0-op-s-bs-005",
+              "mwdi-1-0-0-op-s-is-000",
+              "mwdi-1-0-0-op-s-is-001",
+              "mwdi-1-0-0-op-s-is-002",
+              "mwdi-1-0-0-op-s-is-003",
+              "mwdi-1-0-0-op-s-is-004",
+              "mwdi-1-0-0-op-s-is-005",
+              "mwdi-1-0-0-op-s-is-006",
+              "mwdi-1-0-0-op-s-is-007",
+              "mwdi-1-0-0-op-s-is-008",
+              "mwdi-1-0-0-op-s-is-009",
+              "mwdi-1-0-0-op-s-is-010",
+              "mwdi-1-0-0-op-s-is-011",
+              "mwdi-1-0-0-op-s-is-020",
+              "mwdi-1-0-0-op-s-is-021",
+              "mwdi-1-0-0-op-s-is-022",
+              "mwdi-1-0-0-op-s-is-023",
+              "mwdi-1-0-0-op-s-is-027",
+              "mwdi-1-0-0-op-s-is-086",
+              "mwdi-1-0-0-op-s-is-099",
+              "mwdi-1-0-0-op-s-is-122",
+              "mwdi-1-0-0-op-s-is-124",
+              "mwdi-1-0-0-op-s-is-130",
+              "mwdi-1-0-0-op-s-is-237",
+              "mwdi-1-0-0-op-s-is-298",
+              "mwdi-1-0-0-op-s-is-302",
+              "mwdi-1-0-0-op-s-is-305",
+              "mwdi-1-0-0-op-s-is-306"            
             ],
             "server-ltp": [
               "mwdi-1-0-0-tcp-s-000",
@@ -1539,7 +1542,7 @@
                     "auth": {
                       "api-key": "API key not yet defined."
                     },
-                    "index-alias": " >>> Application specific IndexAlias <<< "
+                    "index-alias": "mwdi-database"
                   },
                   "elasticsearch-client-interface-status": {
                     "operational-state": "elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
@@ -1638,7 +1641,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "OldRelease",
-                    "release-number": " >>> ReleaseNumber of the existing release <<< "
+                    "release-number": "1.0.0"
                   }
                 }
               }
@@ -1661,10 +1664,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": " >>> IpAddress and Port (below) of the existing release <<< "
+                        "ipv-4-address": "1.1.4.4"
                       }
                     },
-                    "remote-port": 1000
+                    "remote-port": 4004
                   }
                 }
               }
@@ -1685,7 +1688,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "NewRelease",
-                    "release-number": " >>> ReleaseNumber of the new release <<< "
+                    "release-number": "1.0.0"
                   }
                 }
               }
@@ -1708,10 +1711,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": " >>> IpAddress and Port (below) of the new release <<< "
+                        "ipv-4-address": "1.1.4.4"
                       }
                     },
-                    "remote-port": 7000
+                    "remote-port": 4004
                   }
                 }
               }

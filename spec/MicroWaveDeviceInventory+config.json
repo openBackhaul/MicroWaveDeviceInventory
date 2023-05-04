@@ -714,9 +714,9 @@
                     "description": "Without TLS layer",
                     "local-protocol": "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "local-address": {
-                      "ipv-4-address": " >>> ownIpAddress and Port (below) <<< "
+                      "ipv-4-address": "1.1.4.4"
                     },
-                    "local-port": 3008
+                    "local-port": 4004
                   }
                 }
               }
@@ -739,9 +739,9 @@
                     "description": "With TLS layer",
                     "local-protocol": "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS",
                     "local-address": {
-                      "ipv-4-address": " >>> ownIpAddress and Port (below) <<< "
+                      "ipv-4-address": "1.2.4.4"
                     },
-                    "local-port": 3208
+                    "local-port": 4204
                   }
                 }
               }

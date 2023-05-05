@@ -452,45 +452,59 @@ paths:
   # top-level ressource & Control construct path
   # uuid: mwdi-1-0-0-op-s-is-011 {topology-path}
 
- # 000) /v1/sync-devicelist:
- ## TODO: wie muss das aussehen?
-  # execute at MWDI startup (and after some time again to sync, because there could e.g. be dcn disconnects to the controller)
-  # first retrieve list of connected devices from controller and compare it to the MWDI deviceList,
-  # - then call /v1/add-device-to-devicelist for each new device to add it the deviceList
-  # - or call /v1/remove-device-from-devicelist for each device no longer connected on the controller
-  #/v1/sync-devicelist:
-  # uuid: mwdi-1-0-0-op-s-is-000
-  # parameters: none so far
-  #post:
-  #  operationId: syncMwdiDeviceListWithController
-  #  summary: 'After retrieving list of connected devices from controller and comparing it against the MWDI deviceList, devices are added to/removed from the MWDI deviceList based on the comparison result'
-  #  tags:
-  #    - maintenance
-  #  security:
-  #    - basicAuth: []
-  #  requestBody:
-  #    required: true
-  #    content:
-  #      application/json:
-  #        schema:
-  #          type: array
-  #          items:
-  #            type: string
-  #  responses:
-  #    '201':
-  #      description: 'deviceList synchronized with Controller'
-  #   '400':
-  #     $ref: '#/components/responses/responseForErroredServiceRequests'
-  #   '401':
-  #      $ref: '#/components/responses/responseForErroredServiceRequests'
-  #    '403':
-  #      $ref: '#/components/responses/responseForErroredServiceRequests'
-  #    '404':
-  #      $ref: '#/components/responses/responseForErroredServiceRequests'
-  #    '500':
-  #      $ref: '#/components/responses/responseForErroredServiceRequests'
-  #    default:
-  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  # 000) /v1/sync-devicelist:
+  # what does it do? 
+  # - it is executed periodically to synchronize the mount-names in the deviceList with the Controller: 
+  #   all devices with state connected should be included in the deviceList
+  # - steps:
+  #   1. get the list of connected devices from the Controller
+  #   2. compare the resulting list against the MWDI deviceList and for each device only seen in either one 
+  #      of the two lists execute another service (forwardings!), if devices are seen in both lists, 
+  #      nothing needs to be done for those devices 
+  #      - for every connected device which is not yet in the deviceList: 
+  #        - call /v1/add-device-to-devicelist
+  #      - for every device from the deviceList which is no longer in connected state:
+  #        - call /v1/remove-device-from-devicelist
+  #        - call /v1/remove-controlconstruct-from-database
+  #
+  # The service has a get request only, as the actual writing of changes to the deviceList will be done by the 
+  # subsequently called services (forwardings)
+  #
+  # TODO: add callbacks for forwardings
+  /v1/sync-devicelist:
+    # uuid: mwdi-1-0-0-op-s-is-000
+    parameters:
+      # no parameters
+    get:
+      operationId: syncMwdiDeviceListWithController
+      summary: 'Compares connected devices from Controller with MWDI deviceList, then adds/removes devices from MWDI accordingly (MWDI contains only connected devices)'
+      tags:
+        - maintenance
+      security:
+        - basicAuth: []
+      #requestBody:  # not needed, services will derive deviceList entries on its own
+      #  required: true
+      #  content:
+      #    application/json:
+      #      schema:
+      #        type: array
+      #        items:
+      #          type: string
+      responses:
+        '201':
+          description: 'deviceList synchronized with Controller'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 001) /v1/add-device-to-devicelist
   /v1/add-device-to-devicelist/{mount-name}:
@@ -506,7 +520,7 @@ paths:
         - basicAuth: []
       responses:
         '200':
-          # return the deviceList attributes of the mount-name for validation, they should be set to their default values:
+          # return the deviceList attributes of the mount-name for validation (testing), they should be set to their default values:
           #   retrieval-running: false
           #   retrieval-timestamp: 'null'
           #   retrieval-status: "new"
@@ -711,10 +725,10 @@ paths:
       # hier ggf. Callbacks einfügen für Request-Kaskade und Notification ans Historical-MWDI
 
   # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
-  # parameter: nur mount-name
-  # post-request:
-  # reqeust-body: input ist der komplette Pfad zum Attribut, das geändert werden soll + dessen neuer Wert
-  # der Pfad muss so aussehen wie die Ressource-Pfade hier, hinten ggf. mit einem entsprechenden fields-Filter
+  # - parameter: just the mount-name
+  # - post-request:
+  #   - request-body: the input is the complete path to the attribute to be changed plus its new value
+  #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
   /v1/change-paramete-value-in-controlconstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-008
     parameters:
@@ -837,7 +851,7 @@ paths:
 
   # 011) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:
-     # uuid: mwdi-1-0-0-op-s-is-011
+    # uuid: mwdi-1-0-0-op-s-is-011
     parameters:
     get:
       operationId: notifyAboutNewAvailableControlConstruct
@@ -870,48 +884,56 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   #
   # ---------------------------------------------------------------
-  # top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
-  # to be used with a filter to get the list of connected devices, only filter values from enum are allowed
-  # {topology-path}:
-  #   # uuid: mwdi-1-0-0-op-s-is-020
-  #   parameters:
-  #     - $ref: '#/components/parameters/topology-path'
-  #     - in: query
-  #       name: fields
-  #       description: 'query parameter to filter on controller level (limited usage)'
-  #       required: true
-  #       schema:
-  #         type: string
-  #         example: 'fields=node(node-id)'
-  #         enum:
-  #           - 'fields=node(node-id)'
-  #   get:
-  #     operationId: getControllerTopology
-  #     summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
-  #     tags:
-  #       - controller-topology
-  #   security:
-  #     - basicAuth: []
-  #   responses:
-  #     '200':
-  #       description: 'core-model-1-4_control-construct provided'
-  #       content:
-  #         application/json:
-  #           schema:
-  #             # schema still needs to be defined! would be not the complete topology schema, but only that corresponding to the allowed fields filter(s)
-  #             $ref: '#/components/schemas/controller_topology_TOP'
-  #     '400':
-  #       $ref: '#/components/responses/responseForErroredServiceRequests'
-  #     '401':
-  #       $ref: '#/components/responses/responseForErroredServiceRequests'
-  #     '403':
-  #       $ref: '#/components/responses/responseForErroredServiceRequests'
-  #    '404':
-  #       $ref: '#/components/responses/responseForErroredServiceRequests'
-  #     '500':
-  #       $ref: '#/components/responses/responseForErroredServiceRequests'
-  #     default:
-  #      $ref: '#/components/responses/responseForErroredServiceRequests'
+  # Get MOUNT-NAMES handled by MWDI
+  # - top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
+  #   - currently the only supported request is: {topology-path}?fields=node(node-id)
+  #   - note that when this service is called, the {topology-path} variable is an empty string
+  #   - if the same request would be send to the Controller instead the {topology-path} would need to contain the path shown above
+  # - is to be used with a filter to get the list of connected devices, only filter values from enum are allowed
+  #   - without the filter the complete topology schema would have to be included here, which cannot even be derived from the controller, as
+  #     it is too big.
+  #   - therefore, the specified schema here does not represent the topology-schema, but is narrowed down specifically to the response
+  #     provided if called with the allowed filter(s)
+  #
+  {topology-path}:
+    # uuid: mwdi-1-0-0-op-s-is-020
+    parameters:
+      - $ref: '#/components/parameters/topology-path'
+      - in: query
+        name: fields
+        description: 'query parameter to filter on controller level (limited usage)'
+        required: true
+        schema:
+          type: string
+          example: 'fields=node(node-id)'
+          enum:
+            - 'fields=node(node-id)'
+    get:
+      operationId: getControllerTopology
+      summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
+      tags:
+        - controller-topology
+    security:
+      - basicAuth: []
+    responses:
+      '200':
+        description: 'Filtered topology information provided.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/controller_topology_devices'
+       '400':
+         $ref: '#/components/responses/responseForErroredServiceRequests'
+       '401':
+         $ref: '#/components/responses/responseForErroredServiceRequests'
+       '403':
+         $ref: '#/components/responses/responseForErroredServiceRequests'
+      '404':
+         $ref: '#/components/responses/responseForErroredServiceRequests'
+       '500':
+         $ref: '#/components/responses/responseForErroredServiceRequests'
+       default:
+        $ref: '#/components/responses/responseForErroredServiceRequests'
   #
  # == Paths derived from controller OAS ========================================================================================================
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:

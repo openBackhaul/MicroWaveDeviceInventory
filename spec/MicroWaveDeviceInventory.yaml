@@ -813,7 +813,7 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests' 
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 010) /v1/notify-new-device-available
   /v1/notify-new-device-available:
@@ -922,17 +922,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/controller_topology_devices_TOP'
-       '400':
-         $ref: '#/components/responses/responseForErroredServiceRequests'
-       '401':
-         $ref: '#/components/responses/responseForErroredServiceRequests'
-       '403':
-         $ref: '#/components/responses/responseForErroredServiceRequests'
+      '400':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '401':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '403':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
       '404':
-         $ref: '#/components/responses/responseForErroredServiceRequests'
-       '500':
-         $ref: '#/components/responses/responseForErroredServiceRequests'
-       default:
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      '500':
+        $ref: '#/components/responses/responseForErroredServiceRequests'
+      default:
         $ref: '#/components/responses/responseForErroredServiceRequests'
   #
  # == Paths derived from controller OAS ========================================================================================================

@@ -10518,7 +10518,7 @@ components:
       #            ]
       #        }
       #    ]
-      #}    
+      #}
       type: object
       properties:
         network-topology-entries:
@@ -10546,7 +10546,7 @@ components:
         value:
           type: String
           pattern: '^\\d{9}[AB]{0,1}$'
-          example: '222250001' 
+          example: '222250001'
           description: 'The node-id (i.e. mount-name)'
     #
     # mwdi-specific schemas derived from controller oas -->

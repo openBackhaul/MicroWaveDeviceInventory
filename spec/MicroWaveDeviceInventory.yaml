@@ -921,7 +921,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/controller_topology_devices'
+              $ref: '#/components/schemas/controller_topology_devices_TOP'
        '400':
          $ref: '#/components/responses/responseForErroredServiceRequests'
        '401':
@@ -10502,14 +10502,53 @@ components:
           retries-left: 3
           last-retry-timestamp: "2023-01-21T18:32:28Z"
     #
-    # controller topology (top level) schema (not found in controller oas) -->
-    controller_topology_TOP:
-      ##TODO: needs to be defined
-      type: todo
+    # controller topology schema limited to devices only -->
+    controller_topology_devices_TOP:
+      # example:
+      #{
+      #    "network-topology:topology": [
+      #        {
+      #            "node": [
+      #                {
+      #                    "node-id": "node1"
+      #                },
+      #                {
+      #                    "node-id": "nodex"
+      #                }
+      #            ]
+      #        }
+      #    ]
+      #}    
+      type: object
       properties:
-        todo
+        network-topology-entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/controller_topology_devices_node'
+          description: 'List of topology objects'
     #
-
+    controller_topology_devices_node:
+      type: object
+      properties:
+        node-entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/controller_topology_devices_node_ids'
+          description: 'List of nodes'
+    #
+    controller_topology_devices_node_ids:
+      type: object
+      properties:
+        key:
+          type: String
+          pattern: 'node-id'
+          description: 'The node-id keyword'
+        value:
+          type: String
+          pattern: '^\\d{9}[AB]{0,1}$'
+          example: '222250001' 
+          description: 'The node-id (i.e. mount-name)'
+    #
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list_TOP:

@@ -158,7 +158,7 @@ profile-instances:
       #unit: no unit
       minimum: 0
       maximum: 5
-      description: 'In case the CC retrieval fails for a device, there may be this much retries within respective the retrieval period'
+      description: 'In case the CC retrieval fails for a device, there may be this much retries within the respective retrieval period'
     configuration:
       integer-value: 3
 

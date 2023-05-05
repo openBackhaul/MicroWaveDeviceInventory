@@ -453,21 +453,21 @@ paths:
   # uuid: mwdi-1-0-0-op-s-is-011 {topology-path}
 
   # 000) /v1/sync-devicelist:
-  # what does it do? 
-  # - it is executed periodically to synchronize the mount-names in the deviceList with the Controller: 
+  # what does it do?
+  # - it is executed periodically to synchronize the mount-names in the deviceList with the Controller:
   #   all devices with state connected should be included in the deviceList
   # - steps:
   #   1. get the list of connected devices from the Controller
-  #   2. compare the resulting list against the MWDI deviceList and for each device only seen in either one 
-  #      of the two lists execute another service (forwardings!), if devices are seen in both lists, 
-  #      nothing needs to be done for those devices 
-  #      - for every connected device which is not yet in the deviceList: 
+  #   2. compare the resulting list against the MWDI deviceList and for each device only seen in either one
+  #      of the two lists execute another service (forwardings!), if devices are seen in both lists,
+  #      nothing needs to be done for those devices
+  #      - for every connected device which is not yet in the deviceList:
   #        - call /v1/add-device-to-devicelist
   #      - for every device from the deviceList which is no longer in connected state:
   #        - call /v1/remove-device-from-devicelist
   #        - call /v1/remove-controlconstruct-from-database
   #
-  # The service has a get request only, as the actual writing of changes to the deviceList will be done by the 
+  # The service has a get request only, as the actual writing of changes to the deviceList will be done by the
   # subsequently called services (forwardings)
   #
   # TODO: add callbacks for forwardings
@@ -775,7 +775,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 009) /v1/write-controlconstruct-to-database/{mount-name}
-   /v1/write-controlconstruct-to-database/{mount-name}:
+  /v1/write-controlconstruct-to-database/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-008
     parameters:
       - $ref: '#/components/parameters/mount-name'

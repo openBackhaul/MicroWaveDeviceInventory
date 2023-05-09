@@ -215,7 +215,7 @@
               "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
               "integer-profile-1-0:integer-profile-pac": {
                 "integer-profile-capability": {
-                  "integer-name": "ccRetrievalBatchsize",
+                  "integer-name": "slidingWindowSize",
                   "minimum": 1,
                   "maximum": 500
                 },
@@ -226,21 +226,6 @@
             },
             {
               "uuid": "mwdi-1-0-0-integer-p-001",
-              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
-              "integer-profile-1-0:integer-profile-pac": {
-                "integer-profile-capability": {
-                  "integer-name": "ccBatchRetrievalWaitingTime",
-                  "unit": "second",
-                  "minimum": 3,
-                  "maximum": 15
-                },
-                "integer-profile-configuration": {
-                  "integer-value": 4
-                }
-              }
-            },
-            {
-              "uuid": "mwdi-1-0-0-integer-p-002",
               "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
               "integer-profile-1-0:integer-profile-pac": {
                 "integer-profile-capability": {
@@ -255,7 +240,7 @@
               }
             },
             {
-              "uuid": "mwdi-1-0-0-integer-p-003",
+              "uuid": "mwdi-1-0-0-integer-p-002",
               "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
               "integer-profile-1-0:integer-profile-pac": {
                 "integer-profile-capability": {
@@ -270,7 +255,7 @@
               }
             },
             {
-              "uuid": "mwdi-1-0-0-integer-p-004",
+              "uuid": "mwdi-1-0-0-integer-p-003",
               "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
               "integer-profile-1-0:integer-profile-pac": {
                 "integer-profile-capability": {
@@ -284,11 +269,11 @@
               }
             },
             {
-              "uuid": "mwdi-1-0-0-integer-p-005",
+              "uuid": "mwdi-1-0-0-integer-p-004",
               "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
               "integer-profile-1-0:integer-profile-pac": {
                 "integer-profile-capability": {
-                  "integer-name": "ccRetrievalWaitingTime",
+                  "integer-name": "ccRetrievalRetryWaitingTime",
                   "unit": "second",
                   "minimum": 900,
                   "maximum": 3600
@@ -297,22 +282,7 @@
                   "integer-value": 900
                 }
               }
-            },
-            {
-              "uuid": "mwdi-1-0-0-integer-p-006",
-              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
-              "integer-profile-1-0:integer-profile-pac": {
-                "integer-profile-capability": {
-                  "integer-name": "deviceListSyncInterval",
-                  "unit": "second",
-                  "minimum": 900,
-                  "maximum": 86400
-                },
-                "integer-profile-configuration": {
-                  "integer-value": 7200 
-                }
-              }
-            }                                  
+            }                                
           ]
         },
         "logical-termination-point": [

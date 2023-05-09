@@ -434,303 +434,20 @@ paths:
 
  # TODO: wo müssen callbacks hinzugefügt werden?
 
- # == MWDI-specific maintenance services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/sync-devicelist - POST
-  # 001) /v1/add-device-to-devicelist/{mount-name} - POST
-  # 002) /v1/remove-device-from-devicelist/{mount-name} - POST (or DELETE?)
-  # 003) /v1/remove-controlconstruct-from-database/{mount-name} - POST (or DELETE?)
-  # 004) /v1/provide-complete-devicelist/{mount-name} - GET
-  # 005) /v1/update-devicelist-attributes/{mount-name} - POST
-  # 006) /v1/build-device-retrieval-batch - GET
-  # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller - GET
-  # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name} - POST
-  # 009) /v1/write-controlconstruct-to-database/{mount-name} - POST
-  # 010) /v1/notify-new-device-available - GET
-  # 011) /v1/notify-new-control-construct-available - GET
+ # == MWDI-specific services, which are not derived from the controller OAS ========================================================
+  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name} - POST
+  # 001) /v1/notify-new-device-available - GET
+  # 002) /v1/notify-new-control-construct-available - GET
 
-
-  # top-level ressource & Control construct path
-  # uuid: mwdi-1-0-0-op-s-is-002 {topology-path}
-
-  # 000) /v1/sync-devicelist:
-  # what does it do?
-  # - it is executed periodically to synchronize the mount-names in the deviceList with the Controller:
-  #   all devices with state connected should be included in the deviceList
-  # - steps:
-  #   1. get the list of connected devices from the Controller
-  #   2. compare the resulting list against the MWDI deviceList and for each device only seen in either one
-  #      of the two lists execute another service (forwardings!), if devices are seen in both lists,
-  #      nothing needs to be done for those devices
-  #      - for every connected device which is not yet in the deviceList:
-  #        - call /v1/add-device-to-devicelist
-  #      - for every device from the deviceList which is no longer in connected state:
-  #        - call /v1/remove-device-from-devicelist
-  #        - call /v1/remove-controlconstruct-from-database
-  #
-  # The service has a get request only, as the actual writing of changes to the deviceList will be done by the
-  # subsequently called services (forwardings)
-  #
-  # TODO: add callbacks for forwardings
-  /v1/sync-devicelist:
-    # uuid: mwdi-1-0-0-op-s-is-000
-    parameters:
-      # no parameters
-    get:
-      operationId: syncMwdiDeviceListWithController
-      summary: 'Compares connected devices from Controller with MWDI deviceList, then adds/removes devices from MWDI accordingly (MWDI contains only connected devices)'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      #requestBody:  # not needed, services will derive deviceList entries on its own
-      #  required: true
-      #  content:
-      #    application/json:
-      #      schema:
-      #        type: array
-      #        items:
-      #          type: string
-      responses:
-        '201':
-          description: 'deviceList synchronized with Controller'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 001) /v1/add-device-to-devicelist
-  /v1/add-device-to-devicelist/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-001
-    parameters:
-      - $ref: '#/components/parameters/mount-name'
-    post:
-      operationId: addDeviceToDeviceList
-      summary: 'Adds the mount-name to the MWDI deviceList'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          # return the deviceList attributes of the mount-name for validation (testing), they should be set to their default values:
-          #   retrieval-running: false
-          #   retrieval-timestamp: 'null'
-          #   retrieval-status: "new"
-          #   retries-left: <max number of allowed retries>
-          #   last-retry-timestamp: 'null'
-          #   retrieval-priority: 'high'
-          description: 'Added mount-name to the MWDI deviceList'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/deviceListAttributes'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 002) /v1/remove-device-from-devicelist
-  /v1/remove-device-from-devicelist:
-    # uuid: mwdi-1-0-0-op-s-is-002
-    parameters:
-      - $ref: '#/components/parameters/mount-name'
-    delete:
-      operationId: removeDeviceFromDeviceList
-      summary: 'Removes the mount-name from the MWDI deviceList'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Removed mount-name from the MWDI deviceList'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 003) /v1/remove-controlconstruct-from-database/{mount-name}
-  /v1/remove-controlconstruct-from-database/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-003
-    parameters:
-      - $ref: '#/components/parameters/mount-name'
-    delete:
-      operationId: removeDeviceControlConstructFromDatabase
-      summary: 'Removes the Control Construct for the mount-name from the MWDI database.'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Removed ControlConstruct for the mount-name from MWDI database'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 004) /v1/provide-complete-devicelist
-  /v1/provide-complete-devicelist:
-    # uuid: mwdi-1-0-0-op-s-is-004
-    get:
-      operationId: provideCompleteDeviceList
-      summary: 'Returns the complete device list with all relevant parameters'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'deviceList with parameters provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/deviceList'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 005) /v1/update-devicelist-attributes/{mount-name}
-  /v1/update-devicelist-attributes/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-005
-    parameters:
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/retrieval-running'
-      - $ref: '#/components/parameters/retrieval-timestamp'
-      - $ref: '#/components/parameters/retrieval-status'
-      - $ref: '#/components/parameters/retries-left'
-      - $ref: '#/components/parameters/last-retry-timestamp'
-    post:
-      operationId: updateDeviceListAttributes
-      summary: 'Updates the deviceList attributes of the mount-name with the attribute values provided as query parameters.'
-      description: 'Updates at least one of the attributes for the mount-name in the deviceList.\nThe attributes are marked as optional query parameters, so they can be set independently.'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'deviceList attribute(s) for mount-name updated'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 006) /v1/build-device-retrieval-batch
-  /v1/build-device-retrieval-batch:
-    # uuid: mwdi-1-0-0-op-s-is-006
-    get:
-      operationId: buildDeviceRetrievalBatch
-      summary: 'Creates the list of mount-names for which the ControlConstruct shall be requested from the controller in the next retrieval iteration'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Provide list of mount-names to be queried for ControlConstruct on the Controller'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 007) /v1/retrieve-controlconstructs-for-devicebatch-from-controller
-  /v1/retrieve-controlconstructs-for-devicebatch-from-controller:
-    # uuid: mwdi-1-0-0-op-s-is-007
-    post:
-      operationId: retrieveCCsForDeviceBatchFromController
-      summary: 'Builds the mount-name list for CC retrieval and then sends retrieval requests for all those mount-names to the controller'
-      tags:
-        - maintenance
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'ControlConstructs for mount-name list retrieved and stored. DeviceList updated accordingly.'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      # hier ggf. Callbacks einfügen für Request-Kaskade und Notification ans Historical-MWDI
-
-  # 008) /v1/change-paramete-value-in-controlconstruct/{mount-name}
+  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name}
   # - parameter: just the mount-name
   # - post-request:
   #   - request-body: the input is the complete path to the attribute to be changed plus its new value
   #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
   /v1/change-paramete-value-in-controlconstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-000
+    #
+    # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/mount-name'
     post:
@@ -774,50 +491,12 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 009) /v1/write-controlconstruct-to-database/{mount-name}
-  /v1/write-controlconstruct-to-database/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-000
-    parameters:
-      - $ref: '#/components/parameters/mount-name'
-    post:
-      operationId: writeControlConstructToDatabase
-      summary: 'Writes the retrieved control construct for the mount-name to the MWDI ElasticSearch database.'
-      tags:
-        - maintenance
-      securityAuth: []
-      requestBody:
-        description: 'The request body contains the retrieved control construct for the mount-name.'
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - control-construct
-              properties:
-                control-construct:
-                  type: string
-                  description: 'the complete control construct of the mount-name'
-                  # no example, as CC is too big
-      responses:
-        '200':
-          description: 'The parameter value has been changed'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  # 010) /v1/notify-new-device-available
+  # 001) /v1/notify-new-device-available
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
+    #
+    # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
+    # TODO: check for callbacks
     parameters:
     get:
       operationId: notifyAboutNewAvailableDevice
@@ -852,6 +531,9 @@ paths:
   # 011) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:
     # uuid: mwdi-1-0-0-op-s-is-002
+    #
+    # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
+    # TODO: check for callbacks     
     parameters:
     get:
       operationId: notifyAboutNewAvailableControlConstruct
@@ -10246,59 +9928,6 @@ components:
         pattern: '^\\d{9}[AB]{0,1}$'
       description: 'The mount-name of the node for which the request should be executed.'
     #
-    retrieval-running:
-      name: retrieval-running
-      in: query
-      description: 'Indicates whether currently a retrieval is running for the related mount-name\n(if yes, no additional retrieval should be started until the already running retrieval is finished)'
-      required: false
-      schema:
-        type: boolean
-        enum:
-          - true
-          - false
-    #
-    retrieval-timestamp:
-      name: retrieval-timestamp
-      in: query
-      description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'
-      required: false
-      schema:
-        type: string
-        format: date-time
-        example: '2023-01-20T17:32:28Z'
-    #
-    retrieval-status:
-      name: retrieval-status
-      in: query
-      description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'
-      required: false
-      schema:
-        type: string
-        enum:
-          - 'ok'
-          - 'error'
-          - 'new'
-    #
-    retries-left:
-      name: retries-left
-      in: query
-      description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 0
-    #
-    last-retry-timestamp:
-      name: last-retry-timestamp
-      in: query
-      description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
-      required: false
-      schema:
-        type: string
-        format: date-time
-        example: '2023-01-20T17:32:28Z'
-    #
     # Fields filter query parameter
     fields:
       name: fields
@@ -10434,73 +10063,6 @@ components:
           format: int32
         message:
           type: string
-    # mwdi-specific schemas for non-controller-oas (additional) services -->
-    deviceList:
-    # dictionary with key=mount-name, value=deviceListAttributes instances
-    # keys do not have to be defined explicity, they are always strings
-    # -> added them here as fixed key to make it more clear that the keys are the mount-names
-    #   (see https://swagger.io/docs/specification/data-models/dictionaries/)
-      type: object
-      properties:
-        mount-name:
-          type: string
-      required:
-        - mount-name
-      additionalProperties:
-        type: #/components/schemas/deviceListAttributes
-    #
-    deviceListAttributes:
-    # describe attributes in own schema for simplify handling
-      type: array
-      items:
-        type: object
-        required:
-          - retrieval-running
-        properties:
-          retrieval-running:
-            type: boolean
-            enum:
-              - true
-              - false
-            description: 'Indicates whether currently a retrieval is running for the related mount-name\n(if yes, no additional retrieval should be started until the already running retrieval is finished)'
-          retrieval-timestamp:
-            type: string
-            format: date-time
-            description: 'Datetime of last successful ControlConstruct retrieval for the mount-name'
-          retrieval-status:
-            # indicates whether last CC retrieval try was successful (ok/error) or if mount-name is new and no retrieval has taken place, yet
-            type: String
-            enum:
-              - 'ok'
-              - 'error'
-              - 'new'
-            description: 'Indicates the status of the last ControlConstruct retrieval (ok/error)\nor if no retrieval has taken place, yet, for the related mount-name.'
-          retries-left:
-            type: integer
-            format: int32
-            minimum: 0
-            maximum: 5 # TODO: to be defined
-            description: 'The number of still available ControlConstruct retries for the current retrieval period for the related mount-name'
-          last-retry-timestamp:
-            # timestamp of the last CC retrieval attempt
-            type: string
-            format: date-time
-            description: 'Datetime of the last unsuccessful ControlConstruct retrieval attempt.'
-          retrieval-priority:
-            # priority for batch building
-            type: string
-            enum:
-              - 'none'
-              - 'high'
-              - 'medium'
-              - 'low'
-            description: 'The priority of this device for batch building.'
-      example:
-        - retrieval-running: false
-          retrieval-timestamp: "2023-01-20T17:32:28Z"
-          retrieval-status: "error"
-          retries-left: 3
-          last-retry-timestamp: "2023-01-21T18:32:28Z"
     #
     # controller topology schema limited to devices only -->
     controller_topology_devices_TOP:

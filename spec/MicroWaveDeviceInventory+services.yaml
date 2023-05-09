@@ -49,7 +49,8 @@ servers:
         ## =======================================================================================================
         ##
         ## 000) /v1/change-paramete-value-in-controlconstruct
-        ##      only maintenance service to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed
+        ##      to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed
+        ##      After the parameter in the CC has been updated, a notification shall be sent (/v1/notify-new-control-construct-available)
         ##
         ## 001) /v1/notify-new-device-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new device is added to the MWDI deviceList
@@ -57,9 +58,9 @@ servers:
         ##
         ## 002) /v1/notify-new-control-construct-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new or updated ControlConstruct for the device is available
-        ##      - called either after retrieval or update of a CC
-        ##        - from within /v1/retrieve-controlconstructs-for-devicebatch-from-controller processing or
-        ##        - triggered by /v1/change-paramete-value-in-controlconstruct
+        ##      - notification happens either when 
+        ##        - a CC has been retrieved and stored in the MWDI database or
+        ##        - is triggered after /v1/change-paramete-value-in-controlconstruct has updated an existing CC
         ##
         - operation-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
           uuid: mwdi-1-0-0-op-s-is-008

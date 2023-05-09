@@ -450,7 +450,7 @@ paths:
 
 
   # top-level ressource & Control construct path
-  # uuid: mwdi-1-0-0-op-s-is-011 {topology-path}
+  # uuid: mwdi-1-0-0-op-s-is-002 {topology-path}
 
   # 000) /v1/sync-devicelist:
   # what does it do?
@@ -730,7 +730,7 @@ paths:
   #   - request-body: the input is the complete path to the attribute to be changed plus its new value
   #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
   /v1/change-paramete-value-in-controlconstruct/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-008
+    # uuid: mwdi-1-0-0-op-s-is-000
     parameters:
       - $ref: '#/components/parameters/mount-name'
     post:
@@ -776,7 +776,7 @@ paths:
 
   # 009) /v1/write-controlconstruct-to-database/{mount-name}
   /v1/write-controlconstruct-to-database/{mount-name}:
-    # uuid: mwdi-1-0-0-op-s-is-008
+    # uuid: mwdi-1-0-0-op-s-is-000
     parameters:
       - $ref: '#/components/parameters/mount-name'
     post:
@@ -817,7 +817,7 @@ paths:
 
   # 010) /v1/notify-new-device-available
   /v1/notify-new-device-available:
-    # uuid: mwdi-1-0-0-op-s-is-010
+    # uuid: mwdi-1-0-0-op-s-is-001
     parameters:
     get:
       operationId: notifyAboutNewAvailableDevice
@@ -851,7 +851,7 @@ paths:
 
   # 011) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:
-    # uuid: mwdi-1-0-0-op-s-is-011
+    # uuid: mwdi-1-0-0-op-s-is-002
     parameters:
     get:
       operationId: notifyAboutNewAvailableControlConstruct

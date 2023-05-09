@@ -102,14 +102,14 @@ forwardings:
       - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
         uuid: mwdi-1-0-0-op-s-is-007
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-008
+        uuid: mwdi-1-0-0-op-s-is-000
       - server-name: /v1/write-controlconstruct-to-database/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-009
       # notification services
       - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-010
+        uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-011
+        uuid: mwdi-1-0-0-op-s-is-002
       # ressources
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-s-is-021
@@ -352,9 +352,9 @@ forwardings:
       ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
       # add servers for notifications
       - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-010
+        uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-011
+        uuid: mwdi-1-0-0-op-s-is-002
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
@@ -394,9 +394,9 @@ forwardings:
       ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
       # add servers for notifications
       - server-name: /v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-010
+        uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-011
+        uuid: mwdi-1-0-0-op-s-is-002
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
@@ -598,7 +598,7 @@ forwardings:
       - client-name: MicroWaveDeviceInventory:://v1/update-devicelist-attributes/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-005
       - client-name: MicroWaveDeviceInventory:://v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-010
+        uuid: mwdi-1-0-0-op-s-is-001
   #
   # -------------------------------------------------------------------------------------------
   # 2) perodic retrieval of CCs
@@ -682,7 +682,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-009
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-011
+        uuid: mwdi-1-0-0-op-s-is-002
   #
   # -------------------------------------------------------------------------------------------
   # there is also a forwarding if a stored CC is updated (send notification)
@@ -696,7 +696,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-008
+        uuid: mwdi-1-0-0-op-s-is-000
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-011
+        uuid: mwdi-1-0-0-op-s-is-002

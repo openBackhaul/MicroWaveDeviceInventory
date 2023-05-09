@@ -45,7 +45,7 @@ servers:
       individual:
         ## DONE: Add Services specific to this application
         ## =======================================================================================================
-        ## Additional MWDI services, which are not ressources (e.g. used for notifications) 
+        ## Additional MWDI services, which are not ressources (e.g. used for notifications)
         ## =======================================================================================================
         ##
         ## 000) /v1/change-paramete-value-in-controlconstruct
@@ -58,7 +58,7 @@ servers:
         ##
         ## 002) /v1/notify-new-control-construct-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new or updated ControlConstruct for the device is available
-        ##      - notification happens either when 
+        ##      - notification happens either when
         ##        - a CC has been retrieved and stored in the MWDI database or
         ##        - is triggered after /v1/change-paramete-value-in-controlconstruct has updated an existing CC
         ##

@@ -533,7 +533,7 @@ paths:
     # uuid: mwdi-1-0-0-op-s-is-002
     #
     # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
-    # TODO: check for callbacks     
+    # TODO: check for callbacks
     parameters:
     get:
       operationId: notifyAboutNewAvailableControlConstruct

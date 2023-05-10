@@ -51,6 +51,8 @@ servers:
         ## 000) /v1/change-paramete-value-in-controlconstruct
         ##      to be called from outside (with POST): updates a given value inside the control construct of a device, when it has changed
         ##      After the parameter in the CC has been updated, a notification shall be sent (/v1/notify-new-control-construct-available)
+        ##      Note: an update can only be done, if the CC for the device is already available in the MWDI database (otherwise a 404 should
+        ##      be returned)!
         ##
         ## 001) /v1/notify-new-device-available
         ##      - used for subscription, sends a notification with the device name to subscribers if a new device is added to the MWDI deviceList

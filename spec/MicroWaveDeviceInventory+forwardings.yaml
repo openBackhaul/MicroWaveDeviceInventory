@@ -508,63 +508,11 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
   ## DONE: Potential INDIVIDUAL Forwardings to be added
-  # - there are 2 individual forwardings (1, 2) related to cyclic operations for MWDI internal management, which have no request that is causing their execution;
-  #   they are causing other requests to be executed depending on their outcome
-  # - a change in a stored ControlConstruct leads to a notificaion
+  # (1) there needs to be a forwarding for when a new device is added to the MWDI,
+  #     then /v1/notify-new-device-available needs to be called,
+  #     but there is no initiating-request to that (call comes from the internal implementation)
   #
-  # -------------------------------------------------------------------------------------------
-  # 1) periodic sync with the Controller:
-  #    - purpose is to synchronize the devices contained in the MWDI deviceList with the Controller at a periodic interval
-  #      (intervals defined in IntegerProfile "deviceListSyncInterval")
-  #    - 1a) Event: periodic execution of /v1/sync-devicelist
-  #    - 1b) Reactions: (compare devices from deviceList with list of connected devices from the Controller)
-  #          the actual reaction depends on the outcome of the comparison for each device
-  #          - new connected device:
-  #            - call: /v1/add-device-to-deviceList
-  #          - previously connected device no longer connected on Controller: remove from MWDI
-  #            - call /v1/remove-device-from-devicelist
-  #            - call /v1/remove-controlconstruct-from-database
-  #
-  #    - 1c) if a new device is added via /v1/add-device-to-devicelist
-  #          - also update the deviceList attributes: /v1/update-devicelist-attributes
-  #          - and send a notification to all subscribers informing them about the new device:
-  #            /v1/notify-new-device-available
-  #
-  - forwarding-name: CyclicOperationCausesDeviceListSyncWithController
-    uuid: mwdi-1-0-0-op-fc-is-016
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/sync-devicelist
-        uuid: mwdi-1-0-0-op-s-is-000
-
-  - forwarding-name: SyncWithControllerCausesDeviceListUpdate
-    uuid: mwdi-1-0-0-op-fc-is-017
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/sync-devicelist
-        uuid: mwdi-1-0-0-op-s-is-000
-    consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/add-device-to-devicelist/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-001
-      - client-name: MicroWaveDeviceInventory:://v1/remove-device-from-devicelist/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-002
-      - client-name: MicroWaveDeviceInventory:://v1/remove-controlconstruct-from-database/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-003
-
-  - forwarding-name: AddingNewDeviceToDeviceListCausesAttributeUpdateAndNotification
+  - forwarding-name: AddingNewDeviceCausesNewDeviceNotification
     uuid: mwdi-1-0-0-op-fc-is-018
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -573,83 +521,18 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /v1/add-device-to-devicelist/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-001
-    consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/update-devicelist-attributes/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-005
-      - client-name: MicroWaveDeviceInventory:://v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-001
-  #
-  # -------------------------------------------------------------------------------------------
-  # 2) perodic retrieval of CCs
-  #    The CCs need to be retrieved in periodic intervals for a subset of the devices from the deviceList (retrievalBatch).
-  #    For each occurence of the retrieval a new retrievalBatch is build from the deviceList (waiting time between these occurences is
-  #    defined by profileInstance "ccBatchRetrievalWaitingTime").
-  #    Event: the retrieval is initiated by /v1/retrieve-controlconstructs-for-devicebatch-from-controller
-  #    Reaction: steps are as follows:
-  #       - (i)   call /v1/build-device-retrieval-batch
-  #       - (ii)  once (i) is finished, send the CC request to the Controller for each device from the new retrievalBatch
-  #       - (iii) after retrieval is finished for a given device:
-  #               - write the CC into the ElasticSearchDB /v1/write-controlconstruct-to-database
-  #               - update the deviceList attributes (/v1/update-devicelist-attributes)
-  #               - send a notification to all subscribers (HMDI) that a new/update CC is available (/v1/notify-new-control-construct-available)
-  #
-  # 2a) CC retrieval starts with this cyclic operation
-  - forwarding-name: CyclicOperationCausesPeriodicControlConstructRetrieval
-    uuid: mwdi-1-0-0-op-fc-is-019
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
+      # would be initiated from within the internal MWDI implementation
       - server-name:
         uuid:
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/retrieve-controlconstructs-for-devicebatch-from-controller
-        uuid: mwdi-1-0-0-op-s-is-007
-
-  # 2b) build the deviceBatch for the next retrieval
-  - forwarding-name: PeriodicControlConstructRetrievalCausesBuildingOfNextDeviceBatch
-    uuid: mwdi-1-0-0-op-fc-is-020
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
-        uuid: mwdi-1-0-0-op-s-is-007
-    consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/build-device-retrieval-batch
-        uuid: mwdi-1-0-0-op-s-is-006
-
-  # 2c) the built retrievalBatch has to be processed in a cyclic operation to request the CC for each entry
-  #     - (only) upon success the CC is written to the ElasticSearch database
-  #     - the deviceList attributes need to be updated anyway (irrelevant if retrieval successful or not)
-  - forwarding-name: CyclicOperationCausesRequestingTheControlConstructForTheDeviceBatch
-    uuid: mwdi-1-0-0-op-fc-is-021
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/build-device-retrieval-batch
-        uuid: mwdi-1-0-0-op-s-is-006
-    consequent-requests:
-      - client-name: OpenDaylight:://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-        uuid: mwdi-1-0-0-op-c-is-c-1-0-0-001
-      - client-name: MicroWaveDeviceInventory:://v1/write-controlconstruct-to-database/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-009
-      - client-name: MicroWaveDeviceInventory:://v1/update-devicelist-attributes/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-005
-
-  # 2d) when a new CC is written to the database, a notification needs to be sent about it
+      - client-name: MicroWaveDeviceInventory:://v1/notify-new-device-available
+        uuid: mwdi-1-0-0-op-s-is-001
+  #
+  # (2) send a notification for a new available ControlConstruct if a retrieved
+  #     ControlConstruct and been written to the database
+  #     (Applies for both when there was no CC available for the CC before and when a
+  #      CC already was stored, but now is overwritten with a newer version)
+  #
   - forwarding-name: WritingOfNewControlConstructCausesNewControlConstructAvailableNotification
     uuid: mwdi-1-0-0-op-fc-is-022
     forwarding-type: InvariantProcessSnippet
@@ -659,15 +542,17 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /v1/write-controlconstruct-to-database/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-009
+      # there is no initiating request, the notification shall be triggered from within the
+      # internal processes inside the application
+      - server-name:
+        uuid:
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-002
   #
-  # -------------------------------------------------------------------------------------------
-  # there is also a forwarding if a stored CC is updated (send notification)
-  - forwarding-name: ControlConstructUpdatedCausesNewControlConstructAvailableNotification
+  # (3) also send a notification for a new available ControlConstruct, if an existing
+  #     CC is updated via /v1/change-paramete-value-in-controlconstruct/{mount-name}
+  - forwarding-name: ControlConstructUpdateCausesNewControlConstructAvailableNotification
     uuid: mwdi-1-0-0-op-fc-is-023
     forwarding-type: InvariantProcessSnippet
     management-requests:

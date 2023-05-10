@@ -84,28 +84,9 @@ forwardings:
       - server-name: /docs
         uuid: mwdi-1-0-0-op-s-bs-005
       ## DONE: All service requests to be complemented
-      # management services
-      - server-name: /v1/sync-devicelist
-        uuid: mwdi-1-0-0-op-s-is-000
-      - server-name: /v1/add-device-to-devicelist/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-001
-      - server-name: /v1/remove-device-from-devicelist/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-002
-      - server-name: /v1/remove-controlconstruct-from-database/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-003
-      - server-name: /v1/provide-complete-devicelist/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-004
-      - server-name: /v1/update-devicelist-attributes/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-005
-      - server-name: /v1/build-device-retrieval-batch
-        uuid: mwdi-1-0-0-op-s-is-006
-      - server-name: /v1/retrieve-controlconstructs-for-devicebatch-from-controller
-        uuid: mwdi-1-0-0-op-s-is-007
+      # non-ressource services
       - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-000
-      - server-name: /v1/write-controlconstruct-to-database/{mount-name}
-        uuid: mwdi-1-0-0-op-s-is-009
-      # notification services
       - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available

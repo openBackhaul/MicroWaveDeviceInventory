@@ -449,6 +449,11 @@ paths:
     #
     # TODO: check for callbacks
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
     post:
       operationId: changeParameterValueInControlConstruct
@@ -498,6 +503,11 @@ paths:
     # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
     # TODO: check for callbacks
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
     get:
       operationId: notifyAboutNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
@@ -535,6 +545,11 @@ paths:
     # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
     # TODO: check for callbacks
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
     get:
       operationId: notifyAboutNewAvailableControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
@@ -580,6 +595,11 @@ paths:
   {topology-path}:
     # uuid: mwdi-1-0-0-op-s-is-020
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/topology-path'
       - in: query
         name: fields
@@ -621,7 +641,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     # uuid: mwdi-1-0-0-op-s-is-021
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
@@ -653,6 +677,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
     # uuid: mwdi-1-0-0-op-s-is-022
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
@@ -685,6 +714,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}:
     # uuid: mwdi-1-0-0-op-s-is-023
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -718,6 +752,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}:
     # uuid: mwdi-1-0-0-op-s-is-027
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -753,7 +792,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
     # uuid: mwdi-1-0-0-op-s-is-086
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
@@ -786,6 +829,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}:
     # uuid: mwdi-1-0-0-op-s-is-099
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
@@ -818,6 +866,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
     # uuid: mwdi-1-0-0-op-s-is-106
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -851,7 +904,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
     # uuid: mwdi-1-0-0-op-s-is-122
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -885,7 +942,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
     # uuid: mwdi-1-0-0-op-s-is-124
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -919,7 +980,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
     # uuid: mwdi-1-0-0-op-s-is-130
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -953,6 +1018,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
     # uuid: mwdi-1-0-0-op-s-is-202
     parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/local-id'
@@ -986,7 +1056,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
     # uuid: mwdi-1-0-0-op-s-is-237
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
@@ -1019,7 +1093,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
     # uuid: mwdi-1-0-0-op-s-is-298
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
@@ -1051,7 +1129,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection:
     # uuid: mwdi-1-0-0-op-s-is-302
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
@@ -1083,7 +1165,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
     # uuid: mwdi-1-0-0-op-s-is-305
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
@@ -1116,7 +1202,11 @@ paths:
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
     # uuid: mwdi-1-0-0-op-s-is-306
     parameters:
-      #- $ref: '#/components/parameters/topology-path'
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'

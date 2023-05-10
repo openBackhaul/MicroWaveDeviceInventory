@@ -121,6 +121,9 @@ servers:
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
           uuid: mwdi-1-0-0-op-s-is-099
 
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+          uuid: mwdi-1-0-0-op-s-is-106
+
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
           uuid: mwdi-1-0-0-op-s-is-122
 
@@ -129,6 +132,9 @@ servers:
 
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
           uuid: mwdi-1-0-0-op-s-is-130
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+          uuid: mwdi-1-0-0-op-s-is-202
 
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
           uuid: mwdi-1-0-0-op-s-is-237

@@ -534,7 +534,7 @@ forwardings:
   #      CC already was stored, but now is overwritten with a newer version)
   #
   - forwarding-name: WritingOfNewControlConstructCausesNewControlConstructAvailableNotification
-    uuid: mwdi-1-0-0-op-fc-is-022
+    uuid: mwdi-1-0-0-op-fc-is-019
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -553,7 +553,7 @@ forwardings:
   # (3) also send a notification for a new available ControlConstruct, if an existing
   #     CC is updated via /v1/change-paramete-value-in-controlconstruct/{mount-name}
   - forwarding-name: ControlConstructUpdateCausesNewControlConstructAvailableNotification
-    uuid: mwdi-1-0-0-op-fc-is-023
+    uuid: mwdi-1-0-0-op-fc-is-020
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

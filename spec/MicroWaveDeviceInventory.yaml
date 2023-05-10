@@ -815,6 +815,39 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
+    # uuid: mwdi-1-0-0-op-s-is-106
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCoreModelLtpLayerProtocolVlanInterfaceConfig
+      summary: 'Returns core-model-1-4 - vlan-interface-configuration'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_vlan-interface-pac_vlan-interface-configuration_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
     # uuid: mwdi-1-0-0-op-s-is-122
     parameters:
@@ -917,6 +950,39 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
+    # uuid: mwdi-1-0-0-op-s-is-202
+    parameters:
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCoreModelLtpLayerProtocolWireIfStatus
+      summary: 'Returns core-model-1-4 - wire-interface-status'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-status_TOP'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'          
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
     # uuid: mwdi-1-0-0-op-s-is-237
     parameters:

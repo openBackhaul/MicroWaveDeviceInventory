@@ -478,17 +478,20 @@ paths:
                   type: string
                   pattern: '\d{9}[AB]{0,1}$'
                   description: >
-                    'Name of device (i.e. mount-name) that shall be target of the parameter update inside the database.'
+                    'Name of device (i.e. mount-name) that shall be target of the parameter update inside the database
+                    find ControlConstruct entry for the mount-name in the MWDI elastic search database'
                   example: '100250001'                
                 parameter-path:
                   type: string
                   description: >
-                    'The complete (ressource) path (may contain the fields filter) inside the ControlConstruct for the parameter that shall be changed.'
+                    'The complete (ressource) path (may contain the fields filter) inside the ControlConstruct for the parameter that shall be changed
+                    find the parameter inside the ControlConstruct by following the parameter-path'
                   example: '/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/received-radio-signal-id/numeric-radio-signal-id'
                 parameter-value:
                   type: string
                   description: >
-                    'The new value for the parameter that shall be changed.'
+                    'The new value for the parameter that shall be changed
+                    update the parameter identified by the parameter-path with the value of this attribute.'
                   example: '102'
       responses:
         '200':

@@ -432,19 +432,17 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
 
- # TODO: wo müssen callbacks hinzugefügt werden?
-
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name} - POST
+  # 000) /v1/change-parameter-value-in-controlconstruct/{mount-name} - POST
   # 001) /v1/notify-new-device-available - GET
   # 002) /v1/notify-new-control-construct-available - GET
 
-  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name}
+  # 000) /v1/change-parameter-value-in-controlconstruct/{mount-name}
   # - parameter: just the mount-name
   # - post-request:
   #   - request-body: the input is the complete path to the attribute to be changed plus its new value
   #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
-  /v1/change-paramete-value-in-controlconstruct/{mount-name}:
+  /v1/change-parameter-value-in-controlconstruct/{mount-name}:
     # uuid: mwdi-1-0-0-op-s-is-000
     #
     # TODO: check for callbacks
@@ -459,7 +457,7 @@ paths:
       operationId: changeParameterValueInControlConstruct
       summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
       tags:
-        - maintenance
+        - IndividualServices
       securityAuth: []
       requestBody:
         description: 'The request body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
@@ -508,12 +506,11 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    get:
-      operationId: notifyAboutNewAvailableDevice
+    post:
+      operationId: notifyNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
-        - maintenance
-        - subscription
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -550,12 +547,11 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    get:
-      operationId: notifyAboutNewAvailableControlConstruct
+    post:
+      operationId: notifyNewAvailableControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
-        - maintenance
-        - subscription
+        - IndividualServices
       security:
         - basicAuth: []
       responses:

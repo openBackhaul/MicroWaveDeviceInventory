@@ -85,7 +85,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-005
       ## DONE: All service requests to be complemented
       # non-ressource services
-      - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
+      - server-name: /v1/change-parameter-value-in-controlconstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-000
       - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-001
@@ -555,7 +555,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-002
   #
   # (3) also send a notification for a new available ControlConstruct, if an existing
-  #     CC is updated via /v1/change-paramete-value-in-controlconstruct/{mount-name}
+  #     CC is updated via /v1/change-parameter-value-in-controlconstruct/{mount-name}
   - forwarding-name: ControlConstructUpdateCausesNewControlConstructAvailableNotification
     uuid: mwdi-1-0-0-op-fc-is-020
     forwarding-type: InvariantProcessSnippet
@@ -565,7 +565,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /v1/change-paramete-value-in-controlconstruct/{mount-name}
+      - server-name: /v1/change-parameter-value-in-controlconstruct/{mount-name}
         uuid: mwdi-1-0-0-op-s-is-000
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available

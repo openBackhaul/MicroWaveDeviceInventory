@@ -664,7 +664,7 @@ paths:
   #     provided if called with the allowed filter(s)
   #
   #  TODO: im Postman prüfen, ob man den Pfad auch direkt mit dem Filter anfangen darf
-  #        aber: dann wäre hier ja gar kein Pfad mehr, weil der Query-Parameter (?fields) wird ja nur beim Aufruf angegeben, nicht im Pfad!
+  #        aber: dann wäre hier ja gar kein Pfad mehr, weil der Query-Parameter (?fields) wird ja nur beim Aufruf angegeben, nicht im Pfad
   #
   {topology-path}:
     # uuid: mwdi-1-0-0-op-s-is-020

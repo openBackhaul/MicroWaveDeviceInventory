@@ -460,7 +460,8 @@ paths:
       summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
       tags:
         - maintenance
-      securityAuth: []
+      security
+        - apiKeyAuth: []
       requestBody:
         description: 'The request body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
         required: true
@@ -515,7 +516,7 @@ paths:
         - maintenance
         - subscription
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'New mount-name available '
@@ -557,7 +558,7 @@ paths:
         - maintenance
         - subscription
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'New control construct for mount-name available '
@@ -616,7 +617,7 @@ paths:
       tags:
         - controller-topology
     security:
-      - basicAuth: []
+        - apiKeyAuth: []
     responses:
       '200':
         description: 'Filtered topology information provided.'
@@ -654,7 +655,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'core-model-1-4_control-construct provided'
@@ -691,7 +692,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment provided'
@@ -729,7 +730,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector provided'
@@ -767,7 +768,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder provided'
@@ -806,7 +807,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing provided'
@@ -843,7 +844,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'logical-termination-point provided'
@@ -881,7 +882,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
@@ -919,7 +920,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability provided'
@@ -957,7 +958,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration provided'
@@ -995,7 +996,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status provided'
@@ -1033,7 +1034,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
@@ -1070,7 +1071,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
@@ -1106,7 +1107,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_current-alarms provided'
@@ -1142,7 +1143,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection provided'
@@ -1179,7 +1180,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
@@ -1216,7 +1217,7 @@ paths:
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'

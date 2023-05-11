@@ -459,8 +459,8 @@ paths:
       operationId: changeParameterValueInControlConstruct
       summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
       tags:
-        - maintenance
-      security
+        - IndividualServices
+      security:
         - apiKeyAuth: []
       requestBody:
         description: 'The request body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
@@ -513,8 +513,7 @@ paths:
       operationId: notifyAboutNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
-        - maintenance
-        - subscription
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -555,8 +554,7 @@ paths:
       operationId: notifyAboutNewAvailableControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
-        - maintenance
-        - subscription
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -615,7 +613,7 @@ paths:
       operationId: getControllerTopology
       summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
       tags:
-        - controller-topology
+        - IndividualServices
     security:
         - apiKeyAuth: []
     responses:
@@ -653,7 +651,7 @@ paths:
       operationId: getControlConstruct
       summary: 'Returns core-model-1-4 - control-construct'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -690,7 +688,7 @@ paths:
       operationId: getCoreModelEquip
       summary: 'Returns core-model-1-4 - equipment'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -728,7 +726,7 @@ paths:
       operationId: getCoreModelEquipConnector
       summary: 'Returns core-model-1-4 - connector'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -766,7 +764,7 @@ paths:
       operationId: getCoreModelEquipContainedHolder
       summary: 'Returns core-model-1-4 - contained-holder'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -805,7 +803,7 @@ paths:
       operationId: getCoreModelActualEquipManufacturedThing
       summary: 'Returns core-model-1-4 - manufactured-thing'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -842,7 +840,7 @@ paths:
       operationId: getCoreModelLtp
       summary: 'Returns core-model-1-4 - logical-termination-point'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -880,7 +878,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolVlanInterfaceConfig
       summary: 'Returns core-model-1-4 - vlan-interface-configuration'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -918,7 +916,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAirIfCap
       summary: 'Returns core-model-1-4 - air-interface-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -956,7 +954,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAirIfConfig
       summary: 'Returns core-model-1-4 - air-interface-configuration'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -994,7 +992,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAifIfStatus
       summary: 'Returns core-model-1-4 - air-interface-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -1032,7 +1030,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolWireIfStatus
       summary: 'Returns core-model-1-4 - wire-interface-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -1069,7 +1067,7 @@ paths:
       operationId: getCoreModelLtpAugmentCap
       summary: 'Returns core-model-1-4 - ltp-augment-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -1105,7 +1103,7 @@ paths:
       operationId: getCoreModelCurAlarms
       summary: 'Returns core-model-1-4 - current-alarms'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -1141,7 +1139,7 @@ paths:
       operationId: getCoreModelFirmwareCollection
       summary: 'Returns core-model-1-4 - firmware-collection'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -1178,7 +1176,7 @@ paths:
       operationId: getCoreModelFirmwareComponentCap
       summary: 'Returns core-model-1-4 - firmware-component-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
@@ -1215,7 +1213,7 @@ paths:
       operationId: getCoreModelFirmwareComponentStatus
       summary: 'Returns core-model-1-4 - firmware-component-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - apiKeyAuth: []
       responses:

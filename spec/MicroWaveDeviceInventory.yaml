@@ -438,10 +438,15 @@ paths:
   # 002) /v1/notify-new-control-construct-available - GET
 
   # 000) /v1/change-parameter-value-in-controlconstruct
-  # - parameter: just the mount-name
-  # - post-request:
-  #   - request-body: the input is the complete path to the attribute to be changed plus its new value
-  #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
+  #   - purpose: change a single parameter value inside a stored CC for a given device
+  #   - request-body inputs are:
+  #     - mount-name: the device for which the ControlConstruct shall be updated
+  #     - parameter-path: the path inside the devices ControlConstruct to the parameter that shall be updated
+  #       - the provided path must look like the ressource paths
+  #       - it can also have an appropriate fields filter
+  #     - parameter-value: the new value for the parameter to be changed
+  #
+  #   - 
   /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
     parameters:
@@ -452,7 +457,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: changeParameterValueInControlConstruct
-      summary: 'Changes the value of a parameter in the ControlConstruct of the given mount-name.'
+      summary: 'Changes the value of a parameter in the cached ControlConstruct of the given mount-name.'
       tags:
         - IndividualServices
       security:

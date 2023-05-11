@@ -10081,7 +10081,7 @@ components:
       schema:
         type: string
         example: '222250001'
-        pattern: '^\\d{9}[AB]{0,1}$'
+        pattern: '^\d{9}[AB]{0,1}$'
       description: 'The mount-name of the node for which the request should be executed.'
     #
     # Fields filter query parameter
@@ -10263,7 +10263,7 @@ components:
           description: 'The node-id keyword'
         value:
           type: String
-          pattern: '^\\d{9}[AB]{0,1}$'
+          pattern: '^\d{9}[AB]{0,1}$'
           example: '222250001'
           description: 'The node-id (i.e. mount-name)'
     #

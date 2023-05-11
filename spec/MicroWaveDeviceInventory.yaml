@@ -433,26 +433,23 @@ paths:
 
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/change-parameter-value-in-controlconstruct/{mount-name} - POST
+  # 000) /v1/change-parameter-value-in-controlconstruct - POST
   # 001) /v1/notify-new-device-available - GET
   # 002) /v1/notify-new-control-construct-available - GET
 
-  # 000) /v1/change-parameter-value-in-controlconstruct/{mount-name}
+  # 000) /v1/change-parameter-value-in-controlconstruct
   # - parameter: just the mount-name
   # - post-request:
   #   - request-body: the input is the complete path to the attribute to be changed plus its new value
   #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
-  /v1/change-parameter-value-in-controlconstruct/{mount-name}:
+  /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
-    #
-    # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
     post:
       operationId: changeParameterValueInControlConstruct
       summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
@@ -467,9 +464,14 @@ paths:
             schema:
               type: object
               required:
+                - mount-name
                 - parameter-path
                 - parameter-value
               properties:
+                mount-name:
+                  type: string
+                  description: 'mount-name'
+                  example: '100250001'                
                 parameter-path:
                   type: string
                   description: 'the complete (ressource) path to the parameter'
@@ -513,6 +515,20 @@ paths:
         - IndividualServices
       security:
         - basicAuth: []
+      requestBody:
+        description: 'The request body contains mount-name, i.e. the new available device.'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: 'mount-name'
+                  example: '100250001'
       responses:
         '200':
           description: 'New mount-name available '
@@ -554,6 +570,20 @@ paths:
         - IndividualServices
       security:
         - basicAuth: []
+      requestBody:
+        description: 'The request body contains mount-name, i.e. the new available device.'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: 'mount-name'
+                  example: '100250001'
       responses:
         '200':
           description: 'New control construct for mount-name available '
@@ -607,10 +637,10 @@ paths:
           enum:
             - 'fields=node(node-id)'
     get:
-      operationId: getControllerTopology
+      operationId: topologyPath
       summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
       tags:
-        - controller-topology
+        - IndividualServices
     security:
       - basicAuth: []
     responses:
@@ -648,7 +678,7 @@ paths:
       operationId: getControlConstruct
       summary: 'Returns core-model-1-4 - control-construct'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -685,7 +715,7 @@ paths:
       operationId: getCoreModelEquip
       summary: 'Returns core-model-1-4 - equipment'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -723,7 +753,7 @@ paths:
       operationId: getCoreModelEquipConnector
       summary: 'Returns core-model-1-4 - connector'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -761,7 +791,7 @@ paths:
       operationId: getCoreModelEquipContainedHolder
       summary: 'Returns core-model-1-4 - contained-holder'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -800,7 +830,7 @@ paths:
       operationId: getCoreModelActualEquipManufacturedThing
       summary: 'Returns core-model-1-4 - manufactured-thing'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -837,7 +867,7 @@ paths:
       operationId: getCoreModelLtp
       summary: 'Returns core-model-1-4 - logical-termination-point'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -875,7 +905,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolVlanInterfaceConfig
       summary: 'Returns core-model-1-4 - vlan-interface-configuration'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -913,7 +943,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAirIfCap
       summary: 'Returns core-model-1-4 - air-interface-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -951,7 +981,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAirIfConfig
       summary: 'Returns core-model-1-4 - air-interface-configuration'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -989,7 +1019,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAifIfStatus
       summary: 'Returns core-model-1-4 - air-interface-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -1027,7 +1057,7 @@ paths:
       operationId: getCoreModelLtpLayerProtocolWireIfStatus
       summary: 'Returns core-model-1-4 - wire-interface-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -1064,7 +1094,7 @@ paths:
       operationId: getCoreModelLtpAugmentCap
       summary: 'Returns core-model-1-4 - ltp-augment-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -1100,7 +1130,7 @@ paths:
       operationId: getCoreModelCurAlarms
       summary: 'Returns core-model-1-4 - current-alarms'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -1136,7 +1166,7 @@ paths:
       operationId: getCoreModelFirmwareCollection
       summary: 'Returns core-model-1-4 - firmware-collection'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -1173,7 +1203,7 @@ paths:
       operationId: getCoreModelFirmwareComponentCap
       summary: 'Returns core-model-1-4 - firmware-component-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:
@@ -1210,7 +1240,7 @@ paths:
       operationId: getCoreModelFirmwareComponentStatus
       summary: 'Returns core-model-1-4 - firmware-component-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
         - basicAuth: []
       responses:

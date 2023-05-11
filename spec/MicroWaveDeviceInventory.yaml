@@ -507,7 +507,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: notifyNewAvailableDevice
+      operationId: notifyNewDeviceAvailable
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
         - IndividualServices
@@ -548,7 +548,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: notifyNewAvailableControlConstruct
+      operationId: notifyNewControlConstructAvailable
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
         - IndividualServices

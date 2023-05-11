@@ -592,6 +592,7 @@
           example: 'TODO'
     get:
       operationId: getCoreModelEquipExpectedHolderName
+      getControlConstructEquipmentContainedHolderExpectedHolderName
       summary: 'Returns core-model-1-4 - name'
       tags:
         - core-model-1-4

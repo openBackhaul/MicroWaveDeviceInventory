@@ -435,9 +435,9 @@ paths:
  # TODO: wo müssen callbacks hinzugefügt werden?
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/change-parameter-value-in-controlconstruct - POST
-  # 001) /v1/notify-new-device-available - GET
-  # 002) /v1/notify-new-control-construct-available - GET
+  # 000) /v1/change-parameter-value-in-controlconstruct
+  # 001) /v1/notify-new-device-available
+  # 002) /v1/notify-new-control-construct-available
 
   # 000) /v1/change-parameter-value-in-controlconstruct
   # - parameter: just the mount-name
@@ -509,7 +509,7 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    get:
+    post:
       operationId: notifyAboutNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
@@ -550,7 +550,7 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    get:
+    post:
       operationId: notifyAboutNewAvailableControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:

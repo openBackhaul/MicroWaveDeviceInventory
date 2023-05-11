@@ -1,9 +1,10 @@
-openapi: 3.0.0
+﻿openapi: 3.0.0
 info:
   title: MicrowaveDeviceInventory
   version: 1.0.0
 
 paths:
+
 ########################################################################################################################
 #   Service Layer - Individual Part - Following paths can be taken as a base for individualization
 ########################################################################################################################
@@ -435,54 +436,99 @@ paths:
  # TODO: wo müssen callbacks hinzugefügt werden?
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name} - POST
-  # 001) /v1/notify-new-device-available - GET
-  # 002) /v1/notify-new-control-construct-available - GET
+  # 000) /v1/change-parameter-value-in-controlconstruct
+  # 001) /v1/notify-new-device-available
+  # 002) /v1/notify-new-control-construct-available
 
-  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name}
-  # - parameter: just the mount-name
-  # - post-request:
-  #   - request-body: the input is the complete path to the attribute to be changed plus its new value
-  #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
-  /v1/change-paramete-value-in-controlconstruct/{mount-name}:
+  # 000) /v1/change-parameter-value-in-controlconstruct
+  #   - purpose: change a single parameter value inside a stored CC for a given device
+  #   - requestBody inputs are:
+  #     - mount-name: the device for which the ControlConstruct shall be updated
+  #     - parameter-path: the path inside the devices ControlConstruct to the parameter that shall be updated
+  #       - the provided path must look like the ressource paths
+  #       - it can also have an appropriate fields filter
+  #     - parameter-value: the new value for the parameter to be changed
+  #   - no responseBody
+  #
+  /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
-    #
-    # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
     post:
       operationId: changeParameterValueInControlConstruct
-      summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
+      summary: 'Changes the value of a parameter in the cached ControlConstruct of the given mount-name.'
       tags:
-        - maintenance
-      securityAuth: []
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
       requestBody:
-        description: 'The request body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
+        description: 'The request body contains the mount-name, the path to the parameter inside the ControlConstruct and its new value. Changing multiple parameters or blocks at once is not supported.'
         required: true
         content:
           application/json:
             schema:
               type: object
               required:
+                - mount-name
                 - parameter-path
                 - parameter-value
               properties:
+                mount-name:
+                  type: string
+                  pattern: '\d{9}[AB]{0,1}$'
+                  description: >
+                    'Name of device (i.e. mount-name) that shall be target of the parameter update inside the database
+                    find ControlConstruct entry for the mount-name in the MWDI elastic search database'
+                  example: '100250001'
                 parameter-path:
                   type: string
-                  description: 'the complete (ressource) path to the parameter'
+                  description: >
+                    'The complete (ressource) path (may contain the fields filter) inside the ControlConstruct for the parameter that shall be changed
+                    find the parameter inside the ControlConstruct by following the parameter-path'
                   example: '/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/received-radio-signal-id/numeric-radio-signal-id'
                 parameter-value:
                   type: string
-                  description: 'the new value for the parameter'
+                  description: >
+                    'The new value for the parameter that shall be changed
+                    update the parameter identified by the parameter-path with the value of this attribute.'
                   example: '102'
       responses:
-        '200':
-          description: 'The parameter value has been changed'
+        '204':
+          description: 'The parameter value inside the cached ControlConstruct has been changed.'
+          headers:
+            x-correlator:
+              schema:
+                type: string
+                example: '550e8400-e29b-11d4-a716-446655440000'
+              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+            exec-time:
+              schema:
+                type: integer
+                example: 1100
+              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+            backend-time:
+              schema:
+                type: integer
+                example: 850
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -508,14 +554,13 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    get:
+    post:
       operationId: notifyAboutNewAvailableDevice
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
-        - maintenance
-        - subscription
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'New mount-name available '
@@ -550,14 +595,13 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    get:
+    post:
       operationId: notifyAboutNewAvailableControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
-        - maintenance
-        - subscription
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'New control construct for mount-name available '
@@ -614,9 +658,9 @@ paths:
       operationId: getControllerTopology
       summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
       tags:
-        - controller-topology
+        - IndividualServices
     security:
-      - basicAuth: []
+      - apiKeyAuth: []
     responses:
       '200':
         description: 'Filtered topology information provided.'
@@ -652,9 +696,9 @@ paths:
       operationId: getControlConstruct
       summary: 'Returns core-model-1-4 - control-construct'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'core-model-1-4_control-construct provided'
@@ -689,9 +733,9 @@ paths:
       operationId: getCoreModelEquip
       summary: 'Returns core-model-1-4 - equipment'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment provided'
@@ -727,9 +771,9 @@ paths:
       operationId: getCoreModelEquipConnector
       summary: 'Returns core-model-1-4 - connector'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector provided'
@@ -765,9 +809,9 @@ paths:
       operationId: getCoreModelEquipContainedHolder
       summary: 'Returns core-model-1-4 - contained-holder'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder provided'
@@ -804,9 +848,9 @@ paths:
       operationId: getCoreModelActualEquipManufacturedThing
       summary: 'Returns core-model-1-4 - manufactured-thing'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing provided'
@@ -841,9 +885,9 @@ paths:
       operationId: getCoreModelLtp
       summary: 'Returns core-model-1-4 - logical-termination-point'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'logical-termination-point provided'
@@ -879,9 +923,9 @@ paths:
       operationId: getCoreModelLtpLayerProtocolVlanInterfaceConfig
       summary: 'Returns core-model-1-4 - vlan-interface-configuration'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
@@ -917,9 +961,9 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAirIfCap
       summary: 'Returns core-model-1-4 - air-interface-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability provided'
@@ -955,9 +999,9 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAirIfConfig
       summary: 'Returns core-model-1-4 - air-interface-configuration'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration provided'
@@ -993,9 +1037,9 @@ paths:
       operationId: getCoreModelLtpLayerProtocolAifIfStatus
       summary: 'Returns core-model-1-4 - air-interface-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status provided'
@@ -1031,9 +1075,9 @@ paths:
       operationId: getCoreModelLtpLayerProtocolWireIfStatus
       summary: 'Returns core-model-1-4 - wire-interface-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
@@ -1052,7 +1096,7 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'          
+          $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
     # uuid: mwdi-1-0-0-op-s-is-237
     parameters:
@@ -1068,9 +1112,9 @@ paths:
       operationId: getCoreModelLtpAugmentCap
       summary: 'Returns core-model-1-4 - ltp-augment-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
@@ -1104,9 +1148,9 @@ paths:
       operationId: getCoreModelCurAlarms
       summary: 'Returns core-model-1-4 - current-alarms'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_current-alarms provided'
@@ -1140,9 +1184,9 @@ paths:
       operationId: getCoreModelFirmwareCollection
       summary: 'Returns core-model-1-4 - firmware-collection'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection provided'
@@ -1177,9 +1221,9 @@ paths:
       operationId: getCoreModelFirmwareComponentCap
       summary: 'Returns core-model-1-4 - firmware-component-capability'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
@@ -1214,9 +1258,9 @@ paths:
       operationId: getCoreModelFirmwareComponentStatus
       summary: 'Returns core-model-1-4 - firmware-component-status'
       tags:
-        - core-model-1-4
+        - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'
@@ -10081,7 +10125,7 @@ components:
       schema:
         type: string
         example: '222250001'
-        pattern: '^\\d{9}[AB]{0,1}$'
+        pattern: '^\d{9}[AB]{0,1}$'
       description: 'The mount-name of the node for which the request should be executed.'
     #
     # Fields filter query parameter
@@ -10263,7 +10307,7 @@ components:
           description: 'The node-id keyword'
         value:
           type: String
-          pattern: '^\\d{9}[AB]{0,1}$'
+          pattern: '^\d{9}[AB]{0,1}$'
           example: '222250001'
           description: 'The node-id (i.e. mount-name)'
     #

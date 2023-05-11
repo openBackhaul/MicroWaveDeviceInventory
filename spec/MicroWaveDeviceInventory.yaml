@@ -452,12 +452,13 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: changeParameterValueInControlConstruct
-      summary: 'Changes the value of a parameter in the ControlConstruct of the mount-name.'
+      summary: 'Changes the value of a parameter in the ControlConstruct of the given mount-name.'
       tags:
         - IndividualServices
-      securityAuth: []
+      security:
+        - apiKeyAuth: []
       requestBody:
-        description: 'The request body contains the path to the parameter and its new value. Changeing multiple parameters or blocks at once is not supported.'
+        description: 'The request body contains the mount-name, the path to the parameter inside the ControlConstruct and its new value. Changing multiple parameters or blocks at once is not supported.'
         required: true
         content:
           application/json:
@@ -470,15 +471,19 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  description: 'mount-name'
+                  pattern: '\d{9}[AB]{0,1}$'
+                  description: >
+                    'Name of device (i.e. mount-name) that shall be target of the parameter update inside the database.'
                   example: '100250001'                
                 parameter-path:
                   type: string
-                  description: 'the complete (ressource) path to the parameter'
+                  description: >
+                    'The complete (ressource) path (may contain the fields filter) inside the ControlConstruct for the parameter that shall be changed.'
                   example: '/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/received-radio-signal-id/numeric-radio-signal-id'
                 parameter-value:
                   type: string
-                  description: 'the new value for the parameter'
+                  description: >
+                    'The new value for the parameter that shall be changed.'
                   example: '102'
       responses:
         '200':
@@ -514,7 +519,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         description: 'The request body contains mount-name, i.e. the new available device.'
         required: true
@@ -527,6 +532,7 @@ paths:
               properties:
                 mount-name:
                   type: string
+                  pattern: '\d{9}[AB]{0,1}$'
                   description: 'mount-name'
                   example: '100250001'
       responses:
@@ -569,7 +575,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         description: 'The request body contains mount-name, i.e. the new available device.'
         required: true
@@ -582,6 +588,7 @@ paths:
               properties:
                 mount-name:
                   type: string
+                  pattern: '\d{9}[AB]{0,1}$'
                   description: 'mount-name'
                   example: '100250001'
       responses:
@@ -642,7 +649,7 @@ paths:
       tags:
         - IndividualServices
     security:
-      - basicAuth: []
+        - apiKeyAuth: []
     responses:
       '200':
         description: 'Filtered topology information provided.'
@@ -680,7 +687,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'core-model-1-4_control-construct provided'
@@ -717,7 +724,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment provided'
@@ -755,7 +762,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector provided'
@@ -793,7 +800,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder provided'
@@ -832,7 +839,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing provided'
@@ -869,7 +876,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'logical-termination-point provided'
@@ -907,7 +914,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
@@ -945,7 +952,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability provided'
@@ -983,7 +990,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration provided'
@@ -1021,7 +1028,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status provided'
@@ -1059,7 +1066,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
@@ -1096,7 +1103,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
@@ -1132,7 +1139,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_current-alarms provided'
@@ -1168,7 +1175,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection provided'
@@ -1205,7 +1212,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
@@ -1242,7 +1249,7 @@ paths:
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'

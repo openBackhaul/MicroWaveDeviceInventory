@@ -19,7 +19,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'core-model-1-4_control-construct provided'
@@ -59,7 +59,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment provided'
@@ -100,7 +100,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector provided'
@@ -142,7 +142,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector_name provided'
@@ -184,7 +184,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector_label provided'
@@ -226,7 +226,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_connector_extension provided'
@@ -267,7 +267,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder provided'
@@ -308,7 +308,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder provided'
@@ -349,7 +349,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_spatial-properties-of-type provided'
@@ -390,7 +390,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_environmental-rating provided'
@@ -431,7 +431,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_environmental-rating_thermal-rating provided'
@@ -472,7 +472,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_environmental-rating_power-rating provided'
@@ -513,7 +513,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_position provided'
@@ -554,7 +554,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_holder-structure provided'
@@ -596,7 +596,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_name provided'
@@ -638,7 +638,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_label provided'
@@ -680,7 +680,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_expected-holder_extension provided'
@@ -721,7 +721,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder provided'
@@ -762,7 +762,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_spatial-properties-of-type provided'
@@ -803,7 +803,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_environmental-rating provided'
@@ -844,7 +844,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_environmental-rating_thermal-rating provided'
@@ -885,7 +885,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_environmental-rating_power-rating provided'
@@ -926,7 +926,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_position provided'
@@ -967,7 +967,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_holder-structure provided'
@@ -1009,7 +1009,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_name provided'
@@ -1051,7 +1051,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_label provided'
@@ -1093,7 +1093,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_actual-holder_extension provided'
@@ -1135,7 +1135,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_name provided'
@@ -1177,7 +1177,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_label provided'
@@ -1219,7 +1219,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_contained-holder_extension provided'
@@ -1260,7 +1260,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment provided'
@@ -1301,7 +1301,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_location provided'
@@ -1342,7 +1342,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_structure provided'
@@ -1383,7 +1383,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_swappability provided'
@@ -1424,7 +1424,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_physical-properties provided'
@@ -1465,7 +1465,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_function-enablers provided'
@@ -1506,7 +1506,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_mechanical-functions provided'
@@ -1547,7 +1547,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_physical-characteristics provided'
@@ -1588,7 +1588,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_mechanical-features provided'
@@ -1629,7 +1629,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_spatial-properties-of-type provided'
@@ -1670,7 +1670,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_environmental-rating provided'
@@ -1711,7 +1711,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_environmental-rating_thermal-rating provided'
@@ -1752,7 +1752,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_environmental-rating_power-rating provided'
@@ -1793,7 +1793,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_manufactured-thing provided'
@@ -1834,7 +1834,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_manufactured-thing_manufacturer-properties provided'
@@ -1875,7 +1875,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_manufactured-thing_equipment-type provided'
@@ -1916,7 +1916,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_manufactured-thing_equipment-instance provided'
@@ -1957,7 +1957,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_manufactured-thing_operator-augmented-equipment-type provided'
@@ -1998,7 +1998,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_manufactured-thing_operator-augmented-equipment-instance provided'
@@ -2040,7 +2040,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_name provided'
@@ -2082,7 +2082,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_label provided'
@@ -2124,7 +2124,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'expected-equipment_extension provided'
@@ -2164,7 +2164,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment provided'
@@ -2204,7 +2204,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_location provided'
@@ -2244,7 +2244,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_structure provided'
@@ -2284,7 +2284,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_swappability provided'
@@ -2324,7 +2324,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_physical-properties provided'
@@ -2364,7 +2364,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_function-enablers provided'
@@ -2404,7 +2404,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_mechanical-functions provided'
@@ -2444,7 +2444,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_physical-characteristics provided'
@@ -2484,7 +2484,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_mechanical-features provided'
@@ -2524,7 +2524,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_spatial-properties-of-type provided'
@@ -2564,7 +2564,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_environmental-rating provided'
@@ -2604,7 +2604,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_environmental-rating_thermal-rating provided'
@@ -2644,7 +2644,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_environmental-rating_power-rating provided'
@@ -2684,7 +2684,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing provided'
@@ -2724,7 +2724,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing_manufacturer-properties provided'
@@ -2764,7 +2764,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing_equipment-type provided'
@@ -2804,7 +2804,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing_equipment-instance provided'
@@ -2844,7 +2844,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing_operator-augmented-equipment-type provided'
@@ -2884,7 +2884,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_manufactured-thing_operator-augmented-equipment-instance provided'
@@ -2925,7 +2925,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_name provided'
@@ -2966,7 +2966,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_label provided'
@@ -3007,7 +3007,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'actual-equipment_extension provided'
@@ -3047,7 +3047,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_external-managed-id provided'
@@ -3088,7 +3088,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_name provided'
@@ -3129,7 +3129,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_label provided'
@@ -3170,7 +3170,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'equipment_extension provided'
@@ -3210,7 +3210,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'logical-termination-point provided'
@@ -3251,7 +3251,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol provided'
@@ -3293,7 +3293,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_name provided'
@@ -3335,7 +3335,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_label provided'
@@ -3377,7 +3377,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_extension provided'
@@ -3418,7 +3418,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac provided'
@@ -3458,7 +3458,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-capability provided'
@@ -3499,7 +3499,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
@@ -3547,7 +3547,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_pcp-bit-to-priority-mapping-list provided'
@@ -3602,7 +3602,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_pcp-bits-encoding-mapping-list provided'
@@ -3650,7 +3650,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_received-priority-overwriting-list provided'
@@ -3698,7 +3698,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_external-to-internal-vlan-id-mapping-list provided'
@@ -3746,7 +3746,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_internal-to-egress-vlan-id-mapping-list provided'
@@ -3794,7 +3794,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_forwarded-protocol-vlan-id-grouping-list provided'
@@ -3842,7 +3842,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_service-access-priority-mapping-list provided'
@@ -3890,7 +3890,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration_priority-to-traffic-class-mapping-list provided'
@@ -3930,7 +3930,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-status provided'
@@ -3971,7 +3971,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_tdm-container-pac provided'
@@ -4011,7 +4011,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-capability provided'
@@ -4058,7 +4058,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-capability_supported-tdm-container-kind-list provided'
@@ -4099,7 +4099,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-configuration provided'
@@ -4139,7 +4139,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_tdm-container-pac_tdm-container-status provided'
@@ -4180,7 +4180,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac provided'
@@ -4220,7 +4220,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability provided'
@@ -4267,7 +4267,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-capability_transmission-mode-list provided'
@@ -4308,7 +4308,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration provided'
@@ -4349,7 +4349,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_transmitted-radio-signal-id provided'
@@ -4390,7 +4390,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_expected-radio-signal-id provided'
@@ -4439,7 +4439,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_g-826-threshold-cross-alarm-list provided'
@@ -4501,7 +4501,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_xlts-threshold-cross-alarm-list provided'
@@ -4556,7 +4556,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-configuration_acm-threshold-cross-alarm-list provided'
@@ -4596,7 +4596,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status provided'
@@ -4636,7 +4636,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-status_received-radio-signal-id provided'
@@ -4676,7 +4676,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance provided'
@@ -4723,7 +4723,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance_current-performance-data-list provided'
@@ -4770,7 +4770,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance_current-performance-data-list_performance-data provided'
@@ -4824,7 +4824,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-current-performance_current-performance-data-list_performance-data_time-xstates-list provided'
@@ -4864,7 +4864,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances provided'
@@ -4912,7 +4912,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances_historical-performance-data-list provided'
@@ -4960,7 +4960,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances_historical-performance-data-list_performance-data provided'
@@ -5015,7 +5015,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_air-interface-pac_air-interface-historical-performances_historical-performance-data-list_performance-data_time-xstates-list provided'
@@ -5056,7 +5056,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac provided'
@@ -5096,7 +5096,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-capability provided'
@@ -5137,7 +5137,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-configuration provided'
@@ -5186,7 +5186,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-configuration_g-826-threshold-cross-alarm-list provided'
@@ -5226,7 +5226,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-status provided'
@@ -5273,7 +5273,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-status_segment-status-list provided'
@@ -5313,7 +5313,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-current-performance provided'
@@ -5360,7 +5360,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-current-performance_current-performance-data-list provided'
@@ -5407,7 +5407,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-current-performance_current-performance-data-list_performance-data provided'
@@ -5447,7 +5447,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances provided'
@@ -5495,7 +5495,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances_historical-performance-data-list provided'
@@ -5543,7 +5543,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances_historical-performance-data-list_performance-data provided'
@@ -5584,7 +5584,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac provided'
@@ -5624,7 +5624,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-capability provided'
@@ -5665,7 +5665,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-configuration provided'
@@ -5713,7 +5713,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-configuration_problem-kind-severity-list provided'
@@ -5753,7 +5753,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-status provided'
@@ -5793,7 +5793,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-problems provided'
@@ -5840,7 +5840,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-problems_current-problem-list provided'
@@ -5880,7 +5880,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-performance provided'
@@ -5927,7 +5927,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-performance_current-performance-data-list provided'
@@ -5974,7 +5974,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-current-performance_current-performance-data-list_performance-data provided'
@@ -6014,7 +6014,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances provided'
@@ -6062,7 +6062,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances_historical-performance-data-list provided'
@@ -6110,7 +6110,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances_historical-performance-data-list_performance-data provided'
@@ -6151,7 +6151,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac provided'
@@ -6191,7 +6191,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-capability provided'
@@ -6238,7 +6238,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-capability_supported-tdm-structure-kind-list provided'
@@ -6279,7 +6279,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-configuration provided'
@@ -6328,7 +6328,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-configuration_g-826-threshold-cross-alarm-list provided'
@@ -6368,7 +6368,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-status provided'
@@ -6415,7 +6415,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-status_segment-status-list provided'
@@ -6455,7 +6455,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance provided'
@@ -6502,7 +6502,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance_current-performance-data-list provided'
@@ -6549,7 +6549,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-current-performance_current-performance-data-list_performance-data provided'
@@ -6589,7 +6589,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances provided'
@@ -6637,7 +6637,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances_historical-performance-data-list provided'
@@ -6685,7 +6685,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances_historical-performance-data-list_performance-data provided'
@@ -6726,7 +6726,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac provided'
@@ -6766,7 +6766,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-capability provided'
@@ -6807,7 +6807,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-capability_available-queue-list provided'
@@ -6854,7 +6854,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-capability_supported-header-compression-kind-list provided'
@@ -6895,7 +6895,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration provided'
@@ -6937,7 +6937,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration_queue-behavior-list provided'
@@ -6993,7 +6993,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration_queue-behavior-list_wred-behavior-list provided'
@@ -7041,7 +7041,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-configuration_problem-kind-severity-list provided'
@@ -7081,7 +7081,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-status provided'
@@ -7121,7 +7121,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-problems provided'
@@ -7168,7 +7168,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-problems_current-problem-list provided'
@@ -7208,7 +7208,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance provided'
@@ -7255,7 +7255,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list provided'
@@ -7302,7 +7302,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list_performance-data provided'
@@ -7350,7 +7350,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list_performance-data_queue-utilization-list provided'
@@ -7390,7 +7390,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances provided'
@@ -7438,7 +7438,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_historical-performance-data-list provided'
@@ -7486,7 +7486,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_historical-performance-data-list_performance-data provided'
@@ -7535,7 +7535,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_historical-performance-data-list_performance-data_queue-utilization-list provided'
@@ -7576,7 +7576,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac provided'
@@ -7616,7 +7616,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-capability provided'
@@ -7663,7 +7663,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-capability_supported-pmd-kind-list provided'
@@ -7704,7 +7704,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-configuration provided'
@@ -7752,7 +7752,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-configuration_transceiver-configuration-list provided'
@@ -7792,7 +7792,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
@@ -7839,7 +7839,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status_receiver-status-list provided'
@@ -7879,7 +7879,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-current-performance provided'
@@ -7926,7 +7926,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-current-performance_current-performance-data-list provided'
@@ -7973,7 +7973,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-current-performance_current-performance-data-list_performance-data provided'
@@ -8013,7 +8013,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances provided'
@@ -8061,7 +8061,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances_historical-performance-data-list provided'
@@ -8109,7 +8109,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances_historical-performance-data-list_performance-data provided'
@@ -8150,7 +8150,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock provided'
@@ -8192,7 +8192,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc provided'
@@ -8235,7 +8235,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port provided'
@@ -8279,7 +8279,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port_name provided'
@@ -8323,7 +8323,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port_label provided'
@@ -8367,7 +8367,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-port_extension provided'
@@ -8410,7 +8410,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch provided'
@@ -8454,7 +8454,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port provided'
@@ -8499,7 +8499,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port_name provided'
@@ -8544,7 +8544,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port_label provided'
@@ -8589,7 +8589,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port_extension provided'
@@ -8632,7 +8632,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_control-parameters provided'
@@ -8676,7 +8676,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_name provided'
@@ -8720,7 +8720,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_label provided'
@@ -8764,7 +8764,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_fc-switch_extension provided'
@@ -8806,7 +8806,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_external-managed-id provided'
@@ -8849,7 +8849,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_name provided'
@@ -8892,7 +8892,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_label provided'
@@ -8935,7 +8935,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_encapsulated-fc_extension provided'
@@ -8977,7 +8977,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_name provided'
@@ -9019,7 +9019,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_label provided'
@@ -9061,7 +9061,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_embedded-clock_extension provided'
@@ -9101,7 +9101,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_external-managed-id provided'
@@ -9142,7 +9142,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_name provided'
@@ -9183,7 +9183,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_label provided'
@@ -9224,7 +9224,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_extension provided'
@@ -9264,7 +9264,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_ltp-augment-pac provided'
@@ -9303,7 +9303,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
@@ -9343,7 +9343,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding-domain provided'
@@ -9384,7 +9384,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc provided'
@@ -9426,7 +9426,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-port provided'
@@ -9469,7 +9469,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-port_name provided'
@@ -9512,7 +9512,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-port_label provided'
@@ -9555,7 +9555,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-port_extension provided'
@@ -9597,7 +9597,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch provided'
@@ -9640,7 +9640,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port provided'
@@ -9684,7 +9684,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port_name provided'
@@ -9728,7 +9728,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port_label provided'
@@ -9772,7 +9772,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_selected-fc-port_extension provided'
@@ -9814,7 +9814,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_control-parameters provided'
@@ -9857,7 +9857,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_name provided'
@@ -9900,7 +9900,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_label provided'
@@ -9943,7 +9943,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_fc-switch_extension provided'
@@ -9984,7 +9984,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_external-managed-id provided'
@@ -10026,7 +10026,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_name provided'
@@ -10068,7 +10068,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_label provided'
@@ -10110,7 +10110,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_extension provided'
@@ -10151,7 +10151,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_vlan-fc-pac provided'
@@ -10191,7 +10191,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_vlan-fc-pac_vlan-fc-capability provided'
@@ -10232,7 +10232,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fc_vlan-fc-pac_vlan-fc-configuration provided'
@@ -10273,7 +10273,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fd-port provided'
@@ -10315,7 +10315,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fd-port_name provided'
@@ -10357,7 +10357,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fd-port_label provided'
@@ -10399,7 +10399,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_fd-port_extension provided'
@@ -10439,7 +10439,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_external-managed-id provided'
@@ -10480,7 +10480,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_name provided'
@@ -10521,7 +10521,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_label provided'
@@ -10562,7 +10562,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_extension provided'
@@ -10602,7 +10602,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_mac-fd-pac provided'
@@ -10641,7 +10641,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_mac-fd-pac_mac-fd-capability provided'
@@ -10681,7 +10681,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_mac-fd-pac_mac-fd-configuration provided'
@@ -10720,7 +10720,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_mac-fd-pac_mac-fd-status provided'
@@ -10760,7 +10760,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_vlan-fd-pac provided'
@@ -10799,7 +10799,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-capability provided'
@@ -10839,7 +10839,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-configuration provided'
@@ -10886,7 +10886,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-configuration_protocol-group-list provided'
@@ -10925,7 +10925,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'forwarding_domain_vlan-fd-pac_vlan-fd-status provided'
@@ -10964,7 +10964,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection provided'
@@ -11004,7 +11004,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile provided'
@@ -11044,7 +11044,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_external-managed-id provided'
@@ -11085,7 +11085,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_name provided'
@@ -11126,7 +11126,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_label provided'
@@ -11167,7 +11167,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_extension provided'
@@ -11207,7 +11207,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_wred-profile-pac provided'
@@ -11246,7 +11246,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_wred-profile-pac_wred-profile-capability provided'
@@ -11286,7 +11286,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_wred-profile-pac_wred-profile-configuration provided'
@@ -11326,7 +11326,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_co-channel-profile-pac provided'
@@ -11365,7 +11365,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_co-channel-profile-pac_co-channel-profile-capability provided'
@@ -11405,7 +11405,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'profile-collection_profile_co-channel-profile-pac_co-channel-profile-configuration provided'
@@ -11444,7 +11444,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'external-managed-id provided'
@@ -11484,7 +11484,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'name provided'
@@ -11524,7 +11524,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'label provided'
@@ -11564,7 +11564,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'extension provided'
@@ -11603,7 +11603,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac provided'
@@ -11641,7 +11641,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_alarm-capability provided'
@@ -11693,7 +11693,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_alarm-capability_alarm-inventory-list provided'
@@ -11732,7 +11732,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_alarm-configuration provided'
@@ -11778,7 +11778,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_alarm-configuration_severity-configuration-list provided'
@@ -11816,7 +11816,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_current-alarms provided'
@@ -11861,7 +11861,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_current-alarms_current-alarm-list provided'
@@ -11899,7 +11899,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_alarm-event-records provided'
@@ -11944,7 +11944,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'alarm-pac_alarm-event-records_alarm-event-record-list provided'
@@ -11983,7 +11983,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection provided'
@@ -12022,7 +12022,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list provided'
@@ -12061,7 +12061,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac provided'
@@ -12100,7 +12100,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
@@ -12139,7 +12139,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'
@@ -12179,7 +12179,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_name provided'
@@ -12219,7 +12219,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_label provided'
@@ -12259,7 +12259,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_firmware-component-list_extension provided'
@@ -12297,7 +12297,7 @@
       tags:
         - core-model-1-4
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'firmware-collection_download provided'
@@ -15788,7 +15788,7 @@
       tags:
         - Core
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'ControlConstruct provided'
@@ -16927,7 +16927,7 @@
       tags:
         - Core
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Instance of Profile provided'
@@ -17235,7 +17235,7 @@
       tags:
         - ActionProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation name provided'
@@ -17276,7 +17276,7 @@
       tags:
         - ActionProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Label provided'
@@ -17317,7 +17317,7 @@
       tags:
         - ActionProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Input values provided'
@@ -17369,7 +17369,7 @@
       tags:
         - ActionProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Whether to be presented in new browser window provided'
@@ -17410,7 +17410,7 @@
       tags:
         - ActionProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Reference on the consequent operation provided'
@@ -17442,7 +17442,7 @@
       tags:
         - ActionProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -17486,7 +17486,7 @@
       tags:
         - GenericResponseProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation name provided'
@@ -17527,7 +17527,7 @@
       tags:
         - GenericResponseProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Field name provided'
@@ -17577,7 +17577,7 @@
       tags:
         - GenericResponseProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Description of the field provided'
@@ -17618,7 +17618,7 @@
       tags:
         - GenericResponseProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Datatype of the field provided'
@@ -17659,7 +17659,7 @@
       tags:
         - GenericResponseProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Value of the field provided'
@@ -17700,7 +17700,7 @@
       tags:
         - GenericResponseProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -17753,7 +17753,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'File identifier provided'
@@ -17794,7 +17794,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'File description provided'
@@ -17835,7 +17835,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'File path provided'
@@ -17867,7 +17867,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -17910,7 +17910,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'User name provided'
@@ -17942,7 +17942,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -17985,7 +17985,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Password provided'
@@ -18017,7 +18017,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -18060,7 +18060,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation provided'
@@ -18097,7 +18097,7 @@
       tags:
         - FileProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -18146,7 +18146,7 @@
       tags:
         - IntegerProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Integer name provided'
@@ -18187,7 +18187,7 @@
       tags:
         - IntegerProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Integer unit provided'
@@ -18228,7 +18228,7 @@
       tags:
         - IntegerProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Minimum value provided'
@@ -18269,7 +18269,7 @@
       tags:
         - IntegerProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Maximum value provided'
@@ -18310,7 +18310,7 @@
       tags:
         - IntegerProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Integer value provided'
@@ -18342,7 +18342,7 @@
       tags:
         - IntegerProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -18386,7 +18386,7 @@
       tags:
         - StringProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'String name provided'
@@ -18427,7 +18427,7 @@
       tags:
         - StringProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Enumeration values provided'
@@ -18471,7 +18471,7 @@
       tags:
         - StringProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Pattern provided'
@@ -18512,7 +18512,7 @@
       tags:
         - StringProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'String value provided'
@@ -18544,7 +18544,7 @@
       tags:
         - StringProfile
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -18605,7 +18605,7 @@
       tags:
         - OperationServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation name provided'
@@ -18646,7 +18646,7 @@
       tags:
         - OperationServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Life cycle state provided'
@@ -18685,7 +18685,7 @@
       tags:
         - OperationServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -18735,7 +18735,7 @@
       tags:
         - OperationServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation key provided'
@@ -18767,7 +18767,7 @@
       tags:
         - OperationServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -18812,7 +18812,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Application name provided'
@@ -18853,7 +18853,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Release number provided'
@@ -18894,7 +18894,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Application purpose provided'
@@ -18935,7 +18935,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Update period provided'
@@ -18981,7 +18981,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Owner name provided'
@@ -19022,7 +19022,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Email address of owner provided'
@@ -19063,7 +19063,7 @@
       tags:
         - HttpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'List of releases provided'
@@ -19126,7 +19126,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Description provided'
@@ -19157,7 +19157,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19199,7 +19199,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Local protocol provided'
@@ -19234,7 +19234,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19280,7 +19280,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Local address provided'
@@ -19318,7 +19318,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19372,7 +19372,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Local port provided'
@@ -19404,7 +19404,7 @@
       tags:
         - TcpServer
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19450,7 +19450,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation name provided'
@@ -19482,7 +19482,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19526,7 +19526,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operation key provided'
@@ -19558,7 +19558,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19602,7 +19602,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operational state provided'
@@ -19647,7 +19647,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Life cycle state provided'
@@ -19695,7 +19695,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Detailed logging configuration provided'
@@ -19727,7 +19727,7 @@
       tags:
         - OperationClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19771,7 +19771,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'API key provided'
@@ -19803,7 +19803,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19845,7 +19845,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Index alias provided'
@@ -19877,7 +19877,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -19919,7 +19919,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Service records policy provided'
@@ -20255,7 +20255,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -20603,7 +20603,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Operational state provided'
@@ -20648,7 +20648,7 @@
       tags:
         - ElasticsearchClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Life cycle state provided'
@@ -20697,7 +20697,7 @@
       tags:
         - HttpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Addressed application provided'
@@ -20729,7 +20729,7 @@
       tags:
         - HttpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -20773,7 +20773,7 @@
       tags:
         - HttpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Release number provided'
@@ -20805,7 +20805,7 @@
       tags:
         - HttpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -20850,7 +20850,7 @@
       tags:
         - TcpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Protocol for addressing remote side provided'
@@ -20885,7 +20885,7 @@
       tags:
         - TcpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -20931,7 +20931,7 @@
       tags:
         - TcpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Remote address provided'
@@ -20972,7 +20972,7 @@
       tags:
         - TcpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -21031,7 +21031,7 @@
       tags:
         - TcpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       responses:
         '200':
           description: 'Remote port provided'
@@ -21063,7 +21063,7 @@
       tags:
         - TcpClient
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -21154,7 +21154,7 @@ components:
       schema:
         type: string
         example: '222250001'
-        pattern: '\\d{9}[AB]{0,1}$'
+        pattern: '\d{9}[AB]{0,1}$'
       description: 'The mount-name of the node for which data shall be fetched.'
     uuid:
       name: uuid
@@ -21271,7 +21271,7 @@ components:
       properties:
         mount-name:
           type: string
-          pattern: '\\d{9}[AB]{0,1}$'
+          pattern: '\d{9}[AB]{0,1}$'
           example: '222250001'
         status:
           type: string

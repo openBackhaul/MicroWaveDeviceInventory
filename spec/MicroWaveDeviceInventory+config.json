@@ -732,7 +732,7 @@
                 "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-server-interface-1-0:operation-server-interface-pac": {
                   "operation-server-interface-capability": {
-                    "operation-name": "/v1/change-paramete-value-in-controlconstruct/{mount-name}"
+                    "operation-name": "/v1/change-parameter-value-in-controlconstruct"
                   },
                   "operation-server-interface-configuration": {
                     "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",

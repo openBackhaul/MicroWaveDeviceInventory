@@ -435,16 +435,16 @@ paths:
  # TODO: wo müssen callbacks hinzugefügt werden?
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name} - POST
+  # 000) /v1/change-parameter-value-in-controlconstruct - POST
   # 001) /v1/notify-new-device-available - GET
   # 002) /v1/notify-new-control-construct-available - GET
 
-  # 000) /v1/change-paramete-value-in-controlconstruct/{mount-name}
+  # 000) /v1/change-parameter-value-in-controlconstruct
   # - parameter: just the mount-name
   # - post-request:
   #   - request-body: the input is the complete path to the attribute to be changed plus its new value
   #   - the provided path must look like the ressource paths, it can also have an appropriate fields filter
-  /v1/change-paramete-value-in-controlconstruct/{mount-name}:
+  /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
     #
     # TODO: check for callbacks

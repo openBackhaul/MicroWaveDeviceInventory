@@ -630,7 +630,7 @@ paths:
   #   when the request would be executed on the ODL controller)
   # - MUST be called with query parameter 'fields filter', the enumeration lists the allowed 'fields filters'
   # - this is the only ressource path where a query parameter can directly follow a "/"
-  # - the schema for the returned responses only matches the filters from the query-parameter enumeration (having 
+  # - the schema for the returned responses only matches the filters from the query-parameter enumeration (having
   #   the complete schema would have been too complex)
   # - call from other apps as follows: /?fields=node(node-id)
   /:

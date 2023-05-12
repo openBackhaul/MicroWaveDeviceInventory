@@ -78,16 +78,17 @@ servers:
         ## SERVICES TO BE USED BY OTHER APPLICATIONS: RESSOURCE-PATHS -->
         ## =======================================================================================================
         ##
-        ## Service to access the highest topology layer, this needs to be used to get the list of connected devices from the MWDI
-        ## {topology-path} resembles the path https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf
-        ## - it can either be an empty string (when the apps are sending requests to the MWDI), or if the external app is communicating with the
-        ##   controller instead of MWDI it would have to provide the path shown above (with correct ip+port) as parameter value
-        ## - it is necessary to have this, as the list of connected MWDI devices can only be delivered by using a fields filter (query parameter), but the
-        ##   path cannot start with the filter in order to request the list of connected devices send the request to the MWDI:
-        ##   {topology-path}?fields=node(node-id)
+        ## This "service" (actually it is a "ressource") can be called to request the list of devices managed by the MWDI.
+        ## It just consists of the "/", as this ressource path works on a level about the nodes.
+        ## When it is called a fields filter MUST be provided. Currently the only fields filter allowed for this request is
+        ## "fields=node(node-id)". If the request would be sent to the ODL controller instead, the "/" path would correspond to
+        ## "https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf".
         ##
-        ## REPLACE WITH MWDI-OWN SERVICE? (clarify with Thorsten)
-        - operation-name: {topology-path}
+        ## Needs to be called with the fields filter directly following (note that with other ressource paths, the fields filter
+        ## must not follow after a "/", this is an exception.)
+        ## Call as: /?fields=node(node-id)
+        ##
+        - operation-name: /
           uuid: mwdi-1-0-0-op-s-is-020
         ##
         ## ----------------------------------------------

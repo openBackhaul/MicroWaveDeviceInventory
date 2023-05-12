@@ -626,17 +626,14 @@ paths:
   #
   # ---------------------------------------------------------------
   # Get MOUNT-NAMES handled by MWDI
-  # - top-level request: (corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf)
-  #   - currently the only supported request is: {topology-path}?fields=node(node-id)
-  #   - note that when this service is called, the {topology-path} variable is an empty string
-  #   - if the same request would be send to the Controller instead the {topology-path} would need to contain the path shown above
-  # - is to be used with a filter to get the list of connected devices, only filter values from enum are allowed
-  #   - without the filter the complete topology schema would have to be included here, which cannot even be derived from the controller, as
-  #     it is too big.
-  #   - therefore, the specified schema here does not represent the topology-schema, but is narrowed down specifically to the response
-  #     provided if called with the allowed filter(s)
-  #
-  {topology-path}:
+  # - top-level request: ("/" corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf
+  #   when the request would be executed on the ODL controller)
+  # - MUST be called with query parameter 'fields filter', the enumeration lists the allowed 'fields filters'
+  # - this is the only ressource path where a query parameter can directly follow a "/"
+  # - the schema for the returned responses only matches the filters from the query-parameter enumeration (having 
+  #   the complete schema would have been too complex)
+  # - call from other apps as follows: /?fields=node(node-id)
+  /:
     # uuid: mwdi-1-0-0-op-s-is-020
     parameters:
       - $ref: '#/components/parameters/user'
@@ -644,7 +641,6 @@ paths:
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/topology-path'
       - in: query
         name: fields
         description: 'query parameter to filter on controller level (limited usage)'
@@ -10138,17 +10134,6 @@ components:
         type: string
         example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status)'
     # mwdi-specific parameters (derived from controller-oas services) ---------------------------------------------->
-    #topology-path:
-    #  name: topology-path
-    #  in: path
-    #  required: true
-    #  schema:
-    #    type: string
-    #    #pattern is either an empty string (if request sent to MWDI) or controller-path (if request sent to controller)
-    #    pattern: '^$|^https://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{4}/rests/data/network-topology:network-topology/topology-netconf$'
-    #    example: ''
-    #  description: 'The ressource path prefix. It should be left empty if the request is sent to the MWDI, it will automatically be resolved.\nIf the request would be sent directly to the controller, the value would need to be provided as\n"https://<controller-ip>:<controller-port>/rest/data/network-topology:network-topology/topology-netconf".\nIt is required in the MWDI to allow for applying the fields filter on controller level.'
-    #
     uuid:
       name: uuid
       in: path

@@ -8,7 +8,7 @@ paths:
 ########################################################################################################################
 #   Service Layer - Individual Part - Following paths can be taken as a base for individualization
 ########################################################################################################################
-  /v1/bequeath-your-data-and-die:
+  /v1/bequeath-your-data-and-die123:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

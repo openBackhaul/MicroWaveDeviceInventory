@@ -690,7 +690,7 @@ paths:
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getControlConstruct
-      summary: 'Returns core-model-1-4 - control-construct'
+      summary: 'Returns control-construct'
       tags:
         - IndividualServices
       security:
@@ -726,8 +726,8 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelEquip
-      summary: 'Returns core-model-1-4 - equipment'
+      operationId: getControlConstructEquipment
+      summary: 'Returns equipment'
       tags:
         - IndividualServices
       security:
@@ -764,8 +764,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelEquipConnector
-      summary: 'Returns core-model-1-4 - connector'
+      operationId: getControlConstructEquipmentConnector
+      summary: 'Returns equpiment connector'
       tags:
         - IndividualServices
       security:
@@ -802,8 +802,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelEquipContainedHolder
-      summary: 'Returns core-model-1-4 - contained-holder'
+      operationId: getControlConstructEquipnentContainedHolder
+      summary: 'Returns equipment contained-holder'
       tags:
         - IndividualServices
       security:
@@ -841,8 +841,8 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelActualEquipManufacturedThing
-      summary: 'Returns core-model-1-4 - manufactured-thing'
+      operationId: getControlConstructEquipmentActualEquipmentManufacturedThing
+      summary: 'Returns the manufactured-thing of the equipments actual equipment'
       tags:
         - IndividualServices
       security:
@@ -878,8 +878,8 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtp
-      summary: 'Returns core-model-1-4 - logical-termination-point'
+      operationId: getControlConstructLogicalTerminationPoint
+      summary: 'Returns logical-termination-point'
       tags:
         - IndividualServices
       security:
@@ -916,8 +916,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtpLayerProtocolVlanInterfaceConfig
-      summary: 'Returns core-model-1-4 - vlan-interface-configuration'
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolVlanInterfaceVlanInterfacePacVlanInterfaceConfiguration
+      summary: 'Returns the ltps vlan-interface-configuration'
       tags:
         - IndividualServices
       security:
@@ -954,8 +954,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtpLayerProtocolAirIfCap
-      summary: 'Returns core-model-1-4 - air-interface-capability'
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolAirInterfaceAirInterfacePacAirInterfaceCapability
+      summary: 'Returns air-interface-capability'
       tags:
         - IndividualServices
       security:
@@ -992,8 +992,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtpLayerProtocolAirIfConfig
-      summary: 'Returns core-model-1-4 - air-interface-configuration'
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolAirInterfaceAirInterfacePacAirInterfaceConfiguration
+      summary: 'Returns air-interface-configuration'
       tags:
         - IndividualServices
       security:
@@ -1030,8 +1030,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtpLayerProtocolAifIfStatus
-      summary: 'Returns core-model-1-4 - air-interface-status'
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolAirInterfaceAirInterfacePacAirInterfaceStatus
+      summary: 'Returns air-interface-status'
       tags:
         - IndividualServices
       security:
@@ -1068,8 +1068,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtpLayerProtocolWireIfStatus
-      summary: 'Returns core-model-1-4 - wire-interface-status'
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolWireInterfaceWireInterfacePacWireInterfaceStatus
+      summary: 'Returns wire-interface-status'
       tags:
         - IndividualServices
       security:
@@ -1105,8 +1105,8 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelLtpAugmentCap
-      summary: 'Returns core-model-1-4 - ltp-augment-capability'
+      operationId: getControlConstructLogicalTerminationPointAugmentLtpAugementLtpAugmentLtpAugmentPacCapability
+      summary: 'Returns ltp-augment-capability'
       tags:
         - IndividualServices
       security:
@@ -1141,8 +1141,8 @@ paths:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelCurAlarms
-      summary: 'Returns core-model-1-4 - current-alarms'
+      operationId: getControlConstructAlarmsAlarmPacCurrentAlarms
+      summary: 'Returns current-alarms'
       tags:
         - IndividualServices
       security:
@@ -1177,8 +1177,8 @@ paths:
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelFirmwareCollection
-      summary: 'Returns core-model-1-4 - firmware-collection'
+      operationId: getControlConstructFirmwareFirmwareCollection
+      summary: 'Returns firmware-collection'
       tags:
         - IndividualServices
       security:
@@ -1214,8 +1214,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelFirmwareComponentCap
-      summary: 'Returns core-model-1-4 - firmware-component-capability'
+      operationId: getControlConstructFirmwareFirmwareCollectionFirmwareComponentListFirmwareComponentPacFirmwareComponentCapability
+      summary: 'Returns firmware-component-capability'
       tags:
         - IndividualServices
       security:
@@ -1251,8 +1251,8 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getCoreModelFirmwareComponentStatus
-      summary: 'Returns core-model-1-4 - firmware-component-status'
+      operationId: getControlConstructFirmwareFirmwareCollectionFirmwareComponentListFirmwareComponentPacFirmwareComponentStatus
+      summary: 'Returns firmware-component-status'
       tags:
         - IndividualServices
       security:

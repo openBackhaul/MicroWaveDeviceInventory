@@ -529,13 +529,7 @@ paths:
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -570,13 +564,7 @@ paths:
                 type: string
                 description: 'mount-name'
                 example: '100250001'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -611,13 +599,7 @@ paths:
                 type: string
                 description: 'mount-name'
                 example: '100250001'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -664,18 +646,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/controller_topology_devices_TOP'
-      '400':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '401':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '403':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '404':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      '500':
-        $ref: '#/components/responses/responseForErroredServiceRequests'
-      default:
-        $ref: '#/components/responses/responseForErroredServiceRequests'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
   #
  # == Paths derived from controller OAS ========================================================================================================
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
@@ -702,18 +678,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+  #
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
     # uuid: mwdi-1-0-0-op-s-is-022
     parameters:
@@ -739,13 +710,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -777,13 +742,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_connector_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -815,20 +774,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_contained-holder_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-
-
+  #
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
     # uuid: mwdi-1-0-0-op-s-is-086
     parameters:
@@ -854,13 +806,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -891,13 +837,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -929,13 +869,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_vlan-interface-pac_vlan-interface-configuration_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -967,13 +901,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-capability_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1005,13 +933,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-configuration_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1043,13 +965,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-status_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1081,13 +997,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-status_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1118,13 +1028,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1154,13 +1058,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_alarm-pac_current-alarms_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1190,13 +1088,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1227,13 +1119,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1264,13 +1150,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
+        '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'

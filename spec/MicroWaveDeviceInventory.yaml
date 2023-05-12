@@ -10131,7 +10131,7 @@ components:
       schema:
         type: integer
         example: 850
-    description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'  
+    description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
   schemas:
     life-cycle-state:
       type: string
@@ -10142,7 +10142,7 @@ components:
         - 'OBSOLETE'
         - 'UNKNOWN'
         - 'NOT_YET_DEFINED'
-      example: 'EXPERIMENTAL'    
+      example: 'EXPERIMENTAL'
     errorDescription:
       type: object
       required:

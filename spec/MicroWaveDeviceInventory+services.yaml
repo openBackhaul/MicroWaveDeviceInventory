@@ -55,14 +55,27 @@ servers:
         ##      be returned)!
         ##
         ## 001) /v1/notify-new-device-available
-        ##      - used for subscription, sends a notification with the device name to subscribers if a new device is added to the MWDI deviceList
-        ##      - notification is send when /v1/add-device-to-devicelist is executed
+        ##      - used for a subscription to inform about a new device at the MWDI
+        ##      - management service:
+        ##        - i.e. only used to manage information about the subscriber
+        ##        - the actual notification is send by /v1/inform-about-new-device
+        ##          (once a new device has been added to the MWDI)
         ##
         ## 002) /v1/notify-new-control-construct-available
-        ##      - used for subscription, sends a notification with the device name to subscribers if a new or updated ControlConstruct for the device is available
-        ##      - notification happens either when
-        ##        - a CC has been retrieved and stored in the MWDI database or
-        ##        - is triggered after /v1/change-paramete-value-in-controlconstruct has updated an existing CC
+        ##      - used for a subscription to inform about a new/updated control construct at the MWDI
+        ##      - management-service:
+        ##        - only manages information about the subscribers
+        ##        - actual notification is send by /v1/inform-about-new-control-construct
+        ##
+        ## 003) /v1/inform-about-new-device
+        ##      - informs subscribers about new devices being available at the MWDI
+        ##      - is triggered from within the MWDI (i.e. no service)
+        ##
+        ## 004) /v1/inform-about-new-control-construct
+        ##      - informs subscribers that a new or updated control construct is available at the MWDI database
+        ##      - is triggered either
+        ##        - after a new CC has been retrieved and stored in the MWDI database
+        ##        - or after a call of /v1/change-paramete-value-in-controlconstruct has updated an existing CC in the database
         ##
         - operation-name: /v1/change-parameter-value-in-controlconstruct
           uuid: mwdi-1-0-0-op-s-is-008
@@ -70,6 +83,10 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-001
         - operation-name: /v1/notify-new-control-construct-available
           uuid: mwdi-1-0-0-op-s-is-002
+        - operation-name: /v1/inform-about-new-device
+          uuid: mwdi-1-0-0-op-s-is-003
+        - operation-name: /v1/inform-about-new-control-construct
+          uuid: mwdi-1-0-0-op-s-is-004
         ##
         ##
         ## uuids to 019 are reserved for further use (for non-ressource services)

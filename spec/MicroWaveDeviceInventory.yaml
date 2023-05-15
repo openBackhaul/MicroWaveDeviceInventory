@@ -441,6 +441,8 @@ paths:
   # 000) /v1/change-parameter-value-in-controlconstruct
   # 001) /v1/notify-new-device-available
   # 002) /v1/notify-new-control-construct-available
+  # 003) /v1/inform-about-new-device
+  # 004) /v1/inform-about-new-control-construct
 
   # 000) /v1/change-parameter-value-in-controlconstruct
   #   - purpose: change a single parameter value inside a stored CC for a given device
@@ -453,7 +455,7 @@ paths:
   #   - no responseBody
   #   - callbacks:
   #     - forwarding = ControlConstructUpdateCausesNewControlConstructAvailableNotification
-  #     - consequent request: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
+  #     - consequent request: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
   #
   /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
@@ -528,11 +530,14 @@ paths:
         # handled with issue #169
 
   # 001) /v1/notify-new-device-available
+  #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
+  #   - callbacks: PRÜFEN
+  #     - ServiceRequestCausesFcUpdateRequest: subsequent request = ApplicationLayerTopology://v1/update-fc
+  #
+  # TODO: für subscriber management anpassen
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
-    # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
-    # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -541,14 +546,277 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: notifyAboutNewAvailableDevice
+      summary: 'Offers subscribing to notifications about new devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - subscriber-application
+                - subscriber-release-number
+                - subscriber-operation
+                - subscriber-protocol
+                - subscriber-address
+                - subscriber-port
+              properties:
+                subscriber-application:
+                  type: string
+                  description: >
+                    'Name of application that wants to receive notifications about new approvals
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                subscriber-release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                  description: >
+                    'Release of application that wants to receive notifications about new approvals
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                subscriber-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'Names of the operation that shall be addressed by notifications about new approvals
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-*-*-*-*-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                subscriber-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used for addressing the application that wants to receive notifications about new approvals
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                subscriber-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IPv4 address of application that wants to receive notifications about new approvals
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name of application that wants to receive notifications about new approvals
+                        update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                subscriber-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'TCP port of application that wants to receive notifications about new approvals
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+              example:
+                subscriber-application: 'HistoricalMicrowaveDeviceInventory'
+                subscriber-release-number: '1.0.0'
+                subscriber-operation: '/v1/inform-about-new-device'
+                subscriber-protocol: 'HTTP'
+                subscriber-address:
+                  ip-address:
+                    ipv-4-address: 'x.x.x.x'
+                subscriber-port: 9009
+      responses:
+        '204':
+          description: 'Subscribed for notifications about new devices'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              schema:
+                $ref: '#/components/schemas/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        # handled by separate issue #169
+
+  # 002) /v1/notify-new-control-construct-available
+  #   - used to manage subscribers (i.e. MHDI) for notifications about a new/updated CC being available in the MWDI database
+  #   - callbacks:
+  #     prüfen
+  #
+  /v1/notify-new-control-construct-available:
+    # uuid: mwdi-1-0-0-op-s-is-002
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: notifyAboutNewAvailableControlConstruct
+      summary: 'Offers subscribing to notifications about new/update ControlConstructs'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - subscriber-application
+                - subscriber-release-number
+                - subscriber-operation
+                - subscriber-protocol
+                - subscriber-address
+                - subscriber-port
+              properties:
+                subscriber-application:
+                  type: string
+                  description: >
+                    'Name of application that wants to receive notifications about new approvals
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                subscriber-release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                  description: >
+                    'Release of application that wants to receive notifications about new approvals
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                subscriber-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'Names of the operation that shall be addressed by notifications about new approvals
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-*-*-*-*-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                subscriber-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used for addressing the application that wants to receive notifications about new approvals
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                subscriber-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IPv4 address of application that wants to receive notifications about new approvals
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name of application that wants to receive notifications about new approvals
+                        update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                subscriber-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'TCP port of application that wants to receive notifications about new approvals
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+              example:
+                subscriber-application: 'HistoricalMicrowaveDeviceInventory'
+                subscriber-release-number: '1.0.0'
+                subscriber-operation: '/v1/inform-about-new-control-construct'
+                subscriber-protocol: 'HTTP'
+                subscriber-address:
+                  ip-address:
+                    ipv-4-address: 'x.x.x.x'
+                subscriber-port: 9009
+      responses:
+        '204':
+          description: 'Subscribed for notifications about new/update ControlConstructs'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              schema:
+                $ref: '#/components/schemas/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        # handled by separate issue #169
+
+  # 003) /v1/inform-about-new-device
+  #   - actual notification about a new device
+  #   - initiated from within the MWDI once a new device has been added
+  #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
+  #   - callbacks: none (is no initiating request of a forwarding)
+  #
+  /v1/inform-about-new-device:
+    # uuid: mwdi-1-0-0-op-s-is-003
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: informAboutNewDevice
       summary: 'Notifies about a new device (mount-name) being now available'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: >
+                    'mount-name of the device, which has been added to the MWDI
+                    find or create device information'
+              example:
+                mount-name: '100250001'
       responses:
         '200':
-          description: 'New mount-name available '
+          description: 'New available mount-name'
           content:
             application/json:
               schema:
@@ -567,22 +835,23 @@ paths:
                 $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        # TODO: see #169, add callback for ServiceRequestCausesFcUpdateRequest
 
-  # 011) /v1/notify-new-control-construct-available
-  /v1/notify-new-control-construct-available:
-    # uuid: mwdi-1-0-0-op-s-is-002
-    #
-    # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
-    # TODO: check for callbacks
+  # 004) /v1/inform-about-new-control-construct
+  #   - actual notification about a new/update CC
+  #   - initiated either a) from within the MWDI once a new/updated CC has been written to the MWDI database
+  #                      b) /v1/change-parameter-value-in-controlconstruct has updated a CC in the MWDI database
+  #   - returns the mount-name of the target device (mount-name is handed-over in requestBody)
+  #   - callbacks: none (is no initiating request of a forwarding)
+  #
+  /v1/inform-about-new-control-construct:
+    # uuid: mwdi-1-0-0-op-s-is-004
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -590,12 +859,28 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: notifyAboutNewAvailableControlConstruct
+      operationId: informAboutNewControlConstruct
       summary: 'Notifies about a new or updated control construct for a device being available'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: >
+                    'mount-name of the device, which has been added to the MWDI
+                    find or create device information'
+              example:
+                mount-name: '100250001'
       responses:
         '200':
           description: 'New control construct for mount-name available '

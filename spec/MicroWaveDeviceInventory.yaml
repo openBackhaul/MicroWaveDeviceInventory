@@ -528,10 +528,15 @@ paths:
         # handled with issue #169
 
   # 001) /v1/notify-new-device-available
+  #   - used to notify subscribers (i.e. MHDI) that a new device is being handled by the MWDI
+  #   - called from within the MWDI once a new device has been added
+  #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
+  #   - callbacks:
+  #     - ServiceRequestCausesFcUpdateRequest: subsequent request = ApplicationLayerTopology://v1/update-fc
+  #
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
-    # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
     # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/user'
@@ -546,9 +551,25 @@ paths:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: >
+                    'mount-name of the device, which has been added to the MWDI
+                    find or create list of devices'
+              example:
+                mount-name: '100250001'
       responses:
         '200':
-          description: 'New mount-name available '
+          description: 'New available mount-name'
           content:
             application/json:
               schema:
@@ -576,6 +597,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         # TODO: see #169, add callback for ServiceRequestCausesFcUpdateRequest
+        # add URL and contents from ApplicationLayerTopology://v1/update-fc
 
   # 011) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:

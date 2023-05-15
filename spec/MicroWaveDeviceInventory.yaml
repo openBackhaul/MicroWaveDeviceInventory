@@ -531,14 +531,13 @@ paths:
 
   # 001) /v1/notify-new-device-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
-  #   - callbacks:
+  #   - callbacks: PRÜFEN
   #     - ServiceRequestCausesFcUpdateRequest: subsequent request = ApplicationLayerTopology://v1/update-fc
   #
   # TODO: für subscriber management anpassen
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
-    # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -630,20 +629,9 @@ paths:
                   ip-address:
                     ipv-4-address: 'x.x.x.x'
                 subscriber-port: 9009
-
-
-
-
-
       responses:
-        '200':
-          description: 'New available mount-name'
-          content:
-            application/json:
-              schema:
-                type: string
-                description: 'mount-name'
-                example: '100250001'
+        '204':
+          description: 'Subscribed for notifications about new devices'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -656,7 +644,7 @@ paths:
                 $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -664,19 +652,15 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        # TODO: see #169, add callback for ServiceRequestCausesFcUpdateRequest
-        # add URL and contents from ApplicationLayerTopology://v1/update-fc
+        # handled by separate issue #169
 
   # 002) /v1/notify-new-control-construct-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new/updated CC being available in the MWDI database
   #   - callbacks:
   #     prüfen
   #
-  # TODO: für subscriber management anpassen
   /v1/notify-new-control-construct-available:
     # uuid: mwdi-1-0-0-op-s-is-002
-    # TODO: anpassen für management
-    # TODO: check for callbacks
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -685,7 +669,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: notifyAboutNewAvailableControlConstruct
-      summary: 'Offers subscribing to notifications about new/update control constructs'
+      summary: 'Offers subscribing to notifications about new/update ControlConstructs'
       tags:
         - IndividualServices
       security:
@@ -768,19 +752,9 @@ paths:
                   ip-address:
                     ipv-4-address: 'x.x.x.x'
                 subscriber-port: 9009
-
-
-
-
       responses:
-        '200':
-          description: 'New control construct for mount-name available '
-          content:
-            application/json:
-              schema:
-                type: string
-                description: 'mount-name'
-                example: '100250001'
+        '204':
+          description: 'Subscribed for notifications about new/update ControlConstructs'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -800,10 +774,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-
-
-
-  #------------------------------------ DONE ->
+      callbacks:
+        # handled by separate issue #169
 
   # 003) /v1/inform-about-new-device
   #   - actual notification about a new device

@@ -567,7 +567,7 @@ forwardings:
         uuid:
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
-        uuid: mwdi-1-0-0-op-s-is-005
+        uuid: mwdi-1-0-0-op-s-is-004
   #
   # (3) also send a notification for a new available ControlConstruct, if an existing
   #     CC is updated via /v1/change-parameter-value-in-controlconstruct
@@ -590,4 +590,4 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-000
     consequent-requests:
       - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
-        uuid: mwdi-1-0-0-op-s-is-005
+        uuid: mwdi-1-0-0-op-s-is-004

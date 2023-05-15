@@ -140,6 +140,11 @@ paths:
       callbacks:
 
         # individual callbacks to be added here
+        # TODO #169: add callbacks for
+        # - PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications
+        # - PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
+        # - PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
+        # - PromptForBequeathingDataCausesEndingSubscriptionToOldRelease
 
         PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
           url: #[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-c-bm-ro-2-0-1-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -432,9 +437,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
- # TODO: wo müssen callbacks hinzugefügt werden?
-
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
   # 000) /v1/change-parameter-value-in-controlconstruct
   # 001) /v1/notify-new-device-available
@@ -449,6 +451,9 @@ paths:
   #       - it can also have an appropriate fields filter
   #     - parameter-value: the new value for the parameter to be changed
   #   - no responseBody
+  #   - callbacks:
+  #     - forwarding = ControlConstructUpdateCausesNewControlConstructAvailableNotification
+  #     - consequent request: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
   #
   /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
@@ -508,7 +513,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -518,6 +523,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        # todo: add callback for MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
+        # handled with issue #169
 
   # 001) /v1/notify-new-device-available
   /v1/notify-new-device-available:
@@ -556,7 +564,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -566,6 +574,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        # TODO: see #169, add callback for ServiceRequestCausesFcUpdateRequest
 
   # 011) /v1/notify-new-control-construct-available
   /v1/notify-new-control-construct-available:
@@ -604,7 +614,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -664,7 +674,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -709,7 +719,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -754,7 +764,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -799,7 +809,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-023/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -844,7 +854,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-027/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -889,7 +899,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-086/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -933,7 +943,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-099/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -978,7 +988,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1023,7 +1033,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-122/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1068,7 +1078,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-124/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1113,7 +1123,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-130/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1158,7 +1168,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1202,7 +1212,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-237/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1245,7 +1255,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-298/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1288,7 +1298,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-302/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1332,7 +1342,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-305/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1376,7 +1386,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-306/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'

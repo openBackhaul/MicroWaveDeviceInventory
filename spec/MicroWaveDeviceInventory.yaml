@@ -451,7 +451,7 @@ paths:
   #       - it can also have an appropriate fields filter
   #     - parameter-value: the new value for the parameter to be changed
   #   - no responseBody
-  #   - callbacks: 
+  #   - callbacks:
   #     - forwarding = ControlConstructUpdateCausesNewControlConstructAvailableNotification
   #     - consequent request: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
   #
@@ -513,7 +513,7 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               schema:
-                $ref: '#/components/schemas/life-cycle-state
+                $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'

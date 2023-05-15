@@ -513,46 +513,61 @@ forwardings:
 
   ## DONE: Potential INDIVIDUAL Forwardings to be added
   # (1) there needs to be a forwarding for when a new device is added to the MWDI,
-  #     then /v1/notify-new-device-available needs to be called,
-  #     but there is no initiating-request to that (call comes from the internal implementation)
+  #     - subsciption is managed by /v1/notify-new-device-available
+  #     - there is no initiating-request to that (call comes from the internal implementation)
+  #     - notification is then send by /v1/inform-about-new-device
   #
   - forwarding-name: AddingNewDeviceCausesNewDeviceNotification
     uuid: mwdi-1-0-0-op-fc-is-018
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
+        - server-name: /v1/notify-new-device-available
+          uuid: mwdi-1-0-0-op-s-is-001
       fc-port-update:
+        - server-name: /v1/notify-new-device-available
+          uuid: mwdi-1-0-0-op-s-is-001
       fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
       operation-client-deletion:
     initiating-requests:
       # would be initiated from within the internal MWDI implementation
       - server-name:
         uuid:
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-s-is-001
+      - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-device
+        uuid: mwdi-1-0-0-op-s-is-003
   #
   # (2) send a notification for a new available ControlConstruct if a retrieved
   #     ControlConstruct and been written to the database
   #     (Applies for both when there was no CC available for the CC before and when a
   #      CC already was stored, but now is overwritten with a newer version)
+  #    - management: /v1/notify-new-control-construct-available
+  #    - no initiating request
+  #    - actual notification: /v1/inform-about-new-control-construct
   #
   - forwarding-name: WritingOfNewControlConstructCausesNewControlConstructAvailableNotification
     uuid: mwdi-1-0-0-op-fc-is-019
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
       fc-port-update:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
       fc-port-deletion:
-      operation-client-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
     initiating-requests:
       # there is no initiating request, the notification shall be triggered from within the
       # internal processes inside the application
       - server-name:
         uuid:
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-002
+      - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
+        uuid: mwdi-1-0-0-op-s-is-005
   #
   # (3) also send a notification for a new available ControlConstruct, if an existing
   #     CC is updated via /v1/change-parameter-value-in-controlconstruct
@@ -561,12 +576,18 @@ forwardings:
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
       fc-port-update:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
       fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/change-parameter-value-in-controlconstruct
         uuid: mwdi-1-0-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-s-is-002
+      - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
+        uuid: mwdi-1-0-0-op-s-is-005

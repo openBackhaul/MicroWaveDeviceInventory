@@ -441,6 +441,8 @@ paths:
   # 000) /v1/change-parameter-value-in-controlconstruct
   # 001) /v1/notify-new-device-available
   # 002) /v1/notify-new-control-construct-available
+  # 003) /v1/inform-about-new-device
+  # 004) /v1/inform-about-new-control-construct
 
   # 000) /v1/change-parameter-value-in-controlconstruct
   #   - purpose: change a single parameter value inside a stored CC for a given device
@@ -453,7 +455,7 @@ paths:
   #   - no responseBody
   #   - callbacks:
   #     - forwarding = ControlConstructUpdateCausesNewControlConstructAvailableNotification
-  #     - consequent request: MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
+  #     - consequent request: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
   #
   /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
@@ -528,12 +530,11 @@ paths:
         # handled with issue #169
 
   # 001) /v1/notify-new-device-available
-  #   - used to notify subscribers (i.e. MHDI) that a new device is being handled by the MWDI
-  #   - called from within the MWDI once a new device has been added
-  #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
+  #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
   #   - callbacks:
   #     - ServiceRequestCausesFcUpdateRequest: subsequent request = ApplicationLayerTopology://v1/update-fc
   #
+  # TODO: für subscriber management anpassen
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
@@ -599,12 +600,137 @@ paths:
         # TODO: see #169, add callback for ServiceRequestCausesFcUpdateRequest
         # add URL and contents from ApplicationLayerTopology://v1/update-fc
 
-  # 011) /v1/notify-new-control-construct-available
+  # 002) /v1/notify-new-control-construct-available
+  #   - used to manage subscribers (i.e. MHDI) for notifications about a new/updated CC being available in the MWDI database
+  #   - callbacks:
+  #     prüfen
+  #
+  # TODO: für subscriber management anpassen
   /v1/notify-new-control-construct-available:
     # uuid: mwdi-1-0-0-op-s-is-002
-    #
-    # TODO: specifify the mount-name to handover somewhere, either as query parameter or as requestBody
+    # TODO: anpassen für management
     # TODO: check for callbacks
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: notifyAboutNewAvailableControlConstruct
+      summary: 'Notifies about a new or updated control construct for a device being available'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'New control construct for mount-name available '
+          content:
+            application/json:
+              schema:
+                type: string
+                description: 'mount-name'
+                example: '100250001'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              schema:
+                $ref: '#/components/schemas/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+
+
+  # 003) /v1/inform-about-new-device
+  #   - actual notification about a new device
+  #   - initiated from within the MWDI once a new device has been added
+  #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
+  #   - callbacks: none (is no initiating request of a forwarding)
+  #
+  /v1/notify-new-device-available:
+    # uuid: mwdi-1-0-0-op-s-is-003
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: notifyAboutNewAvailableDevice
+      summary: 'Notifies about a new device (mount-name) being now available'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: >
+                    'mount-name of the device, which has been added to the MWDI
+                    find or create device information'
+              example:
+                mount-name: '100250001'
+      responses:
+        '200':
+          description: 'New available mount-name'
+          content:
+            application/json:
+              schema:
+                type: string
+                description: 'mount-name'
+                example: '100250001'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              schema:
+                $ref: '#/components/schemas/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  # 004) /v1/inform-about-new-control-construct
+  #   - actual notification about a new/update CC
+  #   - initiated either a) from within the MWDI once a new/updated CC has been written to the MWDI database
+  #                      b) /v1/change-parameter-value-in-controlconstruct has updated a CC in the MWDI database
+  #   - returns the mount-name of the target device (mount-name is handed-over in requestBody)
+  #   - callbacks: none (is no initiating request of a forwarding)
+  #
+  /v1/notify-new-control-construct-available:
+    # uuid: mwdi-1-0-0-op-s-is-004
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

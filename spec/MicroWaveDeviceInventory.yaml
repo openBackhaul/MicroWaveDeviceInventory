@@ -219,6 +219,24 @@ paths:
                             ipv-4-address: 'x.x.x.x'
                         subscriber-port: 9009
               responses:
+                '204':
+                  description: 'Subscribed for notifications about new devices'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      schema:
+                        $ref: '#/components/headers/life-cycle-state-in-callback'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         #
         PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications:
           url: #todo [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]

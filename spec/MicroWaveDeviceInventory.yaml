@@ -10941,7 +10941,7 @@ components:
           - 'UNKNOWN'
           - 'NOT_YET_DEFINED'
         example: 'EXPERIMENTAL'
-      description: 'Life cycle state of the consumed service'      
+      description: 'Life cycle state of the consumed service'
   schemas:
     life-cycle-state:
       # referenced in response-headers of individual services

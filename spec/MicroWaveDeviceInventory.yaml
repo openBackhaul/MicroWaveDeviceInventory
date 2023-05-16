@@ -359,7 +359,7 @@ paths:
           # - empty requestBody
           # - omitted parameters and headers
           #
-          # NEEDS TO BE VERIFIED
+          # TODO: NEEDS TO BE VERIFIED
           #
           url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
             get:
@@ -393,7 +393,7 @@ paths:
           # to unsubscribe on the controller, a DELETE needs to be sent (not a POST)
           # Controller is not part of the ApplicationPattern, therefore adopted different structure for the callback
           #
-          # NEEDS TO BE VERIFIED
+          # TODO: NEEDS TO BE VERIFIED
           url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
             delete:
               parameters:

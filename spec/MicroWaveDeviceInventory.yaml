@@ -347,44 +347,74 @@ paths:
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'        #
-        PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications:
-          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
-          # parts:
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-          #
-          url: #todo [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-              responses:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         #
-        PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications:
-          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
-          # parts:
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+        PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI:
+          # consequent-request: is on controller
+          #   - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+          #   - uuid: mwdi-1-0-0-op-c-is-c-1-0-0-003
           #
-          url: #todo [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
-            post:
+          # needs to look differently from other callbacks, as the target is the Controller, which is not part of the ApplicationPattern
+          # - should be a GET, not a POST request
+          # - empty requestBody
+          # - omitted parameters and headers
+          #
+          # NEEDS TO BE VERIFIED
+          #
+          url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+            get:
               parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
+                # default parameters are not added here, because Controller is outside AppPattern
               requestBody:
+                required: false
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      nullable: true
               responses:
+                '200':
+                  description: 'Controller status information about device with changed connection-state'
+                  content:
+                    application/json:
+                      schema:
+                        type: string
+                        description: 'device connection-state information'
+                  # headers omitted, because Controller is outside AppPattern
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        #
+        PromptForBequeathingDataCausesEndingSubscriptionToOldRelease:
+          # consequent-request is on controller
+          # to unsubscribe on the controller, a DELETE needs to be sent (not a POST)
+          # Controller is not part of the ApplicationPattern, therefore adopted different structure for the callback
+          #
+          # NEEDS TO BE VERIFIED
+          url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+            delete:
+              parameters:
+                # default parameters are not added here, because Controller is outside AppPattern
+              requestBody:
+                required: false
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      nullable: true
+              responses:
+                '204':
+                  description: 'Unsubscribe successful'
+                  # headers omitted, because Controller is outside AppPattern
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         #
         # end of individual callbacks
         PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:

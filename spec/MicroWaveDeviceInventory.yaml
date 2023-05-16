@@ -144,11 +144,278 @@ paths:
         # - PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
         # - PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
         # - PromptForBequeathingDataCausesEndingSubscriptionToOldRelease
-
+        #
         PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications:
-          url: #todo [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          # parts:
+          # - [Reference to protocol]:
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
+          # - [Reference to domain name and IP address]:
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
+          # - [Reference to port]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
+          # - [Reference to operation name] (uuid seq num taken from consequent-request uuid, here: 001)
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          #
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
-
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscriber-application
+                        - subscriber-release-number
+                        - subscriber-operation
+                        - subscriber-protocol
+                        - subscriber-address
+                        - subscriber-port
+                      properties:
+                        subscriber-application:
+                          type: string
+                          description: >
+                            'Name of application that wants to receive notifications about new devices
+                            find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                        subscriber-release-number:
+                          type: string
+                          description: >
+                            'Release of application that wants to receive notifications about new devices
+                            find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                        subscriber-operation:
+                          type: string
+                          description: >
+                            'Names of the operation that shall be addressed by notifications about new devices
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-*-*-*-*-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        subscriber-protocol:
+                          type: string
+                          description: >
+                            'Protocol to be used for addressing the application that wants to receive notifications about new devices
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                        subscriber-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: >
+                                    'IPv4 address of application that wants to receive notifications about new devices
+                                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            domain-name:
+                              type: string
+                              description: >
+                                'Domain name of application that wants to receive notifications about new devices
+                                update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        subscriber-port:
+                          type: integer
+                          description: >
+                            'TCP port of application that wants to receive notifications about new devices
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                      example:
+                        subscriber-application: 'HistoricalMicrowaveDeviceInventory'
+                        subscriber-release-number: '1.0.0'
+                        subscriber-operation: '/v1/inform-about-new-device'
+                        subscriber-protocol: 'HTTP'
+                        subscriber-address:
+                          ip-address:
+                            ipv-4-address: 'x.x.x.x'
+                        subscriber-port: 9009
+              responses:
+                '204':
+                  description: 'Subscribed for notifications about new devices'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      schema:
+                        $ref: '#/components/headers/life-cycle-state-in-callback'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        #
+        PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications:
+          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          # parts:
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          #
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscriber-application
+                        - subscriber-release-number
+                        - subscriber-operation
+                        - subscriber-protocol
+                        - subscriber-address
+                        - subscriber-port
+                      properties:
+                        subscriber-application:
+                          type: string
+                          description: >
+                            'Name of application that wants to receive notifications about new ControlConstructs
+                            find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                        subscriber-release-number:
+                          type: string
+                          description: >
+                            'Release of application that wants to receive notifications about new ControlConstructs
+                            find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                        subscriber-operation:
+                          type: string
+                          description: >
+                            'Names of the operation that shall be addressed by notifications about new ControlConstructs
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-*-*-*-*-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        subscriber-protocol:
+                          type: string
+                          description: >
+                            'Protocol to be used for addressing the application that wants to receive notifications about new ControlConstructs
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                        subscriber-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: >
+                                    'IPv4 address of application that wants to receive notifications about new ControlConstructs
+                                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            domain-name:
+                              type: string
+                              description: >
+                                'Domain name of application that wants to receive notifications about new ControlConstructs
+                                update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        subscriber-port:
+                          type: integer
+                          description: >
+                            'TCP port of application that wants to receive notifications about new ControlConstructs
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                      example:
+                        subscriber-application: 'HistoricalMicrowaveDeviceInventory'
+                        subscriber-release-number: '1.0.0'
+                        subscriber-operation: '/v1/notify-new-control-construct-available'
+                        subscriber-protocol: 'HTTP'
+                        subscriber-address:
+                          ip-address:
+                            ipv-4-address: 'x.x.x.x'
+                        subscriber-port: 9009
+              responses:
+                '204':
+                  description: 'Subscribed for notifications about new ControlConstructs'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      schema:
+                        $ref: '#/components/headers/life-cycle-state-in-callback'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        #
+        PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI:
+          # consequent-request: is on controller
+          #   - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+          #   - uuid: mwdi-1-0-0-op-c-is-c-1-0-0-003
+          #
+          # needs to look differently from other callbacks, as the target is the Controller, which is not part of the ApplicationPattern
+          # - should be a GET, not a POST request
+          # - empty requestBody
+          # - omitted parameters and headers
+          #
+          # TODO: NEEDS TO BE VERIFIED
+          #
+          url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+            get:
+              parameters:
+                # default parameters are not added here, because Controller is outside AppPattern
+              requestBody:
+                required: false
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      nullable: true
+              responses:
+                '200':
+                  description: 'Controller status information about device with changed connection-state'
+                  content:
+                    application/json:
+                      schema:
+                        type: string
+                        description: 'device connection-state information'
+                  # headers omitted, because Controller is outside AppPattern
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        #
+        PromptForBequeathingDataCausesEndingSubscriptionToOldRelease:
+          # consequent-request is on controller
+          # to unsubscribe on the controller, a DELETE needs to be sent (not a POST)
+          # Controller is not part of the ApplicationPattern, therefore adopted different structure for the callback
+          #
+          # TODO: NEEDS TO BE VERIFIED
+          url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+            delete:
+              parameters:
+                # default parameters are not added here, because Controller is outside AppPattern
+              requestBody:
+                required: false
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      nullable: true
+              responses:
+                '204':
+                  description: 'Unsubscribe successful'
+                  # headers omitted, because Controller is outside AppPattern
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        #
         # end of individual callbacks
         PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-bm-ro-2-0-1-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -10661,8 +10928,23 @@ components:
         type: integer
         example: 850
     description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    life-cycle-state-in-callback:
+      # in callbacks there is a simplified description without an individual description per service, so the complete header can be defined here
+      # only to be used in callbacks for individual services/forwardings
+      schema:
+        type: string
+        enum:
+          - 'EXPERIMENTAL'
+          - 'OPERATIONAL'
+          - 'DEPRECATED'
+          - 'OBSOLETE'
+          - 'UNKNOWN'
+          - 'NOT_YET_DEFINED'
+        example: 'EXPERIMENTAL'
+      description: 'Life cycle state of the consumed service'
   schemas:
     life-cycle-state:
+      # referenced in response-headers of individual services
       type: string
       enum:
         - 'EXPERIMENTAL'

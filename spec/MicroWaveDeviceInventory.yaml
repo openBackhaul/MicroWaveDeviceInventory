@@ -182,22 +182,22 @@ paths:
                         subscriber-application:
                           type: string
                           description: >
-                            'Name of application that wants to receive notifications about new approvals
+                            'Name of application that wants to receive notifications about new devices
                             find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                         subscriber-release-number:
                           type: string
                           description: >
-                            'Release of application that wants to receive notifications about new approvals
+                            'Release of application that wants to receive notifications about new devices
                             find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                         subscriber-operation:
                           type: string
                           description: >
-                            'Names of the operation that shall be addressed by notifications about new approvals
+                            'Names of the operation that shall be addressed by notifications about new devices
                             update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-*-*-*-*-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                         subscriber-protocol:
                           type: string
                           description: >
-                            'Protocol to be used for addressing the application that wants to receive notifications about new approvals
+                            'Protocol to be used for addressing the application that wants to receive notifications about new devices
                             update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                         subscriber-address:
                           type: object
@@ -208,17 +208,17 @@ paths:
                                 ipv-4-address:
                                   type: string
                                   description: >
-                                    'IPv4 address of application that wants to receive notifications about new approvals
+                                    'IPv4 address of application that wants to receive notifications about new devices
                                     update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
-                                'Domain name of application that wants to receive notifications about new approvals
+                                'Domain name of application that wants to receive notifications about new devices
                                 update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                         subscriber-port:
                           type: integer
                           description: >
-                            'TCP port of application that wants to receive notifications about new approvals
+                            'TCP port of application that wants to receive notifications about new devices
                             update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
                       example:
                         subscriber-application: 'HistoricalMicrowaveDeviceInventory'
@@ -255,9 +255,9 @@ paths:
           #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
           #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
           #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
-          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
           #
-          url: #todo [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-nr-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -266,8 +266,88 @@ paths:
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
               requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscriber-application
+                        - subscriber-release-number
+                        - subscriber-operation
+                        - subscriber-protocol
+                        - subscriber-address
+                        - subscriber-port
+                      properties:
+                        subscriber-application:
+                          type: string
+                          description: >
+                            'Name of application that wants to receive notifications about new ControlConstructs
+                            find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                        subscriber-release-number:
+                          type: string
+                          description: >
+                            'Release of application that wants to receive notifications about new ControlConstructs
+                            find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                        subscriber-operation:
+                          type: string
+                          description: >
+                            'Names of the operation that shall be addressed by notifications about new ControlConstructs
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-*-*-*-*-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        subscriber-protocol:
+                          type: string
+                          description: >
+                            'Protocol to be used for addressing the application that wants to receive notifications about new ControlConstructs
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                        subscriber-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: >
+                                    'IPv4 address of application that wants to receive notifications about new ControlConstructs
+                                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            domain-name:
+                              type: string
+                              description: >
+                                'Domain name of application that wants to receive notifications about new ControlConstructs
+                                update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        subscriber-port:
+                          type: integer
+                          description: >
+                            'TCP port of application that wants to receive notifications about new ControlConstructs
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                      example:
+                        subscriber-application: 'HistoricalMicrowaveDeviceInventory'
+                        subscriber-release-number: '1.0.0'
+                        subscriber-operation: '/v1/notify-new-control-construct-available'
+                        subscriber-protocol: 'HTTP'
+                        subscriber-address:
+                          ip-address:
+                            ipv-4-address: 'x.x.x.x'
+                        subscriber-port: 9009
               responses:
-        #
+                '204':
+                  description: 'Subscribed for notifications about new ControlConstructs'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      schema:
+                        $ref: '#/components/headers/life-cycle-state-in-callback'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'        #
         PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications:
           # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
           # parts:

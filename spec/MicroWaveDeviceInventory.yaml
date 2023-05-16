@@ -10661,8 +10661,23 @@ components:
         type: integer
         example: 850
     description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    life-cycle-state-in-callback:
+      # in callbacks there is a simplified description without an individual description per service, so the complete header can be defined here
+      # only to be used in callbacks for individual services/forwardings
+      schema:
+        type: string
+        enum:
+          - 'EXPERIMENTAL'
+          - 'OPERATIONAL'
+          - 'DEPRECATED'
+          - 'OBSOLETE'
+          - 'UNKNOWN'
+          - 'NOT_YET_DEFINED'
+        example: 'EXPERIMENTAL'
+      description: 'Life cycle state of the consumed service'      
   schemas:
     life-cycle-state:
+      # referenced in response-headers of individual services
       type: string
       enum:
         - 'EXPERIMENTAL'

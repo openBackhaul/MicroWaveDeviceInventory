@@ -803,7 +803,7 @@ paths:
   # 001) /v1/notify-new-device-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
   #   - callbacks: AddingNewDeviceCausesNewDeviceNotification (subsequent request = /v1/inform-about-new-device)
-  # 
+  #
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
@@ -1205,7 +1205,7 @@ paths:
   #   - actual notification about a new device
   #   - initiated from within the MWDI once a new device has been added
   #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
-  #   - callbacks: none (is no initiating request of a forwarding)
+  #   - callbacks: none
   #
   /v1/inform-about-new-device:
     # uuid: mwdi-1-0-0-op-s-is-003
@@ -1272,7 +1272,7 @@ paths:
   #   - initiated either a) from within the MWDI once a new/updated CC has been written to the MWDI database
   #                      b) /v1/change-parameter-value-in-controlconstruct has updated a CC in the MWDI database
   #   - returns the mount-name of the target device (mount-name is handed-over in requestBody)
-  #   - callbacks: none (is no initiating request of a forwarding)
+  #   - callbacks: none
   #
   /v1/inform-about-new-control-construct:
     # uuid: mwdi-1-0-0-op-s-is-004

@@ -724,9 +724,7 @@ paths:
   #       - it can also have an appropriate fields filter
   #     - parameter-value: the new value for the parameter to be changed
   #   - no responseBody
-  #   - callbacks:
-  #     - forwarding = ControlConstructUpdateCausesNewControlConstructAvailableNotification
-  #     - consequent request: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
+  #   - callbacks: none
   #
   /v1/change-parameter-value-in-controlconstruct:
     # uuid: mwdi-1-0-0-op-s-is-000
@@ -796,9 +794,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        # todo: add callback for MicroWaveDeviceInventory:://v1/notify-new-control-construct-available
-        # handled with issue #169
 
   # 001) /v1/notify-new-device-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI

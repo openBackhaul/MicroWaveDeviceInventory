@@ -802,10 +802,8 @@ paths:
 
   # 001) /v1/notify-new-device-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
-  #   - callbacks: PRÜFEN
-  #     - ServiceRequestCausesFcUpdateRequest: subsequent request = ApplicationLayerTopology://v1/update-fc
-  #
-  # TODO: für subscriber management anpassen
+  #   - callbacks: AddingNewDeviceCausesNewDeviceNotification (subsequent request = /v1/inform-about-new-device)
+  # 
   /v1/notify-new-device-available:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
@@ -923,7 +921,57 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        # handled by separate issue #169
+        AddingNewDeviceCausesNewDeviceNotification:
+          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          # parts:
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
+          #   [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-mwdi-1-0-0-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          #
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-im-mwdi-1-0-0-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - mount-name
+                      properties:
+                        mount-name:
+                          type: string
+                          description: >
+                            'mount-name of the device, which has been added to the MWDI
+                            find or create device information'
+                      example:
+                        mount-name: '100250001'
+              responses:
+                '204':
+                  description: 'New available mount-name'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      schema:
+                        $ref: '#/components/headers/life-cycle-state-in-callback'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 002) /v1/notify-new-control-construct-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new/updated CC being available in the MWDI database

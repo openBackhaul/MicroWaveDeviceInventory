@@ -226,7 +226,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
-        uuid: mwdi-1-0-0-op-c-is-c-1-0-0-003
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
 ## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 # here the subscription to the Controller would need to be canceled
@@ -244,7 +244,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
-        uuid: mwdi-1-0-0-op-c-is-c-1-0-0-003
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: mwdi-1-0-0-op-fc-bm-105

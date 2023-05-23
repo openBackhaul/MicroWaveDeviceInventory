@@ -199,7 +199,7 @@ clients:
       uuid: mwdi-1-0-0-tcp-c-es-1-0-0-000
     elasticsearch-client:
       uuid: mwdi-1-0-0-es-c-es-1-0-0-000
-      index-alias: mwdi-database
+      index-alias: 7
 
   - http-client:
       application-name: OldRelease

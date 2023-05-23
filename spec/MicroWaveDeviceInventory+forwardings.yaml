@@ -594,7 +594,7 @@ forwardings:
   #
   # (4) there is a forwarding for access to the ElasticSearch database (initiated by all ressource servers)
   #
-  - forwarding-name: 
+  - forwarding-name: RessourcePathRequestCausesDataRetrievalFromElasticSearchDatabase
     uuid: mwdi-1-0-0-op-fc-is-021
     forwarding-type: InvariantProcessSnippet
     management-requests:

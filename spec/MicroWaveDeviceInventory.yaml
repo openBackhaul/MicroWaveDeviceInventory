@@ -17981,6 +17981,31 @@ components:
           description: 'Connector, where this interface (LTP) can be physically connected.'
           default: 'Some connector'
           type: string
+        supported-layer-protocol-names:
+          description: 'LayerProtocolNames which are supported by the device.'
+          type: array
+          items:
+            type: string
+            default: 'NOT_YET_DEFINED'
+            enum:
+              - 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_IP_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+              - 'NOT_YET_DEFINED'
+        original-ltp-name:
+          description: 'Shall automatically be filled with the string containing the logical or physical interface name as it is represented at the vendor's own mangement interface, e.g. "LAN 1/2/1"'
+          type: string
+          default: 'Original name not yet defined.'
+        external-label:
+          description: 'attribute for the operator to persistently store an identifier from his documentation inside the device'
+          type: string
+          default: 'External label not yet defined.'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-historical-performances:
       description: 'none'
       type: object

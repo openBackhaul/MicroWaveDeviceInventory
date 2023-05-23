@@ -18268,7 +18268,7 @@ components:
               - 'LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
               - 'NOT_YET_DEFINED'
         original-ltp-name:
-          description: 'Shall automatically be filled with the string containing the logical or physical interface name as it is represented at the vendor's own mangement interface, e.g. "LAN 1/2/1"'
+          description: 'Shall automatically be filled with the string containing the logical or physical interface name as it is represented at the vendor's own mangement interface, e.g. \"LAN 1/2/1\"'
           type: string
           default: 'Original name not yet defined.'
         external-label:

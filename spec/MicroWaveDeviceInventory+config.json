@@ -1387,7 +1387,7 @@
                     "auth": {
                       "api-key": "API key not yet defined."
                     },
-                    "index-alias": "mwdi-database"
+                    "index-alias": "7"
                   },
                   "elasticsearch-client-interface-status": {
                     "operational-state": "elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",

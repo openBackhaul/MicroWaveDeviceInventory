@@ -514,18 +514,270 @@ forwardings:
   ## DONE: Potential INDIVIDUAL Forwardings to be added
   # The following forwardings are added, some form a sequence of steps to be executed after another.
   # The uuids are not in sequence but with offsets acting as placeholders for potential future forwardings.
-  # 
-  # > -- (A) SYNC MWDI-DEVICE LIST WITH LIST OF CONNECTED DEVICES ON THE CONTROLLER -------------------------------------------------
-  #   [No external trigger]
-  #   - A1) op-fc-is-000: retrieve list of connected devices from the controller
-  #   - A2) op-fc-is-001: compare list of retrieved devices from (A1) against the deviceList from the MWDI (from ElasticSearch),
-  #                       write the updated list to the ElasticSearch db
-  #   - A3) op-fc-is-002: send a notification for each device which is added to the MWDI deviceList;
-  #                       the notification can be triggered by new devices added in step (A2), but also independently every time
-  #                       a new device gets added to the MWDI 
   #
-  # > -- (B) HANDLE CONTROLLER NOTIFICATIONS ABOUT DEVICE STATUS CHANGE -------------------------------------------------------------
-  #   [External trigger: Controller notification]
+  # --------------------------------------------------------------------------------------------------------------------------
+  # > SYNC MWDI-DEVICE LIST WITH LIST OF CONNECTED DEVICES ON THE CONTROLLER <
+  #   - 3 steps:
+  #     1) op-fc-is-000: fetch devices from controller
+  #     2) op-fc-is-001: compare and update MWDI database
+  #     3) op-fc-is-002: send notification about new device
+  #   - no external trigger
+  #
+  # 1) fetch list of connected devices from controller
+  #    no mangement or initiating request: where to place callback?    
+  - forwarding-name: CyclicOperationCausesRetrievalOfListOfConnectedDevicesFromController
+    uuid: mwdi-1-0-0-op-fc-is-000
+    forwarding-type: 
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: OpenDaylight://rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;node-id;netconf-node-topology:connection-status)
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+  #
+  # 2) compare controller info with MWDI deviceList and update ElasticSearch (add new connected devices, delete data for now connecting devices)
+  #    no management or initating request: where to place callback?
+  - forwarding-name: RetrievalOfListOfConnectedDevicesFromControllerCausesWritingIntoElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-http-c-es-1-0-0-000
+  #
+  # 3) send a notification for each device, which is added to the deviceList
+  #    This can be caused as step 3 of the SYNC cascade but also when a new device is added to the MWDI due to a Controller notification!
+  #    This forwarding has a management, but no iniating request, as this is triggered from within the MWDI internally
+  - forwarding-name: AddingNewDeviceCausesNewDeviceNotification
+    uuid: mwdi-1-0-0-op-fc-is-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/notify-new-device-available
+          uuid: mwdi-1-0-0-op-s-is-001
+      fc-port-update:
+        - server-name: /v1/notify-new-device-available
+          uuid: mwdi-1-0-0-op-s-is-001
+      fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+      operation-client-deletion:
+    initiating-requests:
+      # is initiated from within the internal MWDI implementation
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-device
+        uuid: mwdi-1-0-0-op-s-is-003
+  
+  # --------------------------------------------------------------------------------------------------------------------------
+  # > HANDLE CONTROLLER NOTIFICATIONS ABOUT DEVICE STATUS CHANGE <
+  #   - 2 steps:
+  #     1) op-fc-is-010: update handled devices in MWDI according to Controller notifications:
+  #                      (a) new connected device: add it to the deviceList
+  #                      (b) device changed to connecting state: remove it from the deviceList and delete the CC from ElasticSearch
+  #     2) for case (a) send a notification about a new device, this is already specified in forwarding op-fc-is-002
+  #        (AddingNewDeviceCausesNewDeviceNotification)
+  #   - external trigger: Controller notification
+
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+
+
+          # > -- (B) HANDLE CONTROLLER NOTIFICATIONS ABOUT DEVICE STATUS CHANGE -------------------------------------------------------------
+  #   []
   #   - B1) op-fc-is-010: a notification is received from the Controller, update ElasticSearch DB accordingly:
   #                       (a) new connected device: add it to the deviceList
   #                       (b) device changed to connecting state: remove it from the deviceList and delete the CC from ElasticSearch

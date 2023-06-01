@@ -522,7 +522,8 @@ forwardings:
   #     1) op-fc-is-000: fetch devices from controller
   #     2) op-fc-is-001: compare and update MWDI database
   #     3) op-fc-is-002: send notification about new device
-  #   - for steps 1 & 2 there are no management & initiating requests: where to place the callback?
+  #   
+  # TODO: [clarify] for steps 1 & 2 there are no management & initiating requests: where to place the callback?
   #     -> possibly under the same request where the callback for step3 are placed
   #
   # 1) fetch list of connected devices from controller
@@ -560,7 +561,7 @@ forwardings:
   #    This forwarding has a management, but no iniating request, as this is triggered from within the MWDI internally
   - forwarding-name: AddingNewDeviceCausesNewDeviceNotification
     uuid: mwdi-1-0-0-op-fc-is-002
-    forwarding-type: InvariantProcessSnippet
+    forwarding-type: Subscription
     management-requests:
       operation-client-update:
         - server-name: /v1/notify-new-device-available
@@ -587,213 +588,205 @@ forwardings:
   #                      (b) device changed to connecting state: remove it from the deviceList and delete the CC from ElasticSearch
   #     2) for case (a) send a notification about a new device, this is already specified in forwarding op-fc-is-002
   #        (AddingNewDeviceCausesNewDeviceNotification)
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-#----
-
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-
-
-          # > -- (B) HANDLE CONTROLLER NOTIFICATIONS ABOUT DEVICE STATUS CHANGE -------------------------------------------------------------
-  #   []
-  #   - B1) op-fc-is-010: a notification is received from the Controller, update ElasticSearch DB accordingly:
-  #                       (a) new connected device: add it to the deviceList
-  #                       (b) device changed to connecting state: remove it from the deviceList and delete the CC from ElasticSearch
-  #   - B2) for case (B1a) send a notification about a new device, this forwarding has already been defined (A3, op-fc-is-002)
   #
+  # TODO: [clarify] can the initiating request be coming from another application? 
+  #                 (for consequent-requests this is allowed)
+  #       [clarify] where to put callback in OAS?
   #
-  # > -- (C) READ THE CONTROLCONSTRUCT OF A DEVICE FROM THE CONTROLLER AND WRITE IT TO ELASTICSEARCH --------------------------------
+  - forwarding-name: NotificationAboutDeviceStateChangeFromControllerCausesWritingIntoElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-10
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-http-c-es-1-0-0-000
+
+  # --------------------------------------------------------------------------------------------------------------------------
+  # > READ THE CONTROLCONSTRUCT OF A DEVICE FROM THE CONTROLLER AND WRITE IT TO ELASTICSEARCH <
   #   [No external trigger]
-  #   - C1) op-fc-is-020: read CC of a device from the Controller
-  #   - C2) op-fc-is-021: write the CC to ElasticSearch
-  #   - C3) op-fc-is-022: send notification that a new/updated CC is available
+  #   - 3 steps:
+  #     - 1) op-fc-is-020: read CC of a device from the Controller
+  #     - 2) op-fc-is-021: write the CC to ElasticSearch
+  #     - 3) op-fc-is-022: send notification that a new/updated CC is available
   #
+  # 1) read the CC from the Controller
+  - forwarding-name: CyclicOperationCausesControlConstructRetrievalFromController
+    uuid: mwdi-1-0-0-op-fc-is-020
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+  - forwarding-name: 
+    uuid: mwdi-1-0-0-op-fc-is-
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name:
+          uuid:
+      fc-port-update:
+        - server-name:
+          uuid:
+      fc-port-deletion:
+        - server-name:
+          uuid:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name:
+        uuid:
+    consequent-requests:
+      - client-name:
+        uuid:
+
+
+
+
+
   # > -- (D) UPDATE A PARAMETER INSIDE A STORED CONTROLCONSTRUCT FOR A GIVEN DEVICE -------------------------------------------------
   #   [External trigger: /v1/change-parameter-value-in-controlconstruct is called]
   #   - D1) op-fc-is-030: Update the parameter inside the device ControlConstruct in the ElasticSearch DB

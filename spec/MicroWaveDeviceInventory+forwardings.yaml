@@ -631,8 +631,8 @@ forwardings:
       - client-name: OpenDaylight://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?content=config
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
 
-  # 2) write the CC from step1 into the database
-  - forwarding-name: PromptForUpdatingControlConstructFromDeviceCausesWritingIntoElasticSearc
+  # 2) write the CC from step1 into the database (only if retrieval was successful)
+  - forwarding-name: PromptForUpdatingControlConstructFromDeviceCausesWritingIntoElasticSearch
     uuid: mwdi-1-0-0-op-fc-is-021
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -645,26 +645,26 @@ forwardings:
       - client-name: ElasticSearch
         uuid: mwdi-1-0-0-http-c-es-1-0-0-000
 
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
+  # 3) after completing step2, send a notification about the new available CC in the database
+  - forwarding-name: PromptForUpdatingControlConstructFromDeviceCausesNewControlConstructAvailableNotification
+    uuid: mwdi-1-0-0-op-fc-is-022
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
-        - server-name:
-          uuid:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
       fc-port-update:
-        - server-name:
-          uuid:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
       fc-port-deletion:
-        - server-name:
-          uuid:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
       operation-client-deletion:
     initiating-requests:
-      - server-name:
-        uuid:
+      # is initiated from within the internal MWDI implementation
     consequent-requests:
-      - client-name:
-        uuid:
+      - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
+        uuid: mwdi-1-0-0-op-s-is-004
 
   - forwarding-name: 
     uuid: mwdi-1-0-0-op-fc-is-

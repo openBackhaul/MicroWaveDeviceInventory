@@ -593,7 +593,7 @@ forwardings:
   #       [clarify] where to put callback in OAS?
   #
   - forwarding-name: NotificationAboutDeviceStateChangeFromControllerCausesWritingIntoElasticSearch
-    uuid: mwdi-1-0-0-op-fc-is-10
+    uuid: mwdi-1-0-0-op-fc-is-010
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

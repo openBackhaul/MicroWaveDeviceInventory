@@ -517,11 +517,13 @@ forwardings:
   #
   # --------------------------------------------------------------------------------------------------------------------------
   # > SYNC MWDI-DEVICE LIST WITH LIST OF CONNECTED DEVICES ON THE CONTROLLER <
+  #   - no external trigger
   #   - 3 steps:
   #     1) op-fc-is-000: fetch devices from controller
   #     2) op-fc-is-001: compare and update MWDI database
   #     3) op-fc-is-002: send notification about new device
-  #   - no external trigger
+  #   - for steps 1 & 2 there are no management & initiating requests: where to place the callback?
+  #     -> possibly under the same request where the callback for step3 are placed
   #
   # 1) fetch list of connected devices from controller
   #    no mangement or initiating request: where to place callback?    
@@ -578,14 +580,13 @@ forwardings:
   
   # --------------------------------------------------------------------------------------------------------------------------
   # > HANDLE CONTROLLER NOTIFICATIONS ABOUT DEVICE STATUS CHANGE <
+  #   - external trigger: Controller notification (device status change: connected/connecting)
   #   - 2 steps:
   #     1) op-fc-is-010: update handled devices in MWDI according to Controller notifications:
   #                      (a) new connected device: add it to the deviceList
   #                      (b) device changed to connecting state: remove it from the deviceList and delete the CC from ElasticSearch
   #     2) for case (a) send a notification about a new device, this is already specified in forwarding op-fc-is-002
   #        (AddingNewDeviceCausesNewDeviceNotification)
-  #   - external trigger: Controller notification
-
 
   - forwarding-name: 
     uuid: mwdi-1-0-0-op-fc-is-
@@ -607,6 +608,9 @@ forwardings:
     consequent-requests:
       - client-name:
         uuid:
+
+#----
+
 
   - forwarding-name: 
     uuid: mwdi-1-0-0-op-fc-is-

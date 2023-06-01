@@ -609,7 +609,7 @@ forwardings:
 
   # --------------------------------------------------------------------------------------------------------------------------
   # > READ THE CONTROLCONSTRUCT OF A DEVICE FROM THE CONTROLLER AND WRITE IT TO ELASTICSEARCH <
-  #   [No external trigger]
+  #   - no external trigger
   #   - 3 steps:
   #     - 1) op-fc-is-020: read CC of a device from the Controller
   #     - 2) op-fc-is-021: write the CC to ElasticSearch
@@ -648,7 +648,7 @@ forwardings:
   # 3) after completing step2, send a notification about the new available CC in the database
   - forwarding-name: PromptForUpdatingControlConstructFromDeviceCausesNewControlConstructAvailableNotification
     uuid: mwdi-1-0-0-op-fc-is-022
-    forwarding-type: InvariantProcessSnippet
+    forwarding-type: Subscription
     management-requests:
       operation-client-update:
         - server-name: /v1/notify-new-control-construct-available
@@ -666,119 +666,99 @@ forwardings:
       - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
         uuid: mwdi-1-0-0-op-s-is-004
 
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-  - forwarding-name: 
-    uuid: mwdi-1-0-0-op-fc-is-
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name:
-          uuid:
-      fc-port-update:
-        - server-name:
-          uuid:
-      fc-port-deletion:
-        - server-name:
-          uuid:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name:
-        uuid:
-    consequent-requests:
-      - client-name:
-        uuid:
-
-
-
-
-
-  # > -- (D) UPDATE A PARAMETER INSIDE A STORED CONTROLCONSTRUCT FOR A GIVEN DEVICE -------------------------------------------------
-  #   [External trigger: /v1/change-parameter-value-in-controlconstruct is called]
-  #   - D1) op-fc-is-030: Update the parameter inside the device ControlConstruct in the ElasticSearch DB
-  #   - D2) op-fc-is-031: send notification that a new/updated CC is available (own forwarding due to different trigger as in C3)
+  # --------------------------------------------------------------------------------------------------------------------------
+  # > UPDATE A PARAMETER INSIDE A STORED CONTROLCONSTRUCT FOR A GIVEN DEVICE <
+  #   - External trigger: /v1/change-parameter-value-in-controlconstruct is called
+  #   - 2 steps:
+  #     - 1) op-fc-is-030: Update the parameter inside the device ControlConstruct in the ElasticSearch DB
+  #     - 2) op-fc-is-031: send notification that a new/updated CC is available (own forwarding due to different trigger as in C3)
   #
-  # > -- (E) READ FROM ELASTICSEARCH WHEN RESSOURCE PATHS ARE CALLED ----------------------------------------------------------------
-  #   [External trigger: ressource path called]
-  #   - E1: op-fc-is-040: read CC data from ElasticSearch
+  # 1) update the parameter inside the cached CC
+  - forwarding-name: PromptForUpdatingControlConstructParameterCausesWritingIntoElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-030
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/change-parameter-value-in-controlconstruct
+        uuid: mwdi-1-0-0-op-s-is-008
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-http-c-es-1-0-0-000
+
+  # 2) send a notification that the CC has been updated
+  - forwarding-name: PromptForUpdatingControlConstructParameterCausesNewControlConstructAvailableNotification
+    uuid: mwdi-1-0-0-op-fc-is-031
+    forwarding-type: Subscription
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
+      fc-port-update:
+        - server-name: /v1/notify-new-control-construct-available
+          uuid: mwdi-1-0-0-op-s-is-002
+      fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/change-parameter-value-in-controlconstruct
+        uuid: mwdi-1-0-0-op-s-is-008
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory:://v1/inform-about-new-control-construct
+        uuid: mwdi-1-0-0-op-s-is-004
+
+  # --------------------------------------------------------------------------------------------------------------------------
+  # > READ FROM ELASTICSEARCH WHEN RESSOURCE PATHS ARE CALLED <
+  #   - external trigger: any of the ressource paths is called
+  #   - only 1 step: read from ElasticSearch DB
+  #
+  - forwarding-name: RessourcePathRequestCausesReadingFromElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-040
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /
+        uuid: mwdi-1-0-0-op-s-is-020
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-021
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-022
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-023
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-027
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-086
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-099
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-106
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-122
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-124
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-130
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-s-is-202
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+        uuid: mwdi-1-0-0-op-s-is-237
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-298
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-302
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-305
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-306
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-http-c-es-1-0-0-000

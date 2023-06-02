@@ -3241,7 +3241,52 @@
                 ]
               },
               {
-                "uuid": "mwdi-1-0-0-op-fc-is-018",
+                "uuid": "mwdi-1-0-0-op-fc-is-000",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "CyclicOperationCausesRetrievalOfListOfConnectedDevicesFromController"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-bm-001"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-000"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-001",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RetrievalOfListOfConnectedDevicesFromControllerCausesWritingIntoElasticSearch"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-http-c-es-1-0-0-000"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-002",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3271,7 +3316,7 @@
                 ]
               },
               {
-                "uuid": "mwdi-1-0-0-op-fc-is-019",
+                "uuid": "mwdi-1-0-0-op-fc-is-010",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3279,24 +3324,19 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "WritingOfNewControlConstructCausesNewControlConstructAvailableNotification"
+                    "value": "NotificationAboutDeviceStateChangeFromControllerCausesWritingIntoElasticSearch"
                   }
                 ],
                 "fc-port": [
                   {
                     "local-id": "0000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "mwdi-1-0-0-op-s-is-002"
-                  },
-                  {
-                    "local-id": "0001",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "mwdi-1-0-0-op-s-bm-004"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-002"
                   },
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-s-is-004"
+                    "logical-termination-point": "mwdi-1-0-0-http-c-es-1-0-0-000"
                   }
                 ]
               },
@@ -3309,7 +3349,52 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "ControlConstructUpdateCausesNewControlConstructAvailableNotification"
+                    "value": "CyclicOperationCausesControlConstructRetrievalFromController"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-bm-001 "
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-001"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-021",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForUpdatingControlConstructFromDeviceCausesWritingIntoElasticSearch"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-http-c-es-1-0-0-000"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-022",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForUpdatingControlConstructFromDeviceCausesNewControlConstructAvailableNotification"
                   }
                 ],
                 "fc-port": [
@@ -3324,9 +3409,59 @@
                     "logical-termination-point": "mwdi-1-0-0-op-s-bm-004"
                   },
                   {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-004"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-030",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForUpdatingControlConstructParameterCausesWritingIntoElasticSearch"
+                  }
+                ],
+                "fc-port": [
+                  {
                     "local-id": "1000",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "mwdi-1-0-0-op-s-bm-000"
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-008"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-http-c-es-1-0-0-000"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-031",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForUpdatingControlConstructParameterCausesNewControlConstructAvailableNotification"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "0000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-002"
+                  },
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-008"
                   },
                   {
                     "local-id": "2000",
@@ -3336,7 +3471,7 @@
                 ]
               },
               {
-                "uuid": "mwdi-1-0-0-op-fc-is-021",
+                "uuid": "mwdi-1-0-0-op-fc-is-040",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3344,7 +3479,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RessourcePathRequestCausesDataRetrievalFromElasticSearchDatabase"
+                    "value": "RessourcePathRequestCausesReadingFromElasticSearch"
                   }
                 ],
                 "fc-port": [

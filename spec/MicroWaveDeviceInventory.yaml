@@ -354,7 +354,7 @@ paths:
           #   - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
           #   - uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
           #
-          # needs to look differently from other callbacks, as the target is the Controller, which is not part of the ApplicationPattern
+          # possibly needs to look differently from other callbacks, as the target is the Controller, which is not part of the ApplicationPattern
           # - should be a GET, not a POST request
           # - empty requestBody
           # - omitted parameters and headers

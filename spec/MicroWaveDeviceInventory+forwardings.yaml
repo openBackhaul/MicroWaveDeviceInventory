@@ -124,7 +124,6 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-305
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-op-s-is-306
-
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
         uuid: mwdi-1-0-0-op-c-bs-eatl-2-0-1-000

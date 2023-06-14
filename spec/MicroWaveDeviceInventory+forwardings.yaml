@@ -210,7 +210,7 @@ forwardings:
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 # the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
 # the MWDI needs to subscribe to the following URL:
-# https://<controller_IP>:8443/rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+# https://<controller_IP>:8443/rests/notif/{mount-name}?notificationType=device
 # TODO: verify with current ODL version if adding a subscription here is necessary, or if this will be done manually by TechM
   - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
     uuid: mwdi-1-0-0-op-fc-im-003
@@ -224,7 +224,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
 ## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
@@ -242,7 +242,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
@@ -536,7 +536,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: OpenDaylight://rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;node-id;netconf-node-topology:connection-status)
+      - client-name: OpenDaylight://rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
   #
   # 2) compare controller info with MWDI deviceList and update ElasticSearch (add new connected devices, delete data for now connecting devices)
@@ -600,7 +600,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+      - server-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
     consequent-requests:
       - client-name: ElasticSearch

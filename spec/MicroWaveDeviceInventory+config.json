@@ -2294,7 +2294,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;node-id;netconf-node-topology:connection-status)",
+                    "operation-name": "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)",
                     "operation-key": "n.a."
                   },
                   "operation-client-interface-status": {
@@ -2344,7 +2344,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON",
+                    "operation-name": "/rests/notif/{mount-name}?notificationType=device",
                     "operation-key": "n.a."
                   },
                   "operation-client-interface-status": {

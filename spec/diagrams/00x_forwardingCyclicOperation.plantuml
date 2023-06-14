@@ -1,0 +1,32 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title  Periodic (DeviceList) Sync with Controller
+
+"RO" -> "/v1/embed-yourself": {RoIp, RoPort}
+
+"/v1/embed-yourself" -> "OpenDaylight://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)"
+"OpenDaylight://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)" --> "/v1/embed-yourself": {list of-(mount-name, connection-status)}
+
+note over "/v1/embed-yourself": compare list from Controller\n & MWDI deviceList
+
+"/v1/embed-yourself" -> "ElasticSearch": {}
+"ElasticSearch" --> "/v1/embed-yourself": {mount-name-list}
+
+note over "ElasticSearch": new devices: only add to deviceList; \ndisconnected devices: \ndelete deviceList entry and ControlConstruct
+
+"/v1/embed-yourself" -> "ElasticSearch": {list-of-(mount-name, add-or-delete-info)}
+"ElasticSearch" --> "/v1/embed-yourself": {}
+
+
+note over "OpenDaylight://rests/notif/{mount-name}\n?notificationType=device": 1 individual request to (un)subscribe \n(GET/DELETE) for each \nrelevant device (mount-name)
+
+"/v1/embed-yourself" -> "OpenDaylight://rests/notif/{mount-name}\n?notificationType=device": {mount-name}
+"OpenDaylight://rests/notif/{mount-name}\n?notificationType=device" --> "/v1/embed-yourself": {}
+
+
+
+left footer \n\n For requesting information from other applications first RO://v1/list-applications would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, as the connection information may change during runtime. \nWhen the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the ApplicationFramework (no entries in RO!). \nIn future releases there may be the CurrentController app which has the purpose of just providing this connection information of the Controller from within the AppFramework.
+
+
+@enduml

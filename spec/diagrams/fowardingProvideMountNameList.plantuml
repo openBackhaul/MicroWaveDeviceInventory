@@ -1,0 +1,16 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title Provide list of devices (mount-names) managed by MWDI
+
+"external" -> "/": {query-parameter: ?fields=node(node-id)}
+
+"/" -> "ElasticSearch": {}
+"ElasticSearch" --> "/" : {list-of-mount-names}
+
+"/" --> "external": {list-of-mount-names}
+
+left footer \nThe path / is one level above the devices (mount-name) on the Controller. The shown fields filter is mandatory for calling the service from MWDI.
+
+
+@enduml

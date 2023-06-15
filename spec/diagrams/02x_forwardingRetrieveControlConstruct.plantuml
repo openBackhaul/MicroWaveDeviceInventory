@@ -1,0 +1,16 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title Retrieve ControlConstruct from Controller and write to ElasticSearch
+
+"cyclic operation" -> "ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct?content=config": {mount-name}
+"ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct?content=config" --> "cyclic operation": {ControlConstruct}
+
+
+"cyclic operation" -> "ElasticSearch": {mount-name, ControlConstruct, list-of-status-attributes-for-deviceList}
+"ElasticSearch" --> "cyclic operation": {}
+
+
+left footer \nThe diagram just shows the case of success, in case the CC could not be retrieved, there still would be an update to the deviceList in ElasticSearch for retry-management
+
+@enduml

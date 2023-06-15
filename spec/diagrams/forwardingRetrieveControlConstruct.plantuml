@@ -1,8 +1,0 @@
-@startuml
-skinparam responseMessageBelowArrow true
-
-title Provide list of devices (mount-names) managed by MWDI
-
-todo
-
-@enduml

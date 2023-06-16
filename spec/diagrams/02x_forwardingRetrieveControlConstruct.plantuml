@@ -3,8 +3,8 @@ skinparam responseMessageBelowArrow true
 
 title Retrieve ControlConstruct from Controller and write to ElasticSearch
 
-"cyclic operation" -> "ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct?content=config": {mount-name}
-"ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct?content=config" --> "cyclic operation": {ControlConstruct}
+"cyclic operation" -> "ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct": {mount-name}
+"ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct" --> "cyclic operation": {ControlConstruct}
 
 
 "cyclic operation" -> "ElasticSearch": {mount-name, ControlConstruct, list-of-status-attributes-for-deviceList}

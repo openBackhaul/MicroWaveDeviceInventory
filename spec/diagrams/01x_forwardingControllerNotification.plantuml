@@ -46,7 +46,7 @@ end footer
 <style>
 footer {
   HorizontalAlignment left
-  FontSize 12
+  FontSize 14
 }
 </style>
 

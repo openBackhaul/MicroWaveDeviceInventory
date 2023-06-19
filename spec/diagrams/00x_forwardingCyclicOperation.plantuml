@@ -13,9 +13,13 @@ note over "/v1/embed-yourself": compare list from Controller\n & MWDI deviceList
 "/v1/embed-yourself" -> "ElasticSearch": {}
 "ElasticSearch" --> "/v1/embed-yourself": {mount-name-list}
 
-
-
-note over "ElasticSearch": action-required: add or delete \nadd: (new device) add mount-name to \ndeviceList; delete: (disconnected device) remove \nmount-name and related ControlConstruct
+note over "ElasticSearch"
+ <b>action-required</b>: add or delete
+ - <b>add</b>: (new device) add mount-name 
+   to deviceList
+ - <b>delete</b>: (disconnected device) remove 
+   mount-name and related ControlConstruct
+end note 
 
 "/v1/embed-yourself" -> "ElasticSearch": {list-of-(mount-name, action-required)}
 "ElasticSearch" --> "/v1/embed-yourself": {}

@@ -28,7 +28,22 @@ note over "ODL://rests/notif/{mount-name}\n?notificationType=device": 1 individu
 
 
 
-left footer \n\n For requesting information from other applications first RO://v1/list-applications would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, as the connection information may change during runtime. \nWhen the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the ApplicationFramework (no entries in RO!). \nIn future releases there may be the CurrentController app which has the purpose of just providing the connection information of the Controller from within the AppFramework.
+left footer 
 
+
+\t- For requesting information from other applications first <i>RO://v1/list-applications</i> would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, 
+\t  as the connection information may change during runtime.
+\t-  When the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the 
+\t  ApplicationFramework (no entries in RO!). 
+\t-  In future releases there may be the CurrentController app which has the purpose of just providing the connection information of the Controller from within the AppFramework.
+\t-  Also note: instead of providing directly the Controller connection details, the loadbalancer (distributes load across the available controller VMs) could be addressed.
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
 
 @enduml

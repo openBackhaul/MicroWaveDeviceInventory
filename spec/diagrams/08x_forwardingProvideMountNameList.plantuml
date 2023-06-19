@@ -12,5 +12,12 @@ title Provide list of devices (mount-names) managed by MWDI
 
 left footer \nThe path / is one level above the devices (mount-name) on the Controller. The shown fields filter is mandatory for calling the service from MWDI.
 
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 12
+}
+</style>
+
 
 @enduml

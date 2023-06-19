@@ -13,4 +13,11 @@ title All RessourcePath-Requests cause reading from ElasticSearch DB
 
 left footer \nPossibly need to create an own separate forwarding for each ressource path request
 
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 12
+}
+</style>
+
 @enduml

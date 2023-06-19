@@ -13,4 +13,12 @@ title Retrieve ControlConstruct from Controller and write to ElasticSearch
 
 left footer \nThe diagram just shows the case of success, in case the CC could not be retrieved, there still would be an update to the deviceList in ElasticSearch for retry-management
 
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 12
+}
+</style>
+
+
 @enduml

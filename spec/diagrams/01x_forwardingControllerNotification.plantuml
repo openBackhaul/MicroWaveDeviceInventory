@@ -7,18 +7,26 @@ title Controller notifications informing about connection state or config change
 "ODL:/rests/notif/{mount-name}?notificationType=device" -> "MWDI": {notification-message}
 "MWDI" --> "ODL:/rests/notif/{mount-name}?notificationType=device"
 
-note over "MWDI": message indicates: \n- connection status change \n  to "device disconnected": delete \n- config-change: update changed attribute \n  with provided value in cache \n- others: ignore
-note over "ElasticSearch": action-required: delete or update, update-parameters omitted/null in case of deletion
+note over "MWDI"
+ <u>message indicates:</u>
+ - <b>connection-status-change</b> 
+   to "device disconnected": delete
+ - <b>config-change</b>: update changed 
+   attribute in DB with provided value
+ - <b>others</b>: ignore
+end note
+note over "ElasticSearch": action-required: delete or update, \nupdate-parameters omitted/null in case of deletion
+
 
 "MWDI" --> "ElasticSearch": {mount-name, action-required, [path-to-updated-config-attribute-in-controlConstruct, updated-config-value]}
 "ElasticSearch" --> "MWDI": {}
 
-note over "MWDI": case "device disconnected": \nunsubscribe at Controller (via DELETE)"
+note over "MWDI": case <b>"device disconnected"</b>: \nunsubscribe at Controller (via DELETE)"
 
 "MWDI" -> "ODL:/rests/notif/{mount-name}?notificationType=device": {mount-name}
 "ODL:/rests/notif/{mount-name}?notificationType=device" --> "MWDI": {}
 
-note over "MWDI": case "config-change": \nsend notification about new/updated CC
+note over "MWDI": case <b>"config-change"</b>: \nsend notification about new/updated CC
 "MWDI" -> "/v1/inform-about-new-control-construct": {mount-name}
 "/v1/inform-about-new-control-construct" --> "MWDI": {}
 

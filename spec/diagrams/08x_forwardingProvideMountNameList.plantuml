@@ -15,7 +15,7 @@ left footer \nThe path / is one level above the devices (mount-name) on the Cont
 <style>
 footer {
   HorizontalAlignment left
-  FontSize 12
+  FontSize 14
 }
 </style>
 

@@ -16,7 +16,7 @@ left footer \nPossibly need to create an own separate forwarding for each ressou
 <style>
 footer {
   HorizontalAlignment left
-  FontSize 12
+  FontSize 14
 }
 </style>
 

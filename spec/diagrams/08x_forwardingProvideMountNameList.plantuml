@@ -10,7 +10,7 @@ title Provide list of devices (mount-names) managed by MWDI
 
 "/" --> "external": {list-of-mount-names}
 
-left footer \nThe path / is one level above the devices (mount-name) on the Controller. The shown fields filter is mandatory for calling the service from MWDI.
+left footer \n\nThe path / is one level above the devices (mount-name) on the Controller, therefore it has an own forwarding. \nThe shown fields filter is mandatory for calling the service from MWDI.
 
 <style>
 footer {

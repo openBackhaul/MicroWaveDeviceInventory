@@ -709,91 +709,10 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 000) /v1/change-parameter-value-in-controlconstruct
   # 001) /v1/notify-new-device-available
   # 002) /v1/notify-new-control-construct-available
   # 003) /v1/inform-about-new-device
   # 004) /v1/inform-about-new-control-construct
-
-  # 000) /v1/change-parameter-value-in-controlconstruct
-  #   - purpose: change a single parameter value inside a stored CC for a given device
-  #   - requestBody inputs are:
-  #     - mount-name: the device for which the ControlConstruct shall be updated
-  #     - parameter-path: the path inside the devices ControlConstruct to the parameter that shall be updated
-  #       - the provided path must look like the ressource paths
-  #       - it can also have an appropriate fields filter
-  #     - parameter-value: the new value for the parameter to be changed
-  #   - no responseBody
-  #   - callbacks: TODO
-  #
-  /v1/change-parameter-value-in-controlconstruct:
-    # uuid: mwdi-1-0-0-op-s-is-000
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: changeParameterValueInControlConstruct
-      summary: 'Changes the value of a parameter in the cached ControlConstruct of the given mount-name.'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        description: 'The request body contains the mount-name, the path to the parameter inside the ControlConstruct and its new value. Changing multiple parameters or blocks at once is not supported.'
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mount-name
-                - parameter-path
-                - parameter-value
-              properties:
-                mount-name:
-                  type: string
-                  pattern: '\d{9}[AB]{0,1}$'
-                  description: >
-                    'Name of device (i.e. mount-name) that shall be target of the parameter update inside the database
-                    find ControlConstruct entry for the mount-name in the MWDI elastic search database'
-                  example: '100250001'
-                parameter-path:
-                  type: string
-                  description: >
-                    'The complete (ressource) path (may contain the fields filter) inside the ControlConstruct for the parameter that shall be changed
-                    find the parameter inside the ControlConstruct by following the parameter-path'
-                  example: '/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/received-radio-signal-id/numeric-radio-signal-id'
-                parameter-value:
-                  type: string
-                  description: >
-                    'The new value for the parameter that shall be changed
-                    update the parameter identified by the parameter-path with the value of this attribute.'
-                  example: '102'
-      responses:
-        '204':
-          description: 'The parameter value inside the cached ControlConstruct has been changed.'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   # 001) /v1/notify-new-device-available
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
@@ -1103,7 +1022,7 @@ paths:
   # 004) /v1/inform-about-new-control-construct
   #   - actual notification about a new/update CC
   #   - initiated either a) from within the MWDI once a new/updated CC has been written to the MWDI database
-  #                      b) /v1/change-parameter-value-in-controlconstruct has updated a CC in the MWDI database
+  #                      b) or if the CC is updated after receiving the related config-change notification from the Controller
   #   - returns the mount-name of the target device (mount-name is handed-over in requestBody)
   #   - callbacks: TODO
   #

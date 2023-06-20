@@ -85,8 +85,6 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-005
       ## DONE: All service requests to be complemented
       # non-ressource services
-      - server-name: /v1/change-parameter-value-in-controlconstruct
-        uuid: mwdi-1-0-0-op-s-is-000
       - server-name: /v1/notify-new-device-available
         uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
@@ -211,7 +209,6 @@ forwardings:
 # the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
 # the MWDI needs to subscribe to the following URL:
 # https://<controller_IP>:8443/rests/notif/{mount-name}?notificationType=device
-# TODO: verify with current ODL version if adding a subscription here is necessary, or if this will be done manually by TechM
   - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
     uuid: mwdi-1-0-0-op-fc-im-003
     forwarding-type: InvariantProcessSnippet
@@ -227,7 +224,7 @@ forwardings:
       - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
-## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 # here the subscription to the Controller would need to be canceled
 # this is done by sending a DELETE request to the subscription URL
   - forwarding-name: PromptForBequeathingDataCausesEndingSubscriptionToOldRelease

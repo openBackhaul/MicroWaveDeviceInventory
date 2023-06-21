@@ -50,7 +50,7 @@
   # subscribe at Controller for any device added to the MWDI (GET <path>), has to be done invidually for each device
   - forwarding-name: CyclicOperationCausesSubscribingAtControllerForDeviceUpdateNotifications
     uuid: mwdi-1-0-0-op-fc-is-003
-    forwarding-type: InvariantProcessSnippet
+    forwarding-type: InvariantProcessSnippet # not set to subscription as MWDI is not offering a subscription, but only consuming subscription from other application
     management-requests:
       operation-client-update:
       fc-port-update:

@@ -1,0 +1,65 @@
+  # if notification is received -> device disconnected: delete from ElasticSearch
+  - forwarding-name: ReceiptOfControllerDeviceDisconnectedNotificationCausesWritingIntoElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-010
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests: 
+      # receipt of Controller notification triggers this forwarding, but the Controller:/notification-path may not be
+      # added here as initiang-request
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  # unsubscribe at Controller for the disconnected device (DELETE <path>)
+  - forwarding-name: ReceiptOfControllerDeviceDisconnectedNotificationCausesUnsubscribingAtControllerForDeviceUpdateNotifications
+    uuid: mwdi-1-0-0-op-fc-is-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # receipt of Controller notification triggers this forwarding, but the Controller:/notification-path may not be
+      # added here as initiang-request
+    consequent-requests:
+      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #DELETE
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
+
+  # if notification is received -> config-change: write the update value for the given parameter into the device CC in ElasticSearch
+  # note: path to changed parameter + new value shall be provided by notification, so no additional reading from Controller will be required,
+  #       but this is not yet implemented on the mediators and controller
+  - forwarding-name: ReceiptOfControllerConfigChangeNotificationCausesWritingIntoElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-012
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests: 
+      # receipt of Controller notification triggers this forwarding, but the Controller:/notification-path may not be
+      # added here as initiang-request
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  # if there's a CC update inform subscribers about the updated CC via notification
+  - forwarding-name: ReceiptOfControllerConfigChangeNotificationCausesNotifyingSubscribers
+    uuid: mwdi-1-0-0-op-fc-is-013
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # receipt of Controller notification triggers this forwarding, but the Controller:/notification-path may not be
+      # added here as initiang-request
+    consequent-requests:
+      - client-name: /v1/inform-about-new-control-construct
+        uuid: mwdi-1-0-0-op-s-is-004

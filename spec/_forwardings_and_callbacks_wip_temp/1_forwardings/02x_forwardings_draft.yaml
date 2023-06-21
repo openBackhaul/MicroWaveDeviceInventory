@@ -1,0 +1,32 @@
+  # request the CC from the controller for the given device
+  - forwarding-name: CyclicOperationCausesDeviceControlConstructRetrievalFromController
+    uuid: mwdi-1-0-0-op-fc-is-020
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # initiated from within MWDI internally
+    consequent-requests:
+      - client-name: ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
+    
+  # in case of success write it to ElasticSearch, in any case update the status information for the device in the deviceList
+  - forwarding-name: CyclicOperationForControlConstructRetrievalFromControllerCausesWritingIntoElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-021
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # initiated from within MWDI internally
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+    # in case the CC was retrieved and written to ElasticSearch successfully, a notification about the new CC is sent to subscribers
+    # this is already handled by forwarding UpdateOfExistingOrNewControlConstructCausesNotifyingSubscribers (mwdi-1-0-0-op-fc-is-013)

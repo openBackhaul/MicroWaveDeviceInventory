@@ -1,0 +1,88 @@
+
+{
+    "uuid": "mwdi-1-0-0-op-fc-is-010",
+    "name": [
+      {
+        "value-name": "ForwardingKind",
+        "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+      },
+      {
+        "value-name": "ForwardingName",
+        "value": "ReceiptOfControllerDeviceDisconnectedNotificationCausesWritingIntoElasticSearch"
+      }
+    ],
+    "fc-port": [
+      {
+        "local-id": "2000",
+        "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+        "logical-termination-point": "mwdi-1-0-0-es-c-es-1-0-0-000"
+      }
+    ]
+  },
+
+  
+  {
+    "uuid": "mwdi-1-0-0-op-fc-is-011",
+    "name": [
+      {
+        "value-name": "ForwardingKind",
+        "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+      },
+      {
+        "value-name": "ForwardingName",
+        "value": "ReceiptOfControllerDeviceDisconnectedNotificationCausesUnsubscribingAtControllerForDeviceUpdateNotifications"
+      }
+    ],
+    "fc-port": [
+      {
+        "local-id": "2000",
+        "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+        "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-002"
+      }
+    ]
+  },
+
+
+  
+  {
+    "uuid": "mwdi-1-0-0-op-fc-is-012",
+    "name": [
+      {
+        "value-name": "ForwardingKind",
+        "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+      },
+      {
+        "value-name": "ForwardingName",
+        "value": "ReceiptOfControllerConfigChangeNotificationCausesWritingIntoElasticSearch"
+      }
+    ],
+    "fc-port": [
+      {
+        "local-id": "2000",
+        "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+        "logical-termination-point": "mwdi-1-0-0-es-c-es-1-0-0-000"
+      }
+    ]
+  },
+
+
+  {
+    "uuid": "mwdi-1-0-0-op-fc-is-013",
+    "name": [
+      {
+        "value-name": "ForwardingKind",
+        "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+      },
+      {
+        "value-name": "ForwardingName",
+        "value": "UpdateOfExistingOrNewControlConstructCausesNotifyingSubscribers"
+      }
+    ],
+    "fc-port": [
+      {
+        "local-id": "2000",
+        "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+        "logical-termination-point": "mwdi-1-0-0-op-s-is-004"
+      }
+    ]
+  },

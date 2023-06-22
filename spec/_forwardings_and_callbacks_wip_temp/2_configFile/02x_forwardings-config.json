@@ -1,0 +1,42 @@
+{
+    "uuid": "mwdi-1-0-0-op-fc-is-020",
+    "name": [
+      {
+        "value-name": "ForwardingKind",
+        "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+      },
+      {
+        "value-name": "ForwardingName",
+        "value": "CyclicOperationCausesDeviceControlConstructRetrievalFromController"
+      }
+    ],
+    "fc-port": [
+      {
+        "local-id": "2000",
+        "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+        "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-001"
+      }
+    ]
+  },
+
+
+  {
+    "uuid": "mwdi-1-0-0-op-fc-is-021",
+    "name": [
+      {
+        "value-name": "ForwardingKind",
+        "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+      },
+      {
+        "value-name": "ForwardingName",
+        "value": "CyclicOperationForControlConstructRetrievalFromControllerCausesWritingIntoElasticSearch"
+      }
+    ],
+    "fc-port": [
+      {
+        "local-id": "2000",
+        "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+        "logical-termination-point": "mwdi-1-0-0-es-c-es-1-0-0-000"
+      }
+    ]
+  },

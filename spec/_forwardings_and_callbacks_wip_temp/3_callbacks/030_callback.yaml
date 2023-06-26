@@ -1,7 +1,7 @@
 Spezialfall: 
 - alle CC-ressource-paths sind initiating request, aber es gibt kein Mgmt-Request
 - callback wird nur unter dem ersten initiating-req (CC-req) eingetragen, xx-is-021
-- callback is to ElasticSearch -> Sonderfall
+- callback is to ElasticSearch -> Sonderfall 
 - initing request: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
 - conseq-req: mwdi-1-0-0-es-c-es-1-0-0-000
 

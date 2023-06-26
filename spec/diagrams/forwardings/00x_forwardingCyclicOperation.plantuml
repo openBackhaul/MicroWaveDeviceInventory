@@ -1,7 +1,7 @@
 @startuml
 skinparam responseMessageBelowArrow true
 
-title  Periodic (DeviceList) Sync with Controller
+title  Periodic (DeviceList) Sync with Controller process flow
 
 "RO" -> "/v1/embed-yourself": {RoIp, RoPort}
 

@@ -1,5 +1,5 @@
 - wo platzieren: /v1/embed-yourself  
-- conseq-req: Controller!
+- conseq-req: Controller! -> selbst ausformulieren
 
           # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
           # parts:

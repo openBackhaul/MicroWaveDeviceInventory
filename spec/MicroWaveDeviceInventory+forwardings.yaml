@@ -706,4 +706,4 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-306
     consequent-requests:
       - client-name: ElasticSearch
-        uuid: mwdi-1-0-0-http-c-es-1-0-0-000
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000

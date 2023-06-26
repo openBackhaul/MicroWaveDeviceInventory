@@ -3,6 +3,8 @@ Spezialfall:
 - kein initiating-req
 
 
+
+
           # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
           # parts:
           #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]

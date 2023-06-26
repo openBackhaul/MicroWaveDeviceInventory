@@ -3,10 +3,6 @@ skinparam responseMessageBelowArrow true
 
 title Controller notifications informing about connection state or config changes per device
 
-'receipt of the notification is trigger, but not allowed to put this as initiating-request 
-'"ODL:/rests/notif/{mount-name}?notificationType=device" -> "MWDI": {notification-message}
-'"MWDI" --> "ODL:/rests/notif/{mount-name}?notificationType=device"
-
 "external" -> "MWDI service-todo": {notification-message-from-controller}
 "MWDI service-todo" --> "external"
 
@@ -36,8 +32,10 @@ note over "MWDI service-todo": case <b>"config-change"</b>: \nsend notification 
 
 left footer 
 
-
- \t - The subscription to the Controller for a device is done as part of the device-list sync, this forwarding only handles unsubscribing or config change actions
+ \t The diagram shows what shall happen when the MWDI receives a notification (for a given device) from the Controller.
+ \t There shall be no forwarding for this case.
+ 
+ \t - The subscription to the Controller for a device is done as part of the device-list sync
  \t - send notification about new/updated CC: all interested applications (esp. HMDI) can subscribe to the MWDI to get informed about new or updated CC data inside the cache.
  \t   There are 2 services relevant to the notification:
  \t\t - /v1/notify-new-control-construct-available: this services needs to be called to subscribe

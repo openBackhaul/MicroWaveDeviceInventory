@@ -1,3 +1,21 @@
+Forwarding:
+  ## request the list of (mount-name, connection-state) from the controller
+  - forwarding-name: CyclicOperationCausesRequestForListOfDevicesAtController
+    uuid: mwdi-1-0-0-op-fc-is-000
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update: # if controller ip+port would be read from RO/CurrentController /v1/embed-yourself possibly would have to be added here like in MATR
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: ODL://rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+
+
 Sonderfall: 
     consequent-requests:
       - client-name: ODL://rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)

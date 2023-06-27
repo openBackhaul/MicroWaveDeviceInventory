@@ -27317,11 +27317,6 @@ components:
           items:
             $ref: '#/components/schemas/SCHEDULER_KIND_TYPE'
           description: 'Lists the available types of scheduling.'
-    core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP:
-      type: object
-      properties:
-        ltp-augment-capability:
-          $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability'
     core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-port_name:
       description: 'List of names.'
       type: object
@@ -28565,20 +28560,6 @@ components:
       properties:
         wire-interface-pac:
           $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac'
-    core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability:
-      description: 'none'
-      type: object
-      properties:
-        equipment:
-          type: array
-          items:
-            default: Some equipment
-            type: string
-          description: 'Equipment, which determines the characteristics of this interface (LTP).'
-        connector:
-          description: 'Connector, where this interface (LTP) can be physically connected.'
-          default: 'Some connector'
-          type: string
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-historical-performances:
       description: 'none'
       type: object
@@ -28854,11 +28835,44 @@ components:
         problem-kind-severity:
           $ref: '#/components/schemas/SEVERITY_TYPE1',
     core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac:
-      description: 'none'
+      description: 'Ltp augment pac information.'
       type: object
       properties:
-        ltp-augment-capability:
-          $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability'
+        equipment:
+          type: array
+          items:
+            default: Some equipment
+            type: string
+          description: 'Equipment, which determines the characteristics of this interface (LTP).'
+        connector:
+          description: 'Connector, where this interface (LTP) can be physically connected.'
+          default: 'Some connector'
+          type: string
+        supported-layer-protocol-names:
+          description: 'LayerProtocolNames which are supported by the device.'
+          type: array
+          items:
+            type: string
+            default: 'NOT_YET_DEFINED'
+            enum:
+              - 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_IP_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'
+              - 'LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+              - 'NOT_YET_DEFINED'
+        original-ltp-name:
+          description: 'Shall automatically be filled with the string containing the logical or physical interface name as it is represented at the vendors own mangement interface, e.g. "LAN 1/2/1"'
+          type: string
+          default: 'Original name not yet defined.'
+        external-label:
+          description: 'attribute for the operator to persistently store an identifier from his documentation inside the device'
+          type: string
+          default: 'External label not yet defined.'
     core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-switch_control-parameters:
       description: 'none'
       type: object

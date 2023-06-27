@@ -1640,7 +1640,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac:
-    # uuid: mwdi-1-0-0-op-s-is-236  
+    # uuid: mwdi-1-0-0-op-s-is-236
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

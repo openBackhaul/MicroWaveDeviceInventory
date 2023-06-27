@@ -9805,45 +9805,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
-    parameters:
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - in: query
-        name: content
-        description: 'query parameter to filter ressource [nonconfig]'
-        required: true
-        schema:
-          type: string
-          enum:
-            - 'nonconfig'
-          example: 'TODO'
-    get:
-      operationId: getCoreModelLtpAugmentCap
-      summary: 'Returns core-model-1-4 - ltp-augment-capability'
-      tags:
-        - core-model-1-4
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}:
     parameters:
       - $ref: '#/components/parameters/mount-name'

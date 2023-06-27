@@ -1683,50 +1683,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
-    # uuid: mwdi-1-0-0-op-s-is-237
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructLogicalTerminationPointLtpAugmentLtpAugementLtpAugmentPacLtpAugmentCapability
-      summary: 'Returns ltp-augment-capability'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-237/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
     # uuid: mwdi-1-0-0-op-s-is-298
     parameters:

@@ -72,9 +72,9 @@
         "logical-termination-point": "mwdi-1-0-0-op-s-is-202"
       },
       {
-        "local-id": "1237",
+        "local-id": "1236",
         "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-        "logical-termination-point": "mwdi-1-0-0-op-s-is-237"
+        "logical-termination-point": "mwdi-1-0-0-op-s-is-236"
       },
       {
         "local-id": "1298",

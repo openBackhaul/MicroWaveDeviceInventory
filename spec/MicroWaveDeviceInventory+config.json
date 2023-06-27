@@ -1127,30 +1127,6 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-op-s-is-237",
-            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
-            "server-ltp": [
-              "mwdi-1-0-0-http-s-000"
-            ],
-            "layer-protocol": [
-              {
-                "local-id": "0",
-                "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                "operation-server-interface-1-0:operation-server-interface-pac": {
-                  "operation-server-interface-capability": {
-                    "operation-name": "/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability"
-                  },
-                  "operation-server-interface-configuration": {
-                    "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                    "operation-key": "n.a."
-                  }
-                }
-              }
-            ]
-          },
-          {
             "uuid": "mwdi-1-0-0-op-s-is-298",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
@@ -1285,7 +1261,6 @@
               "mwdi-1-0-0-op-s-is-130",
               "mwdi-1-0-0-op-s-is-202",
               "mwdi-1-0-0-op-s-is-236",
-              "mwdi-1-0-0-op-s-is-237",
               "mwdi-1-0-0-op-s-is-298",
               "mwdi-1-0-0-op-s-is-302",
               "mwdi-1-0-0-op-s-is-305",
@@ -2647,11 +2622,6 @@
                     "local-id": "1254",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                     "logical-termination-point": "mwdi-1-0-0-op-s-is-236"
-                  },
-                  {
-                    "local-id": "1255",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-s-is-237"
                   },
                   {
                     "local-id": "1316",

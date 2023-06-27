@@ -29,8 +29,8 @@
         uuid: mwdi-1-0-0-op-s-is-130
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
         uuid: mwdi-1-0-0-op-s-is-202
-      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
-        uuid: mwdi-1-0-0-op-s-is-237
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-s-is-236
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
         uuid: mwdi-1-0-0-op-s-is-298
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection

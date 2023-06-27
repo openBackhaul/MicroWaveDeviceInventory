@@ -437,8 +437,12 @@
           uuid: mwdi-1-0-0-op-s-is-235
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
           uuid: mwdi-1-0-0-op-s-is-236
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
-          uuid: mwdi-1-0-0-op-s-is-237
+
+
+        - ENTFÄLLT: operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+          ENTFÄLLT: uuid: mwdi-1-0-0-op-s-is-237
+
+          
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}
           uuid: mwdi-1-0-0-op-s-is-238
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/fc={uuid1}

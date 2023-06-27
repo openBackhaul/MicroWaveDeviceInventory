@@ -1639,8 +1639,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability:
-    # uuid: mwdi-1-0-0-op-s-is-237
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac:
+    # uuid: mwdi-1-0-0-op-s-is-236
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1651,19 +1651,19 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getControlConstructLogicalTerminationPointAugmentLtpAugementLtpAugmentLtpAugmentPacCapability
-      summary: 'Returns ltp-augment-capability'
+      operationId: getControlConstructLogicalTerminationPointLtpAugmentLtpAugementLtpAugmentPac
+      summary: 'Returns ltp-augment-pac'
       tags:
-        - IndividualServices
+        - core-model-1-4
       security:
-        - apiKeyAuth: []
+        - basicAuth: []
       responses:
         '200':
-          description: 'ltp_ltp-augment-pac_ltp-augment-capability provided'
+          description: 'ltp_ltp-augment-pac provided'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_ltp-augment-capability_TOP'
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_TOP'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -1676,7 +1676,7 @@ paths:
                 $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-237/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-236/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':

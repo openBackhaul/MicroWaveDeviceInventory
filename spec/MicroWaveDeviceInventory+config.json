@@ -2759,7 +2759,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI"
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi"
                   }
                 ],
                 "fc-port": [
@@ -2784,7 +2784,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "PromptForBequeathingDataCausesEndingSubscriptionToOldRelease"
+                    "value": "PromptForBequeathingDataCausesEndingSubscriptionForDeviceChangeNotificationToOldRelease"
                   }
                 ],
                 "fc-port": [
@@ -3210,7 +3210,7 @@
                   }
                 ]
               },
-              # KAT TODO: add invidual forwardings here
+              # KAT TODO: add invidual forwardings here, once they are finalized!
             ]
           }
         ]

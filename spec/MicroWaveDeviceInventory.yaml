@@ -1134,7 +1134,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/controller_topology_devices_TOP'
+                type: object
+                properties:
+                  network-topology:topology:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        node:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              node-id:
+                                type: string
+                                description: 'mount-name of the device'
+                      description: 'list of devices mounted on the Controller'
+                example:
+                  network-topology:topology:
+                    - node:
+                        - node-id: '222250001'
+                        - node-id: '222250002'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -10713,7 +10733,6 @@ components:
       schema:
         type: string
         example: '222250001'
-        pattern: '^\d{9}[AB]{0,1}$'
       description: 'The mount-name of the node for which the request should be executed.'
     #
     # Fields filter query parameter
@@ -10881,53 +10900,6 @@ components:
           format: int32
         message:
           type: string
-    #
-    # controller topology schema limited to devices only -->
-    controller_topology_devices_TOP:
-      # example:
-      #{
-      #    "network-topology:topology": [
-      #        {
-      #            "node": [
-      #                {
-      #                    "node-id": "node1"
-      #                },
-      #                {
-      #                    "node-id": "nodex"
-      #                }
-      #            ]
-      #        }
-      #    ]
-      #}
-      type: object
-      properties:
-        network-topology-entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/controller_topology_devices_node'
-          description: 'List of topology objects'
-    #
-    controller_topology_devices_node:
-      type: object
-      properties:
-        node-entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/controller_topology_devices_node_ids'
-          description: 'List of nodes'
-    #
-    controller_topology_devices_node_ids:
-      type: object
-      properties:
-        key:
-          type: string
-          pattern: 'node-id'
-          description: 'The node-id keyword'
-        value:
-          type: string
-          pattern: '^\d{9}[AB]{0,1}$'
-          example: '222250001'
-          description: 'The node-id (i.e. mount-name)'
     #
     # mwdi-specific schemas derived from controller oas -->
     # schemas are modularized to allow for easy combination of different schemas to a new result schema (rather than having to specify everything multiple times)

@@ -966,7 +966,6 @@ paths:
   #   - actual notification about a new device
   #   - initiated from within the MWDI once a new device has been added
   #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
-  #   - callbacks: TODO
   #
   /v1/inform-about-new-device:
     # uuid: mwdi-1-0-0-op-s-is-003
@@ -1033,7 +1032,6 @@ paths:
   #   - initiated either a) from within the MWDI once a new/updated CC has been written to the MWDI database
   #                      b) or if the CC is updated after receiving the related config-change notification from the Controller
   #   - returns the mount-name of the target device (mount-name is handed-over in requestBody)
-  #   - callbacks: TODO
   #
   /v1/inform-about-new-control-construct:
     # uuid: mwdi-1-0-0-op-s-is-004
@@ -1174,7 +1172,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-
+      #callbacks:
+        #PromptForDeviceListCausesReadingFromElasticSearch:
 
   #
  # == Paths derived from controller OAS ========================================================================================================
@@ -1221,6 +1220,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks:
+        #RessourcePathRequestCausesReadingFromElasticSearch:
   #
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
     # uuid: mwdi-1-0-0-op-s-is-022
@@ -2587,6 +2588,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        #CyclicOperationCausesRequestForReadingDeviceListFromElasticSearch:
+        #CyclicOperationCausesWritingDeviceListComparisonUpdatesIntoElasticSearch
   /v1/redirect-service-request-information:
     parameters:
       - $ref: '#/components/parameters/user'

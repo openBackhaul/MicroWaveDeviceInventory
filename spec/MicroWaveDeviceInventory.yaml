@@ -1126,15 +1126,15 @@ paths:
       summary: 'Allows to query the controller topology. Usage only allowed with fields filter.'
       tags:
         - IndividualServices
-    security:
-      - apiKeyAuth: []
-    responses:
-      '200':
-        description: 'Filtered topology information provided.'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/controller_topology_devices_TOP'
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Filtered topology information provided.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller_topology_devices_TOP'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -1154,6 +1154,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
   #
  # == Paths derived from controller OAS ========================================================================================================
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
@@ -10918,11 +10920,11 @@ components:
       type: object
       properties:
         key:
-          type: String
+          type: string
           pattern: 'node-id'
           description: 'The node-id keyword'
         value:
-          type: String
+          type: string
           pattern: '^\d{9}[AB]{0,1}$'
           example: '222250001'
           description: 'The node-id (i.e. mount-name)'

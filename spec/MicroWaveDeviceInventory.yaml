@@ -347,36 +347,46 @@ paths:
         #
         PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi:
           # consequent-request: is on controller
-          #   - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
-          #   - uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
+          #   - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
+          #   - uuid:mwdi-1-0-0-op-c-is-c-4-0-2-002
+          #   - need to send a GET request to subscribe the Controller for every device/mount-name individually
           #
-          # possibly needs to look differently from other callbacks, as the target is the Controller, which is not part of the ApplicationPattern
-          # - should be a GET, not a POST request
-          # - empty requestBody
-          # - omitted parameters and headers
+          # -------------------------------------------------------------------------------------------------------------------------------   
+          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          # parts:
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name 
+          #   or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
           #
-          # TODO: NEEDS TO BE VERIFIED
-          #
-          url: #OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
-                # default parameters are not added here, because Controller is outside AppPattern
-              requestBody:
-                required: false
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      nullable: true
+                # include default parameters for logging inside the AppFramework
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - $ref: '#/components/parameters/mount-name'
+              #requestBody: # not needed, can it be omitted?
+              #  required: false
+              #  content:
+              #    application/json:
+              #      schema:
+              #        type: object
+              #        nullable: true
               responses:
                 '200':
-                  description: 'Controller status information about device with changed connection-state'
+                  description: 'Controller status information about either connection-state-change or config-change for the device.'
                   content:
                     application/json:
                       schema:
                         type: string
-                        description: 'device connection-state information'
-                  # headers omitted, because Controller is outside AppPattern
+                        description: 'device connection-state-change or config-change information'
+                  # default headers omitted, because Controller is outside AppPattern and does not support (send) them
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':

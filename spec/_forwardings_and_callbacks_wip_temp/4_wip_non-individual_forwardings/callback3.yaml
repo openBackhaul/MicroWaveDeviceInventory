@@ -34,19 +34,16 @@
               #        nullable: true
               responses:
                 '200':
-                  description: 'Controller status information about device with changed connection-state'
+                  description: 'Controller status information about either connection-state-change or config-change for the device.'
                   content:
                     application/json:
                       schema:
                         type: string
-                        description: 'device connection-state information'
-                  # default headers omitted, because Controller is outside AppPattern and does not support them 
+                        description: 'device connection-state-change or config-change information'
+                  # default headers omitted, because Controller is outside AppPattern and does not support (send) them
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-
-
-                  PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi:

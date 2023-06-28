@@ -553,7 +553,7 @@ forwardings:
 
   ## both retrieved lists are compared internally in MWDI, then updates are written back to ElasticSearch
   ## new connected devices are added to deviceList, disconnected devices are deleted from ElasticSearch (deviceList + CC)
-  - forwarding-name: CyclicOperationCausesWritingDeviceListComparisonUpdatesIntoELasticSearch
+  - forwarding-name: CyclicOperationCausesWritingDeviceListComparisonUpdatesIntoElasticSearch
     uuid: mwdi-1-0-0-op-fc-is-002
     forwarding-type: InvariantProcessSnippet
     management-requests:

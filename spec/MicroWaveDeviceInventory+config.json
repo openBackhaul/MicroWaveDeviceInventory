@@ -2784,7 +2784,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "PromptForBequeathingDataCausesEndingSubscriptionToOldRelease"
+                    "value": "PromptForBequeathingDataCausesEndingSubscriptionForDeviceChangeNotificationToOldRelease"
                   }
                 ],
                 "fc-port": [

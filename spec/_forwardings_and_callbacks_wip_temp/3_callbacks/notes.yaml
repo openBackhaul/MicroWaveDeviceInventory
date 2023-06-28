@@ -41,3 +41,50 @@ template:
           #     [/core-model-1-4:control-construct/logical-termination-point=uuidreplace/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
 
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=uuidreplace/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+
+
+-------------------------
+# Controller client-stack:
+#
+#  - http-client:
+#      application-name: OpenDaylight
+#      release-number: 4.0.2
+#      uuid: mwdi-1-0-0-http-c-c-4-0-2-000
+#
+#>> DER TEIL IST DER RELEVANTE:      
+#    tcp-client:
+#      remote-protocol: http
+#      ip-address: 1.1.1.1
+#      tcp-port: 1001
+#      uuid: mwdi-1-0-0-tcp-c-c-4-0-2-000
+#<<
+#    operation-clients:
+#      own-oam:
+#        basic:
+#        individual:
+#      service:
+#        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+#        individual:
+#          ## get list of (all) mounted devices on the controller with connection status
+#          - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)
+#            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+#          ## get control construct for a given device
+#          - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+#            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
+#          ## subscription URL for device status changes (not sure if it needs to be included here)
+##          - operation-name: /rests/notif/{mount-name}?notificationType=device
+#            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
+
+
+# z.B. wenn man eine URL für den callback auf den  ersten operation-name machen will: 
+# protocol, domain + ip mit der uuid vom tcp-client: mwdi-1-0-0-tcp-c-c-4-0-2-000
+# operation-name:  mwdi-1-0-0-op-c-is-c-4-0-2-000
+# template anpassen
+          # url: [Reference to protocol]://[Reference to domain name and IP address]:[Reference to port][Reference to operation name]
+          # parts:
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]
+          #     [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]

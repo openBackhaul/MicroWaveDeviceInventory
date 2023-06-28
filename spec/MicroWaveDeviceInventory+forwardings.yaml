@@ -209,7 +209,7 @@ forwardings:
 # the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
 # the MWDI needs to subscribe to the following URL:
 # https://<controller_IP>:8443/rests/notif/{mount-name}?notificationType=device
-  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceNotificationAtNewMwdi
     uuid: mwdi-1-0-0-op-fc-im-003
     forwarding-type: InvariantProcessSnippet
     management-requests:

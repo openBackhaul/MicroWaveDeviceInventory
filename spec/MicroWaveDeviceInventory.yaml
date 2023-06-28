@@ -142,7 +142,7 @@ paths:
         # individual callbacks to be added here
         # - PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications
         # - PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
-        # - PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI
+        # - PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi
         # - PromptForBequeathingDataCausesEndingSubscriptionToOldRelease
         #
         PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications:
@@ -345,7 +345,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         #
-        PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI:
+        PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi:
           # consequent-request: is on controller
           #   - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
           #   - uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003

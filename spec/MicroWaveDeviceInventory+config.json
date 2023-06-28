@@ -2759,7 +2759,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceConnectionStatusAtNewMWDI"
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi"
                   }
                 ],
                 "fc-port": [

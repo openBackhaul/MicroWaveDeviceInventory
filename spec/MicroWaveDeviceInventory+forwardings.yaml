@@ -227,7 +227,7 @@ forwardings:
 ## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 # here the subscription to the Controller would need to be canceled
 # this is done by sending a DELETE request to the subscription URL
-  - forwarding-name: PromptForBequeathingDataCausesEndingSubscriptionToOldRelease
+  - forwarding-name: PromptForBequeathingDataCausesEndingSubscriptionForDeviceChangeNotificationToOldRelease
     uuid: mwdi-1-0-0-op-fc-im-004
     forwarding-type: InvariantProcessSnippet
     management-requests:

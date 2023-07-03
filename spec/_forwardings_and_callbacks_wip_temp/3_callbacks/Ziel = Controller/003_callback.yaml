@@ -44,7 +44,7 @@
                 - $ref: '#/components/parameters/customer-journey'                
               responses:
                 '200':
-                  description: 'Notification about a connection-state or config-change from the Controller'
+                  description: '(Subscribed to notification about a connection-state or config-change from the Controller'
                   content:
                     text/event-stream: # notification messages are streamed by the Controller 
                       schema:

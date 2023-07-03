@@ -162,3 +162,18 @@ profile-instances:
       description: 'Minimum waiting time until the next CC retrieval retry for a device may be started'
     configuration:
       integer-value: 900
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-0-0-integer-p-005'
+    capability:
+      integer-name: 'controlConstructRetrievalBlockingTime'
+      unit: 'hour'
+      minimum: 1
+      maximum: 24
+      description: 'The time until the ControlConstruct for a given device should not be requested again after previous successful retrieval. If there are no controlConstructs which need to be retrieved for the first time or updated again due to expiration, devices having outrun their blocking time, may be requested again. '
+      # Depending on the size of the sliding window and the retentionTime of just 6 hours, it's not unlikely that this situation will not occur
+      # This profile prevents the CC being requested again too early, but if the MWDI is idle and there's nothing else to extract the CC could be retrieved to improve load balancing
+      # If there are other apps like the MycomButler (which retrieves PM-data), for which retrieval from the MWDI in certain intervals may be necessary, it would be beneficial for those apps to subscribe
+      # at the MWDI for notifications about new CCs.  
+    configuration:
+      integer-value: 4

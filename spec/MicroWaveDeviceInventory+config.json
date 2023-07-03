@@ -282,7 +282,22 @@
                   "integer-value": 900
                 }
               }
-            }                                
+            },
+            {
+              "uuid": "mwdi-1-0-0-integer-p-005",
+              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+              "integer-profile-1-0:integer-profile-pac": {
+                "integer-profile-capability": {
+                  "integer-name": "controlConstructRetrievalBlockingTime",
+                  "unit": "second",
+                  "minimum": 1,
+                  "maximum": 24
+                },
+                "integer-profile-configuration": {
+                  "integer-value": 4
+                }
+              }
+            }                              
           ]
         },
         "logical-termination-point": [

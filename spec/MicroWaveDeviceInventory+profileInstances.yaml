@@ -174,6 +174,6 @@ profile-instances:
       # Depending on the size of the sliding window and the retentionTime of just 6 hours, it's not unlikely that this situation will not occur
       # This profile prevents the CC being requested again too early, but if the MWDI is idle and there's nothing else to extract the CC could be retrieved to improve load balancing
       # If there are other apps like the MycomButler (which retrieves PM-data), for which retrieval from the MWDI in certain intervals may be necessary, it would be beneficial for those apps to subscribe
-      # at the MWDI for notifications about new CCs.  
+      # at the MWDI for notifications about new CCs.
     configuration:
       integer-value: 4

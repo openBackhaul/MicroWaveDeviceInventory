@@ -10742,7 +10742,7 @@ components:
     fields:
       name: fields
       in: query
-      description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path "(" fields-expr ")" / path ";" fields-expr / path)'
+      description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path ( fields-expr ) / path ; fields-expr / path)'
       required: false
       schema:
         type: string
@@ -11408,7 +11408,7 @@ components:
             $ref: '#/components/schemas/LOOP_BACK_TYPE2'
           description: 'List of supported kinds of looping back.'
         maintenance-timer-range:
-          description: 'Available time periods for maintenance configurations to be described. Concrete values shall be separated by commas (e.g. "10, 60, 360"). Ranges shall be expressed as two values separated by a minus (e.g. "10-360").'
+          description: 'Available time periods for maintenance configurations to be described. Concrete values shall be separated by commas (e.g. *10, 60, 360*). Ranges shall be expressed as two values separated by a minus (e.g. *10-360*).'
           default: 'Range of the maintenance timer not yet defined.'
           type: string
         statistics-is-avail:
@@ -11421,7 +11421,7 @@ components:
           items:
             default: Some supported-alarm-list
             type: string
-          description: 'Available alarms to be listed. Mandatory: "MacInterfaceDown" and "FrameSizeMissmatch". Further alarms might be added by the device vendors.'
+          description: 'Available alarms to be listed. Mandatory: *MacInterfaceDown* and *FrameSizeMissmatch*. Further alarms might be added by the device vendors.'
         performance-monitoring-is-avail:
           description: '1 = Collection and aggregation of performance values is available.'
           default: false
@@ -11862,19 +11862,19 @@ components:
             $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-capability_transmission-mode-list'
           description: 'List of supported Transmission Modes.'
         auto-freq-select-is-avail:
-          description: 'In case the microwave radio is capable of automatically selecting the transmit frequency in unlicensed bands, this field shall contain a "true".'
+          description: 'In case the microwave radio is capable of automatically selecting the transmit frequency in unlicensed bands, this field shall contain a *true*.'
           default: false
           type: boolean
         receiver-on-off-is-avail:
-          description: 'In case switching on/off the receiver is available at the device, this field shall contain a "true".'
+          description: 'In case switching on/off the receiver is available at the device, this field shall contain a *true*.'
           default: false
           type: boolean
         adaptive-modulation-is-avail:
-          description: 'In case the device is capable of adaptive modulation, this field shall contain a "true".'
+          description: 'In case the device is capable of adaptive modulation, this field shall contain a *true*.'
           default: false
           type: boolean
         atpc-is-avail:
-          description: 'In case the microwave radio is capable of ATPC, this field shall contain a "true".'
+          description: 'In case the microwave radio is capable of ATPC, this field shall contain a *true*.'
           default: false
           type: boolean
         atpc-range:
@@ -11893,7 +11893,7 @@ components:
           default: false
           type: boolean
         encryption-is-avail:
-          description: 'Shall be marked "true", if payload encryption is available.'
+          description: 'Shall be marked *true*, if payload encryption is available.'
           default: false
           type: boolean
         supported-loop-back-kind-list:
@@ -11904,7 +11904,7 @@ components:
             $ref: '#/components/schemas/LOOP_BACK_TYPE'
           description: 'List of supported kinds of looping back of header information to the remote site.'
         maintenance-timer-range:
-          description: 'Available time periods for maintenance configurations (e.g. the loop back of microwave header information) to be described. Concrete values shall be separated by commas (e.g. "10, 60, 360"). Ranges shall be expressed as two values separated by a minus (e.g. "10-360").'
+          description: 'Available time periods for maintenance configurations (e.g. the loop back of microwave header information) to be described. Concrete values shall be separated by commas (e.g. *10, 60, 360*). Ranges shall be expressed as two values separated by a minus (e.g. *10-360*).'
           default: 'Range of the maintenance timer not yet defined.'
           type: string
         acm-threshold-cross-alarms-is-avail:
@@ -12972,11 +12972,11 @@ components:
         protocol-frame-format:
           $ref: '#/components/schemas/PROTOCOL_FRAME_FORMAT_TYPE'
         ethertype:
-          description: 'ethertype. Only relevant if (protocolFrameFormat==ETHERNET) OR (protocolFrameFormat==RFC1042) OR (protocolFrameFormat==SNAP8021H). Format containing the 16-bit IEEE 802 EtherType field. The EtherType value represented in the canonical order defined by IEEE 802. The canonical representation uses uppercase characters. Pattern "[0-9a-fA-F]{2}-[0-9a-fA-F]{2}". Name in ieee802-dot1q-bridge.yang: ethertype.'
+          description: 'ethertype. Only relevant if (protocolFrameFormat==ETHERNET) OR (protocolFrameFormat==RFC1042) OR (protocolFrameFormat==SNAP8021H). Format containing the 16-bit IEEE 802 EtherType field. The EtherType value represented in the canonical order defined by IEEE 802. The canonical representation uses uppercase characters. Pattern *[0-9a-fA-F]{2}-[0-9a-fA-F]{2}*. Name in ieee802-dot1q-bridge.yang: ethertype.'
           default: 'Ethertype not yet defined.'
           type: string
         protocol-id:
-          description: 'Only effective if (protocolFrameFormat==SNAP_OTHER). Format containing the 40-bit protocol identifier (PID). The canonical representation uses uppercase characters. Pattern "[0-9a-fA-F]{2}(-[0-9a-fA-F]{2}){4}". Name in ieee802-dot1q-bridge.yang: protocol-id.'
+          description: 'Only effective if (protocolFrameFormat==SNAP_OTHER). Format containing the 40-bit protocol identifier (PID). The canonical representation uses uppercase characters. Pattern *[0-9a-fA-F]{2}(-[0-9a-fA-F]{2}){4}*. Name in ieee802-dot1q-bridge.yang: protocol-id.'
           default: 'Protocol ID not yet defined.'
           type: string
         llc-address-list:
@@ -12984,7 +12984,7 @@ components:
           items:
             default: Some llc-address-list
             type: string
-          description: 'Only effective if (protocolFrameFormat==LLC_OTHER). A pair of ISO/IEC 8802-2 DSAP and SSAP address field values, for matching frame formats of LLC_Other. The canonical representation uses uppercase characters. Pattern "[0-9a-fA-F]{2}-[0-9a-fA-F]{2}". Name in ieee802-dot1q-bridge.yang: llc-address.'
+          description: 'Only effective if (protocolFrameFormat==LLC_OTHER). A pair of ISO/IEC 8802-2 DSAP and SSAP address field values, for matching frame formats of LLC_Other. The canonical representation uses uppercase characters. Pattern *[0-9a-fA-F]{2}-[0-9a-fA-F]{2}*. Name in ieee802-dot1q-bridge.yang: llc-address.'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-capability_supported-header-compression-kind-list_TOP:
       type: object
       properties:
@@ -13270,7 +13270,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/core-model-1-4_control-construct_forwarding-domain_fc_fc-switch_selected-fc-port'
-          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is "high impedance"\n.'
+          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is *high impedance*\n.'
         profile-proxy:
           type: array
           items:
@@ -13390,7 +13390,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         suspect-interval-flag:
-          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the "lock" state.\n   – Transition of the operationalState to/from the "disabled" state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
+          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the *lock* state.\n   – Transition of the operationalState to/from the *disabled* state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
           default: false
           type: boolean
         elapsed-time:
@@ -13653,7 +13653,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/core-model-1-4_control-construct_forwarding-domain_fc_fc-switch_selected-fc-port'
-          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is "high impedance"\n.'
+          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is *high impedance*\n.'
     core-model-1-4_control-construct_equipment_actual-equipment_physical-characteristics_TOP:
       type: object
       properties:
@@ -13691,7 +13691,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         suspect-interval-flag:
-          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the "lock" state.\n   – Transition of the operationalState to/from the "disabled" state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
+          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the *lock* state.\n   – Transition of the operationalState to/from the *disabled* state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
           default: false
           type: boolean
         elapsed-time:
@@ -14128,7 +14128,7 @@ components:
             $ref: '#/components/schemas/LOOP_BACK_TYPE4'
           description: 'Source: 802.3 45.2.1.12.1 PMA remote loopback ability. List of supported kinds of looping back of header information to the remote site.'
         maintenance-timer-range:
-          description: 'Available time periods for maintenance configurations (e.g. the loop back) to be described. Concrete values shall be separated by commas (e.g. "10, 60, 360"). Ranges shall be expressed as two values separated by a minus (e.g. "10-360").'
+          description: 'Available time periods for maintenance configurations (e.g. the loop back) to be described. Concrete values shall be separated by commas (e.g. *10, 60, 360*). Ranges shall be expressed as two values separated by a minus (e.g. *10-360*).'
           default: 'Range of the maintenance timer not yet defined.'
           type: string
         performance-monitoring-is-avail:
@@ -14159,7 +14159,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port'
-          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is "high impedance"\n.'
+          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is *high impedance*\n.'
         profile-proxy:
           type: array
           items:
@@ -14405,7 +14405,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-switch_selected-fc-port'
-          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is "high impedance"\n.'
+          description: 'Indicates which points are selected by the switch.\nDepending on the switch spec (via FcSpec)\n- more than one FcPort can be selected at any one time (e.g. egress switch, ingress packet switch)\n- zero FcPorts can be selected. For an ingress switch this indicates that the switch common (egress) is *high impedance*\n.'
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-current-performance_current-performance-data-list_performance-data:
       description: 'none'
       type: object
@@ -14656,7 +14656,7 @@ components:
           default: -32768
           type: integer
         segment-is-reserved-for-tdm:
-          description: 'The number of segments, which is configured by Structure::StructureConfiguration::tdmReservedNumberOfSegements, has to be reserved for TDM. Starting from the lowest index value, these segments have to be marked with a "true" in segmentIsReservedForTdm.\n'
+          description: 'The number of segments, which is configured by Structure::StructureConfiguration::tdmReservedNumberOfSegements, has to be reserved for TDM. Starting from the lowest index value, these segments have to be marked with a *true* in segmentIsReservedForTdm.\n'
           default: false
           type: boolean
         operational-status:
@@ -14865,11 +14865,11 @@ components:
       type: object
       properties:
         tdm-container-name:
-          description: 'Names to be chosen from the following list: "e1","t1","j1","e3","t3","stm1","cpri1","cpri2","cpri3","cpri4","cpri5","cpri6" or "cpri7"'
+          description: 'Names to be chosen from the following list: *e1*,*t1*,*j1*,*e3*,*t3*,*stm1*,*cpri1*,*cpri2*,*cpri3*,*cpri4*,*cpri5*,*cpri6* or *cpri7*'
           default: 'Some tdm-container-name'
           type: string
         tdm-container-size:
-          description: 'Capacity required for transporting this type of container (in kbit/s). Values to be chosen from the following list: "2048","1544","34000","44736 ","155520","614400","1228800","2457600","3072000","4915200","6144000" or "9830400;'
+          description: 'Capacity required for transporting this type of container (in kbit/s). Values to be chosen from the following list: *2048*,*1544*,*34000*,*44736 *,*155520*,*614400*,*1228800*,*2457600*,*3072000*,*4915200*,*6144000* or *9830400;'
           format: int32
           default: -1
           type: integer
@@ -16608,7 +16608,7 @@ components:
       type: object
       properties:
         asset-instance-identifier:
-          description: 'This attribute represents the asset identifier of this instance from the operator"s perspective.'
+          description: 'This attribute represents the asset identifier of this instance from the operator*s perspective.'
           default: 'Some asset-instance-identifier'
           type: string
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_vlan-interface-pac_vlan-interface-configuration:
@@ -16842,7 +16842,7 @@ components:
           items:
             default: Some lower-level-fc
             type: string
-          description: 'An FC object supports a recursive aggregation relationship such that the internal construction of an FC can be exposed as multiple lower level FC objects (partitioning).\nAggregation is used as for the FD to allow changes in hierarchy.\nFC aggregation reflects FD aggregation.\nFor example a low level FC could represent what would have traditionally been considered as a "Cross-Connection" in an "NE". The "Cross-Connection" in an "NE" is not necessarily the lowest level of FC partitioning.\n'
+          description: 'An FC object supports a recursive aggregation relationship such that the internal construction of an FC can be exposed as multiple lower level FC objects (partitioning).\nAggregation is used as for the FD to allow changes in hierarchy.\nFC aggregation reflects FD aggregation.\nFor example a low level FC could represent what would have traditionally been considered as a *Cross-Connection* in an *NE*. The *Cross-Connection* in an *NE* is not necessarily the lowest level of FC partitioning.\n'
         fc-route:
           description: 'An FC object can have zero or more routes, each of which is defined as a list of lower level FC objects describing the flow across the network.'
           default: 'Some fc-route'
@@ -16870,7 +16870,7 @@ components:
           default: true
           type: boolean
         service-priority:
-          description: 'Relevant where "service" FCs are competing for server resources.\nUsed to determine which signal FC is allocated resource.\nThe priority of the "service" with respect to other "services".\nLower numeric value means higher priority.\nCovers cases such as pre-emptible in a resilience solution. '
+          description: 'Relevant where *service* FCs are competing for server resources.\nUsed to determine which signal FC is allocated resource.\nThe priority of the *service* with respect to other *services*.\nLower numeric value means higher priority.\nCovers cases such as pre-emptible in a resilience solution. '
           format: int64
           default: -9223372036854775808
           type: integer
@@ -16972,11 +16972,11 @@ components:
       type: object
       properties:
         pmd-name:
-          description: 'To be chosen from the following list of PMD names according to IEEE 802.3 "10BASE5", "FOIRL", "10BASE2", "10BROAD36", "10BASE-T", "10BASE-FP", "10BASE-FB", "10BASE-FL", "100BASE-T4", "100BASE-TX", "100BASE-BX10D", "100BASE-BX10U", "100BASE-FX", "100BASE-LX10", "100BASE-T2", "1000BASE-X", "1000BASE-BX10D", "1000BASE-BX10U", "1000BASE-LX", "1000BASE-LX10", "1000BASE-SX", "1000BASE-CX", "1000BASE-KX", "1000BASE-T", "2500BASE-X", "2500BASE-T", "10GBASE-X", "10GBASE-LX4", "10GBASE-KX4", "10GBASE-R", "10GBASE-ER", "10GBASE-LR", "10GBASE-SR", "10GBASE-LRM", "10GBASE-KR", "10GBASE-T", "10GBASE-PR-D1", "10GBASE-PR-D2", "10GBASE-PR-D3", "10GBASE-PR-D4", "10GBASE-PR-U1", "10GBASE-PR-U2", "10GBASE-PR-U3", "10GBASE-PR-U4", "40GBASE-R", "40GBASE-KR4", "40GBASE-CR4", "40GBASE-SR4", "4x10GBASE-SR", "40GBASE-LR4", "40GBASE-ER4", "40GBASE-FR", "100GBASE-R", "100GBASE-CR4", "100GBASE-KR4", "100GBASE-KP4", "100GBASE-CR10", "100GBASE-SR4", "100GBASE-SR10", "2x40GBASE-SR", "10x10GBASE-SR", "12x10GBASE-SR", "100GBASE-LR4", "100GBASE-ER4" and "NOT_YET_DEFINED". Some PMDs are distinguishing Full Duplex and Half Duplex. "_FD" and "_HD" are to be attached to the respective PMD name accordingly.'
+          description: 'To be chosen from the following list of PMD names according to IEEE 802.3 *10BASE5*, *FOIRL*, *10BASE2*, *10BROAD36*, *10BASE-T*, *10BASE-FP*, *10BASE-FB*, *10BASE-FL*, *100BASE-T4*, *100BASE-TX*, *100BASE-BX10D*, *100BASE-BX10U*, *100BASE-FX*, *100BASE-LX10*, *100BASE-T2*, *1000BASE-X*, *1000BASE-BX10D*, *1000BASE-BX10U*, *1000BASE-LX*, *1000BASE-LX10*, *1000BASE-SX*, *1000BASE-CX*, *1000BASE-KX*, *1000BASE-T*, *2500BASE-X*, *2500BASE-T*, *10GBASE-X*, *10GBASE-LX4*, *10GBASE-KX4*, *10GBASE-R*, *10GBASE-ER*, *10GBASE-LR*, *10GBASE-SR*, *10GBASE-LRM*, *10GBASE-KR*, *10GBASE-T*, *10GBASE-PR-D1*, *10GBASE-PR-D2*, *10GBASE-PR-D3*, *10GBASE-PR-D4*, *10GBASE-PR-U1*, *10GBASE-PR-U2*, *10GBASE-PR-U3*, *10GBASE-PR-U4*, *40GBASE-R*, *40GBASE-KR4*, *40GBASE-CR4*, *40GBASE-SR4*, *4x10GBASE-SR*, *40GBASE-LR4*, *40GBASE-ER4*, *40GBASE-FR*, *100GBASE-R*, *100GBASE-CR4*, *100GBASE-KR4*, *100GBASE-KP4*, *100GBASE-CR10*, *100GBASE-SR4*, *100GBASE-SR10*, *2x40GBASE-SR*, *10x10GBASE-SR*, *12x10GBASE-SR*, *100GBASE-LR4*, *100GBASE-ER4* and *NOT_YET_DEFINED*. Some PMDs are distinguishing Full Duplex and Half Duplex. *_FD* and *_HD* are to be attached to the respective PMD name accordingly.'
           default: 'Some pmd-name'
           type: string
         speed:
-          description: 'Line speed of the PMD. Value to be chosen from "2Mbit/s", "10Mbit/s", "100Mbit/s", "1000Mbit/s", "2500Mbit/s", "10Gbit/s", "40Gbit/s", "100Gbit/s" or "NOT_YET_DEFINED". This field is not for calculation purposes, but for supporting selection of the correct PMD on application layer.'
+          description: 'Line speed of the PMD. Value to be chosen from *2Mbit/s*, *10Mbit/s*, *100Mbit/s*, *1000Mbit/s*, *2500Mbit/s*, *10Gbit/s*, *40Gbit/s*, *100Gbit/s* or *NOT_YET_DEFINED*. This field is not for calculation purposes, but for supporting selection of the correct PMD on application layer.'
           default: 'NOT_YET_DEFINED'
           type: string
         duplex:
@@ -17034,11 +17034,11 @@ components:
       type: object
       properties:
         tdm-structure-name:
-          description: 'Names to be chosen from the following list: "e1","t1","j1","e3","ds3","stm1","cpri1","cpri2","cpri3","cpri4","cpri5","cpri6" or "cpri7"'
+          description: 'Names to be chosen from the following list: *e1*,*t1*,*j1*,*e3*,*ds3*,*stm1*,*cpri1*,*cpri2*,*cpri3*,*cpri4*,*cpri5*,*cpri6* or *cpri7*'
           default: 'Some tdm-structure-name'
           type: string
         tdm-segment-size:
-          description: 'Size of the TDM segment in kbit/s. Values to be chosen from the following list: "2048","1544","34000","44736 ","155520","614400","1228800","2457600","3072000","4915200","6144000" or "9830400;'
+          description: 'Size of the TDM segment in kbit/s. Values to be chosen from the following list: *2048*,*1544*,*34000*,*44736 *,*155520*,*614400*,*1228800*,*2457600*,*3072000*,*4915200*,*6144000* or *9830400;'
           format: int32
           default: -1
           type: integer
@@ -17096,7 +17096,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         suspect-interval-flag:
-          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the "lock" state.\n   – Transition of the operationalState to/from the "disabled" state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
+          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the *lock* state.\n   – Transition of the operationalState to/from the *disabled* state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
           default: false
           type: boolean
         elapsed-time:
@@ -17123,11 +17123,11 @@ components:
       type: object
       properties:
         xpic-is-avail:
-          description: 'In case this device is in general capable of XPIC, this field shall contain a "true". This information shall purely relate to capabilities of the equipment type, but not to the operational capability of a specific hardware composition on site. Means for example that this attribute might contain a "true" statement, even if an additional cable would have been required to actually operate XPIC in a specific case.'
+          description: 'In case this device is in general capable of XPIC, this field shall contain a *true*. This information shall purely relate to capabilities of the equipment type, but not to the operational capability of a specific hardware composition on site. Means for example that this attribute might contain a *true* statement, even if an additional cable would have been required to actually operate XPIC in a specific case.'
           default: false
           type: boolean
         mimo-is-avail:
-          description: 'In case the device is capable of MIMO, this field shall contain a "true".'
+          description: 'In case the device is capable of MIMO, this field shall contain a *true*.'
           default: false
           type: boolean
         number-of-mimo-channels-max:
@@ -17136,7 +17136,7 @@ components:
           default: 1
           type: integer
         alic-is-avail:
-          description: 'In case the device is capable of Adjacent Link Interference Cancelation (canceling of interference cause by transmitters located at the same site), this field shall contain a "true".'
+          description: 'In case the device is capable of Adjacent Link Interference Cancelation (canceling of interference cause by transmitters located at the same site), this field shall contain a *true*.'
           default: false
           type: boolean
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_vlan-interface-pac_vlan-interface-configuration_pcp-bits-encoding-mapping-list:
@@ -17193,27 +17193,27 @@ components:
         received-radio-signal-id:
           $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-status_received-radio-signal-id'
         link-is-up:
-          description: 'If connection is established to the remote site with the same linkID, this shall be expressed as a "true".'
+          description: 'If connection is established to the remote site with the same linkID, this shall be expressed as a *true*.'
           default: false
           type: boolean
         xpic-is-up:
-          description: 'If XPIC is currently actually working (not just configured), this shall be expressed as a "true".'
+          description: 'If XPIC is currently actually working (not just configured), this shall be expressed as a *true*.'
           default: false
           type: boolean
         mimo-is-up:
-          description: 'If MIMO is currently actually working (not just configured), this shall be expressed as a "true".'
+          description: 'If MIMO is currently actually working (not just configured), this shall be expressed as a *true*.'
           default: false
           type: boolean
         alic-is-up:
-          description: 'If Adjacent Link Interference Cancelation (ALIC) is currently actually working (not just configured), this shall be expressed as a "true".'
+          description: 'If Adjacent Link Interference Cancelation (ALIC) is currently actually working (not just configured), this shall be expressed as a *true*.'
           default: false
           type: boolean
         atpc-is-up:
-          description: 'If ATPC is currently actually working (not just configured), this shall be expressed as a "true".'
+          description: 'If ATPC is currently actually working (not just configured), this shall be expressed as a *true*.'
           default: false
           type: boolean
         auto-freq-select-is-up:
-          description: 'If automated frequency selection is currently actually working (not just configured), this shall be expressed as a "true".'
+          description: 'If automated frequency selection is currently actually working (not just configured), this shall be expressed as a *true*.'
           default: false
           type: boolean
         local-end-point-id:
@@ -18011,7 +18011,7 @@ components:
               - 'LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
               - 'NOT_YET_DEFINED'
         original-ltp-name:
-          description: 'Shall automatically be filled with the string containing the logical or physical interface name as it is represented at the vendors own mangement interface, e.g. "LAN 1/2/1"'
+          description: 'Shall automatically be filled with the string containing the logical or physical interface name as it is represented at the vendors own mangement interface, e.g. *LAN 1/2/1*'
           type: string
           default: 'Original name not yet defined.'
         external-label:
@@ -18142,7 +18142,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         suspect-interval-flag:
-          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the "lock" state.\n   – Transition of the operationalState to/from the "disabled" state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
+          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the *lock* state.\n   – Transition of the operationalState to/from the *disabled* state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
           default: false
           type: boolean
         elapsed-time:
@@ -18356,7 +18356,7 @@ components:
           items:
             default: Some lower-level-fc
             type: string
-          description: 'An FC object supports a recursive aggregation relationship such that the internal construction of an FC can be exposed as multiple lower level FC objects (partitioning).\nAggregation is used as for the FD to allow changes in hierarchy.\nFC aggregation reflects FD aggregation.\nFor example a low level FC could represent what would have traditionally been considered as a "Cross-Connection" in an "NE". The "Cross-Connection" in an "NE" is not necessarily the lowest level of FC partitioning.\n'
+          description: 'An FC object supports a recursive aggregation relationship such that the internal construction of an FC can be exposed as multiple lower level FC objects (partitioning).\nAggregation is used as for the FD to allow changes in hierarchy.\nFC aggregation reflects FD aggregation.\nFor example a low level FC could represent what would have traditionally been considered as a *Cross-Connection* in an *NE*. The *Cross-Connection* in an *NE* is not necessarily the lowest level of FC partitioning.\n'
         fc-route:
           description: 'An FC object can have zero or more routes, each of which is defined as a list of lower level FC objects describing the flow across the network.'
           default: 'Some fc-route'
@@ -18384,7 +18384,7 @@ components:
           default: true
           type: boolean
         service-priority:
-          description: 'Relevant where "service" FCs are competing for server resources.\nUsed to determine which signal FC is allocated resource.\nThe priority of the "service" with respect to other "services".\nLower numeric value means higher priority.\nCovers cases such as pre-emptible in a resilience solution. '
+          description: 'Relevant where *service* FCs are competing for server resources.\nUsed to determine which signal FC is allocated resource.\nThe priority of the *service* with respect to other *services*.\nLower numeric value means higher priority.\nCovers cases such as pre-emptible in a resilience solution. '
           format: int64
           default: -9223372036854775808
           type: integer
@@ -18452,7 +18452,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         suspect-interval-flag:
-          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the "lock" state.\n   – Transition of the operationalState to/from the "disabled" state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
+          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the *lock* state.\n   – Transition of the operationalState to/from the *disabled* state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
           default: false
           type: boolean
         elapsed-time:
@@ -18562,7 +18562,7 @@ components:
           default: false
           type: boolean
         ingress-policing-profile:
-          description: 'Reference to the policing profile, which is active on this interface. Attribute to point to an instance of Profile with profileName=="PROFILE_NAME_TYPE_POLICING_PROFILE".'
+          description: 'Reference to the policing profile, which is active on this interface. Attribute to point to an instance of Profile with profileName==*PROFILE_NAME_TYPE_POLICING_PROFILE*.'
           default: 'Some ingress-policing-profile'
           type: string
         egress-shaping-is-on:
@@ -18682,7 +18682,7 @@ components:
           default: -1
           type: integer
         bundling-is-avail:
-          description: 'This attribute has to be set on "true", if the device allows combining resources from several air interfaces for transporting this Ethernet container.'
+          description: 'This attribute has to be set on *true*, if the device allows combining resources from several air interfaces for transporting this Ethernet container.'
           default: false
           type: boolean
         bundling-group-size-max:
@@ -18727,7 +18727,7 @@ components:
             $ref: '#/components/schemas/FEC_INTERLEAVER_DEPTH_TYPE'
           description: 'ITU-T Rec. G.998.3 Appendix II aFECInterleaverDepth. Indicates the supported depths of the Forward Error Correction (FEC) interleaver.'
         encryption-is-avail:
-          description: 'Shall be marked "true", if Ethernet payload encryption is available.'
+          description: 'Shall be marked *true*, if Ethernet payload encryption is available.'
           default: false
           type: boolean
         admin-shut-down-is-avail:
@@ -18742,7 +18742,7 @@ components:
             $ref: '#/components/schemas/LOOP_BACK_TYPE3'
           description: 'List of supported kinds of looping back.'
         maintenance-timer-range:
-          description: 'Available time periods for maintenance configurations to be described. Concrete values shall be separated by commas (e.g. "10, 60, 360"). Ranges shall be expressed as two values separated by a minus (e.g. "10-360").'
+          description: 'Available time periods for maintenance configurations to be described. Concrete values shall be separated by commas (e.g. *10, 60, 360*). Ranges shall be expressed as two values separated by a minus (e.g. *10-360*).'
           default: 'Range of the maintenance timer not yet defined.'
           type: string
         statistics-is-avail:
@@ -18755,7 +18755,7 @@ components:
           items:
             default: Some supported-alarm-list
             type: string
-          description: 'Available alarms to be listed. Mandatory:"framingIsFaulty" and "containerIsDown". Further alarms might be added by the vendor.'
+          description: 'Available alarms to be listed. Mandatory:*framingIsFaulty* and *containerIsDown*. Further alarms might be added by the vendor.'
         performance-monitoring-is-avail:
           description: '1 = Collection and aggregation of performance values is available.'
           default: false
@@ -18776,7 +18776,7 @@ components:
       type: object
       properties:
         asset-instance-identifier:
-          description: 'This attribute represents the asset identifier of this instance from the operator"s perspective.'
+          description: 'This attribute represents the asset identifier of this instance from the operator*s perspective.'
           default: 'Some asset-instance-identifier'
           type: string
     core-model-1-4_control-construct_logical-termination-point_embedded-clock_encapsulated-fc_fc-switch_label:
@@ -18955,7 +18955,7 @@ components:
             $ref: '#/components/schemas/LOOP_BACK_TYPE1'
           description: 'List of supported kinds of looping back.'
         maintenance-timer-range:
-          description: 'Available time periods for maintenance configurations to be described. Concrete values shall be separated by commas (e.g. "10, 60, 360"). Ranges shall be expressed as two values separated by a minus (e.g. "10-360").'
+          description: 'Available time periods for maintenance configurations to be described. Concrete values shall be separated by commas (e.g. *10, 60, 360*). Ranges shall be expressed as two values separated by a minus (e.g. *10-360*).'
           default: 'Range of the maintenance timer not yet defined.'
           type: string
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_air-interface-pac_air-interface-capability_TOP:
@@ -19058,7 +19058,7 @@ components:
           default: -1
           type: integer
         modulation-scheme:
-          description: 'Modulation scheme, which is base to the other characteristics described in the same transmissionModeType data type. The modulation scheme shall be described by the number of states in the phase diagram (e.g. BPSK->"2" or 256QAM->"256").'
+          description: 'Modulation scheme, which is base to the other characteristics described in the same transmissionModeType data type. The modulation scheme shall be described by the number of states in the phase diagram (e.g. BPSK->*2* or 256QAM->*256*).'
           format: int32
           default: -1
           type: integer
@@ -19098,7 +19098,7 @@ components:
           default: 99
           type: integer
         xpic-is-avail:
-          description: 'In case this transmission mode is capable of XPIC, this attribute shall contain a "true" value. This information shall strictly relate to the capability of setting an administrative state (xpic-is-on attribute could be configured to have a "true" value) and is independent of a potential instantaneous operational status change. For example, this attribute might contain a "true" value, even if an additional cable would have been required to actually operate XPIC at a specific microwave link.'
+          description: 'In case this transmission mode is capable of XPIC, this attribute shall contain a *true* value. This information shall strictly relate to the capability of setting an administrative state (xpic-is-on attribute could be configured to have a *true* value) and is independent of a potential instantaneous operational status change. For example, this attribute might contain a *true* value, even if an additional cable would have been required to actually operate XPIC at a specific microwave link.'
           default: false
           type: boolean
         supported-as-fixed-configuration:
@@ -19523,7 +19523,7 @@ components:
         sub-layer-protocol-name:
           $ref: '#/components/schemas/SUB_LAYER_PROTOCOL_NAME_TYPE1'
         vlan-id:
-          description: 'The VLAN ID, which identifies the frames to be forwarded. Range "1..4094 | 4096..4294967295". Name in ieee802-dot1q-bridge.yang: vid.'
+          description: 'The VLAN ID, which identifies the frames to be forwarded. Range *1..4094 | 4096..4294967295*. Name in ieee802-dot1q-bridge.yang: vid.'
           format: int64
           default: -1
           type: integer
@@ -19724,7 +19724,7 @@ components:
           default: 'Some serial-number'
           type: string
         asset-instance-identifier:
-          description: 'This attribute represents the asset identifier of this instance from the manufacturer"s perspective.'
+          description: 'This attribute represents the asset identifier of this instance from the manufacturer*s perspective.'
           default: 'Some asset-instance-identifier'
           type: string
     core-model-1-4_control-construct_label_TOP:
@@ -19867,7 +19867,7 @@ components:
           default: '2010-11-20T14:00:00+01:00'
           type: string
         suspect-interval-flag:
-          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the "lock" state.\n   – Transition of the operationalState to/from the "disabled" state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
+          description: 'This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:\n   – Suspect data were detected by the actual resource doing data collection.\n   – Transition of the administrativeState attribute to/from the *lock* state.\n   – Transition of the operationalState to/from the *disabled* state.\n   – Scheduler setting that inhibits the collection function.\n   – The performance counters were reset during the interval.\n   – The currentData (or subclass) object instance was created during the monitoring period.'
           default: false
           type: boolean
         elapsed-time:
@@ -20271,7 +20271,7 @@ components:
         affected-protocol:
           $ref: '#/components/schemas/PROTOCOL_LAYER_TYPE'
         wred-profile:
-          description: 'Associates a WRED profile to the queue, respectively drop precedence. Attribute to point to an instance of Profile with profileName=="PROFILE_NAME_TYPE_WRED_PROFILE".'
+          description: 'Associates a WRED profile to the queue, respectively drop precedence. Attribute to point to an instance of Profile with profileName==*PROFILE_NAME_TYPE_WRED_PROFILE*.'
           default: 'Some wred-profile'
           type: string
     core-model-1-4_control-construct_forwarding-domain_TOP:
@@ -20421,7 +20421,7 @@ components:
             $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_contained-holder'
           description: 'References the Holder in an Equipment that is available to take other Equipments.\nFor example:\n- Slot in a sub-rack\n- Slot in a Field Replaceable Unit that can take a small form-factor pluggable.'
         is-field-replaceable:
-          description: 'Indicates whether or not the equipment can be removed and replaced "in the field" (i.e. in a deployment) by normal operations personnel.'
+          description: 'Indicates whether or not the equipment can be removed and replaced *in the field* (i.e. in a deployment) by normal operations personnel.'
           default: true
           type: boolean
         function-block:
@@ -20684,7 +20684,7 @@ components:
           default: 'Some serial-number'
           type: string
         asset-instance-identifier:
-          description: 'This attribute represents the asset identifier of this instance from the manufacturer"s perspective.'
+          description: 'This attribute represents the asset identifier of this instance from the manufacturer*s perspective.'
           default: 'Some asset-instance-identifier'
           type: string
     core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-status:
@@ -21405,15 +21405,15 @@ components:
           default: 'Some transmission-mode-max'
           type: string
         power-is-on:
-          description: 'Power ON. Activation of the entire radio in a split mount configuration shall be expressed as a "true".'
+          description: 'Power ON. Activation of the entire radio in a split mount configuration shall be expressed as a *true*.'
           default: true
           type: boolean
         transmitter-is-on:
-          description: 'Activation of the transmitter inside the radio shall be expressed as a "true".'
+          description: 'Activation of the transmitter inside the radio shall be expressed as a *true*.'
           default: false
           type: boolean
         receiver-is-on:
-          description: 'Maintenance Feature. Activation of the receiver inside the radio shall be expressed as a "true". Attribute shall also be used for RX main and RX diversity squelches in case of diversity configurations.'
+          description: 'Maintenance Feature. Activation of the receiver inside the radio shall be expressed as a *true*. Attribute shall also be used for RX main and RX diversity squelches in case of diversity configurations.'
           default: true
           type: boolean
         tx-power:
@@ -21422,23 +21422,23 @@ components:
           default: 99
           type: integer
         adaptive-modulation-is-on:
-          description: 'Adaptive Modulation. Activation of adaptive modulation shall be expressed as a "true".'
+          description: 'Adaptive Modulation. Activation of adaptive modulation shall be expressed as a *true*.'
           default: false
           type: boolean
         xpic-is-on:
-          description: 'Activation of Cross Polarization Interference Cancelation shall be expressed as a "true". In case XPIC is not available for the current combination of channel bandwidth and modulation or the hardware in general, this parameter shall always be set to "false".'
+          description: 'Activation of Cross Polarization Interference Cancelation shall be expressed as a *true*. In case XPIC is not available for the current combination of channel bandwidth and modulation or the hardware in general, this parameter shall always be set to *false*.'
           default: false
           type: boolean
         mimo-is-on:
-          description: 'Activation of Multiple Input Multiple Output (MIMO) shall be expressed as a "true".'
+          description: 'Activation of Multiple Input Multiple Output (MIMO) shall be expressed as a *true*.'
           default: false
           type: boolean
         alic-is-on:
-          description: 'Activation of Adjacent Link Interference Cancelation (ALIC) shall be expressed as a "true".'
+          description: 'Activation of Adjacent Link Interference Cancelation (ALIC) shall be expressed as a *true*.'
           default: false
           type: boolean
         atpc-is-on:
-          description: 'ATPC. Activation of Automated Transmit Power Control shall be expressed as a "true".'
+          description: 'ATPC. Activation of Automated Transmit Power Control shall be expressed as a *true*.'
           default: false
           type: boolean
         atpc-thresh-upper:
@@ -21457,7 +21457,7 @@ components:
           default: -99
           type: integer
         auto-freq-select-is-on:
-          description: 'Activation of automatically selecting the transmit frequency in unlicensed bands shall be expressed as a "true".'
+          description: 'Activation of automatically selecting the transmit frequency in unlicensed bands shall be expressed as a *true*.'
           default: false
           type: boolean
         auto-freq-select-range:
@@ -21466,7 +21466,7 @@ components:
           default: -1
           type: integer
         modulation-is-on:
-          description: 'Maintenance Feature. De-activation of the modulation of the carrier signal for fault management shall be expressed as a "false".'
+          description: 'Maintenance Feature. De-activation of the modulation of the carrier signal for fault management shall be expressed as a *false*.'
           default: true
           type: boolean
         encryption-is-on:

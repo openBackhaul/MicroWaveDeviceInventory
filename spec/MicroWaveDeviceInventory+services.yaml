@@ -146,8 +146,26 @@ servers:
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
           uuid: mwdi-1-0-0-op-s-is-130
 
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-136
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-149
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-162
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-175
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-193
+
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
           uuid: mwdi-1-0-0-op-s-is-202
+
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-207
 
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
           uuid: mwdi-1-0-0-op-s-is-236

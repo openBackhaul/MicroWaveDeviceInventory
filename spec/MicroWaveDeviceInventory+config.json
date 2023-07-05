@@ -2774,14 +2774,44 @@
                     "logical-termination-point": "mwdi-1-0-0-op-s-is-124"
                   },
                   {
-                    "local-id": "1048",
+                    "local-id": "1148",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                     "logical-termination-point": "mwdi-1-0-0-op-s-is-130"
+                  },
+                  {
+                    "local-id": "1154",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-136"
+                  },
+                  {
+                    "local-id": "1167",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-149"
+                  },
+                  {
+                    "local-id": "1180",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-162"
+                  },
+                  {
+                    "local-id": "1193",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-175"
+                  },
+                  {
+                    "local-id": "1211",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-193"
                   },
                   {
                     "local-id": "1220",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                     "logical-termination-point": "mwdi-1-0-0-op-s-is-202"
+                  },
+                  {
+                    "local-id": "1225",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-207"
                   },
                   {
                     "local-id": "1254",

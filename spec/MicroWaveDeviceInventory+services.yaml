@@ -489,7 +489,7 @@ clients:
           ## none
         individual:
           ## if other applications want to subscribe they need to implement a service with the name below
-          - operation-name: xx://v1/regard-availability-of-new-device
+          - operation-name: /v1/regard-availability-of-new-device
             uuid: mwdi-1-0-0-op-c-is-xx-1-0-0-000
 
   - http-client:
@@ -511,5 +511,5 @@ clients:
           ## none
         individual:
           ## if other applications want to subscribe they need to implement a service with the name below
-          - operation-name: xy://v1/regard-changed-attribute-value
+          - operation-name: /v1/regard-changed-attribute-value
             uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000

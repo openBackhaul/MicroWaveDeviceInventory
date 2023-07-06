@@ -113,67 +113,30 @@ profile-instances:
       integer-name: 'slidingWindowSize'
       ##unit: no unit
       minimum: 1
-      maximum: 500
+      maximum: 5000
       description: 'Size of the sliding window for ControlConstruct retrieval (i.e. parallel number of retrieval requests)'
     configuration:
-      integer-value: 300
+      integer-value: 500
 
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-1-0-0-integer-p-001'
     capability:
       integer-name: 'ccRetrievalDelay'
-      unit: 'second'
-      minimum: 0
-      maximum: 15
+      unit: 'millisecond'
+      minimum: 10
+      maximum: 5000
       description: 'Waiting time between ControlConstruct retrieval requests to the Controller'
     configuration:
-      integer-value: 5 # e.g. 5 seconds
+      integer-value: 100
 
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-1-0-0-integer-p-002'
     capability:
-      integer-name: 'controlConstructRetentionTime'
-      unit: 'hour'
-      minimum: 1
-      maximum: 24
-      description: 'The time until the ControlConstruct of a device expires if it is not updated inside the ElasticSearch db. (Should not be > 6 hours, because of register size for historical PM data!)'
-      # info: MWDI shall cache historical PM data, the vendors have different register sizes in place to store this data. E.g. Huawei only stores 8 hours; Comarch currently fetches data every 6 hours.
-    configuration:
-      integer-value: 6
-
-  - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-003'
-    capability:
-      integer-name: 'ccRetrievalAllowedRetries'
-      #unit: no unit
+      integer-name: 'maximumNumberOfRetries'
+      unit:
       minimum: 0
-      maximum: 5
-      description: 'In case the CC retrieval fails for a device, there may be this many retries within the respective retrieval period'
+      maximum: 10
+      description: 'Maximum number of retries for retrieving the ControlConstruct'
     configuration:
-      integer-value: 3
+      integer-value: 1
 
-  - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-004'
-    capability:
-      integer-name: 'ccRetrievalRetryWaitingTime'
-      unit: 'second'
-      minimum: 900
-      maximum: 3600
-      description: 'Minimum waiting time until the next CC retrieval retry for a device may be started'
-    configuration:
-      integer-value: 900
-
-  - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-0-0-integer-p-005'
-    capability:
-      integer-name: 'controlConstructRetrievalBlockingTime'
-      unit: 'hour'
-      minimum: 1
-      maximum: 24
-      description: 'The time until the ControlConstruct for a given device should not be requested again after previous successful retrieval. If there are no controlConstructs which need to be retrieved for the first time or updated again due to expiration, devices having outrun their blocking time, may be requested again. '
-      # Depending on the size of the sliding window and the retentionTime of just 6 hours, it's not unlikely that this situation will not occur
-      # This profile prevents the CC being requested again too early, but if the MWDI is idle and there's nothing else to extract the CC could be retrieved to improve load balancing
-      # If there are other apps like the MycomButler (which retrieves PM-data), for which retrieval from the MWDI in certain intervals may be necessary, it would be beneficial for those apps to subscribe
-      # at the MWDI for notifications about new CCs.
-    configuration:
-      integer-value: 4

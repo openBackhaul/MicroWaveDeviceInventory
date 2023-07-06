@@ -85,7 +85,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-005
       ## DONE: All service requests to be complemented
       # non-ressource services
-      - server-name: /v1/notify-new-device-available
+      - server-name: /v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-002
@@ -164,7 +164,7 @@ forwardings:
   # purpose: if MWDI would offer subscriptions to other apps, subscriptions that might already
   # exist at the time of the future upgrade shall be configured by the old release
   # >> the MWDI will offer 2 subscriptions (to the HMDI):
-  # 1. /v1/notify-new-device-available to inform about new managed device
+  # 1. /v1/notify-availability-of-new-device to inform about new managed device
   # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
   #
   # 1. new device notification
@@ -180,7 +180,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NewRelease:://v1/notify-new-device-available
+      - client-name: NewRelease:://v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
   #
   # 2. new control construct notification
@@ -332,7 +332,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
       ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
       # add servers for notifications
-      - server-name: /v1/notify-new-device-available
+      - server-name: /v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-002
@@ -374,7 +374,7 @@ forwardings:
     initiating-requests:
       ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
       # add servers for notifications
-      - server-name: /v1/notify-new-device-available
+      - server-name: /v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-s-is-001
       - server-name: /v1/notify-new-control-construct-available
         uuid: mwdi-1-0-0-op-s-is-002

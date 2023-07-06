@@ -718,15 +718,15 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 001) /v1/notify-new-device-available
+  # 001) /v1/notify-availability-of-new-device
   # 002) /v1/notify-new-control-construct-available
   # 003) /v1/inform-about-new-device
   # 004) /v1/inform-about-new-control-construct
 
-  # 001) /v1/notify-new-device-available
+  # 001) /v1/notify-availability-of-new-device
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
   #
-  /v1/notify-new-device-available:
+  /v1/notify-availability-of-new-device:
     # uuid: mwdi-1-0-0-op-s-is-001
     #
     parameters:

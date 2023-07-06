@@ -49,7 +49,7 @@ servers:
         ## =======================================================================================================
         ##
         ##
-        ## 001) /v1/notify-new-device-available
+        ## 001) /v1/notify-availability-of-new-device
         ##      - used for a subscription to inform about a new device at the MWDI
         ##      - management service:
         ##        - i.e. only used to manage information about the subscriber
@@ -74,10 +74,20 @@ servers:
         ##
         ## TODO: align seq-nums of uuids after list of individual-non-ressource services has been fixed
         ##
-        - operation-name: /v1/notify-new-device-available
+        - operation-name: /v1/notify-availability-of-new-device # notify-availability-of-new-device <- ändern
           uuid: mwdi-1-0-0-op-s-is-001
+
+        ##  fällt weg:
         - operation-name: /v1/notify-new-control-construct-available
           uuid: mwdi-1-0-0-op-s-is-002
+
+        # wir brauchen 1 notification, um über den genauen change (wo hat sich was geändert) zu informieren (am besten auch direkt welcher neue Wert vorliegt)  
+        # diff alt-neu, zusammenfassung der änderung in notification raussenden
+        - operation-name: /v1/notify-
+
+
+
+        ## werden beide nicht benätigt:  
         - operation-name: /v1/inform-about-new-device
           uuid: mwdi-1-0-0-op-s-is-003
         - operation-name: /v1/inform-about-new-control-construct
@@ -250,7 +260,7 @@ clients:
           # mwdi data will be stored inside a database so there are no
           # requests relevant for that to bequeath-your-data-and-die
           # but subscription services are listed here
-          - operation-name: /v1/notify-new-device-available
+          - operation-name: /v1/notify-availability-of-new-device
             uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
           - operation-name: /v1/notify-new-control-construct-available
             uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002

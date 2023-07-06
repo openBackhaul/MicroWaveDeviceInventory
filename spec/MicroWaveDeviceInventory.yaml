@@ -719,7 +719,7 @@ paths:
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
   # 001) /v1/notify-availability-of-new-device
-  # 002) /v1/notify-new-control-construct-available
+  # 002) /v1/notify-changed-attribute-value
   # 003) /v1/inform-about-new-device
   # 004) /v1/inform-about-new-control-construct
 
@@ -843,10 +843,10 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 002) /v1/notify-new-control-construct-available
+  # 002) /v1/notify-changed-attribute-value
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new/updated CC being available in the MWDI database
   #
-  /v1/notify-new-control-construct-available:
+  /v1/notify-changed-attribute-value:
     # uuid: mwdi-1-0-0-op-s-is-002
     parameters:
       - $ref: '#/components/parameters/user'

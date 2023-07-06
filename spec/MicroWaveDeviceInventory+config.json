@@ -252,7 +252,21 @@
                   "integer-value": 1 
                 }
               }
-            }                             
+            },
+            {
+              "uuid": "mwdi-1-0-0-integer-p-003",
+              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+              "integer-profile-1-0:integer-profile-pac": {
+                "integer-profile-capability": {
+                  "integer-name": "deviceListSyncPeriod",
+                  "minimum": 1,
+                  "maximum": 72
+                },
+                "integer-profile-configuration": {
+                  "integer-value": 24 
+                }
+              }
+            }
           ]
         },
         "logical-termination-point": [

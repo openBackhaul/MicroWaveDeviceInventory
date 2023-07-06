@@ -466,6 +466,50 @@ clients:
           - operation-name: /rests/notif/{mount-name}?notification-type=device
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 
-#todo uuids in anderen Dokumenten auch anpassen, falls die auftauchen!
+# client stack für subscriptions am MWDI
+# die kennen wir hier noch nicht, werden dann im config-file erst zur laufzeit sinnvoll befüllt
+# einen pro angebotener subscription
 
-  ## no other http-clients to be considered, yet
+  - http-client:
+      application-name: SubscriberForNotifyAvailabilityOfNewDevice
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-xx-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.1.1
+      tcp-port: 1001
+      uuid: mwdi-1-0-0-http-tcp-xx-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+        individual:
+          ## if other applications want to subscribe they need to implement a service with the name below
+          - operation-name: xx://v1/regard-availability-of-new-device
+            uuid: mwdi-1-0-0-op-c-is-xx-1-0-0-000
+
+  - http-client:
+      application-name: SubscriberForNotifyChangedAttributeValue
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-xy-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.1.1
+      tcp-port: 1001
+      uuid: mwdi-1-0-0-http-tcp-xy-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+        individual:
+          ## if other applications want to subscribe they need to implement a service with the name below
+          - operation-name: xy://v1/regard-changed-attribute-value
+            uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000

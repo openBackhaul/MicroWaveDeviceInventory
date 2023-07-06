@@ -77,14 +77,8 @@ servers:
         - operation-name: /v1/notify-availability-of-new-device
           uuid: mwdi-1-0-0-op-s-is-001
 
-        ##  fällt weg:
         - operation-name: /v1/notify-changed-attribute-value
           uuid: mwdi-1-0-0-op-s-is-002
-
-        # wir brauchen 1 notification, um über den genauen change (wo hat sich was geändert) zu informieren (am besten auch direkt welcher neue Wert vorliegt)  
-        # diff alt-neu, zusammenfassung der änderung in notification raussenden
-        - operation-name: /v1/notify-
-
 
 
         ## werden beide nicht benätigt:  
@@ -261,9 +255,9 @@ clients:
           # requests relevant for that to bequeath-your-data-and-die
           # but subscription services are listed here
           - operation-name: /v1/notify-availability-of-new-device
-            uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
           - operation-name: /v1/notify-changed-attribute-value
-            uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
       service:
         basic:
         individual:

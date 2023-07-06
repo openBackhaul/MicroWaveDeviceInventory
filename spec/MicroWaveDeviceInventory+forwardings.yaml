@@ -181,7 +181,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease:://v1/notify-availability-of-new-device
-        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
   #
   # 2. new control construct notification
   - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
@@ -197,7 +197,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease:://v1/notify-changed-attribute-value
-        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
+        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
 
 ## DONE: Add Forwardings for transferring data to NewRelease
 # - MWDI stores its deviceList and CC data inside ElasticSearch db, so there is nothing to hand over

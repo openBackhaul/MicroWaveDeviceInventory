@@ -4,8 +4,8 @@ skinparam responseMessageBelowArrow true
 title Controller notifications informing about connection state or config changes per device
 
 'receive the notification
-"ODL:/rests/notif/{mount-name}?notificationType=device" -> "MWDI": {notification-message}
-"MWDI" --> "ODL:/rests/notif/{mount-name}?notificationType=device"
+"ODL:/rests/notif/{mount-name}?notification-type=device" -> "MWDI": {notification-message}
+"MWDI" --> "ODL:/rests/notif/{mount-name}?notification-type=device"
 
 note over "MWDI"
  <u>message indicates:</u>
@@ -23,8 +23,8 @@ note over "ElasticSearch": <i>action-required</i>: delete or update, \n<i>update
 
 note over "MWDI": case <b>"device disconnected"</b>: \nunsubscribe at Controller (via DELETE)"
 
-"MWDI" -> "ODL:/rests/notif/{mount-name}?notificationType=device": {mount-name}
-"ODL:/rests/notif/{mount-name}?notificationType=device" --> "MWDI": {}
+"MWDI" -> "ODL:/rests/notif/{mount-name}?notification-type=device": {mount-name}
+"ODL:/rests/notif/{mount-name}?notification-type=device" --> "MWDI": {}
 
 note over "MWDI": case <b>"config-change"</b>: \nsend notification about new/updated CC
 "MWDI" -> "/v1/inform-about-new-control-construct": {mount-name}

@@ -347,7 +347,7 @@ paths:
         #
         PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi:
           # consequent-request: is on controller
-          #   - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
+          #   - client-name: OpenDaylight://rests/notif/{mount-name}?notification-type=device
           #   - uuid:mwdi-1-0-0-op-c-is-c-4-0-2-002
           #   - need to send a GET request to subscribe the Controller for every device/mount-name individually
           #

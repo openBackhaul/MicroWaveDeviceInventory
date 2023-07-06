@@ -463,7 +463,7 @@ clients:
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
           ## subscription URL for device status changes (not sure if it needs to be included here)
-          - operation-name: /rests/notif/{mount-name}?notificationType=device
+          - operation-name: /rests/notif/{mount-name}?notification-type=device
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 
 #todo uuids in anderen Dokumenten auch anpassen, falls die auftauchen!

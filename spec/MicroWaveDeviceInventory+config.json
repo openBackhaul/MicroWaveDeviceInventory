@@ -2484,7 +2484,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/rests/notif/{mount-name}?notificationType=device",
+                    "operation-name": "/rests/notif/{mount-name}?notification-type=device",
                     "operation-key": "n.a."
                   },
                   "operation-client-interface-status": {

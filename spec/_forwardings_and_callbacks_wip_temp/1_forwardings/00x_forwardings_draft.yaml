@@ -60,7 +60,7 @@
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #GET
+      - client-name: ODL://rests/notif/{mount-name}?notification-type=device #GET
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 
   # unsubscribe at Controller for any device deleted from the MWDI (DELETE <path>), has to be done invidually for each device
@@ -76,5 +76,5 @@
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #DELETE
+      - client-name: ODL://rests/notif/{mount-name}?notification-type=device #DELETE
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002

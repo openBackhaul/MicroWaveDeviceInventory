@@ -49,14 +49,14 @@ servers:
         ## =======================================================================================================
         ##
         ##
-        ## 001) /v1/notify-new-device-available
+        ## 001) /v1/notify-availability-of-new-device
         ##      - used for a subscription to inform about a new device at the MWDI
         ##      - management service:
         ##        - i.e. only used to manage information about the subscriber
         ##        - the actual notification is send by /v1/inform-about-new-device
         ##          (once a new device has been added to the MWDI)
         ##
-        ## 002) /v1/notify-new-control-construct-available
+        ## 002) /v1/notify-changed-attribute-value
         ##      - used for a subscription to inform about a new/updated control construct at the MWDI
         ##      - management-service:
         ##        - only manages information about the subscribers
@@ -74,10 +74,14 @@ servers:
         ##
         ## TODO: align seq-nums of uuids after list of individual-non-ressource services has been fixed
         ##
-        - operation-name: /v1/notify-new-device-available
+        - operation-name: /v1/notify-availability-of-new-device
           uuid: mwdi-1-0-0-op-s-is-001
-        - operation-name: /v1/notify-new-control-construct-available
+
+        - operation-name: /v1/notify-changed-attribute-value
           uuid: mwdi-1-0-0-op-s-is-002
+
+
+        ## werden beide nicht benätigt:  
         - operation-name: /v1/inform-about-new-device
           uuid: mwdi-1-0-0-op-s-is-003
         - operation-name: /v1/inform-about-new-control-construct
@@ -250,10 +254,10 @@ clients:
           # mwdi data will be stored inside a database so there are no
           # requests relevant for that to bequeath-your-data-and-die
           # but subscription services are listed here
-          - operation-name: /v1/notify-new-device-available
-            uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
-          - operation-name: /v1/notify-new-control-construct-available
-            uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
+          - operation-name: /v1/notify-availability-of-new-device
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
+          - operation-name: /v1/notify-changed-attribute-value
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
       service:
         basic:
         individual:
@@ -459,9 +463,53 @@ clients:
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
           ## subscription URL for device status changes (not sure if it needs to be included here)
-          - operation-name: /rests/notif/{mount-name}?notificationType=device
+          - operation-name: /rests/notif/{mount-name}?notification-type=device
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 
-#todo uuids in anderen Dokumenten auch anpassen, falls die auftauchen!
+# client stack für subscriptions am MWDI
+# die kennen wir hier noch nicht, werden dann im config-file erst zur laufzeit sinnvoll befüllt
+# einen pro angebotener subscription
 
-  ## no other http-clients to be considered, yet
+  - http-client:
+      application-name: SubscriberForNotifyAvailabilityOfNewDevice
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-xx-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.1.1
+      tcp-port: 1001
+      uuid: mwdi-1-0-0-http-tcp-xx-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+        individual:
+          ## if other applications want to subscribe they need to implement a service with the name below
+          - operation-name: /v1/regard-availability-of-new-device
+            uuid: mwdi-1-0-0-op-c-is-xx-1-0-0-000
+
+  - http-client:
+      application-name: SubscriberForNotifyChangedAttributeValue
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-xy-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.1.1
+      tcp-port: 1001
+      uuid: mwdi-1-0-0-http-tcp-xy-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+        individual:
+          ## if other applications want to subscribe they need to implement a service with the name below
+          - operation-name: /v1/regard-changed-attribute-value
+            uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000

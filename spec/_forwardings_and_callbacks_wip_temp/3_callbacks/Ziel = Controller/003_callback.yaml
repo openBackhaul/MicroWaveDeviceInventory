@@ -12,7 +12,7 @@
   #     - server-name: /v1/embed-yourself
   #       uuid: mwdi-1-0-0-op-s-bm-001
   #   consequent-requests:
-  #     - client-name: ODL://rests/notif/{mount-name}?notificationType=device #GET
+  #     - client-name: ODL://rests/notif/{mount-name}?notification-type=device #GET
   #       uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 #
 # - wo platzieren: /v1/embed-yourself  

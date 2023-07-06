@@ -85,9 +85,9 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-bs-005
       ## DONE: All service requests to be complemented
       # non-ressource services
-      - server-name: /v1/notify-new-device-available
+      - server-name: /v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-s-is-001
-      - server-name: /v1/notify-new-control-construct-available
+      - server-name: /v1/notify-changed-attribute-value
         uuid: mwdi-1-0-0-op-s-is-002
       # ressources
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
@@ -164,8 +164,8 @@ forwardings:
   # purpose: if MWDI would offer subscriptions to other apps, subscriptions that might already
   # exist at the time of the future upgrade shall be configured by the old release
   # >> the MWDI will offer 2 subscriptions (to the HMDI):
-  # 1. /v1/notify-new-device-available to inform about new managed device
-  # 2. /v1/notify-new-control-construct-available to inform the HMDI that it can now request a new/update CC
+  # 1. /v1/notify-availability-of-new-device to inform about new managed device
+  # 2. /v1/notify-changed-attribute-value to inform the HMDI that it can now request a new/update CC
   #
   # 1. new device notification
   - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications
@@ -180,8 +180,8 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NewRelease:://v1/notify-new-device-available
-        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-001
+      - client-name: NewRelease:://v1/notify-availability-of-new-device
+        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
   #
   # 2. new control construct notification
   - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
@@ -196,8 +196,8 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NewRelease:://v1/notify-new-control-construct-available
-        uuid: mwdi-1-0-0-op-c-im-nr-2-0-0-002
+      - client-name: NewRelease:://v1/notify-changed-attribute-value
+        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
 
 ## DONE: Add Forwardings for transferring data to NewRelease
 # - MWDI stores its deviceList and CC data inside ElasticSearch db, so there is nothing to hand over
@@ -208,7 +208,7 @@ forwardings:
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 # the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
 # the MWDI needs to subscribe to the following URL:
-# https://<controller_IP>:8443/rests/notif/{mount-name}?notificationType=device
+# https://<controller_IP>:8443/rests/notif/{mount-name}?notification-type=device
   - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceNotificationAtNewMwdi
     uuid: mwdi-1-0-0-op-fc-im-003
     forwarding-type: InvariantProcessSnippet
@@ -221,7 +221,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notification-type=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
 ## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
@@ -239,7 +239,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notification-type=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
@@ -332,9 +332,9 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
       ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
       # add servers for notifications
-      - server-name: /v1/notify-new-device-available
+      - server-name: /v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-s-is-001
-      - server-name: /v1/notify-new-control-construct-available
+      - server-name: /v1/notify-changed-attribute-value
         uuid: mwdi-1-0-0-op-s-is-002
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
@@ -374,9 +374,9 @@ forwardings:
     initiating-requests:
       ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
       # add servers for notifications
-      - server-name: /v1/notify-new-device-available
+      - server-name: /v1/notify-availability-of-new-device
         uuid: mwdi-1-0-0-op-s-is-001
-      - server-name: /v1/notify-new-control-construct-available
+      - server-name: /v1/notify-changed-attribute-value
         uuid: mwdi-1-0-0-op-s-is-002
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
@@ -581,7 +581,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #GET
+      - client-name: ODL://rests/notif/{mount-name}?notification-type=device #GET
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 
   # unsubscribe at Controller for any device deleted from the MWDI (DELETE <path>), has to be done invidually for each device
@@ -597,7 +597,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #DELETE
+      - client-name: ODL://rests/notif/{mount-name}?notification-type=device #DELETE
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
 
   ## == Periodic ControlConstruct retrieval ==========================================

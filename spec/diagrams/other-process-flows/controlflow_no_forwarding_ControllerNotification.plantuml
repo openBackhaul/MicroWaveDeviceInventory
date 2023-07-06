@@ -4,8 +4,8 @@ skinparam responseMessageBelowArrow true
 title Controller notifications informing about connection state or config changes per device
 
 'receive the notification
-"ODL:/rests/notif/{mount-name}?notificationType=device" -> "MWDI": {notification-message}
-"MWDI" --> "ODL:/rests/notif/{mount-name}?notificationType=device"
+"ODL:/rests/notif/{mount-name}?notification-type=device" -> "MWDI": {notification-message}
+"MWDI" --> "ODL:/rests/notif/{mount-name}?notification-type=device"
 
 note over "MWDI"
  <u>message indicates:</u>
@@ -23,8 +23,8 @@ note over "ElasticSearch": <i>action-required</i>: delete or update, \n<i>update
 
 note over "MWDI": case <b>"device disconnected"</b>: \nunsubscribe at Controller (via DELETE)"
 
-"MWDI" -> "ODL:/rests/notif/{mount-name}?notificationType=device": {mount-name}
-"ODL:/rests/notif/{mount-name}?notificationType=device" --> "MWDI": {}
+"MWDI" -> "ODL:/rests/notif/{mount-name}?notification-type=device": {mount-name}
+"ODL:/rests/notif/{mount-name}?notification-type=device" --> "MWDI": {}
 
 note over "MWDI": case <b>"config-change"</b>: \nsend notification about new/updated CC
 "MWDI" -> "/v1/inform-about-new-control-construct": {mount-name}
@@ -37,7 +37,7 @@ left footer
  \t - The subscription to the Controller for a device is done as part of the device-list sync, this forwarding only handles unsubscribing or config change actions
  \t - send notification about new/updated CC: all interested applications (esp. HMDI) can subscribe to the MWDI to get informed about new or updated CC data inside the cache.
  \t   There are 2 services relevant to the notification:
- \t\t - /v1/notify-new-control-construct-available: this services needs to be called to subscribe
+ \t\t - /v1/notify-changed-attribute-value: this services needs to be called to subscribe
  \t\t - /v1/inform-about-new-control-construct: this service is called to send out the notification to the subscribers
  \t   The subscription is also sent when the MWDI has retrieved and written a complete CC to its database 
 end footer

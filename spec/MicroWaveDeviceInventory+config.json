@@ -747,7 +747,7 @@
                 "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-server-interface-1-0:operation-server-interface-pac": {
                   "operation-server-interface-capability": {
-                    "operation-name": "/v1/notify-new-device-available"
+                    "operation-name": "/v1/notify-availability-of-new-device"
                   },
                   "operation-server-interface-configuration": {
                     "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -771,7 +771,7 @@
                 "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-server-interface-1-0:operation-server-interface-pac": {
                   "operation-server-interface-capability": {
-                    "operation-name": "/v1/notify-new-control-construct-available"
+                    "operation-name": "/v1/notify-changed-attribute-value"
                   },
                   "operation-server-interface-configuration": {
                     "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -2484,7 +2484,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/rests/notif/{mount-name}?notificationType=device",
+                    "operation-name": "/rests/notif/{mount-name}?notification-type=device",
                     "operation-key": "n.a."
                   },
                   "operation-client-interface-status": {
@@ -2916,7 +2916,7 @@
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-im-nr-2-0-0-001"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-im-nr-1-0-0-001"
                   }
                 ]
               },
@@ -2941,7 +2941,7 @@
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-im-nr-2-0-0-002"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-im-nr-1-0-0-002"
                   }
                 ]
               },

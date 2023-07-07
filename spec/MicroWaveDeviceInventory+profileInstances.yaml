@@ -124,7 +124,7 @@ profile-instances:
       #description: 'Timeout for receiving the response of the ControlConstruct retrieval from the Controller'
       unit: 'second'
       minimum: 5
-      maximum: 2000      
+      maximum: 2000
     configuration:
       integer-value: 900
 

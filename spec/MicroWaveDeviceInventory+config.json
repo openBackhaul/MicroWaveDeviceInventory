@@ -229,13 +229,13 @@
               "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
               "integer-profile-1-0:integer-profile-pac": {
                 "integer-profile-capability": {
-                  "integer-name": "ccRetrievalDelay",
-                  "unit": "millisecond",
-                  "minimum": 10,
-                  "maximum": 5000
+                  "integer-name": "responseTimeout",
+                  "unit": "second",
+                  "minimum": 5,
+                  "maximum": 2000
                 },
                 "integer-profile-configuration": {
-                  "integer-value": 100
+                  "integer-value": 900
                 }
               }
             },

@@ -12,6 +12,7 @@ title Process Controller notifications about device state change
 participant "ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlNotification <<mwdi-1-0-0-op-c-is-c-4-0-2-002>>
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
+participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
 participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-c-4-0-2-020>>
 participant "ODL://rests/operations/odl-device-notification:\nsubscribe-device-notification" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-021>>
 participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-022>> 
@@ -28,9 +29,14 @@ end note
 
 mwdi -> es: {mount-name, add-or-delete-info}
 
-
 'for new devices subscribe to device changes
 note across: the following steps are identical to the steps to be done if a new device is seen or an existing one removed due to the deviceList sync with the Controller (only difference: it's always only a single device)
+
+'inform subscribers about new device
+note over notificationToXX: inform subscribers about new device
+mwdi -> notificationToXX: {mount-name}
+notificationToXX --> mwdi: {}
+
 
 'subscription to Controller
 note over odlsubscribe1, odlsubscribe3
@@ -56,6 +62,11 @@ odlsubscribe3 --> mwdi: {parameter-update-information (includes path-to-paramete
 
 left footer 
 
+
+<u> Notification to subscribers about new device:</u>
+\t  - the subscriber app (XX, as it's not known at specification time) needs to implement <i>/v1/regard-availability-of-new-device</i>
+\t  - subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
+\t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-000]
 
 <u> Device subscriptions:</u>
 \t- same steps as during deviceList sync, with only exception that there already is only 1 device to be processed

@@ -1,5 +1,9 @@
 @startuml
 skinparam responseMessageBelowArrow true
+skinparam guillemet [ ]
+skinparam participant {
+  StereotypeFontSize 12  
+}
 
 title  Periodic (DeviceList) Sync with Controller process flow
 

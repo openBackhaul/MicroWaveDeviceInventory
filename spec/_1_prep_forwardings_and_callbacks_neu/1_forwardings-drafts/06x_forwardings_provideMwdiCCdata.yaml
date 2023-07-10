@@ -1,4 +1,4 @@
-  - forwarding-name: RessourcePathRequestCausesReadingFromElasticSearch
+  - forwarding-name: PromptForRessourceCausesReadingFromElasticSearch
     uuid: mwdi-1-0-0-op-fc-is-060
     forwarding-type: InvariantProcessSnippet
     management-requests:

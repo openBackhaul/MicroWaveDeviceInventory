@@ -1,0 +1,74 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam guillemet [ ]
+skinparam participant {
+  StereotypeFontSize 12  
+}
+
+title Process Controller notifications about device state change
+
+
+'participants
+participant "ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlNotification <<mwdi-1-0-0-op-c-is-c-4-0-2-002>>
+participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
+participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-c-4-0-2-020>>
+participant "ODL://rests/operations/odl-device-notification:\nsubscribe-device-notification" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-021>>
+participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-022>> 
+
+
+odlNotification -> mwdi: {mount-name, new-connection-state}
+
+note over mwdi
+ <u>new connection state:</u>
+ - <b> "connected"</b>: add device to deviceList
+ - <b> "connecting"</b>: delete device from deviceList
+                          & delete ControlConstruct
+end note
+
+mwdi -> es: {mount-name, add-or-delete-info}
+
+
+'for new devices subscribe to device changes
+note across: the following steps are identical to the steps to be done if a new device is seen or an existing one removed due to the deviceList sync with the Controller (only difference: it's always only a single device)
+
+'subscription to Controller
+note over odlsubscribe1, odlsubscribe3
+<b>subscribe to device notifications</b> if connection-status=connected:
+1. create subscription stream to the device
+2. subscribe to the stream
+3. listen to the stream (GET)
+
+<b>unsubscribe if connection-status=connecting</b>:
+just stop listening to the notification stream (i.e. stop the GET request from step 3) [the streams are managed also on the Controller, so no DELETE here]
+end note
+
+mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}
+odlsubscribe1 --> mwdi: {}
+
+mwdi -> odlsubscribe2: {input-path-with-mount-name}
+odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}
+
+mwdi -> odlsubscribe3: {<i>mount-name as path-parameter </i>}
+odlsubscribe3 --> mwdi: {parameter-update-information (includes path-to-parameter, new value, timestamp)}
+
+
+
+left footer 
+
+
+<u> Device subscriptions:</u>
+\t- same steps as during deviceList sync, with only exception that there already is only 1 device to be processed
+\t- subscriptions to the device are done according to ODL user guide: [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#receiving-netconf-device-notifications-on-a-http-client]]
+\t- the subscription for device changes are also managed on the Controller; once a device is removed from the Controller the related stream will also be closed; the operations are idempotent
+\t- to unsubscribe just stop listening to the notification stream
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+@enduml

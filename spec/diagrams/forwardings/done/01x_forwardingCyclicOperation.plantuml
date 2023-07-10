@@ -48,8 +48,9 @@ note over odlsubscribe1, odlsubscribe3
 2. subscribe to the stream
 3. listen to the stream (GET)
 
-<b>unsubscribe</b>:
-just stop listening to the notification stream (i.e. stop the GET request from step 3) [the streams are managed also on the Controller, so no DELETE here]
+<b>unsubscribe</b> per relevant device:
+just stop listening to the notification stream (i.e. stop the GET request from step 3) for the device [the streams are managed also on the Controller,
+so no DELETE here]
 end note
 
 mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}

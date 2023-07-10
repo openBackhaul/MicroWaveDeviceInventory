@@ -1,0 +1,56 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam guillemet [ ]
+skinparam participant {
+  StereotypeFontSize 12  
+}
+
+title Subscribe to Controller notifications about device state changes
+
+'participants
+participant "RO" as ro
+participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "ODL://rests/operations/sal-remote:\ncreate-data-change-event-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-c-4-0-2-000>>
+participant "ODL://rests/data/ietf-restconf-monitoring:restconf-state/streams/stream/\ndata-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-001>>
+participant "ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-002>>
+
+
+
+ro -> mwdi: {RoIp, RoPort}
+mwdi --> ro
+
+note over mwdi: create subscription stream
+mwdi -> odlsubscribe1: {path, datastore, scope, notification-output-type}
+odlsubscribe1 --> mwdi: {sal-remote:output (stream-name)}
+
+note over mwdi: subscribe to stream
+mwdi -> odlsubscribe2
+odlsubscribe2 --> mwdi: {subscribe-to-notification:location}
+
+note over mwdi: receive notifications
+mwdi -> odlsubscribe3
+odlsubscribe3 --> mwdi: {streamed notification messages}
+
+left footer 
+
+
+\t- Subscribe for Controller notifications about device state changes according to ODL user guide [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#sse-notifications-subscription-process]]
+
+\t- For requesting information from other applications first <i>RO://v1/list-applications</i> would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, 
+\t  as the connection information may change during runtime.
+\t-  When the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the 
+\t  ApplicationFramework (no entries in RO!). 
+\t-  In future releases there may be the CurrentController app which has the purpose of just providing the connection information of the Controller from within the AppFramework.
+\t-  Also note: instead of providing directly the Controller connection details, the loadbalancer (distributes load across the available controller VMs) could be addressed.
+end footer
+
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+
+@enduml

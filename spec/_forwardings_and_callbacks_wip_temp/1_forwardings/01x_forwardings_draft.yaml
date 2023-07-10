@@ -11,7 +11,7 @@
       # initiated from within MWDI internally
     consequent-requests:
       - client-name: ODL://rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-        uuid: katuuid2
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-030
     
   # in case of success write it to ElasticSearch, in any case update the status information for the device in the deviceList
   - forwarding-name: CyclicOperationForControlConstructRetrievalFromControllerCausesWritingIntoElasticSearch

@@ -1,0 +1,52 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title Listen to Controller for notifications about device state changes
+
+'receive the notification
+"ODL://rests/notif/data-change-event-subscription/network-topology:\nnetwork-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON" -> "/v1/embed-yourself": {mount-name, updated-connection-status}
+
+note over "/v1/embed-yourself"
+ <u>message indicates:</u>
+ - <b> "connection-status: connected"</b>: add
+ - <b> "connection-status: connecting"</b>: delete
+ - <b> others </b>: ignore
+end note
+
+note over "ElasticSearch": <i>action-required</i>: add or delete
+
+"/v1/embed-yourself" --> "ElasticSearch": {mount-name, action-required}
+"ElasticSearch" --> "/v1/embed-yourself": {}
+
+note over "/v1/embed-yourself"
+  <u> manage subscription to device for parameter updates:</u>
+  - <b> "connected": add new subscription
+  - <b> "connecting": no change
+end note
+
+
+
+left footer 
+
+\t - the subscription to the Controller is done as part of 00x_forwardingSubscribeControllerNotification, step 3
+
+
+
+
+ \t - The subscription to the Controller for a device is done as part of the device-list sync, this forwarding only handles unsubscribing or config change actions
+ \t - send notification about new/updated CC: all interested applications (esp. HMDI) can subscribe to the MWDI to get informed about new or updated CC data inside the cache.
+ \t   There are 2 services relevant to the notification:
+ \t\t - /v1/notify-changed-attribute-value: this services needs to be called to subscribe
+ \t\t - /v1/inform-about-new-control-construct: this service is called to send out the notification to the subscribers
+ \t   The subscription is also sent when the MWDI has retrieved and written a complete CC to its database 
+end footer
+
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+@enduml

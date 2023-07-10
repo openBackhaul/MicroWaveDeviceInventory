@@ -5,7 +5,7 @@ title Controller notifications informing about connection state or config change
 
 'receive the notification
 "ODL:/rests/notif/{mount-name}?notificationType=device" -> "MWDI": {notification-message}
-"MWDI" --> "ODL:/rests/notif/{mount-name}?notificationType=device"
+"MWDI" --> "ODL:/rests/notif/{mount-name}?notification-type=device"
 
 note over "MWDI"
  <u>message indicates:</u>

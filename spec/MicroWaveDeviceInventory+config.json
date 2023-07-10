@@ -751,54 +751,6 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-op-s-is-003",
-            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
-            "server-ltp": [
-              "mwdi-1-0-0-http-s-000"
-            ],
-            "layer-protocol": [
-              {
-                "local-id": "0",
-                "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                "operation-server-interface-1-0:operation-server-interface-pac": {
-                  "operation-server-interface-capability": {
-                    "operation-name": "/v1/inform-about-new-device"
-                  },
-                  "operation-server-interface-configuration": {
-                    "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                    "operation-key": "n.a."
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "uuid": "mwdi-1-0-0-op-s-is-004",
-            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
-            "server-ltp": [
-              "mwdi-1-0-0-http-s-000"
-            ],
-            "layer-protocol": [
-              {
-                "local-id": "0",
-                "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                "operation-server-interface-1-0:operation-server-interface-pac": {
-                  "operation-server-interface-capability": {
-                    "operation-name": "/v1/inform-about-new-control-construct"
-                  },
-                  "operation-server-interface-configuration": {
-                    "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                    "operation-key": "n.a."
-                  }
-                }
-              }
-            ]
-          },
-          {
             "uuid": "mwdi-1-0-0-op-s-is-020",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
@@ -1374,8 +1326,6 @@
               "mwdi-1-0-0-op-s-bs-005",
               "mwdi-1-0-0-op-s-is-000",
               "mwdi-1-0-0-op-s-is-001",
-              "mwdi-1-0-0-op-s-is-003",
-              "mwdi-1-0-0-op-s-is-004",
               "mwdi-1-0-0-op-s-is-020",
               "mwdi-1-0-0-op-s-is-021",
               "mwdi-1-0-0-op-s-is-022",

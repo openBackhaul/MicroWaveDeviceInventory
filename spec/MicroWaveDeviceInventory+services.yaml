@@ -75,17 +75,11 @@ servers:
         ## TODO: align seq-nums of uuids after list of individual-non-ressource services has been fixed
         ##
         - operation-name: /v1/notify-availability-of-new-device
-          uuid: mwdi-1-0-0-op-s-is-001
+          uuid: mwdi-1-0-0-op-s-is-000
 
         - operation-name: /v1/notify-changed-attribute-value
-          uuid: mwdi-1-0-0-op-s-is-002
+          uuid: mwdi-1-0-0-op-s-is-001
 
-
-        ## werden beide nicht benätigt:  
-        - operation-name: /v1/inform-about-new-device
-          uuid: mwdi-1-0-0-op-s-is-003
-        - operation-name: /v1/inform-about-new-control-construct
-          uuid: mwdi-1-0-0-op-s-is-004
         ##
         ##
         ## uuids to 019 are reserved for further use (for non-ressource services)

@@ -433,10 +433,10 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
  # == MWDI-specific services, which are not derived from the controller OAS ========================================================
-  # 001) /v1/notify-availability-of-new-device
-  # 002) /v1/notify-changed-attribute-value
+  # 000) /v1/notify-availability-of-new-device
+  # 001) /v1/notify-changed-attribute-value
 
-  # 001) /v1/notify-availability-of-new-device
+  # 000) /v1/notify-availability-of-new-device
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
   #   - callback to XX://v1/regard-availability-of-new-device (mwdi-1-0-0-op-c-is-xx-1-0-0-000)
   /v1/notify-availability-of-new-device:
@@ -556,7 +556,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 002) /v1/notify-changed-attribute-value
+  # 001) /v1/notify-changed-attribute-value
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new/updated CC being available in the MWDI database
   #   - sends information about changes (diff old-new CC)
   #   - callback to YY://v1/regard-changed-attribute-value (mwdi-1-0-0-op-c-is-xy-1-0-0-000)
@@ -676,136 +676,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 003) /v1/inform-about-new-device
-  #   - actual notification about a new device
-  #   - initiated from within the MWDI once a new device has been added
-  #   - returns the mount-name of the new device (mount-name is handed-over in requestBody)
-  #
-  /v1/inform-about-new-device:
-    # uuid: mwdi-1-0-0-op-s-is-003
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: informAboutNewDevice
-      summary: 'Notifies about a new device (mount-name) being now available'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mount-name
-              properties:
-                mount-name:
-                  type: string
-                  description: >
-                    'mount-name of the device, which has been added to the MWDI
-                    find or create device information'
-              example:
-                mount-name: '100250001'
-      responses:
-        '200':
-          description: 'New available mount-name'
-          content:
-            application/json:
-              schema:
-                type: string
-                description: 'mount-name'
-                example: '100250001'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  # 004) /v1/inform-about-new-control-construct
-  #   - actual notification about a new/update CC
-  #   - initiated either a) from within the MWDI once a new/updated CC has been written to the MWDI database
-  #                      b) or if the CC is updated after receiving the related config-change notification from the Controller
-  #   - returns the mount-name of the target device (mount-name is handed-over in requestBody)
-  #
-  /v1/inform-about-new-control-construct:
-    # uuid: mwdi-1-0-0-op-s-is-004
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: informAboutNewControlConstruct
-      summary: 'Notifies about a new or updated control construct for a device being available'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mount-name
-              properties:
-                mount-name:
-                  type: string
-                  description: >
-                    'mount-name of the device, for which the new or updated ControlConstruct has been added to the database
-                    find or create device information'
-              example:
-                mount-name: '100250001'
-      responses:
-        '200':
-          description: 'New control construct for mount-name available '
-          content:
-            application/json:
-              schema:
-                type: string
-                description: 'mount-name'
-                example: '100250001'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   #
   # ---------------------------------------------------------------
   # Get MOUNT-NAMES handled by MWDI

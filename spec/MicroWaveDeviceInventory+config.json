@@ -2390,7 +2390,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-op-c-is-c-4-0-2-000",
+            "uuid": "katuuid1",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
             ],
@@ -2415,7 +2415,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-op-c-is-c-4-0-2-001",
+            "uuid": "katuuid2",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
             ],
@@ -2440,7 +2440,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-op-c-is-c-4-0-2-002",
+            "uuid": "katuuid3",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
             ],
@@ -2468,9 +2468,9 @@
             "uuid": "mwdi-1-0-0-http-c-c-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "mwdi-1-0-0-op-c-is-c-4-0-2-000",
-              "mwdi-1-0-0-op-c-is-c-4-0-2-001",
-              "mwdi-1-0-0-op-c-is-c-4-0-2-002"
+              "katuuid1",
+              "katuuid2",
+              "katuuid3"
             ],
             "server-ltp": [
               "mwdi-1-0-0-tcp-c-c-1-0-0-000"

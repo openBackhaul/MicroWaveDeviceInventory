@@ -1,0 +1,86 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title  Periodic (DeviceList) Sync with Controller process flow
+
+
+'participants
+participant "RO" as ro
+participant "/v1/embed-yourself" as mwdi
+participant "ODL://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)" as odlConnectionStatus
+participant "ElasticSearch" as es
+participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1
+participant "ODL://rests/operations/odl-device-notification:\nsubscribe-device-notification" as odlsubscribe2
+participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsubscribe3
+
+ro -> mwdi: {RoIp, RoPort}
+mwdi --> ro: {}
+
+'get deviceList from Controller
+note over mwdi: compare list from Controller\n & MWDI deviceList
+mwdi -> odlConnectionStatus
+odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
+
+'get MWDI deviceList from ElasticSearch 
+mwdi -> es: {}
+es --> mwdi: {mount-name-list}
+
+'diff both lists and process devices accordingly
+note over es
+ <b>action-required</b>: add or delete
+ - <b>add</b>: (new device) add mount-name 
+   to deviceList
+ - <b>delete</b>: (disconnected device) remove 
+   mount-name and related ControlConstruct
+end note 
+
+mwdi -> es: {list-of-(mount-name, action-required)}
+es --> mwdi: {}
+
+'subscription to Controller
+note over odlsubscribe1, odlsubscribe3
+<b>subscribe to device notifications</b> per relevant device:
+1. create subscription stream to the device
+2. subscribe to the stream
+3. listen to the stream (GET)
+
+<b>unsubscribe</b>:
+just stop listening to the notification stream (i.e. stop the GET request from step 3) [the streams are managed also on the Controller, so no DELETE here]
+end note
+
+mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}
+odlsubscribe1 --> mwdi: {}
+
+mwdi -> odlsubscribe2: {input-path-with-mount-name}
+odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}
+
+mwdi -> odlsubscribe3: {<i>mount-name as path-parameter </i>}
+odlsubscribe3 --> mwdi: {parameter-update-information (includes path-to-parameter, new value, timestamp)}
+
+
+
+left footer 
+
+
+<u> Controller connection info:</u>
+\t- For requesting information from other applications first <i>RO://v1/list-applications</i> would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, 
+\t  as the connection information may change during runtime.
+\t-  When the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the 
+\t  ApplicationFramework (no entries in RO!). 
+\t-  In future releases there may be the CurrentController app which has the purpose of just providing the connection information of the Controller from within the AppFramework.
+\t-  Also note: instead of providing directly the Controller connection details, the loadbalancer (distributes load across the available controller VMs) could be addressed.
+
+<u> Device subscriptions:</u>
+\t- subscriptions to the device are done according to ODL user guide: [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#receiving-netconf-device-notifications-on-a-http-client]]
+\t- the subscription for device changes are also managed on the Controller; once a device is removed from the Controller the related stream will also be closed; the operations are idempotent
+\t- to unsubscribe just stop listening to the streams
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+@enduml

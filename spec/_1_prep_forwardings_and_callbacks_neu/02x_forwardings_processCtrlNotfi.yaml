@@ -1,0 +1,23 @@
+  ## process controller notifications about device state changes
+
+
+  ## add/delete device info to/from ElasticSearch
+  - forwarding-name: ReceiptOfControllerNotificationCausesWritingToElasticSearch
+    uuid: mwdi-1-0-0-op-fc-is-020
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update: # if controller ip+port would be read from RO/CurrentController /v1/embed-yourself possibly would have to be added here like in MATR
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+  
+## forwardings for handling of new devices already covered in 01x forwardings:
+# - XX://v1/regard-availability-of-new-device: mwdi-1-0-0-op-fc-is-013
+# - subscriptions for device changes: mwdi-1-0-0-op-fc-is-014 to mwdi-1-0-0-op-fc-is-016
+# 

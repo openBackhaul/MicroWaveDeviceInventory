@@ -1,0 +1,45 @@
+  # subscribe for Controller notifications about device state change
+  - forwarding-name: EmbeddingOperationCausesCreationOfControllerSubscriptionStreamAtController
+    uuid: mwdi-1-0-0-op-fc-is-000
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: ODL://rests/operations/sal-remote:create-data-change-event-subscription
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+
+  - forwarding-name: EmbeddingOperationCausesSubscriptionToControllerSubscriptionStreamAtController
+    uuid: mwdi-1-0-0-op-fc-is-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: ODL://rests/data/ietf-restconf-monitoring:restconf-state/streams/stream/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
+
+  - forwarding-name: EmbeddingOperationCausesListeningToControllerSubscriptionStreamAtController
+    uuid: mwdi-1-0-0-op-fc-is-002
+    forwarding-type: InvariantProcessSnippet 
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002

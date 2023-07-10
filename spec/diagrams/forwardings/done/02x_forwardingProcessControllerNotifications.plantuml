@@ -19,6 +19,7 @@ participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsub
 
 
 odlNotification -> mwdi: {mount-name, new-connection-state}
+mwdi --> odlNotification
 
 note over mwdi
  <u>new connection state:</u>
@@ -28,6 +29,7 @@ note over mwdi
 end note
 
 mwdi -> es: {mount-name, add-or-delete-info}
+es --> mwdi
 
 'for new devices subscribe to device changes
 note across: the following steps are identical to the steps to be done if a new device is seen or an existing one removed due to the deviceList sync with the Controller (only difference: it's always only a single device)
@@ -35,7 +37,7 @@ note across: the following steps are identical to the steps to be done if a new 
 'inform subscribers about new device
 note over notificationToXX: inform subscribers about new device
 mwdi -> notificationToXX: {mount-name}
-notificationToXX --> mwdi: {}
+notificationToXX --> mwdi
 
 
 'subscription to Controller
@@ -50,13 +52,13 @@ just stop listening to the notification stream (i.e. stop the GET request from s
 end note
 
 mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}
-odlsubscribe1 --> mwdi: {}
+odlsubscribe1 --> mwdi
 
 mwdi -> odlsubscribe2: {input-path-with-mount-name}
 odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}
 
 mwdi -> odlsubscribe3: {<i>mount-name as path-parameter </i>}
-odlsubscribe3 --> mwdi: {parameter-update-information (includes path-to-parameter, new value, timestamp)}
+odlsubscribe3 --> mwdi: {mount-name, path-to-changed-parameter, new-value, timestamp}
 
 
 

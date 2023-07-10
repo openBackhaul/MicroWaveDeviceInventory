@@ -24,11 +24,11 @@ mwdi -> odlsubscribe1: {path, datastore, scope, notification-output-type}
 odlsubscribe1 --> mwdi: {sal-remote:output (stream-name)}
 
 note over mwdi: subscribe to stream
-mwdi -> odlsubscribe2: {}
+mwdi -> odlsubscribe2
 odlsubscribe2 --> mwdi: {subscribe-to-notification:location}
 
 note over mwdi: receive notifications
-mwdi -> odlsubscribe3: {}
+mwdi -> odlsubscribe3
 odlsubscribe3 --> mwdi: {streamed notification messages}
 
 left footer 

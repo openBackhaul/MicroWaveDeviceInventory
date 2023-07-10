@@ -20,7 +20,7 @@ participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsub
 
 
 ro -> mwdi: {RoIp, RoPort}
-mwdi --> ro: {}
+mwdi --> ro
 
 'get deviceList from Controller
 note over mwdi: compare list from Controller\n & MWDI deviceList
@@ -28,7 +28,7 @@ mwdi -> odlConnectionStatus
 odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
 
 'get MWDI deviceList from ElasticSearch 
-mwdi -> es: {}
+mwdi -> es
 es --> mwdi: {mount-name-list}
 
 'diff both lists and process devices accordingly
@@ -41,12 +41,12 @@ note over es
 end note 
 
 mwdi -> es: {list-of-(mount-name, action-required)}
-es --> mwdi: {}
+es --> mwdi
 
 'inform subscribers about new device
 note over notificationToXX: inform subscribers about new device
 mwdi -> notificationToXX: {mount-name}
-notificationToXX --> mwdi: {}
+notificationToXX --> mwdi
 
 'subscription to Controller
 note over odlsubscribe1, odlsubscribe3
@@ -61,7 +61,7 @@ so no DELETE here]
 end note
 
 mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}
-odlsubscribe1 --> mwdi: {}
+odlsubscribe1 --> mwdi
 
 mwdi -> odlsubscribe2: {input-path-with-mount-name}
 odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}

@@ -2873,7 +2873,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceChangeNotificationAtNewMwdi"
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForCreatingControllerSubscriptionAtNewMwdi"
                   }
                 ],
                 "fc-port": [
@@ -2885,7 +2885,7 @@
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-003"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-000"
                   }
                 ]
               },
@@ -2898,7 +2898,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "PromptForBequeathingDataCausesEndingSubscriptionForDeviceChangeNotificationToOldRelease"
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForSubscribingToControllerSubscriptionAtNewMwdi"
                   }
                 ],
                 "fc-port": [
@@ -2910,7 +2910,107 @@
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-003"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-001"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-im-005",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForListeningToControllerSubscriptionAtNewMwdi"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-im-000"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-002"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-im-006",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForCreatingDeviceSubscriptionAtNewMwdi"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-im-000"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-020"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-im-007",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForSubscribingToDeviceSubscriptionAtNewMwdi"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-im-000"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-021"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-im-008",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "PromptForBequeathingDataCausesControllerBeingRequestedToInquireForListeningToDeviceSubscriptionAtNewMwdi"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-im-000"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-022"
                   }
                 ]
               },

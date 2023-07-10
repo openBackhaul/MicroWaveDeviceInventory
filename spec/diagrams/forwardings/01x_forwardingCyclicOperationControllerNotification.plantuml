@@ -1,7 +1,7 @@
 @startuml
 skinparam responseMessageBelowArrow true
 
-title Subscribe to Controller notifications about device state changes
+title Process Controller notifications about device state changes
 
 "RO" -> "/v1/embed-yourself": {RoIp, RoPort}
 "/v1/embed-yourself" --> "RO": {}
@@ -19,21 +19,7 @@ note over "/v1/embed-yourself": receive notifications
 "ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" --> "/v1/embed-yourself": {streamed notification messages}
 
 
-
-
-left footer 
-
-
-\t- Subscribe for Controller notifications about device state changes according to ODL user guide [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#sse-notifications-subscription-process]]
-
-\t- For requesting information from other applications first <i>RO://v1/list-applications</i> would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, 
-\t  as the connection information may change during runtime.
-\t-  When the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the 
-\t  ApplicationFramework (no entries in RO!). 
-\t-  In future releases there may be the CurrentController app which has the purpose of just providing the connection information of the Controller from within the AppFramework.
-\t-  Also note: instead of providing directly the Controller connection details, the loadbalancer (distributes load across the available controller VMs) could be addressed.
-end footer
-
+left footer \n\nSubscribe for Controller notifications about device state changes according to ODL user guide [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#sse-notifications-subscription-process]].
 
 <style>
 footer {

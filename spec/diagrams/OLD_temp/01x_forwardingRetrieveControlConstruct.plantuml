@@ -1,0 +1,42 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title Retrieve ControlConstruct from Controller and write to ElasticSearch
+
+"cyclic operation" -> "ODL://rests/data/network-topology:network-topology/topology=topology-netconf/\nnode={mount-name}/yang-ext:mount/core-model-1-4:control-construct": {mount-name}
+"ODL://rests/data/network-topology:network-topology/topology=topology-netconf/\nnode={mount-name}/yang-ext:mount/core-model-1-4:control-construct" --> "cyclic operation": {ControlConstruct}
+
+
+"cyclic operation" -> "ElasticSearch": {mount-name, ControlConstruct, list-of-status-attributes-for-internal-deviceList-management}
+"ElasticSearch" --> "cyclic operation": {}
+
+note over "cyclic operation": after successful CC retrieval only: \nsend notification about new/updated CC
+
+"cyclic operation" -> "/v1/inform-about-new-control-construct": {mount-name}
+"/v1/inform-about-new-control-construct" --> "cyclic operation": {}
+
+
+left footer 
+
+
+\t  - There are 2 possible results from the CC retrieval: 
+\t    1. <i>successful retrieval</i> or 2. <i>no success</i>, even though device is connected (e.g. due to timeout caused by overload on mediator)
+\t    - in case of success the new CC is writte to the ElasticSearch db, an already stored CC would be overwritten
+\t    - in case of no success an already existing CC should be deleted, if it's retention time has been exceeded
+\t    - in both cases the status attributes for internal management of the deviceList shall be sent
+\t  - Note: after a new CC has been successfully retrieved and written to the db, a notification is sent to subscribers to inform them about the new/updated CC ; the related forwarding is already
+\t    covered by the forwardingControllerNotification forwarding chain
+\t  - <i>Note: the deviceList could also be stored in memory rather than in the database; this depends on what should happen when the MWDI goes down and comes up again or when a new release is activated.
+\t    <i>For new releases the database should be handed over, so the deviceList information which e.g. contains information to determine if the stored CCs are still valid (i.e. within their retention time),
+\t    <i>therefore, the deviceList should also be handed over. (It would also be possible to store the deviceList in the memory and just write it every x minutes to the database.)
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+
+@enduml

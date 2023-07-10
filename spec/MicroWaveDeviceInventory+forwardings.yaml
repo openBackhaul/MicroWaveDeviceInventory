@@ -208,7 +208,7 @@ forwardings:
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
 # the MWDI only has a subscription to the Controller (which services are not part of the ApplicationPattern)
 # the MWDI needs to subscribe to the following URL:
-# https://<controller_IP>:8443/rests/notif/{mount-name}?notification-type=device
+# https://<controller_IP>:8443/rests/notif/{mount-name}?notificationType=device
   - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForDeviceNotificationAtNewMwdi
     uuid: mwdi-1-0-0-op-fc-im-003
     forwarding-type: InvariantProcessSnippet
@@ -221,7 +221,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: OpenDaylight://rests/notif/{mount-name}?notification-type=device
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
 ## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
@@ -239,7 +239,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: OpenDaylight://rests/notif/{mount-name}?notification-type=device
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-003
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
@@ -581,7 +581,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://rests/notif/{mount-name}?notification-type=device #GET
+      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #GET
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-022
 
   # unsubscribe at Controller for any device deleted from the MWDI (DELETE <path>), has to be done invidually for each device
@@ -597,7 +597,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://rests/notif/{mount-name}?notification-type=device #DELETE
+      - client-name: ODL://rests/notif/{mount-name}?notificationType=device #DELETE
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-022
 
   ## == Periodic ControlConstruct retrieval ==========================================

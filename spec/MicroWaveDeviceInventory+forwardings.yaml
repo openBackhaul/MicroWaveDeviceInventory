@@ -86,9 +86,9 @@ forwardings:
       ## DONE: All service requests to be complemented
       # non-ressource services
       - server-name: /v1/notify-availability-of-new-device
-        uuid: mwdi-1-0-0-op-s-is-001
+        uuid: mwdi-1-0-0-op-s-is-000
       - server-name: /v1/notify-changed-attribute-value
-        uuid: mwdi-1-0-0-op-s-is-002
+        uuid: mwdi-1-0-0-op-s-is-001
       # ressources
       - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-s-is-021
@@ -333,9 +333,9 @@ forwardings:
       ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
       # add servers for notifications
       - server-name: /v1/notify-availability-of-new-device
-        uuid: mwdi-1-0-0-op-s-is-001
+        uuid: mwdi-1-0-0-op-s-is-000
       - server-name: /v1/notify-changed-attribute-value
-        uuid: mwdi-1-0-0-op-s-is-002
+        uuid: mwdi-1-0-0-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
@@ -375,9 +375,9 @@ forwardings:
       ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
       # add servers for notifications
       - server-name: /v1/notify-availability-of-new-device
-        uuid: mwdi-1-0-0-op-s-is-001
+        uuid: mwdi-1-0-0-op-s-is-000
       - server-name: /v1/notify-changed-attribute-value
-        uuid: mwdi-1-0-0-op-s-is-002
+        uuid: mwdi-1-0-0-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003

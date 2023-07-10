@@ -48,44 +48,13 @@ servers:
         ## Additional MWDI services, which are not ressources (e.g. used for notifications)
         ## =======================================================================================================
         ##
-        ##
-        ## 001) /v1/notify-availability-of-new-device
-        ##      - used for a subscription to inform about a new device at the MWDI
-        ##      - management service:
-        ##        - i.e. only used to manage information about the subscriber
-        ##        - the actual notification is send by /v1/inform-about-new-device
-        ##          (once a new device has been added to the MWDI)
-        ##
-        ## 002) /v1/notify-changed-attribute-value
-        ##      - used for a subscription to inform about a new/updated control construct at the MWDI
-        ##      - management-service:
-        ##        - only manages information about the subscribers
-        ##        - actual notification is send by /v1/inform-about-new-control-construct
-        ##
-        ## 003) /v1/inform-about-new-device
-        ##      - informs subscribers about new devices being available at the MWDI
-        ##      - is triggered from within the MWDI (i.e. no service)
-        ##
-        ## 004) /v1/inform-about-new-control-construct
-        ##      - informs subscribers that a new or updated control construct is available at the MWDI database
-        ##      - is triggered either
-        ##        - after a new CC has been retrieved and stored in the MWDI database
-        ##        - or after a call of /v1/change-paramete-value-in-controlconstruct has updated an existing CC in the database
-        ##
-        ## TODO: align seq-nums of uuids after list of individual-non-ressource services has been fixed
-        ##
+        ## other apps can subscribe for notifications about new devices or changed CC information
         - operation-name: /v1/notify-availability-of-new-device
-          uuid: mwdi-1-0-0-op-s-is-001
+          uuid: mwdi-1-0-0-op-s-is-000
 
         - operation-name: /v1/notify-changed-attribute-value
-          uuid: mwdi-1-0-0-op-s-is-002
+          uuid: mwdi-1-0-0-op-s-is-001
 
-
-        ## werden beide nicht benätigt:  
-        - operation-name: /v1/inform-about-new-device
-          uuid: mwdi-1-0-0-op-s-is-003
-        - operation-name: /v1/inform-about-new-control-construct
-          uuid: mwdi-1-0-0-op-s-is-004
         ##
         ##
         ## uuids to 019 are reserved for further use (for non-ressource services)

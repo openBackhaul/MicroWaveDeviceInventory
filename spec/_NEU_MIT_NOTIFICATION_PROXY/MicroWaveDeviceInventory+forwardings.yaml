@@ -1,0 +1,573 @@
+forwardings:
+
+  - forwarding-name: PromptForRegisteringCausesRegistrationRequest
+    uuid: mwdi-1-0-0-op-fc-bm-000
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/register-yourself
+          uuid: mwdi-1-0-0-op-s-bm-000
+      fc-port-update:
+        - server-name: /v1/register-yourself
+          uuid: mwdi-1-0-0-op-s-bm-000
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: mwdi-1-0-0-op-s-bm-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/register-application
+        uuid: mwdi-1-0-0-op-c-bm-ro-2-0-1-000
+
+  - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
+    uuid: mwdi-1-0-0-op-fc-bm-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: OldRelease://v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-c-bm-or-1-0-0-000
+
+  - forwarding-name: ServiceRequestCausesLoggingRequest
+    uuid: mwdi-1-0-0-op-fc-bm-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-service-request-information
+          uuid: mwdi-1-0-0-op-s-bm-002
+      fc-port-update:
+        - server-name: /v1/redirect-service-request-information
+          uuid: mwdi-1-0-0-op-s-bm-002
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: mwdi-1-0-0-op-s-bm-000
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+      - server-name: /v1/redirect-service-request-information
+        uuid: mwdi-1-0-0-op-s-bm-002
+      - server-name: /v1/redirect-oam-request-information
+        uuid: mwdi-1-0-0-op-s-bm-003
+      - server-name: /v1/end-subscription
+        uuid: mwdi-1-0-0-op-s-bm-004
+      - server-name: /v1/inquire-oam-request-approvals
+        uuid: mwdi-1-0-0-op-s-bm-005
+      - server-name: /v1/update-client
+        uuid: mwdi-1-0-0-op-s-bm-007
+      - server-name: /v1/list-ltps-and-fcs
+        uuid: mwdi-1-0-0-op-s-bm-008
+      - server-name: /v1/redirect-topology-change-information
+        uuid: mwdi-1-0-0-op-s-bm-009
+      - server-name: /v1/update-operation-key
+        uuid: mwdi-1-0-0-op-s-bm-010
+      - server-name: /v1/update-operation-client
+        uuid: mwdi-1-0-0-op-s-bm-011
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+      - server-name: /v1/start-application-in-generic-representation
+        uuid: mwdi-1-0-0-op-s-bs-000
+      - server-name: /v1/inform-about-application
+        uuid: mwdi-1-0-0-op-s-bs-001
+      - server-name: /v1/inform-about-application-in-generic-representation
+        uuid: mwdi-1-0-0-op-s-bs-002
+      - server-name: /v1/inform-about-release-history
+        uuid: mwdi-1-0-0-op-s-bs-003
+      - server-name: /v1/inform-about-release-history-in-generic-representation
+        uuid: mwdi-1-0-0-op-s-bs-004
+      - server-name: /docs
+        uuid: mwdi-1-0-0-op-s-bs-005
+      ## DONE: All service requests to be complemented
+      # non-ressource services
+      - server-name: /v1/notify-availability-of-new-device
+        uuid: mwdi-1-0-0-op-s-is-000
+      - server-name: /v1/notify-changed-attribute-value
+        uuid: mwdi-1-0-0-op-s-is-001
+      # ressources
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-021
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-022
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-023
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-027
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-086
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-099
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-106
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-122
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-124
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-130
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-s-is-202
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-s-is-236
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-298
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-302
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-305
+      - server-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-306
+    consequent-requests:
+      - client-name: ExecutionAndTraceLog://v1/record-service-request
+        uuid: mwdi-1-0-0-op-c-bs-eatl-2-0-1-000
+
+  - forwarding-name: OamRequestCausesLoggingRequest
+    uuid: mwdi-1-0-0-op-fc-bm-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-oam-request-information
+          uuid: mwdi-1-0-0-op-s-bm-003
+      fc-port-update:
+        - server-name: /v1/redirect-oam-request-information
+          uuid: mwdi-1-0-0-op-s-bm-003
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: OamLog://v1/record-oam-request
+        uuid: mwdi-1-0-0-op-c-bs-ol-2-0-1-000
+
+  - forwarding-name: OamRequestCausesInquiryForAuthentication
+    uuid: mwdi-1-0-0-op-fc-bm-004
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/inquire-oam-request-approvals
+          uuid: mwdi-1-0-0-op-s-bm-005
+      fc-port-update:
+        - server-name: /v1/inquire-oam-request-approvals
+          uuid: mwdi-1-0-0-op-s-bm-005
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: AdministratorAdministration://v1/approve-oam-request
+        uuid: mwdi-1-0-0-op-c-bs-aa-2-0-1-000
+
+## DONE: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
+  # purpose: if MWDI would offer subscriptions to other apps, subscriptions that might already
+  # exist at the time of the future upgrade shall be configured by the old release
+  # >> the MWDI will offer 2 subscriptions (to the HMDI):
+  # 1. /v1/notify-availability-of-new-device to inform about new managed device
+  # 2. /v1/notify-changed-attribute-value to inform the HMDI that it can now request a new/update CC
+  #
+  # 1. new device notification
+  - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewDeviceNotifications
+    uuid: mwdi-1-0-0-op-fc-im-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/notify-availability-of-new-device
+        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
+  #
+  # 2. new/updated control construct notification
+  - forwarding-name: PromptForBequeathingDataCausesNewApplicationBeingRequestedToDocumentSubscriptionsForNewControlConstructNotifications
+    uuid: mwdi-1-0-0-op-fc-im-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: NewRelease:://v1/notify-changed-attribute-value
+        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
+
+## DONE: Add Forwardings for transferring data to NewRelease
+# - MWDI stores its deviceList and CC data inside ElasticSearch db, so there is nothing to hand over
+# - there are profileInstances used for the deviceList management, but these are not learned from calling OperationServers,
+#   but (are constants) defined in the profileInstanceList explicitly, so there are no services for handing them over
+
+
+## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
+  # Controller subscriptions on ODL
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForCreatingControllerSubscriptionAtNewMwdi
+    uuid: mwdi-1-0-0-op-fc-im-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/operations/sal-remote:create-data-change-event-subscription
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForSubscribingToControllerSubscriptionAtNewMwdi
+    uuid: mwdi-1-0-0-op-fc-im-004
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/data/ietf-restconf-monitoring:restconf-state/streams/stream/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
+
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForListeningToControllerSubscriptionAtNewMwdi
+    uuid: mwdi-1-0-0-op-fc-im-005
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
+  #
+  # Device subscriptions on ODL
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForCreatingDeviceSubscriptionAtNewMwdi
+    uuid: mwdi-1-0-0-op-fc-im-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/operations/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/notifications:create-subscription
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-020
+
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForSubscribingToDeviceSubscriptionAtNewMwdi
+    uuid: mwdi-1-0-0-op-fc-im-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/operations/odl-device-notification:subscribe-device-notification
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-021
+
+  - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForListeningToDeviceSubscriptionAtNewMwdi
+    uuid: mwdi-1-0-0-op-fc-im-008
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: OpenDaylight://rests/notif/{mount-name}?notificationType=device
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-022
+
+## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+# cancel the subscriptions to the Controller
+# just stop listening, not a DELETE (would delete stream for all subscribers!)
+# (if old release is turned off, listening will stop automatically)
+
+  - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
+    uuid: mwdi-1-0-0-op-fc-bm-105
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: mwdi-1-0-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: mwdi-1-0-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/relay-server-replacement
+        uuid: mwdi-1-0-0-op-c-bm-ro-2-0-1-001
+
+  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
+    uuid: mwdi-1-0-0-op-fc-bm-106
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: mwdi-1-0-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: mwdi-1-0-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/deregister-application
+        uuid: mwdi-1-0-0-op-c-bm-ro-2-0-1-002
+
+  - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
+    uuid: mwdi-1-0-0-op-fc-bm-107
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: mwdi-1-0-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: mwdi-1-0-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/update-client
+        uuid: mwdi-1-0-0-op-s-bm-007
+    consequent-requests:
+      - client-name: RegistryOffice://v1/relay-operation-update
+        uuid: mwdi-1-0-0-op-c-bm-ro-2-0-1-003
+
+  - forwarding-name: ServiceRequestCausesLtpUpdateRequest
+    uuid: mwdi-1-0-0-op-fc-bm-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: mwdi-1-0-0-op-s-bm-000
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+      - server-name: /v1/redirect-service-request-information
+        uuid: mwdi-1-0-0-op-s-bm-002
+      - server-name: /v1/redirect-oam-request-information
+        uuid: mwdi-1-0-0-op-s-bm-003
+      - server-name: /v1/inquire-oam-request-approvals
+        uuid: mwdi-1-0-0-op-s-bm-005
+      - server-name: /v1/update-client
+        uuid: mwdi-1-0-0-op-s-bm-007
+      - server-name: /v1/redirect-topology-change-information
+        uuid: mwdi-1-0-0-op-s-bm-009
+      - server-name: /v1/update-operation-client
+        uuid: mwdi-1-0-0-op-s-bm-011
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-1-0-0-op-s-im-000
+      ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
+      # add servers for notifications
+      - server-name: /v1/notify-availability-of-new-device
+        uuid: mwdi-1-0-0-op-s-is-000
+      - server-name: /v1/notify-changed-attribute-value
+        uuid: mwdi-1-0-0-op-s-is-001
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
+
+  - forwarding-name: ServiceRequestCausesLtpDeletionRequest
+    uuid: mwdi-1-0-0-op-fc-bm-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      ## DONE: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
+      # none - correct?
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
+
+  - forwarding-name: ServiceRequestCausesFcUpdateRequest
+    uuid: mwdi-1-0-0-op-fc-bm-008
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented
+      # add servers for notifications
+      - server-name: /v1/notify-availability-of-new-device
+        uuid: mwdi-1-0-0-op-s-is-000
+      - server-name: /v1/notify-changed-attribute-value
+        uuid: mwdi-1-0-0-op-s-is-001
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
+
+  - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
+    uuid: mwdi-1-0-0-op-fc-bm-009
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      ## DONE: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
+      # nothing to add
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
+
+  - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
+    uuid: mwdi-1-0-0-op-fc-bm-010
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/end-subscription
+        uuid: mwdi-1-0-0-op-s-bm-004
+      ## DONE: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
+      # nothing to add
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
+
+  - forwarding-name: OamRequestCausesLtpUpdateRequest
+    uuid: mwdi-1-0-0-op-fc-bm-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
+
+  - forwarding-name: OamRequestCausesLtpDeletionRequest
+    uuid: mwdi-1-0-0-op-fc-bm-012
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
+
+  - forwarding-name: OamRequestCausesFcUpdateRequest
+    uuid: mwdi-1-0-0-op-fc-bm-013
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
+
+  - forwarding-name: OamRequestCausesFcPortUpdateRequest
+    uuid: mwdi-1-0-0-op-fc-bm-014
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
+
+  - forwarding-name: OamRequestCausesFcPortDeletionRequest
+    uuid: mwdi-1-0-0-op-fc-bm-015
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: mwdi-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
+
+  ## TODO: Potential INDIVIDUAL Forwardings to be added
+  ##
+  

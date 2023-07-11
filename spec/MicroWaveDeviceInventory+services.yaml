@@ -423,26 +423,51 @@ clients:
           ## DONE: Add Clients specific to this application, but addressing all other applications
           ## none
         individual:
-          ## subscribing for controller notifications
-          - operation-name: /rests/operations/sal-remote:create-data-change-event-subscription
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
-          - operation-name: /rests/data/ietf-restconf-monitoring:restconf-state/streams/stream/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-001
-          - operation-name: /rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=OPERATIONAL/scope=SUBTREE/JSON
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-002
           ## getting list of mounted devices with connection status
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-010
-          ## subscribing for device notifications (repeat for all mounted devices)
-          - operation-name: /rests/operations/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/notifications:create-subscription
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-020
-          - operation-name: /rests/operations/odl-device-notification:subscribe-device-notification
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-021
-          - operation-name: /rests/notif/{mount-name}?notificationType=device
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-022
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+
           ## getting control construct (repeat for all connected devices)
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-030
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-010
+
+
+  - http-client:
+      application-name: NotificationProxy
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-np-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: x.x.x.x
+      tcp-port: xxxx
+      uuid: mwdi-1-0-0-tcp-c-np-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+          ## DONE: Add Clients specific to this application, but addressing all other applications
+          ## none
+        individual:
+          ## subscribing for controller notifications at NotificationProxy
+          - operation-name: todo_controller_notification
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
+
+          ## subscribing for device notifications at NotificationProxy
+          ## es sollte nur eine subscription erfordern, die alle devices abdeckt, dann braucht man da keine subscriptions neu zu erzeugen/zu löschen wenn Geräte den connection-status wechseln
+          ## die Notification sollte folgende infos enthalten: device, liste der Änderungen (path, new value)
+          - operation-name: todo_device_notification
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
+
+          ## ggf. eine eigene Notification nur für Änderungen bei historical-pm-data und oben die notification nur für die anderen änderungen
+          ## die anderen Sachen sollten sich nicht so häufig ändern, die pm-daten aber ggf. alle 15min
+          ## was ist mit den current-pm-daten? die ändern sich ja noch häufiger, da gibt es aber ggf. gar keine notification
+
+          ## unsubscribe for notifications
+          - operation-name: /v1/end-subscription
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-002
+
 
 # client stack für subscriptions am MWDI
 # die kennen wir hier noch nicht, werden dann im config-file erst zur laufzeit sinnvoll befüllt
@@ -491,3 +516,4 @@ clients:
           ## if other applications want to subscribe they need to implement a service with the name below
           - operation-name: /v1/regard-changed-attribute-value
             uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000
+

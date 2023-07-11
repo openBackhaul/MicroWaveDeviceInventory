@@ -13,8 +13,6 @@ participant "todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
-participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as npDeviceNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
-
 
 
 npConnectionStatusNotif -> mwdi: {mount-name, new-connection-state}
@@ -36,25 +34,6 @@ mwdi -> notificationToXX: {mount-name}
 notificationToXX --> mwdi
 
 
-'subscription to Controller
-note over npDeviceNotif: subscribe to device notifications if connection-status=connected
-
-
-<b>unsubscribe if connection-status=connecting</b>:
-just stop listening to the notification stream (i.e. stop the GET request from step 3) [the streams are managed also on the Controller, so no DELETE here]
-end note
-
-mwdi -> npDeviceNotif: {<i>mount-name as path-parameter </i>, required-response-body}
-npDeviceNotif --> mwdi
-
-mwdi -> odlsubscribe2: {input-path-with-mount-name}
-odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}
-
-mwdi -> odlsubscribe3: {<i>mount-name as path-parameter </i>}
-odlsubscribe3 --> mwdi: {mount-name, path-to-changed-parameter, new-value, timestamp}
-
-
-
 left footer 
 
 
@@ -62,12 +41,6 @@ left footer
 \t  - the subscriber app (XX, as it's not known at specification time) needs to implement <i>/v1/regard-availability-of-new-device</i>
 \t  - subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
 \t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-000]
-
-<u> Device subscriptions:</u>
-\t- same steps as during deviceList sync, with only exception that there already is only 1 device to be processed
-\t- subscriptions to the device are done according to ODL user guide: [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#receiving-netconf-device-notifications-on-a-http-client]]
-\t- the subscription for device changes are also managed on the Controller; once a device is removed from the Controller the related stream will also be closed; the operations are idempotent
-\t- to unsubscribe just stop listening to the notification stream
 end footer
 
 <style>

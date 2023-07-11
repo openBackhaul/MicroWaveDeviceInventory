@@ -1,0 +1,49 @@
+        EmbeddingOperationCausesSubscriptionToDeviceParameterChangeNotificationAtNotificationProxy:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-np-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                # unclear if these are needed as they are only relevant inside the appFramework, but not for the Controller 
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'                
+              responses:
+                '200':
+                  description: 'Parameter changes of the device'
+                  content:
+                    text/event-stream: # notification messages are streamed by the Controller 
+                      schema:
+                        type: object
+                        properties:
+                          mount-name:
+                            type: string
+                            description: 'The mount-name of the device.'
+                          change-details:  #there can be multiple changes -> list
+                            type: array
+                              items:
+                                type: object
+                                properties:
+                                  path-to-changed-parameter: 
+                                    type: string
+                                    description: 'the complete path to the changed parameter'
+                                  new-value:
+                                    type: string
+                                    description: 'the new parameter value'
+                                  timestamp:
+                                    type: string  #change to timestamp format
+                                    description: 'the change timestamp'
+                  headers:
+                    # after subscription data is sent as a stream
+                    # content-type=text/event-stream and transfer-encoding=chunked
+                    transfer-encoding:
+                      schema:
+                        type: string
+                        example: 'chunked'
+                      description: 'The transfer-encoding (chunked) for the notifications received from the Controller'  
+              '4XX':
+                $ref: '#/components/responses/responseForErroredServiceRequests'
+              '500':
+                $ref: '#/components/responses/responseForErroredServiceRequests'
+              default:
+                $ref: '#/components/responses/responseForErroredServiceRequests'

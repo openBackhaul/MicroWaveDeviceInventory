@@ -1,0 +1,14 @@
+- wo: /v1/embed-yourself
+
+1) CyclicOperationCausesRequestForListOfDevicesAtController
+   Schema muss selbst definiert CyclicOperationCausesWritingDeviceListComparisonUpdatesIntoElasticSearch
+
+2) CyclicOperationCausesRequestForReadingDeviceListFromElasticSearch
+   -> nur Name, da conseqReq = es
+
+3) CyclicOperationCausesWritingDeviceListComparisonUpdatesIntoElasticSearch
+   -> wie (2)
+
+4) CyclicOperationCausesInformingSubscribersAboutNewDevice
+   hier definieren, wie XX://v1/regard-availability-of-new-device aussehen muss
+   da langt eigentlich der mount-name as return-Wert

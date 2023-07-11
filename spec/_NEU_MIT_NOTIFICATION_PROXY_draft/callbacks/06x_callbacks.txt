@@ -1,0 +1,4 @@
+- nur Kommentar in der OAS am ersten initiating-request, weil consequent-request = ElasticSearch
+- callback-name = PromptForRessourceCausesReadingFromElasticSearch
+- wo:   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-022

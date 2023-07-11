@@ -1,0 +1,39 @@
+- gemäß aktuellen Stand
+- #forwardingName = auskommentiert, ohne Definition (alles mit ElasticSearch)
+
+----------------------------------------------------------------------------------------------
+unter /v1/embed-yourself:
+----------------------------------------------------------------------------------------------
+für 00x:
+  EmbeddingOperationCausesSubscriptionToDeviceConnectionStateChangeNotificationAtNotificationProxy
+  EmbeddingOperationCausesSubscriptionToDeviceParameterChangeNotificationAtNotificationProxy
+
+für 01x:
+  CyclicOperationCausesRequestForListOfDevicesAtController
+  #CyclicOperationCausesRequestForReadingDeviceListFromElasticSearch
+  #CyclicOperationCausesWritingDeviceListComparisonUpdatesIntoElasticSearch
+  CyclicOperationCausesInformingSubscribersAboutNewDevice
+
+für 02x:
+  #ReceiptOfDeviceParameterChangeNotificationCausesWritingToElasticSearch
+
+für 04x:
+  #ReceiptOfDeviceNotificationCausesWritingToElasticSearch
+
+fpr 05x:
+  #PromptForDeviceListCausesReadingFromElasticSearch
+
+----------------------------------------------------------------------------------------------
+unter /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
+----------------------------------------------------------------------------------------------
+für 06x:
+  #PromptForRessourceCausesReadingFromElasticSearch
+
+
+----------------------------------------------------------------------------------------------
+nicht klar wo:
+----------------------------------------------------------------------------------------------
+for 03x:
+  CyclicOperationCausesDeviceControlConstructRetrievalFromController
+  #CyclicOperationForControlConstructRetrievalFromControllerCausesWritingIntoElasticSearch
+  CyclicOperationForControlConstructRetrievalFromControllerCausesNotifyingSubscribersAboutNewControlConstruct

@@ -1,0 +1,38 @@
+## Subscribe at NotificationProxy for notifications:
+# - controller
+# - device
+
+
+  # subscribe for Controller notifications about device state change
+  - forwarding-name: EmbeddingOperationCausesSubscriptionToDeviceConnectionStateChangeNotificationAtNotificationProxy
+    uuid: mwdi-1-0-0-op-fc-is-000
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: todo_controller_notification
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
+
+  - forwarding-name: EmbeddingOperationCausesSubscriptionToDeviceParameterChangeNotificationAtNotificationProxy
+    uuid: mwdi-1-0-0-op-fc-is-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: todo_device_notification
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
+
+
+## falls eigene notifications für PM-data -> noch ein drittes Forwarding

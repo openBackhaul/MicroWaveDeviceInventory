@@ -14,9 +14,7 @@ participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ODL://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)" as odlConnectionStatus <<mwdi-1-0-0-op-c-is-c-4-0-2-000>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
-participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
-participant "ODL://rests/operations/odl-device-notification:\nsubscribe-device-notification" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-021>>
-participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-022>>
+participant "NP://todo_device_notification" as npsubscribedev <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 
 
 ro -> mwdi: {RoIp, RoPort}
@@ -44,30 +42,9 @@ mwdi -> es: {list-of-(mount-name, action-required)}
 es --> mwdi
 
 'inform subscribers about new device
-note over notificationToXX: inform subscribers about new device
-mwdi -> notificationToXX: {mount-name}
-notificationToXX --> mwdi
-
-'subscription to Controller
-note over odlsubscribe1, odlsubscribe3
-<b>subscribe to device notifications</b> per relevant device:
-1. create subscription stream to the device
-2. subscribe to the stream
-3. listen to the stream (GET)
-
-<b>unsubscribe</b> per relevant device:
-just stop listening to the notification stream (i.e. stop the GET request from step 3) for the device [the streams are managed also on the Controller,
-so no DELETE here]
-end note
-
-mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}
-odlsubscribe1 --> mwdi
-
-mwdi -> odlsubscribe2: {input-path-with-mount-name}
-odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}
-
-mwdi -> odlsubscribe3: {<i>mount-name as path-parameter </i>}
-odlsubscribe3 --> mwdi: {parameter-update-information (includes path-to-parameter, new value, timestamp)}
+note over npsubscribedev: subscribe for device notifications
+mwdi -> npsubscribedev: {}
+npsubscribedev --> mwdi: {}
 
 
 

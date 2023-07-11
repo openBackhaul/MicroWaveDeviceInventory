@@ -10,13 +10,13 @@ title Subscribe to NotificationProxy notifications about device state changes
 'participants
 participant "RO" as ro
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
-participant "todo_device_notification" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
+participant "NP://todo_device_notification" as npsubscribedev <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
 
 ro -> mwdi: {RoIp, RoPort}
 mwdi --> ro
 
-mwdi -> odlsubscribe1: {}
-odlsubscribe1 --> mwdi: {}
+mwdi -> npsubscribedev: {}
+npsubscribedev --> mwdi: {}
 
 
 left footer 

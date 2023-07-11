@@ -431,6 +431,7 @@ clients:
           - operation-name: /rests/data/network-topology:network-topology/topology=topology-netconf/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-010
 
+
   - http-client:
       application-name: NotificationProxy
       release-number: 1.0.0
@@ -456,6 +457,10 @@ clients:
           ## subscribing for device notifications at NotificationProxy
           - operation-name: todo_device_notification
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
+
+          ## unsubscribe for notifications
+          - operation-name: /v1/end-subscription
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-002
 
 
 # client stack für subscriptions am MWDI

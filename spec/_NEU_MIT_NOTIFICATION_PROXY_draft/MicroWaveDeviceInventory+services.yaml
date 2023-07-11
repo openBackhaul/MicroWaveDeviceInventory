@@ -439,7 +439,7 @@ clients:
       remote-protocol: http
       ip-address: x.x.x.x
       tcp-port: xxxx
-      uuid: mwdi-1-0-0-tcp-c-no-1-0-0-000
+      uuid: mwdi-1-0-0-tcp-c-np-1-0-0-000
     operation-clients:
       own-oam:
         basic:

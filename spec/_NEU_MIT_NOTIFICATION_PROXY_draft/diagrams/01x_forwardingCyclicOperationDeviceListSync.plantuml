@@ -11,10 +11,9 @@ title  Periodic (DeviceList) Sync with Controller process flow
 'participants
 participant "RO" as ro
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
-participant "todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
+participant "ODL://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)" as odlConnectionStatus <<mwdi-1-0-0-op-c-is-c-4-0-2-010>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
-participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 
 
 ro -> mwdi: {RoIp, RoPort}
@@ -22,8 +21,8 @@ mwdi --> ro
 
 'get deviceList from Controller
 note over mwdi: compare list from Controller\n & MWDI deviceList
-mwdi -> npConnectionStatusNotif
-npConnectionStatusNotif --> mwdi: {list of-(mount-name, connection-status)}
+mwdi -> odlConnectionStatus
+odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
 
 'get MWDI deviceList from ElasticSearch 
 mwdi -> es
@@ -48,11 +47,6 @@ mwdi -> notificationToXX: {mount-name}
 notificationToXX --> mwdi: {}
 
 
-note over npDevChangeNotif: subscribe for device notifications
-mwdi -> npDevChangeNotif: {}
-npDevChangeNotif --> mwdi: {}
-
-
 
 left footer 
 
@@ -66,13 +60,15 @@ left footer
 \t-  Also note: instead of providing directly the Controller connection details, the loadbalancer (distributes load across the available controller VMs) could be addressed.
 
 <u> Notification to subscribers about new device:</u>
-\t  - the subscriber app (XX, as it's not known at specification time) needs to implement <i>/v1/regard-availability-of-new-device</i>
-\t  - subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
-\t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-000]
+\t- the subscriber app (XX, as it's not known at specification time) needs to implement <i>/v1/regard-availability-of-new-device</i>
+\t- subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
+\t- information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-000]
 
-<u> Device subscriptions:</u>
-\t- handled by the NotificationProxy, subscribe there
-
+<u> Notifications about device-state-changes and period sync<u>:
+\t- normally the MWDI would receive notifications from the NotificationProxy informing about new (connected) or disconnected (connecting) devices, so if everything works, this
+\t  process flow would not lead to any changes in the MWDI deviceList.
+\t- However, notifications may be lost or the received notifications may be still processed while the sync is running; in that cases the sync can cause updates to the 
+\t  MWDI device list 
 
 end footer
 

@@ -1,3 +1,8 @@
+## Subscribe at NotificationProxy for notifications:
+# - controller
+# - device
+
+
   # subscribe for Controller notifications about device state change
   - forwarding-name: EmbeddingOperationCausesSubscriptionToDeviceConnectionStateChangeNotificationAtNotificationProxy
     uuid: mwdi-1-0-0-op-fc-is-000

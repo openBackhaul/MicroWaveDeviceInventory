@@ -1,0 +1,55 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam guillemet [ ]
+skinparam participant {
+  StereotypeFontSize 12  
+}
+
+title Subscribe to NotificationProxy notifications about device connection-state and parameter changes
+
+'participants
+participant "RO" as ro
+participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "NP://todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
+participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
+
+ro -> mwdi: {RoIp, RoPort}
+mwdi --> ro
+
+note over npConnectionStatusNotif: subscribe for device-state changes
+mwdi -> npConnectionStatusNotif: {}
+npConnectionStatusNotif --> mwdi: {}
+
+note over npDevChangeNotif: subscribe for parameter changes
+mwdi -> npDevChangeNotif: {}
+npDevChangeNotif --> mwdi: {}
+
+
+left footer 
+
+
+<u> Controller connection information</u>:
+\t- For requesting information from other applications first <i>RO://v1/list-applications</i> would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, 
+\t  as the connection information may change during runtime.
+\t-  When the MWDI sends requests to the Controller, however, this information needs to be added in the MWDI manually, because the Controller is not part of the 
+\t  ApplicationFramework (no entries in RO!). 
+\t-  In future releases there may be the CurrentController app which has the purpose of just providing the connection information of the Controller from within the AppFramework.
+\t-  Also note: instead of providing directly the Controller connection details, the loadbalancer (distributes load across the available controller VMs) could be addressed.
+
+<u> Subscriptions to NotificationProxy</u>:
+\t- Subscriptions are done once for all devices
+\t- The NotificationProxy shall communicate details about the individual devices in its notification messages
+\t- If there are changes to device connection states the MWDI shall not have to subscribe/unsubscribe for individual devices
+
+end footer
+
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+
+@enduml

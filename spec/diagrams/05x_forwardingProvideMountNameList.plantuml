@@ -3,12 +3,19 @@ skinparam responseMessageBelowArrow true
 
 title Provide list of devices (mount-names) managed by MWDI
 
-"external" -> "/": {query-parameter: ?fields=node(node-id)}
+participant "external" as requestor
+participant "MWDI://" as nodeReq
+participant "ElasticSearch" as es
 
-"/" -> "ElasticSearch": {}
-"ElasticSearch" --> "/" : {list-of-mount-names}
 
-"/" --> "external": {list-of-mount-names}
+requestor-> nodeReq: {query-parameter: ?fields=node(node-id)}
+activate nodeReq
+
+nodeReq -> es
+es --> nodeReq : {list-of-mount-names}
+
+nodeReq --> requestor: {list-of-mount-names}
+deactivate nodeReq
 
 left footer \n\nThe path / is one level above the devices (mount-name) on the Controller, therefore it has an own forwarding. \nThe shown fields filter is mandatory for calling the service from MWDI.
 

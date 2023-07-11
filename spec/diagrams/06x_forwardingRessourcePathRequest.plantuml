@@ -3,13 +3,19 @@ skinparam responseMessageBelowArrow true
 
 title All RessourcePath-Requests cause reading from ElasticSearch DB
 
-"external" -> "<all control-construct ressource paths: \n/node={mount-name}/yang-ext:mount/\ncore-model-1-4:control-construct/...>": {mount-name, list-of-other-parameters-relevant-to-respective-path}
+participant "external" as requestor
+participant "<all control-construct ressource paths: \n/node={mount-name}/yang-ext:mount/\ncore-model-1-4:control-construct/...>" as ressourcePath
+participant "ElasticSearch" as es
 
-"<all control-construct ressource paths: \n/node={mount-name}/yang-ext:mount/\ncore-model-1-4:control-construct/...>" -> "ElasticSearch": {mount-name, path-to-relevant-data-set-including-relevant-parameters}
-"ElasticSearch" --> "<all control-construct ressource paths: \n/node={mount-name}/yang-ext:mount/\ncore-model-1-4:control-construct/...>": {ControlConstruct-data-subset}
 
-"<all control-construct ressource paths: \n/node={mount-name}/yang-ext:mount/\ncore-model-1-4:control-construct/...>" --> "external": {ControlConstruct-data-subset}
+requestor -> ressourcePath: {mount-name, list-of-other-parameters-relevant-to-respective-path}
+activate ressourcePath
 
+ressourcePath -> es: {mount-name, path-to-relevant-data-set-including-relevant-parameters}
+es --> ressourcePath: {ControlConstruct-data-subset}
+
+ressourcePath --> requestor: {ControlConstruct-data-subset}
+deactivate ressourcePath
 
 left footer 
 

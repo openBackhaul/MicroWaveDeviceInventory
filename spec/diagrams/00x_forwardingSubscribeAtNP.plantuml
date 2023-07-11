@@ -4,25 +4,26 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title Subscribe to NotificationProxy notifications about device connection-state and parameter changes
 
 'participants
 participant "RO" as ro
-participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "MWDI://v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "NP://todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
 participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 
-ro -> mwdi: {RoIp, RoPort}
-mwdi --> ro
+ro -> mwdi
+activate mwdi
 
 note over npConnectionStatusNotif: subscribe for device-state changes
-mwdi -> npConnectionStatusNotif: {}
-npConnectionStatusNotif --> mwdi: {}
+mwdi -> npConnectionStatusNotif
+npConnectionStatusNotif --> mwdi: {device-state-change-notifications}
 
-note over npDevChangeNotif: subscribe for parameter changes
-mwdi -> npDevChangeNotif: {}
-npDevChangeNotif --> mwdi: {}
+note over npDevChangeNotif: subscribe for attribute value change notifications
+mwdi -> npDevChangeNotif
+npDevChangeNotif --> mwdi: {attribute-value-change-notifications}
 
 
 left footer 

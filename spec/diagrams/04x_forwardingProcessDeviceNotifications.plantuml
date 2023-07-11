@@ -4,12 +4,13 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title Process device notifications about changed ControlConstruct parameters
 
 'participants
 participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
-participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "MWDI://v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XY://v1/regard-changed-attribute-value" as notification <<mwdi-1-0-0-op-c-is-xy-1-0-0-000>>
 

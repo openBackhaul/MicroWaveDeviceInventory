@@ -4,20 +4,21 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title  Periodic (DeviceList) Sync with Controller process flow
 
 
 'participants
 participant "RO" as ro
-participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "MWDI://v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ODL://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)" as odlConnectionStatus <<mwdi-1-0-0-op-c-is-c-4-0-2-010>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
 
 
-ro -> mwdi: {RoIp, RoPort}
-mwdi --> ro
+ro -> mwdi
+activate mwdi
 
 'get deviceList from Controller
 note over mwdi: compare list from Controller\n & MWDI deviceList
@@ -39,12 +40,10 @@ end note
 
 
 mwdi -> es: {list-of-(mount-name, action-required)}
-es --> mwdi
 
 'inform subscribers about new device
 note over notificationToXX: inform subscribers if there's a new device
-mwdi -> notificationToXX: {mount-name}
-notificationToXX --> mwdi: {}
+mwdi -> notificationToXX: {notification for mount-name}
 
 
 

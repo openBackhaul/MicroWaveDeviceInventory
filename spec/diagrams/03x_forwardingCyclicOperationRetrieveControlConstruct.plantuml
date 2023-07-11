@@ -4,6 +4,7 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title Retrieve ControlConstruct from Controller and write to ElasticSearch
 
@@ -18,12 +19,11 @@ odlcc --> cyclicop: {ControlConstruct}
 
 
 cyclicop -> es: {mount-name, ControlConstruct, list-of-status-attributes-for-internal-deviceList-management}
-es --> cyclicop
 
 note over cyclicop: after successful CC retrieval only: \nsend notification about CC change
 
-cyclicop -> notification: {mount-name, change-information}
-notification --> cyclicop
+cyclicop -> notification: {notification with mount-name, change-information}
+
 
 
 left footer 

@@ -2345,7 +2345,7 @@
             "client-ltp": [
             ],
             "server-ltp": [
-              "mwdi-1-0-0-http-c-c-1-0-0-000"
+              "mwdi-1-0-0-http-c-c-4-0-2-000"
             ],
             "layer-protocol": [
               {
@@ -2370,7 +2370,7 @@
             "client-ltp": [
             ],
             "server-ltp": [
-              "mwdi-1-0-0-http-c-c-1-0-0-000"
+              "mwdi-1-0-0-http-c-c-4-0-2-000"
             ],
             "layer-protocol": [
               {
@@ -2395,7 +2395,7 @@
             "client-ltp": [
             ],
             "server-ltp": [
-              "mwdi-1-0-0-http-c-c-1-0-0-000"
+              "mwdi-1-0-0-http-c-c-4-0-2-000"
             ],
             "layer-protocol": [
               {
@@ -2415,7 +2415,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-http-c-c-1-0-0-000",
+            "uuid": "mwdi-1-0-0-http-c-c-4-0-2-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
               "mwdi-1-0-0-op-c-is-c-4-0-2-010",
@@ -2442,7 +2442,7 @@
             "uuid": "mwdi-1-0-0-tcp-c-c-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "mwdi-1-0-0-http-c-c-1-0-0-000"
+              "mwdi-1-0-0-http-c-c-4-0-2-000"
             ],
             "server-ltp": [
             ],
@@ -2459,6 +2459,109 @@
                       }
                     },
                     "remote-port": 1001
+                  }
+                }
+              }
+            ]
+          },
+
+          {
+            "uuid": "mwdi-1-0-0-op-c-is-xx-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+            ],
+            "server-ltp": [
+              "mwdi-1-0-0-http-c-xx-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/v1/regard-availability-of-new-device",
+                    "operation-key": "n.a."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-http-tcp-xx-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+              "mwdi-1-0-0-http-c-xx-1-0-0-000"
+            ],
+            "server-ltp": [
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+                "tcp-client-interface-1-0:tcp-client-interface-pac": {
+                  "tcp-client-interface-configuration": {
+                    "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                    "remote-address": {
+                      "ip-address": {
+                        "ipv-4-address": "a.a.a.a"
+                      }
+                    },
+                    "remote-port": aaaa
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-op-c-is-xy-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+            ],
+            "server-ltp": [
+              "mwdi-1-0-0-http-c-xy-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/v1/regard-changed-attribute-value",
+                    "operation-key": "n.a."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-http-tcp-xy-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+              "mwdi-1-0-0-http-c-xy-1-0-0-000"
+            ],
+            "server-ltp": [
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+                "tcp-client-interface-1-0:tcp-client-interface-pac": {
+                  "tcp-client-interface-configuration": {
+                    "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                    "remote-address": {
+                      "ip-address": {
+                        "ipv-4-address": "b.b.b.b"
+                      }
+                    },
+                    "remote-port": bbbb
                   }
                 }
               }

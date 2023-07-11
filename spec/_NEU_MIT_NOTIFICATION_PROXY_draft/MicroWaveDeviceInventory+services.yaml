@@ -460,6 +460,10 @@ clients:
           - operation-name: todo_device_notification
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 
+          ## ggf. eine eigene Notification nur für Änderungen bei historical-pm-data und oben die notification nur für die anderen änderungen
+          ## die anderen Sachen sollten sich nicht so häufig ändern, die pm-daten aber ggf. alle 15min
+          ## was ist mit den current-pm-daten? die ändern sich ja noch häufiger, da gibt es aber ggf. gar keine notification
+
           ## unsubscribe for notifications
           - operation-name: /v1/end-subscription
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-002

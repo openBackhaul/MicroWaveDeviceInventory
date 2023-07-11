@@ -8,14 +8,14 @@ skinparam participant {
 title Process device notifications about changed ControlConstruct parameters
 
 'participants
-participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlNotification <<mwdi-1-0-0-op-c-is-c-4-0-2-022>>
+participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XY://v1/regard-changed-attribute-value" as notification <<mwdi-1-0-0-op-c-is-xy-1-0-0-000>>
 
 note over mwdi: receive notification
-odlNotification -> mwdi: {mount-name, path-to-changed-parameter, new-value, timestamp}
-mwdi --> odlNotification
+npDevChangeNotif -> mwdi: {mount-name, path-to-changed-parameter, new-value, timestamp}
+mwdi --> npDevChangeNotif
 
 note over mwdi: update cached ControlConstruct
 mwdi -> es: {mount-name, path-to-changed-parameter, new-value, timestamp}

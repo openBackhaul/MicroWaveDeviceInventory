@@ -454,8 +454,8 @@ clients:
       uuid: mwdi-1-0-0-http-c-xx-1-0-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.1.1
-      tcp-port: 1001
+      ip-address: a.a.a.a
+      tcp-port: aaaa
       uuid: mwdi-1-0-0-http-tcp-xx-1-0-0-000
     operation-clients:
       own-oam:
@@ -476,8 +476,8 @@ clients:
       uuid: mwdi-1-0-0-http-c-xy-1-0-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.1.1
-      tcp-port: 1001
+      ip-address: b.b.b.b
+      tcp-port: bbbb
       uuid: mwdi-1-0-0-http-tcp-xy-1-0-0-000
     operation-clients:
       own-oam:

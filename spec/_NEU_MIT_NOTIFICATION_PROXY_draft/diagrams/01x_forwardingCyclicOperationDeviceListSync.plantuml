@@ -11,7 +11,7 @@ title  Periodic (DeviceList) Sync with Controller process flow
 'participants
 participant "RO" as ro
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
-participant "ODL://rests/data/network-topology:network-topology/\ntopology=topology-netconf?fields=\nnode(node-id;netconf-node-topology:connection-status)" as odlConnectionStatus <<mwdi-1-0-0-op-c-is-c-4-0-2-000>>
+participant "todo_controller_notification" as npsubConnectionStatus <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
 participant "NP://todo_device_notification" as npsubscribedev <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
@@ -22,8 +22,8 @@ mwdi --> ro
 
 'get deviceList from Controller
 note over mwdi: compare list from Controller\n & MWDI deviceList
-mwdi -> odlConnectionStatus
-odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
+mwdi -> npsubConnectionStatus
+npsubConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
 
 'get MWDI deviceList from ElasticSearch 
 mwdi -> es
@@ -38,10 +38,16 @@ note over es
    mount-name and related ControlConstruct
 end note 
 
+
 mwdi -> es: {list-of-(mount-name, action-required)}
 es --> mwdi
 
 'inform subscribers about new device
+note over notificationToXX: inform subscribers if there's a new device
+mwdi -> notificationToXX: {mount-name}
+notificationToXX --> mwdi: {}
+
+
 note over npsubscribedev: subscribe for device notifications
 mwdi -> npsubscribedev: {}
 npsubscribedev --> mwdi: {}
@@ -65,9 +71,7 @@ left footer
 \t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-000]
 
 <u> Device subscriptions:</u>
-\t- subscriptions to the device are done according to ODL user guide: [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#receiving-netconf-device-notifications-on-a-http-client]]
-\t- the subscription for device changes are also managed on the Controller; once a device is removed from the Controller the related stream will also be closed; the operations are idempotent
-\t- to unsubscribe just stop listening to the streams
+\t- handled by the NotificationProxy, subscribe there
 
 
 end footer

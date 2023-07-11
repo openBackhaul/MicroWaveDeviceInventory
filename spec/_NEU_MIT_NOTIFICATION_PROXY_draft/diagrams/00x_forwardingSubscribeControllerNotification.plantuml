@@ -5,36 +5,21 @@ skinparam participant {
   StereotypeFontSize 12  
 }
 
-title Subscribe to Controller notifications about device state changes
+title Subscribe to NotificationProxy notifications about device state changes
 
 'participants
 participant "RO" as ro
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
-participant "ODL://rests/operations/sal-remote:\ncreate-data-change-event-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-c-4-0-2-000>>
-participant "ODL://rests/data/ietf-restconf-monitoring:restconf-state/streams/stream/\ndata-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-001>>
-participant "ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-002>>
-
-
+participant "todo_device_notification" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
 
 ro -> mwdi: {RoIp, RoPort}
 mwdi --> ro
 
-note over mwdi: create subscription stream
-mwdi -> odlsubscribe1: {path, datastore, scope, notification-output-type}
-odlsubscribe1 --> mwdi: {sal-remote:output (stream-name)}
+mwdi -> odlsubscribe1: {}
+odlsubscribe1 --> mwdi: {}
 
-note over mwdi: subscribe to stream
-mwdi -> odlsubscribe2
-odlsubscribe2 --> mwdi: {subscribe-to-notification:location}
-
-note over mwdi: receive notifications
-mwdi -> odlsubscribe3
-odlsubscribe3 --> mwdi: {streamed notification messages}
 
 left footer 
-
-
-\t- Subscribe for Controller notifications about device state changes according to ODL user guide [[https://docs.opendaylight.org/projects/netconf/en/latest/user-guide.html#sse-notifications-subscription-process]]
 
 \t- For requesting information from other applications first <i>RO://v1/list-applications</i> would have to be executed to fetch {ApplicationName, ReleaseNumber, IpAddress, TcpPort}, 
 \t  as the connection information may change during runtime.

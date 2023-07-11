@@ -13,7 +13,7 @@ participant "ODL://rests/notif/data-change-event-subscription/network-topology:n
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
-participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-c-4-0-2-020>>
+participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 participant "ODL://rests/operations/odl-device-notification:\nsubscribe-device-notification" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-021>>
 participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-022>> 
 

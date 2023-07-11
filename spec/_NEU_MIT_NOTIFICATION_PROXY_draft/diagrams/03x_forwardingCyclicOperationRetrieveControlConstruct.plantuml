@@ -9,7 +9,7 @@ title Retrieve ControlConstruct from Controller and write to ElasticSearch
 
 'participants
 participant "cyclic operation" as cyclicop
-participant "ODL://rests/data/network-topology:network-topology/topology=topology-netconf/\nnode={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as odlcc <<mwdi-1-0-0-op-c-is-c-4-0-2-030>>
+participant "ODL://rests/data/network-topology:network-topology/topology=topology-netconf/\nnode={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as odlcc <<mwdi-1-0-0-op-c-is-c-4-0-2-010>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XY://v1/regard-changed-attribute-value" as notification <<mwdi-1-0-0-op-c-is-xy-1-0-0-000>>
 

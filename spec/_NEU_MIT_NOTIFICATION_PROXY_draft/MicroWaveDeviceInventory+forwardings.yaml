@@ -220,7 +220,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: OpenDaylight:/todo_controller_notification
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
   #
   # Device subscriptions on ODL
   - forwarding-name: PromptForBequeathingDataCausesControllerBeingRequestedToInquireForCreatingDeviceSubscriptionAtNewMwdi
@@ -236,7 +236,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: OpenDaylight:/todo_device_notification
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-020
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 
 ## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 # cancel the subscriptions to the Controller

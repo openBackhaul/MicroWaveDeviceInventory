@@ -4,6 +4,7 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title  Periodic (DeviceList) Sync with Controller process flow
 

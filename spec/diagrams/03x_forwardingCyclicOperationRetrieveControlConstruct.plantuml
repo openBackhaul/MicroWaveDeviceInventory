@@ -4,6 +4,7 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title Retrieve ControlConstruct from Controller and write to ElasticSearch
 

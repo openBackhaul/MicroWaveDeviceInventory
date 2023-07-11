@@ -4,6 +4,7 @@ skinparam guillemet [ ]
 skinparam participant {
   StereotypeFontSize 12  
 }
+hide stereotype
 
 title Process device-connection-state notifications
 

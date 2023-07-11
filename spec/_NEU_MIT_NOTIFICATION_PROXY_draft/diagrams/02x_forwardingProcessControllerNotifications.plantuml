@@ -5,21 +5,20 @@ skinparam participant {
   StereotypeFontSize 12  
 }
 
-title Process Controller notifications about device state change
+title Process device-connection-state notifications
 
 
 'participants
-participant "ODL://rests/notif/data-change-event-subscription/network-topology:network-topology/\ndatastore=OPERATIONAL/scope=SUBTREE/JSON" as odlNotification <<mwdi-1-0-0-op-c-is-c-4-0-2-002>>
+participant "todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
-participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as odlsubscribe1 <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
-participant "ODL://rests/operations/odl-device-notification:\nsubscribe-device-notification" as odlsubscribe2 <<mwdi-1-0-0-op-c-is-c-4-0-2-021>>
-participant "ODL://rests/notif/{mount-name}\n?notificationType=device" as odlsubscribe3 <<mwdi-1-0-0-op-c-is-c-4-0-2-022>> 
+participant "ODL://rests/operations/network-topology:network-topology/\ntopology=topology-netconf/node={mount-name}/\nyang-ext:mount/notifications:create-subscription" as npDeviceNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 
 
-odlNotification -> mwdi: {mount-name, new-connection-state}
-mwdi --> odlNotification
+
+npConnectionStatusNotif -> mwdi: {mount-name, new-connection-state}
+mwdi --> npConnectionStatusNotif
 
 note over mwdi
  <u>new connection state:</u>
@@ -31,9 +30,6 @@ end note
 mwdi -> es: {mount-name, add-or-delete-info}
 es --> mwdi
 
-'for new devices subscribe to device changes
-note across: the following steps are identical to the steps to be done if a new device is seen or an existing one removed due to the deviceList sync with the Controller (only difference: it's always only a single device)
-
 'inform subscribers about new device
 note over notificationToXX: inform subscribers about new device
 mwdi -> notificationToXX: {mount-name}
@@ -41,18 +37,15 @@ notificationToXX --> mwdi
 
 
 'subscription to Controller
-note over odlsubscribe1, odlsubscribe3
-<b>subscribe to device notifications</b> if connection-status=connected:
-1. create subscription stream to the device
-2. subscribe to the stream
-3. listen to the stream (GET)
+note over npDeviceNotif: subscribe to device notifications if connection-status=connected
+
 
 <b>unsubscribe if connection-status=connecting</b>:
 just stop listening to the notification stream (i.e. stop the GET request from step 3) [the streams are managed also on the Controller, so no DELETE here]
 end note
 
-mwdi -> odlsubscribe1: {<i>mount-name as path-parameter </i>, required-response-body}
-odlsubscribe1 --> mwdi
+mwdi -> npDeviceNotif: {<i>mount-name as path-parameter </i>, required-response-body}
+npDeviceNotif --> mwdi
 
 mwdi -> odlsubscribe2: {input-path-with-mount-name}
 odlsubscribe2 --> mwdi: {odl-device-notification-output (contains mount-name)}

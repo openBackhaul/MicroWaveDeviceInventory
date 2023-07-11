@@ -455,6 +455,8 @@ clients:
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
 
           ## subscribing for device notifications at NotificationProxy
+          ## es sollte nur eine subscription erfordern, die alle devices abdeckt, dann braucht man da keine subscriptions neu zu erzeugen/zu löschen wenn Geräte den connection-status wechseln
+          ## die Notification sollte folgende infos enthalten: device, liste der Änderungen (path, new value)
           - operation-name: todo_device_notification
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 

@@ -11,10 +11,10 @@ title  Periodic (DeviceList) Sync with Controller process flow
 'participants
 participant "RO" as ro
 participant "/v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
-participant "todo_controller_notification" as npsubConnectionStatus <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
+participant "todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
 participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
 participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
-participant "NP://todo_device_notification" as npsubscribedev <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
+participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-001>>
 
 
 ro -> mwdi: {RoIp, RoPort}
@@ -22,8 +22,8 @@ mwdi --> ro
 
 'get deviceList from Controller
 note over mwdi: compare list from Controller\n & MWDI deviceList
-mwdi -> npsubConnectionStatus
-npsubConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
+mwdi -> npConnectionStatusNotif
+npConnectionStatusNotif --> mwdi: {list of-(mount-name, connection-status)}
 
 'get MWDI deviceList from ElasticSearch 
 mwdi -> es
@@ -48,9 +48,9 @@ mwdi -> notificationToXX: {mount-name}
 notificationToXX --> mwdi: {}
 
 
-note over npsubscribedev: subscribe for device notifications
-mwdi -> npsubscribedev: {}
-npsubscribedev --> mwdi: {}
+note over npDevChangeNotif: subscribe for device notifications
+mwdi -> npDevChangeNotif: {}
+npDevChangeNotif --> mwdi: {}
 
 
 

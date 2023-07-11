@@ -1,0 +1,20 @@
+- wo: unklar, weil es kein mgmt- oder iniating-request gibt; ggf. unter /v1/embed-yourself oder /v1/bequeath-your-data-and-die
+
+1) CyclicOperationCausesDeviceControlConstructRetrievalFromController
+   -> callback Definition kann an Service-Definition vom CC-Ressource-Path angelehnt werden
+
+
+2) CyclicOperationForControlConstructRetrievalFromControllerCausesWritingIntoElasticSearch
+   nur den Namen auskommentiert, da conseqReq = ElasticSearch
+
+
+3) CyclicOperationForControlConstructRetrievalFromControllerCausesNotifyingSubscribersAboutNewControlConstruct
+   XY://v1/regard-changed-attribute-value Definition muss ausformuliert werden, 
+   alle subscriber müssen die so implementieren, wie hier vorgegeben
+
+   was sollte sie enthalten:
+   - mount-name
+   - liste der Änderungen:
+      - path-to-changed-attribute
+      - new value
+      - timestamp

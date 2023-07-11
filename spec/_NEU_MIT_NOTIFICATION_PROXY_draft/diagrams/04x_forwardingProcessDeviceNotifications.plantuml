@@ -18,7 +18,7 @@ npDevChangeNotif -> mwdi: {mount-name, path-to-changed-parameter, new-value, tim
 mwdi --> npDevChangeNotif
 
 note over mwdi: update cached ControlConstruct
-mwdi -> es: {mount-name, path-to-changed-parameter, new-value, timestamp}
+mwdi -> es: {mount-name, list-of-(path-to-changed-parameter, new-value, timestamp)} \n[ggf. nur 1 Änderung, dann keine Liste]
 es --> mwdi
 
 note over mwdi: notify subscribers about changed CC

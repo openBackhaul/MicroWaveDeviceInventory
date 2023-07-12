@@ -179,13 +179,14 @@ clients:
         basic:
         individual:
           ## DONE: Add Services required for handing-over configuration or data during update
-          # mwdi data will be stored inside a database so there are no
-          # requests relevant for that to bequeath-your-data-and-die
-          # but subscription services are listed here
-          - operation-name: /v1/notify-availability-of-new-device
+          - operation-name: /v1/notify-alarms
             uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
-          - operation-name: /v1/notify-changed-attribute-value
+          - operation-name: /v1/notify-attribute-value-changes
             uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
+          - operation-name: /v1/notify-object-creations
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-003
+          - operation-name: /v1/notify-object-deletions
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-004
       service:
         basic:
         individual:
@@ -427,56 +428,6 @@ clients:
           - operation-name: /v1/end-subscription
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-020
 
-
-# client stack für subscriptions am MWDI
-# die kennen wir hier noch nicht, werden dann im config-file erst zur laufzeit sinnvoll befüllt
-# einen pro angebotener subscription
-
-  - http-client:
-      application-name: SubscriberForNotifyAvailabilityOfNewDevice
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-xx-1-0-0-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: a.a.a.a
-      tcp-port: aaaa
-      uuid: mwdi-1-0-0-http-tcp-xx-1-0-0-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
-        individual:
-          ## if other applications want to subscribe they need to implement a service with the name below
-          - operation-name: /v1/regard-availability-of-new-device
-            uuid: mwdi-1-0-0-op-c-is-xx-1-0-0-000
-
-  - http-client:
-      application-name: SubscriberForNotifyChangedAttributeValue
-      release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-c-xy-1-0-0-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: b.b.b.b
-      tcp-port: bbbb
-      uuid: mwdi-1-0-0-http-tcp-xy-1-0-0-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
-        individual:
-          ## if other applications want to subscribe they need to implement a service with the name below
-          - operation-name: /v1/regard-changed-attribute-value
-            uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000
-
-  # die subscriber-client-stacks oben rausnehmen
   - http-client:
       application-name: HistoricalMicroWaveDeviceInventory
       release-number: 1.0.0

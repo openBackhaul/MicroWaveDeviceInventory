@@ -7,7 +7,7 @@ profile-instances:
       label: 'Inform about Application'
       display-in-new-browser-window: false
     configuration:
-      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
     uuid: 'mwdi-1-0-0-action-p-001'
@@ -16,7 +16,7 @@ profile-instances:
       label: 'Release History'
       display-in-new-browser-window: false
     configuration:
-      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
     uuid: 'mwdi-1-0-0-action-p-002'
@@ -25,7 +25,7 @@ profile-instances:
       label: 'API Documentation'
       display-in-new-browser-window: true
     configuration:
-      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-000'
@@ -35,7 +35,7 @@ profile-instances:
       description: 'Own application name'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-001'
@@ -45,7 +45,7 @@ profile-instances:
       description: 'Name of this application'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-002'
@@ -55,7 +55,7 @@ profile-instances:
       description: 'Number of this release'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-003'
@@ -65,7 +65,7 @@ profile-instances:
       description: 'Purpose of this application'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-004'
@@ -75,7 +75,7 @@ profile-instances:
       description: 'Period of updating the data inside this application'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-005'
@@ -85,7 +85,7 @@ profile-instances:
       description: 'Name of the ApplicationOwner'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-006'
@@ -95,17 +95,17 @@ profile-instances:
       description: 'Email address of the ApplicationOwner'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address'
 
   - profile-name: 'GenericResponseProfile'
     uuid: 'mwdi-1-0-0-response-p-007'
     capability:
       operation-name: '/v1/inform-about-release-history-in-generic-representation'
-      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number'
       description: 'Represents the first entry in the list of releases'
       datatype: string
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
 
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-1-0-0-integer-p-000'

@@ -192,18 +192,18 @@ servers:
   http-server:
     own-application-name: MicroWaveDeviceInventory
     own-release-number: 1.0.0
-    uuid: mwdi-1-0-0-http-s-is-000
+    uuid: mwdi-1-0-0-http-s-000
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
       own-ip-address: 1.1.4.4
       own-tcp-port: 4004
-      uuid: mwdi-1-0-0-tcp-s-is-000
+      uuid: mwdi-1-0-0-tcp-s-000
     - description: With TLS layer
       local-protocol: https
       own-ip-address: 1.2.4.4
       own-tcp-port: 4204
-      uuid: mwdi-1-0-0-tcp-s-is-001
+      uuid: mwdi-1-0-0-tcp-s-001
 
 
 clients:

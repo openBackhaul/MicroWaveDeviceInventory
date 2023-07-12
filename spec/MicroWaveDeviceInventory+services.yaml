@@ -43,10 +43,6 @@ servers:
         - operation-name: /docs
           uuid: mwdi-1-0-0-op-s-bs-005
       individual:
-        ## =======================================================================================================
-        ## Additional MWDI services, which are not ressources (e.g. used for notifications)
-        ## =======================================================================================================
-        ##
         ## handle incoming notifications from NotificationProxy
         - operation-name: /v1/regard-device-newly-connected-to-controller
           uuid: mwdi-1-0-0-op-s-is-000

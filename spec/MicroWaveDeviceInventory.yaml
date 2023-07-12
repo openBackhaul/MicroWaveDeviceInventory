@@ -440,7 +440,7 @@ paths:
   #   - used to manage subscribers (i.e. MHDI) for notifications about a new device is being handled by the MWDI
   #   - callback to XX://v1/regard-availability-of-new-device (mwdi-1-0-0-op-c-is-xx-1-0-0-000)
   /v1/notify-availability-of-new-device:
-    # uuid: mwdi-1-0-0-op-s-is-000
+    # uuid: mwdi-1-0-0-op-s-is-010
     #
     parameters:
       - $ref: '#/components/parameters/user'
@@ -531,7 +531,7 @@ paths:
                 subscriber-protocol: 'HTTP'
                 subscriber-address:
                   ip-address:
-                    ipv-4-address: 'x.x.x.x'
+                    ipv-4-address: '1.1.4.11'
                 subscriber-port: 9009
       responses:
         '204':
@@ -548,7 +548,7 @@ paths:
                 $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -561,7 +561,7 @@ paths:
   #   - sends information about changes (diff old-new CC)
   #   - callback to YY://v1/regard-changed-attribute-value (mwdi-1-0-0-op-c-is-xy-1-0-0-000)
   /v1/notify-changed-attribute-value:
-    # uuid: mwdi-1-0-0-op-s-is-001
+    # uuid: mwdi-1-0-0-op-s-is-011
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -651,7 +651,7 @@ paths:
                 subscriber-protocol: 'HTTP'
                 subscriber-address:
                   ip-address:
-                    ipv-4-address: 'x.x.x.x'
+                    ipv-4-address: '1.1.4.11'
                 subscriber-port: 9009
       responses:
         '204':
@@ -668,7 +668,7 @@ paths:
                 $ref: '#/components/schemas/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':

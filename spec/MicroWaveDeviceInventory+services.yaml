@@ -43,17 +43,48 @@ servers:
         - operation-name: /docs
           uuid: mwdi-1-0-0-op-s-bs-005
       individual:
-        ## DONE: Add Services specific to this application
         ## =======================================================================================================
         ## Additional MWDI services, which are not ressources (e.g. used for notifications)
         ## =======================================================================================================
         ##
-        ## other apps can subscribe for notifications about new devices or changed CC information
-        - operation-name: /v1/notify-availability-of-new-device
+        ## handle incoming notifications from NotificationProxy
+        - operation-name: /v1/regard-device-newly-connected-to-controller
           uuid: mwdi-1-0-0-op-s-is-000
-
-        - operation-name: /v1/notify-changed-attribute-value
+        - operation-name: /v1/regard-device-newly-disconnected-from-controller
           uuid: mwdi-1-0-0-op-s-is-001
+        - operation-name: /v1/regard-device-alarm
+          uuid: mwdi-1-0-0-op-s-is-002
+        - operation-name: /v1/regard-device-attribute-value-change
+          uuid: mwdi-1-0-0-op-s-is-003
+        - operation-name: /v1/regard-device-object-creation
+          uuid: mwdi-1-0-0-op-s-is-004
+        - operation-name: /v1/regard-device-object-deletion
+          uuid: mwdi-1-0-0-op-s-is-005
+
+        ## other apps can subscribe for notifications about new devices or changed CC information
+        
+        ## rauslöschen:
+        # ersetzt von /v1/notify-object-creations
+        - operation-name: /v1/notify-availability-of-new-device
+          uuid: mwdi-1-0-0-op-s-is-010
+
+        # ersetzt von /v1/notify-attribute-value-changes
+        - operation-name: /v1/notify-changed-attribute-value
+          uuid: mwdi-1-0-0-op-s-is-011
+
+
+
+        - operation-name: /v1/notify-alarms
+          uuid: todo_mwdi-1-0-0-op-s-is-1
+        - operation-name: /v1/notify-attribute-value-changes
+          uuid: todo_mwdi-1-0-0-op-s-is-2
+        - operation-name: /v1/notify-object-creations
+          uuid: todo_mwdi-1-0-0-op-s-is-3
+        - operation-name: /v1/notify-object-deletions
+          uuid: todo_mwdi-1-0-0-op-s-is-4
+
+
+
 
         ##
         ##
@@ -73,6 +104,9 @@ servers:
         ## must not follow after a "/", this is an exception.)
         ## Call as: /?fields=node(node-id)
         ##
+
+        ### TODO: uuids ab -100
+
         - operation-name: /
           uuid: mwdi-1-0-0-op-s-is-020
         ##
@@ -438,8 +472,8 @@ clients:
       uuid: mwdi-1-0-0-http-c-np-1-0-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: x.x.x.x
-      tcp-port: xxxx
+      ip-address: 1.1.4.11
+      tcp-port: 4011
       uuid: mwdi-1-0-0-tcp-c-np-1-0-0-000
     operation-clients:
       own-oam:
@@ -447,23 +481,26 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## subscribing for controller notifications at NotificationProxy
-          - operation-name: todo_controller_notification
+          ## subscribing for controller notifications
+          - operation-name: /v1/notify-devices-newly-connected-to-controller
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
-
-          ## subscribing for device notifications at NotificationProxy
-          ## es sollte nur eine subscription erfordern, die alle devices abdeckt, dann braucht man da keine subscriptions neu zu erzeugen/zu löschen wenn Geräte den connection-status wechseln
-          ## die Notification sollte folgende infos enthalten: device, liste der Änderungen (path, new value)
-          ## --> attribute value change notification
-          - operation-name: todo_device_notification
+          - operation-name: /v1/notify-devices-newly-disconnected-from-controller
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 
-          ## unsubscribe for notifications
+          ## subscribing for device notifications
+          - operation-name: /v1/notify-device-alarms
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-010
+          - operation-name: /v1/notify-device-attribute-value-changes
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-011
+          - operation-name: /v1/notify-device-object-creations
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-012
+          - operation-name: /v1/notify-device-object-deletions
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-013
+
+          ## unsubscribe from notifications
           - operation-name: /v1/end-subscription
-            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-002
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-020
 
 
 # client stack für subscriptions am MWDI
@@ -514,3 +551,29 @@ clients:
           - operation-name: /v1/regard-changed-attribute-value
             uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000
 
+  # die subscriber-client-stacks oben rausnehmen
+  - http-client:
+      application-name: HistoricalMicroWaveDeviceInventory
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-hmwdi-1-0-0-100
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.4.13
+      tcp-port: 4013
+      uuid: mwdi-1-0-0-http-tcp-hmwdi-1-0-0-100
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+        individual:
+          ## if other applications want to subscribe they need to implement a service with the name below
+          - operation-name: /v1/regard-alarm
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-100
+          - operation-name: /v1/regard-attribute-value-change
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-101
+          - operation-name: /v1/regard-object-creation
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-102
+          - operation-name: /v1/regard-object-deletion
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-103

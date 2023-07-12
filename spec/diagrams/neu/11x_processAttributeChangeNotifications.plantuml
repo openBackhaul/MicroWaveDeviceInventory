@@ -1,0 +1,32 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam participant {
+  StereotypeFontSize 12  
+}
+
+title Process attribute change notifications
+
+'participants
+participant "NP://v1/notify-device-attribute-value-changes" as npmsg
+participant "MWDI://v1/regard-device-attribute-value-change" as mwdi
+participant "ElasticSearch" as es
+participant "MWDI://v1/notify-attribute-value-changes" as notify
+participant "XX://v1/regard-attribute-value-change" as subscriberOp
+
+npmsg --> mwdi: {mount-name, counter, timestamp, attributeName, newValue, objIdRef}
+activate mwdi
+
+note over subscriberOp: subscribe for updates
+subscriberOp -> notify: {ownIp, ownPort, ownReceiverOperation} 
+activate notify
+
+note over mwdi: update the CC cache
+mwdi -> es: {mount-name, path-to-target, newValue}
+
+
+note over mwdi: notify subscribers
+mwdi -> notify: {mount-name}
+notify -> subscriberOp: {counter, timestamp, attributeName, newValue, objIdRef}
+
+
+@enduml

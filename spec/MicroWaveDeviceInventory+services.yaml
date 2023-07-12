@@ -438,8 +438,8 @@ clients:
       uuid: mwdi-1-0-0-http-c-np-1-0-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: x.x.x.x
-      tcp-port: xxxx
+      ip-address: 1.1.4.11
+      tcp-port: 4011
       uuid: mwdi-1-0-0-tcp-c-np-1-0-0-000
     operation-clients:
       own-oam:

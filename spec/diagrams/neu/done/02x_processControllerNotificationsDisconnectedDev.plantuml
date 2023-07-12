@@ -23,11 +23,31 @@ activate notify
 note over mwdi: remove the device to MWDI deviceList \nand its cached ControlConstruct
 mwdi -> es: {mount-name}
 
-note over mwdi: notify subscribers about the new device
+note over mwdi: notify subscribers about the deleted device
 
 mwdi -> notify: {mount-name}
 notify -> subscriberOp: {counter, timestamp, objectType, objIdReference (=mount-name+CC-uuid)}
 
+
+
+left footer 
+
+
+<u> Note:</u>
+\t  The objectIdReference needs to be composed of the mount-name + uuid of the related object to achieve uniqueness.
+\t  However, on CC level the mount-name should already suffice.
+
+\t  Currently the HMWDI is the only subscriber, and it shall not delete it's stored device data if the device is disconnected.
+\t  Therefore HMWDI might not need to subscribe to this notification.
+
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
 
 
 @enduml

@@ -30,4 +30,23 @@ notify -> subscriberOp: {counter, timestamp, objectType, objIdReference (=mount-
 
 
 
+
+left footer 
+
+
+<u> Note:</u>
+\t  The objectIdReference needs to be composed of the mount-name + uuid of the related object to achieve uniqueness.
+\t  However, on CC level the mount-name should already suffice.
+
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+
+
 @enduml

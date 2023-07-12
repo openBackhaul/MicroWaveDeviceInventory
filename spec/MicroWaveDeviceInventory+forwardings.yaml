@@ -236,7 +236,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NotificationProxy:///v1/notify-device-attribute-value-changes
-        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-003
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-011
 
 ## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 # cancel subscriptions to the NotificationProxy
@@ -253,7 +253,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: NotificationProxy://v1/end-subscription
-        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-006
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-020
 
 
 

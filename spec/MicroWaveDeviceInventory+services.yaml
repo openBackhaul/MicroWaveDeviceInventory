@@ -447,8 +447,6 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
           ## subscribing for controller notifications at NotificationProxy
           - operation-name: /v1/notify-devices-newly-connected-to-controller
@@ -458,17 +456,17 @@ clients:
 
           ## subscribing for device notifications at NotificationProxy
           - operation-name: /v1/notify-device-alarms
-            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-002
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-010
           - operation-name: /v1/notify-device-attribute-value-changes
-            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-003
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-011
           - operation-name: /v1/notify-device-object-creations
-            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-004
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-012
           - operation-name: /v1/notify-device-object-deletions
-            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-005
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-013
 
           ## unsubscribe for notifications
           - operation-name: /v1/end-subscription
-            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-006
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-020
 
 
 # client stack für subscriptions am MWDI

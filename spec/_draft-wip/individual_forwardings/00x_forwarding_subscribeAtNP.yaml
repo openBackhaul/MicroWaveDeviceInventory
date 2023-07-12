@@ -31,8 +31,8 @@
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: todo_device_notification
-        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-004
+      - client-name: /v1/notify-device-attribute-value-changes
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-003
 
 
 ## falls eigene notifications für PM-data -> noch ein drittes Forwarding

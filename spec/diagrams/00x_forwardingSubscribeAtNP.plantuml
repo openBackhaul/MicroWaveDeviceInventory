@@ -12,7 +12,7 @@ title Subscribe to NotificationProxy notifications about device connection-state
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
 participant "NP://todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
-participant "NP://todo_device_notification" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-004>>
+participant "NP:///v1/notify-device-attribute-value-changes" as npDevChangeNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-003>>
 
 ro -> mwdi
 activate mwdi

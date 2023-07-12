@@ -2442,7 +2442,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-0-0-op-c-is-np-1-0-0-004",
+            "uuid": "mwdi-1-0-0-op-c-is-np-1-0-0-003",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
             ],
@@ -2455,7 +2455,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "todo_device_notification",
+                    "operation-name": "/v1/notify-device-attribute-value-changes",
                     "operation-key": "n.a."
                   },
                   "operation-client-interface-status": {
@@ -3066,7 +3066,7 @@
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-004"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-003"
                   }
                 ]
               },

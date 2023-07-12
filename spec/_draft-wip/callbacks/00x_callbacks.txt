@@ -5,5 +5,5 @@
 
 
 2) EmbeddingOperationCausesSubscriptionToDeviceParameterChangeNotificationAtNotificationProxy
-   callback-Def aus Service-Definition vom NotificationProxy für todo_device_notification übernehmen
+   callback-Def aus Service-Definition vom NotificationProxy für /v1/notify-device-attribute-value-changes übernehmen
 

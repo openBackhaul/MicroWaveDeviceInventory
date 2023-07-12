@@ -453,22 +453,18 @@ clients:
           ## subscribing for controller notifications at NotificationProxy
           - operation-name: /v1/notify-devices-newly-connected-to-controller
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
-            
-
-
-/v1/notify-devices-newly-disconnected-from-controller
-/v1/notify-device-alarms
-/v1/notify-device-attribute-value-changes
-/v1/notify-device-object-creation
-/v1/notify-device-object-deletion
-
+          - operation-name: /v1/notify-devices-newly-disconnected-from-controller
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 
           ## subscribing for device notifications at NotificationProxy
-          ## es sollte nur eine subscription erfordern, die alle devices abdeckt, dann braucht man da keine subscriptions neu zu erzeugen/zu löschen wenn Geräte den connection-status wechseln
-          ## die Notification sollte folgende infos enthalten: device, liste der Änderungen (path, new value)
-          ## --> attribute value change notification
-          - operation-name: todo_device_notification
+          - operation-name: /v1/notify-device-alarms
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-002
+          - operation-name: /v1/notify-device-attribute-value-changes
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-003
+          - operation-name: /v1/notify-device-object-creations
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-004
+          - operation-name: /v1/notify-device-object-deletions
+            uuid: mwdi-1-0-0-op-c-is-np-1-0-0-005
 
           ## unsubscribe for notifications
           - operation-name: /v1/end-subscription

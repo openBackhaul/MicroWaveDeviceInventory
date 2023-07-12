@@ -235,8 +235,8 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NotificationProxy://todo_device_notification
-        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-004
+      - client-name: NotificationProxy:///v1/notify-device-attribute-value-changes
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-003
 
 ## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 # cancel subscriptions to the NotificationProxy

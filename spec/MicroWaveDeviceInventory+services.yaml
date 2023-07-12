@@ -48,6 +48,20 @@ servers:
         ## Additional MWDI services, which are not ressources (e.g. used for notifications)
         ## =======================================================================================================
         ##
+        ## handle incoming notifications from NotificationProxy
+        - operation-name: /v1/regard-device-newly-connected-to-controller
+          uuid: mwdi-1-0-0-op-s-is-000
+        - operation-name: /v1/regard-device-newly-disconnected-from-controller
+          uuid: mwdi-1-0-0-op-s-is-001
+        - operation-name: /v1/regard-device-alarm
+          uuid: mwdi-1-0-0-op-s-is-002
+        - operation-name: /v1/regard-device-attribute-value-change
+          uuid: mwdi-1-0-0-op-s-is-003
+        - operation-name: /v1/regard-device-object-creation
+          uuid: mwdi-1-0-0-op-s-is-004
+        - operation-name: /v1/regard-device-object-deletion
+          uuid: mwdi-1-0-0-op-s-is-005
+
         ## other apps can subscribe for notifications about new devices or changed CC information
         - operation-name: /v1/notify-availability-of-new-device
           uuid: mwdi-1-0-0-op-s-is-010
@@ -55,8 +69,7 @@ servers:
         - operation-name: /v1/notify-changed-attribute-value
           uuid: mwdi-1-0-0-op-s-is-011
 
-        - operation-name: /v1/receive-notifications-about-devices-newly-connected-to-controller
-          uuid: mwdi-1-0-0-op-s-is-010
+
 
 
 

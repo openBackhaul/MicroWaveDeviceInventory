@@ -1,0 +1,33 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam participant {
+  StereotypeFontSize 12  
+}
+
+title Process Controller notifications about newly connected devices
+
+'participants
+participant "NP://v1/notify-devices-newly-\nconnected-to-controller" as npmsg
+participant "MWDI://v1/regard-device-newly-connected-to-controller" as mwdi
+participant "ElasticSearch" as es
+participant "MWDI://v1/notify-object-creations" as notify
+participant "HMWDI://v1/regard-object-creation" as subscriberOp
+
+npmsg --> mwdi: {mount-name}
+activate mwdi
+
+note over subscriberOp: subscribe for updates
+subscriberOp -> notify: {ownIp, ownPort, ownReceiverOperation} 
+activate notify
+
+note over mwdi: add the device to MWDI deviceList
+mwdi -> es: {mount-name}
+
+note over mwdi: notify subscribers about the new device
+
+mwdi -> notify: {mount-name}
+notify -> subscriberOp: {counter, timestamp, objectType, objIdReference (=mount-name+CC-uuid)}
+
+
+
+@enduml

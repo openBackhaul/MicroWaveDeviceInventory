@@ -1,0 +1,52 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam guillemet [ ]
+skinparam participant {
+  StereotypeFontSize 12  
+}
+hide stereotype
+
+title Process device-connection-state notifications
+
+
+'participants
+participant "todo_controller_notification" as npConnectionStatusNotif <<mwdi-1-0-0-op-c-is-np-1-0-0-000>>
+participant "MWDI://v1/embed-yourself" as mwdi <<mwdi-1-0-0-op-s-bm-001>>
+participant "ElasticSearch" as es <<mwdi-1-0-0-es-c-es-1-0-0-000>>
+participant "XX://v1/regard-availability-of-new-device" as notificationToXX <<mwdi-1-0-0-op-c-is-xx-1-0-0-000>>
+
+
+npConnectionStatusNotif -> mwdi: {mount-name, new-connection-state}
+
+note over mwdi
+ <u>new connection state:</u>
+ - <b>"connected"</b>: add device to deviceList
+ - <b>others</b>: delete device from deviceList
+   and delete ControlConstruct
+end note
+
+mwdi -> es: {mount-name, add-or-delete-info}
+
+'inform subscribers about new device
+note over notificationToXX: inform subscribers about new device
+mwdi -> notificationToXX: {notification for mount-name}
+
+
+
+left footer 
+
+
+<u> Notification to subscribers about new device:</u>
+\t  - the subscriber app (XX, as it's not known at specification time) needs to implement <i>/v1/regard-availability-of-new-device</i>
+\t  - subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
+\t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-010]
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+@enduml

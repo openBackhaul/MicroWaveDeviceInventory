@@ -1,0 +1,37 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title All RessourcePath-Requests cause reading from ElasticSearch DB
+
+participant "external" as requestor
+participant "<all control-construct ressource paths: \n/node={mount-name}/yang-ext:mount/\ncore-model-1-4:control-construct/...>" as ressourcePath
+participant "ElasticSearch" as es
+
+
+requestor -> ressourcePath: {mount-name, list-of-other-parameters-relevant-to-respective-path}
+activate ressourcePath
+
+ressourcePath -> es: {mount-name, path-to-relevant-data-set-including-relevant-parameters}
+es --> ressourcePath: {ControlConstruct-data-subset}
+
+ressourcePath --> requestor: {ControlConstruct-data-subset}
+deactivate ressourcePath
+
+left footer 
+
+
+\t - For the first step it was decided not to have indiviual forwardings for each ressource path. 
+\t - There's a separate forwarding for the service returning the list of mount-names, as that request is a level higher in the hierarchy (i.e. acts directly on the Controller, 
+\t   whereas the requests included in this forwarding are all on the mount-name/device level)
+\t - if the ressource path request is called with the fields filter, the filter is included in the <i>list-of-other-parameters-relevant-to-respective-path</i>, as the fields
+\t - filter is a query parameter and, thus, not a fixed part of the ressource path in the MWDI spec
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+@enduml

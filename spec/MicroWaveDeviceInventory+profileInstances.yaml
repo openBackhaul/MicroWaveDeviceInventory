@@ -154,4 +154,4 @@ profile-instances:
     capability:
       string-name: 'controllerInternalPathToMountPoint'
     configuration:
-      string-value: '/rests/data/network-topology:network-topology/topology=topology-netconf'
+      string-value: 'rests/data/network-topology:network-topology/topology=topology-netconf'

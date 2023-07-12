@@ -4,14 +4,14 @@ skinparam participant {
   StereotypeFontSize 12  
 }
 
-title Process Controller notifications about newly connected devices
+title Process Controller notifications about newly disconnected devices
 
 'participants
-participant "NP://v1/notify-devices-newly-\nconnected-to-controller" as npmsg
-participant "MWDI://v1/regard-device-newly-connected-to-controller" as mwdi
+participant "NP://v1/notify-devices-newly-\ndisconnected-from-controller" as npmsg
+participant "MWDI://v1/regard-device-newly-disconnected-from-controller" as mwdi
 participant "ElasticSearch" as es
-participant "MWDI://v1/notify-object-creations" as notify
-participant "HMWDI://v1/regard-object-creation" as subscriberOp
+participant "MWDI://v1/notify-object-deletions" as notify
+participant "HMWDI://v1/regard-object-deletion" as subscriberOp
 
 npmsg --> mwdi: {mount-name}
 activate mwdi
@@ -20,7 +20,7 @@ note over subscriberOp: subscribe for updates
 subscriberOp -> notify: {ownIp, ownPort, ownReceiverOperation} 
 activate notify
 
-note over mwdi: add the device to MWDI deviceList
+note over mwdi: remove the device to MWDI deviceList \nand its cached ControlConstruct
 mwdi -> es: {mount-name}
 
 note over mwdi: notify subscribers about the new device

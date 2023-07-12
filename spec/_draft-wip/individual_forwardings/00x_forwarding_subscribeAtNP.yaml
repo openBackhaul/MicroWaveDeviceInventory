@@ -32,7 +32,7 @@
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
       - client-name: todo_device_notification
-        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
+        uuid: mwdi-1-0-0-op-c-is-np-1-0-0-004
 
 
 ## falls eigene notifications für PM-data -> noch ein drittes Forwarding

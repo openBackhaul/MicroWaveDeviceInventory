@@ -148,3 +148,10 @@ profile-instances:
       maximum: 72
     configuration:
       integer-value: 24
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-0-0-string-p-000'
+    capability:
+      string-name: 'controllerInternalPathToMountPoint'
+    configuration:
+      string-value: '/rests/data/network-topology:network-topology/topology=topology-netconf'

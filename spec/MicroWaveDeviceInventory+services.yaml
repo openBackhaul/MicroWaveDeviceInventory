@@ -50,10 +50,16 @@ servers:
         ##
         ## other apps can subscribe for notifications about new devices or changed CC information
         - operation-name: /v1/notify-availability-of-new-device
-          uuid: mwdi-1-0-0-op-s-is-000
+          uuid: mwdi-1-0-0-op-s-is-010
 
         - operation-name: /v1/notify-changed-attribute-value
-          uuid: mwdi-1-0-0-op-s-is-001
+          uuid: mwdi-1-0-0-op-s-is-011
+
+        - operation-name: /v1/receive-notifications-about-devices-newly-connected-to-controller
+          uuid: mwdi-1-0-0-op-s-is-010
+
+
+
 
         ##
         ##
@@ -448,13 +454,13 @@ clients:
       service:
         basic:
         individual:
-          ## subscribing for controller notifications at NotificationProxy
+          ## subscribing for controller notifications
           - operation-name: /v1/notify-devices-newly-connected-to-controller
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
           - operation-name: /v1/notify-devices-newly-disconnected-from-controller
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 
-          ## subscribing for device notifications at NotificationProxy
+          ## subscribing for device notifications
           - operation-name: /v1/notify-device-alarms
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-010
           - operation-name: /v1/notify-device-attribute-value-changes
@@ -464,7 +470,7 @@ clients:
           - operation-name: /v1/notify-device-object-deletions
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-013
 
-          ## unsubscribe for notifications
+          ## unsubscribe from notifications
           - operation-name: /v1/end-subscription
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-020
 

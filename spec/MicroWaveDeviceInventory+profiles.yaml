@@ -34,3 +34,12 @@ profiles:
       maximum: integer
     configuration:
       integer-value: integer
+
+  - profile-name: 'StringProfile'
+    uuid: '^[a-z]{2,6}-([0-9]+)-([0-9]+)-([0-9]+)-string-p-[0-9]{3}$'
+    capability:
+      string-name: string
+      enumeration: array
+      pattern: string
+    configuration:
+      string-value: string

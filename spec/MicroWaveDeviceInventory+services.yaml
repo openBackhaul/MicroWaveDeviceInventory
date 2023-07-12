@@ -59,13 +59,13 @@ servers:
 
         # notify subscribers
         - operation-name: /v1/notify-alarms
-          uuid: todo_mwdi-1-0-0-op-s-is-1
+          uuid: mwdi-1-0-0-op-s-is-010
         - operation-name: /v1/notify-attribute-value-changes
-          uuid: todo_mwdi-1-0-0-op-s-is-2
+          uuid: mwdi-1-0-0-op-s-is-011
         - operation-name: /v1/notify-object-creations
-          uuid: todo_mwdi-1-0-0-op-s-is-3
+          uuid: mwdi-1-0-0-op-s-is-012
         - operation-name: /v1/notify-object-deletions
-          uuid: todo_mwdi-1-0-0-op-s-is-4
+          uuid: mwdi-1-0-0-op-s-is-013
 
         # ressources
         - operation-name: /
@@ -130,7 +130,6 @@ servers:
       own-ip-address: 1.2.4.4
       own-tcp-port: 4204
       uuid: mwdi-1-0-0-tcp-s-001
-
 
 clients:
 

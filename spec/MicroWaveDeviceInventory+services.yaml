@@ -43,7 +43,6 @@ servers:
         - operation-name: /docs
           uuid: mwdi-1-0-0-op-s-bs-005
       individual:
-        ## DONE: Add Services specific to this application
         ## =======================================================================================================
         ## Additional MWDI services, which are not ressources (e.g. used for notifications)
         ## =======================================================================================================
@@ -105,6 +104,9 @@ servers:
         ## must not follow after a "/", this is an exception.)
         ## Call as: /?fields=node(node-id)
         ##
+
+        ### TODO: uuids ab -100
+
         - operation-name: /
           uuid: mwdi-1-0-0-op-s-is-020
         ##
@@ -549,3 +551,29 @@ clients:
           - operation-name: /v1/regard-changed-attribute-value
             uuid: mwdi-1-0-0-op-c-is-xy-1-0-0-000
 
+  # die subscriber-client-stacks oben rausnehmen
+  - http-client:
+      application-name: HistoricalMicroWaveDeviceInventory
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-hmwdi-1-0-0-100
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.4.13
+      tcp-port: 4013
+      uuid: mwdi-1-0-0-http-tcp-hmwdi-1-0-0-100
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+        individual:
+          ## if other applications want to subscribe they need to implement a service with the name below
+          - operation-name: /v1/regard-alarm
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-100
+          - operation-name: /v1/regard-attribute-value-change
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-101
+          - operation-name: /v1/regard-object-creation
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-102
+          - operation-name: /v1/regard-object-deletion
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-103

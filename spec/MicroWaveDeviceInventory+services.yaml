@@ -43,7 +43,7 @@ servers:
         - operation-name: /docs
           uuid: mwdi-1-0-0-op-s-bs-005
       individual:
-        ## handle incoming notifications from NotificationProxy
+        # receive notifications from NotificationProxy
         - operation-name: /v1/regard-device-newly-connected-to-controller
           uuid: mwdi-1-0-0-op-s-is-000
         - operation-name: /v1/regard-device-newly-disconnected-from-controller
@@ -57,19 +57,7 @@ servers:
         - operation-name: /v1/regard-device-object-deletion
           uuid: mwdi-1-0-0-op-s-is-005
 
-        ## other apps can subscribe for notifications about new devices or changed CC information
-        
-        ## rauslöschen:
-        # ersetzt von /v1/notify-object-creations
-        - operation-name: /v1/notify-availability-of-new-device
-          uuid: mwdi-1-0-0-op-s-is-010
-
-        # ersetzt von /v1/notify-attribute-value-changes
-        - operation-name: /v1/notify-changed-attribute-value
-          uuid: mwdi-1-0-0-op-s-is-011
-
-
-
+        # notify subscribers
         - operation-name: /v1/notify-alarms
           uuid: todo_mwdi-1-0-0-op-s-is-1
         - operation-name: /v1/notify-attribute-value-changes
@@ -79,111 +67,53 @@ servers:
         - operation-name: /v1/notify-object-deletions
           uuid: todo_mwdi-1-0-0-op-s-is-4
 
-
-
-
-        ##
-        ##
-        ## uuids to 019 are reserved for further use (for non-ressource services)
-        ##
-        ## =======================================================================================================
-        ## SERVICES TO BE USED BY OTHER APPLICATIONS: RESSOURCE-PATHS -->
-        ## =======================================================================================================
-        ##
-        ## This "service" (actually it is a "ressource") can be called to request the list of devices managed by the MWDI.
-        ## It just consists of the "/", as this ressource path works on a level about the nodes.
-        ## When it is called a fields filter MUST be provided. Currently the only fields filter allowed for this request is
-        ## "fields=node(node-id)". If the request would be sent to the ODL controller instead, the "/" path would correspond to
-        ## "https://<ip>:<port>/rest/data/network-topology:network-topology/topology-netconf".
-        ##
-        ## Needs to be called with the fields filter directly following (note that with other ressource paths, the fields filter
-        ## must not follow after a "/", this is an exception.)
-        ## Call as: /?fields=node(node-id)
-        ##
-
-        ### TODO: uuids ab -100
-
+        # ressources
         - operation-name: /
-          uuid: mwdi-1-0-0-op-s-is-020
-        ##
-        ## ----------------------------------------------
-        ## SERVICES DERIVED FROM CONTROLLER OAS
-        ## ----------------------------------------------
-        ## complete control construct
+          uuid: mwdi-1-0-0-op-s-is-100
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-          uuid: mwdi-1-0-0-op-s-is-021
-        ##
-        ## only subparts of the control construct -->
-        ## ~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~
-        ## only services relevant for MWDI v1-0-0 are listed here.
-        ## For a complete list of services to be supported in later versions see file for-v2-0-0/serviceList_info.yaml.
-        ## - contains all relevant services derived from the controller OAS, which will be offered in later MWDI versions
-        ## - uuids will be kept to preserve correct ordering
-        ## - once the additional services have been implemented the info file will be deleted
-        ## ~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~.....~
-        ##
+          uuid: mwdi-1-0-0-op-s-is-101
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
-          uuid: mwdi-1-0-0-op-s-is-022
-
+          uuid: mwdi-1-0-0-op-s-is-102
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
-          uuid: mwdi-1-0-0-op-s-is-023
-
+          uuid: mwdi-1-0-0-op-s-is-103
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
-          uuid: mwdi-1-0-0-op-s-is-027
-
+          uuid: mwdi-1-0-0-op-s-is-107
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
-          uuid: mwdi-1-0-0-op-s-is-086
-
+          uuid: mwdi-1-0-0-op-s-is-166
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
-          uuid: mwdi-1-0-0-op-s-is-099
-
+          uuid: mwdi-1-0-0-op-s-is-179
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
-          uuid: mwdi-1-0-0-op-s-is-106
-
+          uuid: mwdi-1-0-0-op-s-is-186
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
-          uuid: mwdi-1-0-0-op-s-is-122
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
-          uuid: mwdi-1-0-0-op-s-is-124
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
-          uuid: mwdi-1-0-0-op-s-is-130
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
-          uuid: mwdi-1-0-0-op-s-is-136
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
-          uuid: mwdi-1-0-0-op-s-is-149
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-          uuid: mwdi-1-0-0-op-s-is-162
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
-          uuid: mwdi-1-0-0-op-s-is-175
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
-          uuid: mwdi-1-0-0-op-s-is-193
-
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
           uuid: mwdi-1-0-0-op-s-is-202
-
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+          uuid: mwdi-1-0-0-op-s-is-204
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+          uuid: mwdi-1-0-0-op-s-is-210
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-216
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-229
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-242
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-255
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+          uuid: mwdi-1-0-0-op-s-is-273
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+          uuid: mwdi-1-0-0-op-s-is-282
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
-          uuid: mwdi-1-0-0-op-s-is-207
-
+          uuid: mwdi-1-0-0-op-s-is-287
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
-          uuid: mwdi-1-0-0-op-s-is-236
-
+          uuid: mwdi-1-0-0-op-s-is-316
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
-          uuid: mwdi-1-0-0-op-s-is-298
-
+          uuid: mwdi-1-0-0-op-s-is-378
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
-          uuid: mwdi-1-0-0-op-s-is-302
-
+          uuid: mwdi-1-0-0-op-s-is-382
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
-          uuid: mwdi-1-0-0-op-s-is-305
-
+          uuid: mwdi-1-0-0-op-s-is-385
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
-          uuid: mwdi-1-0-0-op-s-is-306
+          uuid: mwdi-1-0-0-op-s-is-386
 
   http-server:
     own-application-name: MicroWaveDeviceInventory

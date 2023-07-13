@@ -57,19 +57,28 @@ servers:
         - operation-name: /v1/regard-device-object-deletion
           uuid: mwdi-1-0-0-op-s-is-005
 
+
+        # öndern zu eigenem Service
+        #- operation-name: /
+        #  uuid: mwdi-1-0-0-op-s-is-100   
+        - operation-name: /v1/provide-list-of-connected-devices
+          uuid: mwdi-1-0-0-op-s-is-010
+        # im HMWDI: provide-list-of-mounted-devices o.ä.
+
+
+        # uuids anpassen -> ab 020
         # notify subscribers
         - operation-name: /v1/notify-alarms
-          uuid: mwdi-1-0-0-op-s-is-010
+          uuid: TODO_mwdi-1-0-0-op-s-is-010
         - operation-name: /v1/notify-attribute-value-changes
-          uuid: mwdi-1-0-0-op-s-is-011
+          uuid: TODO_mwdi-1-0-0-op-s-is-011
         - operation-name: /v1/notify-object-creations
-          uuid: mwdi-1-0-0-op-s-is-012
+          uuid: TODO_mwdi-1-0-0-op-s-is-012
         - operation-name: /v1/notify-object-deletions
-          uuid: mwdi-1-0-0-op-s-is-013
+          uuid: TODO_mwdi-1-0-0-op-s-is-013
 
         # ressources
-        - operation-name: /
-          uuid: mwdi-1-0-0-op-s-is-100
+        # uuids -1
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
           uuid: mwdi-1-0-0-op-s-is-101
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
@@ -114,6 +123,11 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-385
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
           uuid: mwdi-1-0-0-op-s-is-386
+
+        # todo:
+        # ressource paths duplizieren -> mit /live vorne, uuids + 500
+
+
 
   http-server:
     own-application-name: MicroWaveDeviceInventory

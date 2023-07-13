@@ -48,6 +48,7 @@ mwdi -> es: {list-of-(mount-name, action-required)}
 'inform subscribers about new device
 note over mwdi: for new devices
 mwdi -> notifyCreate: {mount-name}
+activate notifyCreate
 
 note over subscriberOpCreate
 (analog zu 02x) prüfen: 
@@ -59,13 +60,15 @@ note over subscriberOpCreate
 end note
 
 notifyCreate -> subscriberOpCreate: {counter, timestamp, objectType, \nobjIdReference (=mount-name)} \n
+deactivate notifyCreate
 
 'inform subscribers about deleted device
 note over mwdi: for deleted devices
 mwdi -> notifyDelete: {mount-name}
+activate notifyDelete
 
 notifyDelete -> subscriberOpDelete: {counter, timestamp, \nobjIdReference (=mount-name)} \n
-
+deactivate notifyDelete
 
 
 left footer 

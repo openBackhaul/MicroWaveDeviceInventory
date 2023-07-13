@@ -1,0 +1,52 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title Retrieve ControlConstruct from Controller and write to ElasticSearch
+
+'participants
+participant "cyclic operation" as cyclicop
+participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/\nyang-ext:mount/core-model-1-4:control-construct" as odlcc
+participant "ElasticSearch" as es
+participant "MWDI://v1/notify-attribute-value-changes" as notify
+participant "XX://v1/regard-attribute-value-change" as subscriberOp
+
+activate cyclicop
+cyclicop -> odlcc: {mount-name}
+odlcc --> cyclicop: {ControlConstruct}
+
+
+cyclicop -> es: {mount-name, ControlConstruct, list-of-status-attributes-for-internal-deviceList-management}
+
+note over cyclicop: after successful CC retrieval only: \nsend notification about CC change
+
+note over cyclicop: notify subscribers
+cyclicop -> notify: {mount-name}
+activate notify
+notify -> subscriberOp: {counter, timestamp, attributeName, newValue}
+deactivate notify
+
+left footer 
+
+<u> CC retrieval </u>:
+\t  - There are 2 possible results from the CC retrieval: 
+\t    1. <i>successful retrieval</i> or 2. <i>no success</i>, even though device is connected (e.g. due to timeout caused by overload on mediator)
+\t    - in case of success the new CC is writte to the ElasticSearch db, an already stored CC would be overwritten
+\t    - in case of no success: should an already existing CC should be deleted or should the old one be kept?
+\t    - in both cases the status attributes for internal management of the deviceList shall be sent
+\t  - Note: after a new CC has been successfully retrieved and written to the db, a notification is sent to subscribers to inform them about changed ControlConstruct
+
+<u> Notification to subscribers: </u>
+\t  - the subscriber app (XY, as it's not known at specification time) needs to implement <i>/v1/regard-changed-attribute-value</i>
+\t  - subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
+\t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-changed-attribute-value</i> [mwdi-1-0-0-op-s-is-011]
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+
+@enduml

@@ -15,7 +15,7 @@ cyclicop -> odlcc: {mount-name}
 odlcc --> cyclicop: {ControlConstruct}
 
 
-cyclicop -> es: {mount-name, ControlConstruct, list-of-status-attributes-for-internal-deviceList-management}
+cyclicop -> es: {mount-name, ControlConstruct}
 
 note over cyclicop: after successful CC retrieval only: \nsend notification about CC change
 

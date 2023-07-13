@@ -451,5 +451,6 @@ clients:
             uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-101
           - operation-name: /v1/regard-object-creation
             uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-102
+          # HMWDI does not delete its data when a device is disconnected, so may be not required
           - operation-name: /v1/regard-object-deletion
             uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-103

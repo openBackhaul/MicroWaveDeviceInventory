@@ -1,0 +1,64 @@
+@startuml
+skinparam responseMessageBelowArrow true
+skinparam participant {
+  StereotypeFontSize 12  
+}
+
+title Process Controller notifications about newly disconnected devices
+
+'participants
+participant "NP://v1/notify-devices-newly-\ndisconnected-from-controller" as npmsg
+participant "MWDI://v1/regard-device-newly-disconnected-from-controller" as mwdi
+participant "ElasticSearch" as es
+participant "MWDI://v1/notify-object-deletions" as notify
+participant "HMWDI://v1/regard-object-deletion" as subscriberOp
+
+npmsg --> mwdi: {mount-name}
+activate mwdi
+
+note over subscriberOp: subscribe for updates
+subscriberOp -> notify: {ownIp, ownPort, ownReceiverOperation} 
+activate notify
+
+note over mwdi: remove the device to MWDI deviceList \nand its cached ControlConstruct
+mwdi -> es: {mount-name}
+
+note over mwdi: notify subscribers about the deleted device
+
+
+mwdi -> notify: {mount-name}
+
+note over subscriberOp 
+prüfen: 
+- was ist der objectType = string?
+  es muss ja eigentlich nur der mount-name 
+  des neuen Devices geschickt werden 
+- als objectIdReference müssste dann 
+  eigentlich auch der mount-name ausreichen
+end note
+
+notify -> subscriberOp: {counter, timestamp, objIdReference (=mount-name)}
+
+
+
+left footer 
+
+
+<u> Note:</u>
+\t  The objectIdReference needs to be composed of the mount-name + uuid of the related object to achieve uniqueness.
+\t  However, on CC level the mount-name should already suffice.
+
+\t  Currently the HMWDI is the only subscriber, and it shall not delete it's stored device data if the device is disconnected.
+\t  Therefore HMWDI might not need to subscribe to this notification.
+
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+
+@enduml

@@ -1,8 +1,6 @@
 @startuml
 skinparam responseMessageBelowArrow true
-skinparam participant {
-  StereotypeFontSize 12  
-}
+
 
 title Process object creation notifications
 

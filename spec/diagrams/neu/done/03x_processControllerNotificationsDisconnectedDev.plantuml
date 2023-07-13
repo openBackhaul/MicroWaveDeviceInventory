@@ -25,8 +25,19 @@ mwdi -> es: {mount-name}
 
 note over mwdi: notify subscribers about the deleted device
 
+
 mwdi -> notify: {mount-name}
-notify -> subscriberOp: {counter, timestamp, objectType, objIdReference (=mount-name+CC-uuid)}
+
+note over subscriberOp 
+prüfen: 
+- was ist der objectType = string?
+  es muss ja eigentlich nur der mount-name 
+  des neuen Devices geschickt werden 
+- als objectIdReference müssste dann 
+  eigentlich auch der mount-name ausreichen
+end note
+
+notify -> subscriberOp: {counter, timestamp, objIdReference (=mount-name)}
 
 
 

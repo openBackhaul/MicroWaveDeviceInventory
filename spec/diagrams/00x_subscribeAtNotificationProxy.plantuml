@@ -1,10 +1,10 @@
-@startuml
+@startuml 00x_subscribeAtNotificationProxy
 skinparam responseMessageBelowArrow true
 skinparam participant {
   StereotypeFontSize 12  
 }
 
-title Subscribe to NotificationProxy notifications
+title MWDI subscribing for ControllerNotifications and DeviceNotifications at NP
 
 'participants
 participant "RO" as ro
@@ -22,27 +22,27 @@ activate mwdi
 
 note over mwdi: subscribe for info about \nnew devices
 mwdi -> npnew: {ownIp, ownPort, ownReceiveOperation}
-npnew --> receivers: {notifications}
+npnew -> receivers: {notifications}
 
 note over mwdi: subscribe for info about \ndisconnected devices
 mwdi -> npdisconnected: {ownIp, ownPort, ownReceiveOperation}
-npdisconnected --> receivers: {notifications}
+npdisconnected -> receivers: {notifications}
 
 note over mwdi: subscribe for info about \nalarm changes
 mwdi -> npalarm: {ownIp, ownPort, ownReceiveOperation}
-npalarm --> receivers: {notifications}
+npalarm -> receivers: {notifications}
 
 note over mwdi: subscribe for info about \nattribute value changes
 mwdi -> npattributechange: {ownIp, ownPort, ownReceiveOperation}
-npattributechange --> receivers: {notifications}
+npattributechange -> receivers: {notifications}
 
 note over mwdi: subscribe for info about \nnew objects
 mwdi -> npobjcreate: {ownIp, ownPort, ownReceiveOperation}
-npobjcreate --> receivers: {notifications}
+npobjcreate -> receivers: {notifications}
 
 note over mwdi: subscribe for info about \ndeleted objects
 mwdi -> npobjdelete: {ownIp, ownPort, ownReceiveOperation}
-npobjdelete --> receivers: {notifications}
+npobjdelete -> receivers: {notifications}
 
 
 

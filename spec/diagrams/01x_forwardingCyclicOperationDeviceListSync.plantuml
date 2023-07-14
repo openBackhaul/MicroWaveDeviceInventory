@@ -1,4 +1,4 @@
-@startuml
+@startuml 01x_forwardingCyclicOperationDeviceListSync
 skinparam responseMessageBelowArrow true
 skinparam BoxPadding 10
 
@@ -47,7 +47,10 @@ mwdi -> es: {list-of-(mount-name, action-required)}
 
 'inform subscribers about new device
 note over mwdi: for new devices
-mwdi -> notifyCreate: {mount-name}
+
+' Dieser Pfeil scheint keinen Request auszudrücken, sondern eine Art hand-over. '
+' Falls das so wäre, hätte ich eine andere Art Pfeil vorgeschlagen. '
+mwdi o-\\o notifyCreate: {mount-name}
 activate notifyCreate
 
 note over subscriberOpCreate
@@ -57,6 +60,9 @@ note over subscriberOpCreate
   des neuen Devices geschickt werden 
 - als objectIdReference müssste dann 
   eigentlich auch der mount-name ausreichen
+
+' Der objectType wäre ControlConstruct. '
+' Wäre die vollständige objectIdReference nicht /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct? '
 end note
 
 notifyCreate -> subscriberOpCreate: {counter, timestamp, objectType, \nobjIdReference (=mount-name)} \n
@@ -64,7 +70,10 @@ deactivate notifyCreate
 
 'inform subscribers about deleted device
 note over mwdi: for deleted devices
-mwdi -> notifyDelete: {mount-name}
+
+' Dieser Pfeil scheint keinen Request auszudrücken, sondern eine Art hand-over. '
+' Falls das so wäre, hätte ich eine andere Art Pfeil vorgeschlagen. '
+mwdi o-\\o notifyDelete: {mount-name}
 activate notifyDelete
 
 notifyDelete -> subscriberOpDelete: {counter, timestamp, \nobjIdReference (=mount-name)} \n

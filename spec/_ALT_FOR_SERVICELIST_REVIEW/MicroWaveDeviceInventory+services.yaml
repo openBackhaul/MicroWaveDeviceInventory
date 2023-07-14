@@ -66,11 +66,11 @@ servers:
         ## rauslöschen:
         # ersetzt von /v1/notify-object-creations
         - operation-name: /v1/notify-availability-of-new-device
-          uuid: mwdi-1-0-0-op-s-is-010
+          uuid: mwdi-1-0-0-op-s-is-020
 
         # ersetzt von /v1/notify-attribute-value-changes
         - operation-name: /v1/notify-changed-attribute-value
-          uuid: mwdi-1-0-0-op-s-is-011
+          uuid: mwdi-1-0-0-op-s-is-021
 
 
 

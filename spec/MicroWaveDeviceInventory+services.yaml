@@ -65,17 +65,15 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-010
         # im HMWDI: provide-list-of-mounted-devices o.ä.
 
-
-        # uuids anpassen -> ab 020
         # notify subscribers
         - operation-name: /v1/notify-alarms
-          uuid: TODO_mwdi-1-0-0-op-s-is-010
+          uuid: mwdi-1-0-0-op-s-is-020
         - operation-name: /v1/notify-attribute-value-changes
-          uuid: TODO_mwdi-1-0-0-op-s-is-011
+          uuid: mwdi-1-0-0-op-s-is-021
         - operation-name: /v1/notify-object-creations
-          uuid: TODO_mwdi-1-0-0-op-s-is-012
+          uuid: mwdi-1-0-0-op-s-is-022
         - operation-name: /v1/notify-object-deletions
-          uuid: TODO_mwdi-1-0-0-op-s-is-013
+          uuid: mwdi-1-0-0-op-s-is-023
 
         # ressources
         # uuids -1

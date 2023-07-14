@@ -39,7 +39,7 @@ left footer
 <u> Notification to subscribers: </u>
 \t  - the subscriber app (XY, as it's not known at specification time) needs to implement <i>/v1/regard-changed-attribute-value</i>
 \t  - subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
-\t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-changed-attribute-value</i> [mwdi-1-0-0-op-s-is-011]
+\t  - information about subscriber apps is stored and managed by <i>MDWI://v1/notify-changed-attribute-value</i> [mwdi-1-0-0-op-s-is-021]
 end footer
 
 <style>

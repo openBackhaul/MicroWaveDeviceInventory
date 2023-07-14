@@ -61,7 +61,7 @@ left footer
 <u> Notification to subscribers about new device:</u>
 \t- the subscriber app (XX, as it's not known at specification time) needs to implement <i>/v1/regard-availability-of-new-device</i>
 \t- subscriber apps can see how to do that by looking at the related callbacks in the MWDI OAS 
-\t- information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-010]
+\t- information about subscriber apps is stored and managed by <i>MDWI://v1/notify-availability-of-new-device</i> [mwdi-1-0-0-op-s-is-020]
 
 <u> Notifications about device-state-changes and period sync<u>:
 \t- normally the MWDI would receive notifications from the NotificationProxy informing about new (connected) or disconnected (connecting) devices, so if everything works, this

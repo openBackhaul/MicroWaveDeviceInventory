@@ -15,7 +15,7 @@ note over ressourcePath: fetch data from Controller
 ressourcePath -> odl: {mount-name, path-parameters} (apiKeyAuth)
 odl --> ressourcePath: {ControlConstruct-data-subset}
 
-ressourcePath --> requestor: {requestId, mount-name, path-parameters, ControlConstruct-data-subset, timeStampOfRpc} (no security)
+ressourcePath -> requestor: {requestId, mount-name, path-parameters, ControlConstruct-data-subset, timeStampOfRpc} (no security)
 
 note over ressourcePath: update cache
 ressourcePath -> es: {mount-name, path-parameters, ControlConstruct-data-subset}

@@ -1,0 +1,16 @@
+@startuml 01x_NotificationBasedDeviceListSyncAdd
+skinparam responseMessageBelowArrow true
+
+title  Notification based adding to DeviceList
+
+participant "NP://v1/notify-devices-newly-connected-to-controller" as subscription
+participant "MWDI://v1/regard-device-newly-connected-to-controller" as regardNewDevice
+participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as liveControlConstruct
+
+subscription -> regardNewDevice: notification {mount-name} (apiKeyAuth)
+activate regardNewDevice
+
+regardNewDevice -> liveControlConstruct: {mount-name} (apiKeyAuth)
+deactivate regardNewDevice
+
+@enduml

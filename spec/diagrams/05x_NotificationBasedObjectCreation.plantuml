@@ -1,0 +1,20 @@
+@startuml 05x_NotificationBasedObjectCreation
+skinparam responseMessageBelowArrow true
+
+title Process object creation notifications
+
+participant "NP://v1/notify-device-object-creations" as subscription
+participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
+participant "ODL:/{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as odlCreatedObject
+participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as es
+
+subscription -> regardObjectCreation: {mount-name, counter, timestamp, objectType, objectIdRef}
+activate regardObjectCreation
+
+regardObjectCreation -> odlCreatedObject: {mount-name, objectType, objectIdRef}
+odlCreatedObject --> regardObjectCreation: newly created object
+
+regardObjectCreation -> es: create new object {mount-name, objectIdRef, object}
+deactivate regardObjectCreation
+
+@enduml

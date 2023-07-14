@@ -1,0 +1,18 @@
+@startuml 22x_MwdiNotifiesObjectDeletion
+skinparam responseMessageBelowArrow true
+
+title MWDI notifies an Object being deleted in its Cache
+
+participant "external" as external
+participant "external://ownReceiverOperation" as receiverOperation
+participant "MWDI://v1/notify-object-deletions" as notifyObjectDeletion
+
+external -> notifyObjectDeletion: {ownIp, ownPort, ownReceiverOperation}
+activate notifyObjectDeletion
+
+note over notifyObjectDeletion: operation that deletes an object in ElasticSearch
+
+notifyObjectDeletion -> receiverOperation: notification {counter, timestamp, objIdRef}
+deactivate notifyObjectDeletion
+
+@enduml

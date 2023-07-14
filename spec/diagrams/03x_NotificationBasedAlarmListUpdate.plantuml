@@ -1,0 +1,18 @@
+@startuml 03x_NotificationBasedAlarmListUpdate
+skinparam responseMessageBelowArrow true
+
+title Process alarm notifications
+
+participant "NP://v1/notify-device-alarms" as subscription
+participant "MWDI://v1/regard-device-alarm" as regardAlarm
+participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms" as es
+
+subscription -> regardAlarm: {mount-name, counter, timestamp, alarmType, resource, severity}
+activate regardAlarm
+
+regardAlarm -> es: {mount-name, counter, timestamp, alarmType, resource, severity}
+deactivate regardAlarm
+
+note over es: Remark: MWDI://v1/regard-device-alarm initiates ObjectCreationNotifications, but no AlarmNotifications at MWDI NBI
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+skinparam responseMessageBelowArrow true
+
+title All live-RessourcePath-Requests cause reading from Controller and updating ElasticSearch DB (Variante2 wie bei MATR)
+
+participant "requestor" as requestor
+participant "/live/node={mount-name}/<path-to-class>" as ressourcePath
+participant "ODL://{mwdi-1-0-0-string-p-000}/\nnode={mount-name}/<path-to-class>" as odl
+participant "ElasticSearch" as es
+
+
+requestor -> ressourcePath: {mount-name, path-parameters, \nown_IpAddress, own_TcpPort, own_responseServiceName} (apiKeyAuth)
+
+note over ressourcePath: fetch data from Controller
+ressourcePath -> odl: {mount-name, path-parameters} (apiKeyAuth)
+odl --> ressourcePath: {ControlConstruct-data-subset}
+
+ressourcePath -> requestor: {requestId, mount-name, path-parameters, ControlConstruct-data-subset, timeStampOfRpc} (no security)
+
+note over ressourcePath: update cache
+ressourcePath -> es: {mount-name, path-parameters, ControlConstruct-data-subset}
+left footer 
+
+
+
+
+
+\t - Data is not fetched from the MWDI database, but from the Controller.
+\t - After live data is retrieved and returned to the requestor, the cache is updated.
+\t - As data needs to be retrieved from Controller first, there is no immediate answer to the requestor
+end footer
+
+<style>
+footer {
+  HorizontalAlignment left
+  FontSize 14
+}
+</style>
+
+@enduml

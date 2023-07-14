@@ -1,0 +1,16 @@
+@startuml 04x_NotificationBasedAttributeUpdate
+skinparam responseMessageBelowArrow true
+
+title Process attribute change notifications
+
+participant "NP://v1/notify-device-attribute-value-changes" as subscription
+participant "MWDI://v1/regard-device-attribute-value-change" as regardAttributeChange
+participant "ElasticSearch://{mountName, attributeName}" as es
+
+subscription -> regardAttributeChange: {mount-name, counter, timestamp, attributeName, newValue}
+activate regardAttributeChange
+
+regardAttributeChange -> es: {mount-name, attributeName, newValue}
+deactivate regardAttributeChange
+
+@enduml

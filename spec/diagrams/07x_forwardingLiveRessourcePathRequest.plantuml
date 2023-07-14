@@ -4,27 +4,27 @@ skinparam responseMessageBelowArrow true
 title All live-RessourcePath-Requests cause reading from Controller and updating ElasticSearch DB
 
 participant "external" as requestor
-participant "/live/node={mount-name}/*" as ressourcePath
-participant "ODL://"
+participant "/live/node={mount-name}/<path-to-class>" as ressourcePath
+participant "ODL://{mwdi-1-0-0-string-p-000}/\nnode={mount-name}/<path-to-class>" as odl
 participant "ElasticSearch" as es
 
 
-requestor -> ressourcePath: {mount-name, list-of-other-parameters-relevant-to-respective-path}
+requestor -> ressourcePath: {mount-name, path-parameters}
 activate ressourcePath
 
-ressourcePath -> es: {mount-name, path-to-relevant-data-set-including-relevant-parameters}
-es --> ressourcePath: {ControlConstruct-data-subset}
+note over ressourcePath: fetch data from Controller
+ressourcePath -> odl: {mount-name, path-parameters}
+odl --> ressourcePath: {ControlConstruct-data-subset}
 
 ressourcePath --> requestor: {ControlConstruct-data-subset}
-deactivate ressourcePath
 
+note over ressourcePath: update cache
+ressourcePath -> es: {mount-name, path-parameters, ControlConstruct-data-subset}
 left footer 
 
 
-\t - For the first step it was decided not to have indiviual forwardings for each ressource path. 
-\t - if the ressource path request is called with the fields filter, the filter is included in the <i>list-of-other-parameters-relevant-to-respective-path</i>, as the fields
-\t - filter is a query parameter and, thus, not a fixed part of the ressource path in the MWDI spec
-\t - if the path starts with /cache the data is read from ElasticSearch; paths starting with /live will fetch data from the Controller instead
+\t - Data is not fetched from the MWDI database, but from the Controller.
+\t - After live data is retrieved and returned to the requestor, the cache is updated.
 end footer
 
 <style>

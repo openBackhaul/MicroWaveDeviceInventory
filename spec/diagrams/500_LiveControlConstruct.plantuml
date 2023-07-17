@@ -5,7 +5,7 @@ title  External, cyclic operation or notification driven retrieving of Live Cont
 
 participant "external, cyclic operation \n or notification based" as requestor
 participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as LiveControlConstruct
-participant "ODL:/{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as OdlControlConstruct
+participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as OdlControlConstruct
 participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as EsControlConstruct
 
 requestor -> LiveControlConstruct: {mount-name} (apiKeyAuth)

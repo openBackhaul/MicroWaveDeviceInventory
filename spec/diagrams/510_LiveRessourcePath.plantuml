@@ -1,0 +1,26 @@
+@startuml 510_LiveRessourcePath
+skinparam responseMessageBelowArrow true
+
+title Request for live ControlConstruct classes
+
+participant "external" as requestor
+participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/<i>path-to-class</i>" as LiveControlConstructClass
+participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/<i>path-to-class</i>" as OdlControlConstructClass
+participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/<i>path-to-class</i>" as EsControlConstructClass
+
+requestor -> LiveControlConstructClass: {mount-name} (apiKeyAuth)
+activate LiveControlConstructClass
+
+note over LiveControlConstructClass: <i>specific-path-parameters</i> can include \nfields filter to retrieve only specific attributes
+LiveControlConstructClass -> OdlControlConstructClass: {mount-name, specific-path-parameters}
+OdlControlConstructClass --> LiveControlConstructClass: {control-construct-class-or-attributes}
+
+LiveControlConstructClass -> EsControlConstructClass: {mount-name, specific-path-parameters, updated-control-construct-class-or-attributes}
+
+LiveControlConstructClass --> requestor: {control-construct-class-or-attributes}
+deactivate LiveControlConstructClass
+
+@enduml
+
+
+

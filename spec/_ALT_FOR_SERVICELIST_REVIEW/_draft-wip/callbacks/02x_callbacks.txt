@@ -1,3 +1,0 @@
-- conseqReq = ElasticSearch --> nur auskommentiert den Namen angeben
-- name = ReceiptOfDeviceParameterChangeNotificationCausesWritingToElasticSearch
-- wo /v1/embed-yourself

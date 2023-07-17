@@ -1,0 +1,20 @@
+@startuml 200_CacheControlConstruct
+
+title  Request for cached ControlConstruct
+
+participant "external" as requestor
+participant "MWDI://cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as CacheControlConstruct
+participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as EsControlConstruct
+
+requestor -> CacheControlConstruct: {mount-name} (apiKeyAuth)
+activate CacheControlConstruct
+
+
+CacheControlConstruct -> EsControlConstruct: {mount-name}
+EsControlConstruct --> CacheControlConstruct: {control-construct}
+
+CacheControlConstruct --> requestor: {control-construct}
+deactivate CacheControlConstruct
+
+
+@enduml

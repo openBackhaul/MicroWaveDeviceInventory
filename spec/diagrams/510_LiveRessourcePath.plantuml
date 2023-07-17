@@ -20,6 +20,10 @@ LiveControlConstructClass -> EsControlConstructClass: {mount-name, specific-path
 LiveControlConstructClass --> requestor: {class-with-all-or-a-subset-of-components}
 deactivate LiveControlConstructClass
 
+skinparam NoteBackgroundColor salmon
+note over requestor: Requestor has to wait \nfor a very long time for \na response. Does this work?
+skinparam NoteBackgroundColor default
+
 @enduml
 
 

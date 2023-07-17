@@ -7,12 +7,12 @@ participant "external" as external
 participant "external://ownReceiverOperation" as receiverOperation
 participant "MWDI://v1/notify-attribute-value-changes" as notifyAttributeChange
 
-external -> notifyAttributeChange: {ownIp, ownPort, ownReceiverOperation}
+external -> notifyAttributeChange: {ownIp, ownPort, ownReceiverOperation} (apiKeyAuth)
 activate notifyAttributeChange
 
 note over notifyAttributeChange: operation that changes an attribute in ElasticSearch
 
-notifyAttributeChange -> receiverOperation: notification {counter, timestamp, attributeName, newValue}
+notifyAttributeChange -> receiverOperation: notification {counter, timestamp, attributeName, newValue} (apiKeyAuth)
 deactivate notifyAttributeChange
 
 @enduml

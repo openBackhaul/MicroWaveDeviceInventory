@@ -7,7 +7,7 @@ participant "NP://v1/notify-device-attribute-value-changes" as subscription
 participant "MWDI://v1/regard-device-attribute-value-change" as regardAttributeChange
 participant "ElasticSearch://{mountName, attributeName}" as es
 
-subscription -> regardAttributeChange: {mount-name, counter, timestamp, attributeName, newValue}
+subscription -> regardAttributeChange: {mount-name, counter, timestamp, attributeName, newValue} (apiKeyAuth)
 activate regardAttributeChange
 
 regardAttributeChange -> es: {mount-name, attributeName, newValue}

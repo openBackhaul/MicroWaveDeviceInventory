@@ -44,7 +44,7 @@ servers:
           uuid: mwdi-1-0-0-op-s-bs-005
       individual:
 
-        # receive notifications from NotificationProxy
+        # receiver for notifications from NotificationProxy
         - operation-name: /v1/regard-device-newly-connected-to-controller
           uuid: mwdi-1-0-0-op-s-is-000
         - operation-name: /v1/regard-device-newly-disconnected-from-controller
@@ -58,19 +58,19 @@ servers:
         - operation-name: /v1/regard-device-object-deletion
           uuid: mwdi-1-0-0-op-s-is-005
 
-        # MWDI device list
+        # ordinary services
         - operation-name: /v1/provide-list-of-connected-devices
           uuid: mwdi-1-0-0-op-s-is-010
 
-        # notify subscribers
+        # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes
-          uuid: mwdi-1-0-0-op-s-is-021
+          uuid: mwdi-1-0-0-op-s-is-020
         - operation-name: /v1/notify-object-creations
-          uuid: mwdi-1-0-0-op-s-is-022
+          uuid: mwdi-1-0-0-op-s-is-021
         - operation-name: /v1/notify-object-deletions
-          uuid: mwdi-1-0-0-op-s-is-023
+          uuid: mwdi-1-0-0-op-s-is-022
 
-        # ressources: retrieve from cache
+        # ressources provided from cache
         - operation-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
           uuid: mwdi-1-0-0-op-s-is-100
         - operation-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
@@ -116,7 +116,7 @@ servers:
         - operation-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
           uuid: mwdi-1-0-0-op-s-is-385
 
-        # ressources: retrieve from Controller
+        # ressources retrieved from devices
         - operation-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
           uuid: mwdi-1-0-0-op-s-is-500
         - operation-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
@@ -161,8 +161,6 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-784
         - operation-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
           uuid: mwdi-1-0-0-op-s-is-785
-
-
   http-server:
     own-application-name: MicroWaveDeviceInventory
     own-release-number: 1.0.0
@@ -226,15 +224,12 @@ clients:
       own-oam:
         basic:
         individual:
-          ## DONE: Add Services required for handing-over configuration or data during update
-          - operation-name: /v1/notify-alarms
-            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
           - operation-name: /v1/notify-attribute-value-changes
-            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-000
           - operation-name: /v1/notify-object-creations
-            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-003
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
           - operation-name: /v1/notify-object-deletions
-            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-004
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
       service:
         basic:
         individual:
@@ -262,12 +257,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
-
 
   - http-client:
       application-name: TypeApprovalRegister
@@ -284,11 +274,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
 
   - http-client:
       application-name: ExecutionAndTraceLog
@@ -307,11 +293,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
 
   - http-client:
       application-name: OamLog
@@ -330,11 +312,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
 
   - http-client:
       application-name: AdministratorAdministration
@@ -353,11 +331,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
 
   - http-client:
       application-name: ApplicationLayerTopology
@@ -386,11 +360,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
 
   - http-client:
       application-name: OperationKeyManagement
@@ -407,11 +377,7 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## DONE: Add Clients specific to this application
-          ## none
 
   - http-client:
       application-name: OpenDaylight
@@ -428,17 +394,57 @@ clients:
         individual:
       service:
         basic:
-          ## DONE: Add Clients specific to this application, but addressing all other applications
-          ## none
         individual:
-          ## getting list of mounted devices with connection status
+
+          ## GET list of mounted devices with connection status from Controller
           - operation-name: /{mwdi-1-0-0-string-p-000}?fields=node(node-id;netconf-node-topology:connection-status)
             uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
 
-          ## getting control construct (repeat for all connected devices)
+          ## GET resources from devices
           - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-010
-
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-100
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-101
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-102
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-106
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-165
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-178
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-185
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-201
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-203
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-209
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-217
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-228
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-241
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-254
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-272
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-281
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-286
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-315
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-377
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-381
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-384
+          - operation-name: /{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+            uuid: mwdi-1-0-0-op-c-is-c-4-0-2-385
 
   - http-client:
       application-name: NotificationProxy
@@ -456,6 +462,7 @@ clients:
       service:
         basic:
         individual:
+
           ## subscribing for controller notifications
           - operation-name: /v1/notify-devices-newly-connected-to-controller
             uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
@@ -492,13 +499,9 @@ clients:
       service:
         basic:
         individual:
-          ## if other applications want to subscribe they need to implement a service with the name below
-          - operation-name: /v1/regard-alarm
-            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-100
           - operation-name: /v1/regard-attribute-value-change
-            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-101
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-100
           - operation-name: /v1/regard-object-creation
-            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-102
-          # HMWDI does not delete its data when a device is disconnected, so may be not required
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-101
           - operation-name: /v1/regard-object-deletion
-            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-103
+            uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-102

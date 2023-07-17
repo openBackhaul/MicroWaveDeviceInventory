@@ -7,7 +7,7 @@ participant "NP://v1/notify-device-object-deletions" as subscription
 participant "MWDI://v1/regard-device-object-deletion" as regardObjectDeletion
 participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object" as es
 
-subscription -> regardObjectDeletion: {mount-name, counter, timestamp, objectIdRef}
+subscription -> regardObjectDeletion: {mount-name, counter, timestamp, objectIdRef} (apiKeyAuth)
 activate regardObjectDeletion
 
 regardObjectDeletion -> es: delete object {mount-name, objectIdRef}

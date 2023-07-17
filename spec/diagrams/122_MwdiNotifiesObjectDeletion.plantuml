@@ -7,12 +7,12 @@ participant "external" as external
 participant "external://ownReceiverOperation" as receiverOperation
 participant "MWDI://v1/notify-object-deletions" as notifyObjectDeletion
 
-external -> notifyObjectDeletion: {ownIp, ownPort, ownReceiverOperation}
+external -> notifyObjectDeletion: {ownIp, ownPort, ownReceiverOperation} (apiKeyAuth)
 activate notifyObjectDeletion
 
 note over notifyObjectDeletion: operation that deletes an object in ElasticSearch
 
-notifyObjectDeletion -> receiverOperation: notification {counter, timestamp, objIdRef}
+notifyObjectDeletion -> receiverOperation: notification {counter, timestamp, objIdRef} (apiKeyAuth)
 deactivate notifyObjectDeletion
 
 @enduml

@@ -1,4 +1,4 @@
-@startuml 10x_ProvideListOfConnectedDevices
+@startuml 100_ProvideListOfConnectedDevices
 skinparam responseMessageBelowArrow true
 
 title  ProvideListOfConnectedDevices

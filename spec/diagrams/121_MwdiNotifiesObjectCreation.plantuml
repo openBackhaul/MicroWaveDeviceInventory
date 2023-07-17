@@ -1,4 +1,4 @@
-@startuml 22x_MwdiNotifiesObjectCreation
+@startuml 121_MwdiNotifiesObjectCreation
 skinparam responseMessageBelowArrow true
 
 title MWDI notifies an Object being created in its Cache

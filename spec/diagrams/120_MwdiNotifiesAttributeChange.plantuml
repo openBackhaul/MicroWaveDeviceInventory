@@ -1,4 +1,4 @@
-@startuml 21x_MwdiNotifiesAttributeChange
+@startuml 120_MwdiNotifiesAttributeChange
 skinparam responseMessageBelowArrow true
 
 title MWDI notifies a change to an Attribute in its Cache

@@ -15,7 +15,7 @@ note over LiveControlConstructClass: <i>specific-path-parameters</i> can include
 LiveControlConstructClass -> OdlControlConstructClass: {mount-name, specific-path-parameters}
 OdlControlConstructClass --> LiveControlConstructClass: {control-construct-class-or-attributes}
 
-LiveControlConstructClass -> EsControlConstructClass: {mount-name, updated-control-construct-class-or-attributes}
+LiveControlConstructClass -> EsControlConstructClass: {mount-name, specific-path-parameters, updated-control-construct-class-or-attributes}
 
 LiveControlConstructClass --> requestor: {control-construct-class-or-attributes}
 deactivate LiveControlConstructClass

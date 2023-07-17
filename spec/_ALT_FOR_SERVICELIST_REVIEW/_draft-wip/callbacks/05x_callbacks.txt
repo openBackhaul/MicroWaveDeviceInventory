@@ -1,3 +1,0 @@
-- consequent-request = ElasticSearch -> daher kein callback, sondern nur den Namen auskommentiert angeben
-- name = PromptForDeviceListCausesReadingFromElasticSearch
-- wo: /

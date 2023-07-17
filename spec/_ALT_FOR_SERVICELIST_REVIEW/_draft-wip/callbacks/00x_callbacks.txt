@@ -1,9 +1,0 @@
-- wo: /v1/embed-yourself
-
-1) EmbeddingOperationCausesSubscriptionToDeviceConnectionStateChangeNotificationAtNotificationProxy
-   callback-Def aus Service-Definition vom NotificationProxy für todo_controller_notification übernehmen
-
-
-2) EmbeddingOperationCausesSubscriptionToDeviceParameterChangeNotificationAtNotificationProxy
-   callback-Def aus Service-Definition vom NotificationProxy für /v1/notify-device-attribute-value-changes übernehmen
-

@@ -1,7 +1,7 @@
-@startuml 201_CacheRessourcePath
+@startuml 210_CacheRessourcePath
 skinparam responseMessageBelowArrow true
 
-title  Retrieval of cached ControlConstruct classes
+title Request for cached ControlConstruct classes
 
 participant "external" as requestor
 participant "MWDI://cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/<i>path-to-class</i>" as CacheControlConstructClass

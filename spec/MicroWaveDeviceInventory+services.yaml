@@ -380,6 +380,25 @@ clients:
         individual:
 
   - http-client:
+      application-name: MicroWaveDeviceInventory
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-c-mwdi-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 1.1.4.4
+      tcp-port: 4004
+      uuid: mwdi-1-0-0-tcp-c-mwdi-1-0-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+        individual:
+          - operation-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+            uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-100
+
+  - http-client:
       application-name: OpenDaylight
       release-number: 4.0.2
       uuid: mwdi-1-0-0-http-c-c-4-0-2-000
@@ -491,7 +510,7 @@ clients:
       remote-protocol: http
       ip-address: 1.1.4.13
       tcp-port: 4013
-      uuid: mwdi-1-0-0-http-tcp-hmwdi-1-0-0-100
+      uuid: mwdi-1-0-0-tcp-c-hmwdi-1-0-0-100
     operation-clients:
       own-oam:
         basic:

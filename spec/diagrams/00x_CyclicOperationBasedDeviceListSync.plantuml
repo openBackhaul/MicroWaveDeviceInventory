@@ -8,7 +8,7 @@ participant "MWDI://v1/embed-yourself" as mwdi
 participant "ODL://{mwdi-1-0-0-string-p-000}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
 participant "ElasticSearch://?fields=node(node-id)" as ConnectedDeviceList
 participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as ControlConstruct
-participant "ElasticSearch" as es
+participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as es
 
 ro -> mwdi
 activate mwdi
@@ -22,10 +22,10 @@ odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
 mwdi -> ConnectedDeviceList
 ConnectedDeviceList --> mwdi: {mount-name-list}
 
-note over mwdi: repeate for devices not in MWDI deviceList
+note over mwdi: repeat for connected devices not in cache
 mwdi -> ControlConstruct: {mount-name} (apiKeyAuth)
 
-note over mwdi: repeate for devices not in Controller deviceList
+note over mwdi: repeat for devices not marked \nconnected in Controller deviceList
 mwdi -> es: delete {mount-name}
 deactivate mwdi
 

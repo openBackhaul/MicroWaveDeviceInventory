@@ -1,4 +1,4 @@
-@startuml 40x_LiveControlConstruct
+@startuml 50x_LiveControlConstruct
 skinparam responseMessageBelowArrow true
 
 title  External, cyclic operation or notification driven retrieving of Live ControlConstruct

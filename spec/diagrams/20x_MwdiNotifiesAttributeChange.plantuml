@@ -1,0 +1,18 @@
+@startuml 20x_MwdiNotifiesAttributeChange
+skinparam responseMessageBelowArrow true
+
+title MWDI notifies a change to an Attribute in its Cache
+
+participant "external" as external
+participant "external://ownReceiverOperation" as receiverOperation
+participant "MWDI://v1/notify-attribute-value-changes" as notifyAttributeChange
+
+external -> notifyAttributeChange: {ownIp, ownPort, ownReceiverOperation}
+activate notifyAttributeChange
+
+note over notifyAttributeChange: operation that changes an attribute in ElasticSearch
+
+notifyAttributeChange -> receiverOperation: notification {counter, timestamp, attributeName, newValue}
+deactivate notifyAttributeChange
+
+@enduml

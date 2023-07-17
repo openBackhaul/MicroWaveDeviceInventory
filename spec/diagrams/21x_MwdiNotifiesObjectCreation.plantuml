@@ -1,0 +1,18 @@
+@startuml 21x_MwdiNotifiesObjectCreation
+skinparam responseMessageBelowArrow true
+
+title MWDI notifies an Object being created in its Cache
+
+participant "external" as external
+participant "external://ownReceiverOperation" as receiverOperation
+participant "MWDI://v1/notify-object-creations" as notifyObjectCreation
+
+external -> notifyObjectCreation: {ownIp, ownPort, ownReceiverOperation}
+activate notifyObjectCreation
+
+note over notifyObjectCreation: operation that creates an object in ElasticSearch
+
+notifyObjectCreation -> receiverOperation: notification {counter, timestamp, objectType, objIdRef}
+deactivate notifyObjectCreation
+
+@enduml

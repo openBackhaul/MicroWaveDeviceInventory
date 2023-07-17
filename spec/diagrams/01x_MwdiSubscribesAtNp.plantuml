@@ -1,4 +1,4 @@
-@startuml 00x_MwdiSubscribesAtNp
+@startuml 01x_MwdiSubscribesAtNp
 skinparam responseMessageBelowArrow true
 
 title MWDI subscribing for ControllerNotifications and DeviceNotifications at NP

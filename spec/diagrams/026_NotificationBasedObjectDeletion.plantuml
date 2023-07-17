@@ -1,4 +1,4 @@
-@startuml 06x_NotificationBasedObjectDeletion
+@startuml 026_NotificationBasedObjectCreation
 skinparam responseMessageBelowArrow true
 
 title Process object deletion notifications

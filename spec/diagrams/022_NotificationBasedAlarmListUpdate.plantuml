@@ -1,4 +1,5 @@
-@startuml 03x_NotificationBasedAlarmListUpdate
+@startuml 022_NotificationBasedAlarmListUpdate
+
 skinparam responseMessageBelowArrow true
 
 title Process alarm notifications

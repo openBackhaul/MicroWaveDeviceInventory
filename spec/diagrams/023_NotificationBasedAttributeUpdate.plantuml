@@ -1,4 +1,4 @@
-@startuml 04x_NotificationBasedAttributeUpdate
+@startuml 023_NotificationBasedAttributeUpdate
 skinparam responseMessageBelowArrow true
 
 title Process attribute change notifications

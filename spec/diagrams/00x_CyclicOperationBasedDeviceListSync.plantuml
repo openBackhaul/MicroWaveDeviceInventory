@@ -1,4 +1,4 @@
-@startuml 20x_CyclicOperationBasedDeviceListSync
+@startuml 00x_CyclicOperationBasedDeviceListSync
 skinparam responseMessageBelowArrow true
 
 title  Cyclic Update of DeviceList

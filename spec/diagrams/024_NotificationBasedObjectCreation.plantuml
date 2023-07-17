@@ -1,4 +1,4 @@
-@startuml 05x_NotificationBasedObjectCreation
+@startuml 024_NotificationBasedObjectCreation
 skinparam responseMessageBelowArrow true
 
 title Process object creation notifications

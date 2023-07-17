@@ -1,4 +1,4 @@
-@startuml 01x_NotificationBasedDeviceListSyncAdd
+@startuml 020_NotificationBasedDeviceListSyncAdd
 skinparam responseMessageBelowArrow true
 
 title  Notification based adding to DeviceList

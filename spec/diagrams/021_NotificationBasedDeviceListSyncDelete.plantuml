@@ -1,4 +1,4 @@
-@startuml 02x_NotificationBasedDeviceListSyncDelete
+@startuml 021_NotificationBasedDeviceListSyncDelete
 skinparam responseMessageBelowArrow true
 
 title  Notification based deleting from DeviceList

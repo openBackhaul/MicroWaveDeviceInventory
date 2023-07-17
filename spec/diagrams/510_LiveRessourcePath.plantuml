@@ -11,13 +11,13 @@ participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:con
 requestor -> LiveControlConstructClass: {mount-name} (apiKeyAuth)
 activate LiveControlConstructClass
 
-note over LiveControlConstructClass: <i>specific-path-parameters</i> can include \nfields filter to retrieve only specific attributes
+note over LiveControlConstructClass: <i>specific-path-parameters</i> can include \nfields filter to retrieve only specific \ncomponents of the addressed class.
 LiveControlConstructClass -> OdlControlConstructClass: {mount-name, specific-path-parameters}
-OdlControlConstructClass --> LiveControlConstructClass: {control-construct-class-or-attributes}
+OdlControlConstructClass --> LiveControlConstructClass: {class-with-all-or-a-subset-of-components}
 
-LiveControlConstructClass -> EsControlConstructClass: {mount-name, specific-path-parameters, updated-control-construct-class-or-attributes}
+LiveControlConstructClass -> EsControlConstructClass: {mount-name, specific-path-parameters, updated-class-with-all-or-a-subset-of-components}
 
-LiveControlConstructClass --> requestor: {control-construct-class-or-attributes}
+LiveControlConstructClass --> requestor: {class-with-all-or-a-subset-of-components}
 deactivate LiveControlConstructClass
 
 @enduml

@@ -1,0 +1,26 @@
+@startuml 09x_BequeathYourDataAndDie
+skinparam responseMessageBelowArrow true
+
+title  Bequeath Your Data And Die Process
+
+participant "NR://v1/embed-yourself" as NewRelease
+participant "OR://v1/bequeath-your-data-and-die" as OldRelease
+participant "NR://v1/notify-attribute-value-changes" as notifyAttributeChange
+participant "NR://v1/notify-object-creations" as notifyObjectCreation
+participant "NR://v1/notify-object-deletions" as notifyObjectDeletion
+participant "NP://v1/end-subscription" as endSubsriptionAtNp
+
+NewRelease -> OldRelease
+activate OldRelease
+
+note over OldRelease: Transfer existing subscriptions of \n3rd applications to NewRelease
+OldRelease -> notifyAttributeChange: {address info of subscriber at OldRelease}
+OldRelease -> notifyObjectCreation: {address info of subscriber at OldRelease}
+OldRelease -> notifyObjectDeletion: {address info of subscriber at OldRelease}
+
+note over OldRelease: Terminate existing subscriptions of \nOldRelease to 3rd applications
+OldRelease -> endSubsriptionAtNp: {application info of OldRelease}
+
+deactivate OldRelease
+
+@enduml

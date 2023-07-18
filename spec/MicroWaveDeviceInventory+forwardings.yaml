@@ -706,3 +706,612 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
   ## TODO: Potential INDIVIDUAL Forwardings to be added
+
+  - forwarding-name: NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
+    uuid: mwdi-1-0-0-op-fc-is-020
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-newly-connected-to-controller
+        uuid: mwdi-1-0-0-op-s-is-000
+    consequent-requests:
+      - client-name: MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-100
+
+  - forwarding-name: NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+    uuid: mwdi-1-0-0-op-fc-is-021
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-newly-disconnected-from-controller
+        uuid: mwdi-1-0-0-op-s-is-001
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceAlarmCausesUpdateOfCurrentAlarmListInCache
+    uuid: mwdi-1-0-0-op-fc-is-022
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-alarm
+        uuid: mwdi-1-0-0-op-s-is-002
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
+    uuid: mwdi-1-0-0-op-fc-is-023
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-attribute-value-change
+        uuid: mwdi-1-0-0-op-s-is-003
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount{attributeName}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceObjectCreationCausesReadingOfObjectFromDevice
+    uuid: mwdi-1-0-0-op-fc-is-024
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-object-creation
+        uuid: mwdi-1-0-0-op-s-is-004
+    consequent-requests:
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-100
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-101
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-102
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-106
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-165
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-178
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-185
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-201
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-203
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-209
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-217
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-228
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-241
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-254
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-272
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-281
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-286
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-315
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-377
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-381
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-384
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-385
+
+  - forwarding-name: NotifiedDeviceObjectCreationCausesWritingOfObjectIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-025
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-object-creation
+        uuid: mwdi-1-0-0-op-s-is-004
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache
+    uuid: mwdi-1-0-0-op-fc-is-026
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-object-deletion
+        uuid: mwdi-1-0-0-op-s-is-005
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForListOfConnectedDevicesCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-100
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-list-of-connected-devices
+        uuid: mwdi-1-0-0-op-s-is-010
+    consequent-requests:
+      - client-name: ElasticSearch://?fields=node(node-id)
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+  - forwarding-name: SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications
+    uuid: mwdi-1-0-0-op-fc-is-120
+    forwarding-type: Subscription
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/notify-attribute-value-changes
+          uuid: mwdi-1-0-0-op-s-is-020
+      fc-port-update:
+        - server-name: /v1/notify-attribute-value-changes
+          uuid: mwdi-1-0-0-op-s-is-020
+      fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+      operation-client-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+    initiating-requests:
+    consequent-requests:
+      - client-name: Requestor://receive-operation
+        uuid: mwdi-1-0-0-op-c-is-*-*-*-*-100
+
+  - forwarding-name: SubscribingAtMwdiForDeviceObjectCreationsCausesSendingNotifications
+    uuid: mwdi-1-0-0-op-fc-is-121
+    forwarding-type: Subscription
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/notify-object-creations
+          uuid: mwdi-1-0-0-op-s-is-021
+      fc-port-update:
+        - server-name: /v1/notify-object-creations
+          uuid: mwdi-1-0-0-op-s-is-021
+      fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+      operation-client-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+    initiating-requests:
+    consequent-requests:
+      - client-name: Requestor://receive-operation
+        uuid: mwdi-1-0-0-op-c-is-*-*-*-*-101
+
+  - forwarding-name: SubscribingAtMwdiForDeviceObjectDeletionsCausesSendingNotifications
+    uuid: mwdi-1-0-0-op-fc-is-122
+    forwarding-type: Subscription
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/notify-object-deletions
+          uuid: mwdi-1-0-0-op-s-is-021
+      fc-port-update:
+        - server-name: /v1/notify-object-deletions
+          uuid: mwdi-1-0-0-op-s-is-021
+      fc-port-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+      operation-client-deletion:
+        - server-name: /v1/end-subscription
+          uuid: mwdi-1-0-0-op-s-bm-004
+    initiating-requests:
+    consequent-requests:
+      - client-name: Requestor://receive-operation
+        uuid: mwdi-1-0-0-op-c-is-*-*-*-*-102
+
+
+  - forwarding-name: RequestForCachedResourceCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-200
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-100
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-101
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-102
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-106
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-165
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-178
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-185
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-201
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-203
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-209
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-217
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-228
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-241
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-254
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-272
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-s-is-281
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-286
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-s-is-315
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-377
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-381
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-384
+      - server-name: /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-385
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+
+
+  - forwarding-name: RequestForLiveControlConstructCausesReadingFromDevice
+    uuid: mwdi-1-0-0-op-fc-is-500
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-500
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-501
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-502
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-506
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-565
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-578
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-585
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-601
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-603
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-609
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-615
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-628
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-641
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-654
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-672
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-s-is-681
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-686
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-s-is-715
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-777
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-781
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-784
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-785
+    consequent-requests:
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-100
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-101
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-102
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-106
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-165
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-178
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-185
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-201
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-203
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-209
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-217
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-228
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-241
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-254
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-272
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-281
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-286
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-315
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-377
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-381
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-384
+      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-385
+
+  - forwarding-name: RequestForLiveControlConstructCausesWritingIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-501
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-s-is-500
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-s-is-501
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-s-is-502
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-s-is-506
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-op-s-is-565
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-s-is-578
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-585
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-s-is-601
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-s-is-603
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-s-is-609
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-615
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-628
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-641
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-654
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-672
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-s-is-681
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-s-is-686
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-s-is-715
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-s-is-777
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-s-is-781
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-s-is-784
+      - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-s-is-785
+    consequent-requests:
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+

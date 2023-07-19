@@ -1,1 +1,31 @@
 
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-120",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_SUBSCRIPTION"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "0000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-020"
+                  },
+                  {
+                    "local-id": "0001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-bm-004"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-*-*-*-*-100"
+                  }
+                ]
+              },

@@ -47,7 +47,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}?fields=node(node-id;netconf-node-topology:connection-status)
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}?fields=node(node-id;netconf-node-topology:connection-status)
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
@@ -77,7 +77,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+      - client-name: MicroWaveDeviceInventory://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-100
 
   - forwarding-name: PromptForEmbeddingCausesDeletingUnconnectedDevicesFromCache
@@ -108,7 +108,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: NP://v1/notify-devices-newly-connected-to-controller
+      - client-name: NotificationProxy://v1/notify-devices-newly-connected-to-controller
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-000
 
   - forwarding-name: PromptForEmbeddingCausesSubscribingForNotificationsAboutDevicesNewlyDisconnectedFromController
@@ -123,7 +123,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: NP://v1/notify-devices-newly-disconnected-from-controller
+      - client-name: NotificationProxy://v1/notify-devices-newly-disconnected-from-controller
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-001
 
   - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceAlarms
@@ -138,7 +138,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: NP://v1/notify-device-alarms
+      - client-name: NotificationProxy://v1/notify-device-alarms
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-010
 
   - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceAttributeValueChangeNotifications
@@ -153,7 +153,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: NP://v1/notify-device-attribute-value-changes
+      - client-name: NotificationProxy://v1/notify-device-attribute-value-changes
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-011
 
   - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceObjectCreationNotifications
@@ -168,7 +168,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: NP://v1/notify-device-object-creations
+      - client-name: NotificationProxy://v1/notify-device-object-creations
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-012
 
   - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceObjectDeletionNotifications
@@ -183,7 +183,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: NP://v1/notify-device-object-deletions
+      - client-name: NotificationProxy://v1/notify-device-object-deletions
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-013
 
 
@@ -395,7 +395,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NR://v1/notify-attribute-value-changes
+      - client-name: NewRelease://v1/notify-attribute-value-changes
         uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-000
 
   - forwarding-name: PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
@@ -410,7 +410,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NR://v1/notify-object-creations
+      - client-name: NewRelease://v1/notify-object-creations
         uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
 
   - forwarding-name: PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
@@ -425,7 +425,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NR://v1/notify-object-deletions
+      - client-name: NewRelease://v1/notify-object-deletions
         uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
 
   - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtAP
@@ -440,7 +440,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: NP://v1/end-subscription
+      - client-name: NotificationProxy://v1/end-subscription
         uuid: mwdi-1-0-0-op-c-is-np-1-0-0-020
 
 
@@ -719,7 +719,7 @@ forwardings:
       - server-name: /v1/regard-device-newly-connected-to-controller
         uuid: mwdi-1-0-0-op-s-is-000
     consequent-requests:
-      - client-name: MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+      - client-name: MicroWaveDeviceInventory://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-100
 
   - forwarding-name: NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
@@ -779,49 +779,49 @@ forwardings:
       - server-name: /v1/regard-device-object-creation
         uuid: mwdi-1-0-0-op-s-is-004
     consequent-requests:
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-100
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-101
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-102
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-106
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-165
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-178
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-185
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-201
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-203
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-209
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-217
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-228
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-241
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-254
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-272
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-281
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-286
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-315
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-377
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-381
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-384
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-385
 
   - forwarding-name: NotifiedDeviceObjectCreationCausesWritingOfObjectIntoCache
@@ -1171,49 +1171,49 @@ forwardings:
       - server-name: /live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-op-s-is-785
     consequent-requests:
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-100
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-101
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-102
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-106
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-165
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-178
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-185
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-201
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-203
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-209
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-217
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-228
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-241
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-254
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-272
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-281
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-286
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-315
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-377
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-381
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-384
-      - client-name: ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-385
 
   - forwarding-name: RequestForLiveControlConstructCausesWritingIntoCache

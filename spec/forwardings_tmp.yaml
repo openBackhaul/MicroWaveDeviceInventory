@@ -1,132 +1,4 @@
 
-  
-
-  - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
-    uuid: mwdi-1-0-0-op-fc-bm-009
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/notify-attribute-value-changes
-        uuid: 
-      - server-name: /v1/notify-object-creations
-        uuid: 
-      - server-name: /v1/notify-object-deletions
-        uuid: 
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
-
-  - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
-    uuid: mwdi-1-0-0-op-fc-bm-010
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/end-subscription
-        uuid: mwdi-1-0-0-op-s-bm-004
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
-
-  - forwarding-name: OamRequestCausesLtpUpdateRequest
-    uuid: mwdi-1-0-0-op-fc-bm-011
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
-
-  - forwarding-name: OamRequestCausesLtpDeletionRequest
-    uuid: mwdi-1-0-0-op-fc-bm-012
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
-
-  - forwarding-name: OamRequestCausesFcUpdateRequest
-    uuid: mwdi-1-0-0-op-fc-bm-013
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
-
-  - forwarding-name: OamRequestCausesFcPortUpdateRequest
-    uuid: mwdi-1-0-0-op-fc-bm-014
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004
-
-  - forwarding-name: OamRequestCausesFcPortDeletionRequest
-    uuid: mwdi-1-0-0-op-fc-bm-015
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
   ## INDIVIDUAL Forwardings
 
@@ -376,6 +248,9 @@
       - client-name: ElasticSearch://?fields=node(node-id)
         uuid: mwdi-1-0-0-es-c-es-1-0-0-000
 
+
+
+### SUBSCRIPTIONS #####
   - forwarding-name: SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications
     uuid: mwdi-1-0-0-op-fc-is-120
     forwarding-type: Subscription
@@ -439,7 +314,7 @@
       - client-name: Requestor://receive-operation
         uuid: mwdi-1-0-0-op-c-is-*-*-*-*-102
 
-
+### SUBSCRIPTIONS ENDE ####
   - forwarding-name: RequestForCachedResourceCausesReadingFromCache
     uuid: mwdi-1-0-0-op-fc-is-200
     forwarding-type: InvariantProcessSnippet

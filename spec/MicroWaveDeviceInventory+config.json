@@ -209,6 +209,75 @@
                   }
                 }
               }
+            },
+            {
+              "uuid": "mwdi-1-0-0-integer-p-000",
+              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+              "integer-profile-1-0:integer-profile-pac": {
+                "integer-profile-capability": {
+                  "integer-name": "slidingWindowSize",
+                  "minimum": 1,
+                  "maximum": 5000
+                },
+                "integer-profile-configuration": {
+                  "integer-value": 500
+                }
+              }
+            },
+            {
+              "uuid": "mwdi-1-0-0-integer-p-001",
+              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+              "integer-profile-1-0:integer-profile-pac": {
+                "integer-profile-capability": {
+                  "integer-name": "responseTimeout",
+                  "unit": "second",
+                  "minimum": 5,
+                  "maximum": 2000
+                },
+                "integer-profile-configuration": {
+                  "integer-value": 900
+                }
+              }
+            },
+            {
+              "uuid": "mwdi-1-0-0-integer-p-002",
+              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+              "integer-profile-1-0:integer-profile-pac": {
+                "integer-profile-capability": {
+                  "integer-name": "maximumNumberOfRetries",
+                  "minimum": 0,
+                  "maximum": 10
+                },
+                "integer-profile-configuration": {
+                  "integer-value": 1 
+                }
+              }
+            },
+            {
+              "uuid": "mwdi-1-0-0-integer-p-003",
+              "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+              "integer-profile-1-0:integer-profile-pac": {
+                "integer-profile-capability": {
+                  "integer-name": "deviceListSyncPeriod",
+                  "minimum": 1,
+                  "maximum": 72
+                },
+                "integer-profile-configuration": {
+                  "integer-value": 24 
+                }
+              }
+            },
+            {
+              "uuid": "mwdi-1-0-0-string-p-000",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "string-profile-1-0:integer-profile-pac": {
+                "string-profile-capability": {
+                  "string-name": "controllerInternalPathToMountPoint"
+                },
+                "integer-profile-configuration": {
+                  "string-name": "rests/data/network-topology:network-topology/topology=topology-netconf"
+                }
+              }
             }
           ]
         },

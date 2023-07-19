@@ -3,8 +3,34 @@ info:
   title: MicrowaveDeviceInventory
   version: 1.0.0
 
-paths:
+x-gui-paths:
+########################################################################################################################
+#   Representation Layer
+########################################################################################################################
+  /docs:
+    get:
+      operationId: docs
+      summary: 'Represents Swagger API description page'
+      tags:
+        - RepresentationServices
+      responses:
+        '200':
+          description: 'Swagger API description page represented'
+            # Not explixitly described
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
 
+paths:
 ########################################################################################################################
 #   Service Layer - Individual Part - Following paths can be taken as a base for individualization
 ########################################################################################################################
@@ -138,9 +164,9 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
+
         # individual callbacks to be added here
-        #
-        # end of individual callbacks
+
         PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-ro-2-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-bm-ro-2-0-1-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
@@ -432,18 +458,290 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
- # == MWDI-specific services, which are not derived from the controller OAS ========================================================
+  /v1/regard-device-newly-connected-to-controller:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceNewlyConnectedToController
+      summary: 'Receives notifications about devices that newly are connected to the Controller'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - counter
+                - timestamp
+                - mount-name
+              properties:
+                counter:
+                  type: integer
+                  description: 'Sequential number of the notification about a newly connected device'
+                timestamp:
+                  type: string
+                  description: 'Date and time when the device got connected to the Controller, event-time in ControllerNotification'
+                mount-name:
+                  type: string
+                  description: 'Identifier of the device at the Controller, node-id in ControllerNotification'
+            example:
+              counter: 200
+              timestamp: '2010-11-20T14:00:00+01:00'
+              mount-name: '513250010'
+      responses:
+        '204':
+          description: 'Received notification about newly connected device'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-newly-disconnected-from-controller:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceNewlyDisconnectedFromController
+      summary: 'Receives notifications about devices that just got disconnected from the Controller'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - counter
+                - timestamp
+                - mount-name
+              properties:
+                counter:
+                  type: integer
+                  description: 'Sequential number of the notification about a newly disconnected device'
+                timestamp:
+                  type: string
+                  description: 'Date and time when the device got disconnected from the Controller, event-time in ControllerNotification'
+                mount-name:
+                  type: string
+                  description: 'Identifier of the device at the Controller, node-id in ControllerNotification'
+            example:
+              counter: 200
+              timestamp: '2010-11-20T14:00:00+01:00'
+              mount-name: '513250010'
+      responses:
+        '204':
+          description: 'Received notification about device that got disconnected from controller'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-alarm:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceAlarm
+      summary: 'Receives notifications about alarms at devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - counter
+                - timestamp
+                - mount-name
+                - current-alarm-identifier
+                - resource
+                - alarm-type-id
+                - alarm-type-qualifier
+                - problem-severity
+              properties:
+                counter:
+                  type: integer
+                  description: 'Sequential number of the device alarm notification'
+                timestamp:
+                  type: string
+                  description: 'Date and time when the alarm event occured on the device'
+                mount-name:
+                  type: string
+                  description: 'Identifier of the device at the Controller, node-id in ControllerNotification'
+                current-alarm-identifier:
+                  type: string
+                  description: 'Identifier of the alarm in the CurrentAlarmList'
+                resource:
+                  type: string
+                  description: 'Path to the resource that caused this alarm notification'
+                alarm-type-id:
+                  type: string
+                  description: 'alarm-type-id together with alarm-type-qualifier provide a unique identification of the alarm type'
+                alarm-type-qualifier:
+                  type: string
+                  description: 'The alarm-type-qualifier is used when the alarm-type-id is not uniquely identifying the alarm type.'
+                problem-severity:
+                  type: string
+                  description: 'Severity of the alarm, but also indication about the alarm being cleared'
+            example:
+              counter: 200
+              timestamp: '2010-11-20T14:00:00+01:00'
+              mount-name: '513250010'
+              current-alarm-identifier: '626-110-5-1'
+              resource: '/core-model-1-4:control-construct/logical-termination-point[uuid=LTP-MWPS-TTP-5-1]'
+              alarm-type-id: 'alarms-1-0:ALARM_TYPE_ID_TYPE_NEW_BOARD_OBJ'
+              alarm-type-qualifier: 'WRG_BD_TYPE'
+              problem-severity: 'alarm-1-0:SEVERITY_AND_CLEARED_TYPE_CLEARED'
+      responses:
+        '204':
+          description: 'Received alarm notification'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-attribute-value-change:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceAttributeValueChange
+      summary: 'Receives notifications about changes of values of attributes inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - counter
+                - timestamp
+                - mount-name
+                - object-id-ref
+                - attribute-name
+                - new-value
+              properties:
+                counter:
+                  type: integer
+                  description: 'Sequential number of the device alarm notification'
+                timestamp:
+                  type: string
+                  description: 'Date and time when the attribute changed its value on the device'
+                mount-name:
+                  type: string
+                  description: 'Identifier of the device at the Controller, node-id in ControllerNotification'
+                object-id-ref:
+                  type: string
+                  description: 'UUID of the object that holds the attribute that changed its value'
+                attribute-name:
+                  type: string
+                  description: 'Name of the attribute that has changed.'
+                new-value:
+                  type: string
+                  description: 'Attribute value converted to a string (xml, json, ...)'
+            example:
+              counter: 200
+              timestamp: '2010-11-20T14:00:00+01:00'
+              mount-name: '513250010'
+              object-id-ref: ''
+              attribute-name: ''
+              new-value: ''
 
-  #
-  # ---------------------------------------------------------------
-  # Get MOUNT-NAMES handled by MWDI
-  # - top-level request: ("/" corresponds to https://<controller-ip>:<port>/rests/data/network-topology:network-topology/topology-netconf
-  #   when the request would be executed on the ODL controller)
-  # - MUST be called with query parameter 'fields filter', the enumeration lists the allowed 'fields filters'
-  # - this is the only ressource path where a query parameter can directly follow a "/"
-  # - the schema for the returned responses only matches the filters from the query-parameter enumeration (having
-  #   the complete schema would have been too complex)
-  # - call from other apps as follows: /?fields=node(node-id)
+# Hier geht's weiter mit den Beispielwerten
+
+      responses:
+        '204':
+          description: 'Received alarm notification'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+
+
   /:
     # uuid: mwdi-1-0-0-op-s-is-020
     parameters:
@@ -503,8 +801,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -551,8 +848,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -598,8 +894,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -643,8 +938,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-023/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -688,8 +982,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-027/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -733,8 +1026,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-086/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -777,8 +1069,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-099/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -822,8 +1113,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -867,8 +1157,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-122/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -912,8 +1201,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-124/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -957,8 +1245,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-130/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1002,8 +1289,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-136/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1047,8 +1333,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-149/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1092,8 +1377,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-162/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1137,8 +1421,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-175/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1182,8 +1465,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-193/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1227,8 +1509,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1272,8 +1553,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-207/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1316,8 +1596,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-236/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/life-cycle-state]'
@@ -1359,8 +1638,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-298/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1402,8 +1680,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-302/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1446,8 +1723,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-305/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1490,8 +1766,7 @@ paths:
             backend-time:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
-              schema:
-                $ref: '#/components/schemas/life-cycle-state'
+              $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-306/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -10340,7 +10615,6 @@ components:
         type: string
         example: 'Unknown value'
       description: 'Holds information supporting customer’s journey to which the execution applies'
-    # mwdi-specific parameters for maintenance services (mount-name also for controller-oas services) ------------->
     mount-name:
       name: mount-name
       in: path
@@ -10348,90 +10622,31 @@ components:
       schema:
         type: string
         example: '222250001'
-      description: 'The mount-name of the node for which the request should be executed.'
-    #
-    # Fields filter query parameter
-    fields:
-      name: fields
-      in: query
-      description: 'query parameter to filter ressources according to RFC8040 fields filter spec (syntax: fields-expr = path ( fields-expr ) / path ; fields-expr / path)'
-      required: false
-      schema:
-        type: string
-        example: 'fields=node(node-id;node-id;netconf-node-topology:connection-status)'
-    # mwdi-specific parameters (derived from controller-oas services) ---------------------------------------------->
+      description: 'The mount-name of the device that is addressed by the request'
     uuid:
       name: uuid
       in: path
       required: true
       schema:
         type: string
-      description: 'UUID: An identifier that is universally unique\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)\nThe uuid should be treated as opaque by the user.'
-    #
-    local-id1:
-      name: local-id1
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
-    #
-    queue-name:
-      name: queue-name
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'Name of the queue.'
-    #
-    period-end-time:
-      name: period-end-time
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'Time when the counter values have been recorded and the counter reset.'
-    #
-    uuid1:
-      name: uuid1
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'UUID: An identifier that is universally unique\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)\nThe uuid should be treated as opaque by the user.'
-    #
-    value-name:
-      name: value-name
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'The name of the value. The value need not have a name.'
-    #
-    g-826-value-kind:
-      name: g-826-value-kind
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'Kind of performance value that shall be equipped with a threshold alarm.'
-    #
-    local-id2:
-      name: local-id2
-      in: path
-      required: true
-      schema:
-        type: string
-      description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
-    #
+        example: 'LTP-MWPS-TTP-1-1'
+      description: 'Instance identifier that is unique within the device'
     local-id:
       name: local-id
       in: path
       required: true
       schema:
         type: string
-      description: 'An identifier that is unique in the context of some scope that is less than the global scope.\n(This should be considered in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)'
-    #
+        example: 'LP-MWPS-TTP-1-1'
+      description: 'Instance identifier that is unique within its list'
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+        example: 'node(node-id;netconf-node-topology:connection-status)'
+      description: 'Query parameter to filter ressources according to RFC8040 fields filter spec'
   responses:
     responseForErroredServiceRequests:
       description: 'Response in case of errored service requests'
@@ -10478,9 +10693,7 @@ components:
         type: integer
         example: 850
       description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-    life-cycle-state-in-callback:
-      # in callbacks there is a simplified description without an individual description per service, so the complete header can be defined here
-      # only to be used in callbacks for individual services/forwardings
+    life-cycle-state:
       schema:
         type: string
         enum:
@@ -10491,19 +10704,7 @@ components:
           - 'UNKNOWN'
           - 'NOT_YET_DEFINED'
         example: 'EXPERIMENTAL'
-      description: 'Life cycle state of the consumed service'
   schemas:
-    life-cycle-state:
-      # referenced in response-headers of individual services
-      type: string
-      enum:
-        - 'EXPERIMENTAL'
-        - 'OPERATIONAL'
-        - 'DEPRECATED'
-        - 'OBSOLETE'
-        - 'UNKNOWN'
-        - 'NOT_YET_DEFINED'
-      example: 'EXPERIMENTAL'
     errorDescription:
       type: object
       required:

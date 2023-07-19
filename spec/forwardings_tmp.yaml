@@ -1,15 +1,5 @@
 
-  - forwarding-name: NotifiedDeviceObjectCreationCausesReadingOfObjectFromDevice
-    uuid: mwdi-1-0-0-op-fc-is-024
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/regard-device-object-creation
-        uuid: mwdi-1-0-0-op-s-is-004
+  - forwarding-name: 
     consequent-requests:
       - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-100

@@ -1001,10 +1001,10 @@ forwardings:
     management-requests:
       operation-client-update:
         - server-name: /v1/notify-object-deletions
-          uuid: mwdi-1-0-0-op-s-is-021
+          uuid: mwdi-1-0-0-op-s-is-022
       fc-port-update:
         - server-name: /v1/notify-object-deletions
-          uuid: mwdi-1-0-0-op-s-is-021
+          uuid: mwdi-1-0-0-op-s-is-022
       fc-port-deletion:
         - server-name: /v1/end-subscription
           uuid: mwdi-1-0-0-op-s-bm-004

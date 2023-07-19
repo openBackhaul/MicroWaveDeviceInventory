@@ -1,51 +1,5 @@
 
-
-
-      - server-name: /v1/notify-attribute-value-changes
-        uuid: 
-      - server-name: /v1/notify-object-creations
-        uuid: mwdi-1-0-0-op-s-is-021
-      - server-name: /v1/notify-object-deletions
-        uuid: mwdi-1-0-0-op-s-is-022
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-001
-
-  - forwarding-name: ServiceRequestCausesLtpDeletionRequest
-    uuid: mwdi-1-0-0-op-fc-bm-007
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/end-subscription
-        uuid: mwdi-1-0-0-op-s-bm-004
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-002
-
-  - forwarding-name: ServiceRequestCausesFcUpdateRequest
-    uuid: mwdi-1-0-0-op-fc-bm-008
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-003
+  
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
     uuid: mwdi-1-0-0-op-fc-bm-009
@@ -61,11 +15,11 @@
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/notify-attribute-value-changes
-        uuid: mwdi-1-0-0-op-s-is-020
+        uuid: 
       - server-name: /v1/notify-object-creations
-        uuid: mwdi-1-0-0-op-s-is-021
+        uuid: 
       - server-name: /v1/notify-object-deletions
-        uuid: mwdi-1-0-0-op-s-is-022
+        uuid: 
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-004

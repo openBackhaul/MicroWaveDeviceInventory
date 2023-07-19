@@ -1314,4 +1314,3 @@ forwardings:
         uuid: mwdi-1-0-0-es-c-es-1-0-0-000
       - client-name: ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-es-c-es-1-0-0-000
-

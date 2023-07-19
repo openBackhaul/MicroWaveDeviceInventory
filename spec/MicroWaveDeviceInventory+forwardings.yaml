@@ -705,7 +705,7 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
-  ## TODO: Potential INDIVIDUAL Forwardings to be added
+  ## INDIVIDUAL Forwardings
 
   - forwarding-name: NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
     uuid: mwdi-1-0-0-op-fc-is-020

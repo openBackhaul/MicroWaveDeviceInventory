@@ -1,39 +1,8 @@
 
 
 
-  - forwarding-name: ServiceRequestCausesLtpUpdateRequest
-    uuid: mwdi-1-0-0-op-fc-bm-006
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: mwdi-1-0-0-op-s-bm-009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/register-yourself
-        uuid: mwdi-1-0-0-op-s-bm-000
-      - server-name: /v1/embed-yourself
-        uuid: mwdi-1-0-0-op-s-bm-001
-      - server-name: /v1/redirect-service-request-information
-        uuid: mwdi-1-0-0-op-s-bm-002
-      - server-name: /v1/redirect-oam-request-information
-        uuid: mwdi-1-0-0-op-s-bm-003
-      - server-name: /v1/inquire-oam-request-approvals
-        uuid: mwdi-1-0-0-op-s-bm-005
-      - server-name: /v1/update-client
-        uuid: mwdi-1-0-0-op-s-bm-007
-      - server-name: /v1/redirect-topology-change-information
-        uuid: mwdi-1-0-0-op-s-bm-009
-      - server-name: /v1/update-operation-client
-        uuid: mwdi-1-0-0-op-s-bm-011
-      - server-name: /v1/bequeath-your-data-and-die
-        uuid: mwdi-1-0-0-op-s-im-000
       - server-name: /v1/notify-attribute-value-changes
-        uuid: mwdi-1-0-0-op-s-is-020
+        uuid: 
       - server-name: /v1/notify-object-creations
         uuid: mwdi-1-0-0-op-s-is-021
       - server-name: /v1/notify-object-deletions

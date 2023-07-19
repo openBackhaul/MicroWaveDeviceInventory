@@ -428,7 +428,7 @@ forwardings:
       - client-name: NewRelease://v1/notify-object-deletions
         uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
 
-  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtAP
+  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
     uuid: mwdi-1-0-0-op-fc-im-113
     forwarding-type: InvariantProcessSnippet
     management-requests:

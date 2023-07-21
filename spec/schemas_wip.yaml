@@ -250,6 +250,101 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
+  # uuid: mwdi-1-0-0-op-s-is-228
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getPureEthernetStructureHistoricalPerformances
+      summary: 'Provides PureEthernetStructureHistoricalPerformances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'PureEthernetStructureHistoricalPerformances provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pure-ethernet-structure-historical-performances:
+                    $ref: '#/components/schemas/PURE_ETHERNET_INTERFACE_HISTORICAL_PERFORMANCES'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-228/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  # uuid: mwdi-1-0-0-op-s-is-241
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getMacInterfaceHistoricalPerformances
+      summary: 'Provides MacInterfaceHistoricalPerformances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'MacInterfaceHistoricalPerformances provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mac-interface-historical-performances:
+                    $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-241/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 
 
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
@@ -509,94 +604,6 @@ paths:
               description: >
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-099/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
-    # uuid: mwdi-1-0-0-op-s-is-149
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructLogicalTerminationPointLayerProtocolPureEthernetStructurePureEthernetStructurePacPureEthernetHistoricalPerformances
-      summary: 'Returns pure-ethernet-historical-performances'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'ltp_layer-protocol_pure-ethernet-pac_pure-ethernet-historical-performances provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-149/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
-    # uuid: mwdi-1-0-0-op-s-is-162
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructLogicalTerminationPointLayerProtocolMacInterfaceMacInterfacePacMacInterfaceHistoricalPerformances
-      summary: 'Returns mac-interface-historical-performances'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-historical-performances_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-162/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1891,7 +1898,7 @@ components:
       type: object
 
     # =====================================================
-    VLAN_INTERFACE_PAC:
+    VLAN_INTERFACE_PAC: #TODO
       type: object
       properties:
       #  vlan-interface-capability:
@@ -2054,3 +2061,105 @@ components:
         statistics-is-on:
           type: boolean    
 
+    # =====================================================
+    PURE_ETHERNET_STRUCTURE_PAC: #TODO
+      type: object
+      properties:
+      #  pure-ethernet-structure-capability:
+      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
+      #  pure-ethernet-structure-configuration:
+      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
+      #  pure-ethernet-structure-status:
+      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
+      #  pure-ethernet-structure-current-performance:
+      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
+        pure-ethernet-structure-historical-performances:
+          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
+
+    PURE_ETHERNET_STRUCTURE_CAPABILITY_:  #TODO
+      type: object
+    PURE_ETHERNET_STRUCTURE_CONFIGURATION_: #TODO
+      type: object
+    PURE_ETHERNET_STRUCTURE_STATUS_: #TODO
+      type: object
+    PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE_: #TODO
+      type: object      
+    PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES:
+      type: object
+      properties:
+        historical-performance-data-list:
+          type: array
+          items:
+            type: object
+            properties:
+              performance-data:
+                type: object
+                properties:
+                  time-period:
+                    type: integer
+                  es:
+                    type: integer
+                  ses:
+                    type: integer
+                  cses:
+                    type: integer
+                  unavailability:
+                    type: integer
+                  rx-level-min:
+                    type: integer
+                  rx-level-max:
+                    type: integer
+                  rx-level-avg:
+                    type: integer
+              suspect-interval-flag:
+                type: boolean
+              history-data-id:
+                type: string
+              granularity-period:
+                type: string
+                enum:
+                  - 'GRANULARITY_PERIOD_TYPE_UNKNOWN'
+                  - 'GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN'
+                  - 'GRANULARITY_PERIOD_TYPE_PERIOD-24-HOURS'
+                  - 'GRANULARITY_PERIOD_TYPE_NOT_YET_DEFINED'
+              period-end-time:
+                type: string
+        number-of-historical-performance-sets:
+          type: integer
+        time-of-latest-change:
+          type: string
+
+    # =====================================================
+    MAC_INTERFACE_PAC: #TODO
+      type: object
+      properties:
+      #  mac-interface-capability:
+      #    $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+      #  mac-interface-configuration:
+      #    $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'          
+      #  mac-interface-status:
+      #    $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+      #  mac-interface-current-performance:
+      #    $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
+        mac-interface-historical-performances:
+          $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
+
+    MAC_INTERFACE_CAPABILITY_:  #TODO
+      type: object
+    MAC_INTERFACE_CONFIGURATION_: #TODO
+      type: object
+    MAC_INTERFACE_STATUS_: #TODO
+      type: object
+    MAC_INTERFACE_CURRENT_PERFORMANCE_: #TODO
+      type: object      
+
+    MAC_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
+      properties:
+        historical-performance-data-list:
+          # TODO
+
+        number-of-historical-performance-sets:
+          type: integer
+        time-of-latest-change:
+          type: string

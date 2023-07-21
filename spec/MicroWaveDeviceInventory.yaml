@@ -1463,9 +1463,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
-
-
 
   /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
     # uuid: mwdi-1-0-0-op-s-is-021

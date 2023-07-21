@@ -1,0 +1,2056 @@
+openapi: 3.0.0
+info:
+  title: MicrowaveDeviceInventory
+  version: 1.0.0
+
+paths:
+########################################################################################################################
+#   prep services
+########################################################################################################################
+
+
+# REIHENFOLGE DER REQUESTS STIMMT NICHT MIT DER SERVICELIST ÜBEREIN!
+  # uuid: mwdi-1-0-0-op-s-is-201
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getAirInterfaceCapability
+      summary: 'Provides AirInterfaceCapability'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AirInterfaceCapability provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  air-interface-2-0:air-interface-capability:
+                    $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-201/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  # uuid: mwdi-1-0-0-op-s-is-203
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getAirInterfaceConfiguration
+      summary: 'Provides AirInterfaceConfiguration'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AirInterfaceConfiguration provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  air-interface-2-0:air-interface-configuration:
+                    $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  # uuid: mwdi-1-0-0-op-s-is-209
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getAirInterfaceStatus
+      summary: 'Provides AirInterfaceStatus'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AirInterfaceStatus provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  air-interface-2-0:air-interface-status:
+                    $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-209/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  # uuid: mwdi-1-0-0-op-s-is-217
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getAirInterfaceHistoricalPerformances
+      summary: 'Provides AirInterfaceHistoricalPerformances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AirInterfaceHistoricalPerformances provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  air-interface-2-0:air-interface-historical-performances:
+                    $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-217/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+# prep kat
+  # uuid: mwdi-1-0-0-op-s-is-185
+  /cache/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:    
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getVlanInterfaceConfiguration
+      summary: 'Provides VlanInterfaceConfiguration'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'VlanInterfaceConfiguration provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vlan-interface-1-0:vlan-interface-configuration:
+                    $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-185/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
+    # uuid: mwdi-1-0-0-op-s-is-021
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstruct
+      summary: 'Returns control-construct'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'core-model-1-4_control-construct provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks:
+        #RessourcePathRequestCausesReadingFromElasticSearch:
+  #
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
+    # uuid: mwdi-1-0-0-op-s-is-022
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructEquipment
+      summary: 'Returns equipment'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'equipment provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}:
+    # uuid: mwdi-1-0-0-op-s-is-023
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructEquipmentConnector
+      summary: 'Returns equpiment connector'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'equipment_connector provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_connector_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-023/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}:
+    # uuid: mwdi-1-0-0-op-s-is-027
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructEquipnentContainedHolder
+      summary: 'Returns equipment contained-holder'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'equipment_contained-holder provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_contained-holder_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-027/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  #
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
+    # uuid: mwdi-1-0-0-op-s-is-086
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructEquipmentActualEquipmentManufacturedThing
+      summary: 'Returns the manufactured-thing of the equipments actual equipment'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'actual-equipment_manufactured-thing provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-086/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}:
+    # uuid: mwdi-1-0-0-op-s-is-099
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPoint
+      summary: 'Returns logical-termination-point'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'logical-termination-point provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-099/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
+    # uuid: mwdi-1-0-0-op-s-is-149
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolPureEthernetStructurePureEthernetStructurePacPureEthernetHistoricalPerformances
+      summary: 'Returns pure-ethernet-historical-performances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_pure-ethernet-pac_pure-ethernet-historical-performances provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_pure-ethernet-structure-pac_pure-ethernet-structure-historical-performances_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-149/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
+    # uuid: mwdi-1-0-0-op-s-is-162
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolMacInterfaceMacInterfacePacMacInterfaceHistoricalPerformances
+      summary: 'Returns mac-interface-historical-performances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-historical-performances_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-162/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
+    # uuid: mwdi-1-0-0-op-s-is-175
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolHybridMwStructureHybridMwStructurePacHybridMwStructureHistoricalPerformances
+      summary: 'Returns hybrid-mw-structure-historical-performances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_hybrid-mw-structure-pac_hybrid-mw-structure-historical-performances_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-175/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
+    # uuid: mwdi-1-0-0-op-s-is-193
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolEthernetContainerEthernetContainerPacEthernetContainerHistoricalPerformances
+      summary: 'Returns ethernet-container-historical-performances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-193/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
+    # uuid: mwdi-1-0-0-op-s-is-202
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolWireInterfaceWireInterfacePacWireInterfaceStatus
+      summary: 'Returns wire-interface-status'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-status provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-status_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
+    # uuid: mwdi-1-0-0-op-s-is-207
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLayerProtocolWireInterfaceWireInterfacePacWireInterfaceHistoricalPerformances
+      summary: 'Returns wire-interface-historical-performances'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ltp_layer-protocol_wire-interface-pac_wire-interface-historical-performances provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-historical-performances_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-207/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac:
+    # uuid: mwdi-1-0-0-op-s-is-236
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructLogicalTerminationPointLtpAugmentLtpAugementLtpAugmentPac
+      summary: 'Returns ltp-augment-pac'
+      tags:
+        - core-model-1-4
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'ltp_ltp-augment-pac provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_ltp-augment-pac_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-236/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
+    # uuid: mwdi-1-0-0-op-s-is-298
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructAlarmsAlarmPacCurrentAlarms
+      summary: 'Returns current-alarms'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'alarm-pac_current-alarms provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_alarm-pac_current-alarms_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-298/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection:
+    # uuid: mwdi-1-0-0-op-s-is-302
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructFirmwareFirmwareCollection
+      summary: 'Returns firmware-collection'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'firmware-collection provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-302/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
+    # uuid: mwdi-1-0-0-op-s-is-305
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructFirmwareFirmwareCollectionFirmwareComponentListFirmwareComponentPacFirmwareComponentCapability
+      summary: 'Returns firmware-component-capability'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-305/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
+    # uuid: mwdi-1-0-0-op-s-is-306
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getControlConstructFirmwareFirmwareCollectionFirmwareComponentListFirmwareComponentPacFirmwareComponentStatus
+      summary: 'Returns firmware-component-status'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status_TOP'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-306/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+#######################################################################################################################
+#   Common Components
+########################################################################################################################
+components:
+  parameters:
+    user:
+      name: user
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'User Name'
+      description: 'User identifier from the system starting the service call'
+    originator:
+      name: originator
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        example: 'Resolver'
+      description: >
+        'Identification for the system consuming the API, as defined in
+         [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+    x-correlator:
+      name: x-correlator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+        description: 'Empty string accepted from external applications.'
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses'
+    trace-indicator:
+      name: trace-indicator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^([0-9]+)(\.([0-9]+))*$'
+        description: 'Empty string accepted from external applications.'
+        example: '1.3.1'
+      description: 'Sequence of request numbers along the flow'
+    customer-journey:
+      name: customer-journey
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'Unknown value'
+      description: 'Holds information supporting customer’s journey to which the execution applies'
+    mount-name:
+      name: mount-name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: '222250001'
+      description: 'The mount-name of the device that is addressed by the request'
+    uuid:
+      name: uuid
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'LTP-MWPS-TTP-1-1'
+      description: 'Instance identifier that is unique within the device'
+    local-id:
+      name: local-id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'LP-MWPS-TTP-1-1'
+      description: 'Instance identifier that is unique within its list'
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+        example: 'node(node-id;netconf-node-topology:connection-status)'
+      description: 'Query parameter to filter ressources according to RFC8040 fields filter spec'
+  responses:
+    responseForErroredServiceRequests:
+      description: 'Response in case of errored service requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+      headers:
+        x-correlator:
+          schema:
+            type: string
+            pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+            example: '550e8400-e29b-11d4-a716-446655440000'
+          description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+        exec-time:
+          schema:
+            type: integer
+            example: 1100
+          description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+        backend-time:
+          schema:
+            type: integer
+            example: 850
+          description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    responseForErroredOamRequests:
+      description: 'Response in case of errored OaM requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+  headers:
+    x-correlator:
+      schema:
+        type: string
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+    exec-time:
+      schema:
+        type: integer
+        example: 1100
+      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+    backend-time:
+      schema:
+        type: integer
+        example: 850
+      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    life-cycle-state:
+      schema:
+        type: string
+        enum:
+          - 'EXPERIMENTAL'
+          - 'OPERATIONAL'
+          - 'DEPRECATED'
+          - 'OBSOLETE'
+          - 'UNKNOWN'
+          - 'NOT_YET_DEFINED'
+        example: 'EXPERIMENTAL'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: operation-key
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    errorDescription:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    genericRepresentation:
+      type: object
+      required:
+        - response-value-list
+        - consequent-action-list
+      properties:
+        response-value-list:
+          type: array
+          items:
+            type: object
+            required:
+              - field-name
+              - value
+              - datatype
+            properties:
+              field-name:
+                type: string
+                description: >
+                  'Field name
+                  from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
+              value:
+                type: string
+                description: >
+                  'Field value
+                  from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
+              datatype:
+                type: string
+                description: >
+                  'Field datatype
+                  from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
+        consequent-action-list:
+          type: array
+          items:
+            type: object
+            required:
+              - label
+              - request
+              - display-in-new-browser-window
+            properties:
+              label:
+                type: string
+                description: >
+                  'Label that shall be presented on the button
+                  from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
+              request:
+                type: string
+                description: >
+                  'Request that shall be called, when button gets pressed
+                  from
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
+                  ://
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
+                  or
+                  {/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
+                  :
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
+                  [{/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
+              input-value-list:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - field-name
+                  properties:
+                    field-name:
+                      type: string
+                      description: >
+                        'Name of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
+                    unit:
+                      type: string
+                      description: >
+                        'Unit of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
+              display-in-new-browser-window:
+                type: boolean
+                description: >
+                  'True in case Request shall be represented in a new browser window
+                  from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
+    logicalTerminationPoint:
+      type: object
+      required:
+        - uuid
+        - ltp-direction
+        - client-ltp
+        - server-ltp
+        - layer-protocol
+      properties:
+        uuid:
+          type: string
+        ltp-direction:
+          type: string
+        client-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        server-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        layer-protocol:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            oneOf:
+              - description: 'operation server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-server-interface-1-0:operation-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-server-interface-1-0:operation-server-interface-pac:
+                    type: object
+                    required:
+                      - operation-server-interface-capability
+                      - operation-server-interface-configuration
+                    properties:
+                      operation-server-interface-capability:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-server-interface-configuration:
+                        type: object
+                        required:
+                          - life-cycle-state
+                        properties:
+                          life-cycle-state:
+                            type: string
+              - description: 'http server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-server-interface-1-0:http-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-server-interface-1-0:http-server-interface-pac:
+                    type: object
+                    required:
+                      - http-server-interface-capability
+                    properties:
+                      http-server-interface-capability:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                          - data-update-period
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+                          data-update-period:
+                            type: string
+              - description: 'tcp server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-server-interface-1-0:tcp-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-server-interface-1-0:tcp-server-interface-pac:
+                    type: object
+                    required:
+                      - tcp-server-interface-configuration
+                    properties:
+                      tcp-server-interface-configuration:
+                        type: object
+                        required:
+                          - description
+                          - local-protocol
+                          - local-address
+                          - local-port
+                        properties:
+                          description:
+                            type: string
+                          local-protocol:
+                            type: string
+                          local-address:
+                            type: object
+                            properties:
+                              ipv-4-address:
+                                type: string
+                              domain-name:
+                                type: string
+                          local-port:
+                            type: integer
+              - description: 'operation client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-client-interface-1-0:operation-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-client-interface-1-0:operation-client-interface-pac:
+                    type: object
+                    required:
+                      - operation-client-interface-configuration
+                      - operation-client-interface-status
+                    properties:
+                      operation-client-interface-configuration:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'elasticsearch client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac:
+                    type: object
+                    required:
+                      - elasticsearch-client-interface-configuration
+                      - elasticsearch-client-interface-status
+                    properties:
+                      elasticsearch-client-interface-configuration:
+                        type: object
+                        required:
+                          - index-alias
+                        properties:
+                          index-alias:
+                            type: string
+                      elasticsearch-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'http client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-client-interface-1-0:http-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-client-interface-1-0:http-client-interface-pac:
+                    type: object
+                    required:
+                      - http-client-interface-configuration
+                    properties:
+                      http-client-interface-configuration:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+              - description: 'tcp client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-client-interface-1-0:tcp-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-client-interface-1-0:tcp-client-interface-pac:
+                    type: object
+                    required:
+                      - tcp-client-interface-configuration
+                    properties:
+                      tcp-client-interface-configuration:
+                        type: object
+                        required:
+                          - remote-protocol
+                          - remote-address
+                          - remote-port
+                        properties:
+                          remote-protocol:
+                            type: string
+                          remote-address:
+                            type: object
+                            properties:
+                              ip-address:
+                                type: object
+                                properties:
+                                  ipv-4-address:
+                                    type: string
+                              domain-name:
+                                type: string
+                          remote-port:
+                            type: integer
+    forwardingDomain:
+      type: object
+      required:
+        - uuid
+        - forwarding-construct
+      properties:
+        uuid:
+          type: string
+        forwarding-construct:
+          type: array
+          items:
+            type: object
+            required:
+              - uuid
+              - name
+              - fc-port
+            properties:
+              uuid:
+                type: string
+              name:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - value-name
+                    - value
+                  properties:
+                    value-name:
+                      type: string
+                    value:
+                      type: string
+              fc-port:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - port-direction
+                    - logical-termination-point
+                  properties:
+                    local-id:
+                      type: string
+                    port-direction:
+                      type: string
+                    logical-termination-point:
+                      type: string
+
+    CONTROL_CONSTRUCT_:
+      type: object
+    LOGICAL_TERMINATION_POINT_:
+      type: object
+    LAYER_PROTOCOL_:
+      type: object
+
+
+    # =====================================================
+    AIR_INTERFACE_PAC:
+      type: object
+      properties:
+        #air-interface-2-0:air-interface-capability:      # im Postman fehlt vorne das "air-interface-2-0:"
+        air-interface-capability:
+          $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
+        #air-interface-2-0:air-interface-configuration:
+        air-interface-configuration:
+          $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
+        #air-interface-2-0:air-interface-status:
+        air-interface-status:
+          $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
+        #air-interface-2-0:air-interface-historical-performances:
+        air-interface-historical-performances:
+          $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
+        #air-interface-current-performance:
+          #$ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
+    AIR_INTERFACE_CAPABILITY:
+      type: object
+      properties:
+        type-of-equipment:
+          type: string
+        tx-frequency-min:
+          type: integer
+        tx-frequency-max:
+          type: integer
+        rx-frequency-min:
+          type: integer
+        rx-frequency-max:
+          type: integer
+        duplex-distance-is-freely-configurable:
+          type: boolean
+        duplex-distance-list:
+          type: array
+          items:
+            type: integer
+        transmission-mode-list:
+          type: array
+          items:
+            type: object
+            properties:
+              transmission-mode-name:
+                type: string
+              transmission-mode-rank:
+                type: integer
+              channel-bandwidth:
+                type: integer
+              modulation-scheme:
+                type: integer
+              code-rate:
+                type: integer
+              symbol-rate-reduction-factor:
+                type: integer
+              tx-power-min:
+                type: integer
+              tx-power-max:
+                type: integer
+              rx-threshold:
+                type: integer
+              am-upshift-level:
+                type: integer
+              am-downshift-level:
+                type: integer
+              xpic-is-avail:
+                type: boolean
+              supported-as-fixed-configuration:
+                type: boolean
+              modulation-scheme-name-at-lct:
+                type: string
+        auto-freq-select-is-avail:
+          type: boolean
+        receiver-on-off-is-avail:
+          type: boolean
+        adaptive-modulation-is-avail:
+          type: boolean
+        atpc-is-avail:
+          type: boolean
+        atpc-range:
+          type: integer
+        supported-radio-signal-id-datatype:
+          type: string
+        supported-radio-signal-id-length:
+          type: integer
+        expected-equals-transmitted-radio-signal-id:
+          type: boolean
+        encryption-is-avail:
+          type: boolean
+        supported-loop-back-kind-list:
+          type: array
+          items:
+            type: string
+        maintenance-timer-range:
+          type: string
+        acm-threshold-cross-alarms-is-avail:
+          type: boolean
+        clearing-threshold-cross-alarms-is-avail:
+          type: boolean
+        performance-monitoring-is-avail:
+          type: boolean
+        direction-of-acm-performance-values:
+          type: string
+    AIR_INTERFACE_CONFIGURATION:
+      type: object
+      properties:
+        air-interface-name:
+          type: string
+        remote-air-interface-name:
+          type: string
+        transmitted-radio-signal-id:
+          type: object
+          properties:
+            numeric-radio-signal-id:
+              type: integer
+            alphanumeric-radio-signal-id:
+              type: string
+        expected-radio-signal-id:
+          type: object
+          properties:
+            numeric-radio-signal-id:
+              type: integer
+            alphanumeric-radio-signal-id:
+              type: string
+        tx-frequency:
+          type: integer
+        rx-frequency:
+          type: integer
+        duplex-distance:
+          type: integer
+        transmission-mode-min:
+          type: string
+        transmission-mode-max:
+          type: string
+        power-is-on:
+          type: boolean
+        transmitter-is-on:
+          type: boolean
+        receiver-is-on:
+          type: boolean
+        tx-power:
+          type: integer
+        adaptive-modulation-is-on:
+          type: boolean
+        xpic-is-on:
+          type: boolean
+        mimo-is-on:
+          type: boolean
+        alic-is-on:
+          type: boolean
+        atpc-is-on:
+          type: boolean
+        atpc-thresh-upper:
+          type: integer
+        atpc-thresh-lower:
+          type: integer
+        atpc-tx-power-min:
+          type: integer
+        auto-freq-select-is-on:
+          type: boolean
+        auto-freq-select-range:
+          type: integer
+        modulation-is-on:
+          type: boolean
+        encryption-is-on:
+          type: boolean
+        cryptographic-key:
+          type: string
+        loop-back-kind-on:
+          type: string
+        maintenance-timer:
+          type: integer
+        g-826-threshold-cross-alarm-list:
+          type: array
+          items:
+            type: object
+            properties:
+              g-826-value-kind:
+                type: string
+              alarm-raising-threshold:
+                type: integer
+              alarm-clearing-threshold:
+                type: integer
+              granularity-period:
+                type: string
+        xlts-threshold-cross-alarm-list:
+          type: array
+          items:
+            type: object
+            properties:
+              level-threshold-second-kind:
+                type: string
+              xlts-level:
+                type: integer
+              amount-of-seconds:
+                type: integer
+              granularity-period:
+                type: string
+              xlts-threshold-cross-alarm-definition-number:
+                type: integer
+        acm-threshold-cross-alarm-list:
+          type: array
+          items:
+            type: object
+            properties:
+              acm-threshold-cross-alarm-definition-number:
+                type: integer
+              transmission-mode:
+                type: string
+              seconds-for-raising-alarm:
+                type: integer
+              seconds-for-clearing-alarm:
+                type: integer
+              granularity-period:
+                type: string
+        performance-monitoring-is-on:
+          type: boolean
+    AIR_INTERFACE_STATUS:
+      type: object
+      properties:
+        interface-status:
+          type: string
+        tx-frequency-cur:
+          type: integer
+        rx-frequency-cur:
+          type: integer
+        transmission-mode-cur:
+          type: string
+        received-radio-signal-id:
+          type: object
+          properties:
+            numeric-radio-signal-id:
+              type: integer
+            alphanumeric-radio-signal-id:
+              type: string
+        link-is-up:
+          type: boolean
+        xpic-is-up:
+          type: boolean
+        mimo-is-up:
+          type: boolean
+        alic-is-up:
+          type: boolean
+        atpc-is-up:
+          type: boolean
+        auto-freq-select-is-up:
+          type: boolean
+        local-end-point-id:
+          type: string
+        remote-end-point-id:
+          type: string
+        loop-back-kind-up:
+          type: string
+        performance-monitoring-is-up:
+          type: boolean
+        rx-level-cur:
+          type: integer
+        tx-level-cur:
+          type: integer
+        snir-cur:
+          type: integer
+        xpd-cur:
+          type: integer
+        rf-temp-cur:
+          type: integer
+    AIR_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
+      properties:
+        historical-performance-data-list:
+          type: array
+          items:
+            type: object
+            properties:
+              performance-data:
+                type: object
+                properties:
+                  es:
+                    type: integer
+                  ses:
+                    type: integer
+                  cses:
+                    type: integer
+                  unavailability:
+                    type: integer
+                  tx-level-min:
+                    type: integer
+                  tx-level-max:
+                    type: integer
+                  tx-level-avg:
+                    type: integer
+                  rx-level-min:
+                    type: integer
+                  rx-level-max:
+                    type: integer
+                  rx-level-avg:
+                    type: integer
+                  time-xstates-list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time-xstate-sequence-number:
+                          type: integer
+                        transmission-mode:
+                          type: string
+                        time:
+                          type: integer
+                  snir-min:
+                    type: integer
+                  snir-max:
+                    type: integer
+                  snir-avg:
+                    type: integer
+                  xpd-min:
+                    type: integer
+                  xpd-max:
+                    type: integer
+                  xpd-avg:
+                    type: integer
+                  rf-temp-min:
+                    type: integer
+                  rf-temp-max:
+                    type: integer
+                  rf-temp-avg:
+                    type: integer
+                  defect-blocks-sum:
+                    type: integer
+                  time-period:
+                    type: integer
+              suspect-interval-flag:
+                type: boolean
+              history-data-id:
+                type: string
+              granularity-period:
+                type: string
+              period-end-time:
+                type: string
+        number-of-historical-performance-sets:
+          type: integer
+        time-of-latest-change:
+          type: string
+
+    AIR_INTERFACE_CURRENT_PERFORMANCE_: # TODO: in MWDI v1 inkludieren? wird nicht abgefragt, ist aber Teil vom CC
+      type: object
+
+    # =====================================================
+    VLAN_INTERFACE_PAC:
+      type: object
+      properties:
+      #  vlan-interface-capability:
+      #    $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+        vlan-interface-configuration:
+          $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+
+    VLAN_INTERFACE_CAPABILITY_: #TODO
+      type: object
+
+    VLAN_INTERFACE_CONFIGURATION:
+      type: object
+      properties:
+        interface-name:
+          type: string
+        sub-layer-protocol-name:
+          type: string
+          enum:
+            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_D_BRIDGE_COMPONENT'
+            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_C_VLAN_COMPONENT'
+            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_S_VLAN_COMPONENT'
+            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_EDGE_RELAY_COMPONENT'
+            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_NOT_YET_DEFINED'
+        interface-kind:
+          type: string
+          enum:
+            - 'INTERFACE_KIND_TYPE_D_BRIDGE_PORT'
+            - 'INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT'
+            - 'INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
+            - 'INTERFACE_KIND_TYPE_PROVIDER_EDGE_PORT'
+            - 'INTERFACE_KIND_TYPE_CUSTOMER_NETWORK_PORT'
+            - 'INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
+            - 'INTERFACE_KIND_TYPE_CUSTOMER_BACKBONE_PORT'
+            - 'INTERFACE_KIND_TYPE_REMOTE_CUSTOMER_ACCESS_PORT'
+            - 'INTERFACE_KIND_TYPE_VIRTUAL_INSTANCE_PORT'
+            - 'INTERFACE_KIND_TYPE_STATION_FACING_BRIDGE_PORT'
+            - 'INTERFACE_KIND_TYPE_UPLINK_ACCESS_PORT'
+            - 'INTERFACE_KIND_TYPE_UPLINK_RELAY_PORT'
+            - 'INTERFACE_KIND_TYPE_NOT_YET_DEFINED'
+        default-vlan-id:
+          type: integer
+        default-priority:
+          type: integer
+        ingress-tag-filtering:
+          type: string
+          enum:
+            - 'INGRESS_TAG_FILTERING_TYPE_UNTAGGED_AND_PRIORITY_FRAMES_ONLY'
+            - 'INGRESS_TAG_FILTERING_TYPE_VLAN_TAGGED_FRAMES_ONLY'
+            - 'INGRESS_TAG_FILTERING_TYPE_ALL_FRAMES'
+            - 'INGRESS_TAG_FILTERING_TYPE_NOT_YET_DEFINED'
+        ingress-vlan-id-filtering-is-on:
+          type: boolean
+        pcp-bits-interpretation-kind:
+          type: string
+          enum:
+            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_8P0D'
+            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_7P1D'
+            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_6P2D'
+            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_5P3D'
+            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_NOT_YET_DEFINED'
+        pcp-bit-to-priority-mapping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              to-be-decoded-pcp-bits-value:
+                type: integer
+              associated-priority-value:
+                type: integer
+              associated-drop-eligibility:
+                type: boolean
+        pcp-bits-encoding-mapping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              to-be-encoded-priority-value:
+                type: integer
+              to-be-encoded-drop-eligibility:
+                type: boolean
+              associated-pcp-bits-value:
+                type: integer
+        drop-eligible-indicator-is-on:
+          type: boolean
+        drop-eligible-encoding-is-required:
+          type: boolean
+        received-priority-overwriting-is-on:
+          type: boolean
+        received-priority-overwriting-list:
+          type: array
+          items:
+            type: object
+            properties:
+              to-be-overwritten-priority-value:
+                type: integer
+              new-priority-value:
+                type: integer
+        vlan-id-translation-is-on:
+          type: boolean
+        external-to-internal-vlan-id-mapping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              external-vlan-id:
+                type: integer
+              internal-vlan-id:
+                type: integer
+        egress-vlan-id-translation-is-on:
+          type: boolean
+        internal-to-egress-vlan-id-mapping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              internal-vlan-id:
+                type: integer
+              egress-vlan-id:
+                type: integer
+        forwarded-protocol-vlan-id-grouping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              forwarded-protocol-group-id:
+                type: integer
+              forwarded-vlan-id-list:
+                type: array
+                items:
+                  type: integer
+        service-access-priority-tagging-is-on:
+          type: boolean
+        service-access-priority-mapping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              c-vlan-priority-value:
+                type: integer
+              s-vlan-pcp-bits-value:
+                type: integer
+        priority-to-traffic-class-mapping-list:
+          type: array
+          items:
+            type: object
+            properties:
+              priority-value:
+                type: integer
+              traffic-class-value:
+                type: integer
+        restricted-automated-vlan-registration-is-on:
+          type: boolean
+        admin-point-to-point:
+          type: string
+          enum:
+            - 'ADMIN_POINT_TO_POINT_TYPE_FORCE_TRUE'
+            - 'ADMIN_POINT_TO_POINT_TYPE_FORCE_FALSE'
+            - 'ADMIN_POINT_TO_POINT_TYPE_AUTO'
+            - 'ADMIN_POINT_TO_POINT_TYPE_NOT_YET_DEFINED'
+        statistics-is-on:
+          type: boolean    
+

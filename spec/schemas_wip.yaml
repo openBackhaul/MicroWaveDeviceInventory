@@ -1557,16 +1557,12 @@ components:
     AIR_INTERFACE_PAC:
       type: object
       properties:
-        #air-interface-2-0:air-interface-capability:      # im Postman fehlt vorne das "air-interface-2-0:"
         air-interface-capability:
           $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
-        #air-interface-2-0:air-interface-configuration:
         air-interface-configuration:
           $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
-        #air-interface-2-0:air-interface-status:
         air-interface-status:
           $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
-        #air-interface-2-0:air-interface-historical-performances:
         air-interface-historical-performances:
           $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
         #air-interface-current-performance:

@@ -2011,7 +2011,6 @@ components:
       #    $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
         wire-interface-historical-performances:
           $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
-
     WIRE_INTERFACE_CAPABILITY:
       type: object
       properties:
@@ -2169,7 +2168,112 @@ components:
     WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
       properties:
-        wire-interface-historical-performances:
+        historical-performance-data-list:
+          type: array
+          items:
+            type: object
+            properties:
+              performance-data:
+                type: object
+                properties:
+                  es:
+                    type: integer
+                  ses:
+                    type: integer
+                  symbol-error-during-carrier:
+                    type: integer
+                  low-power-idle-transmitter-ms:
+                    type: integer
+                  low-power-idle-receiver-ms:
+                    type: integer
+                  rx-collisions:
+                    type: integer
+              suspect-interval-flag:
+                type: boolean
+              history-data-id:
+                type: string
+              granularity-period:
+                type: string
+              period-end-time:
+                type: string
+        number-of-historical-performance-sets:
+          type: integer
+        time-of-latest-change:
+          type: string
+    WIRE_INTERFACE_CURRENT_PERFORMANCE_: #TODO later
+      type: object
+
+
+
+    # ==== HYBRID MICROWAVE =====================================================
+    HYBRID_MW_STRUCTURE_PAC:
+      type: object
+      properties:
+        hybrid-mw-structure-capability:
+          $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
+        hybrid-mw-structure-configuration:
+          $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CONFIGURATION'
+        hybrid-mw-structure-status:
+          $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_STATUS'
+      #  hybrid-mw-structure-current-performance:
+      #    $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
+        hybrid-mw-structure-historical-performances:
+          $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES'
+
+    HYBRID_MW_STRUCTURE_CAPABILITY:
+      type: object
+
+
+
+    HYBRID_MW_STRUCTURE_CONFIGURATION:
+      type: object
+      properties:
+        hybrid-mw-structure-configuration:
+          type: object
+          properties:
+            tdm-structure-kind:
+              type: string
+            number-of-tdm-segments-to-be-reserved:
+              type: integer
+            g-826-threshold-cross-alarm-list:
+              type: array
+              items:
+                type: object
+                properties:
+                  g-826-value-kind:
+                    type: string
+                  alarm-raising-threshold:
+                    type: integer
+                  alarm-clearing-threshold:
+                    type: integer
+                  granularity-period:
+                    type: string
+            clearing-threshold-cross-alarms-is-on:
+              type: boolean
+            performance-monitoring-is-on:
+              type: boolean
+
+
+    HYBRID_MW_STRUCTURE_STATUS:
+      type: object
+      properties:
+        segment-status-list:
+          type: array
+          items:
+            type: object
+            properties:
+              segment-status-type-id:
+                type: integer
+              segment-is-reserved-for-tdm:
+                type: boolean
+              operational-status:
+                type: string
+        performance-monitoring-is-up:
+          type: boolean
+    HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES:
+      type: object
+      properties:
+        hybrid-mw-structure-historical-performances:
           type: object
           properties:
             historical-performance-data-list:
@@ -2180,17 +2284,21 @@ components:
                   performance-data:
                     type: object
                     properties:
+                      time-period:
+                        type: integer
                       es:
                         type: integer
                       ses:
                         type: integer
-                      symbol-error-during-carrier:
+                      cses:
                         type: integer
-                      low-power-idle-transmitter-ms:
+                      unavailability:
                         type: integer
-                      low-power-idle-receiver-ms:
+                      rx-level-min:
                         type: integer
-                      rx-collisions:
+                      rx-level-max:
+                        type: integer
+                      rx-level-avg:
                         type: integer
                   suspect-interval-flag:
                     type: boolean
@@ -2204,8 +2312,10 @@ components:
               type: integer
             time-of-latest-change:
               type: string
-    WIRE_INTERFACE_CURRENT_PERFORMANCE_: #TODO later
-      type: object
+    HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE_: #TODO later
+      type: object      
+  
+
 
     #***********************************************************************
     # Bei den Interfaces gibt es noch offene Issues, die zu Konflikten führen können -> später machen

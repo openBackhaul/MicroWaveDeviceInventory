@@ -5,7 +5,7 @@ title  Notification based adding to DeviceList
 
 participant "NP://v1/notify-devices-newly-connected-to-controller" as subscription
 participant "MWDI://v1/regard-device-newly-connected-to-controller" as regardNewDevice
-participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as liveControlConstruct
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}" as liveControlConstruct
 
 subscription -> regardNewDevice: notification {mount-name} (apiKeyAuth)
 activate regardNewDevice

@@ -4,7 +4,7 @@ skinparam responseMessageBelowArrow true
 title Request for live ControlConstruct classes
 
 participant "external" as requestor
-participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as LiveControlConstructClass
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}{path-to-class}" as LiveControlConstructClass
 participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as OdlControlConstructClass
 participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as EsControlConstructClass
 

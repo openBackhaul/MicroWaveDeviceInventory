@@ -1910,11 +1910,8 @@ components:
     PURE_ETHERNET_STRUCTURE_CAPABILITY:
       type: object
       properties:
-        pure-ethernet-structure-capability:
-          type: object
-          properties:
-            performance-monitoring-is-avail:
-              type: boolean
+        performance-monitoring-is-avail:
+          type: boolean
     PURE_ETHERNET_STRUCTURE_CONFIGURATION:
       type: object
       properties:

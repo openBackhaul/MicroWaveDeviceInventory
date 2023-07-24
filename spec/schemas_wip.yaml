@@ -1553,7 +1553,7 @@ components:
       type: object
 
 
-    # =====================================================
+    # ==== AIR INTERFACE =====================================================
     AIR_INTERFACE_PAC:
       type: object
       properties:
@@ -1889,16 +1889,291 @@ components:
           type: integer
         time-of-latest-change:
           type: string
-
-    AIR_INTERFACE_CURRENT_PERFORMANCE_: # TODO: in MWDI v1 inkludieren? wird nicht abgefragt, ist aber Teil vom CC
+    AIR_INTERFACE_CURRENT_PERFORMANCE_: # TODO later
       type: object
 
-    # =====================================================
-    VLAN_INTERFACE_PAC: #TODO
+
+    # ==== PURE-ETH-STRUCTURE =====================================================
+    PURE_ETHERNET_STRUCTURE_PAC:
       type: object
       properties:
-      #  vlan-interface-capability:
-      #    $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+        pure-ethernet-structure-capability:
+          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
+        pure-ethernet-structure-configuration:
+          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
+        pure-ethernet-structure-status:
+          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
+      #  pure-ethernet-structure-current-performance:
+      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
+        pure-ethernet-structure-historical-performances:
+          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
+    PURE_ETHERNET_STRUCTURE_CAPABILITY:
+      type: object
+      properties:
+        pure-ethernet-structure-capability:
+          type: object
+          properties:
+            performance-monitoring-is-avail:
+              type: boolean
+    PURE_ETHERNET_STRUCTURE_CONFIGURATION:
+      type: object
+      properties:
+        g-826-threshold-cross-alarm-list:
+          type: array
+          items:
+            type: object
+            properties:
+              g-826-threshold-cross-alarm-list:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    g-826-value-kind:
+                      type: string
+                    alarm-raising-threshold:
+                      type: integer
+                    alarm-clearing-threshold:
+                      type: integer
+                    granularity-period:
+                      type: string
+        clearing-threshold-cross-alarms-is-on:
+          type: boolean
+        performance-monitoring-is-on:
+          type: boolean
+    PURE_ETHERNET_STRUCTURE_STATUS:
+      type: object
+      properties:
+        segment-status-list:
+          type: array
+          items:
+            type: object
+            properties:
+              segment-status-type-id:
+                type: integer
+              operational-status:
+                type: string
+        performance-monitoring-is-up:
+          type: boolean     
+    PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES:
+      type: object
+      properties:
+        historical-performance-data-list:
+          type: array
+          items:
+            type: object
+            properties:
+              performance-data:
+                type: object
+                properties:
+                  time-period:
+                    type: integer
+                  es:
+                    type: integer
+                  ses:
+                    type: integer
+                  cses:
+                    type: integer
+                  unavailability:
+                    type: integer
+                  rx-level-min:
+                    type: integer
+                  rx-level-max:
+                    type: integer
+                  rx-level-avg:
+                    type: integer
+              suspect-interval-flag:
+                type: boolean
+              history-data-id:
+                type: string
+              granularity-period:
+                type: string
+              period-end-time:
+                type: string
+        number-of-historical-performance-sets:
+          type: integer
+        time-of-latest-change:
+          type: string
+    PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE_: #TODO later
+      type: object 
+
+
+    # ==== WIRE INTERFACE =====================================================
+    WIRE_INTERFACE_PAC:
+      type: object
+      properties:
+        wire-interface-capability:
+          $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
+        wire-interface-configuration:
+          $ref: '#/components/schemas/WIRE_INTERFACE_CONFIGURATION'
+        wire-interface-status:
+          $ref: '#/components/schemas/WIRE_INTERFACE_STATUS'
+      #  wire-interface-current-performance:
+      #    $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
+        wire-interface-historical-performances:
+          $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
+
+    WIRE_INTERFACE_CAPABILITY:
+      type: object
+
+    WIRE_INTERFACE_CONFIGURATION:
+      type: object
+      properties:
+        interface-name:
+          type: string
+
+
+
+
+        auto-negotiation-pmd-list:
+          type: array
+          items:
+            type: string
+        auto-pmd-negotiation-is-on:
+          type: boolean
+        auto-signal-ordering-is-on:
+          type: boolean
+        eee-is-on:
+          type: boolean
+        fixed-pmd-kind:
+          type: string
+        fixed-signal-ordering-kind:
+          $ref: #/components/schemas/SIGNAL_ORDERING_KIND_TYPE,
+        interface-is-on:
+          type: boolean
+
+        isolation-is-on:
+          type: boolean
+        loop-back-kind-on:
+          $ref: #/components/schemas/LOOP_BACK_TYPE4,
+        maintenance-timer:
+          type: integer
+        number-of-bip-errors-per-ses:
+          type: integer
+        performance-monitoring-is-on:
+          type: boolean
+        remote-wire-interface-name:
+          type: string
+        rx-sync-preference:
+          $ref: #/components/schemas/RX_SYNC_PREFERENCE_TYPE,
+        short-reach-mode-is-on:
+          type: boolean
+        transceiver-configuration-list:
+          type: array
+          items:
+            $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-configuration_transceiver-configuration-list
+        unidirectional-operation-is-on:
+          type: boolean
+
+
+
+        transceiver-configuration-list:
+          type: array
+          items:
+            type: object
+            properties:
+              transceiver-index:
+                type: integer
+              transceiver-is-on:
+                type: boolean
+              wavelength:
+                type: integer
+
+
+
+
+
+
+    WIRE_INTERFACE_STATUS:
+      type: object
+      properties:
+        interface-status:
+          type: string
+        receiver-status-list:
+          type: array
+          items:
+            type: object
+            properties:
+              receiver-index:
+                type: integer
+              receive-signal-is-detected:
+                type: boolean
+              rx-level-cur:
+                type: integer
+        pmd-negotiation-state:
+          type: string
+        pmd-is-up:
+          type: boolean
+        signal-ordering-kind-cur:
+          type: string
+        rx-sync-role:
+          type: string
+        eee-is-up:
+          type: boolean
+        link-is-up:
+          type: boolean
+        link-is-idle:
+          type: boolean
+        loop-back-kind-up:
+          type: string
+        tx-level-cur:
+          type: integer
+        rx-collisions:
+          type: integer
+        performance-monitoring-is-up:
+          type: boolean
+        pmd-kind-cur: # fehlt im UML
+          type: string          
+
+    WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
+      properties:
+        wire-interface-historical-performances:
+          type: object
+          properties:
+            historical-performance-data-list:
+              type: array
+              items:
+                type: object
+                properties:
+                  performance-data:
+                    type: object
+                    properties:
+                      es:
+                        type: integer
+                      ses:
+                        type: integer
+                      symbol-error-during-carrier:
+                        type: integer
+                      low-power-idle-transmitter-ms:
+                        type: integer
+                      low-power-idle-receiver-ms:
+                        type: integer
+                      rx-collisions:
+                        type: integer
+                  suspect-interval-flag:
+                    type: boolean
+                  history-data-id:
+                    type: string
+                  granularity-period:
+                    type: string
+                  period-end-time:
+                    type: string
+            number-of-historical-performance-sets:
+              type: integer
+            time-of-latest-change:
+              type: string
+
+    WIRE_INTERFACE_CURRENT_PERFORMANCE_: #TODO later
+      type: object
+
+    #***********************************************************************
+    # Bei den Interfaces gibt es noch offene Issues, die zu Konflikten führen können -> später machen
+    # =====================================================
+    VLAN_INTERFACE_PAC:
+      type: object
+      properties:
+        vlan-interface-capability:
+          $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
         vlan-interface-configuration:
           $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
 
@@ -1912,49 +2187,18 @@ components:
           type: string
         sub-layer-protocol-name:
           type: string
-          enum:
-            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_D_BRIDGE_COMPONENT'
-            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_C_VLAN_COMPONENT'
-            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_S_VLAN_COMPONENT'
-            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_EDGE_RELAY_COMPONENT'
-            - 'SUB_LAYER_PROTOCOL_NAME_TYPE_NOT_YET_DEFINED'
         interface-kind:
           type: string
-          enum:
-            - 'INTERFACE_KIND_TYPE_D_BRIDGE_PORT'
-            - 'INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT'
-            - 'INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
-            - 'INTERFACE_KIND_TYPE_PROVIDER_EDGE_PORT'
-            - 'INTERFACE_KIND_TYPE_CUSTOMER_NETWORK_PORT'
-            - 'INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
-            - 'INTERFACE_KIND_TYPE_CUSTOMER_BACKBONE_PORT'
-            - 'INTERFACE_KIND_TYPE_REMOTE_CUSTOMER_ACCESS_PORT'
-            - 'INTERFACE_KIND_TYPE_VIRTUAL_INSTANCE_PORT'
-            - 'INTERFACE_KIND_TYPE_STATION_FACING_BRIDGE_PORT'
-            - 'INTERFACE_KIND_TYPE_UPLINK_ACCESS_PORT'
-            - 'INTERFACE_KIND_TYPE_UPLINK_RELAY_PORT'
-            - 'INTERFACE_KIND_TYPE_NOT_YET_DEFINED'
         default-vlan-id:
           type: integer
         default-priority:
           type: integer
         ingress-tag-filtering:
           type: string
-          enum:
-            - 'INGRESS_TAG_FILTERING_TYPE_UNTAGGED_AND_PRIORITY_FRAMES_ONLY'
-            - 'INGRESS_TAG_FILTERING_TYPE_VLAN_TAGGED_FRAMES_ONLY'
-            - 'INGRESS_TAG_FILTERING_TYPE_ALL_FRAMES'
-            - 'INGRESS_TAG_FILTERING_TYPE_NOT_YET_DEFINED'
         ingress-vlan-id-filtering-is-on:
           type: boolean
         pcp-bits-interpretation-kind:
           type: string
-          enum:
-            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_8P0D'
-            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_7P1D'
-            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_6P2D'
-            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_5P3D'
-            - 'PCP_BITS_INTERPRETATION_KIND_TYPE_NOT_YET_DEFINED'
         pcp-bit-to-priority-mapping-list:
           type: array
           items:
@@ -2049,92 +2293,19 @@ components:
           type: boolean
         admin-point-to-point:
           type: string
-          enum:
-            - 'ADMIN_POINT_TO_POINT_TYPE_FORCE_TRUE'
-            - 'ADMIN_POINT_TO_POINT_TYPE_FORCE_FALSE'
-            - 'ADMIN_POINT_TO_POINT_TYPE_AUTO'
-            - 'ADMIN_POINT_TO_POINT_TYPE_NOT_YET_DEFINED'
         statistics-is-on:
           type: boolean    
-
-    # =====================================================
-    PURE_ETHERNET_STRUCTURE_PAC: #TODO
-      type: object
-      properties:
-      #  pure-ethernet-structure-capability:
-      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
-      #  pure-ethernet-structure-configuration:
-      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
-      #  pure-ethernet-structure-status:
-      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
-      #  pure-ethernet-structure-current-performance:
-      #    $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
-        pure-ethernet-structure-historical-performances:
-          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
-
-    PURE_ETHERNET_STRUCTURE_CAPABILITY_:  #TODO
-      type: object
-    PURE_ETHERNET_STRUCTURE_CONFIGURATION_: #TODO
-      type: object
-    PURE_ETHERNET_STRUCTURE_STATUS_: #TODO
-      type: object
-    PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE_: #TODO
-      type: object      
-    PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES:
-      type: object
-      properties:
-        historical-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  time-period:
-                    type: integer
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-              suspect-interval-flag:
-                type: boolean
-              history-data-id:
-                type: string
-              granularity-period:
-                type: string
-                enum:
-                  - 'GRANULARITY_PERIOD_TYPE_UNKNOWN'
-                  - 'GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN'
-                  - 'GRANULARITY_PERIOD_TYPE_PERIOD-24-HOURS'
-                  - 'GRANULARITY_PERIOD_TYPE_NOT_YET_DEFINED'
-              period-end-time:
-                type: string
-        number-of-historical-performance-sets:
-          type: integer
-        time-of-latest-change:
-          type: string
 
     # =====================================================
     MAC_INTERFACE_PAC: #TODO
       type: object
       properties:
-      #  mac-interface-capability:
-      #    $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
-      #  mac-interface-configuration:
-      #    $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'          
-      #  mac-interface-status:
-      #    $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+        mac-interface-capability:
+          $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+        mac-interface-configuration:
+          $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'          
+        mac-interface-status:
+          $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
       #  mac-interface-current-performance:
       #    $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
         mac-interface-historical-performances:
@@ -2147,14 +2318,13 @@ components:
     MAC_INTERFACE_STATUS_: #TODO
       type: object
     MAC_INTERFACE_CURRENT_PERFORMANCE_: #TODO
-      type: object      
+      type: object
 
     MAC_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
       properties:
         historical-performance-data-list:
           # TODO
-
         number-of-historical-performance-sets:
           type: integer
         time-of-latest-change:

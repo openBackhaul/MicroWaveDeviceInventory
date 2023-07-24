@@ -2214,38 +2214,42 @@ components:
 
     HYBRID_MW_STRUCTURE_CAPABILITY:
       type: object
-
-
-
+      properties:
+        performance-monitoring-is-avail:
+          type: boolean
+        supported-tdm-structure-kind-list: # ist eine Association -> rein oder raus?
+          type: array
+          items:
+            type: object
+            properties:
+              max-number-of-segments-reservable:
+                type: integer
+              tdm-segment-size:
+                type: integer
+              tdm-structure-name:
+                type: string
     HYBRID_MW_STRUCTURE_CONFIGURATION:
       type: object
       properties:
-        hybrid-mw-structure-configuration:
-          type: object
-          properties:
-            tdm-structure-kind:
-              type: string
-            number-of-tdm-segments-to-be-reserved:
-              type: integer
-            g-826-threshold-cross-alarm-list:
-              type: array
-              items:
-                type: object
-                properties:
-                  g-826-value-kind:
-                    type: string
-                  alarm-raising-threshold:
-                    type: integer
-                  alarm-clearing-threshold:
-                    type: integer
-                  granularity-period:
-                    type: string
-            clearing-threshold-cross-alarms-is-on:
-              type: boolean
-            performance-monitoring-is-on:
-              type: boolean
-
-
+        #tdm-structure-kind:  # association
+        #  type: string
+        number-of-tdm-segments-to-be-reserved:
+          type: integer
+        g-826-threshold-cross-alarm-list:
+          type: array
+          items:
+            type: object
+            properties:
+              g-826-value-kind:
+                type: string
+              alarm-raising-threshold:
+                type: integer
+              alarm-clearing-threshold:
+                type: integer
+              granularity-period:
+                type: string
+        performance-monitoring-is-on:
+          type: boolean
     HYBRID_MW_STRUCTURE_STATUS:
       type: object
       properties:
@@ -2265,45 +2269,42 @@ components:
     HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES:
       type: object
       properties:
-        hybrid-mw-structure-historical-performances:
-          type: object
-          properties:
-            historical-performance-data-list:
-              type: array
-              items:
+        historical-performance-data-list:
+          type: array
+          items:
+            type: object
+            properties:
+              performance-data:
                 type: object
                 properties:
-                  performance-data:
-                    type: object
-                    properties:
-                      time-period:
-                        type: integer
-                      es:
-                        type: integer
-                      ses:
-                        type: integer
-                      cses:
-                        type: integer
-                      unavailability:
-                        type: integer
-                      rx-level-min:
-                        type: integer
-                      rx-level-max:
-                        type: integer
-                      rx-level-avg:
-                        type: integer
-                  suspect-interval-flag:
-                    type: boolean
-                  history-data-id:
-                    type: string
-                  granularity-period:
-                    type: string
-                  period-end-time:
-                    type: string
-            number-of-historical-performance-sets:
-              type: integer
-            time-of-latest-change:
-              type: string
+                  time-period:
+                    type: integer
+                  es:
+                    type: integer
+                  ses:
+                    type: integer
+                  cses:
+                    type: integer
+                  unavailability:
+                    type: integer
+                  rx-level-min:
+                    type: integer
+                  rx-level-max:
+                    type: integer
+                  rx-level-avg:
+                    type: integer
+              suspect-interval-flag:
+                type: boolean
+              history-data-id:
+                type: string
+              granularity-period:
+                type: string
+              period-end-time:
+                type: string
+        number-of-historical-performance-sets:
+          type: integer
+        time-of-latest-change:
+          type: string
     HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE_: #TODO later
       type: object      
   

@@ -1920,19 +1920,14 @@ components:
           items:
             type: object
             properties:
-              g-826-threshold-cross-alarm-list:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    g-826-value-kind:
-                      type: string
-                    alarm-raising-threshold:
-                      type: integer
-                    alarm-clearing-threshold:
-                      type: integer
-                    granularity-period:
-                      type: string
+              g-826-value-kind:
+                type: string
+              alarm-raising-threshold:
+                type: integer
+              alarm-clearing-threshold:
+                type: integer
+              granularity-period:
+                type: string
         clearing-threshold-cross-alarms-is-on:
           type: boolean
         performance-monitoring-is-on:

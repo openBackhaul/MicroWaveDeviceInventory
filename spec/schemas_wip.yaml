@@ -2014,58 +2014,83 @@ components:
 
     WIRE_INTERFACE_CAPABILITY:
       type: object
-
+      properties:
+        auto-pmd-negotiation-is-avail:
+          type: boolean
+        auto-negotiation-pmd-selection-is-avail:
+          type: boolean
+        supported-signal-ordering-kind-list:
+          type: array
+          items:
+            type: string 
+        auto-signal-ordering-is-avail:
+          type: boolean
+        configuration-of-rx-sync-preference-is-avail:
+          type: boolean
+        mii-kind:
+          type: string         
+        mdi-kind:
+          type: string
+        required-medium-kind:
+          type: string
+        wavelength-min-list:
+          type: array
+          items:
+            type: integer
+        wavelength-max-list:
+          type: array
+          items:
+            type: integer
+        wavelength-grid-min:
+          type: integer
+        short-reach-mode-is-avail:
+          type: boolean
+        eee-is-avail:
+          type: boolean
+        unidirectional-operation-is-avail:
+          type: boolean
+        rxlevel-low-threshold:
+          type: integer
+        rxlevel-high-threshold:
+          type: integer
+        temperature-low-threshold:
+          type: integer
+        temperature-high-threshold:
+          type: integer
+        configuration-of-number-of-bip-errors-per-ses-is-avail:
+          type: boolean
+        admin-shut-down-is-avail:
+          type: boolean
+        isolation-is-avail:
+          type: boolean
+        supported-loop-back-kind-list:
+          type: array
+          items:
+            type: string    
+        maintenance-timer-range:
+          type: string
+        performance-monitoring-is-avail:
+          type: boolean
+        supported-pmd-kind-list:
+          type: array
+          items:
+            type: object
+            properties:
+              pmd-name:
+                type: string
+              speed:
+                type: string
+              duplex:
+                type: string
     WIRE_INTERFACE_CONFIGURATION:
       type: object
       properties:
         interface-name:
           type: string
-
-
-
-
-        auto-negotiation-pmd-list:
-          type: array
-          items:
-            type: string
-        auto-pmd-negotiation-is-on:
-          type: boolean
-        auto-signal-ordering-is-on:
-          type: boolean
-        eee-is-on:
-          type: boolean
-        fixed-pmd-kind:
-          type: string
-        fixed-signal-ordering-kind:
-          $ref: #/components/schemas/SIGNAL_ORDERING_KIND_TYPE,
         interface-is-on:
-          type: boolean
-
-        isolation-is-on:
-          type: boolean
-        loop-back-kind-on:
-          $ref: #/components/schemas/LOOP_BACK_TYPE4,
-        maintenance-timer:
-          type: integer
-        number-of-bip-errors-per-ses:
-          type: integer
-        performance-monitoring-is-on:
           type: boolean
         remote-wire-interface-name:
           type: string
-        rx-sync-preference:
-          $ref: #/components/schemas/RX_SYNC_PREFERENCE_TYPE,
-        short-reach-mode-is-on:
-          type: boolean
-        transceiver-configuration-list:
-          type: array
-          items:
-            $ref: #/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_wire-interface-pac_wire-interface-configuration_transceiver-configuration-list
-        unidirectional-operation-is-on:
-          type: boolean
-
-
-
         transceiver-configuration-list:
           type: array
           items:
@@ -2077,12 +2102,30 @@ components:
                 type: boolean
               wavelength:
                 type: integer
-
-
-
-
-
-
+        auto-pmd-negotiation-is-on:
+          type: boolean
+        auto-signal-ordering-is-on:
+          type: boolean
+        fixed-signal-ordering-kind:
+          type: string
+        rx-sync-preference:
+          type: string
+        short-reach-mode-is-on:
+          type: boolean
+        eee-is-on:
+          type: boolean
+        unidirectional-operation-is-on:
+          type: boolean
+        number-of-bip-errors-per-ses:
+          type: integer
+        isolation-is-on:
+          type: boolean
+        loop-back-kind-on:
+          type: string
+        maintenance-timer:
+          type: integer
+        performance-monitoring-is-on:
+          type: boolean
     WIRE_INTERFACE_STATUS:
       type: object
       properties:
@@ -2123,7 +2166,6 @@ components:
           type: boolean
         pmd-kind-cur: # fehlt im UML
           type: string          
-
     WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
       properties:
@@ -2162,7 +2204,6 @@ components:
               type: integer
             time-of-latest-change:
               type: string
-
     WIRE_INTERFACE_CURRENT_PERFORMANCE_: #TODO later
       type: object
 

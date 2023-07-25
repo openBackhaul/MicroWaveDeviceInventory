@@ -4876,7 +4876,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForLiveControlConstructCausesReadingFromDevice"
+                    "value": "RequestForLiveDataCausesReadingFromDevice"
                   }
                 ],
                 "fc-port": [
@@ -5111,7 +5111,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForLiveControlConstructCausesWritingIntoCache"
+                    "value": "RequestForLiveDataCausesWritingIntoCache"
                   }
                 ],
                 "fc-port": [

@@ -49,9 +49,9 @@
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/environmental-rating/thermal-rating
           uuid: mwdi-1-0-0-op-s-is-120
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/environmental-rating/power-rating
-          uuid: mwdi-1-0-0-op-s-is-121
-        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/position
           uuid: mwdi-1-0-0-op-s-is-122
+        - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/position
+          uuid: mwdi-1-0-0-op-s-is-123
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/holder-structure
           uuid: mwdi-1-0-0-op-s-is-123
         - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}/actual-holder/name={value-name}

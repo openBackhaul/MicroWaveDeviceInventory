@@ -1277,8 +1277,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1286,26 +1285,24 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getLogicalTerminationPoint
-      summary: 'Provides LogicalTerminationPoint'
+      operationId: getCachedControlConstruct
+      summary: 'Provides ControlConstruct from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'LogicalTerminationPoint provided'
+          description: 'ControlConstruct provided from cache'
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  core-model-1-4:logical-termination-point:
-                    $ref: '#/components/schemas/LOGICAL_TERMINATION_POINT'
+                  core-model-1-4:control-construct:
+                    $ref: '#/components/schemas/CONTROL_CONSTRUCT'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -1317,7 +1314,1191 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-178/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-100/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedAlarmCapability
+      summary: 'Provides AlarmCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AlarmCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alarms-1-0:alarm-capability:
+                    $ref: '#/components/schemas/ALARM_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-105/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedAlarmConfiguration
+      summary: 'Provides AlarmConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AlarmConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alarms-1-0:alarm-configuration:
+                    $ref: '#/components/schemas/ALARM_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedCurrentAlarms
+      summary: 'Provides CurrentAlarms from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'CurrentAlarms provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alarms-1-0:current-alarms:
+                    $ref: '#/components/schemas/CURRENT_ALARMS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-107/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedAlarmEventRecords
+      summary: 'Provides AlarmEventRecords from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'AlarmEventRecords provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alarms-1-0:alarm-event-records:
+                    $ref: '#/components/schemas/ALARM_EVENT_RECORDS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-108/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedEquipment
+      summary: 'Provides Equipment from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Equipment provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:equipment:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EQUIPMENT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-110/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedConnector
+      summary: 'Provides Connector from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Connector provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:connector:
+                    type: array
+                    items:  
+                      $ref: '#/components/schemas/CONNECTOR'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-111/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedContainedHolder
+      summary: 'Provides ContainedHolder from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ContainedHolder provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:contained-holder:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CONTAINED_HOLDER'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-112/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedExpectedEquipment
+      summary: 'Provides ExpectedEquipment from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ExpectedEquipment provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:expected-equipment:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EXPECTED_EQUIPMENT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-113/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedActualEquipment
+      summary: 'Provides ActualEquipment from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ActualEquipment provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:actual-equipment:
+                    $ref: '#/components/schemas/ACTUAL_EQUIPMENT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-114/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedFirmwareCollection
+      summary: 'Provides FirmwareCollection from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'FirmwareCollection provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firmware-1-0:firmware-collection:
+                    $ref: '#/components/schemas/FIRMWARE_COLLECTION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-120/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedFirmwareComponentList
+      summary: 'Provides FirmwareComponentList from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'FirmwareComponentList provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firmware-1-0:firmware-component-list:
+                    $ref: '#/components/schemas/FIRMWARE_COMPONENT_LIST'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-121/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedFirmwareComponentCapability
+      summary: 'Provides FirmwareComponentCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'FirmwareComponentCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firmware-1-0:firmware-component-capability:
+                    $ref: '#/components/schemas/FIRMWARE_COMPONENT_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-122/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedFirmwareComponentStatus
+      summary: 'Provides FirmwareComponentStatus from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'FirmwareComponentStatus provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firmware-1-0:firmware-component-status:
+                    $ref: '#/components/schemas/FIRMWARE_COMPONENT_STATUS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-123/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedProfileCollection
+      summary: 'Provides ProfileCollection from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ProfileCollection provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:profile-collection:
+                    $ref: '#/components/schemas/PROFILE_COLLECTION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-130/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedProfile
+      summary: 'Provides Profile from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Profile provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:profile:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PROFILE'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-131/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedCoChannelProfileCapability
+      summary: 'Provides CoChannelProfileCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'CoChannelProfileCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  co-channel-profile-1-0:co-channel-profile-capability:
+                    $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-135/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedCoChannelProfileConfiguration
+      summary: 'Provides CoChannelProfileConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'CoChannelProfileConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  co-channel-profile-1-0:co-channel-profile-configuration:
+                    $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-136/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedPolicingProfileCapability
+      summary: 'Provides PolicingProfileCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'PolicingProfileCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  policing-profile-1-0:policing-profile-capability:
+                    $ref: '#/components/schemas/POLICING_PROFILE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-145/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedPolicingProfileConfiguration
+      summary: 'Provides PolicingProfileConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'PolicingProfileConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  policing-profile-1-0:policing-profile-configuration:
+                    $ref: '#/components/schemas/POLICING_PROFILE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-146/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedQosProfileCapability
+      summary: 'Provides QosProfileCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'QosProfileCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qos-profile-1-0:qos-profile-capability:
+                    $ref: '#/components/schemas/QOS_PROFILE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-150/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedQosProfileConfiguration
+      summary: 'Provides QosProfileConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'QosProfileConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qos-profile-1-0:qos-profile-configuration:
+                    $ref: '#/components/schemas/QOS_PROFILE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-151/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedSchedulerProfileCapability
+      summary: 'Provides SchedulerProfileCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'SchedulerProfileCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scheduler-profile-1-0:scheduler-profile-capability:
+                    $ref: '#/components/schemas/SCHEDULER_PROFILE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-155/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedSchedulerProfileConfiguration
+      summary: 'Provides SchedulerProfileConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'SchedulerProfileConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scheduler-profile-1-0:scheduler-profile-configuration:
+                    $ref: '#/components/schemas/SCHEDULER_PROFILE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-156/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedWredProfileCapability
+      summary: 'Provides WredProfileCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'WredProfileCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wred-profile-1-0:wred-profile-capability:
+                    $ref: '#/components/schemas/WRED_PROFILE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-160/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedWredProfileConfiguration
+      summary: 'Provides WredProfileConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'WredProfileConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wred-profile-1-0:wred-profile-configuration:
+                    $ref: '#/components/schemas/WRED_PROFILE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-161/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getChachedLogicalTerminationPoint
+      summary: 'Provides LogicalTerminationPoint from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'LogicalTerminationPoint provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:logical-termination-point:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LOGICAL_TERMINATION_POINT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-200/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1333,24 +2514,23 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getLtpAugment
-      summary: 'Provides LtpAugment'
+      operationId: getChachedLtpAugment
+      summary: 'Provides LtpAugment from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'LtpAugment provided'
+          description: 'LtpAugment provided from cache'
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  air-interface-2-0:air-interface-capability:
+                  ltp-augment-1-0:ltp-augment-pac:
                     $ref: '#/components/schemas/LTP_AUGMENT_PAC'
           headers:
             x-correlator:
@@ -1363,7 +2543,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-315/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-201/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1383,15 +2563,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getAirInterfaceCapability
-      summary: 'Provides AirInterfaceCapability'
+      operationId: getCachedAirInterfaceCapability
+      summary: 'Provides AirInterfaceCapability from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'AirInterfaceCapability provided'
+          description: 'AirInterfaceCapability provided from cache'
           content:
             application/json:
               schema:
@@ -1410,7 +2590,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-201/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-210/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1429,15 +2609,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getAirInterfaceConfiguration
-      summary: 'Provides AirInterfaceConfiguration'
+      operationId: getCachedAirInterfaceConfiguration
+      summary: 'Provides AirInterfaceConfiguration from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'AirInterfaceConfiguration provided'
+          description: 'AirInterfaceConfiguration provided from cache'
           content:
             application/json:
               schema:
@@ -1456,7 +2636,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-211/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1475,15 +2655,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getAirInterfaceStatus
-      summary: 'Provides AirInterfaceStatus'
+      operationId: getCachedAirInterfaceStatus
+      summary: 'Provides AirInterfaceStatus from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'AirInterfaceStatus provided'
+          description: 'AirInterfaceStatus provided from cache'
           content:
             application/json:
               schema:
@@ -1502,7 +2682,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-209/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-212/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1521,15 +2701,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getAirInterfaceHistoricalPerformances
-      summary: 'Provides AirInterfaceHistoricalPerformances'
+      operationId: getCachedAirInterfaceHistoricalPerformances
+      summary: 'Provides AirInterfaceHistoricalPerformances from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'AirInterfaceHistoricalPerformances provided'
+          description: 'AirInterfaceHistoricalPerformances provided from cache'
           content:
             application/json:
               schema:
@@ -1548,7 +2728,192 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-217/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-214/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedEthernetContainerCapability
+      summary: 'Provides EthernetContainerCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'EthernetContainerCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ethernet-container-2-0:ethernet-container-capability:
+                    $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-220/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedEthernetContainerConfiguration
+      summary: 'Provides EthernetContainerConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'EthernetContainerConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ethernet-container-2-0:ethernet-container-configuration:
+                    $ref: '#/components/schemas/ETHERNET_CONTAINER_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-221/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedEthernetContainerStatus
+      summary: 'Provides EthernetContainerStatus from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'EthernetContainerStatus provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ethernet-container-2-0:ethernet-container-status:
+                    $ref: '#/components/schemas/ETHERNET_CONTAINER_STATUS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-222/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedEthernetContainerHistoricalPerformances
+      summary: 'Provides EthernetContainerHistoricalPerformances from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'EthernetContainerHistoricalPerformances provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ethernet-container-2-0:ethernet-container-historical-performances:
+                    $ref: '#/components/schemas/ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-224/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1568,15 +2933,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getHybridMwStructureCapability
-      summary: 'Provides HybridMwStructureCapability'
+      operationId: getCachedHybridMwStructureCapability
+      summary: 'Provides HybridMwStructureCapability from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'HybridMwStructureCapability provided'
+          description: 'HybridMwStructureCapability provided from cache'
           content:
             application/json:
               schema:
@@ -1595,7 +2960,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-251/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-230/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1614,15 +2979,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getHybridMwStructureConfiguration
-      summary: 'Provides HybridMwStructureConfiguration'
+      operationId: getCachedHybridMwStructureConfiguration
+      summary: 'Provides HybridMwStructureConfiguration from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'HybridMwStructureConfiguration provided'
+          description: 'HybridMwStructureConfiguration provided from cache'
           content:
             application/json:
               schema:
@@ -1641,7 +3006,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-252/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-231/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1660,15 +3025,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getHybridMwStructureStatus
-      summary: 'Provides HybridMwStructureStatus'
+      operationId: getCachedHybridMwStructureStatus
+      summary: 'Provides HybridMwStructureStatus from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'HybridMwStructureStatus provided'
+          description: 'HybridMwStructureStatus provided from cache'
           content:
             application/json:
               schema:
@@ -1687,7 +3052,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-253/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-232/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1706,15 +3071,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getHybridMwStructureHistoricalPerformances
-      summary: 'Provides HybridMwStructureHistoricalPerformances'
+      operationId: getCachedHybridMwStructureHistoricalPerformances
+      summary: 'Provides HybridMwStructureHistoricalPerformances from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'HybridMwStructureHistoricalPerformances provided'
+          description: 'HybridMwStructureHistoricalPerformances provided from cache'
           content:
             application/json:
               schema:
@@ -1733,7 +3098,192 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-254/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-234/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedMacInterfaceCapability
+      summary: 'Provides MacInterfaceCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'MacInterfaceCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mac-interface-1-0:mac-interface-capability:
+                    $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-240/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedMacInterfaceConfiguration
+      summary: 'Provides MacInterfaceConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'MacInterfaceConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mac-interface-1-0:mac-interface-configuration:
+                    $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-241/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedMacInterfaceStatus
+      summary: 'Provides MacInterfaceStatus from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'MacInterfaceStatus provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mac-interface-1-0:mac-interface-status:
+                    $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-242/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedMacInterfaceHistoricalPerformances
+      summary: 'Provides MacInterfaceHistoricalPerformances from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'MacInterfaceHistoricalPerformances provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mac-interface-1-0:mac-interface-historical-performances:
+                    $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-244/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1753,15 +3303,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getPureEthernetStructureCapability
-      summary: 'Provides PureEthernetStructureCapability'
+      operationId: getCachedPureEthernetStructureCapability
+      summary: 'Provides PureEthernetStructureCapability from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'PureEthernetStructureCapability provided'
+          description: 'PureEthernetStructureCapability provided from cache'
           content:
             application/json:
               schema:
@@ -1780,7 +3330,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-225/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-250/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1799,15 +3349,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getPureEthernetStructureConfiguration
-      summary: 'Provides PureEthernetStructureConfiguration'
+      operationId: getCachedPureEthernetStructureConfiguration
+      summary: 'Provides PureEthernetStructureConfiguration from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'PureEthernetStructureConfiguration provided'
+          description: 'PureEthernetStructureConfiguration provided from cache'
           content:
             application/json:
               schema:
@@ -1826,7 +3376,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-226/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-251/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1845,15 +3395,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getPureEthernetStructureStatus
-      summary: 'Provides PureEthernetStructureStatus'
+      operationId: getCachedPureEthernetStructureStatus
+      summary: 'Provides PureEthernetStructureStatus from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'PureEthernetStructureStatus provided'
+          description: 'PureEthernetStructureStatus provided from cache'
           content:
             application/json:
               schema:
@@ -1872,7 +3422,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-227/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-252/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1891,15 +3441,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getPureEthernetStructureHistoricalPerformances
-      summary: 'Provides PureEthernetStructureHistoricalPerformances'
+      operationId: getCachedPureEthernetStructureHistoricalPerformances
+      summary: 'Provides PureEthernetStructureHistoricalPerformances from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'PureEthernetStructureHistoricalPerformances provided'
+          description: 'PureEthernetStructureHistoricalPerformances provided from cache'
           content:
             application/json:
               schema:
@@ -1918,7 +3468,192 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-228/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-254/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedVlanInterfaceCapability
+      summary: 'Provides VlanInterfaceCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'VlanInterfaceCapability provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vlan-interface-1-0:vlan-interface-capability:
+                    $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-260/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedVlanInterfaceConfiguration
+      summary: 'Provides VlanInterfaceConfiguration from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'VlanInterfaceConfiguration provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vlan-interface-1-0:vlan-interface-configuration:
+                    $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-261/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedVlanInterfaceStatus
+      summary: 'Provides VlanInterfaceStatus from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'VlanInterfaceStatus provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vlan-interface-1-0:vlan-interface-status:
+                    $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-262/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedVlanInterfaceHistoricalPerformances
+      summary: 'Provides VlanInterfaceHistoricalPerformances from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'VlanInterfaceHistoricalPerformances provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vlan-interface-1-0:vlan-interface-historical-performances:
+                    $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-264/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1938,15 +3673,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getWireInterfaceCapability
-      summary: 'Provides WireInterfaceCapability'
+      operationId: getCachedWireInterfaceCapability
+      summary: 'Provides WireInterfaceCapability from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'WireInterfaceCapability provided'
+          description: 'WireInterfaceCapability provided from cache'
           content:
             application/json:
               schema:
@@ -1965,7 +3700,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-283/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-270/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1984,15 +3719,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getWireInterfaceConfiguration
-      summary: 'Provides WireInterfaceConfiguration'
+      operationId: getCachedWireInterfaceConfiguration
+      summary: 'Provides WireInterfaceConfiguration from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'WireInterfaceConfiguration provided'
+          description: 'WireInterfaceConfiguration provided from cache'
           content:
             application/json:
               schema:
@@ -2011,7 +3746,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-284/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-271/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2030,15 +3765,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getWireInterfaceStatus
-      summary: 'Provides WireInterfaceStatus'
+      operationId: getCachedWireInterfaceStatus
+      summary: 'Provides WireInterfaceStatus from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'WireInterfaceStatus provided'
+          description: 'WireInterfaceStatus provided from cache'
           content:
             application/json:
               schema:
@@ -2057,7 +3792,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-281/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-272/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2076,15 +3811,15 @@ paths:
       - $ref: '#/components/parameters/local-id'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getWireInterfaceHistoricalPerformances
-      summary: 'Provides WireInterfaceHistoricalPerformances'
+      operationId: getCachedWireInterfaceHistoricalPerformances
+      summary: 'Provides WireInterfaceHistoricalPerformances from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'WireInterfaceHistoricalPerformances provided'
+          description: 'WireInterfaceHistoricalPerformances provided from cache'
           content:
             application/json:
               schema:
@@ -2103,7 +3838,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-286/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-274/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2111,530 +3846,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
-  ## To be replaced:
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct:
-    # uuid: mwdi-1-0-0-op-s-is-021
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstruct
-      summary: 'Returns control-construct'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'core-model-1-4_control-construct provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks:
-        #RessourcePathRequestCausesReadingFromElasticSearch:
-  #
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}:
-    # uuid: mwdi-1-0-0-op-s-is-022
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructEquipment
-      summary: 'Returns equipment'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'equipment provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}:
-    # uuid: mwdi-1-0-0-op-s-is-023
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructEquipmentConnector
-      summary: 'Returns equpiment connector'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'equipment_connector provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_connector_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-023/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}:
-    # uuid: mwdi-1-0-0-op-s-is-027
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructEquipnentContainedHolder
-      summary: 'Returns equipment contained-holder'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'equipment_contained-holder provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_contained-holder_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-027/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  #
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing:
-    # uuid: mwdi-1-0-0-op-s-is-086
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructEquipmentActualEquipmentManufacturedThing
-      summary: 'Returns the manufactured-thing of the equipments actual equipment'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'actual-equipment_manufactured-thing provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_equipment_actual-equipment_manufactured-thing_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-086/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
-    # uuid: mwdi-1-0-0-op-s-is-106
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructLogicalTerminationPointLayerProtocolVlanInterfaceVlanInterfacePacVlanInterfaceConfiguration
-      summary: 'Returns the ltps vlan-interface-configuration'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'ltp_layer-protocol_vlan-interface-pac_vlan-interface-configuration provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_vlan-interface-pac_vlan-interface-configuration_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
-    # uuid: mwdi-1-0-0-op-s-is-162
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructLogicalTerminationPointLayerProtocolMacInterfaceMacInterfacePacMacInterfaceHistoricalPerformances
-      summary: 'Returns mac-interface-historical-performances'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'ltp_layer-protocol_mac-interface-pac_mac-interface-historical-performances provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_mac-interface-pac_mac-interface-historical-performances_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-162/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
-    # uuid: mwdi-1-0-0-op-s-is-193
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructLogicalTerminationPointLayerProtocolEthernetContainerEthernetContainerPacEthernetContainerHistoricalPerformances
-      summary: 'Returns ethernet-container-historical-performances'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'ltp_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_logical-termination-point_layer-protocol_ethernet-container-pac_ethernet-container-historical-performances_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-193/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms:
-    # uuid: mwdi-1-0-0-op-s-is-298
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructAlarmsAlarmPacCurrentAlarms
-      summary: 'Returns current-alarms'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'alarm-pac_current-alarms provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_alarm-pac_current-alarms_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-298/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection:
-    # uuid: mwdi-1-0-0-op-s-is-302
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructFirmwareFirmwareCollection
-      summary: 'Returns firmware-collection'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'firmware-collection provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-302/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
-    # uuid: mwdi-1-0-0-op-s-is-305
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructFirmwareFirmwareCollectionFirmwareComponentListFirmwareComponentPacFirmwareComponentCapability
-      summary: 'Returns firmware-component-capability'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-capability_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-305/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
-    # uuid: mwdi-1-0-0-op-s-is-306
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getControlConstructFirmwareFirmwareCollectionFirmwareComponentListFirmwareComponentPacFirmwareComponentStatus
-      summary: 'Returns firmware-component-status'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status provided'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/core-model-1-4_control-construct_firmware-collection_firmware-component-list_firmware-component-pac_firmware-component-status_TOP'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-306/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
 ########################################################################################################################
 #   Service Layer - Basic Part - Following paths must be copied into every application
@@ -11565,198 +12776,421 @@ components:
                     logical-termination-point:
                       type: string
 
-    CONTROL_CONSTRUCT_:
+    CONTROL_CONSTRUCT:
+      type: object
+      required:
+        - uuid
+        - alarms-1-0:alarm-pac
+        - equipment
+        - firmware-1-0:firmware-collection
+        - profile-collection
+        - logical-termination-point
+      properties:
+        uuid:
+          type: string
+        alarms-1-0:alarm-pac:
+          $ref: '#/components/schemas/ALARM_PAC'
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EQUIPMENT'
+        firmware-1-0:firmware-collection:
+          $ref: '#/components/schemas/FIRMWARE_COLLECTION'
+        profile-collection:
+          $ref: '#/components/schemas/PROFILE_COLLECTION'
+        logical-termination-point:
+          type: array
+          items:
+            $ref: '#/components/schemas/LOGICAL_TERMINATION_POINT'
+
+    ALARM_PAC:
+      type: object
+      required:
+        - alarm-capability
+        - alarm-configuration
+        - current-alarms
+        - alarm-event-records
+      properties:
+        alarm-capability:
+          $ref: '#/components/schemas/ALARM_CAPABILITY'
+        alarm-configuration:
+          $ref: '#/components/schemas/ALARM_CONFIGURATION'
+        current-alarms:
+          $ref: '#/components/schemas/CURRENT_ALARMS'
+        alarm-event-records:
+          $ref: '#/components/schemas/ALARM_EVENT_RECORDS'
+    ALARM_CAPABILITY:
+      type: object
+    ALARM_CONFIGURATION:
+      type: object
+    CURRENT_ALARMS:
+      type: object
+    ALARM_EVENT_RECORDS:
+      type: object
+
+    EQUIPMENT:
+      type: object
+      required:
+        - uuid
+      properties:
+        uuid:
+          type: string
+        connector:
+          type: array
+          items:
+            $ref: '#/components/schemas/CONNECTOR'
+        contained-holder:
+          type: array
+          items:
+            $ref: '#/components/schemas/CONTAINED_HOLDER'
+        expected-equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EXPECTED_EQUIPMENT'
+        actual-equipment:
+          type: object
+    CONNECTOR:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    CONTAINED_HOLDER:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    EXPECTED_EQUIPMENT:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    ACTUAL_EQUIPMENT:
+      type: object
+
+    FIRMWARE_COLLECTION:
+      type: object
+      required:
+        - firmware-component-list
+      properties:
+        firmware-component-list:
+          $ref: '#/components/schemas/FIRMWARE_COMPONENT_LIST'
+    FIRMWARE_COMPONENT_LIST:
+      type: array
+      items:
+        type: object
+        required:
+          - local-id
+          - firmware-component-pac
+        properties:
+          local-id:
+            type: string
+          firmware-component-pac:
+            type: object
+            required:
+              - firmware-component-capability
+              - firmware-component-status
+            properties:
+              firmware-component-capability:
+                $ref: '#/components/schemas/FIRMWARE_COMPONENT_CAPABILITY'
+              firmware-component-status:
+                $ref: '#/components/schemas/FIRMWARE_COMPONENT_STATUS'
+    FIRMWARE_COMPONENT_CAPABILITY:
+      type: object
+    FIRMWARE_COMPONENT_STATUS:
+      type: object
+
+    PROFILE_COLLECTION:
+      type: object
+      required:
+        - profile
+      properties:
+        profile:
+          type: array
+          items:
+            $ref: '#/components/schemas/PROFILE'
+    PROFILE:
+      oneOf:
+        - description: 'co-channel-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - co-channel-profile-1-0:co-channel-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'co-channel-profile-1-0:PROFILE_NAME_TYPE_CO_CHANNEL_PROFILE'
+            co-channel-profile-1-0:co-channel-profile-pac:
+              type: object
+              required:
+                - co-channel-profile-capability
+                - co-channel-profile-configuration
+              properties:
+                co-channel-profile-capability:
+                  $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CAPABILITY'
+                co-channel-profile-configuration:
+                  $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CONFIGURATION'
+        - description: 'policing-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - policing-profile-1-0:policing-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'policing-profile-1-0:PROFILE_NAME_TYPE_POLICING_PROFILE'
+            policing-profile-1-0:policing-profile-pac:
+              type: object
+              required:
+                - policing-profile-capability
+                - policing-profile-configuration
+              properties:
+                policing-profile-capability:
+                  $ref: '#/components/schemas/POLICING_PROFILE_CAPABILITY'
+                policing-profile-configuration:
+                  $ref: '#/components/schemas/POLICING_PROFILE_CONFIGURATION'
+        - description: 'qos-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - qos-profile-1-0:qos-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'qos-profile-1-0:PROFILE_NAME_TYPE_QOS_PROFILE'
+            qos-profile-1-0:qos-profile-pac:
+              type: object
+              required:
+                - qos-profile-capability
+                - qos-profile-configuration
+              properties:
+                qos-profile-capability:
+                  $ref: '#/components/schemas/QOS_PROFILE_CAPABILITY'
+                qos-profile-configuration:
+                  $ref: '#/components/schemas/QOS_PROFILE_CONFIGURATION'
+        - description: 'scheduler-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - scheduler-profile-1-0:scheduler-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'scheduler-profile-1-0:PROFILE_NAME_TYPE_SCHEDULER_PROFILE'
+            scheduler-profile-1-0:scheduler-profile-pac:
+              type: object
+              required:
+                - scheduler-profile-capability
+                - scheduler-profile-configuration
+              properties:
+                scheduler-profile-capability:
+                  $ref: '#/components/schemas/SCHEDULER_PROFILE_CAPABILITY'
+                scheduler-profile-configuration:
+                  $ref: '#/components/schemas/SCHEDULER_PROFILE_CONFIGURATION'
+        - description: 'wred-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - wred-profile-1-0:wred-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'wred-profile-1-0:PROFILE_NAME_TYPE_WRED_PROFILE'
+            wred-profile-1-0:wred-profile-pac:
+              type: object
+              required:
+                - wred-profile-capability
+                - wred-profile-configuration
+              properties:
+                wred-profile-capability:
+                  $ref: '#/components/schemas/WRED_PROFILE_CAPABILITY'
+                wred-profile-configuration:
+                  $ref: '#/components/schemas/WRED_PROFILE_CONFIGURATION'
+    CO_CHANNEL_PROFILE_CAPABILITY:
+      type: object
+    CO_CHANNEL_PROFILE_CONFIGURATION:
+      type: object
+    POLICING_PROFILE_CAPABILITY:
+      type: object
+    POLICING_PROFILE_CONFIGURATION:
+      type: object
+    QOS_PROFILE_CAPABILITY:
+      type: object
+    QOS_PROFILE_CONFIGURATION:
+      type: object
+    SCHEDULER_PROFILE_CAPABILITY:
+      type: object
+    SCHEDULER_PROFILE_CONFIGURATION:
+      type: object
+    WRED_PROFILE_CAPABILITY:
+      type: object
+    WRED_PROFILE_CONFIGURATION:
       type: object
 
     LOGICAL_TERMINATION_POINT:
       type: object
+      required:
+        - uuid
+        - layer-protocol
       properties:
-        server-ltp:
+        uuid:
+          type: string
+        ltp-augment-1-0:ltp-augment-pac:
+          $ref: '#/components/schemas/LTP_AUGMENT_PAC'
+        embedded-clock:
           type: array
           items:
-            type: string
-        client-ltp:
-          type: array
-          items:
-            type: string
+            $ref: '#/components/schemas/EMBEDDED_CLOCK'
         layer-protocol:
           type: array
           items:
             $ref: '#/components/schemas/LAYER_PROTOCOL'
-        connected-ltp:
-          type: string
-        peer-ltp:
-          type: string
-        physical-port-reference:
-          type: array
-          items:
-            type: string
-        ltp-in-other-view:
-          type: array
-          items:
-            type: string
-        ltp-direction:
-          type: string
-        transfer-capacity-pac:
-          type: string
-        fd-rule-group:
-          type: array
-          items:
-            type: string
-        embedded-clock:
-          type: array
-          items:
-            $ref: '#/components/schemas/EMBEDDED_CLOCK_'
-        supporting-pc:
-          type: string
-        external-managed-id:
-          type: object
-          properties:
-            manager-identifier:
-              type: string
-            external-managed-uuid:
-              type: string
-        local-id:
-          type: string
-        uuid:
-          type: string
-        name:
-          type: array
-          items:
-            type: object
-            properties:
-              value-name:
-                type: string
-              value:
-                type: string
-        label:
-          type: array
-          items:
-            type: object
-            properties:
-              value-name:
-                type: string
-              value:
-                type: string
-        extension:
-          type: array
-          items:
-            type: object
-            properties:
-              value-name:
-                type: string
-              value:
-                type: string
-        operational-state:
-          type: string
-        administrative-control:
-          type: string
-        administrative-state:
-          type: string
-        lifecycle-state:
-          type: string
-        address:
-          type: array
-          items:
-            type: string
-        ltp-augment-pac:
-          $ref: '#/components/schemas/LTP_AUGMENT_PAC'
-    EMBEDDED_CLOCK_:
-      type: object
     LTP_AUGMENT_PAC:
       type: object
-      properties:
-        equipment:
-          type: array
-          items:
-            type: string
-        connector:
-          type: string
-        original-ltp-name:
-          type: string
-        external-label:
-          type: string
-    LAYER_PROTOCOL:
+    EMBEDDED_CLOCK:
       type: object
-      properties:
-        layer-protocol-name:
-          type: string
-        configured-client-capacity:
-          type: string
-        lp-direction:
-          type: string
-        termination-state:
-          type: string
-        configuration-and-switch-control:
-          type: array
-          items:
-            type: string
-        is-protection-lock-out:
-          type: boolean
-        fc-blocks-signal-to-lp:
-          type: string
-        local-id:
-          type: string
-        name:
-          type: array
-          items:
-            type: object
-            properties:
-              value-name:
-                type: string
-              value:
-                type: string
-        label:
-          type: array
-          items:
-            type: object
-            properties:
-              value-name:
-                type: string
-              value:
-                type: string
-        extension:
-          type: array
-          items:
-            type: object
-            properties:
-              value-name:
-                type: string
-              value:
-                type: string
-        operational-state:
-          type: string
-        administrative-control:
-          type: string
-        administrative-state:
-          type: string
-        lifecycle-state:
-          type: string
-        address:
-          type: array
-          items:
-            type: string
-        air-interface-pac:
-          $ref: '#/components/schemas/AIR_INTERFACE_PAC'
-        ethernet-container-pac:
-          $ref: '#/components/schemas/ETHERNET_CONTAINER_PAC_'
-        hybrid-mw-structure-pac:
-          $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_PAC'
-        mac-interface-pac:
-          $ref: '#/components/schemas/MAC_INTERFACE_PAC_'
-        pure-ethernet-structure-pac:
-          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_PAC'
-        tdm-container-pac:
-          $ref: '#/components/schemas/TDM_CONTAINER_PAC_'
-        vlan-interface-pac:
-          $ref: '#/components/schemas/VLAN_INTERFACE_PAC_'
-        wire-interface-pac:
-          $ref: '#/components/schemas/WIRE_INTERFACE_PAC'
+    LAYER_PROTOCOL:
+      oneOf:
+        - description: 'air-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - air-interface-2-0:air-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+            air-interface-2-0:air-interface-pac:
+              $ref: '#/components/schemas/AIR_INTERFACE_PAC'
+        - description: 'ethernet-container'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - ethernet-container-2-0:ethernet-container-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'
+            ethernet-container-2-0:ethernet-container-pac:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_PAC'
+        - description: 'hybrid-mw-structure'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - hybrid-mw-structure-2-0:hybrid-mw-structure-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'hybrid-mw-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER'
+            hybrid-mw-structure-2-0:hybrid-mw-structure-pac:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_PAC'
+        - description: 'mac-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - mac-interface-1-0:mac-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER'
+            mac-interface-1-0:mac-interface-pac:
+              $ref: '#/components/schemas/MAC_INTERFACE_PAC'
+        - description: 'pure-ethernet-structure'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - pure-ethernet-structure-2-0:pure-ethernet-structure-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER'
+            pure-ethernet-structure-2-0:pure-ethernet-structure-pac:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_PAC'
+        - description: 'vlan-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - vlan-interface-1-0:vlan-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'
+            vlan-interface-1-0:vlan-interface-pac:
+              $ref: '#/components/schemas/VLAN_INTERFACE_PAC'
+        - description: 'wire-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - wire-interface-2-0:wire-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+            wire-interface-2-0:wire-interface-pac:
+              $ref: '#/components/schemas/WIRE_INTERFACE_PAC'
 
     AIR_INTERFACE_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - air-interface-capability
+            - air-interface-configuration
+            - air-interface-status
+            - air-interface-historical-performances
           properties:
             air-interface-capability:
               $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
@@ -11768,463 +13202,91 @@ components:
               $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
+          required:
+            - air-interface-capability
+            - air-interface-configuration
+            - air-interface-status
+            - air-interface-current-performance
+            - air-interface-historical-performances
           properties:
+            air-interface-capability:
+              $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
             air-interface-configuration:
               $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
             air-interface-status:
               $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
             air-interface-current-performance:
               $ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
+            air-interface-historical-performances:
+              $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
     AIR_INTERFACE_CAPABILITY:
       type: object
-      properties:
-        type-of-equipment:
-          type: string
-        tx-frequency-min:
-          type: integer
-        tx-frequency-max:
-          type: integer
-        rx-frequency-min:
-          type: integer
-        rx-frequency-max:
-          type: integer
-        duplex-distance-is-freely-configurable:
-          type: boolean
-        duplex-distance-list:
-          type: array
-          items:
-            type: integer
-        transmission-mode-list:
-          type: array
-          items:
-            type: object
-            properties:
-              transmission-mode-name:
-                type: string
-              transmission-mode-rank:
-                type: integer
-              channel-bandwidth:
-                type: integer
-              modulation-scheme:
-                type: integer
-              code-rate:
-                type: integer
-              symbol-rate-reduction-factor:
-                type: integer
-              tx-power-min:
-                type: integer
-              tx-power-max:
-                type: integer
-              rx-threshold:
-                type: integer
-              am-upshift-level:
-                type: integer
-              am-downshift-level:
-                type: integer
-              xpic-is-avail:
-                type: boolean
-              supported-as-fixed-configuration:
-                type: boolean
-              modulation-scheme-name-at-lct:
-                type: string
-        auto-freq-select-is-avail:
-          type: boolean
-        receiver-on-off-is-avail:
-          type: boolean
-        adaptive-modulation-is-avail:
-          type: boolean
-        atpc-is-avail:
-          type: boolean
-        atpc-range:
-          type: integer
-        supported-radio-signal-id-datatype:
-          type: string
-        supported-radio-signal-id-length:
-          type: integer
-        expected-equals-transmitted-radio-signal-id:
-          type: boolean
-        encryption-is-avail:
-          type: boolean
-        supported-loop-back-kind-list:
-          type: array
-          items:
-            type: string
-        maintenance-timer-range:
-          type: string
-        acm-threshold-cross-alarms-is-avail:
-          type: boolean
-        clearing-threshold-cross-alarms-is-avail:
-          type: boolean
-        performance-monitoring-is-avail:
-          type: boolean
-        direction-of-acm-performance-values:
-          type: string
     AIR_INTERFACE_CONFIGURATION:
       type: object
-      properties:
-        air-interface-name:
-          type: string
-        remote-air-interface-name:
-          type: string
-        transmitted-radio-signal-id:
-          type: object
-          properties:
-            numeric-radio-signal-id:
-              type: integer
-            alphanumeric-radio-signal-id:
-              type: string
-        expected-radio-signal-id:
-          type: object
-          properties:
-            numeric-radio-signal-id:
-              type: integer
-            alphanumeric-radio-signal-id:
-              type: string
-        tx-frequency:
-          type: integer
-        rx-frequency:
-          type: integer
-        duplex-distance:
-          type: integer
-        transmission-mode-min:
-          type: string
-        transmission-mode-max:
-          type: string
-        power-is-on:
-          type: boolean
-        transmitter-is-on:
-          type: boolean
-        receiver-is-on:
-          type: boolean
-        tx-power:
-          type: integer
-        adaptive-modulation-is-on:
-          type: boolean
-        xpic-is-on:
-          type: boolean
-        mimo-is-on:
-          type: boolean
-        alic-is-on:
-          type: boolean
-        atpc-is-on:
-          type: boolean
-        atpc-thresh-upper:
-          type: integer
-        atpc-thresh-lower:
-          type: integer
-        atpc-tx-power-min:
-          type: integer
-        auto-freq-select-is-on:
-          type: boolean
-        auto-freq-select-range:
-          type: integer
-        modulation-is-on:
-          type: boolean
-        encryption-is-on:
-          type: boolean
-        cryptographic-key:
-          type: string
-        loop-back-kind-on:
-          type: string
-        maintenance-timer:
-          type: integer
-        g-826-threshold-cross-alarm-list:
-          type: array
-          items:
-            type: object
-            properties:
-              g-826-value-kind:
-                type: string
-              alarm-raising-threshold:
-                type: integer
-              alarm-clearing-threshold:
-                type: integer
-              granularity-period:
-                type: string
-        xlts-threshold-cross-alarm-list:
-          type: array
-          items:
-            type: object
-            properties:
-              level-threshold-second-kind:
-                type: string
-              xlts-level:
-                type: integer
-              amount-of-seconds:
-                type: integer
-              granularity-period:
-                type: string
-              xlts-threshold-cross-alarm-definition-number:
-                type: integer
-        acm-threshold-cross-alarm-list:
-          type: array
-          items:
-            type: object
-            properties:
-              acm-threshold-cross-alarm-definition-number:
-                type: integer
-              transmission-mode:
-                type: string
-              seconds-for-raising-alarm:
-                type: integer
-              seconds-for-clearing-alarm:
-                type: integer
-              granularity-period:
-                type: string
-        performance-monitoring-is-on:
-          type: boolean
     AIR_INTERFACE_STATUS:
-      oneOf:
-        - description: 'cache'
-          type: object
-          properties:
-            interface-status:
-              type: string
-            tx-frequency-cur:
-              type: integer
-            rx-frequency-cur:
-              type: integer
-            transmission-mode-cur:
-              type: string
-            received-radio-signal-id:
-              type: object
-              properties:
-                numeric-radio-signal-id:
-                  type: integer
-                alphanumeric-radio-signal-id:
-                  type: string
-            link-is-up:
-              type: boolean
-            xpic-is-up:
-              type: boolean
-            mimo-is-up:
-              type: boolean
-            alic-is-up:
-              type: boolean
-            atpc-is-up:
-              type: boolean
-            auto-freq-select-is-up:
-              type: boolean
-            local-end-point-id:
-              type: string
-            remote-end-point-id:
-              type: string
-            loop-back-kind-up:
-              type: string
-            performance-monitoring-is-up:
-              type: boolean
-        - description: 'live'
-          type: object
-          properties:
-            interface-status:
-              type: string
-            tx-frequency-cur:
-              type: integer
-            rx-frequency-cur:
-              type: integer
-            transmission-mode-cur:
-              type: string
-            received-radio-signal-id:
-              type: object
-              properties:
-                numeric-radio-signal-id:
-                  type: integer
-                alphanumeric-radio-signal-id:
-                  type: string
-            link-is-up:
-              type: boolean
-            xpic-is-up:
-              type: boolean
-            mimo-is-up:
-              type: boolean
-            alic-is-up:
-              type: boolean
-            atpc-is-up:
-              type: boolean
-            auto-freq-select-is-up:
-              type: boolean
-            local-end-point-id:
-              type: string
-            remote-end-point-id:
-              type: string
-            loop-back-kind-up:
-              type: string
-            performance-monitoring-is-up:
-              type: boolean
-            rx-level-cur:
-              type: integer
-            tx-level-cur:
-              type: integer
-            snir-cur:
-              type: integer
-            xpd-cur:
-              type: integer
-            rf-temp-cur:
-              type: integer
+      type: object
     AIR_INTERFACE_CURRENT_PERFORMANCE:
       type: object
-      properties:
-        current-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  tx-level-min:
-                    type: integer
-                  tx-level-max:
-                    type: integer
-                  tx-level-avg:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-                  time-xstates-list:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        time-xstate-sequence-number:
-                          type: integer
-                        transmission-mode:
-                          type: string
-                        time:
-                          type: integer
-                  snir-min:
-                    type: integer
-                  snir-max:
-                    type: integer
-                  snir-avg:
-                    type: integer
-                  xpd-min:
-                    type: integer
-                  xpd-max:
-                    type: integer
-                  xpd-avg:
-                    type: integer
-                  rf-temp-min:
-                    type: integer
-                  rf-temp-max:
-                    type: integer
-                  rf-temp-avg:
-                    type: integer
-                  defect-blocks-sum:
-                    type: integer
-                  time-period:
-                    type: integer
-              timestamp:
-                type: string
-              suspect-interval-flag:
-                type: boolean
-              elapsed-time:
-                type: integer
-              scanner-id:
-                type: string
-              granularity-period:
-                type: string
-        number-of-current-performance-sets:
-          type: integer
     AIR_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
-      properties:
-        historical-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  tx-level-min:
-                    type: integer
-                  tx-level-max:
-                    type: integer
-                  tx-level-avg:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-                  time-xstates-list:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        time-xstate-sequence-number:
-                          type: integer
-                        transmission-mode:
-                          type: string
-                        time:
-                          type: integer
-                  snir-min:
-                    type: integer
-                  snir-max:
-                    type: integer
-                  snir-avg:
-                    type: integer
-                  xpd-min:
-                    type: integer
-                  xpd-max:
-                    type: integer
-                  xpd-avg:
-                    type: integer
-                  rf-temp-min:
-                    type: integer
-                  rf-temp-max:
-                    type: integer
-                  rf-temp-avg:
-                    type: integer
-                  defect-blocks-sum:
-                    type: integer
-                  time-period:
-                    type: integer
-              suspect-interval-flag:
-                type: boolean
-              history-data-id:
-                type: string
-              granularity-period:
-                type: string
-              period-end-time:
-                type: string
-        number-of-historical-performance-sets:
-          type: integer
-        time-of-latest-change:
-          type: string
 
-    ETHERNET_CONTAINER_PAC_:
+    ETHERNET_CONTAINER_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - ethernet-container-capability
+            - ethernet-container-configuration
+            - ethernet-container-status
+            - ethernet-container-historical-performances
+          properties:
+            ethernet-container-capability:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
+            ethernet-container-configuration:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CONFIGURATION'
+            ethernet-container-status:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_STATUS'
+            ethernet-container-historical-performances:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
+          required:
+            - ethernet-container-capability
+            - ethernet-container-configuration
+            - ethernet-container-status
+            - ethernet-container-current-performance
+            - ethernet-container-historical-performances
+          properties:
+            ethernet-container-capability:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
+            ethernet-container-configuration:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CONFIGURATION'
+            ethernet-container-status:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_STATUS'
+            ethernet-container-current-performance:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CURRENT_PERFORMANCE'
+            ethernet-container-historical-performances:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES'
+    ETHERNET_CONTAINER_CAPABILITY:
+      type: object
+    ETHERNET_CONTAINER_CONFIGURATION:
+      type: object
+    ETHERNET_CONTAINER_STATUS:
+      type: object
+    ETHERNET_CONTAINER_CURRENT_PERFORMANCE:
+      type: object
+    ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES:
+      type: object
 
     HYBRID_MW_STRUCTURE_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - hybrid-mw-structure-capability
+            - hybrid-mw-structure-configuration
+            - hybrid-mw-structure-status
+            - hybrid-mw-structure-historical-performances
           properties:
             hybrid-mw-structure-capability:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
@@ -12236,157 +13298,91 @@ components:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
+          required:
+            - hybrid-mw-structure-capability
+            - hybrid-mw-structure-configuration
+            - hybrid-mw-structure-status
+            - hybrid-mw-structure-current-performance
+            - hybrid-mw-structure-historical-performances
           properties:
+            hybrid-mw-structure-capability:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
             hybrid-mw-structure-configuration:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CONFIGURATION'
             hybrid-mw-structure-status:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_STATUS'
             hybrid-mw-structure-current-performance:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
+            hybrid-mw-structure-historical-performances:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES'
     HYBRID_MW_STRUCTURE_CAPABILITY:
       type: object
-      properties:
-        supported-tdm-structure-kind-list:
-          type: array
-          items:
-            type: object
-            properties:
-              tdm-structure-name:
-                type: string
-              tdm-segment-size:
-                type: integer
-              max-number-of-segments-reservable:
-                type: integer
-        performance-monitoring-is-avail:
-          type: boolean
     HYBRID_MW_STRUCTURE_CONFIGURATION:
       type: object
-      properties:
-        tdm-structure-kind:
-          type: string
-        number-of-tdm-segments-to-be-reserved:
-          type: integer
-        g-826-threshold-cross-alarm-list:
-          type: array
-          items:
-            type: object
-            properties:
-              g-826-value-kind:
-                type: string
-              alarm-raising-threshold:
-                type: integer
-              alarm-clearing-threshold:
-                type: integer
-              granularity-period:
-                type: string
-        performance-monitoring-is-on:
-          type: boolean
     HYBRID_MW_STRUCTURE_STATUS:
       type: object
-      properties:
-        segment-status-list:
-          type: array
-          items:
-            type: object
-            properties:
-              segment-status-type-id:
-                type: integer
-              segment-is-reserved-for-tdm:
-                type: boolean
-              operational-status:
-                type: string
-        performance-monitoring-is-up:
-          type: boolean
     HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE:
       type: object
-      properties:
-        current-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  time-period:
-                    type: integer
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-              timestamp:
-                type: string
-              suspect-interval-flag:
-                type: boolean
-              elapsed-time:
-                type: integer
-              scanner-id:
-                type: string
-              granularity-period:
-                type: string
-        number-of-current-performance-sets:
-          type: integer
     HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES:
       type: object
-      properties:
-        historical-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  time-period:
-                    type: integer
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-              suspect-interval-flag:
-                type: boolean
-              history-data-id:
-                type: string
-              granularity-period:
-                type: string
-              period-end-time:
-                type: string
-        number-of-historical-performance-sets:
-          type: integer
-        time-of-latest-change:
-          type: string
 
-    MAC_INTERFACE_PAC_:
+    MAC_INTERFACE_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - mac-interface-capability
+            - mac-interface-configuration
+            - mac-interface-status
+            - mac-interface-historical-performances
+          properties:
+            mac-interface-capability:
+              $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+            mac-interface-configuration:
+              $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
+            mac-interface-status:
+              $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+            mac-interface-historical-performances:
+              $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
+          required:
+            - mac-interface-capability
+            - mac-interface-configuration
+            - mac-interface-status
+            - mac-interface-current-performance
+            - mac-interface-historical-performances
+          properties:
+            mac-interface-capability:
+              $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+            mac-interface-configuration:
+              $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
+            mac-interface-status:
+              $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+            mac-interface-current-performance:
+              $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
+            mac-interface-historical-performances:
+              $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
+    MAC_INTERFACE_CAPABILITY:
+      type: object
+    MAC_INTERFACE_CONFIGURATION:
+      type: object
+    MAC_INTERFACE_STATUS:
+      type: object
+    MAC_INTERFACE_CURRENT_PERFORMANCE:
+      type: object
+    MAC_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
 
     PURE_ETHERNET_STRUCTURE_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - pure-ethernet-structure-capability
+            - pure-ethernet-structure-configuration
+            - pure-ethernet-structure-status
+            - pure-ethernet-structure-historical-performances
           properties:
             pure-ethernet-structure-capability:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
@@ -12398,152 +13394,91 @@ components:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
+          required:
+            - pure-ethernet-structure-capability
+            - pure-ethernet-structure-configuration
+            - pure-ethernet-structure-status
+            - pure-ethernet-structure-current-performance
+            - pure-ethernet-structure-historical-performances
           properties:
+            pure-ethernet-structure-capability:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
             pure-ethernet-structure-configuration:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
             pure-ethernet-structure-status:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
             pure-ethernet-structure-current-performance:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
+            pure-ethernet-structure-historical-performances:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
     PURE_ETHERNET_STRUCTURE_CAPABILITY:
       type: object
-      properties:
-        performance-monitoring-is-avail:
-          type: boolean
     PURE_ETHERNET_STRUCTURE_CONFIGURATION:
       type: object
-      properties:
-        g-826-threshold-cross-alarm-list:
-          type: array
-          items:
-            type: object
-            properties:
-              g-826-threshold-cross-alarm-list:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    g-826-value-kind:
-                      type: string
-                    alarm-raising-threshold:
-                      type: integer
-                    alarm-clearing-threshold:
-                      type: integer
-                    granularity-period:
-                      type: string
-        performance-monitoring-is-on:
-          type: boolean
     PURE_ETHERNET_STRUCTURE_STATUS:
       type: object
-      properties:
-        segment-status-list:
-          type: array
-          items:
-            type: object
-            properties:
-              segment-status-type-id:
-                type: integer
-              operational-status:
-                type: string
-        performance-monitoring-is-up:
-          type: boolean     
     PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE:
       type: object
-      properties:
-        current-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  time-period:
-                    type: integer
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-              timestamp:
-                type: string
-              suspect-interval-flag:
-                type: boolean
-              elapsed-time:
-                type: integer
-              scanner-id:
-                type: string
-              granularity-period:
-                type: string
-        number-of-current-performance-sets:
-          type: integer
     PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES:
       type: object
-      properties:
-        historical-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  time-period:
-                    type: integer
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  cses:
-                    type: integer
-                  unavailability:
-                    type: integer
-                  rx-level-min:
-                    type: integer
-                  rx-level-max:
-                    type: integer
-                  rx-level-avg:
-                    type: integer
-              suspect-interval-flag:
-                type: boolean
-              history-data-id:
-                type: string
-              granularity-period:
-                type: string
-              period-end-time:
-                type: string
-        number-of-historical-performance-sets:
-          type: integer
-        time-of-latest-change:
-          type: string
 
-    TDM_CONTAINER_PAC_:
+    VLAN_INTERFACE_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - vlan-interface-capability
+            - vlan-interface-configuration
+            - vlan-interface-status
+            - vlan-interface-historical-performances
+          properties:
+            vlan-interface-capability:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+            vlan-interface-configuration:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+            vlan-interface-status:
+              $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
+            vlan-interface-historical-performances:
+              $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
-
-    VLAN_INTERFACE_PAC_:
-      oneOf:
-        - description: 'cache'
-          type: object
-        - description: 'live'
-          type: object
+          required:
+            - vlan-interface-capability
+            - vlan-interface-configuration
+            - vlan-interface-status
+            - vlan-interface-current-performance
+            - vlan-interface-historical-performances
+          properties:
+            vlan-interface-capability:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+            vlan-interface-configuration:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+            vlan-interface-status:
+              $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
+            vlan-interface-current-performance:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CURRENT_PERFORMANCE'
+            vlan-interface-historical-performances:
+              $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
+    VLAN_INTERFACE_CAPABILITY:
+      type: object
+    VLAN_INTERFACE_CONFIGURATION:
+      type: object
+    VLAN_INTERFACE_STATUS:
+      type: object
+    VLAN_INTERFACE_CURRENT_PERFORMANCE:
+      type: object
+    VLAN_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
 
     WIRE_INTERFACE_PAC:
       oneOf:
         - description: 'cache'
           type: object
+          required:
+            - wire-interface-capability
+            - wire-interface-configuration
+            - wire-interface-status
+            - wire-interface-historical-performances
           properties:
             wire-interface-capability:
               $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
@@ -12555,283 +13490,33 @@ components:
               $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
         - description: 'live'
           type: object
+          required:
+            - wire-interface-capability
+            - wire-interface-configuration
+            - wire-interface-status
+            - wire-interface-current-performance
+            - wire-interface-historical-performances
           properties:
+            wire-interface-capability:
+              $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
             wire-interface-configuration:
               $ref: '#/components/schemas/WIRE_INTERFACE_CONFIGURATION'
             wire-interface-status:
               $ref: '#/components/schemas/WIRE_INTERFACE_STATUS'
             wire-interface-current-performance:
               $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
+            wire-interface-historical-performances:
+              $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
     WIRE_INTERFACE_CAPABILITY:
       type: object
-      properties:
-        supported-pmd-kind-list:
-          type: array
-          items:
-            type: object
-            properties:
-              pmd-name:
-                type: string
-              speed:
-                type: string
-              duplex:
-                type: string
-        auto-pmd-negotiation-is-avail:
-          type: boolean
-        auto-negotiation-pmd-selection-is-avail:
-          type: boolean
-        supported-signal-ordering-kind-list:
-          type: array
-          items:
-            type: string 
-        auto-signal-ordering-is-avail:
-          type: boolean
-        configuration-of-rx-sync-preference-is-avail:
-          type: boolean
-        mii-kind:
-          type: string         
-        mdi-kind:
-          type: string
-        required-medium-kind:
-          type: string
-        wavelength-min-list:
-          type: array
-          items:
-            type: integer
-        wavelength-max-list:
-          type: array
-          items:
-            type: integer
-        wavelength-grid-min:
-          type: integer
-        short-reach-mode-is-avail:
-          type: boolean
-        eee-is-avail:
-          type: boolean
-        unidirectional-operation-is-avail:
-          type: boolean
-        rxlevel-low-threshold:
-          type: integer
-        rxlevel-high-threshold:
-          type: integer
-        temperature-low-threshold:
-          type: integer
-        temperature-high-threshold:
-          type: integer
-        configuration-of-number-of-bip-errors-per-ses-is-avail:
-          type: boolean
-        admin-shut-down-is-avail:
-          type: boolean
-        isolation-is-avail:
-          type: boolean
-        supported-loop-back-kind-list:
-          type: array
-          items:
-            type: string    
-        maintenance-timer-range:
-          type: string
-        performance-monitoring-is-avail:
-          type: boolean
     WIRE_INTERFACE_CONFIGURATION:
       type: object
-      properties:
-        interface-name:
-          type: string
-        interface-is-on:
-          type: boolean
-        remote-wire-interface-name:
-          type: string
-        transceiver-configuration-list:
-          type: array
-          items:
-            type: object
-            properties:
-              transceiver-index:
-                type: integer
-              transceiver-is-on:
-                type: boolean
-              wavelength:
-                type: integer
-        auto-pmd-negotiation-is-on:
-          type: boolean
-        fixed-pmd-kind:
-          type: string
-        auto-negotiation-pmd-list:
-          type: array
-          items:
-            type: string
-        auto-signal-ordering-is-on:
-          type: boolean
-        fixed-signal-ordering-kind:
-          type: string
-        rx-sync-preference:
-          type: string
-        short-reach-mode-is-on:
-          type: boolean
-        eee-is-on:
-          type: boolean
-        unidirectional-operation-is-on:
-          type: boolean
-        number-of-bip-errors-per-ses:
-          type: integer
-        isolation-is-on:
-          type: boolean
-        loop-back-kind-on:
-          type: string
-        maintenance-timer:
-          type: integer
-        performance-monitoring-is-on:
-          type: boolean
     WIRE_INTERFACE_STATUS:
-      oneOf:
-        - description: 'cache'
-          type: object
-          properties:
-            interface-status:
-              type: string
-            receiver-status-list:
-              type: array
-              items:
-                type: object
-                properties:
-                  receiver-index:
-                    type: integer
-                  receive-signal-is-detected:
-                    type: boolean
-                  rx-level-cur:
-                    type: integer
-            pmd-negotiation-state:
-              type: string
-            pmd-is-up:
-              type: boolean
-            pmd-kind-cur:
-              type: string
-            signal-ordering-kind-cur:
-              type: string
-            rx-sync-role:
-              type: string
-            eee-is-up:
-              type: boolean
-            link-is-up:
-              type: boolean
-            link-is-idle:
-              type: boolean
-            loop-back-kind-up:
-              type: string
-            performance-monitoring-is-up:
-              type: boolean
-        - description: 'live'
-          type: object
-          properties:
-            interface-status:
-              type: string
-            receiver-status-list:
-              type: array
-              items:
-                type: object
-                properties:
-                  receiver-index:
-                    type: integer
-                  receive-signal-is-detected:
-                    type: boolean
-                  rx-level-cur:
-                    type: integer
-            pmd-negotiation-state:
-              type: string
-            pmd-is-up:
-              type: boolean
-            pmd-kind-cur:
-              type: string
-            signal-ordering-kind-cur:
-              type: string
-            rx-sync-role:
-              type: string
-            eee-is-up:
-              type: boolean
-            link-is-up:
-              type: boolean
-            link-is-idle:
-              type: boolean
-            loop-back-kind-up:
-              type: string
-            tx-level-cur:
-              type: integer
-            rx-collisions:
-              type: integer
-            performance-monitoring-is-up:
-              type: boolean
+      type: object
     WIRE_INTERFACE_CURRENT_PERFORMANCE:
       type: object
-      properties:
-        current-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  symbol-error-during-carrier:
-                    type: integer
-                  low-power-idle-transmitter-ms:
-                    type: integer
-                  low-power-idle-receiver-ms:
-                    type: integer
-                  rx-collisions:
-                    type: integer
-              timestamp:
-                type: string
-              suspect-interval-flag:
-                type: boolean
-              elapsed-time:
-                type: integer
-              scanner-id:
-                type: string
-              granularity-period:
-                type: string
-        number-of-current-performance-sets:
-          type: integer
     WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
-      properties:
-        historical-performance-data-list:
-          type: array
-          items:
-            type: object
-            properties:
-              performance-data:
-                type: object
-                properties:
-                  es:
-                    type: integer
-                  ses:
-                    type: integer
-                  symbol-error-during-carrier:
-                    type: integer
-                  low-power-idle-transmitter-ms:
-                    type: integer
-                  low-power-idle-receiver-ms:
-                    type: integer
-                  rx-collisions:
-                    type: integer
-              suspect-interval-flag:
-                type: boolean
-              history-data-id:
-                type: string
-              granularity-period:
-                type: string
-              period-end-time:
-                type: string
-        number-of-historical-performance-sets:
-          type: integer
-        time-of-latest-change:
-          type: string
-
-
 
   securitySchemes:
     apiKeyAuth:

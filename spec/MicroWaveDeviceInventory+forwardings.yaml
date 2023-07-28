@@ -292,10 +292,6 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-135
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-136
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/l-3vpn-profile-1-0:l-3vpn-pac/l-3vpn-capability
-        uuid: mwdi-1-0-0-op-s-is-140
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/l-3vpn-profile-1-0:l-3vpn-pac/l-3vpn-configuration
-        uuid: mwdi-1-0-0-op-s-is-141
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
         uuid: mwdi-1-0-0-op-s-is-145
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
@@ -408,10 +404,6 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-435
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-436
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/l-3vpn-profile-1-0:l-3vpn-pac/l-3vpn-capability
-        uuid: mwdi-1-0-0-op-s-is-440
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/l-3vpn-profile-1-0:l-3vpn-pac/l-3vpn-configuration
-        uuid: mwdi-1-0-0-op-s-is-441
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
         uuid: mwdi-1-0-0-op-s-is-445
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration

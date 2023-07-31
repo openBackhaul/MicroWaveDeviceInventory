@@ -325,7 +325,7 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-564
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
-          uuid: mwdi-1-0-0-op-s-is- 670
+          uuid: mwdi-1-0-0-op-s-is-570
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
           uuid: mwdi-1-0-0-op-s-is-571
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status

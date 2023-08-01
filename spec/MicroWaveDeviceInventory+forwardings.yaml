@@ -485,7 +485,7 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
         uuid: mwdi-1-0-0-op-s-is-564
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
-        uuid: mwdi-1-0-0-op-s-is- 670
+        uuid: mwdi-1-0-0-op-s-is-570
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
         uuid: mwdi-1-0-0-op-s-is-571
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
@@ -1152,7 +1152,8 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-110
 
-  # Und ganz viele mehr
+    # Forwardings for all paths that are starting with /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/... as initiating-requests
+    # would have to be added here. It has not been done, because it would mostly be a repetition of the schema described in above examples.
 
 
   - forwarding-name: RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
@@ -1223,7 +1224,7 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-407
 
-  - forwarding-name: RequestForLivedAlarmEventRecordsCausesReadingFromDeviceAndWritingIntoCache
+  - forwarding-name: RequestForLiveAlarmEventRecordsCausesReadingFromDeviceAndWritingIntoCache
     uuid: mwdi-1-0-0-op-fc-is-408
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -1257,6 +1258,5 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-410
 
-  # Und ganz viele mehr
-
-
+    # Forwardings for all paths that are starting with /core-model-1-4:network-control-domain=live/control-construct={mount-name}/... as initiating-requests
+    # would have to be added here. It has not been done, because it would mostly be a repetition of the schema described in above examples.

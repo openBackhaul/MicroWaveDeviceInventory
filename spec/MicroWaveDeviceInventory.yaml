@@ -7995,7 +7995,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveAirInterfaceCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveAirInterfaceCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-513/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -8008,31 +8008,6 @@ paths:
                         properties:
                           air-interface-2-0:air-interface-current-performance:
                             $ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-513/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - air-interface-2-0:air-interface-current-performance
-                      properties:
-                        air-interface-2-0:air-interface-current-performance:
-                          $ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#air-interface-2-0:air-interface-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'AirInterfaceCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -8466,7 +8441,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveEthernetContainerCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveEthernetContainerCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-523/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -8479,31 +8454,6 @@ paths:
                         properties:
                           ethernet-container-2-0:ethernet-container-current-performance:
                             $ref: '#/components/schemas/ETHERNET_CONTAINER_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-523/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - ethernet-container-2-0:ethernet-container-current-performance
-                      properties:
-                        ethernet-container-2-0:ethernet-container-current-performance:
-                          $ref: '#/components/schemas/ETHERNET_CONTAINER_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#ethernet-container-2-0:ethernet-container-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'EthernetContainerCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -8937,7 +8887,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveHybridMwStructureCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveHybridMwStructureCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-533/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -8950,31 +8900,6 @@ paths:
                         properties:
                           hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance:
                             $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-533/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance
-                      properties:
-                        hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance:
-                          $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'HybridMwStructureCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -9408,7 +9333,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveMacInterfaceCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveMacInterfaceCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-543/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -9421,31 +9346,6 @@ paths:
                         properties:
                           mac-interface-1-0:mac-interface-current-performance:
                             $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-543/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - mac-interface-1-0:mac-interface-current-performance
-                      properties:
-                        mac-interface-1-0:mac-interface-current-performance:
-                          $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#mac-interface-1-0:mac-interface-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'MacInterfaceCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -9879,7 +9779,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLivePureEthernetStructureCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLivePureEthernetStructureCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-553/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -9892,31 +9792,6 @@ paths:
                         properties:
                           pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance:
                             $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-553/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance
-                      properties:
-                        pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance:
-                          $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'PureEthernetStructureCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -10350,7 +10225,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveVlanInterfaceCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveVlanInterfaceCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-563/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -10363,31 +10238,6 @@ paths:
                         properties:
                           vlan-interface-1-0:vlan-interface-current-performance:
                             $ref: '#/components/schemas/VLAN_INTERFACE_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-563/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - vlan-interface-1-0:vlan-interface-current-performance
-                      properties:
-                        vlan-interface-1-0:vlan-interface-current-performance:
-                          $ref: '#/components/schemas/VLAN_INTERFACE_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#vlan-interface-1-0:vlan-interface-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'VlanInterfaceCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -10821,7 +10671,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveWireInterfaceCurrentPerformanceCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveWireInterfaceCurrentPerformanceCausesReadingFromDevice:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-573/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -10834,31 +10684,6 @@ paths:
                         properties:
                           wire-interface-2-0:wire-interface-current-performance:
                             $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-573/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - wire-interface-2-0:wire-interface-current-performance
-                      properties:
-                        wire-interface-2-0:wire-interface-current-performance:
-                          $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#wire-interface-2-0:wire-interface-current-performance}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'WireInterfaceCurrentPerformance written to cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':

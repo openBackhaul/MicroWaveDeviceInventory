@@ -1260,3 +1260,20 @@ forwardings:
 
     # Forwardings for all paths that are starting with /core-model-1-4:network-control-domain=live/control-construct={mount-name}/... as initiating-requests
     # would have to be added here. It has not been done, because it would mostly be a repetition of the schema described in above examples.
+    # An exeption is made for the live paths for CurrentPerformanceValues. CurrentPerformanceValues shall not be PUT into ElasticSearch.
+    # Thus there is just the one consequent-requests for reading from OpenDaylight. See the following example:
+
+  - forwarding-name: RequestForLiveAirInterfaceCurrentPerformanceCausesReadingFromDevice
+    uuid: mwdi-1-0-0-op-fc-is-513
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance
+        uuid: mwdi-1-0-0-op-s-is-513
+    consequent-requests:
+      - client-name: OpenDaylight://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance
+        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-513

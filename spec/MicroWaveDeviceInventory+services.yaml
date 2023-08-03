@@ -614,7 +614,7 @@ clients:
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-564
 
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0- 670
+          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-570
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-571
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status

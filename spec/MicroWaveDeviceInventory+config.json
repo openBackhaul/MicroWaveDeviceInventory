@@ -7083,6 +7083,1256 @@
                 ]
               },
               {
+                "uuid": "mwdi-1-0-0-op-fc-is-111",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedConnectorCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-111"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-111"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-112",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedContainedHolderCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-112"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-112"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-113",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedExpectedEquipmentCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-113"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-113"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-114",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedActualEquipmentCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-114"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-114"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-120",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedFirmwareCollectionCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-120"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-120"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-121",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedFirmwareComponentListCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-121"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-121"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-122",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedFirmwareComponentCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-122"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-122"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-123",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedFirmwareComponentStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-123"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-123"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-130",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedProfileCollectionCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-130"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-130"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-131",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedProfileCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-131"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-131"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-135",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedCoChannelProfileCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-135"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-135"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-136",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedCoChannelProfileConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-136"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-136"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-145",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedPolicingProfileCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-145"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-145"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-146",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedPolicingProfileConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-146"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-146"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-150",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedQosProfileCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-150"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-150"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-151",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedQosProfileConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-151"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-151"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-155",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedSchedulerProfileCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-155"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-155"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-156",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedSchedulerProfileConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-156"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-156"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-160",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedWredProfileCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-160"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-160"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-161",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedWredProfileConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-161"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-161"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-200",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedLogicalTerminationPointCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-200"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-200"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-201",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedLtpAugmentPacCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-201"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-201"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-210",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedAirInterfaceCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-210"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-210"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-211",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedAirInterfaceConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-211"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-211"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-212",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedAirInterfaceStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-212"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-212"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-214",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedAirInterfaceHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-214"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-214"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-220",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedEthernetContainerCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-220"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-220"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-221",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedEthernetContainerConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-221"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-221"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-222",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedEthernetContainerStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-222"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-222"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-224",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedEthernetContainerHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-224"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-224"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-230",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedHybridMwStructureCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-230"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-230"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-231",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedHybridMwStructureConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-231"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-231"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-232",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedHybridMwStructureStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-232"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-232"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-234",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedHybridMwStructureHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-234"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-234"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-240",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedMacInterfaceCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-240"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-240"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-241",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedMacInterfaceConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-241"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-241"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-242",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedMacInterfaceStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-242"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-242"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-244",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedMacInterfaceHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-244"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-244"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-250",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedPureEthernetStructureCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-250"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-250"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-251",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedPureEthernetStructureConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-251"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-251"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-252",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedPureEthernetStructureStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-252"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-252"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-254",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedPureEthernetStructureHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-254"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-254"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-260",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedVlanInterfaceCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-260"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-260"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-261",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedVlanInterfaceConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-261"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-261"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-262",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedVlanInterfaceStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-262"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-262"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-264",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedVlanInterfaceHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-264"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-264"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-270",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedWireInterfaceCapabilityCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-270"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-270"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-271",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedWireInterfaceConfigurationCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-271"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-271"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-272",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedWireInterfaceStatusCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-272"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-272"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-274",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForCachedWireInterfaceHistoricalPerformancesCausesReadingFromCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-274"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-274"
+                  }
+                ]
+              },
+              {
                 "uuid": "mwdi-1-0-0-op-fc-is-400",
                 "name": [
                   {
@@ -7259,6 +8509,1681 @@
                     "local-id": "2001",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                     "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-410"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-411",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveConnectorCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-411"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-411"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-411"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-412",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveContainedHolderCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-412"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-412"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-412"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-413",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveExpectedEquipmentCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-413"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-413"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-413"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-414",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveActualEquipmentCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-414"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-414"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-414"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-420",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveFirmwareCollectionCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-420"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-420"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-420"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-421",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveFirmwareComponentListCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-421"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-421"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-421"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-422",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveFirmwareComponentCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-422"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-422"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-422"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-423",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveFirmwareComponentStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-423"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-423"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-423"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-430",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveProfileCollectionCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-430"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-430"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-430"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-431",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveProfileCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-431"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-431"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-431"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-435",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveCoChannelProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-435"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-435"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-435"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-436",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveCoChannelProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-436"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-436"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-436"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-445",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePolicingProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-445"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-445"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-445"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-446",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePolicingProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-446"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-446"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-446"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-450",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveQosProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-450"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-450"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-450"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-451",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveQosProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-451"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-451"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-451"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-455",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveSchedulerProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-455"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-455"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-455"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-456",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveSchedulerProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-456"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-456"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-456"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-460",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWredProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-460"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-460"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-460"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-461",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWredProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-461"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-461"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-461"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-500",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveLogicalTerminationPointCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-500"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-500"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-500"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-501",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveLtpAugmentPacCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-501"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-501"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-501"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-510",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveAirInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-510"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-510"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-510"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-511",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveAirInterfaceConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-511"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-511"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-511"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-512",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveAirInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-512"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-512"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-512"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-514",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveAirInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-514"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-514"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-514"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-520",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveEthernetContainerCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-520"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-520"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-520"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-521",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveEthernetContainerConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-521"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-521"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-521"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-522",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveEthernetContainerStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-522"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-522"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-522"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-524",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveEthernetContainerHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-524"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-524"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-524"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-530",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveHybridMwStructureCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-530"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-530"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-530"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-531",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveHybridMwStructureConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-531"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-531"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-531"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-532",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveHybridMwStructureStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-532"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-532"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-532"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-534",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveHybridMwStructureHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-534"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-534"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-534"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-540",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveMacInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-540"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-540"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-540"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-541",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveMacInterfaceConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-541"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-541"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-541"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-542",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveMacInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-542"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-542"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-542"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-544",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveMacInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-544"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-544"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-544"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-550",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePureEthernetStructureCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-550"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-550"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-550"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-551",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePureEthernetStructureConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-551"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-551"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-551"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-552",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePureEthernetStructureStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-552"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-552"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-552"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-554",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePureEthernetStructureHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-554"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-554"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-554"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-560",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveVlanInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-560"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-560"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-560"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-561",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveVlanInterfaceConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-561"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-561"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-561"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-562",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveVlanInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-562"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-562"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-562"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-564",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveVlanInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-564"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-564"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-564"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-570",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWireInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-570"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-570"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-570"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-571",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWireInterfaceConfigurationCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-571"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-571"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-571"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-572",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWireInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-572"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-572"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-572"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-574",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWireInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-574"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-574"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-574"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-513",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveAirInterfaceCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-513"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-513"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-523",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveEthernetContainerCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-523"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-523"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-533",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveHybridMwStructureCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-533"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-533"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-543",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveMacInterfaceCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-543"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-543"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-553",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLivePureEthernetStructureCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-553"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-553"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-563",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveVlanInterfaceCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-563"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-563"
+                  }
+                ]
+              },
+              {
+                "uuid": "mwdi-1-0-0-op-fc-is-573",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForLiveWireInterfaceCurrentPerformanceCausesReadingFromDevice"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "1000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-s-is-573"
+                  },
+                  {
+                    "local-id": "2000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-573"
                   }
                 ]
               }

@@ -5,7 +5,7 @@ title  ProvideListOfConnectedDevices
 
 participant "external" as requestor
 participant "MWDI://v1/provide-list-of-connected-devices" as provideListOfConnectedDevices
-participant "ElasticSearch://?fields=node(node-id)" as ConnectedDeviceList
+participant "ElasticSearch://?fields=control-construct(node-id)" as ConnectedDeviceList
 
 requestor -> provideListOfConnectedDevices: (apiKeyAuth)
 activate provideListOfConnectedDevices

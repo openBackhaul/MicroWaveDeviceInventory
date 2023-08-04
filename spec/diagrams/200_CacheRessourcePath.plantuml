@@ -5,7 +5,7 @@ title Request for cached ControlConstruct classes
 
 participant "external" as requestor
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}{path-to-class}" as CacheControlConstructClass
-participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as EsControlConstructClass
+participant "ElasticSearch://control-construct={mount-name}{path-to-class}" as EsControlConstructClass
 
 note over CacheControlConstructClass: {path-to-class} can include \nfields filter to retrieve only specific \ncomponents of the addressed class.
 requestor -> CacheControlConstructClass: {mount-name, path-to-class} (apiKeyAuth)

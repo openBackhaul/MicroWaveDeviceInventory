@@ -5,7 +5,7 @@ title  Notification based deleting from DeviceList
 
 participant "NP://v1/notify-devices-newly-disconnected-from-controller" as subscription
 participant "MWDI://v1/regard-device-newly-disconnected-from-controller" as regardNewDevice
-participant "ElasticSearch://node={mount-name}" as es
+participant "ElasticSearch://control-construct={mount-name}" as es
 
 subscription -> regardNewDevice: notification {mount-name} (apiKeyAuth)
 activate regardNewDevice

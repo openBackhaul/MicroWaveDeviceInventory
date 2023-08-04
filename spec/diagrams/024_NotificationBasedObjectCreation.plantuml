@@ -6,7 +6,7 @@ title Process object creation notifications
 participant "NP://v1/notify-device-object-creations" as subscription
 participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
 participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as odlCreatedObject
-participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as es
+participant "ElasticSearch://control-construct={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as es
 
 subscription -> regardObjectCreation: {mount-name, counter, timestamp, objectType, objectIdRef} (apiKeyAuth)
 activate regardObjectCreation

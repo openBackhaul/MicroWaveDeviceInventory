@@ -5,7 +5,7 @@ title Process attribute change notifications
 
 participant "NP://v1/notify-device-attribute-value-changes" as subscription
 participant "MWDI://v1/regard-device-attribute-value-change" as regardAttributeChange
-participant "ElasticSearch://{mountName, attributeName}" as es
+participant "ElasticSearch://control-construct={mount-name}{attributeName}" as es
 
 subscription -> regardAttributeChange: {mount-name, counter, timestamp, attributeName, newValue} (apiKeyAuth)
 activate regardAttributeChange

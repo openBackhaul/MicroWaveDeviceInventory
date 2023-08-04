@@ -6,7 +6,7 @@ title Process alarm notifications
 
 participant "NP://v1/notify-device-alarms" as subscription
 participant "MWDI://v1/regard-device-alarm" as regardAlarm
-participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms" as es
+participant "ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms/current-alarm-list={alarm-type-id},{alarm-type-qualifier},{resource}" as es
 
 subscription -> regardAlarm: {mount-name, counter, timestamp, alarmType, resource, severity} (apiKeyAuth)
 activate regardAlarm

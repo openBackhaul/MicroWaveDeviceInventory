@@ -250,6 +250,10 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-005
       - server-name: /v1/provide-list-of-connected-devices
         uuid: mwdi-1-0-0-op-s-is-010
+      - server-name: /v1/provide-list-of-device-interfaces
+        uuid: mwdi-1-0-0-op-s-is-011
+      - server-name: /v1/provide-list-of-device-equipment
+        uuid: mwdi-1-0-0-op-s-is-012
       - server-name: /v1/notify-attribute-value-changes
         uuid: mwdi-1-0-0-op-s-is-020
       - server-name: /v1/notify-object-creations
@@ -997,6 +1001,36 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch://?fields=control-construct(uuid)
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-000
+
+  - forwarding-name: RequestForListOfDeviceInterfacesCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-list-of-device-interfaces
+        uuid: mwdi-1-0-0-op-s-is-011
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-100
+
+  - forwarding-name: RequestForListOfActualDeviceEquipmentCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-012
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-list-of-actual-device-equipment
+        uuid: mwdi-1-0-0-op-s-is-012
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}?fields=equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-100
 
   - forwarding-name: SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications
     uuid: mwdi-1-0-0-op-fc-is-020

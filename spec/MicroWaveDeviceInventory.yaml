@@ -904,9 +904,9 @@ paths:
               schema:
                 type: object
                 required:
-                  - connected-devices
+                  - mount-name-list
                 properties:
-                  connected-devices:
+                  mount-name-list:
                     type: array
                     items:
                       type: string
@@ -914,7 +914,7 @@ paths:
                         'MountName of devices in connected state at the controller
                         from {$RequestForListOfConnectedDevicesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/uuid}'
               example: 
-                connected-devices:
+                mount-name-list:
                   - '305251234'
                   - '105258888'
           headers:
@@ -937,8 +937,16 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForListOfConnectedDevicesCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]?fields=control-construct(uuid)
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
+              parameters:
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    enum:
+                      - 'control-construct(uuid)'
               responses:
                 '200':
                   description: 'List of connected devices provided from cache'
@@ -968,6 +976,312 @@ paths:
                           core-model-1-4:control-construct:
                             - uuid: '305251234'
                             - uuid: '105258888'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-list-of-device-interfaces:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfDeviceInterfaces
+      summary: 'Provides list of LTP UUIDs at a device'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: 'Identifier of the device at the Controller'
+            example:
+              mount-name: '513250010'
+      responses:
+        '200':
+          description: 'List of LTP UUIDs provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - logical-termination-point-list
+                properties:
+                  logical-termination-point-list:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - local-id
+                        - layer-protocol-name
+                      properties:
+                        uuid:
+                          type: string
+                          description: >
+                            'UUID of the LTP
+                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/uuid}'
+                        local-id:
+                          type: string
+                          description: >
+                            'Local-ID of the LP
+                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}'
+                        layer-protocol-name:
+                          type: string
+                          description:  >
+                            'LayerProtocolName of the LP
+                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}'
+              example: 
+                logical-termination-point-list:
+                  - uuid: 'ETY-2134638978'
+                    local-id: '2134638978'
+                    layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+                  - uuid: 'RF-2146697857'
+                    local-id: '2146697857'
+                    layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForListOfDeviceInterfacesCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.body#mount-name}
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    enum:
+                      - 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+              responses:
+                '200':
+                  description: 'ControlConstruct provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:control-construct:
+                            type: array
+                            items:  
+                              type: object
+                              properties:
+                                logical-termination-point:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      uuid:
+                                        type: string
+                                      layer-protocol:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            local-id:
+                                              type: string
+                                            layer-protocol-name:
+                                              type: string
+                      example:
+                        core-model-1-4:control-construct:
+                          - logical-termination-point:
+                              - uuid: 'ETY-2134638978'
+                                layer-protocol:
+                                  - local-id: '2134638978'
+                                    layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+                              - uuid: 'RF-2146697857'
+                                layer-protocol:
+                                  - local-id: '2146697857'
+                                    layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-list-of-actual-device-equipment:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfActualDeviceEquipment
+      summary: 'Provides list of actual equipment UUIDs inside a device'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  description: 'Identifier of the device at the Controller'
+            example:
+              mount-name: '513250010'
+      responses:
+        '200':
+          description: 'List of actual equipment UUIDs provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - actual-equipment-list
+                properties:
+                  actual-equipment-list:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - equipment-type-name
+                      properties:
+                        uuid:
+                          type: string
+                          description: >
+                            'UUID of the equipment
+                            from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/uuid}'
+                        equipment-type-name:
+                          type: string
+                          description:  >
+                            'Name of the type of equipment
+                            from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/actual-equipment/manufactured-thing/equipment-type/type-name}'
+              example: 
+                actual-equipment-list:
+                  - uuid: 'HUAWEI-EQUIPMENT-1'
+                    equipment-type-name: 'OptiXRTN950'
+                  - uuid: 'HUAWEI-EQUIPMENT-4-4'
+                    equipment-type-name: 'SL91EG4'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-012/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForListOfActualDeviceEquipmentCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.body#mount-name}
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    enum:
+                      - 'equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))'
+              responses:
+                '200':
+                  description: 'ControlConstruct provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:control-construct:
+                            type: array
+                            items:  
+                              type: object
+                              properties:
+                                equipment:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      uuid:
+                                        type: string
+                                      actual-equipment:
+                                        type: object
+                                        properties:
+                                          manufactured-thing:
+                                            type: object
+                                            properties:
+                                              equipment-type:
+                                                type: object
+                                                properties:
+                                                  type-name:
+                                                    type: string
+                      example:
+                        core-model-1-4:control-construct:
+                          - equipment:
+                              - uuid: 'HUAWEI-EQUIPMENT-1'
+                                actual-equipment:
+                                  manufactured-thing:
+                                    equipment-type:
+                                      type-name: 'OptiXRTN950'
+                              - uuid: 'HUAWEI-EQUIPMENT-4-4'
+                                actual-equipment:
+                                  manufactured-thing:
+                                    equipment-type:
+                                      type-name: 'SL91EG4'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':

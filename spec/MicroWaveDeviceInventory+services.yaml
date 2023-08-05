@@ -60,6 +60,10 @@ servers:
         # ordinary services
         - operation-name: /v1/provide-list-of-connected-devices
           uuid: mwdi-1-0-0-op-s-is-010
+        - operation-name: /v1/provide-list-of-device-interfaces
+          uuid: mwdi-1-0-0-op-s-is-011
+        - operation-name: /v1/provide-list-of-actual-device-equipment
+          uuid: mwdi-1-0-0-op-s-is-012
 
         # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes

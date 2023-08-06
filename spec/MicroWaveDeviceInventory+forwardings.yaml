@@ -1029,7 +1029,7 @@ forwardings:
       - server-name: /v1/provide-list-of-actual-device-equipment
         uuid: mwdi-1-0-0-op-s-is-012
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}?fields=equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))
+      - client-name: ElasticSearch://control-construct={mount-name}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-100
 
   - forwarding-name: SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications

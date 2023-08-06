@@ -1173,8 +1173,16 @@ paths:
               schema:
                 type: object
                 required:
+                  - top-level-equipment
                   - actual-equipment-list
                 properties:
+                  top-level-equipment:
+                    type: array
+                    items:  
+                      type: string
+                    description: >
+                      'List of UUIDs of equipment that is at the top of some internal hierarchy
+                      from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/top-level-equipment}'
                   actual-equipment-list:
                     type: array
                     items:
@@ -1194,6 +1202,8 @@ paths:
                             'Name of the type of equipment
                             from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/actual-equipment/manufactured-thing/equipment-type/type-name}'
               example:
+                top-level-equipment:
+                  - 'HUAWEI-EQUIPMENT-1'
                 actual-equipment-list:
                   - uuid: 'HUAWEI-EQUIPMENT-1'
                     equipment-type-name: 'OptiXRTN950'
@@ -1237,7 +1247,7 @@ paths:
                   schema:
                     type: string
                     enum:
-                      - 'equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))'
+                      - 'top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))'
               responses:
                 '200':
                   description: 'ControlConstruct provided from cache'
@@ -1251,6 +1261,10 @@ paths:
                             items:  
                               type: object
                               properties:
+                                top-level-equipment:
+                                  type: array
+                                  items:  
+                                    type: string
                                 equipment:
                                   type: array
                                   items:
@@ -1271,7 +1285,9 @@ paths:
                                                     type: string
                       example:
                         core-model-1-4:control-construct:
-                          - equipment:
+                          - top-level-equipment:
+                              - 'HUAWEI-EQUIPMENT-1'
+                            equipment:
                               - uuid: 'HUAWEI-EQUIPMENT-1'
                                 actual-equipment:
                                   manufactured-thing:

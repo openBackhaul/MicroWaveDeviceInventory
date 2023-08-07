@@ -1046,10 +1046,10 @@ paths:
                             from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}'
               example:
                 logical-termination-point-list:
-                  - uuid: 'ETY-2134638978'
+                  - uuid: '513250010-ETY-2134638978'
                     local-id: '2134638978'
                     layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
-                  - uuid: 'RF-2146697857'
+                  - uuid: '513250010-RF-2146697857'
                     local-id: '2146697857'
                     layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
           headers:
@@ -1123,11 +1123,11 @@ paths:
                       example:
                         core-model-1-4:control-construct:
                           - logical-termination-point:
-                              - uuid: 'ETY-2134638978'
+                              - uuid: '513250010-ETY-2134638978'
                                 layer-protocol:
                                   - local-id: '2134638978'
                                     layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
-                              - uuid: 'RF-2146697857'
+                              - uuid: '513250010-RF-2146697857'
                                 layer-protocol:
                                   - local-id: '2146697857'
                                     layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
@@ -1164,7 +1164,7 @@ paths:
                   type: string
                   description: 'Identifier of the device at the Controller'
             example:
-              mount-name: '513250010'
+              mount-name: '222250001'
       responses:
         '200':
           description: 'List of actual equipment UUIDs provided'
@@ -1205,9 +1205,9 @@ paths:
                 top-level-equipment:
                   - 'HUAWEI-EQUIPMENT-1'
                 actual-equipment-list:
-                  - uuid: 'HUAWEI-EQUIPMENT-1'
+                  - uuid: '222250001-HUAWEI-EQUIPMENT-1'
                     equipment-type-name: 'OptiXRTN950'
-                  - uuid: 'HUAWEI-EQUIPMENT-4-4'
+                  - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
                     equipment-type-name: 'SL91EG4'
           headers:
             x-correlator:
@@ -1288,12 +1288,12 @@ paths:
                           - top-level-equipment:
                               - 'HUAWEI-EQUIPMENT-1'
                             equipment:
-                              - uuid: 'HUAWEI-EQUIPMENT-1'
+                              - uuid: '222250001-HUAWEI-EQUIPMENT-1'
                                 actual-equipment:
                                   manufactured-thing:
                                     equipment-type:
                                       type-name: 'OptiXRTN950'
-                              - uuid: 'HUAWEI-EQUIPMENT-4-4'
+                              - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
                                 actual-equipment:
                                   manufactured-thing:
                                     equipment-type:

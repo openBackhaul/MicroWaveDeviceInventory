@@ -1719,7 +1719,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-
   /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -1778,6 +1777,12 @@ paths:
                         properties:
                           alarms-1-0:alarm-capability:
                             $ref: '#/components/schemas/ALARM_CAPABILITY'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -1836,6 +1841,12 @@ paths:
                         properties:
                           alarms-1-0:alarm-configuration:
                             $ref: '#/components/schemas/ALARM_CONFIGURATION'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms:
     parameters:
       - $ref: '#/components/parameters/user'

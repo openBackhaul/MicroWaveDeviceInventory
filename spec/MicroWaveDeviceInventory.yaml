@@ -911,7 +911,7 @@ paths:
                     items:
                       type: string
                       description: >
-                        'MountName of devices in connected state at the controller
+                        'MountName of devices in connected state at the Controller
                         from {$RequestForListOfConnectedDevicesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/uuid}'
               example:
                 mount-name-list:

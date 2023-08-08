@@ -628,10 +628,10 @@ paths:
                   description: 'Path to the resource that caused this alarm notification'
                 alarm-type-id:
                   type: string
-                  description: 'alarm-type-id together with alarm-type-qualifier provide a unique identification of the alarm type'
+                  description: 'alarm-type-id together with alarm-type-qualifier provides a unique identification of the alarm type'
                 alarm-type-qualifier:
                   type: string
-                  description: 'The alarm-type-qualifier is used when the alarm-type-id is not uniquely identifying the alarm type.'
+                  description: 'The alarm-type-qualifier is used when the alarm-type-id is not uniquely identifying the alarm type'
                 problem-severity:
                   type: string
                   description: 'Severity of the alarm, but also indication about the alarm being cleared'
@@ -709,7 +709,7 @@ paths:
                   description: 'UUID of the object that holds the attribute that changed its value'
                 attribute-name:
                   type: string
-                  description: 'Name of the attribute that has changed.'
+                  description: 'Name of the attribute that has changed'
                 new-value:
                   type: string
                   description: 'Attribute value converted to a string (xml, json, ...)'
@@ -1043,7 +1043,7 @@ paths:
                           type: string
                           description: >
                             'LayerProtocolName of the LP
-                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}'
+                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name}'
               example:
                 logical-termination-point-list:
                   - uuid: '513250010-ETY-2134638978'

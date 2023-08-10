@@ -6957,7 +6957,7 @@
                 "name": [
                   {
                     "value-name": "ForwardingKind",
-                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_SUBSCRIPTION"
                   },
                   {
                     "value-name": "ForwardingName",
@@ -6987,7 +6987,7 @@
                 "name": [
                   {
                     "value-name": "ForwardingKind",
-                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_SUBSCRIPTION"
                   },
                   {
                     "value-name": "ForwardingName",
@@ -7017,7 +7017,7 @@
                 "name": [
                   {
                     "value-name": "ForwardingKind",
-                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_SUBSCRIPTION"
                   },
                   {
                     "value-name": "ForwardingName",

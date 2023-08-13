@@ -6,9 +6,9 @@ title  Cyclic Update of DeviceList
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "ODL://{mwdi-1-0-0-string-p-000}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
-participant "ElasticSearch://?fields=node(node-id)" as ConnectedDeviceList
-participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as ControlConstruct
-participant "ElasticSearch://node={mount-name}" as es
+participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}" as ControlConstruct
+participant "ElasticSearch://control-construct={mount-name}" as es
 
 ro -> mwdi
 activate mwdi

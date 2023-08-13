@@ -3,8 +3,8 @@ skinparam responseMessageBelowArrow true
 
 title MWDI notifies an Object being deleted in its Cache
 
-participant "external" as external
-participant "external://ownReceiverOperation" as receiverOperation
+participant "external (Requestor)" as external
+participant "Requestor://receive-operation" as receiverOperation
 participant "MWDI://v1/notify-object-deletions" as notifyObjectDeletion
 
 external -> notifyObjectDeletion: {ownIp, ownPort, ownReceiverOperation} (apiKeyAuth)

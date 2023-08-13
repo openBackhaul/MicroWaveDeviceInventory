@@ -1,13 +1,12 @@
 @startuml 01x_MwdiSubscribesAtNp
 skinparam responseMessageBelowArrow true
 
-title MWDI subscribing for ControllerNotifications and DeviceNotifications at NP
+title PromptForEmbeddingCausesSubscribingForNotifications
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "<i>respective</i> \n<i>ownReceiveOperation</i>" as receivers
-participant "NP://v1/notify-devices-newly-\nconnected-to-controller" as npnew
-participant "NP://v1/notify-devices-newly-\ndisconnected-from-controller" as npdisconnected
+participant "NP://v1/notify-controller-attribute-value-changes" as npnew
 participant "NP://v1/notify-device-alarms" as npalarm
 participant "NP://v1/notify-device-attribute-\nvalue-changes" as npattributechange
 participant "NP://v1/notify-device-\nobject-creations" as npobjcreate
@@ -16,13 +15,9 @@ participant "NP://v1/notify-device-\nobject-deletions" as npobjdelete
 ro -> mwdi
 activate mwdi
 
-note over mwdi: subscribe for info about \nnew devices
+note over mwdi: subscribe for info about \nnew and disconnected devices
 mwdi -> npnew: {ownIp, ownPort, ownReceiveOperation} (apiKeyAuth)
 npnew -> receivers: {notifications} (apiKeyAuth)
-
-note over mwdi: subscribe for info about \ndisconnected devices
-mwdi -> npdisconnected: {ownIp, ownPort, ownReceiveOperation} (apiKeyAuth)
-npdisconnected -> receivers: {notifications} (apiKeyAuth)
 
 note over mwdi: subscribe for info about \nalarm changes
 mwdi -> npalarm: {ownIp, ownPort, ownReceiveOperation} (apiKeyAuth)

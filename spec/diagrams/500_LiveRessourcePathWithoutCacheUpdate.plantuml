@@ -1,12 +1,13 @@
-@startuml 500_LiveRessourcePath
+@startuml 500_LiveRessourcePathWithoutCacheUpdate
 skinparam responseMessageBelowArrow true
 
-title Request for live ControlConstruct classes
+title Request for live ControlConstruct classes without Cache update
 
 participant "external" as requestor
-participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as LiveControlConstructClass
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}{path-to-class}" as LiveControlConstructClass
 participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as OdlControlConstructClass
-participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as EsControlConstructClass
+
+note over LiveControlConstructClass: {path-to-class} refers to <i>current-performance</i>
 
 requestor -> LiveControlConstructClass: {mount-name, path-to-class} (apiKeyAuth)
 activate LiveControlConstructClass
@@ -14,8 +15,6 @@ activate LiveControlConstructClass
 note over LiveControlConstructClass: {path-to-class} can include \nfields filter to retrieve only specific \ncomponents of the addressed class.
 LiveControlConstructClass -> OdlControlConstructClass: {mount-name, path-to-class}
 OdlControlConstructClass --> LiveControlConstructClass: {class-with-all-or-a-subset-of-components}
-
-LiveControlConstructClass -> EsControlConstructClass: {mount-name, path-to-class, updated-class-with-all-or-a-subset-of-components}
 
 LiveControlConstructClass --> requestor: {class-with-all-or-a-subset-of-components}
 deactivate LiveControlConstructClass

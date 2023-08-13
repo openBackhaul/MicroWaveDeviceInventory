@@ -1,16 +1,22 @@
 @startuml 020_NotificationBasedDeviceListSyncAdd
 skinparam responseMessageBelowArrow true
 
-title  Notification based adding to DeviceList
+title  NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
 
-participant "NP://v1/notify-devices-newly-connected-to-controller" as subscription
-participant "MWDI://v1/regard-device-newly-connected-to-controller" as regardNewDevice
-participant "MWDI://live/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct" as liveControlConstruct
+participant "NP://v1/notify-controller-attribute-value-changes" as subscription
+participant "MWDI://v1/regard-controller-attribute-value-change" as regardNewDevice
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}" as liveControlConstruct
 
-subscription -> regardNewDevice: notification {mount-name} (apiKeyAuth)
+subscription -> regardNewDevice: AttributeValueChangedNotification (apiKeyAuth)
 activate regardNewDevice
 
-regardNewDevice -> liveControlConstruct: {mount-name} (apiKeyAuth)
+note over regardNewDevice
+IF object-id-ref_part_to_first_hyphen == 'operation'
+AND IF attribute-name == 'connection-status' 
+AND IF new-value == 'connected'
+end note
+
+regardNewDevice -> liveControlConstruct: {mount-name = object-id-ref_part_after_'node-id='} (apiKeyAuth)
 deactivate regardNewDevice
 
 @enduml

@@ -2,18 +2,45 @@
 
 skinparam responseMessageBelowArrow true
 
-title Process alarm notifications
+title NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
 
 participant "NP://v1/notify-device-alarms" as subscription
 participant "MWDI://v1/regard-device-alarm" as regardAlarm
-participant "ElasticSearch://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms" as es
+participant "ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
 
 subscription -> regardAlarm: {mount-name, counter, timestamp, alarmType, resource, severity} (apiKeyAuth)
 activate regardAlarm
 
-regardAlarm -> es: {mount-name, counter, timestamp, alarmType, resource, severity}
+regardAlarm -> CurrentAlarms: GET {mount-name}
+CurrentAlarms --> regardAlarm: {currentAlarmList, numberOfCurrentAlarms, timeOfLatestChange}
+
+note over regardAlarm
+Entry in CurrentAlarmList is identified by 3 key attribute values:
+- resource
+- alarm-type-id
+- alarm-type-qualifier
+Does it make sense to read the entire list, change it and write it back to cache?
+
+IF request.body.problem-severity != CLEARED:
+- currentAlarmList to be complemented by content of Alarmnotification
+- numberOfCurrentAlarms++
+- timeOfLatestChange=request.body.timestamp
+
+IF request.body.problem-severity == CLEARED:
+- content of Alarmnotification to be removed from currentAlarmList
+- numberOfCurrentAlarms--
+- timeOfLatestChange=request.body.timestamp
+end note
+
+regardAlarm -> CurrentAlarms: {currentAlarmList, numberOfCurrentAlarms, timeOfLatestChange}
 deactivate regardAlarm
 
-note over es: Remark: MWDI://v1/regard-device-alarm initiates ObjectCreationNotifications, but no AlarmNotifications at MWDI NBI
+note over CurrentAlarms
+Remark: 
+MWDI://v1/regard-device-alarm 
+initiates ObjectCreationNotifications and ObjectDeletionNotifications, 
+but no AlarmNotifications 
+at MWDI NBI
+end note
 
 @enduml

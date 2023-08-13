@@ -1714,7 +1714,7 @@ paths:
                 properties:
                   top-level-equipment:
                     type: array
-                    items:  
+                    items:
                       type: string
                     description: >
                       'List of UUIDs of equipment that is at the top of some internal hierarchy
@@ -1794,12 +1794,12 @@ paths:
                         properties:
                           core-model-1-4:control-construct:
                             type: array
-                            items:  
+                            items:
                               type: object
                               properties:
                                 top-level-equipment:
                                   type: array
-                                  items:  
+                                  items:
                                     type: string
                                 equipment:
                                   type: array
@@ -2474,7 +2474,7 @@ paths:
                 properties:
                   core-model-1-4:control-construct:
                     type: array
-                    items:  
+                    items:
                       $ref: '#/components/schemas/CONTROL_CONSTRUCT'
           headers:
             x-correlator:
@@ -2508,7 +2508,7 @@ paths:
                         properties:
                           core-model-1-4:control-construct:
                             type: array
-                            items:  
+                            items:
                               $ref: '#/components/schemas/CONTROL_CONSTRUCT'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2870,7 +2870,7 @@ paths:
                 properties:
                   core-model-1-4:connector:
                     type: array
-                    items:  
+                    items:
                       $ref: '#/components/schemas/CONNECTOR'
           headers:
             x-correlator:
@@ -2904,7 +2904,7 @@ paths:
                         properties:
                           core-model-1-4:connector:
                             type: array
-                            items:  
+                            items:
                               $ref: '#/components/schemas/CONNECTOR'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6235,7 +6235,7 @@ paths:
                         properties:
                           core-model-1-4:control-construct:
                             type: array
-                            items:  
+                            items:
                               $ref: '#/components/schemas/CONTROL_CONSTRUCT'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6256,7 +6256,7 @@ paths:
                       properties:
                         core-model-1-4:control-construct:
                           type: array
-                          items:  
+                          items:
                             $ref: '#/components/schemas/CONTROL_CONSTRUCT'
                             description: >
                               'from {$RequestForReadingFromDevice.response.body#core-model-1-4:control-construct}
@@ -6881,7 +6881,7 @@ paths:
                 properties:
                   core-model-1-4:connector:
                     type: array
-                    items:  
+                    items:
                       $ref: '#/components/schemas/CONNECTOR'
                       description: >
                         'from {$RequestForReadingFromDevice.response.body#core-model-1-4:connector}
@@ -6955,7 +6955,7 @@ paths:
                         properties:
                           core-model-1-4:connector:
                             type: array
-                            items:  
+                            items:
                               $ref: '#/components/schemas/CONNECTOR'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6976,7 +6976,7 @@ paths:
                       properties:
                         core-model-1-4:connector:
                           type: array
-                          items:  
+                          items:
                             $ref: '#/components/schemas/CONNECTOR'
                           description: >
                             'from {$RequestForReadingFromDevice.response.body#core-model-1-4:connector}
@@ -14718,10 +14718,10 @@ paths:
                         example:
                           network-topology:topology:
                             - node:
-                              - node-id: '305251234'
-                                netconf-node-topology:connection-status: 'connected'
-                              - node-id: '105258888'
-                                netconf-node-topology:connection-status: 'connecting'
+                                - node-id: '305251234'
+                                  netconf-node-topology:connection-status: 'connected'
+                                - node-id: '105258888'
+                                  netconf-node-topology:connection-status: 'connecting'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -15249,7 +15249,7 @@ paths:
                           ip-address:
                             ipv-4-address: '1.1.4.4'
                         subscribing-application-port: 4004
-                        notifications-receiving-operation:  '/v1/regard-device-object-creation'
+                        notifications-receiving-operation: '/v1/regard-device-object-creation'
               responses:
                 '204':
                   description: 'Subscription for notifications about object creations at the devices created'

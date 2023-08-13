@@ -909,14 +909,14 @@ forwardings:
       - server-name: /v1/regard-device-object-deletion
         uuid: mwdi-1-0-0-op-s-is-005
     consequent-requests:
-        - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
-          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
-        - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
-          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-721
-        - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
-          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-731
-        - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
-          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-800
+    - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
+      uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
+    - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
+      uuid: mwdi-1-0-0-op-c-del-es-1-0-0-721
+    - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
+      uuid: mwdi-1-0-0-op-c-del-es-1-0-0-731
+    - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
+      uuid: mwdi-1-0-0-op-c-del-es-1-0-0-800
 
   - forwarding-name: RequestForListOfConnectedDevicesCausesReadingFromCache
     uuid: mwdi-1-0-0-op-fc-is-010

@@ -1,7 +1,7 @@
 @startuml 023_NotificationBasedAttributeUpdate
 skinparam responseMessageBelowArrow true
 
-title Process attribute change notifications
+title NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
 
 participant "NP://v1/notify-device-attribute-value-changes" as subscription
 participant "MWDI://v1/regard-device-attribute-value-change" as regardAttributeChange

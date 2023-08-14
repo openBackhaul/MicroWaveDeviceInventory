@@ -630,6 +630,8 @@ clients:
 
         - operation-name: /control-construct={mount-name}/equipment={uuid}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
+
+        #TODO: 711 to 714 are not used -> to be removed?
         - operation-name: /control-construct={mount-name}/equipment={uuid}/connector={local-id}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-711
         - operation-name: /control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}

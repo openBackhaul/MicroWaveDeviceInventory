@@ -6,7 +6,7 @@ title Request for live ControlConstruct classes with Cache update
 participant "external" as requestor
 participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}{path-to-class}" as LiveControlConstructClass
 participant "ODL://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as OdlControlConstructClass
-participant "ElasticSearch://control-construct={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as EsControlConstructClass
+participant "ElasticSearch://control-construct={mount-name}{path-to-class}" as EsControlConstructClass
 
 requestor -> LiveControlConstructClass: {mount-name, path-to-class} (apiKeyAuth)
 activate LiveControlConstructClass

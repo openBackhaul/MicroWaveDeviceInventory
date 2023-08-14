@@ -629,15 +629,17 @@ clients:
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-700
 
         - operation-name: /control-construct={mount-name}/equipment={uuid}
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-710
+          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
+
+        #TODO: 711 to 714 are not used -> to be removed?
         - operation-name: /control-construct={mount-name}/equipment={uuid}/connector={local-id}
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-711
+          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-711
         - operation-name: /control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-712
+          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-712
         - operation-name: /control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-713
+          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-713
         - operation-name: /control-construct={mount-name}/equipment={uuid}/actual-equipment
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-714
+          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-714
 
         - operation-name: /control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-721

@@ -5,7 +5,7 @@ title NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
 
 participant "NP://v1/notify-device-object-creations" as subscription
 participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
-participant "ODL://{mwdi-1-0-0-string-p-000}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as odlCreatedObject
+participant "ODL://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object-type" as odlCreatedObject
 
 subscription -> regardObjectCreation: {mount-name, counter, timestamp, objectType, objectIdRef} (apiKeyAuth)
 activate regardObjectCreation

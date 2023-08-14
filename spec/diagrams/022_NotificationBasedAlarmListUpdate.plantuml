@@ -6,7 +6,7 @@ title NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
 
 participant "NP://v1/notify-device-alarms" as subscription
 participant "MWDI://v1/regard-device-alarm" as regardAlarm
-participant "ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
+participant "ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms={alarm-type-id},{alarm-type-qualifier},{resource}" as CurrentAlarms
 
 subscription -> regardAlarm: {mount-name, counter, timestamp, alarmType, resource, severity} (apiKeyAuth)
 activate regardAlarm
@@ -22,7 +22,7 @@ Entry in CurrentAlarmList is identified by 3 key attribute values:
 Does it make sense to read the entire list, change it and write it back to cache?
 
 IF request.body.problem-severity != CLEARED:
-- currentAlarmList to be complemented by content of Alarmnotification
+- currentAlarmList to be complemented by content of AlarmNotification
 - numberOfCurrentAlarms++
 - timeOfLatestChange=request.body.timestamp
 

@@ -859,7 +859,6 @@ clients:
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}
             uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-400
 
-          # TODO: diese operation-server werden in den Forwardings nicht benutzt -> können die gelöscht werden?
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
             uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-405
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration

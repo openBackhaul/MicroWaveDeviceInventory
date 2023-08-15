@@ -5159,6 +5159,26 @@
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                     "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-000"
+                  },
+                  {
+                    "local-id": "2001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-010"
+                  },
+                  {
+                    "local-id": "2002",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-011"
+                  },
+                  {
+                    "local-id": "2003",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-012"
+                  },
+                  {
+                    "local-id": "2004",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-np-1-0-0-013"
                   }
                 ]
               },

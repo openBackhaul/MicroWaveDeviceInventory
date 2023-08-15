@@ -6631,7 +6631,7 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "NotifiedDeviceObjectCreationCausesReadingOfObjectFromDevice"
+                    "value": "NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath "
                   }
                 ],
                 "fc-port": [
@@ -6643,22 +6643,303 @@
                   {
                     "local-id": "2000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-410"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-405"
                   },
                   {
                     "local-id": "2001",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-421"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-406"
                   },
                   {
                     "local-id": "2002",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-431"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-407"
                   },
                   {
                     "local-id": "2003",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "mwdi-1-0-0-op-c-is-c-4-0-2-500"
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-408"
+                  },
+                  {
+                    "local-id": "2005",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-410"
+                  },
+                  {
+                    "local-id": "2006",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-411"
+                  },
+                  {
+                    "local-id": "2007",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-412"
+                  },
+                  {
+                    "local-id": "2008",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-413"
+                  },
+                  {
+                    "local-id": "2009",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-414"
+                  },
+                  {
+                    "local-id": "2015",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-420"
+                  },
+                  {
+                    "local-id": "2016",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-421"
+                  },
+                  {
+                    "local-id": "2017",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-422"
+                  },
+                  {
+                    "local-id": "2018",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-423"
+                  },
+                  {
+                    "local-id": "2025",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-430"
+                  },
+                  {
+                    "local-id": "2026",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-431"
+                  },
+                  {
+                    "local-id": "2030",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-435"
+                  },
+                  {
+                    "local-id": "2031",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-436"
+                  },
+                  {
+                    "local-id": "2040",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-445"
+                  },
+                  {
+                    "local-id": "2041",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-446"
+                  },
+                  {
+                    "local-id": "2045",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-450"
+                  },
+                  {
+                    "local-id": "2046",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-451"
+                  },
+                  {
+                    "local-id": "2050",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-455"
+                  },
+                  {
+                    "local-id": "2051",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-456"
+                  },
+                  {
+                    "local-id": "2095",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-500"
+                  },
+                  {
+                    "local-id": "2096",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-501"
+                  },
+
+                  {
+                    "local-id": "2105",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-510"
+                  },
+                  {
+                    "local-id": "2106",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-511"
+                  },
+                  {
+                    "local-id": "2107",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-512"
+                  },
+                  {
+                    "local-id": "2108",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-513"
+                  },
+                  {
+                    "local-id": "2109",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-514"
+                  },
+                  {
+                    "local-id": "2115",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-520"
+                  },
+                  {
+                    "local-id": "2116",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-521"
+                  },
+                  {
+                    "local-id": "2117",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-522"
+                  },
+                  {
+                    "local-id": "2118",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-523"
+                  },
+                  {
+                    "local-id": "2119",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-524"
+                  },
+                  {
+                    "local-id": "2125",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-530"
+                  },
+                  {
+                    "local-id": "2126",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-531"
+                  },
+                  {
+                    "local-id": "2127",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-532"
+                  },
+                  {
+                    "local-id": "2128",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-533"
+                  },
+                  {
+                    "local-id": "2129",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-534"
+                  },
+                  {
+                    "local-id": "2135",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-540"
+                  },
+                  {
+                    "local-id": "2136",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-541"
+                  },
+                  {
+                    "local-id": "2137",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-542"
+                  },
+                  {
+                    "local-id": "2138",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-543"
+                  },
+                  {
+                    "local-id": "2139",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-544"
+                  },
+                  {
+                    "local-id": "2145",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-550"
+                  },
+                  {
+                    "local-id": "2146",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-551"
+                  },
+                  {
+                    "local-id": "2147",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-552"
+                  },
+                  {
+                    "local-id": "2148",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-553"
+                  },
+                  {
+                    "local-id": "2149",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-554"
+                  },
+                  {
+                    "local-id": "2155",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-560"
+                  },
+                  {
+                    "local-id": "2156",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-561"
+                  },
+                  {
+                    "local-id": "2157",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-562"
+                  },
+                  {
+                    "local-id": "2158",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-563"
+                  },
+                  {
+                    "local-id": "2159",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-564"
+                  },
+                  {
+                    "local-id": "2165",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-570"
+                  },
+                  {
+                    "local-id": "2166",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-571"
+                  },
+                  {
+                    "local-id": "2167",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-572"
+                  },
+                  {
+                    "local-id": "2168",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-573"
+                  },
+                  {
+                    "local-id": "2169",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "mwdi-1-0-0-op-c-is-mwdi-1-0-0-574"
                   }
                 ]
               },

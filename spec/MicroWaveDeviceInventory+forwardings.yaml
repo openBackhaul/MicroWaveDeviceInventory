@@ -876,27 +876,6 @@ forwardings:
       - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
         uuid: mwdi-1-0-0-op-c-is-c-4-0-2-500
 
-  - forwarding-name: NotifiedDeviceObjectCreationCausesWritingOfObjectIntoCache
-    uuid: mwdi-1-0-0-op-fc-is-005
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/regard-device-object-creation
-        uuid: mwdi-1-0-0-op-s-is-004
-    consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
-        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-410
-      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
-        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-421
-      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
-        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-431
-      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
-        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-500
-
   - forwarding-name: NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache
     uuid: mwdi-1-0-0-op-fc-is-006
     forwarding-type: InvariantProcessSnippet

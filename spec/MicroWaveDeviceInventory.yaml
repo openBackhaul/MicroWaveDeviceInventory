@@ -850,31 +850,31 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - object-id-ref
+                    - resource
                     - attribute-name
                     - new-value
                   properties:
                     counter:
                       type: integer
-                      description: 'Continuous count of all requests triggered by this callback'
+                      description: 'Continuous count of all requests that should have been received at this path'
                     timestamp:
                       type: string
-                      description: 'The time at which the controller created the notification'
-                    object-id-ref:
+                      description: 'The time according to Section 5.6 of RFC 3339 at which the controller created the notification'
+                    resource:
                       type: string
-                      description: 'Reference to the location of the attribute with changed value'
+                      description: 'Path to the object that holds the attribute that changed its value'
                     attribute-name:
                       type: string
-                      description: 'Name of the attribute that changed value'
+                      description: 'Name of the attribute that changed its value'
                     new-value:
                       type: string
-                      description: 'New value of the attribute that changed value'
+                      description: 'New value of the attribute'
               example:
                 notification-proxy-1-0:attribute-value-changed-notification:
                   counter: 32
-                  timestamp: '2023-07-11T08:21:50.526721696Z'
-                  object-id-ref: 'operation/urn-TBD-params-xml-ns-yang-network-topology:network-topology/urn-TBD-params-xml-ns-yang-network-topology:topology/urn-TBD-params-xml-ns-yang-network-topology:topology[urn-TBD-params-xml-ns-yang-network-topology:topology-id="topology-netconf"]/urn-TBD-params-xml-ns-yang-network-topology:node/urn-TBD-params-xml-ns-yang-network-topology:node[urn-TBD-params-xml-ns-yang-network-topology:node-id="513250009"]/urn-opendaylight-netconf-node-topology:connection-status'
-                  attribute-name: 'netconf-node-topology:connection-status'
+                  timestamp: '2023-07-11T08:21:50+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=odl-1/logical-termination-point=513250009/layer-protocol=0/mount-point-1-0:mount-point-pac/mount-point-status'
+                  attribute-name: 'connection-status'
                   new-value: 'connecting'
       responses:
         '204':
@@ -902,8 +902,7 @@ paths:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-mwdi-1-0-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'This callback is to be sent
-              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_object-id-ref_toFirstHyphen}} == operation
-              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
+              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
               AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected'
             get:
               parameters:
@@ -919,8 +918,8 @@ paths:
                     type: string
                     example: '222250001'
                   description: >
-                    'The mount-name of the device that is addressed by the request
-                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_object-id-ref_after_"node-id="}}'
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{value of logical-termination-point= in resource}'
               responses:
                 '200':
                   description: 'ControlConstruct provided from live network'
@@ -943,8 +942,7 @@ paths:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'This callback is to be sent
-              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_object-id-ref_toFirstHyphen}} == operation
-              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
+              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
               AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected'
             delete:
               parameters:
@@ -955,8 +953,8 @@ paths:
                     type: string
                     example: '222250001'
                   description: >
-                    'The mount-name of the device that is addressed by the request
-                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_object-id-ref_after_"node-id="}}'
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{value of logical-termination-point= in resource}'
               responses:
                 '204':
                   description: 'ControlConstruct deleted from cache'
@@ -1004,10 +1002,10 @@ paths:
                       description: 'Sequence number of the notification at the device'
                     timestamp:
                       type: string
-                      description: 'The time at which the device created the notification'
+                      description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
                     resource:
                       type: string
-                      description: 'Reference to the object where the error occurred'
+                      description: 'Path to the object where the error occurred'
                     alarm-type-id:
                       type: string
                       description: 'Identifier of the type of alarm'
@@ -1020,11 +1018,11 @@ paths:
               example:
                 notification-proxy-1-0:alarm-event-notification:
                   alarm-event-sequence-number: 1
-                  timestamp: '2023-07-11T08:45:02.0+00:00'
-                  resource: '513250009-/core-model-1-4:control-construct/logical-termination-point[uuid="LTP-MWPS-TTP-RADIO-1A"]/layer-protocol[local-id="LP-MWPS-TTP-RADIO-1A"]/air-interface-2-0:air-interface-pac'
+                  timestamp: '2023-07-11T08:45:02+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=LTP-MWPS-TTP-RADIO-1A/layer-protocol=LP-MWPS-TTP-RADIO-1A/air-interface-2-0:air-interface-pac'
                   alarm-type-id: 'siae-alarms-1-0:radioEquipLinkTelemetryFailAlarm'
                   alarm-type-qualifier: ''
-                  problem-severity: 'alarms-1-0:SEVERITY_AND_CLEARED_TYPE_MAJOR'
+                  problem-severity: 'major'
       responses:
         '204':
           description: 'Notification received'
@@ -1066,7 +1064,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          WriteCurrentAlarmListToCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-407/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          WriteUpdatedCurrentAlarmListToCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-407/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             put:
               requestBody:
                 required: true
@@ -1081,11 +1079,11 @@ paths:
                           $ref: '#/components/schemas/CURRENT_ALARMS'
                           description: >
                             'from {$ReadCurrentAlarmListFromCache.response.body#alarms-1-0:current-alarms}
-                            IF {$request.body#notification-proxy-1-0:alarm-event-notification/problem-severity} != alarms-1-0:SEVERITY_AND_CLEARED_TYPE_CLEARED
+                            IF {$request.body#notification-proxy-1-0:alarm-event-notification/problem-severity} != cleared
                               - currentAlarmList to be complemented by new instance with content of {$request.body}
                               - numberOfCurrentAlarms++
                               - timeOfLatestChange = {$request.body#notification-proxy-1-0:alarm-event-notification/timestamp}
-                            IF {$request.body#notification-proxy-1-0:alarm-event-notification/problem-severity} == alarms-1-0:SEVERITY_AND_CLEARED_TYPE_CLEARED
+                            IF {$request.body#notification-proxy-1-0:alarm-event-notification/problem-severity} == cleared
                               - Instance with content of {$request.body} to be cleared from currentAlarmList
                               - numberOfCurrentAlarms--
                               - timeOfLatestChange = {$request.body#notification-proxy-1-0:alarm-event-notification/timestamp}'
@@ -1126,7 +1124,7 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - object-id-ref
+                    - resource
                     - attribute-name
                     - new-value
                   properties:
@@ -1135,10 +1133,10 @@ paths:
                       description: 'Sequence number of the notification at the device'
                     timestamp:
                       type: string
-                      description: 'The time at which the device created the notification'
-                    object-id-ref:
+                      description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
+                    resource:
                       type: string
-                      description: 'Reference to the object that holds the attribute that changed its value'
+                      description: 'Path to the object that holds the attribute that changed its value'
                     attribute-name:
                       type: string
                       description: 'Name of the attribute that changed its value'
@@ -1149,8 +1147,8 @@ paths:
                 notification-proxy-1-0:attribute-value-changed-notification:
                   counter: 32
                   timestamp: '2010-11-20T14:00:00+01:00'
-                  object-id-ref: '513250009-RF-2146697857'
-                  attribute-name: '/core-model-1-4:logical-termination-point[uuid="RF-2146697857"]/layer-protocol[local-id="2146697857"]/air-interface-2-0:air-interface-pac/air-interface-configuration/performance-monitoring-is-on'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                  attribute-name: 'performance-monitoring-is-on'
                   new-value: 'true'
       responses:
         '204':
@@ -1175,9 +1173,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceAttributeValueChangeCausesUpdateOfCache:
-          ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-*/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'Composed from "/core-model-1-4:network-control-domain=cache/control-construct=" + {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_object-id-ref_untilFirstHyphen}} + {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_attribute-name_untilLastSlash}}'
+          ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource but live replaced by cache}]
             get:
               responses:
                 '200':
@@ -1188,9 +1184,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-*/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'Composed from "/core-model-1-4:network-control-domain=cache/control-construct=" + {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_object-id-ref_untilFirstHyphen}} + {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_attribute-name_untilLastSlash}}'
+          UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][[{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource but live replaced by cache}]
             put:
               requestBody:
                 required: true
@@ -1199,7 +1193,7 @@ paths:
                     schema:
                       description: >
                         'Depends on addressed class
-                        Attribute with name according to {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{partOf_attribute-name_behindLastSlash}}
+                        Attribute with name according to {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name}
                         to be updated by value according to {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value}'
               responses:
                 '204':
@@ -1238,7 +1232,7 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - object-id-ref
+                    - resource
                     - object-type
                   properties:
                     counter:
@@ -1246,19 +1240,19 @@ paths:
                       description: 'Sequence number of the notification at the device'
                     timestamp:
                       type: string
-                      description: 'The time at which the device created the notification'
-                    object-id-ref:
+                      description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
+                    resource:
                       type: string
-                      description: 'Reference to the location of the object that has been created'
+                      description: 'Path to the object that has been created'
                     object-type:
                       type: string
                       description: 'Type of the object that has been created'
               example:
                 notification-proxy-1-0:object-creation-notification:
                   counter: 2
-                  timestamp: '2023-07-10T12:27:03.0+00:00'
-                  object-id-ref: '513250009-VLAN-281'
-                  object-type: 'fc'
+                  timestamp: '2023-07-10T12:27:03+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
+                  object-type: 'profile'
       responses:
         '204':
           description: 'Notification received'
@@ -1282,36 +1276,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-mwdi-1-0-0-*/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource}]
             get:
-              parameters:
-                - name: mount-name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mount-name of the device that is addressed by the request
-                    from {$request.body#notification-proxy-1-0:object-creation-notification/{partOf_object-id-ref_untilFirstHyphen}}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The mount-name of the device that is addressed by the request
-                    from {$request.body#notification-proxy-1-0:object-creation-notification/{partOf_object-id-ref_behindFirstHyphen}}'
-                - name: local-id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LP-MWPS-TTP-1-1'
-                  description: >
-                    'The mount-name of the device that is addressed by the request
-                    from {$request.body#notification-proxy-1-0:object-creation-notification/{partOf_object-id-ref_behindFirstHyphen}}'
               responses:
                 '200':
                   description: 'Depends on addressed class'
@@ -1359,28 +1325,25 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - object-id-ref
+                    - resource
                   properties:
                     counter:
                       type: integer
                       description: >
-                        'Sequence number of the notification at the device
-                        from {$/v1/add-controller.callbacks.PromptForListenToControllersCausesSubscribingForDeviceNotifications.response.body#ietf-restconf:notification/*:object-deletion-notification/counter}'
+                        'Sequence number of the notification at the device'
                     timestamp:
                       type: string
                       description: >
-                        'The time at which the device created the notification
-                        from {$/v1/add-controller.callbacks.PromptForListenToControllersCausesSubscribingForDeviceNotifications.response.body#ietf-restconf:notification/*:object-deletion-notification/timestamp}'
-                    object-id-ref:
+                        'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
+                    resource:
                       type: string
                       description: >
-                        'Reference to the location of the object that has been deleted
-                        from {$/v1/add-controller.callbacks.PromptForListenToControllersCausesSubscribingForDeviceNotifications.response.body#node-id} + "-" + {$/v1/add-controller.callbacks.PromptForListenToControllersCausesSubscribingForDeviceNotifications.response.body#ietf-restconf:notification/*:object-deletion-notification/object-id-ref}'
+                        'Path to the object that has been deleted'
               example:
                 notification-proxy-1-0:object-deletion-notification:
                   counter: 14
-                  timestamp: '2023-07-13T09:31:48.0+00:00'
-                  object-id-ref: '513250009-VLAN-281'
+                  timestamp: '2023-07-13T09:31:48+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857'
       responses:
         '204':
           description: 'Notification received'
@@ -1404,9 +1367,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-*/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'Composed from "/control-construct={" + {$request.body#notification-proxy-1-0:object-deletion-notification/{partOf_object-id-ref_untilFirstHyphen}} + {$request.body#notification-proxy-1-0:object-deletion-notification/{partOf_object-id-ref_behindFirstHyphen}}'
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource}]
             delete:
               responses:
                 '204':
@@ -1979,7 +1940,7 @@ paths:
                           required:
                             - counter
                             - timestamp
-                            - object-id-ref
+                            - resource
                             - attribute-name
                             - new-value
                           properties:
@@ -1989,7 +1950,7 @@ paths:
                             timestamp:
                               type: string
                               description: 'Time when the callback is send'
-                            object-id-ref:
+                            resource:
                               type: string
                               description: 'Path (as available at the MWDI API) to the object that holds the attribute that changed its value'
                             attribute-name:
@@ -2002,7 +1963,7 @@ paths:
                         microwave-device-inventory-1-0:attribute-value-changed-notification:
                           counter: 132
                           timestamp: '2010-11-20T14:00:00+01:00'
-                          object-id-ref: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                          resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
                           attribute-name: 'performance-monitoring-is-on'
                           new-value: 'true'
               responses:
@@ -2186,7 +2147,7 @@ paths:
                           required:
                             - counter
                             - timestamp
-                            - object-id-ref
+                            - resource
                             - object-type
                           properties:
                             counter:
@@ -2195,7 +2156,7 @@ paths:
                             timestamp:
                               type: string
                               description: 'Time when the callback is send'
-                            object-id-ref:
+                            resource:
                               type: string
                               description: 'Path (as available at the MWDI API) to the object that has been created'
                             object-type:
@@ -2205,7 +2166,7 @@ paths:
                         microwave-device-inventory-1-0:object-creation-notification:
                           counter: 2
                           timestamp: '2023-07-10T12:27:03.0+00:00'
-                          object-id-ref: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment'
+                          resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment'
                           object-type: 'actual-equipment'
               responses:
                 '204':
@@ -2388,7 +2349,7 @@ paths:
                           required:
                             - counter
                             - timestamp
-                            - object-id-ref
+                            - resource
                           properties:
                             counter:
                               type: integer
@@ -2396,14 +2357,14 @@ paths:
                             timestamp:
                               type: string
                               description: 'Time when the callback is send'
-                            object-id-ref:
+                            resource:
                               type: string
                               description: 'Path (as available at the MWDI API) to the object that has been deleted'
                       example:
                         microwave-device-inventory-1-0:object-deletion-notification:
                           counter: 14
                           timestamp: '2023-07-13T09:31:48.0+00:00'
-                          object-id-ref: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/profile-collection/profile=PROFILE-WRED-15'
+                          resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/profile-collection/profile=PROFILE-WRED-15'
               responses:
                 '204':
                   description: 'Notification received'

@@ -4277,7 +4277,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForCachedLtpAugmentCausesReadingFromCache:
+        RequestForCachedLtpAugmentPacCausesReadingFromCache:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
@@ -9484,7 +9484,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLiveLtpAugmentCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveLtpAugmentPacCausesReadingFromDeviceAndWritingIntoCache:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-501/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
@@ -12393,7 +12393,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLivegetLivePureEthernetStructureStatusCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLivePureEthernetStructureStatusCausesReadingFromDeviceAndWritingIntoCache:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-552/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
@@ -13655,7 +13655,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForLivegetLiveWireInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache:
+        RequestForLiveWireInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache:
           RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-c-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-is-c-4-0-2-572/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:

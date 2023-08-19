@@ -1,5 +1,8 @@
 # MicroWaveDeviceInventory Specification
 
+### Diagrams  
+- [Collection of Diagrams](./diagrams)
+
 ### ServiceList
 - [MicroWaveDeviceInventory+services](./MicroWaveDeviceInventory+services.yaml)
 

@@ -183,7 +183,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-010
       - server-name: /v1/provide-list-of-device-interfaces
         uuid: mwdi-1-0-0-op-s-is-011
-      - server-name: /v1/provide-list-of-device-equipment
+      - server-name: /v1/provide-list-of-actual-device-equipment
         uuid: mwdi-1-0-0-op-s-is-012
       - server-name: /v1/notify-attribute-value-changes
         uuid: mwdi-1-0-0-op-s-is-020
@@ -791,7 +791,6 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mwdi-1-0-0-op-c-bm-alt-2-0-1-005
 
-  ## INDIVIDUAL Forwardings
 
   - forwarding-name: NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
     uuid: mwdi-1-0-0-op-fc-is-000
@@ -835,10 +834,10 @@ forwardings:
       - server-name: /v1/regard-device-alarm
         uuid: mwdi-1-0-0-op-s-is-002
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms/current-alarm-list={alarm-type-id},{alarm-type-qualifier},{resource}
-        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-409
-      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms/current-alarm-list={alarm-type-id},{alarm-type-qualifier},{resource}
-        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-709
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-107
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-407
 
   - forwarding-name: NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
     uuid: mwdi-1-0-0-op-fc-is-003
@@ -852,8 +851,231 @@ forwardings:
       - server-name: /v1/regard-device-attribute-value-change
         uuid: mwdi-1-0-0-op-s-is-003
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}{attributeName}
-        uuid: mwdi-1-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://control-construct={mount-name}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-100
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-105
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-106
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-107
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-108
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-110
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-111
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-112
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-113
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/actual-equipment
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-114
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-120
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-121
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-122
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-123
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-130
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-131
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-135
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-136
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-145
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-146
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-150
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-151
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-155
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-156
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-160
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-161
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-200
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-201
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-210
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-211
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-212
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-214
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-220
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-221
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-222
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-224
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-230
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-231
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-232
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-234
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-240
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-241
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-242
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-244
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-250
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-251
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-252
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-254
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-260
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-261
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-262
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-264
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-270
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-271
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-272
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-274
+
+      - client-name: ElasticSearch://control-construct={mount-name}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-400
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-405
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-406
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-407
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-408
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-410
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-411
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-412
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-413
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/actual-equipment
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-414
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-420
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-421
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-422
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-423
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-430
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-431
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-435
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-436
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-445
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-446
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-450
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-451
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-455
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-456
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-460
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-461
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-500
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-501
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-510
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-511
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-512
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-514
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-520
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-521
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-522
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-524
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-530
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-531
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-532
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-534
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-540
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-541
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-542
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-544
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-550
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-551
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-552
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-554
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-560
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-561
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-562
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-564
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-570
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-571
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-572
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-574
 
   - forwarding-name: NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
     uuid: mwdi-1-0-0-op-fc-is-004
@@ -1017,6 +1239,10 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-713
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/actual-equipment
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-714
       - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-721
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
@@ -1087,6 +1313,8 @@ forwardings:
           uuid: mwdi-1-0-0-op-s-bm-004
     initiating-requests:
     consequent-requests:
+      - client-name: HistoricalMicroWaveDeviceInventory://v1/regard-attribute-value-change
+        uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-100
       - client-name: Requestor://receive-operation
         uuid: mwdi-1-0-0-op-c-is-*-*-*-*-100
 
@@ -1108,6 +1336,8 @@ forwardings:
           uuid: mwdi-1-0-0-op-s-bm-004
     initiating-requests:
     consequent-requests:
+      - client-name: HistoricalMicroWaveDeviceInventory://v1/regard-object-creation
+        uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-101
       - client-name: Requestor://receive-operation
         uuid: mwdi-1-0-0-op-c-is-*-*-*-*-101
 
@@ -1129,6 +1359,8 @@ forwardings:
           uuid: mwdi-1-0-0-op-s-bm-004
     initiating-requests:
     consequent-requests:
+      - client-name: HistoricalMicroWaveDeviceInventory://v1/regard-object-deletion
+        uuid: mwdi-1-0-0-op-c-is-hmwdi-1-0-0-102
       - client-name: Requestor://receive-operation
         uuid: mwdi-1-0-0-op-c-is-*-*-*-*-102
 

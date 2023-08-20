@@ -1,16 +1,16 @@
 @startuml 026_NotificationBasedObjectDeletion
 skinparam responseMessageBelowArrow true
 
-title Process object deletion notifications
+title NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache
 
 participant "NP://v1/notify-device-object-deletions" as subscription
 participant "MWDI://v1/regard-device-object-deletion" as regardObjectDeletion
-participant "ElasticSearch://control-construct=={mount-name}/yang-ext:mount/core-model-1-4:control-construct/path-to-the-object" as es
+participant "ElasticSearch://{resource}" as es
 
 subscription -> regardObjectDeletion: {mount-name, counter, timestamp, objectIdRef} (apiKeyAuth)
 activate regardObjectDeletion
 
-regardObjectDeletion -> es: delete object {mount-name, objectIdRef}
+regardObjectDeletion -> es: delete object {path = resource, but shortened by /core-model-1-4:network-control-domain=live}
 deactivate regardObjectDeletion
 
 @enduml

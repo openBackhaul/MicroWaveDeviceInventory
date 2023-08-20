@@ -508,8 +508,6 @@ clients:
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-407
         - operation-name: /control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-408
-        - operation-name: /control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms/current-alarm-list={alarm-type-id},{alarm-type-qualifier},{resource}
-          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-409
 
         - operation-name: /control-construct={mount-name}/equipment={uuid}
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-410
@@ -630,8 +628,6 @@ clients:
 
         - operation-name: /control-construct={mount-name}/equipment={uuid}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
-
-        #TODO: 711 to 714 are not used -> to be removed?
         - operation-name: /control-construct={mount-name}/equipment={uuid}/connector={local-id}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-711
         - operation-name: /control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
@@ -646,9 +642,6 @@ clients:
 
         - operation-name: /control-construct={mount-name}/profile-collection/profile={uuid}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-731
-
-        - operation-name: /control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms/current-alarm-list={alarm-type-id},{alarm-type-qualifier},{resource}
-          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-709
 
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-800
@@ -856,6 +849,7 @@ clients:
       service:
         basic:
         individual:
+          # self-calling of live-paths for updating the cache content
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}
             uuid: mwdi-1-0-0-op-c-is-mwdi-1-0-0-400
 

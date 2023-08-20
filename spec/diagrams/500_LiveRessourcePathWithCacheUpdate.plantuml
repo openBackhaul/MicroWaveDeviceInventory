@@ -1,23 +1,44 @@
 @startuml 500_LiveRessourcePathWithCacheUpdate
 skinparam responseMessageBelowArrow true
 
-title Request for live ControlConstruct classes with Cache update
+title 
+Request for live classes and updating the cache
+(Many Forwardings, as for example:
+RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
+RequestForLiveAlarmCapabilityCausesReadingFromDeviceAndWritingIntoCache
+RequestForLiveFirmwareCollectionCausesReadingFromDeviceAndWritingIntoCache
+and many more)
+end title
+
 
 participant "external" as requestor
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}{path-to-class}" as LiveControlConstructClass
-participant "ODL://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{path-to-class}" as OdlControlConstructClass
-participant "ElasticSearch://control-construct={mount-name}{path-to-class}" as EsControlConstructClass
+participant "MWDI:/{livePath}" as LiveControlConstructClass
+participant "ODL://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{livePath shortened by /core-model-1-4:network-control-domain=cache/control-construct={mount-name}}" as OdlControlConstructClass
+participant "ElasticSearch:/{livePath, but shortened by /core-model-1-4:network-control-domain=live}" as EsControlConstructClass
 
-requestor -> LiveControlConstructClass: {mount-name, path-to-class} (apiKeyAuth)
+
+
+requestor -> LiveControlConstructClass: (apiKeyAuth)
 activate LiveControlConstructClass
 
-note over LiveControlConstructClass: {path-to-class} can include \nfields filter to retrieve only specific \ncomponents of the addressed class.
-LiveControlConstructClass -> OdlControlConstructClass: {mount-name, path-to-class}
+note over LiveControlConstructClass
+livePath might include a ?fields= filter 
+to retrieve only specific components of the addressed class
+end note
+LiveControlConstructClass -> OdlControlConstructClass
 OdlControlConstructClass --> LiveControlConstructClass: {class-with-all-or-a-subset-of-components}
 
-LiveControlConstructClass -> EsControlConstructClass: {mount-name, path-to-class, updated-class-with-all-or-a-subset-of-components}
-
 LiveControlConstructClass --> requestor: {class-with-all-or-a-subset-of-components}
+
+note over LiveControlConstructClass
+IF livePath has a corresponding path at ElasticSearch
+(e.g. not the case for *-current-performance
+end note
+LiveControlConstructClass -> EsControlConstructClass: GET
+EsControlConstructClass --> LiveControlConstructClass: {class}
+
+LiveControlConstructClass -> EsControlConstructClass: PUT {class that is updated in all or a subset of attributes}
+
 deactivate LiveControlConstructClass
 
 skinparam NoteBackgroundColor salmon

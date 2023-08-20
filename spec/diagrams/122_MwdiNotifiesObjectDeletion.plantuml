@@ -1,7 +1,10 @@
 @startuml 122_MwdiNotifiesObjectDeletion
 skinparam responseMessageBelowArrow true
 
-title MWDI notifies an Object being deleted in its Cache
+title 
+MWDI notifies an Object being deleted in its Cache
+SubscribingAtMwdiForDeviceObjectDeletionsCausesSendingNotifications
+end title
 
 participant "external (Requestor)" as external
 participant "Requestor://receive-operation" as receiverOperation
@@ -12,7 +15,7 @@ activate notifyObjectDeletion
 
 note over notifyObjectDeletion: operation that deletes an object in ElasticSearch
 
-notifyObjectDeletion -> receiverOperation: notification {counter, timestamp, objIdRef} (apiKeyAuth)
+notifyObjectDeletion -> receiverOperation: notification {counter, timestamp, resource} (apiKeyAuth)
 deactivate notifyObjectDeletion
 
 @enduml

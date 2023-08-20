@@ -11,12 +11,11 @@ subscription -> regardNewDevice: AttributeValueChangedNotification (apiKeyAuth)
 activate regardNewDevice
 
 note over regardNewDevice
-IF object-id-ref_part_to_first_hyphen == 'operation'
-AND IF attribute-name == 'connection-status' 
+IF attribute-name == 'connection-status' 
 AND IF new-value == 'connected'
 end note
 
-regardNewDevice -> liveControlConstruct: {mount-name = object-id-ref_part_after_'node-id='} (apiKeyAuth)
+regardNewDevice -> liveControlConstruct: {path = first part of resource incl. control-construct} (apiKeyAuth)
 deactivate regardNewDevice
 
 @enduml

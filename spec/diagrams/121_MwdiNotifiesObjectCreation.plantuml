@@ -1,7 +1,10 @@
 @startuml 121_MwdiNotifiesObjectCreation
 skinparam responseMessageBelowArrow true
 
-title MWDI notifies an Object being created in its Cache
+title 
+MWDI notifies an Object being created in its Cache
+SubscribingAtMwdiForDeviceObjectCreationsCausesSendingNotifications
+end title
 
 participant "external (Requestor)" as external
 participant "Requestor://receive-operation" as receiverOperation
@@ -12,7 +15,7 @@ activate notifyObjectCreation
 
 note over notifyObjectCreation: operation that creates an object in ElasticSearch
 
-notifyObjectCreation -> receiverOperation: notification {counter, timestamp, objectType, objIdRef} (apiKeyAuth)
+notifyObjectCreation -> receiverOperation: notification {counter, timestamp, resource, objectType} (apiKeyAuth)
 deactivate notifyObjectCreation
 
 @enduml

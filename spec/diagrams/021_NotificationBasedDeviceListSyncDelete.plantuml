@@ -11,12 +11,11 @@ subscription -> regardDisconnectedDevice: notification {mount-name} (apiKeyAuth)
 activate regardDisconnectedDevice
 
 note over regardDisconnectedDevice
-IF object-id-ref_part_to_first_hyphen == 'operation'
-AND IF attribute-name == 'connection-status' 
+IF attribute-name == 'connection-status' 
 AND IF new-value != 'connected'
 end note
 
-regardDisconnectedDevice -> es: delete {mount-name}
+regardDisconnectedDevice -> es: delete {mount-name = value behind control-construct= in resource}
 deactivate regardDisconnectedDevice
 
 @enduml

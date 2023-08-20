@@ -1,7 +1,12 @@
 @startuml 09x_BequeathYourDataAndDie
 skinparam responseMessageBelowArrow true
 
-title  Bequeath Your Data And Die Process
+title
+PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
+PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
+PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
+PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+end title
 
 participant "NR://v1/embed-yourself" as NewRelease
 participant "OR://v1/bequeath-your-data-and-die" as OldRelease
@@ -13,13 +18,19 @@ participant "NP://v1/end-subscription" as endSubsriptionAtNp
 NewRelease -> OldRelease
 activate OldRelease
 
-note over OldRelease: Transfer existing subscriptions of \n3rd applications to NewRelease
+note over OldRelease
+Transfer all existing subscriptions 
+of 3rd applications to NewRelease
+end note
 OldRelease -> notifyAttributeChange: {address info of subscriber at OldRelease}
 OldRelease -> notifyObjectCreation: {address info of subscriber at OldRelease}
 OldRelease -> notifyObjectDeletion: {address info of subscriber at OldRelease}
 
-note over OldRelease: Terminate existing subscriptions of \nOldRelease to 3rd applications
-OldRelease -> endSubsriptionAtNp: {application info of OldRelease}
+note over OldRelease
+Terminate existing subscriptions 
+of discontinued release at NP
+end note
+OldRelease -> endSubsriptionAtNp: {own application info}
 
 deactivate OldRelease
 

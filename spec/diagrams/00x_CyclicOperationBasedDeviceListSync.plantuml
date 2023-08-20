@@ -1,7 +1,12 @@
 @startuml 00x_CyclicOperationBasedDeviceListSync
 skinparam responseMessageBelowArrow true
 
-title  Cyclic Update of DeviceList
+title
+PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
+PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
+PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache
+PromptForEmbeddingCausesDeletingUnconnectedDevicesFromCache
+end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
@@ -13,7 +18,17 @@ participant "ElasticSearch://control-construct={mount-name}" as es
 ro -> mwdi
 activate mwdi
 
-note over mwdi: compare list from Controller\n & MWDI deviceList
+note over mwdi
+Cyclic operation for 
+updating the internal list of devices starts
+end note
+
+note over mwdi
+compare 
+list from Controller & 
+MWDI deviceList
+end note
+
 'get deviceList from Controller
 mwdi -> odlConnectionStatus
 odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
@@ -22,10 +37,18 @@ odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
 mwdi -> ConnectedDeviceList
 ConnectedDeviceList --> mwdi: {mount-name-list}
 
-note over mwdi: repeat for connected devices not in cache
+note over mwdi
+repeat for all connected devices 
+not in MWDI deviceList
+end note
+
 mwdi -> ControlConstruct: {mount-name} (apiKeyAuth)
 
-note over mwdi: repeat for devices not marked \nconnected in Controller deviceList
+note over mwdi
+repeat for all devices not marked
+connected in list from Controller
+end note
+
 mwdi -> es: delete {mount-name}
 deactivate mwdi
 

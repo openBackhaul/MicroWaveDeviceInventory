@@ -1,19 +1,19 @@
 @startuml 100_provideListOfDeviceInterfaces
 skinparam responseMessageBelowArrow true
 
-title  provideListOfDeviceInterfaces
+title  RequestForListOfDeviceInterfacesCausesReadingFromCache
 
 participant "external" as requestor
 participant "MWDI://v1/provide-list-of-device-interfaces" as provideListOfDeviceInterfaces
 participant "ElasticSearch://control-construct={mount-name}?fields=fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))" as DeviceInterfaceList
 
-requestor -> provideListOfDeviceInterfaces: (apiKeyAuth)
+requestor -> provideListOfDeviceInterfaces: {mount-name} (apiKeyAuth)
 activate provideListOfDeviceInterfaces
 
 provideListOfDeviceInterfaces -> DeviceInterfaceList
-DeviceInterfaceList --> provideListOfDeviceInterfaces: {device-interface-list}
+DeviceInterfaceList --> provideListOfDeviceInterfaces: {list of {uuid, local-id, layer-protocol-name}}
 
-provideListOfDeviceInterfaces --> requestor: {device-interface-list}
+provideListOfDeviceInterfaces --> requestor: {list of {uuid, local-id, layer-protocol-name}}
 deactivate provideListOfDeviceInterfaces
 
 @enduml

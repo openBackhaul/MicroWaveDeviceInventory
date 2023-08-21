@@ -1,0 +1,19 @@
+@startuml 100_ProvideListOfConnectedDevices
+skinparam responseMessageBelowArrow true
+
+title RequestForListOfConnectedDevicesCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-list-of-connected-devices" as provideListOfConnectedDevices
+participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
+
+requestor -> provideListOfConnectedDevices: (apiKeyAuth)
+activate provideListOfConnectedDevices
+
+provideListOfConnectedDevices -> ConnectedDeviceList
+ConnectedDeviceList --> provideListOfConnectedDevices: {mount-name-list}
+
+provideListOfConnectedDevices --> requestor: {mount-name-list}
+deactivate provideListOfConnectedDevices
+
+@enduml

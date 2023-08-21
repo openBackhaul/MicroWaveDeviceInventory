@@ -1,0 +1,31 @@
+@startuml 200_CacheRessourcePath
+skinparam responseMessageBelowArrow true
+
+title 
+Request for cached classes
+(Many Forwardings, as for example:
+RequestForCachedControlConstructCausesReadingFromCache
+RequestForCachedAlarmCapabilityCausesReadingFromCache
+RequestForCachedFirmwareCollectionCausesReadingFromCache
+and many more)
+end title
+
+participant "external" as requestor
+participant "MWDI:/{cachePath}" as CacheControlConstructClass
+participant "ElasticSearch:/{cachePath, but shortened by /core-model-1-4:network-control-domain=cache}}" as EsControlConstructClass
+
+note over CacheControlConstructClass
+cachePath might include a ?fields= filter 
+to retrieve only specific components of the addressed class
+end note
+
+requestor -> CacheControlConstructClass: (apiKeyAuth)
+activate CacheControlConstructClass
+
+CacheControlConstructClass -> EsControlConstructClass
+EsControlConstructClass --> CacheControlConstructClass: {class-with-all-or-a-subset-of-attributes}
+
+CacheControlConstructClass --> requestor: {class-with-all-or-a-subset-of-attributes}
+deactivate CacheControlConstructClass
+
+@enduml

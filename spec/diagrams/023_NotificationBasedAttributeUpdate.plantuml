@@ -1,0 +1,32 @@
+@startuml 023_NotificationBasedAttributeUpdate
+skinparam responseMessageBelowArrow true
+
+title NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
+
+participant "NP://v1/notify-device-attribute-value-changes" as subscription
+participant "MWDI://v1/regard-device-attribute-value-change" as regardAttributeChange
+participant "ElasticSearch://{resource}" as es
+
+subscription -> regardAttributeChange: {counter, timestamp, resource, attributeName, newValue} (apiKeyAuth)
+activate regardAttributeChange
+
+regardAttributeChange -> es: GET
+es --> regardAttributeChange: class
+
+note over regardAttributeChange
+Value of the {attributeName} attribute to be replaced by {newValue}
+end note
+
+regardAttributeChange -> es: PUT
+deactivate regardAttributeChange
+
+note over es
+Remark: 
+There would be an alternative way.
+Instead of loading the class from cache, updating the changed attribute, and writing the class back into the cache,
+self-calling of MWDI://{resource} would lead to the same result.
+The latter way would be slower, but probably compensate missed notifications.
+The implementer to comment on the preferred way.
+end note
+
+@enduml

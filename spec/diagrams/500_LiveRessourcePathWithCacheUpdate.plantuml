@@ -1,0 +1,51 @@
+@startuml 500_LiveRessourcePathWithCacheUpdate
+skinparam responseMessageBelowArrow true
+
+title 
+Request for live classes and updating the cache
+(Many Forwardings, as for example:
+RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
+RequestForLiveAlarmCapabilityCausesReadingFromDeviceAndWritingIntoCache
+RequestForLiveFirmwareCollectionCausesReadingFromDeviceAndWritingIntoCache
+and many more)
+end title
+
+
+participant "external" as requestor
+participant "MWDI:/{livePath}" as LiveControlConstructClass
+participant "ODL://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct{livePath shortened by /core-model-1-4:network-control-domain=cache/control-construct={mount-name}}" as OdlControlConstructClass
+participant "ElasticSearch:/{livePath, but shortened by /core-model-1-4:network-control-domain=live}" as EsControlConstructClass
+
+
+
+requestor -> LiveControlConstructClass: (apiKeyAuth)
+activate LiveControlConstructClass
+
+note over LiveControlConstructClass
+livePath might include a ?fields= filter 
+to retrieve only specific components of the addressed class
+end note
+LiveControlConstructClass -> OdlControlConstructClass
+OdlControlConstructClass --> LiveControlConstructClass: {class-with-all-or-a-subset-of-components}
+
+LiveControlConstructClass --> requestor: {class-with-all-or-a-subset-of-components}
+
+note over LiveControlConstructClass
+IF livePath has a corresponding path at ElasticSearch
+(e.g. not the case for *-current-performance
+end note
+LiveControlConstructClass -> EsControlConstructClass: GET
+EsControlConstructClass --> LiveControlConstructClass: {class}
+
+LiveControlConstructClass -> EsControlConstructClass: PUT {class that is updated in all or a subset of attributes}
+
+deactivate LiveControlConstructClass
+
+skinparam NoteBackgroundColor salmon
+note over requestor: Requestor has to wait \nfor a very long time for \na response. Does this work?
+skinparam NoteBackgroundColor default
+
+@enduml
+
+
+

@@ -1,0 +1,19 @@
+@startuml 102_provideListOfActualDeviceEquipment
+skinparam responseMessageBelowArrow true
+
+title  RequestForListOfActualDeviceEquipmentCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-list-of-device-interfaces" as provideListOfActualDeviceEquipment
+participant "ElasticSearch://control-construct={mount-name}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))" as ActualDeviceEquipmentList
+
+requestor -> provideListOfActualDeviceEquipment: (apiKeyAuth)
+activate provideListOfActualDeviceEquipment
+
+provideListOfActualDeviceEquipment -> ActualDeviceEquipmentList
+ActualDeviceEquipmentList --> provideListOfActualDeviceEquipment: {list of {uuid, type-name of manufactured-thing}}
+
+provideListOfActualDeviceEquipment --> requestor: {list of {uuid, type-name of manufactured-thing}}
+deactivate provideListOfActualDeviceEquipment
+
+@enduml

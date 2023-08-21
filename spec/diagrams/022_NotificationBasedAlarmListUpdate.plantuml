@@ -1,0 +1,55 @@
+@startuml 022_NotificationBasedAlarmListUpdate
+
+skinparam responseMessageBelowArrow true
+
+title NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
+
+participant "NP://v1/notify-device-alarms" as subscription
+participant "MWDI://v1/regard-device-alarm" as regardAlarm
+participant "ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
+
+subscription -> regardAlarm: {counter, timestamp, resource, alarm-type-id, alarm-type-qualifier, severity} (apiKeyAuth)
+activate regardAlarm
+
+regardAlarm -> CurrentAlarms: GET {mount-name = value behind control-construct= in resource}
+CurrentAlarms --> regardAlarm: {currentAlarmList, numberOfCurrentAlarms, timeOfLatestChange}
+
+note over regardAlarm
+Entry in CurrentAlarmList is identified by 3 key attribute values:
+1. alarm-type-id
+2. alarm-type-qualifier
+3. resource
+It might make sense to read the entire list, search for the notified entry, change the list and write it back to cache
+
+IF request.body.problem-severity != CLEARED:
+- currentAlarmList to be complemented by content of AlarmNotification
+- numberOfCurrentAlarms++
+- timeOfLatestChange=request.body.timestamp
+
+IF request.body.problem-severity == CLEARED:
+- content of Alarmnotification to be removed from currentAlarmList
+- numberOfCurrentAlarms--
+- timeOfLatestChange=request.body.timestamp
+end note
+
+regardAlarm -> CurrentAlarms: PUT {currentAlarmList, numberOfCurrentAlarms, timeOfLatestChange}
+deactivate regardAlarm
+
+note over CurrentAlarms
+Remark 1: 
+MWDI://v1/regard-device-alarm 
+initiates ObjectCreationNotifications and ObjectDeletionNotifications, 
+but no AlarmNotifications 
+at MWDI NBI
+end note
+
+note over CurrentAlarms
+Remark 2: 
+There would be an alternative way.
+Instead of loading the list of current alarms from cache, updating it, and writing it back into the cache,
+self-calling of MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms would lead to the same result.
+The latter way would be slower, but probably compensate missed alarm notifications.
+The implementer to comment on the preferred way.
+end note
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml 024_NotificationBasedObjectCreation
+skinparam responseMessageBelowArrow true
+
+title NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
+
+participant "NP://v1/notify-device-object-creations" as subscription
+participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
+participant "MWDI://{resource}" as odlCreatedObject
+
+subscription -> regardObjectCreation: {counter, timestamp, resource, objectType} (apiKeyAuth)
+activate regardObjectCreation
+
+regardObjectCreation -> odlCreatedObject: {path = resource potentially shortened to a supported live path}
+odlCreatedObject --> regardObjectCreation: newly created object
+
+@enduml

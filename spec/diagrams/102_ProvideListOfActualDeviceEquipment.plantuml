@@ -1,4 +1,4 @@
-@startuml 100_provideListOfActualDeviceEquipment
+@startuml 102_provideListOfActualDeviceEquipment
 skinparam responseMessageBelowArrow true
 
 title  RequestForListOfActualDeviceEquipmentCausesReadingFromCache

@@ -1,4 +1,4 @@
-@startuml 100_provideListOfDeviceInterfaces
+@startuml 101_provideListOfDeviceInterfaces
 skinparam responseMessageBelowArrow true
 
 title  RequestForListOfDeviceInterfacesCausesReadingFromCache

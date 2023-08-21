@@ -47,8 +47,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}?fields=node(node-id;netconf-node-topology:connection-status)
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-000
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}?fields=node(node-id;netconf-node-topology:connection-status)
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
     uuid: mwdi-1-0-0-op-fc-im-002
@@ -1237,18 +1237,118 @@ forwardings:
       - server-name: /v1/regard-device-object-deletion
         uuid: mwdi-1-0-0-op-s-is-005
     consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-700
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-705
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-706
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-707
+      - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-708
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-710
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-711
+      - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-712
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-713
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/actual-equipment
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-714
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-720
       - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-721
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-722
+      - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-723
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-730
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-731
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-735
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-736
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-745
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-746
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-750
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-751
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-755
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-756
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-760
+      - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-761
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-800
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-801
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-810
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-811
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-812
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-814
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-820
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-821
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-822
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-824
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-830
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-831
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-832
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-834
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-840
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-841
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-842
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-844
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-850
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-851
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-852
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-854
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-860
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-861
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-862
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-864
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-870
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-871
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-872
+      - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-874
 
   - forwarding-name: RequestForListOfConnectedDevicesCausesReadingFromCache
     uuid: mwdi-1-0-0-op-fc-is-010
@@ -2217,8 +2317,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}
         uuid: mwdi-1-0-0-op-s-is-400
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-400
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-400
       - client-name: ElasticSearch://control-construct={mount-name}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-400
 
@@ -2234,8 +2334,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
         uuid: mwdi-1-0-0-op-s-is-405
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-405
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-405
       - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-405
 
@@ -2251,8 +2351,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration
         uuid: mwdi-1-0-0-op-s-is-406
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-406
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-406
       - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-406
 
@@ -2268,8 +2368,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
         uuid: mwdi-1-0-0-op-s-is-407
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-407
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-407
       - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-407
 
@@ -2285,8 +2385,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records
         uuid: mwdi-1-0-0-op-s-is-408
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-event-records
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-408
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/alarm-event-records
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-408
       - client-name: ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-event-records
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-408
 
@@ -2302,8 +2402,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}
         uuid: mwdi-1-0-0-op-s-is-410
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-410
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-410
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-410
 
@@ -2319,8 +2419,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/connector={local-id}
         uuid: mwdi-1-0-0-op-s-is-411
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-411
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/connector={local-id}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-411
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/connector={local-id}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-411
 
@@ -2336,8 +2436,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
         uuid: mwdi-1-0-0-op-s-is-412
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-412
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/contained-holder={local-id}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-412
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-412
 
@@ -2353,8 +2453,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
         uuid: mwdi-1-0-0-op-s-is-413
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-413
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/expected-equipment={local-id}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-413
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-413
 
@@ -2370,8 +2470,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/actual-equipment
         uuid: mwdi-1-0-0-op-s-is-414
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-414
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-414
       - client-name: ElasticSearch://control-construct={mount-name}/equipment={uuid}/actual-equipment
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-414
 
@@ -2387,8 +2487,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection
         uuid: mwdi-1-0-0-op-s-is-420
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-420
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-420
       - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-420
 
@@ -2404,8 +2504,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
         uuid: mwdi-1-0-0-op-s-is-421
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-421
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-421
       - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-421
 
@@ -2421,8 +2521,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
         uuid: mwdi-1-0-0-op-s-is-422
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-422
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-422
       - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-422
 
@@ -2438,8 +2538,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-op-s-is-423
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-423
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-423
       - client-name: ElasticSearch://control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-423
 
@@ -2455,8 +2555,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection
         uuid: mwdi-1-0-0-op-s-is-430
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-430
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-430
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-430
 
@@ -2472,8 +2572,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}
         uuid: mwdi-1-0-0-op-s-is-431
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-431
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-431
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-431
 
@@ -2489,8 +2589,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
         uuid: mwdi-1-0-0-op-s-is-435
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-435
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-435
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-435
 
@@ -2506,8 +2606,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-436
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-436
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-436
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-436
 
@@ -2523,8 +2623,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
         uuid: mwdi-1-0-0-op-s-is-445
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-445
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-445
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-445
 
@@ -2540,8 +2640,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-446
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-446
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-446
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-446
 
@@ -2557,8 +2657,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
         uuid: mwdi-1-0-0-op-s-is-450
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-450
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-450
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-450
 
@@ -2574,8 +2674,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-451
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-451
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-451
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-451
 
@@ -2591,8 +2691,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
         uuid: mwdi-1-0-0-op-s-is-455
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-455
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-455
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-455
 
@@ -2608,8 +2708,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-456
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-456
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-456
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-456
 
@@ -2625,8 +2725,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
         uuid: mwdi-1-0-0-op-s-is-460
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-460
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-460
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-460
 
@@ -2642,8 +2742,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-0-0-op-s-is-461
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-461
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-461
       - client-name: ElasticSearch://control-construct={mount-name}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-461
 
@@ -2659,8 +2759,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}
         uuid: mwdi-1-0-0-op-s-is-500
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-500
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-500
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-500
 
@@ -2676,8 +2776,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-s-is-501
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-501
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-501
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-501
 
@@ -2693,8 +2793,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-0-0-op-s-is-510
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-510
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-510
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-510
 
@@ -2710,8 +2810,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: mwdi-1-0-0-op-s-is-511
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-511
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-511
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-511
 
@@ -2727,8 +2827,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
         uuid: mwdi-1-0-0-op-s-is-512
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-512
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-512
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-512
 
@@ -2744,8 +2844,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
         uuid: mwdi-1-0-0-op-s-is-514
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-514
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-514
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-514
 
@@ -2761,8 +2861,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
         uuid: mwdi-1-0-0-op-s-is-520
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-520
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-520
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-520
 
@@ -2778,8 +2878,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
         uuid: mwdi-1-0-0-op-s-is-521
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-521
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-521
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-521
 
@@ -2795,8 +2895,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
         uuid: mwdi-1-0-0-op-s-is-522
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-522
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-522
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-522
 
@@ -2812,8 +2912,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
         uuid: mwdi-1-0-0-op-s-is-524
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-524
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-524
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-524
 
@@ -2829,8 +2929,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
         uuid: mwdi-1-0-0-op-s-is-530
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-530
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-530
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-530
 
@@ -2846,8 +2946,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
         uuid: mwdi-1-0-0-op-s-is-531
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-531
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-531
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-531
 
@@ -2863,8 +2963,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
         uuid: mwdi-1-0-0-op-s-is-532
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-532
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-532
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-532
 
@@ -2880,8 +2980,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
         uuid: mwdi-1-0-0-op-s-is-534
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-534
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-534
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-534
 
@@ -2897,8 +2997,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
         uuid: mwdi-1-0-0-op-s-is-540
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-540
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-540
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-540
 
@@ -2914,8 +3014,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
         uuid: mwdi-1-0-0-op-s-is-541
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-541
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-541
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-541
 
@@ -2931,8 +3031,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-0-0-op-s-is-542
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-542
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-542
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-542
 
@@ -2948,8 +3048,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
         uuid: mwdi-1-0-0-op-s-is-544
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-544
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-544
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-544
 
@@ -2965,8 +3065,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-0-0-op-s-is-550
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-550
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-550
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-550
 
@@ -2982,8 +3082,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
         uuid: mwdi-1-0-0-op-s-is-551
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-551
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-551
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-551
 
@@ -2999,8 +3099,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
         uuid: mwdi-1-0-0-op-s-is-552
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-552
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-552
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-552
 
@@ -3016,8 +3116,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
         uuid: mwdi-1-0-0-op-s-is-554
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-554
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-554
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-554
 
@@ -3033,8 +3133,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
         uuid: mwdi-1-0-0-op-s-is-560
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-560
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-560
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-560
 
@@ -3050,8 +3150,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-0-0-op-s-is-561
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-561
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-561
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-561
 
@@ -3067,8 +3167,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
         uuid: mwdi-1-0-0-op-s-is-562
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-562
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-562
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-562
 
@@ -3084,8 +3184,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
         uuid: mwdi-1-0-0-op-s-is-564
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-564
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-564
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-564
 
@@ -3101,8 +3201,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-0-0-op-s-is-570
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-570
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-570
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-570
 
@@ -3118,8 +3218,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
         uuid: mwdi-1-0-0-op-s-is-571
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-571
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-571
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-571
 
@@ -3135,8 +3235,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
         uuid: mwdi-1-0-0-op-s-is-572
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-572
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-572
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-572
 
@@ -3152,13 +3252,13 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-0-0-op-s-is-574
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-574
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-574
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-574
 
     # CurrentPerformanceValues shall not be PUT into ElasticSearch.
-    # Thus there is just the one consequent-requests for reading from OpenDaylight. See the following example:
+    # Thus there is just the one consequent-requests for reading from OpenDayLight. See the following example:
 
   - forwarding-name: RequestForLiveAirInterfaceCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-513
@@ -3172,8 +3272,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance
         uuid: mwdi-1-0-0-op-s-is-513
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-513
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-513
 
   - forwarding-name: RequestForLiveEthernetContainerCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-523
@@ -3187,8 +3287,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance
         uuid: mwdi-1-0-0-op-s-is-523
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-523
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-523
 
   - forwarding-name: RequestForLiveHybridMwStructureCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-533
@@ -3202,8 +3302,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance
         uuid: mwdi-1-0-0-op-s-is-533
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-533
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-533
 
   - forwarding-name: RequestForLiveMacInterfaceCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-543
@@ -3217,8 +3317,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
         uuid: mwdi-1-0-0-op-s-is-543
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-543
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-543
 
   - forwarding-name: RequestForLivePureEthernetStructureCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-553
@@ -3232,8 +3332,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance
         uuid: mwdi-1-0-0-op-s-is-553
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-553
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-553
 
   - forwarding-name: RequestForLiveVlanInterfaceCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-563
@@ -3247,8 +3347,8 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
         uuid: mwdi-1-0-0-op-s-is-563
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-563
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-563
 
   - forwarding-name: RequestForLiveWireInterfaceCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-573
@@ -3262,5 +3362,5 @@ forwardings:
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
         uuid: mwdi-1-0-0-op-s-is-573
     consequent-requests:
-      - client-name: OpenDaylight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
-        uuid: mwdi-1-0-0-op-c-is-c-4-0-2-573
+      - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
+        uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-573

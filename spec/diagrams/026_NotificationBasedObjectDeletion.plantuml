@@ -7,7 +7,8 @@ participant "NP://v1/notify-device-object-deletions" as subscription
 participant "MWDI://v1/regard-device-object-deletion" as regardObjectDeletion
 participant "ElasticSearch://{resource}" as es
 
-subscription -> regardObjectDeletion: {mount-name, counter, timestamp, objectIdRef} (apiKeyAuth)
+subscription -> regardObjectDeletion: {counter, timestamp, resource} (apiKeyAuth)
+
 activate regardObjectDeletion
 
 regardObjectDeletion -> es: delete object {path = resource, but shortened by /core-model-1-4:network-control-domain=live}

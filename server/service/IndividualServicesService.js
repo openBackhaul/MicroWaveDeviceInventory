@@ -6,8 +6,6 @@ const LogicalTerminationPointService = require('onf-core-model-ap/applicationPat
 const LogicalTerminationPointServiceOfUtility = require("onf-core-model-ap-bs/basicServices/utility/LogicalTerminationPoint")
 const ForwardingConfigurationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructConfigurationServices');
 const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
-const prepareForwardingConfiguration = require('./individualServices/PrepareForwardingConfiguration');
-const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const prepareALTForwardingAutomation = require('onf-core-model-ap-bs/basicServices/services/PrepareALTForwardingAutomation');
 
 const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
@@ -20,9 +18,7 @@ const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfMod
 const LogicalTerminationPointConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationStatus');
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 
-const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
-const individualServicesOperationsMapping = require('./individualServices/IndividualServicesOperationsMapping');
 
 const REDIRECT_SERVICE_REQUEST_OPERATION = '/v1/redirect-service-request-information';
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';

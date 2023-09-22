@@ -1,0 +1,30 @@
+{
+    "network-topology:network-topology": {
+        "topology": [
+            {
+                "node": [
+                    {
+                        "node-id": "A",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "B",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "C",
+                        "netconf-node-topology:connection-status": "connecting"
+                    },
+                    {
+                        "node-id": "D",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "E",
+                        "netconf-node-topology:connection-status": "connected"
+                    }
+                ]
+            }
+        ]
+    }
+}

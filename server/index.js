@@ -86,7 +86,7 @@ async function start() {
 
     async function startDeviceListRealignmentSimulation() {
 
-        const delay = 20 + Math.floor(Math.random() * 30);
+        const delay = 15 + Math.floor(Math.random() * 30);
         setTimeout(async () => {
             let newDeviceList = await getNewDeviceList();
             cp.deviceListSynchronization(newDeviceList);

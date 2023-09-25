@@ -295,8 +295,9 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
 
-        // Creation of a tail device list with all the elements from
-        // device list with defined time stamp then sort that ascending
+        // Creation of a tail device list with all the elements from:
+        // (1) all the sliding window elements (waiting a response)
+        // (2) device list with defined time stamp then sort that ascending
         let tailDeviceList = []
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['timestamp']) {
@@ -304,7 +305,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
         tailDeviceList.sort((a, b) => (a.timestamp - b.timestamp));
-        
+        tailDeviceList = [].concat(tailDeviceList, slidingWindow);
+
         // Creation of middle device list with all the new
         // device list elements not present in device list
         let middleDeviceList = [];
@@ -320,7 +322,18 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
                 middleDeviceList.push(newDeviceList[i]);
             }
         }
-        
+
+        // Drop all the elements in sliding window from device list
+        // (They have been just added in tail device list)
+        for (let i = 0; i < slidingWindow.length; i++) {
+            for (let j = 0; j < deviceList.length; j++) {
+                if (slidingWindow[i]['node-id'] == deviceList[j]['node-id']) {
+                    deviceList.splice(j, 1)
+                    break
+                }
+            }
+        }
+
         // Creation of head device list with all the 
         // device list elements with timestamp not defined
         let headDeviceList = [];

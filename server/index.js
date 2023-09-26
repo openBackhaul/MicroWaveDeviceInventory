@@ -59,7 +59,7 @@ async function start() {
             })            
             let fileName = ''
             if (SINGLE_DEVICE_LIST) {
-                fileName = 'TestLabDeviceMinimal.Json';
+                fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal.Json';
             } else {
                 if (devicelistSimulationIndex == 0) {
                     fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal1.Json';     // [A|B|C|D|E|F|G|H|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z]
@@ -98,7 +98,7 @@ async function start() {
     
     let deviceList = await getNewDeviceList();
     
-    cp.startCyclicProcess(true, deviceList);
+    cp.startCyclicProcess(deviceList,2);
     if (SINGLE_DEVICE_LIST == false) {
         startDeviceListRealignmentSimulation();
     }

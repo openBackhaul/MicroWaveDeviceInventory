@@ -31,10 +31,11 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
             let responseCode = response.status;
             if (responseCode.toString().startsWith("2")) {
                 result = true;
-            } else if (responseCode == 408) {
-                
+                resolve(response);
+            } else {
+                resolve(false)
             }
-            resolve(result);
+            //resolve(response);
         } catch (error) {
             reject(error);
         }

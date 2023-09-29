@@ -17234,6 +17234,15 @@ paths:
                       'Controller internal path to the device mount points
                       from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-0-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
                     example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'node(node-id;netconf-node-topology:connection-status)'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-0-0-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'OK'

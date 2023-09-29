@@ -155,3 +155,10 @@ profile-instances:
       string-name: 'controllerInternalPathToMountPoint'
     configuration:
       string-value: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-0-0-string-p-001'
+    capability:
+      string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter'
+    configuration:
+      string-value: 'node(node-id;netconf-node-topology:connection-status)'

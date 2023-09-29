@@ -2,8 +2,10 @@
 
 const { strict } = require('assert');
 const { setTimeout } = require('timers');
+const path = require("path");
+const individualServices = require( "../../IndividualServicesService.js");
 
-const ttlMax = 5;
+const ttlMax = 600;
 const retriesMax = 1;
 const slidingWindowSize = 4;
 const DEVICE_NOT_PRESENT = -1;
@@ -16,16 +18,22 @@ let print_log_level = 2;
 /**
  * REST request simulator with random delay
  */
-async function sendRequest(device) {
+async function sendRequest(device) {    
     try {
-        await new Promise((resolve, reject) => {
-            const delay = (Math.floor(Math.random() * 13) + 1);
-            setTimeout(() => {
-                printLog('Element ' + device['node-id'] + ' responded in ' + delay + 's', print_log_level >= 1);
-                resolve();
-            }, delay * 1000);
-        })
-        return device;
+        
+        //await new Promise((resolve, reject) => {
+            // const delay = (Math.floor(Math.random() * 13) + 1);
+            // setTimeout(() => {
+            //     printLog('Element ' + device['node-id'] + ' responded in ' + delay + 's', print_log_level >= 1);
+            //     resolve();
+            // }, delay * 1000);
+            
+        //})
+        let ret = await individualServices.getLiveControlConstruct('/core-model-1-4:network-control-domain=live/control-construct=' + device['node-id'])
+        return {
+            'ret': ret,
+            'node-id': device['node-id']
+        };
     } catch (error) {
         console.error(`Errore nella chiamata REST per il dispositivo ${device.node_id}:`, error.message);
         debugger;
@@ -89,6 +97,7 @@ function getNextDeviceListIndex() {
         debugger;
     }
 }
+
 
 /**
  * Add the next element of Device List into the Sliding Window
@@ -228,20 +237,41 @@ async function requestMessage(index) {
             return;
         }
         
-        sendRequest(slidingWindow[index]).then(device => {
-            let elementIndex = checkDeviceExistsInSlidingWindow(device['node-id']);
-            if (elementIndex != DEVICE_NOT_PRESENT) {                
-                printLog('Response from element ' + device['node-id'] + ' --> Dropped from Sliding Window. Timestamp: ' + Date.now(), print_log_level >= 2);
-                slidingWindow.splice(elementIndex, 1) ;
-                setDeviceListElementTimeStamp(device['node-id']);                    
-                if (addNextDeviceListElementInWindow()) {
-                    printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
-                    printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
-                    requestMessage(slidingWindow.length-1);
+        sendRequest(slidingWindow[index]).then(retObj => {
+            if (retObj.ret == false) {
+                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id'])
+                if (slidingWindow[elementIndex].retries == 0) {
+                    printLog('Response FALSE from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window and Device list', print_log_level >= 2);                    
+                    discardElementFromDeviceList(retObj['node-id']);
+                    slidingWindow.splice(elementIndex, 1);
+                    if (addNextDeviceListElementInWindow()) {
+                        printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
+                        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+                        requestMessage(slidingWindow.length-1);
+                    }
+                } else {
+                    printLog('Response FALSE from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
+                    slidingWindow[elementIndex].ttl = ttlMax;
+                    slidingWindow[elementIndex].retries -= 1;
+                    requestMessage(elementIndex);                
                 }                
             } else {
-                printLog('Response from element ' + device['node-id'] + ' not more present in Sliding Window. Ignore that.', print_log_level >= 2);
-            }
+                printLog('****************************************************************************', print_log_level >= 2);
+                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
+                if (elementIndex == DEVICE_NOT_PRESENT) {                
+                    printLog('Response from element ' + retObj['node-id'] + ' not more present in Sliding Window. Ignore that.', print_log_level >= 2);
+                } else {
+                    printLog('Response from element ' + retObj['node-id'] + ' --> Dropped from Sliding Window. Timestamp: ' + Date.now(), print_log_level >= 2);
+                    slidingWindow.splice(elementIndex, 1);
+                    setDeviceListElementTimeStamp(retObj['node-id']);                    
+                    if (addNextDeviceListElementInWindow()) {
+                        printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
+                        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+                        requestMessage(slidingWindow.length-1);
+                    }
+                }
+                printLog('****************************************************************************', print_log_level >= 2);
+            }            
         })
     } catch(error) {
         console.log("Error in requestMessage (" + error + ")");

@@ -13,16 +13,6 @@ module.exports.bequeathYourDataAndDie = function bequeathYourDataAndDie (req, re
     });
 };
 
-module.exports.getCachedAaa = function getCachedAaa (req, res, next, mountName) {
-  IndividualServices.getCachedAaa(mountName)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
 module.exports.getCachedActualEquipment = function getCachedActualEquipment (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   IndividualServices.getCachedActualEquipment(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
     .then(function (response) {
@@ -73,8 +63,8 @@ module.exports.getCachedAirInterfaceStatus = function getCachedAirInterfaceStatu
     });
 };
 
-module.exports.getCachedAlarmCapability = function getCachedAlarmCapability (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields) {
-  IndividualServices.getCachedAlarmCapability(user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields)
+module.exports.getCachedAlarmCapability = function getCachedAlarmCapability (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  IndividualServices.getCachedAlarmCapability(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -724,7 +714,7 @@ module.exports.getLiveConnector = function getLiveConnector (req, res, next, use
 };
 
 module.exports.getLiveContainedHolder = function getLiveContainedHolder (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  IndividualServices.getLiveContainedHolder(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields)
+  IndividualServices.getLiveContainedHolder(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -733,8 +723,8 @@ module.exports.getLiveContainedHolder = function getLiveContainedHolder (req, re
     });
 };
 
-module.exports.getLiveControlConstruct = function getLiveControlConstruct (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
-  IndividualServices.getLiveControlConstruct(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields)
+module.exports.getLiveControlConstruct = function getLiveControlConstruct (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields) {
+  IndividualServices.getLiveControlConstruct(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -1205,16 +1195,6 @@ module.exports.getLiveWredProfileCapability = function getLiveWredProfileCapabil
 
 module.exports.getLiveWredProfileConfiguration = function getLiveWredProfileConfiguration (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   IndividualServices.getLiveWredProfileConfiguration(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
-module.exports.getUsers = function getUsers (req, res, next, mountname) {
-  IndividualServices.getUsers(mountname)
     .then(function (response) {
       utils.writeJson(res, response);
     })

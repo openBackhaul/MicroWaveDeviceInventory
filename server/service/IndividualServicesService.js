@@ -1,27 +1,33 @@
 'use strict';
-
-const ControlConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ControlConstruct');
-const LogicalTerminationPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInputWithMapping');
-const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointWithMappingServices');
-const LogicalTerminationPointServiceOfUtility = require("onf-core-model-ap-bs/basicServices/utility/LogicalTerminationPoint")
+const LogicalTerminationPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInput');
+const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointServices');
 const ForwardingConfigurationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructConfigurationServices');
 const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
-const prepareALTForwardingAutomation = require('onf-core-model-ap-bs/basicServices/services/PrepareALTForwardingAutomation');
-
-const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
-
-const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
-const LogicalTerminationPointConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationStatus');
+const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
+const operationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
+const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
+const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const consequentAction = require('onf-core-model-ap/applicationPattern/rest/server/responseBody/ConsequentAction');
+const responseValue = require('onf-core-model-ap/applicationPattern/rest/server/responseBody/ResponseValue');
+const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
-
+const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
+const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const HttpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
+const ResponseProfile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/ResponseProfile');
+const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
+const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
+const genericRepresentation = require('onf-core-model-ap-bs/basicServices/GenericRepresentation');
+const createHttpError = require('http-errors');
+const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/services/models/TcpObject');
+const RestClient = require('./individualServices/rest/client/dispacher')
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
-
-const REDIRECT_SERVICE_REQUEST_OPERATION = '/v1/redirect-service-request-information';
-const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
 
 
 /**
@@ -35,28 +41,9 @@ const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfLis
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.bequeathYourDataAndDie = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
-  });
-}
-
-
-/**
- * Provides ControlConstruct from cache
- *
- * mountName Integer Numeric ID of the user to get
- * returns Object
- **/
-exports.getCachedAaa = function(mountName) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = { };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
   });
 }
 
@@ -74,7 +61,7 @@ exports.getCachedAaa = function(mountName) {
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_12
  **/
-exports.getCachedActualEquipment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedActualEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -103,7 +90,7 @@ exports.getCachedActualEquipment = function(user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_31
  **/
-exports.getCachedAirInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedAirInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -132,7 +119,7 @@ exports.getCachedAirInterfaceCapability = function(user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_32
  **/
-exports.getCachedAirInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedAirInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -161,7 +148,7 @@ exports.getCachedAirInterfaceConfiguration = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_34
  **/
-exports.getCachedAirInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedAirInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -190,7 +177,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function(user,originator,x
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_33
  **/
-exports.getCachedAirInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedAirInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -213,11 +200,11 @@ exports.getCachedAirInterfaceStatus = function(user,originator,xCorrelator,trace
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountname String The mount-name of the device that is addressed by the request
+ * mountName String The mount-name of the device that is addressed by the request
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_4
  **/
-exports.getCachedAlarmCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountname,fields) {
+exports.getCachedAlarmCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -244,7 +231,7 @@ exports.getCachedAlarmCapability = function(user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_5
  **/
-exports.getCachedAlarmConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getCachedAlarmConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -271,7 +258,7 @@ exports.getCachedAlarmConfiguration = function(user,originator,xCorrelator,trace
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_7
  **/
-exports.getCachedAlarmEventRecords = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getCachedAlarmEventRecords = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -299,7 +286,7 @@ exports.getCachedAlarmEventRecords = function(user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_19
  **/
-exports.getCachedCoChannelProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedCoChannelProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -327,7 +314,7 @@ exports.getCachedCoChannelProfileCapability = function(user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_20
  **/
-exports.getCachedCoChannelProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedCoChannelProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -356,7 +343,7 @@ exports.getCachedCoChannelProfileConfiguration = function(user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_9
  **/
-exports.getCachedConnector = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedConnector = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -389,7 +376,7 @@ exports.getCachedConnector = function(user,originator,xCorrelator,traceIndicator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_10
  **/
-exports.getCachedContainedHolder = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedContainedHolder = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -420,7 +407,7 @@ exports.getCachedContainedHolder = function(user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_3
  **/
-exports.getCachedControlConstruct = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getCachedControlConstruct = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -595,7 +582,7 @@ exports.getCachedControlConstruct = function(user,originator,xCorrelator,traceIn
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_6
  **/
-exports.getCachedCurrentAlarms = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getCachedCurrentAlarms = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -623,7 +610,7 @@ exports.getCachedCurrentAlarms = function(user,originator,xCorrelator,traceIndic
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_8
  **/
-exports.getCachedEquipment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -688,7 +675,7 @@ exports.getCachedEquipment = function(user,originator,xCorrelator,traceIndicator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getCachedEthernetContainerCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedEthernetContainerCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -717,7 +704,7 @@ exports.getCachedEthernetContainerCapability = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getCachedEthernetContainerConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedEthernetContainerConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -746,7 +733,7 @@ exports.getCachedEthernetContainerConfiguration = function(user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_38
  **/
-exports.getCachedEthernetContainerHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedEthernetContainerHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -775,7 +762,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function(user,origina
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_37
  **/
-exports.getCachedEthernetContainerStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedEthernetContainerStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -804,7 +791,7 @@ exports.getCachedEthernetContainerStatus = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_11
  **/
-exports.getCachedExpectedEquipment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedExpectedEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -835,7 +822,7 @@ exports.getCachedExpectedEquipment = function(user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_13
  **/
-exports.getCachedFirmwareCollection = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getCachedFirmwareCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -877,7 +864,7 @@ exports.getCachedFirmwareCollection = function(user,originator,xCorrelator,trace
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_15
  **/
-exports.getCachedFirmwareComponentCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
+exports.getCachedFirmwareComponentCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -905,7 +892,7 @@ exports.getCachedFirmwareComponentCapability = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_14
  **/
-exports.getCachedFirmwareComponentList = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
+exports.getCachedFirmwareComponentList = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -945,7 +932,7 @@ exports.getCachedFirmwareComponentList = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_16
  **/
-exports.getCachedFirmwareComponentStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
+exports.getCachedFirmwareComponentStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -974,7 +961,7 @@ exports.getCachedFirmwareComponentStatus = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_39
  **/
-exports.getCachedHybridMwStructureCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedHybridMwStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1003,7 +990,7 @@ exports.getCachedHybridMwStructureCapability = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_40
  **/
-exports.getCachedHybridMwStructureConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedHybridMwStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1032,7 +1019,7 @@ exports.getCachedHybridMwStructureConfiguration = function(user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_42
  **/
-exports.getCachedHybridMwStructureHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedHybridMwStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1061,7 +1048,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function(user,origina
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_41
  **/
-exports.getCachedHybridMwStructureStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedHybridMwStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1089,7 +1076,7 @@ exports.getCachedHybridMwStructureStatus = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getCachedLogicalTerminationPoint = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedLogicalTerminationPoint = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1127,7 +1114,7 @@ exports.getCachedLogicalTerminationPoint = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getCachedLtpAugment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedLtpAugment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1156,7 +1143,7 @@ exports.getCachedLtpAugment = function(user,originator,xCorrelator,traceIndicato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_43
  **/
-exports.getCachedMacInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedMacInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1185,7 +1172,7 @@ exports.getCachedMacInterfaceCapability = function(user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_44
  **/
-exports.getCachedMacInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedMacInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1214,7 +1201,7 @@ exports.getCachedMacInterfaceConfiguration = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_46
  **/
-exports.getCachedMacInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedMacInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1243,7 +1230,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function(user,originator,x
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_45
  **/
-exports.getCachedMacInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedMacInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1271,7 +1258,7 @@ exports.getCachedMacInterfaceStatus = function(user,originator,xCorrelator,trace
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_21
  **/
-exports.getCachedPolicingProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedPolicingProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1299,7 +1286,7 @@ exports.getCachedPolicingProfileCapability = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_22
  **/
-exports.getCachedPolicingProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedPolicingProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1327,7 +1314,7 @@ exports.getCachedPolicingProfileConfiguration = function(user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_18
  **/
-exports.getCachedProfile = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedProfile = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1354,7 +1341,7 @@ exports.getCachedProfile = function(user,originator,xCorrelator,traceIndicator,c
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_17
  **/
-exports.getCachedProfileCollection = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getCachedProfileCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1385,7 +1372,7 @@ exports.getCachedProfileCollection = function(user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_47
  **/
-exports.getCachedPureEthernetStructureCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedPureEthernetStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1414,7 +1401,7 @@ exports.getCachedPureEthernetStructureCapability = function(user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_48
  **/
-exports.getCachedPureEthernetStructureConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedPureEthernetStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1443,7 +1430,7 @@ exports.getCachedPureEthernetStructureConfiguration = function(user,originator,x
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_50
  **/
-exports.getCachedPureEthernetStructureHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedPureEthernetStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1472,7 +1459,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function(user,ori
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_49
  **/
-exports.getCachedPureEthernetStructureStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedPureEthernetStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1500,7 +1487,7 @@ exports.getCachedPureEthernetStructureStatus = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_23
  **/
-exports.getCachedQosProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedQosProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1528,7 +1515,7 @@ exports.getCachedQosProfileCapability = function(user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_24
  **/
-exports.getCachedQosProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedQosProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1556,7 +1543,7 @@ exports.getCachedQosProfileConfiguration = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_25
  **/
-exports.getCachedSchedulerProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedSchedulerProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1584,7 +1571,7 @@ exports.getCachedSchedulerProfileCapability = function(user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_26
  **/
-exports.getCachedSchedulerProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedSchedulerProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1613,7 +1600,7 @@ exports.getCachedSchedulerProfileConfiguration = function(user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_51
  **/
-exports.getCachedVlanInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedVlanInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1642,7 +1629,7 @@ exports.getCachedVlanInterfaceCapability = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_52
  **/
-exports.getCachedVlanInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedVlanInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1671,7 +1658,7 @@ exports.getCachedVlanInterfaceConfiguration = function(user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_54
  **/
-exports.getCachedVlanInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedVlanInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1700,7 +1687,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function(user,originator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_53
  **/
-exports.getCachedVlanInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedVlanInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1729,7 +1716,7 @@ exports.getCachedVlanInterfaceStatus = function(user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_55
  **/
-exports.getCachedWireInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedWireInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1758,7 +1745,7 @@ exports.getCachedWireInterfaceCapability = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_56
  **/
-exports.getCachedWireInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedWireInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1787,7 +1774,7 @@ exports.getCachedWireInterfaceConfiguration = function(user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_58
  **/
-exports.getCachedWireInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedWireInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1816,7 +1803,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function(user,originator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_57
  **/
-exports.getCachedWireInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getCachedWireInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1844,7 +1831,7 @@ exports.getCachedWireInterfaceStatus = function(user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_27
  **/
-exports.getCachedWredProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedWredProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1872,7 +1859,7 @@ exports.getCachedWredProfileCapability = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_28
  **/
-exports.getCachedWredProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedWredProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1900,7 +1887,7 @@ exports.getCachedWredProfileConfiguration = function(user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getChachedLogicalTerminationPoint = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getChachedLogicalTerminationPoint = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1938,7 +1925,7 @@ exports.getChachedLogicalTerminationPoint = function(user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getChachedLtpAugment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getChachedLtpAugment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1966,7 +1953,7 @@ exports.getChachedLtpAugment = function(user,originator,xCorrelator,traceIndicat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_12
  **/
-exports.getLiveActualEquipment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveActualEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1995,7 +1982,7 @@ exports.getLiveActualEquipment = function(user,originator,xCorrelator,traceIndic
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_31
  **/
-exports.getLiveAirInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveAirInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2024,7 +2011,7 @@ exports.getLiveAirInterfaceCapability = function(user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_32
  **/
-exports.getLiveAirInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveAirInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2053,7 +2040,7 @@ exports.getLiveAirInterfaceConfiguration = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_59
  **/
-exports.getLiveAirInterfaceCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveAirInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2082,7 +2069,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function(user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_34
  **/
-exports.getLiveAirInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveAirInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2111,7 +2098,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function(user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_33
  **/
-exports.getLiveAirInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveAirInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2138,7 +2125,7 @@ exports.getLiveAirInterfaceStatus = function(user,originator,xCorrelator,traceIn
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_4
  **/
-exports.getLiveAlarmCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getLiveAlarmCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2165,7 +2152,7 @@ exports.getLiveAlarmCapability = function(user,originator,xCorrelator,traceIndic
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_5
  **/
-exports.getLiveAlarmConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getLiveAlarmConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2192,7 +2179,7 @@ exports.getLiveAlarmConfiguration = function(user,originator,xCorrelator,traceIn
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_7
  **/
-exports.getLiveAlarmEventRecords = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getLiveAlarmEventRecords = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2220,7 +2207,7 @@ exports.getLiveAlarmEventRecords = function(user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_19
  **/
-exports.getLiveCoChannelProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveCoChannelProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2248,7 +2235,7 @@ exports.getLiveCoChannelProfileCapability = function(user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_20
  **/
-exports.getLiveCoChannelProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveCoChannelProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2277,7 +2264,7 @@ exports.getLiveCoChannelProfileConfiguration = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_9
  **/
-exports.getLiveConnector = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveConnector = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2310,7 +2297,7 @@ exports.getLiveConnector = function(user,originator,xCorrelator,traceIndicator,c
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_10
  **/
-exports.getLiveContainedHolder = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveContainedHolder = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2337,169 +2324,47 @@ exports.getLiveContainedHolder = function(user,originator,xCorrelator,traceIndic
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
+ * mountname String The mount-name of the device that is addressed by the request
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_3
  **/
-exports.getLiveControlConstruct = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:control-construct" : [ {
-    "firmware-1-0:firmware-collection" : {
-      "firmware-component-list" : [ {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
+exports.getLiveControlConstruct = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountname,fields) {
+  return new Promise(async function(resolve, reject) {
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    
+      let ControlConstruct = url.match(/control-construct=([^/]+)/)[1];
+      if (ControlConstruct.indexOf("+") != -1){
+        var correctCc = ControlConstruct.replace(/=.*?\+/g, "=");
+      } else { 
+        correctCc = ControlConstruct;
         }
-      }, {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
+      const finalUrl = appNameAndUuidFromForwarding[0].url;
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1){
+        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (result == false){
+          resolve(false);
+        } else {
+          let jsonObj = result.data;
+          modificaUUID(jsonObj, correctCc);
+          //const newJSON = JSON.stringify(jsonObj, null, 2);
+        
+          let pippo = await recordRequest(jsonObj, correctCc);
+          resolve(jsonObj)
         }
-      } ]
-    },
-    "profile-collection" : {
-      "profile" : [ "", "" ]
-    },
-    "alarms-1-0:alarm-pac" : {
-      "alarm-configuration" : { },
-      "alarm-event-records" : { },
-      "current-alarms" : { },
-      "alarm-capability" : { }
-    },
-    "equipment" : [ {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    }, {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    } ],
-    "logical-termination-point" : [ {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    }, {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    } ],
-    "uuid" : "uuid"
-  }, {
-    "firmware-1-0:firmware-collection" : {
-      "firmware-component-list" : [ {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
-        }
-      }, {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
-        }
-      } ]
-    },
-    "profile-collection" : {
-      "profile" : [ "", "" ]
-    },
-    "alarms-1-0:alarm-pac" : {
-      "alarm-configuration" : { },
-      "alarm-event-records" : { },
-      "current-alarms" : { },
-      "alarm-capability" : { }
-    },
-    "equipment" : [ {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    }, {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    } ],
-    "logical-termination-point" : [ {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    }, {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    } ],
-    "uuid" : "uuid"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+      }
+
+    /*
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const finalUrl = appNameAndUuidFromForwarding[0].url;
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+  */
+   /*  if (Object.keys(pippo).length > 0) {
+      resolve(pippo[Object.keys(pippo)[0]]);
     } else {
       resolve();
-    }
+    } */
   });
 }
 
@@ -2516,7 +2381,7 @@ exports.getLiveControlConstruct = function(user,originator,xCorrelator,traceIndi
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_6
  **/
-exports.getLiveCurrentAlarms = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getLiveCurrentAlarms = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2544,7 +2409,7 @@ exports.getLiveCurrentAlarms = function(user,originator,xCorrelator,traceIndicat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_8
  **/
-exports.getLiveEquipment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2609,7 +2474,7 @@ exports.getLiveEquipment = function(user,originator,xCorrelator,traceIndicator,c
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getLiveEthernetContainerCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveEthernetContainerCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2638,7 +2503,7 @@ exports.getLiveEthernetContainerCapability = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getLiveEthernetContainerConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveEthernetContainerConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2667,7 +2532,7 @@ exports.getLiveEthernetContainerConfiguration = function(user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_60
  **/
-exports.getLiveEthernetContainerCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveEthernetContainerCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2696,7 +2561,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function(user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_38
  **/
-exports.getLiveEthernetContainerHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveEthernetContainerHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2725,7 +2590,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function(user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_37
  **/
-exports.getLiveEthernetContainerStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveEthernetContainerStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2754,7 +2619,7 @@ exports.getLiveEthernetContainerStatus = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_11
  **/
-exports.getLiveExpectedEquipment = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveExpectedEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2785,7 +2650,7 @@ exports.getLiveExpectedEquipment = function(user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_13
  **/
-exports.getLiveFirmwareCollection = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getLiveFirmwareCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2827,7 +2692,7 @@ exports.getLiveFirmwareCollection = function(user,originator,xCorrelator,traceIn
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_15
  **/
-exports.getLiveFirmwareComponentCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
+exports.getLiveFirmwareComponentCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2855,7 +2720,7 @@ exports.getLiveFirmwareComponentCapability = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_14
  **/
-exports.getLiveFirmwareComponentList = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
+exports.getLiveFirmwareComponentList = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2895,7 +2760,7 @@ exports.getLiveFirmwareComponentList = function(user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_16
  **/
-exports.getLiveFirmwareComponentStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
+exports.getLiveFirmwareComponentStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2924,7 +2789,7 @@ exports.getLiveFirmwareComponentStatus = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_39
  **/
-exports.getLiveHybridMwStructureCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveHybridMwStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2953,7 +2818,7 @@ exports.getLiveHybridMwStructureCapability = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_40
  **/
-exports.getLiveHybridMwStructureConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveHybridMwStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2982,7 +2847,7 @@ exports.getLiveHybridMwStructureConfiguration = function(user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_61
  **/
-exports.getLiveHybridMwStructureCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveHybridMwStructureCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3011,7 +2876,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function(user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_42
  **/
-exports.getLiveHybridMwStructureHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveHybridMwStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3040,7 +2905,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function(user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_41
  **/
-exports.getLiveHybridMwStructureStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveHybridMwStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3069,7 +2934,7 @@ exports.getLiveHybridMwStructureStatus = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_43
  **/
-exports.getLiveMacInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveMacInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3098,7 +2963,7 @@ exports.getLiveMacInterfaceCapability = function(user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_44
  **/
-exports.getLiveMacInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveMacInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3127,7 +2992,7 @@ exports.getLiveMacInterfaceConfiguration = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_62
  **/
-exports.getLiveMacInterfaceCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveMacInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3156,7 +3021,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function(user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_46
  **/
-exports.getLiveMacInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveMacInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3185,7 +3050,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function(user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_45
  **/
-exports.getLiveMacInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveMacInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3213,7 +3078,7 @@ exports.getLiveMacInterfaceStatus = function(user,originator,xCorrelator,traceIn
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_21
  **/
-exports.getLivePolicingProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLivePolicingProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3241,7 +3106,7 @@ exports.getLivePolicingProfileCapability = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_22
  **/
-exports.getLivePolicingProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLivePolicingProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3269,7 +3134,7 @@ exports.getLivePolicingProfileConfiguration = function(user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_18
  **/
-exports.getLiveProfile = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveProfile = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3296,7 +3161,7 @@ exports.getLiveProfile = function(user,originator,xCorrelator,traceIndicator,cus
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_17
  **/
-exports.getLiveProfileCollection = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
+exports.getLiveProfileCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3327,7 +3192,7 @@ exports.getLiveProfileCollection = function(user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_47
  **/
-exports.getLivePureEthernetStructureCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLivePureEthernetStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3356,7 +3221,7 @@ exports.getLivePureEthernetStructureCapability = function(user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_48
  **/
-exports.getLivePureEthernetStructureConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLivePureEthernetStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3385,7 +3250,7 @@ exports.getLivePureEthernetStructureConfiguration = function(user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_63
  **/
-exports.getLivePureEthernetStructureCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLivePureEthernetStructureCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3414,7 +3279,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function(user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_50
  **/
-exports.getLivePureEthernetStructureHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLivePureEthernetStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3443,7 +3308,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function(user,origi
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_49
  **/
-exports.getLivePureEthernetStructureStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLivePureEthernetStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3471,7 +3336,7 @@ exports.getLivePureEthernetStructureStatus = function(user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_23
  **/
-exports.getLiveQosProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveQosProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3499,7 +3364,7 @@ exports.getLiveQosProfileCapability = function(user,originator,xCorrelator,trace
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_24
  **/
-exports.getLiveQosProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveQosProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3527,7 +3392,7 @@ exports.getLiveQosProfileConfiguration = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_25
  **/
-exports.getLiveSchedulerProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveSchedulerProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3555,7 +3420,7 @@ exports.getLiveSchedulerProfileCapability = function(user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_26
  **/
-exports.getLiveSchedulerProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveSchedulerProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3584,7 +3449,7 @@ exports.getLiveSchedulerProfileConfiguration = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_51
  **/
-exports.getLiveVlanInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveVlanInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3613,7 +3478,7 @@ exports.getLiveVlanInterfaceCapability = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_52
  **/
-exports.getLiveVlanInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveVlanInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3642,7 +3507,7 @@ exports.getLiveVlanInterfaceConfiguration = function(user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_64
  **/
-exports.getLiveVlanInterfaceCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveVlanInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3671,7 +3536,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function(user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_54
  **/
-exports.getLiveVlanInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveVlanInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3700,7 +3565,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function(user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_53
  **/
-exports.getLiveVlanInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveVlanInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3729,7 +3594,7 @@ exports.getLiveVlanInterfaceStatus = function(user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_55
  **/
-exports.getLiveWireInterfaceCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveWireInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3758,7 +3623,7 @@ exports.getLiveWireInterfaceCapability = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_56
  **/
-exports.getLiveWireInterfaceConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveWireInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3787,7 +3652,7 @@ exports.getLiveWireInterfaceConfiguration = function(user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_65
  **/
-exports.getLiveWireInterfaceCurrentPerformance = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveWireInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3816,7 +3681,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function(user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_58
  **/
-exports.getLiveWireInterfaceHistoricalPerformances = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveWireInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3845,7 +3710,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function(user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_57
  **/
-exports.getLiveWireInterfaceStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
+exports.getLiveWireInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3873,7 +3738,7 @@ exports.getLiveWireInterfaceStatus = function(user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_27
  **/
-exports.getLiveWredProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveWredProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3901,7 +3766,7 @@ exports.getLiveWredProfileCapability = function(user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_28
  **/
-exports.getLiveWredProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveWredProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -3915,60 +3780,6 @@ exports.getLiveWredProfileConfiguration = function(user,originator,xCorrelator,t
   });
 }
 
-
-/**
- * Get a user by ID
- *
- * mountname Integer Numeric ID of the user to get
- * returns Object
- **/
-exports.getUsers = function(mountname) {
-  return new Promise(async function(resolve, reject) {
-
-
-
-    var username = "siae";
-    var password = "SiGen01";
-    var request = require('request');
-    var options = {
-        url: 'http://172.28.127.3:8181/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)',
-        auth: {
-            user: username,
-            password: password
-        }
-    }
-
-    request(options, function (err, res, body) {
-        if (err) {
-            console.dir(err)
-          return
-        }
-        console.dir ('headers', res.headers)
-        console.dir ('status code', res.statusCode)
-        console.log(JSON.stringify(body))
-    })
-    resolve();
-    
- /*   var min = 5,
-    max = 10;
-    var rand = Math.floor(Math.random() * (max - min + 1) + min); //Generate Random number between 5 - 10
-   // setTimeout(myFunction, rand * 1000);
-    setTimeout(() => {
-      console.log('Wait for ' + rand + ' seconds');
-      var examples = {};
-      examples['application/json'] = { };
-      if (Object.keys(examples).length > 0) {
-        resolve(examples[Object.keys(examples)[0]]);
-      } else {
-        resolve();
-      }
-    }, rand * 1000);
-  */
-    
-  });
-}
-
-
 /**
  * Offers subscribing for notifications about device attributes being changed in the cache
  *
@@ -3980,7 +3791,7 @@ exports.getUsers = function(mountname) {
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyAttributeValueChanges = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.notifyAttributeValueChanges = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -3998,7 +3809,7 @@ exports.notifyAttributeValueChanges = function(body,user,originator,xCorrelator,
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyObjectCreations = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.notifyObjectCreations = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -4016,7 +3827,7 @@ exports.notifyObjectCreations = function(body,user,originator,xCorrelator,traceI
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyObjectDeletions = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.notifyObjectDeletions = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -4034,7 +3845,7 @@ exports.notifyObjectDeletions = function(body,user,originator,xCorrelator,traceI
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_2
  **/
-exports.provideListOfActualDeviceEquipment = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.provideListOfActualDeviceEquipment = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -4066,7 +3877,7 @@ exports.provideListOfActualDeviceEquipment = function(body,user,originator,xCorr
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200
  **/
-exports.provideListOfConnectedDevices = function(user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.provideListOfConnectedDevices = function(url,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -4092,7 +3903,7 @@ exports.provideListOfConnectedDevices = function(user,originator,xCorrelator,tra
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_1
  **/
-exports.provideListOfDeviceInterfaces = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.provideListOfDeviceInterfaces = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -4126,7 +3937,7 @@ exports.provideListOfDeviceInterfaces = function(body,user,originator,xCorrelato
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardControllerAttributeValueChange = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.regardControllerAttributeValueChange = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -4144,7 +3955,7 @@ exports.regardControllerAttributeValueChange = function(body,user,originator,xCo
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceAlarm = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.regardDeviceAlarm = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -4162,7 +3973,7 @@ exports.regardDeviceAlarm = function(body,user,originator,xCorrelator,traceIndic
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceAttributeValueChange = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.regardDeviceAttributeValueChange = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -4180,7 +3991,7 @@ exports.regardDeviceAttributeValueChange = function(body,user,originator,xCorrel
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceObjectCreation = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.regardDeviceObjectCreation = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -4198,9 +4009,182 @@ exports.regardDeviceObjectCreation = function(body,user,originator,xCorrelator,t
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceObjectDeletion = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.regardDeviceObjectDeletion = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
 }
 
+async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(originalUrl) {
+  const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  if (forwardingConstruct === undefined) {
+    return null;
+  }
+
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+  
+ /*  if (fcPortOutputDirectionLogicalTerminationPointList.length !== 1) {
+    return null;
+  } */
+  let applicationNameList = [];
+  let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+    //const opLtpUuid = fcPortOutputDirectionLogicalTerminationPointList[0];
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let applicationName = 'api';
+    /*const applicationName = await httpClientInterface.getApplicationNameAsync(httpClientLtpUuid);*/
+    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    let url = "";
+    let tcpConn = "";
+    if (opLtpUuid.includes("odl")){ 
+      applicationName = "OpenDayLight";
+      tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+      url = retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+    } else if (opLtpUuid.includes("es")){
+      tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
+      applicationName = "ElasticSearch";
+      url = retrieveCorrectUrl (originalUrl, tcpConn, applicationName);
+    }
+    const applicationNameData = applicationName === undefined ? {
+      applicationName: null,
+      httpClientLtpUuid,
+      url: null, key: null
+    } : {
+      applicationName,
+      httpClientLtpUuid,
+      url, key
+    };
+
+
+    applicationNameList.push(applicationNameData);
+    
+  }
+    return applicationNameList;
+  }
+
+  async function getTcpClientConnectionInfoAsync(operationClientUuid) {
+    let httpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid);
+    let httpClientUuid = httpClientUuidList[0];
+    let tcpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid);
+    let tcpClientUuid = tcpClientUuidList[0];
+    let tcpServerUuidList = await logicalTerminationPoint.getServerLtpListAsync(tcpClientUuid);
+    let tcpServerUuid = tcpServerUuidList[0];
+    let tcpClientRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpServerUuid);
+    let remoteAddress = await getConfiguredRemoteAddress(tcpClientRemoteAddress);
+    let remotePort = await tcpClientInterface.getRemotePortAsync(tcpServerUuid);
+    let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
+    return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
+}
+
+function getConfiguredRemoteAddress(remoteAddress) {
+  let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
+  if (domainName in remoteAddress) {
+      remoteAddress = remoteAddress["domain-name"];
+  } else {
+      remoteAddress = remoteAddress[
+          onfAttributes.TCP_CLIENT.IP_ADDRESS][
+          onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
+      ];
+  }
+  return remoteAddress;
+}
+
+function retrieveCorrectUrl (originalUrl, path, applicationName){
+  let ControlConstruct = originalUrl.match(/control-construct=([^/]+)/)[1];
+  let placeHolder = "";
+  if (applicationName === "OpenDayLight"){
+    placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
+  } else if (applicationName === "ElasticSearch"){
+    placeHolder = "/";
+  }
+  // Cerca la sequenza "control-construct={controlconstruct/" nella stringa
+  var sequenzaDaCercare = "control-construct=" + ControlConstruct;
+  var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
+
+  if (indiceSequenza !== -1) {
+    // Se la sequenza è stata trovata, separa la stringa in due parti
+    var parte1 = originalUrl.substring(0, indiceSequenza); // Parte prima
+    if (applicationName === "OpenDayLight"){
+      var parte2 = originalUrl.substring(indiceSequenza + sequenzaDaCercare.length); // Parte seconda
+    } else if (applicationName === "ElasticSearch"){
+      var parte2 = originalUrl.substring(indiceSequenza); // Parte seconda
+    }
+  }
+
+  let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
+  let final = path + correctPlaceHolder + parte2;
+  if (final.indexOf("+") != -1){
+      var correctUrl = final.replace(/=.*?\+/g, "=");
+  } else {
+      correctUrl = final;
+  }
+  return final;
+}
+
+/**
+ * Records a request
+ *
+ * body controlconstruct 
+ * no response value expected for this operation
+ **/
+async function recordRequest (body, cc) {
+  let indexAlias = await getIndexAliasAsync();
+  let client = await elasticsearchService.getClient(false);
+  let startTime = process.hrtime();
+  let result = await client.index({
+    index: indexAlias,
+    _id: cc,
+    body: body
+  });
+  let backendTime = process.hrtime(startTime);
+  if (result.body.result == 'created' || result.body.result == 'updated') {
+    return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+  }
+}
+
+async function listRecords () {
+  let size = 100;
+  let from = 0;
+  let query = { 
+    match_all: {}
+  };
+  if (size + from <= 10000) {
+    let indexAlias = await getIndexAliasAsync();
+    let client = await elasticsearchService.getClient(false);
+    const result = await client.search({
+      index: indexAlias,
+      from: from,
+      size: size,
+      body: {
+        query: query
+      }
+    });
+    console.log(result.body.hits);
+    const resultArray = createResultArray(result);
+    return { "response": resultArray, "took": result.body.took };
+  }
+  return await elasticsearchService.scroll(from, size, query);
+}
+
+// Function to modify gli UUID
+function modificaUUID(obj, mountName) {
+  for (const key in obj) {
+    if (typeof obj[key] === 'object') {
+      // Se il valore è un oggetto, richiama la funzione in modo ricorsivo
+      modificaUUID(obj[key], mountName);
+    } else if (key === 'uuid' || key === 'local-id') {
+      // Se la chiave è 'uuid', aggiungi "mountName+" al valore
+      obj[key] = mountName + "+" + obj[key];
+    }
+  }
+}

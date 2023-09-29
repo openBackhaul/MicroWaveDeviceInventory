@@ -2,6 +2,7 @@
 const cyclicProcessServicePath = '../service/individualServices/CyclicProcessService';
 const temporarySupportFilesPath = './temporarySupportFiles';
 const fs = require('fs');
+const path = require("path");
 const cp = require(cyclicProcessServicePath + '/cyclicProcess');
 
 const SINGLE_DEVICE_LIST = true;
@@ -34,18 +35,18 @@ module.exports.start = async function start() {
             })            
             let fileName = ''
             if (SINGLE_DEVICE_LIST) {
-                fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal.Json';
+                fileName = path.resolve(__dirname, "TestLabDeviceMinimal.Json");
             } else {
                 if (devicelistSimulationIndex == 0) {
-                    fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal1.Json';     // [A|B|C|D|E|F|G|H|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z]
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal1.Json");       // [A|B|C|D|E|F|G|H|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z]
                 } else if (devicelistSimulationIndex == 1) {
-                    fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal2.Json';     //                 [L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z]
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal2.Json");       //                 [L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z]
                 } else if (devicelistSimulationIndex == 2) {
-                    fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal3.Json';     //                               [S|T|U|V|W|X|Y|Z]
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal3.Json");       //                               [S|T|U|V|W|X|Y|Z]
                 } else if (devicelistSimulationIndex == 3) {
-                    fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal4.Json';     // [A|B|C|D|E]
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal4.Json");       // [A|B|C|D|E]
                 } else if (devicelistSimulationIndex == 4) {
-                    fileName = temporarySupportFilesPath + '/TestLabDeviceMinimal5.Json';     // []
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal5.Json");       // []
                 }  
                 devicelistSimulationIndex = (devicelistSimulationIndex == 4) ? 0 : (devicelistSimulationIndex + 1);
             }

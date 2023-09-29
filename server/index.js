@@ -8,6 +8,7 @@ var serverPort = 8080;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
+const startModule = require('./temporarySupportFiles/StartModule.js');
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 appCommons.openApiValidatorOptions.validateSecurity = false;
@@ -31,6 +32,11 @@ appCommons.setupExpressApp(app);
 });
 */
 global.databasePath = './database/load.json'
+
+
+/******************* CYCLIC PROCESS START POINT **********************/
+startModule.start()
+/*********************************************************************/
 
 prepareElasticsearch(false).catch(err => {
     console.error(`Error preparing Elasticsearch : ${err}`);

@@ -1,0 +1,102 @@
+{
+    "network-topology:network-topology": {
+        "topology": [
+            {
+                "node": [
+                    {
+                        "node-id": "A",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "B",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "C",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "D",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "E",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "F",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "G",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "H",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "L",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "M",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "N",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "O",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "P",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "Q",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "R",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "S",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "T",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "U",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "V",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "W",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "X",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "Y",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "Z",
+                        "netconf-node-topology:connection-status": "connected"
+                    }
+                ]
+            }
+        ]
+    }
+}

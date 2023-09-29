@@ -268,8 +268,20 @@
             "string-profile-capability": {
               "string-name": "controllerInternalPathToMountPoint"
             },
-            "integer-profile-configuration": {
+            "string-profile-configuration": {
               "string-name": "rests/data/network-topology:network-topology/topology=topology-netconf"
+            }
+          }
+        },
+        {
+          "uuid": "mwdi-1-0-0-string-p-001",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:integer-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter"
+            },
+            "string-profile-configuration": {
+              "string-name": "node(node-id;netconf-node-topology:connection-status)"
             }
           }
         }

@@ -1108,7 +1108,8 @@ clients:
         basic:
         individual:
           ## GET list of mounted devices with connection status from Controller
-          - operation-name: /{controller-internal-path-to-mount-point}?fields=node(node-id;netconf-node-topology:connection-status)
+          # called with fields filter: ?fields=node(node-id;netconf-node-topology:connection-status)
+          - operation-name: /{controller-internal-path-to-mount-point}
             uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-000
 
           ## GET resources from devices

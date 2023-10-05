@@ -5,10 +5,11 @@ const { setTimeout } = require('timers');
 const path = require("path");
 const individualServices = require( "../../IndividualServicesService.js");
 
-const ttlMax = 600;
-const retriesMax = 1;
 const DEVICE_NOT_PRESENT = -1;
-let slidingWindowSize = 3;      // It will be get from load.json db in a next release
+let maximumNumberOfRetries = 1;
+let responseTimeout = 600;
+let slidingWindowSizeDb = 500;
+let slidingWindowSize = 3;      
 let slidingWindow = [];
 let deviceList = [];
 let lastDeviceListIndex = -1;
@@ -39,8 +40,8 @@ function prepareObjectForWindow(deviceListIndex) {
         let windowObject = {
             "index"   : deviceListIndex,
             "node-id" : deviceList[deviceListIndex]['node-id'],
-            "ttl"     : ttlMax,
-            "retries" : retriesMax
+            "ttl"     : responseTimeout,
+            "retries" : maximumNumberOfRetries
         };
         return windowObject;
     } catch(error) {
@@ -201,7 +202,7 @@ async function startTtlChecking() {
                             requestMessage(slidingWindow.length-1);
                         }
                     } else {
-                        slidingWindow[index].ttl = ttlMax;
+                        slidingWindow[index].ttl = responseTimeout;
                         slidingWindow[index].retries -= 1;
                         printLog("Element " + slidingWindow[index]['node-id'] + " Timeout. -> Resend the request...", print_log_level >= 2);
                         requestMessage(index);
@@ -243,7 +244,7 @@ async function requestMessage(index) {
                     printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                 } else {
                     printLog('Response FALSE from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
-                    slidingWindow[elementIndex].ttl = ttlMax;
+                    slidingWindow[elementIndex].ttl = responseTimeout;
                     slidingWindow[elementIndex].retries -= 1;
                     requestMessage(elementIndex);                
                 }                
@@ -284,6 +285,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             return false;
         }
 
+        slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
+        
         printLog(printList('Device List', deviceList), print_log_level >= 2);
         printLog('***************************************************************************', print_log_level >= 2);
         printLog('*                       DEVICE LIST REALIGNMENT', print_log_level >= 2);
@@ -432,15 +435,23 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
  **/
 module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {    
     try {
+        async function extractProfileConfiguration(uuid) {
+            const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+            const profile = await profileCollection.getProfileAsync(uuid)
+            return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
+        }
+        
+        slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
+        responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
+        maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
+
         print_log_level = logging_level;
         let newDeviceList = await individualServices.getLiveDeviceList();
         if (newDeviceList == false) {
             return false;
         } else {
             deviceList = newDeviceList;
-            if (slidingWindowSize > deviceList.length) {
-                slidingWindowSize = deviceList.length
-            }
+            slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
             printLog(printList('Device List', deviceList), print_log_level >= 1);
             lastDeviceListIndex = -1;
             for (let i = 0; i < slidingWindowSize; i++) {

@@ -64,17 +64,17 @@ module.exports.start = async function start() {
 
         const delay = 15 + Math.floor(Math.random() * 30);
         setTimeout(async () => {
-            let newDeviceList = await getNewDeviceList();
-            cp.deviceListSynchronization(newDeviceList);
+            //let newDeviceList = await getNewDeviceList();
+            cp.deviceListSynchronization();
             startDeviceListRealignmentSimulation();
         }, delay * 1000);
     }
 
 
     
-    let deviceList = await getNewDeviceList();
+    //let deviceList = await getNewDeviceList();
     
-    cp.startCyclicProcess(deviceList,2);
+    cp.startCyclicProcess(2);
     if (SINGLE_DEVICE_LIST == false) {
         startDeviceListRealignmentSimulation();
     }

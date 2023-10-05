@@ -7,8 +7,8 @@ const individualServices = require( "../../IndividualServicesService.js");
 
 const ttlMax = 600;
 const retriesMax = 1;
-const slidingWindowSize = 4;
 const DEVICE_NOT_PRESENT = -1;
+let slidingWindowSize = 3;      // It will be get from load.json db in a next release
 let slidingWindow = [];
 let deviceList = [];
 let lastDeviceListIndex = -1;
@@ -19,16 +19,7 @@ let print_log_level = 2;
  * REST request simulator with random delay
  */
 async function sendRequest(device) {    
-    try {
-        
-        //await new Promise((resolve, reject) => {
-            // const delay = (Math.floor(Math.random() * 13) + 1);
-            // setTimeout(() => {
-            //     printLog('Element ' + device['node-id'] + ' responded in ' + delay + 's', print_log_level >= 1);
-            //     resolve();
-            // }, delay * 1000);
-            
-        //})
+    try {        
         let ret = await individualServices.getLiveControlConstruct('/core-model-1-4:network-control-domain=live/control-construct=' + device['node-id'])
         return {
             'ret': ret,
@@ -246,9 +237,10 @@ async function requestMessage(index) {
                     slidingWindow.splice(elementIndex, 1);
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
-                        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                         requestMessage(slidingWindow.length-1);
                     }
+                    printLog(printList('Device List', deviceList), print_log_level >= 2);
+                    printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                 } else {
                     printLog('Response FALSE from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
                     slidingWindow[elementIndex].ttl = ttlMax;
@@ -266,6 +258,7 @@ async function requestMessage(index) {
                     setDeviceListElementTimeStamp(retObj['node-id']);                    
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
+                        printLog(printList('Device List', deviceList), print_log_level >= 2);
                         printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                         requestMessage(slidingWindow.length-1);
                     }
@@ -284,8 +277,13 @@ async function requestMessage(index) {
  * 
  * newDeviceList is the new device list that update the old one. It's mandatory.
  */
-module.exports.deviceListSynchronization = async function deviceListSynchronization(newDeviceList) {
+module.exports.deviceListSynchronization = async function deviceListSynchronization() {
     try {
+        let newDeviceList = await individualServices.getLiveDeviceList();
+        if (newDeviceList == false) {
+            return false;
+        }
+
         printLog(printList('Device List', deviceList), print_log_level >= 2);
         printLog('***************************************************************************', print_log_level >= 2);
         printLog('*                       DEVICE LIST REALIGNMENT', print_log_level >= 2);
@@ -414,8 +412,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }
         if (!slidingWindowFilled) {
             lastDeviceListIndex = -1;
-        }
-        
+        }        
+        return true;
     } catch(error) {
         console.log('Error in realignDeviceList: ' + error);
         debugger;
@@ -432,11 +430,17 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
  * deviceList: list of devices in connected state. It's optional. If
  *             deviceList is present the procedure will starts immediatly
  **/
-module.exports.startCyclicProcess = async function startCyclicProcess(newDeviceList, logging_level) {    
+module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {    
     try {
         print_log_level = logging_level;
-        if (newDeviceList) {
+        let newDeviceList = await individualServices.getLiveDeviceList();
+        if (newDeviceList == false) {
+            return false;
+        } else {
             deviceList = newDeviceList;
+            if (slidingWindowSize > deviceList.length) {
+                slidingWindowSize = deviceList.length
+            }
             printLog(printList('Device List', deviceList), print_log_level >= 1);
             lastDeviceListIndex = -1;
             for (let i = 0; i < slidingWindowSize; i++) {
@@ -447,6 +451,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(newDeviceL
         }
         printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
         startTtlChecking(false);
+        return true;
     } catch(error) {
         console.log('Error in startCyclingProcess: ' + error);
         debugger;

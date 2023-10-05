@@ -34,9 +34,7 @@ appCommons.setupExpressApp(app);
 global.databasePath = './database/load.json'
 
 
-/******************* CYCLIC PROCESS START POINT **********************/
-startModule.start()
-/*********************************************************************/
+
 
 prepareElasticsearch(false).catch(err => {
     console.error(`Error preparing Elasticsearch : ${err}`);
@@ -47,5 +45,9 @@ prepareElasticsearch(false).catch(err => {
         console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
     appCommons.performApplicationRegistration();
+
+    /******************* CYCLIC PROCESS START POINT **********************/
+    startModule.start()
+    /*********************************************************************/
 }
 );

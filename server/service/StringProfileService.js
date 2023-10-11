@@ -1,24 +1,27 @@
+// @ts-check
 'use strict';
 
+const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
+const individualServicesService = require('./IndividualServicesService');
+const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+const Profile = require('onf-core-model-ap/applicationPattern/onfModel/models/Profile');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const createHttpError = require('http-errors');
 
 /**
  * Returns the enumeration values of the String
  *
  * uuid String 
- * returns inline_response_200_88
+ * returns inline_response_200_18
  **/
-exports.getStringProfileEnumeration = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:enumeration" : [ "string-profile-1-0:STRING_VALUE_TYPE_REACTIVE", "string-profile-1-0:STRING_VALUE_TYPE_PROTECTION", "string-profile-1-0:STRING_VALUE_TYPE_OFF" ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getStringProfileEnumeration = async function (url) {
+  let value = await fileOperation.readFromDatabaseAsync(url);
+  if (!value) {
+    value = [];
+  }
+  return {
+    "string-profile-1-0:enumeration": value
+  };
 }
 
 
@@ -26,62 +29,42 @@ exports.getStringProfileEnumeration = function(uuid) {
  * Returns the pattern of the String
  *
  * uuid String 
- * returns inline_response_200_89
+ * returns inline_response_200_19
  **/
-exports.getStringProfilePattern = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:pattern" : "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getStringProfilePattern = async function (url) {
+  let value = await fileOperation.readFromDatabaseAsync(url);
+  if (!value) {
+    value = "";
+  }
+  return {
+    "string-profile-1-0:pattern": value
+  };
 }
 
 
 /**
  * Returns the name of the String
  *
- * uuid String 
- * returns inline_response_200_87
+ * returns inline_response_200_17
  **/
-exports.getStringProfileStringName = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:string-name" : "operationMode"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getStringProfileStringName = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "string-profile-1-0:string-name": value
+  };
 }
 
 
 /**
  * Returns the configured value of the String
  *
- * uuid String 
- * returns inline_response_200_90
+ * * returns inline_response_200_20
  **/
-exports.getStringProfileStringValue = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:string-value" : "string-profile-1-0:STRING_VALUE_TYPE_OFF"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getStringProfileStringValue = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "string-profile-1-0:string-value": value
+  };
 }
 
 
@@ -89,12 +72,8 @@ exports.getStringProfileStringValue = function(uuid) {
  * Configures value of the String
  *
  * body Stringprofileconfiguration_stringvalue_body 
- * uuid String 
  * no response value expected for this operation
  **/
-exports.putStringProfileStringValue = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.putStringProfileStringValue = async function (body, url) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-

@@ -24,18 +24,18 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
                      
                 );
             let response = await RestRequestBuilder.BuildAndTriggerRestRequest(
-                url,
+                decodeURIComponent(url),
                 httpRequestHeader, 
                 httpRequestBody
                 );
             let responseCode = response.status;
             if (responseCode.toString().startsWith("2")) {
                 result = true;
-                resolve(response);
-            } else {
+                //resolve(response);
+            } /* else {
                 resolve(false)
-            }
-            //resolve(response);
+            } */
+            resolve(response);
         } catch (error) {
             reject(error);
         }

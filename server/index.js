@@ -18,7 +18,7 @@ var options = {
     routing: {
         controllers: path.join(__dirname, './controllers')
     },
-    openApiValidator: appCommons.openApiValidatorOptions
+ //   openApiValidator: appCommons.openApiValidatorOptions
 };
 
 var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
@@ -47,7 +47,7 @@ prepareElasticsearch(false).catch(err => {
     appCommons.performApplicationRegistration();
 
     /******************* CYCLIC PROCESS START POINT **********************/
-    startModule.start()
+//    startModule.start()
     /*********************************************************************/
 }
 );

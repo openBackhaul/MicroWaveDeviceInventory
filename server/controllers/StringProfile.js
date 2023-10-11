@@ -1,54 +1,71 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
 var StringProfile = require('../service/StringProfileService');
+var responseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
+var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+var oamLogService = require('onf-core-model-ap/applicationPattern/services/OamLogService');
 
-module.exports.getStringProfileEnumeration = function getStringProfileEnumeration (req, res, next, uuid) {
-  StringProfile.getStringProfileEnumeration(uuid)
+module.exports.getStringProfileEnumeration = async function getStringProfileEnumeration(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await StringProfile.getStringProfileEnumeration(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getStringProfilePattern = function getStringProfilePattern (req, res, next, uuid) {
-  StringProfile.getStringProfilePattern(uuid)
+module.exports.getStringProfilePattern = async function getStringProfilePattern(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await StringProfile.getStringProfilePattern(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getStringProfileStringName = function getStringProfileStringName (req, res, next, uuid) {
-  StringProfile.getStringProfileStringName(uuid)
+module.exports.getStringProfileStringName = async function getStringProfileStringName(req, res, next) {
+  let responseCode = responseCodeEnum.code.OK;
+  await StringProfile.getStringProfileStringName(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getStringProfileStringValue = function getStringProfileStringValue (req, res, next, uuid) {
-  StringProfile.getStringProfileStringValue(uuid)
+module.exports.getStringProfileStringValue = async function getStringProfileStringValue(req, res, next) {
+  let responseCode = responseCodeEnum.code.OK;
+  await StringProfile.getStringProfileStringValue(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putStringProfileStringValue = function putStringProfileStringValue (req, res, next, body, uuid) {
-  StringProfile.putStringProfileStringValue(body, uuid)
+module.exports.putStringProfileStringValue = async function putStringProfileStringValue(req, res, next, body) {
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  await StringProfile.putStringProfileStringValue(body, req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };

@@ -7,18 +7,14 @@
  * uuid String 
  * returns inline_response_200_82
  **/
-exports.getIntegerProfileIntegerName = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "integer-profile-1-0:integer-name" : "maximumNumberOfEntries"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getIntegerProfileIntegerName = async function(uuid) {
+    let value = await fileOperation.readFromDatabaseAsync(uuid);
+    if (!value) {
+      value = [];
     }
-  });
+    return {
+      "integer-profile-1-0:name": value
+    };
 }
 
 
@@ -28,18 +24,14 @@ exports.getIntegerProfileIntegerName = function(uuid) {
  * uuid String 
  * returns inline_response_200_86
  **/
-exports.getIntegerProfileIntegerValue = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "integer-profile-1-0:integer-value" : 1000000
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getIntegerProfileIntegerValue = async function(uuid) {
+  let value = await fileOperation.readFromDatabaseAsync(uuid);
+  if (!value) {
+    value = [];
+  }
+  return {
+    "integer-profile-1-0:integer-value": value
+  };
 }
 
 
@@ -49,18 +41,14 @@ exports.getIntegerProfileIntegerValue = function(uuid) {
  * uuid String 
  * returns inline_response_200_85
  **/
-exports.getIntegerProfileMaximum = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "integer-profile-1-0:maximum" : 1000000
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getIntegerProfileMaximum = async function(uuid) {
+  let value = await fileOperation.readFromDatabaseAsync(uuid);
+  if (!value) {
+    value = [];
+  }
+  return {
+    "integer-profile-1-0:maximum": value
+  };
 }
 
 
@@ -70,18 +58,14 @@ exports.getIntegerProfileMaximum = function(uuid) {
  * uuid String 
  * returns inline_response_200_84
  **/
-exports.getIntegerProfileMinimum = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "integer-profile-1-0:minimum" : 0
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getIntegerProfileMinimum = async function(uuid) {
+  let value = await fileOperation.readFromDatabaseAsync(uuid);
+  if (!value) {
+    value = [];
+  }
+  return {
+    "integer-profile-1-0:minimum": value
+  };
 }
 
 
@@ -91,18 +75,14 @@ exports.getIntegerProfileMinimum = function(uuid) {
  * uuid String 
  * returns inline_response_200_83
  **/
-exports.getIntegerProfileUnit = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "integer-profile-1-0:unit" : "records"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getIntegerProfileUnit = async function(uuid) {
+  let value = await fileOperation.readFromDatabaseAsync(uuid);
+  if (!value) {
+    value = [];
+  }
+  return {
+    "integer-profile-1-0:unit": value
+  };
 }
 
 
@@ -113,9 +93,7 @@ exports.getIntegerProfileUnit = function(uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putIntegerProfileIntegerValue = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.putIntegerProfileIntegerValue = async function(body,uuid) {
+  await fileOperation.writeToDatabaseAsync(uuid, body, false);
 }
 

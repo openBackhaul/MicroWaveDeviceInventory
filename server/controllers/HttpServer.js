@@ -1,74 +1,97 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
 var HttpServer = require('../service/HttpServerService');
+var responseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
+var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+var oamLogService = require('onf-core-model-ap/applicationPattern/services/OamLogService');
 
-module.exports.getHttpServerApplicationName = function getHttpServerApplicationName (req, res, next, uuid) {
-  HttpServer.getHttpServerApplicationName(uuid)
+module.exports.getHttpServerApplicationName = async function getHttpServerApplicationName(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerApplicationName(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getHttpServerApplicationPurpose = function getHttpServerApplicationPurpose (req, res, next, uuid) {
-  HttpServer.getHttpServerApplicationPurpose(uuid)
+module.exports.getHttpServerApplicationPurpose = async function getHttpServerApplicationPurpose(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerApplicationPurpose(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getHttpServerDataUpdatePeriode = function getHttpServerDataUpdatePeriode (req, res, next, uuid) {
-  HttpServer.getHttpServerDataUpdatePeriode(uuid)
+module.exports.getHttpServerDataUpdatePeriode = async function getHttpServerDataUpdatePeriode(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerDataUpdatePeriode(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getHttpServerOwnerEmailAddress = function getHttpServerOwnerEmailAddress (req, res, next, uuid) {
-  HttpServer.getHttpServerOwnerEmailAddress(uuid)
+module.exports.getHttpServerOwnerEmailAddress = async function getHttpServerOwnerEmailAddress(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerOwnerEmailAddress(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getHttpServerOwnerName = function getHttpServerOwnerName (req, res, next, uuid) {
-  HttpServer.getHttpServerOwnerName(uuid)
+module.exports.getHttpServerOwnerName = async function getHttpServerOwnerName(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerOwnerName(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getHttpServerReleaseList = function getHttpServerReleaseList (req, res, next, uuid) {
-  HttpServer.getHttpServerReleaseList(uuid)
+module.exports.getHttpServerReleaseList = async function getHttpServerReleaseList(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerReleaseList(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getHttpServerReleaseNumber = function getHttpServerReleaseNumber (req, res, next, uuid) {
-  HttpServer.getHttpServerReleaseNumber(uuid)
+module.exports.getHttpServerReleaseNumber = async function getHttpServerReleaseNumber(req, res, next, uuid) {
+  let responseCode = responseCodeEnum.code.OK;
+  await HttpServer.getHttpServerReleaseNumber(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      responseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };

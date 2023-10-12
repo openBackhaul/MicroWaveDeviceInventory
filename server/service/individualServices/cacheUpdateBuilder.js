@@ -1,4 +1,4 @@
-exports.cacheUpdateBuilder= function (url, originalJSON, toInsert) {
+exports.cacheUpdateBuilder= function (url, originalJSON, toInsert, filters) {
 
     // Analizza la URL per estrarre i segmenti
   const urlSegments = url.split('/').filter(segment => segment.trim() !== '');
@@ -64,13 +64,13 @@ exports.cacheUpdateBuilder= function (url, originalJSON, toInsert) {
   // Verifica se c'è un'ultima chiave e la sostituisce con il nuovo JSON
   if (lastKey) {
     console.log(originalJSON[lastKey])
-    assegnaValoreAJson (originalJSON, lastKey, toInsert);
+    assegnaValoreAJson (originalJSON, lastKey, toInsert, filters);
     //console.log(JSON.stringify(jsonOriginale, null, 2));
   }
 };
 
 
-function assegnaValoreAJson(json, percorso, nuovoValore) {
+function assegnaValoreAJson(json, percorso, nuovoValore, filters) {
   // Rimuovi le parentesi quadre iniziali e finali se presenti
  // percorso = percorso.replace(/^\[|\]$/g, '');
 
@@ -78,6 +78,10 @@ function assegnaValoreAJson(json, percorso, nuovoValore) {
   const chiavi = percorso.split('.');
 
   let oggetto = json;
+  let Filters = false;
+  if (filters != ""){
+    Filters = true;
+  }
 
   for (let i = 0; i < chiavi.length; i++) {
     if (i == 0){
@@ -98,7 +102,13 @@ function assegnaValoreAJson(json, percorso, nuovoValore) {
 
       if (i === chiavi.length - 1) {
         // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
-        oggetto[nomeArray][indice] = nuovoValore;
+        if (Filters){
+          let objectKey = Object.keys(nuovoJSON)[0];
+          let newJSON = nuovoJSON[objectKey];
+          let result = mergeJson(oggetto[nomeArray][indice], newJSON)
+        } else {
+          oggetto[nomeArray][indice] = nuovoValore;
+        }
       } else {
         // Altrimenti, prosegui la navigazione dell'oggetto
         oggetto = oggetto[nomeArray][indice];
@@ -107,7 +117,13 @@ function assegnaValoreAJson(json, percorso, nuovoValore) {
       // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
       if (i === chiavi.length - 1) {
         // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
-        oggetto[chiave] = nuovoValore;
+        if (Filters){
+          let objectKey = Object.keys(nuovoJSON)[0];
+          let newJSON = nuovoJSON[objectKey];
+          let result = mergeJson(oggetto[nomeArray], newJSON)
+        } else {
+          oggetto[chiave] = nuovoValore;
+        }
       } else {
         // Altrimenti, prosegui la navigazione dell'oggetto
         oggetto = oggetto[chiave];
@@ -117,4 +133,24 @@ function assegnaValoreAJson(json, percorso, nuovoValore) {
   }
 }
 
- 
+function mergeJson(target, source) {
+  if (Array.isArray(source)) {
+    // Se source è un array, assumiamo che sia un array di oggetti
+    for (let i = 0; i < source.length; i++) {
+      mergeJson(target, source[i]);
+    }
+  } else if (typeof source === 'object') {
+    for (const key in source) {
+      if (typeof source[key] === 'object') {
+        if (target[key] && typeof target[key] === 'object') {
+          mergeJson(target[key], source[key]);
+        }
+      } else {
+        const sourceValue = source[key];
+        if (target[key] !== undefined) {
+          target[key] = sourceValue;
+        }
+      }
+    }
+  }
+}

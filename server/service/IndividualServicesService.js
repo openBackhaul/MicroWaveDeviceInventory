@@ -41,9 +41,93 @@ const { getIndexAliasAsync, createResultArray, elasticsearchService } = require(
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let newApplicationName = body["new-application-name"];
+      let newReleaseNumber = body["new-application-release"];
+      let newAddress = body["new-application-address"];
+      let newPort = body["new-application-port"];
+      let newProtocol = body['new-application-protocol'];
+
+      let newReleaseHttpClientLtpUuid = await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease();
+      let newReleaseHttpUuid = newReleaseHttpClientLtpUuid.httpClientUuid;
+      let newReleaseTcpUuid = newReleaseHttpClientLtpUuid.tcpClientUuid;
+
+      /**
+       * Current values in NewRelease client.
+       */
+      let currentApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpUuid);
+      let currentReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpUuid);
+      let currentRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpUuid);
+      let currentRemoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpUuid);
+      let currentRemotePort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpUuid);
+
+      /**
+       * Update only data that needs to be updated, comparing incoming values with values set in
+       * NewRelease client.
+       */
+      let isUpdated = {};
+      let isDataTransferRequired = true;
+      if (newApplicationName !== currentApplicationName) {
+        isUpdated.applicationName = await httpClientInterface.setApplicationNameAsync(newReleaseHttpUuid, newApplicationName)
+      }
+      if (newReleaseNumber !== currentReleaseNumber) {
+        isUpdated.releaseNumber = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpUuid, newReleaseNumber);
+      }
+      if (isAddressChanged(currentRemoteAddress, newAddress)) {
+        isUpdated.address = await tcpClientInterface.setRemoteAddressAsync(newReleaseTcpUuid, newAddress);
+      }
+      if (newPort !== currentRemotePort) {
+        isUpdated.port = await tcpClientInterface.setRemotePortAsync(newReleaseTcpUuid, newPort);
+      }
+      if (newProtocol !== currentRemoteProtocol) {
+        isUpdated.protocol = await tcpClientInterface.setRemoteProtocolAsync(newReleaseTcpUuid, newProtocol);
+      }
+
+
+      /**
+       * Updating the Configuration Status based on the application information updated
+       */
+      let tcpClientConfigurationStatus = new ConfigurationStatus(
+        newReleaseTcpUuid,
+        '',
+        (isUpdated.address || isUpdated.port || isUpdated.protocol)
+      );
+      let httpClientConfigurationStatus = new ConfigurationStatus(
+        newReleaseHttpUuid,
+        '',
+        (isUpdated.applicationName || isUpdated.releaseNumber)
+      );
+
+      let logicalTerminationPointConfigurationStatus = new LogicalTerminationPointConfigurationStatus(
+        false,
+        httpClientConfigurationStatus,
+        [tcpClientConfigurationStatus]
+      );
+
+      /****************************************************************************************
+       * Prepare attributes to automate forwarding-construct
+       ****************************************************************************************/
+      let forwardingAutomationInputList = await prepareALTForwardingAutomation.getALTForwardingAutomationInputAsync(
+        logicalTerminationPointConfigurationStatus,
+        undefined
+      );
+      ForwardingAutomationService.automateForwardingConstructAsync(
+        operationServerName,
+        forwardingAutomationInputList,
+        user,
+        xCorrelator,
+        traceIndicator,
+        customerJourney
+      );
+
+      softwareUpgrade.upgradeSoftwareVersion(isDataTransferRequired, newReleaseHttpUuid, user, xCorrelator, traceIndicator, customerJourney, forwardingAutomationInputList.length)
+        .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 

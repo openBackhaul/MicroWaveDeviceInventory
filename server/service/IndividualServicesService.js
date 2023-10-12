@@ -41,9 +41,93 @@ const { getIndexAliasAsync, createResultArray, elasticsearchService } = require(
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let newApplicationName = body["new-application-name"];
+      let newReleaseNumber = body["new-application-release"];
+      let newAddress = body["new-application-address"];
+      let newPort = body["new-application-port"];
+      let newProtocol = body['new-application-protocol'];
+
+      let newReleaseHttpClientLtpUuid = await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease();
+      let newReleaseHttpUuid = newReleaseHttpClientLtpUuid.httpClientUuid;
+      let newReleaseTcpUuid = newReleaseHttpClientLtpUuid.tcpClientUuid;
+
+      /**
+       * Current values in NewRelease client.
+       */
+      let currentApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpUuid);
+      let currentReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpUuid);
+      let currentRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpUuid);
+      let currentRemoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpUuid);
+      let currentRemotePort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpUuid);
+
+      /**
+       * Update only data that needs to be updated, comparing incoming values with values set in
+       * NewRelease client.
+       */
+      let isUpdated = {};
+      let isDataTransferRequired = true;
+      if (newApplicationName !== currentApplicationName) {
+        isUpdated.applicationName = await httpClientInterface.setApplicationNameAsync(newReleaseHttpUuid, newApplicationName)
+      }
+      if (newReleaseNumber !== currentReleaseNumber) {
+        isUpdated.releaseNumber = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpUuid, newReleaseNumber);
+      }
+      if (isAddressChanged(currentRemoteAddress, newAddress)) {
+        isUpdated.address = await tcpClientInterface.setRemoteAddressAsync(newReleaseTcpUuid, newAddress);
+      }
+      if (newPort !== currentRemotePort) {
+        isUpdated.port = await tcpClientInterface.setRemotePortAsync(newReleaseTcpUuid, newPort);
+      }
+      if (newProtocol !== currentRemoteProtocol) {
+        isUpdated.protocol = await tcpClientInterface.setRemoteProtocolAsync(newReleaseTcpUuid, newProtocol);
+      }
+
+
+      /**
+       * Updating the Configuration Status based on the application information updated
+       */
+      let tcpClientConfigurationStatus = new ConfigurationStatus(
+        newReleaseTcpUuid,
+        '',
+        (isUpdated.address || isUpdated.port || isUpdated.protocol)
+      );
+      let httpClientConfigurationStatus = new ConfigurationStatus(
+        newReleaseHttpUuid,
+        '',
+        (isUpdated.applicationName || isUpdated.releaseNumber)
+      );
+
+      let logicalTerminationPointConfigurationStatus = new LogicalTerminationPointConfigurationStatus(
+        false,
+        httpClientConfigurationStatus,
+        [tcpClientConfigurationStatus]
+      );
+
+      /****************************************************************************************
+       * Prepare attributes to automate forwarding-construct
+       ****************************************************************************************/
+      let forwardingAutomationInputList = await prepareALTForwardingAutomation.getALTForwardingAutomationInputAsync(
+        logicalTerminationPointConfigurationStatus,
+        undefined
+      );
+      ForwardingAutomationService.automateForwardingConstructAsync(
+        operationServerName,
+        forwardingAutomationInputList,
+        user,
+        xCorrelator,
+        traceIndicator,
+        customerJourney
+      );
+
+      softwareUpgrade.upgradeSoftwareVersion(isDataTransferRequired, newReleaseHttpUuid, user, xCorrelator, traceIndicator, customerJourney, forwardingAutomationInputList.length)
+        .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
@@ -61,17 +145,34 @@ exports.bequeathYourDataAndDie = function(url,body,user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_12
  **/
-exports.getCachedActualEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:actual-equipment" : { }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = url.match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      var correctMountname = mountname.replace(/=.*?\+/g, "=");
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+    let objectKey = Object.keys(finalJson)[0];
+    finalJson = finalJson[objectKey];
+    if (myFields != undefined) {
+      var objList = [];
+      var rootObj = { value: "root", children: [] }
+      var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+      objList.push(rootObj)
+      fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+    }
+    returnObject[objectKey] = finalJson;
+    resolve(returnObject);
   });
 }
 

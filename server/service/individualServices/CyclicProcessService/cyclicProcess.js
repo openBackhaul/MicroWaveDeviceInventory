@@ -105,11 +105,11 @@ function addNextDeviceListElementInWindow() {
             counter += 1
             let newDeviceListIndex = getNextDeviceListIndex();
             if (newDeviceListIndex == -1) {
-                printLog('+++++ addNextDeviceListElementInWindow: newDeviceListIndex = -1 +++++', print_log_level >= 2)
+                printLog('+++++ addNextDeviceListElementInWindow: newDeviceListIndex = -1 +++++', print_log_level >= 3)
                 return false
             }
             if (checkDeviceExistsInSlidingWindow(deviceList[newDeviceListIndex]['node-id']) != DEVICE_NOT_PRESENT) {
-                printLog('+++++ Element ' + deviceList[newDeviceListIndex]['node-id'] + ' (indice: ' + newDeviceListIndex + ') already exists in Sliding Window +++++', print_log_level >= 2)
+                printLog('+++++ Element ' + deviceList[newDeviceListIndex]['node-id'] + ' (indice: ' + newDeviceListIndex + ') already exists in Sliding Window +++++', print_log_level >= 3)
             } else {
                 slidingWindow.push(prepareObjectForWindow(newDeviceListIndex));
                 elementAdded = true;                
@@ -249,7 +249,7 @@ async function requestMessage(index) {
                     requestMessage(elementIndex);                
                 }                
             } else {
-                printLog('****************************************************************************', print_log_level >= 2);
+                printLog('****************************************************************************************************', print_log_level >= 2);
                 let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
                 if (elementIndex == DEVICE_NOT_PRESENT) {                
                     printLog('Response from element ' + retObj['node-id'] + ' not more present in Sliding Window. Ignore that.', print_log_level >= 2);
@@ -264,7 +264,7 @@ async function requestMessage(index) {
                         requestMessage(slidingWindow.length-1);
                     }
                 }
-                printLog('****************************************************************************', print_log_level >= 2);
+                printLog('****************************************************************************************************', print_log_level >= 2);
             }            
         })
     } catch(error) {
@@ -441,18 +441,41 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
             return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
         }
         
+        function filterConnectedDevices(deviceList){
+            return deviceList.filter(device =>{
+                return device['netconf-node-topology:connection-status'] === 'connected';
+            })
+        }
+
         slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
         responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
         maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
 
         print_log_level = logging_level;
-        let newDeviceList = await individualServices.getLiveDeviceList();
-        if (newDeviceList == false) {
+        let odlDeviceList = await individualServices.getLiveDeviceList();
+        
+        if (odlDeviceList == false) {
             return false;
         } else {
-            deviceList = newDeviceList;
+            odlDeviceList = filterConnectedDevices(odlDeviceList);
+
+            let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
+            if (elasticsearchList == undefined) {
+                let odlDeviceListString = JSON.stringify(odlDeviceList);
+                let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+            } else {
+                // Comparison logic (to do)
+
+                // For this release overwrite 
+                let odlDeviceListString = JSON.stringify(odlDeviceList);
+                let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+            }
+
+            deviceList = odlDeviceList;            
             slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
             printLog(printList('Device List', deviceList), print_log_level >= 1);
+
+
             lastDeviceListIndex = -1;
             for (let i = 0; i < slidingWindowSize; i++) {
                 addNextDeviceListElementInWindow();
@@ -461,7 +484,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
             }
         }
         printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
-        startTtlChecking(false);
+        startTtlChecking();
         return true;
     } catch(error) {
         console.log('Error in startCyclingProcess: ' + error);

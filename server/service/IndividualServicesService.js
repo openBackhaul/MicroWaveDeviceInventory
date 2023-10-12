@@ -2422,7 +2422,7 @@ exports.getLiveDeviceList = function(url) {
         const finalUrl = appNameAndUuidFromForwarding[0].url;
         const Authorization = appNameAndUuidFromForwarding[0].key;
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        let deviceList = result["data"]["network-topology:network-topology"]["topology"][0].node;
+        let deviceList = result["data"]["network-topology:topology"][0].node;
         console.log(deviceList)
         resolve(deviceList)
     });
@@ -2460,7 +2460,7 @@ exports.getLiveControlConstruct = function(url, user,originator,xCorrelator,trac
           let jsonObj = result.data;
           modificaUUID(jsonObj, correctCc);
           //const newJSON = JSON.stringify(jsonObj, null, 2);        
-
+          
           let pippo = await recordRequest(jsonObj, correctCc);
           resolve(jsonObj)
         }
@@ -4128,6 +4128,21 @@ exports.regardDeviceObjectDeletion = function(url,body,user,originator,xCorrelat
 }
 
 
+exports.writeDeviceListToElasticsearch = function(deviceList) {
+    return new Promise(async function(resolve, reject) {
+        let deviceListToWrite = '{"deviceList":' + deviceList + '}'
+        let result = await recordRequest(deviceListToWrite, "DeviceList");
+        resolve(true);
+    })
+}
+
+exports.readDeviceListFromElasticsearch = function() {
+  return new Promise(async function(resolve, reject) {
+      let result = await ReadRecords("DeviceList")
+      resolve(result);
+  })
+}
+
 
 async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList() {
     const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
@@ -4147,7 +4162,8 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
     
     let applicationNameList = [];
     //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
-    let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+    //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+    let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
     for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
         const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
         const httpClientLtpUuid = httpLtpUuidList[0];
@@ -4315,28 +4331,28 @@ async function recordRequest (body, cc) {
   }
 }
 
-async function listRecords () {
+async function ReadRecords(cc) {
   let size = 100;
   let from = 0;
-  let query = { 
-    match_all: {}
+  let query = {
+    term: {
+      _id: cc
+    }
   };
-  if (size + from <= 10000) {
-    let indexAlias = await getIndexAliasAsync();
-    let client = await elasticsearchService.getClient(false);
-    const result = await client.search({
-      index: indexAlias,
-      from: from,
-      size: size,
-      body: {
-        query: query
-      }
-    });
-    console.log(result.body.hits);
-    const resultArray = createResultArray(result);
-    return { "response": resultArray, "took": result.body.took };
-  }
-  return await elasticsearchService.scroll(from, size, query);
+
+  let indexAlias = await getIndexAliasAsync();
+  let client = await elasticsearchService.getClient(false);
+  const result = await client.search({
+    index: indexAlias,
+    body: {
+      query: query
+    }
+  });
+
+  const resultArray = createResultArray(result);
+
+  return (resultArray[0])
+
 }
 
 // Function to modify gli UUID

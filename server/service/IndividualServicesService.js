@@ -145,17 +145,34 @@ exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_12
  **/
-exports.getCachedActualEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:actual-equipment" : { }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = url.match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      var correctMountname = mountname.replace(/=.*?\+/g, "=");
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+    let objectKey = Object.keys(finalJson)[0];
+    finalJson = finalJson[objectKey];
+    if (myFields != undefined) {
+      var objList = [];
+      var rootObj = { value: "root", children: [] }
+      var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+      objList.push(rootObj)
+      fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+    }
+    returnObject[objectKey] = finalJson;
+    resolve(returnObject);
   });
 }
 

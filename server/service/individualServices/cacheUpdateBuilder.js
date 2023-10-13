@@ -1,7 +1,8 @@
 exports.cacheUpdateBuilder= function (url, originalJSON, toInsert, filters) {
-
+  const urlParts = url.split("?fields=");
+  const myFields = urlParts[1];
     // Analizza la URL per estrarre i segmenti
-  const urlSegments = url.split('/').filter(segment => segment.trim() !== '');
+  const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
 
   let currentJSON = originalJSON;
   let objectKey = Object.keys(currentJSON)[0];
@@ -60,21 +61,20 @@ exports.cacheUpdateBuilder= function (url, originalJSON, toInsert, filters) {
     }
     i +=1;
   }
-
+  if (lastKey == null){
+    lastKey = "["+objectKey+"]";
+  }
   // Verifica se c'è un'ultima chiave e la sostituisce con il nuovo JSON
   if (lastKey) {
     console.log(originalJSON[lastKey])
-    assegnaValoreAJson (originalJSON, lastKey, toInsert, filters);
+    assegnaValoreAJson (originalJSON, lastKey, toInsert, myFields);
     //console.log(JSON.stringify(jsonOriginale, null, 2));
   }
 };
 
 
-function assegnaValoreAJson(json, percorso, nuovoValore, filters) {
-  // Rimuovi le parentesi quadre iniziali e finali se presenti
- // percorso = percorso.replace(/^\[|\]$/g, '');
+function assegnaValoreAJson(json, percorso, nuovoJSON, filters) {
 
-  // Dividi il percorso in un array di chiavi utilizzando '.'
   const chiavi = percorso.split('.');
 
   let oggetto = json;
@@ -90,6 +90,17 @@ function assegnaValoreAJson(json, percorso, nuovoValore, filters) {
       const parentesiQuadraChiusaIndex = chiave.indexOf(']');
       const nomeArray = chiave.substring(1, parentesiQuadraChiusaIndex);
       oggetto = oggetto[nomeArray];
+      // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
+      if (i === chiavi.length - 1) {
+        // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
+        if (Filters){
+          let objectKey = Object.keys(nuovoJSON)[0];
+          let newJSON = nuovoJSON[objectKey];
+          let result = mergeJson(oggetto, newJSON)
+        } else {
+          oggetto[chiave] = nuovoValore;
+        }
+      }
     } else {
     const chiave = chiavi[i];
     const parentesiQuadraApertaIndex = chiave.indexOf('[');

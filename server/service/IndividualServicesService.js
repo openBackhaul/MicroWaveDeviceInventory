@@ -4181,6 +4181,83 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
   });
 }
 
+exports.getLiveDeviceList = function(url) {
+  return new Promise(async function(resolve, reject) {
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList();
+    const finalUrl = appNameAndUuidFromForwarding[0].url;
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization);
+    let deviceList = result["data"]["network-topology:topology"][0].node;
+    console.log(deviceList);
+    resolve(deviceList);
+  });
+}
+
+exports.writeDeviceListToElasticsearch = function(deviceList) {
+  return new Promise(async function(resolve, reject) {
+    let deviceListToWrite = '{"deviceList":' + deviceList + '}';
+    let result = await recordRequest(deviceListToWrite, "DeviceList");
+    resolve(true);
+  })
+}
+
+exports.readDeviceListFromElasticsearch = function() {
+  return new Promise(async function(resolve, reject) {
+    let result = await ReadRecords("DeviceList");
+    resolve(result);
+  })
+}
+
+
+async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList() {
+  const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  if (forwardingConstruct === undefined) {
+      return null;
+  }
+
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+          fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+  }
+  
+  let applicationNameList = [];
+  //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+  //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+  let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
+  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+      const httpClientLtpUuid = httpLtpUuidList[0];
+      let applicationName = 'api';
+      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+      let url = "";
+      let tcpConn = "";
+      if (opLtpUuid.includes("odl")) { 
+          applicationName = "OpenDayLight";
+          tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+          url = tcpConn + urlForOdl;
+      }
+      const applicationNameData = applicationName === undefined ? {
+          applicationName: null,
+          httpClientLtpUuid,
+          url: null, key: null
+      } : {
+          applicationName,
+          httpClientLtpUuid,
+          url, key
+      };
+      applicationNameList.push(applicationNameData);      
+  }
+  return applicationNameList;
+}
+
+
+
 /* List of functions needed for individual services*/
 
 

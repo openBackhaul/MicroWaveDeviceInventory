@@ -4143,6 +4143,15 @@ exports.readDeviceListFromElasticsearch = function() {
   })
 }
 
+exports.deleteRecord = function(cc) {
+  return new Promise(async function(resolve, reject) {
+    let client = await elasticsearchService.getClient(false);
+    const result = await client.indices.delete({
+      index: cc
+    })
+    resolve(result);
+  })
+}
 
 async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList() {
     const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
@@ -4354,6 +4363,7 @@ async function ReadRecords(cc) {
   return (resultArray[0])
 
 }
+
 
 // Function to modify gli UUID
 function modificaUUID(obj, mountName) {

@@ -26,7 +26,10 @@ const OperationClientInterface = require('onf-core-model-ap/applicationPattern/o
 const genericRepresentation = require('onf-core-model-ap-bs/basicServices/GenericRepresentation');
 const createHttpError = require('http-errors');
 const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/services/models/TcpObject');
-const RestClient = require('./individualServices/rest/client/dispacher')
+const RestClient = require('./individualServices/rest/client/dispacher');
+const cacheResponse = require('./individualServices/cacheResponseBuilder');
+const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
+const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
 
@@ -148,30 +151,40 @@ exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrela
 exports.getCachedActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     const myFields = user;
+    url = decodeURIComponent(url);
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = url.match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     if (mountname.indexOf("+") != -1) {
-      var correctMountname = mountname.replace(/=.*?\+/g, "=");
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
       correctMountname = mountname;
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
     let result = await ReadRecords(correctMountname);
-    let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
-    let objectKey = Object.keys(finalJson)[0];
-    finalJson = finalJson[objectKey];
-    if (myFields != undefined) {
-      var objList = [];
-      var rootObj = { value: "root", children: [] }
-      var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-      objList.push(rootObj)
-      fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
     }
-    returnObject[objectKey] = finalJson;
     resolve(returnObject);
   });
 }
@@ -191,12 +204,12 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_31
  **/
-exports.getCachedAirInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-capability" : { }
-};
+      "air-interface-2-0:air-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -220,12 +233,12 @@ exports.getCachedAirInterfaceCapability = function(url,user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_32
  **/
-exports.getCachedAirInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-configuration" : { }
-};
+      "air-interface-2-0:air-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -249,12 +262,12 @@ exports.getCachedAirInterfaceConfiguration = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_34
  **/
-exports.getCachedAirInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-historical-performances" : { }
-};
+      "air-interface-2-0:air-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -278,12 +291,12 @@ exports.getCachedAirInterfaceHistoricalPerformances = function(url,user,originat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_33
  **/
-exports.getCachedAirInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-status" : { }
-};
+      "air-interface-2-0:air-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -305,12 +318,12 @@ exports.getCachedAirInterfaceStatus = function(url,user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_4
  **/
-exports.getCachedAlarmCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:alarm-capability" : { }
-};
+      "alarms-1-0:alarm-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -332,12 +345,12 @@ exports.getCachedAlarmCapability = function(url,user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_5
  **/
-exports.getCachedAlarmConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:alarm-configuration" : { }
-};
+      "alarms-1-0:alarm-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -359,12 +372,12 @@ exports.getCachedAlarmConfiguration = function(url,user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_7
  **/
-exports.getCachedAlarmEventRecords = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:alarm-event-records" : { }
-};
+      "alarms-1-0:alarm-event-records": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -387,12 +400,12 @@ exports.getCachedAlarmEventRecords = function(url,user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_19
  **/
-exports.getCachedCoChannelProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "co-channel-profile-1-0:co-channel-profile-capability" : { }
-};
+      "co-channel-profile-1-0:co-channel-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -415,12 +428,12 @@ exports.getCachedCoChannelProfileCapability = function(url,user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_20
  **/
-exports.getCachedCoChannelProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "co-channel-profile-1-0:co-channel-profile-configuration" : { }
-};
+      "co-channel-profile-1-0:co-channel-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -444,21 +457,44 @@ exports.getCachedCoChannelProfileConfiguration = function(url,user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_9
  **/
-exports.getCachedConnector = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:connector" : [ {
-    "local-id" : "local-id"
-  }, {
-    "local-id" : "local-id"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedConnector = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -477,21 +513,44 @@ exports.getCachedConnector = function(url,user,originator,xCorrelator,traceIndic
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_10
  **/
-exports.getCachedContainedHolder = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:contained-holder" : [ {
-    "local-id" : "local-id"
-  }, {
-    "local-id" : "local-id"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedContainedHolder = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -508,165 +567,44 @@ exports.getCachedContainedHolder = function(url,user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_3
  **/
-exports.getCachedControlConstruct = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:control-construct" : [ {
-    "firmware-1-0:firmware-collection" : {
-      "firmware-component-list" : [ {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
-        }
-      }, {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
-        }
-      } ]
-    },
-    "profile-collection" : {
-      "profile" : [ "", "" ]
-    },
-    "alarms-1-0:alarm-pac" : {
-      "alarm-configuration" : { },
-      "alarm-event-records" : { },
-      "current-alarms" : { },
-      "alarm-capability" : { }
-    },
-    "equipment" : [ {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    }, {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    } ],
-    "logical-termination-point" : [ {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    }, {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    } ],
-    "uuid" : "uuid"
-  }, {
-    "firmware-1-0:firmware-collection" : {
-      "firmware-component-list" : [ {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
-        }
-      }, {
-        "local-id" : "local-id",
-        "firmware-component-pac" : {
-          "firmware-component-capability" : { },
-          "firmware-component-status" : { }
-        }
-      } ]
-    },
-    "profile-collection" : {
-      "profile" : [ "", "" ]
-    },
-    "alarms-1-0:alarm-pac" : {
-      "alarm-configuration" : { },
-      "alarm-event-records" : { },
-      "current-alarms" : { },
-      "alarm-capability" : { }
-    },
-    "equipment" : [ {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    }, {
-      "contained-holder" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "actual-equipment" : { },
-      "connector" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "expected-equipment" : [ {
-        "local-id" : "local-id"
-      }, {
-        "local-id" : "local-id"
-      } ],
-      "uuid" : "uuid"
-    } ],
-    "logical-termination-point" : [ {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    }, {
-      "ltp-augment-1-0:ltp-augment-pac" : { },
-      "layer-protocol" : [ "", "" ],
-      "embedded-clock" : [ { }, { } ],
-      "uuid" : "uuid"
-    } ],
-    "uuid" : "uuid"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -683,12 +621,12 @@ exports.getCachedControlConstruct = function(url,user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_6
  **/
-exports.getCachedCurrentAlarms = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:current-alarms" : { }
-};
+      "alarms-1-0:current-alarms": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -711,53 +649,44 @@ exports.getCachedCurrentAlarms = function(url,user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_8
  **/
-exports.getCachedEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:equipment" : [ {
-    "contained-holder" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "actual-equipment" : { },
-    "connector" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "expected-equipment" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "uuid" : "uuid"
-  }, {
-    "contained-holder" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "actual-equipment" : { },
-    "connector" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "expected-equipment" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "uuid" : "uuid"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -776,12 +705,12 @@ exports.getCachedEquipment = function(url,user,originator,xCorrelator,traceIndic
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getCachedEthernetContainerCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-capability" : { }
-};
+      "ethernet-container-2-0:ethernet-container-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -805,12 +734,12 @@ exports.getCachedEthernetContainerCapability = function(url,user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getCachedEthernetContainerConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-configuration" : { }
-};
+      "ethernet-container-2-0:ethernet-container-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -834,12 +763,12 @@ exports.getCachedEthernetContainerConfiguration = function(url,user,originator,x
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_38
  **/
-exports.getCachedEthernetContainerHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-historical-performances" : { }
-};
+      "ethernet-container-2-0:ethernet-container-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -863,12 +792,12 @@ exports.getCachedEthernetContainerHistoricalPerformances = function(url,user,ori
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_37
  **/
-exports.getCachedEthernetContainerStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-status" : { }
-};
+      "ethernet-container-2-0:ethernet-container-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -892,21 +821,44 @@ exports.getCachedEthernetContainerStatus = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_11
  **/
-exports.getCachedExpectedEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:expected-equipment" : [ {
-    "local-id" : "local-id"
-  }, {
-    "local-id" : "local-id"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -923,26 +875,26 @@ exports.getCachedExpectedEquipment = function(url,user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_13
  **/
-exports.getCachedFirmwareCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-collection" : {
-    "firmware-component-list" : [ {
-      "local-id" : "local-id",
-      "firmware-component-pac" : {
-        "firmware-component-capability" : { },
-        "firmware-component-status" : { }
+      "firmware-1-0:firmware-collection": {
+        "firmware-component-list": [{
+          "local-id": "local-id",
+          "firmware-component-pac": {
+            "firmware-component-capability": {},
+            "firmware-component-status": {}
+          }
+        }, {
+          "local-id": "local-id",
+          "firmware-component-pac": {
+            "firmware-component-capability": {},
+            "firmware-component-status": {}
+          }
+        }]
       }
-    }, {
-      "local-id" : "local-id",
-      "firmware-component-pac" : {
-        "firmware-component-capability" : { },
-        "firmware-component-status" : { }
-      }
-    } ]
-  }
-};
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -965,12 +917,12 @@ exports.getCachedFirmwareCollection = function(url,user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_15
  **/
-exports.getCachedFirmwareComponentCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-component-capability" : { }
-};
+      "firmware-1-0:firmware-component-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -993,24 +945,24 @@ exports.getCachedFirmwareComponentCapability = function(url,user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_14
  **/
-exports.getCachedFirmwareComponentList = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-component-list" : [ {
-    "local-id" : "local-id",
-    "firmware-component-pac" : {
-      "firmware-component-capability" : { },
-      "firmware-component-status" : { }
-    }
-  }, {
-    "local-id" : "local-id",
-    "firmware-component-pac" : {
-      "firmware-component-capability" : { },
-      "firmware-component-status" : { }
-    }
-  } ]
-};
+      "firmware-1-0:firmware-component-list": [{
+        "local-id": "local-id",
+        "firmware-component-pac": {
+          "firmware-component-capability": {},
+          "firmware-component-status": {}
+        }
+      }, {
+        "local-id": "local-id",
+        "firmware-component-pac": {
+          "firmware-component-capability": {},
+          "firmware-component-status": {}
+        }
+      }]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1033,12 +985,12 @@ exports.getCachedFirmwareComponentList = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_16
  **/
-exports.getCachedFirmwareComponentStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-component-status" : { }
-};
+      "firmware-1-0:firmware-component-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1062,12 +1014,12 @@ exports.getCachedFirmwareComponentStatus = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_39
  **/
-exports.getCachedHybridMwStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-capability" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1091,12 +1043,12 @@ exports.getCachedHybridMwStructureCapability = function(url,user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_40
  **/
-exports.getCachedHybridMwStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-configuration" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1120,12 +1072,12 @@ exports.getCachedHybridMwStructureConfiguration = function(url,user,originator,x
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_42
  **/
-exports.getCachedHybridMwStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-historical-performances" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1149,12 +1101,12 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function(url,user,ori
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_41
  **/
-exports.getCachedHybridMwStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-status" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1177,22 +1129,22 @@ exports.getCachedHybridMwStructureStatus = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getCachedLogicalTerminationPoint = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "core-model-1-4:logical-termination-point" : [ {
-    "ltp-augment-1-0:ltp-augment-pac" : { },
-    "layer-protocol" : [ "", "" ],
-    "embedded-clock" : [ { }, { } ],
-    "uuid" : "uuid"
-  }, {
-    "ltp-augment-1-0:ltp-augment-pac" : { },
-    "layer-protocol" : [ "", "" ],
-    "embedded-clock" : [ { }, { } ],
-    "uuid" : "uuid"
-  } ]
-};
+      "core-model-1-4:logical-termination-point": [{
+        "ltp-augment-1-0:ltp-augment-pac": {},
+        "layer-protocol": ["", ""],
+        "embedded-clock": [{}, {}],
+        "uuid": "uuid"
+      }, {
+        "ltp-augment-1-0:ltp-augment-pac": {},
+        "layer-protocol": ["", ""],
+        "embedded-clock": [{}, {}],
+        "uuid": "uuid"
+      }]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1215,12 +1167,12 @@ exports.getCachedLogicalTerminationPoint = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getCachedLtpAugment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ltp-augment-1-0:ltp-augment-pac" : { }
-};
+      "ltp-augment-1-0:ltp-augment-pac": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1244,12 +1196,12 @@ exports.getCachedLtpAugment = function(url,user,originator,xCorrelator,traceIndi
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_43
  **/
-exports.getCachedMacInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-capability" : { }
-};
+      "mac-interface-1-0:mac-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1273,12 +1225,12 @@ exports.getCachedMacInterfaceCapability = function(url,user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_44
  **/
-exports.getCachedMacInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-configuration" : { }
-};
+      "mac-interface-1-0:mac-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1302,12 +1254,12 @@ exports.getCachedMacInterfaceConfiguration = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_46
  **/
-exports.getCachedMacInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-historical-performances" : { }
-};
+      "mac-interface-1-0:mac-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1331,12 +1283,12 @@ exports.getCachedMacInterfaceHistoricalPerformances = function(url,user,originat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_45
  **/
-exports.getCachedMacInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-status" : { }
-};
+      "mac-interface-1-0:mac-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1359,12 +1311,12 @@ exports.getCachedMacInterfaceStatus = function(url,user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_21
  **/
-exports.getCachedPolicingProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedPolicingProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "policing-profile-1-0:policing-profile-capability" : { }
-};
+      "policing-profile-1-0:policing-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1387,12 +1339,12 @@ exports.getCachedPolicingProfileCapability = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_22
  **/
-exports.getCachedPolicingProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedPolicingProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "policing-profile-1-0:policing-profile-configuration" : { }
-};
+      "policing-profile-1-0:policing-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1415,12 +1367,12 @@ exports.getCachedPolicingProfileConfiguration = function(url,user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_18
  **/
-exports.getCachedProfile = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "core-model-1-4:profile" : [ "", "" ]
-};
+      "core-model-1-4:profile": ["", ""]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1442,14 +1394,14 @@ exports.getCachedProfile = function(url,user,originator,xCorrelator,traceIndicat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_17
  **/
-exports.getCachedProfileCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "core-model-1-4:profile-collection" : {
-    "profile" : [ "", "" ]
-  }
-};
+      "core-model-1-4:profile-collection": {
+        "profile": ["", ""]
+      }
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1473,12 +1425,12 @@ exports.getCachedProfileCollection = function(url,user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_47
  **/
-exports.getCachedPureEthernetStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedPureEthernetStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-capability" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1502,12 +1454,12 @@ exports.getCachedPureEthernetStructureCapability = function(url,user,originator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_48
  **/
-exports.getCachedPureEthernetStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedPureEthernetStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-configuration" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1531,12 +1483,12 @@ exports.getCachedPureEthernetStructureConfiguration = function(url,user,originat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_50
  **/
-exports.getCachedPureEthernetStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1560,12 +1512,12 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function(url,user
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_49
  **/
-exports.getCachedPureEthernetStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedPureEthernetStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-status" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1588,12 +1540,12 @@ exports.getCachedPureEthernetStructureStatus = function(url,user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_23
  **/
-exports.getCachedQosProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedQosProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "qos-profile-1-0:qos-profile-capability" : { }
-};
+      "qos-profile-1-0:qos-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1616,12 +1568,12 @@ exports.getCachedQosProfileCapability = function(url,user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_24
  **/
-exports.getCachedQosProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedQosProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "qos-profile-1-0:qos-profile-configuration" : { }
-};
+      "qos-profile-1-0:qos-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1644,12 +1596,12 @@ exports.getCachedQosProfileConfiguration = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_25
  **/
-exports.getCachedSchedulerProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedSchedulerProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "scheduler-profile-1-0:scheduler-profile-capability" : { }
-};
+      "scheduler-profile-1-0:scheduler-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1672,12 +1624,12 @@ exports.getCachedSchedulerProfileCapability = function(url,user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_26
  **/
-exports.getCachedSchedulerProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedSchedulerProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "scheduler-profile-1-0:scheduler-profile-configuration" : { }
-};
+      "scheduler-profile-1-0:scheduler-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1701,12 +1653,12 @@ exports.getCachedSchedulerProfileConfiguration = function(url,user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_51
  **/
-exports.getCachedVlanInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-capability" : { }
-};
+      "vlan-interface-1-0:vlan-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1730,12 +1682,12 @@ exports.getCachedVlanInterfaceCapability = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_52
  **/
-exports.getCachedVlanInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-configuration" : { }
-};
+      "vlan-interface-1-0:vlan-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1759,12 +1711,12 @@ exports.getCachedVlanInterfaceConfiguration = function(url,user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_54
  **/
-exports.getCachedVlanInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-historical-performances" : { }
-};
+      "vlan-interface-1-0:vlan-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1788,12 +1740,12 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function(url,user,origina
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_53
  **/
-exports.getCachedVlanInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-status" : { }
-};
+      "vlan-interface-1-0:vlan-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1817,12 +1769,12 @@ exports.getCachedVlanInterfaceStatus = function(url,user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_55
  **/
-exports.getCachedWireInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-capability" : { }
-};
+      "wire-interface-2-0:wire-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1846,12 +1798,12 @@ exports.getCachedWireInterfaceCapability = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_56
  **/
-exports.getCachedWireInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWireInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-configuration" : { }
-};
+      "wire-interface-2-0:wire-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1875,12 +1827,12 @@ exports.getCachedWireInterfaceConfiguration = function(url,user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_58
  **/
-exports.getCachedWireInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-historical-performances" : { }
-};
+      "wire-interface-2-0:wire-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1904,12 +1856,12 @@ exports.getCachedWireInterfaceHistoricalPerformances = function(url,user,origina
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_57
  **/
-exports.getCachedWireInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-status" : { }
-};
+      "wire-interface-2-0:wire-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1932,12 +1884,12 @@ exports.getCachedWireInterfaceStatus = function(url,user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_27
  **/
-exports.getCachedWredProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWredProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-profile-1-0:wred-profile-capability" : { }
-};
+      "wred-profile-1-0:wred-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1960,12 +1912,12 @@ exports.getCachedWredProfileCapability = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_28
  **/
-exports.getCachedWredProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWredProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-profile-1-0:wred-profile-configuration" : { }
-};
+      "wred-profile-1-0:wred-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -1988,22 +1940,22 @@ exports.getCachedWredProfileConfiguration = function(url,user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getChachedLogicalTerminationPoint = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getChachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "core-model-1-4:logical-termination-point" : [ {
-    "ltp-augment-1-0:ltp-augment-pac" : { },
-    "layer-protocol" : [ "", "" ],
-    "embedded-clock" : [ { }, { } ],
-    "uuid" : "uuid"
-  }, {
-    "ltp-augment-1-0:ltp-augment-pac" : { },
-    "layer-protocol" : [ "", "" ],
-    "embedded-clock" : [ { }, { } ],
-    "uuid" : "uuid"
-  } ]
-};
+      "core-model-1-4:logical-termination-point": [{
+        "ltp-augment-1-0:ltp-augment-pac": {},
+        "layer-protocol": ["", ""],
+        "embedded-clock": [{}, {}],
+        "uuid": "uuid"
+      }, {
+        "ltp-augment-1-0:ltp-augment-pac": {},
+        "layer-protocol": ["", ""],
+        "embedded-clock": [{}, {}],
+        "uuid": "uuid"
+      }]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2026,12 +1978,12 @@ exports.getChachedLogicalTerminationPoint = function(url,user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getChachedLtpAugment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getChachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ltp-augment-1-0:ltp-augment-pac" : { }
-};
+      "ltp-augment-1-0:ltp-augment-pac": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2054,16 +2006,46 @@ exports.getChachedLtpAugment = function(url,user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_12
  **/
-exports.getLiveActualEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:actual-equipment" : { }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -2083,12 +2065,12 @@ exports.getLiveActualEquipment = function(url,user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_31
  **/
-exports.getLiveAirInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-capability" : { }
-};
+      "air-interface-2-0:air-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2112,12 +2094,12 @@ exports.getLiveAirInterfaceCapability = function(url,user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_32
  **/
-exports.getLiveAirInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-configuration" : { }
-};
+      "air-interface-2-0:air-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2141,12 +2123,12 @@ exports.getLiveAirInterfaceConfiguration = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_59
  **/
-exports.getLiveAirInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-current-performance" : { }
-};
+      "air-interface-2-0:air-interface-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2170,12 +2152,12 @@ exports.getLiveAirInterfaceCurrentPerformance = function(url,user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_34
  **/
-exports.getLiveAirInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-historical-performances" : { }
-};
+      "air-interface-2-0:air-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2199,12 +2181,12 @@ exports.getLiveAirInterfaceHistoricalPerformances = function(url,user,originator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_33
  **/
-exports.getLiveAirInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "air-interface-2-0:air-interface-status" : { }
-};
+      "air-interface-2-0:air-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2226,12 +2208,12 @@ exports.getLiveAirInterfaceStatus = function(url,user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_4
  **/
-exports.getLiveAlarmCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:alarm-capability" : { }
-};
+      "alarms-1-0:alarm-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2253,12 +2235,12 @@ exports.getLiveAlarmCapability = function(url,user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_5
  **/
-exports.getLiveAlarmConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:alarm-configuration" : { }
-};
+      "alarms-1-0:alarm-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2280,12 +2262,12 @@ exports.getLiveAlarmConfiguration = function(url,user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_7
  **/
-exports.getLiveAlarmEventRecords = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:alarm-event-records" : { }
-};
+      "alarms-1-0:alarm-event-records": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2308,12 +2290,12 @@ exports.getLiveAlarmEventRecords = function(url,user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_19
  **/
-exports.getLiveCoChannelProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "co-channel-profile-1-0:co-channel-profile-capability" : { }
-};
+      "co-channel-profile-1-0:co-channel-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2336,12 +2318,12 @@ exports.getLiveCoChannelProfileCapability = function(url,user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_20
  **/
-exports.getLiveCoChannelProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "co-channel-profile-1-0:co-channel-profile-configuration" : { }
-};
+      "co-channel-profile-1-0:co-channel-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2365,20 +2347,46 @@ exports.getLiveCoChannelProfileConfiguration = function(url,user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_9
  **/
-exports.getLiveConnector = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:connector" : [ {
-    "local-id" : "local-id"
-  }, {
-    "local-id" : "local-id"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -2398,35 +2406,50 @@ exports.getLiveConnector = function(url,user,originator,xCorrelator,traceIndicat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_10
  **/
-exports.getLiveContainedHolder = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:contained-holder" : [ {
-    "local-id" : "local-id"
-  }, {
-    "local-id" : "local-id"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
 
-exports.getLiveDeviceList = function(url) {
-    return new Promise(async function(resolve, reject) {
-        const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList()
-        const finalUrl = appNameAndUuidFromForwarding[0].url;
-        const Authorization = appNameAndUuidFromForwarding[0].key;
-        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        let deviceList = result["data"]["network-topology:topology"][0].node;
-        console.log(deviceList)
-        resolve(deviceList)
-    });
-}
 
 /**
  * Provides ControlConstruct from live network
@@ -2440,43 +2463,52 @@ exports.getLiveDeviceList = function(url) {
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_3
  **/
-exports.getLiveControlConstruct = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountname,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields) {
+  return new Promise(async function (resolve, reject) {
+    url = decodeURIComponent(url);
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    
-      let ControlConstruct = url.match(/control-construct=([^/]+)/)[1];
-      if (ControlConstruct.indexOf("+") != -1){
-        var correctCc = ControlConstruct.replace(/=.*?\+/g, "=");
-      } else { 
-        correctCc = ControlConstruct;
-        }
-      const finalUrl = appNameAndUuidFromForwarding[0].url;
-      const Authorization = appNameAndUuidFromForwarding[0].key;
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1){
-        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (result == false){
-          resolve(false);
-        } else {
-          let jsonObj = result.data;
-          modificaUUID(jsonObj, correctCc);
-          //const newJSON = JSON.stringify(jsonObj, null, 2);        
-          
-          let pippo = await recordRequest(jsonObj, correctCc);
-          resolve(jsonObj)
-        }
-      }
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
 
-    /*
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const finalUrl = appNameAndUuidFromForwarding[0].url;
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-  */
-   /*  if (Object.keys(pippo).length > 0) {
-      resolve(pippo[Object.keys(pippo)[0]]);
+    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (ControlConstruct.indexOf("+") != -1) {
+      const parts = ControlConstruct.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
-    } */
+      correctCc = ControlConstruct;
+    }
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (result == false) {
+        resolve(notFoundError());
+      } else if (result.status != 200) {
+        resolve(Error(result.status, result.statusText));
+      } else {
+        let jsonObj = result.data;
+        modificaUUID(jsonObj, correctCc);
+        if (myFields === undefined) {
+          let elapsedTime = await recordRequest(jsonObj, correctCc);
+          let res = cacheResponse.cacheResponseBuilder(finalUrl, jsonObj);
+          resolve(res);
+        } else {
+          let filters = true;
+          // Update record on ES
+          let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+          let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+          // read from ES
+          let result = await ReadRecords(correctCc);
+          // Update json object
+          let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+          // Write updated Json to ES
+          let elapsedTime = await recordRequest(result, correctCc);
+        }
+
+      }
+    }
+
+
   });
 }
 
@@ -2493,12 +2525,12 @@ exports.getLiveControlConstruct = function(url, user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_6
  **/
-exports.getLiveCurrentAlarms = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "alarms-1-0:current-alarms" : { }
-};
+      "alarms-1-0:current-alarms": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2521,52 +2553,46 @@ exports.getLiveCurrentAlarms = function(url,user,originator,xCorrelator,traceInd
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_8
  **/
-exports.getLiveEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:equipment" : [ {
-    "contained-holder" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "actual-equipment" : { },
-    "connector" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "expected-equipment" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "uuid" : "uuid"
-  }, {
-    "contained-holder" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "actual-equipment" : { },
-    "connector" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "expected-equipment" : [ {
-      "local-id" : "local-id"
-    }, {
-      "local-id" : "local-id"
-    } ],
-    "uuid" : "uuid"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -2586,12 +2612,12 @@ exports.getLiveEquipment = function(url,user,originator,xCorrelator,traceIndicat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getLiveEthernetContainerCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-capability" : { }
-};
+      "ethernet-container-2-0:ethernet-container-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2615,12 +2641,12 @@ exports.getLiveEthernetContainerCapability = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getLiveEthernetContainerConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-configuration" : { }
-};
+      "ethernet-container-2-0:ethernet-container-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2644,12 +2670,12 @@ exports.getLiveEthernetContainerConfiguration = function(url,user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_60
  **/
-exports.getLiveEthernetContainerCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveEthernetContainerCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-current-performance" : { }
-};
+      "ethernet-container-2-0:ethernet-container-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2673,12 +2699,12 @@ exports.getLiveEthernetContainerCurrentPerformance = function(url,user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_38
  **/
-exports.getLiveEthernetContainerHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-historical-performances" : { }
-};
+      "ethernet-container-2-0:ethernet-container-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2702,12 +2728,12 @@ exports.getLiveEthernetContainerHistoricalPerformances = function(url,user,origi
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_37
  **/
-exports.getLiveEthernetContainerStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ethernet-container-2-0:ethernet-container-status" : { }
-};
+      "ethernet-container-2-0:ethernet-container-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2731,20 +2757,46 @@ exports.getLiveEthernetContainerStatus = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_11
  **/
-exports.getLiveExpectedEquipment = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "core-model-1-4:expected-equipment" : [ {
-    "local-id" : "local-id"
-  }, {
-    "local-id" : "local-id"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -2762,26 +2814,26 @@ exports.getLiveExpectedEquipment = function(url,user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_13
  **/
-exports.getLiveFirmwareCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-collection" : {
-    "firmware-component-list" : [ {
-      "local-id" : "local-id",
-      "firmware-component-pac" : {
-        "firmware-component-capability" : { },
-        "firmware-component-status" : { }
+      "firmware-1-0:firmware-collection": {
+        "firmware-component-list": [{
+          "local-id": "local-id",
+          "firmware-component-pac": {
+            "firmware-component-capability": {},
+            "firmware-component-status": {}
+          }
+        }, {
+          "local-id": "local-id",
+          "firmware-component-pac": {
+            "firmware-component-capability": {},
+            "firmware-component-status": {}
+          }
+        }]
       }
-    }, {
-      "local-id" : "local-id",
-      "firmware-component-pac" : {
-        "firmware-component-capability" : { },
-        "firmware-component-status" : { }
-      }
-    } ]
-  }
-};
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2804,12 +2856,12 @@ exports.getLiveFirmwareCollection = function(url,user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_15
  **/
-exports.getLiveFirmwareComponentCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-component-capability" : { }
-};
+      "firmware-1-0:firmware-component-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2832,24 +2884,24 @@ exports.getLiveFirmwareComponentCapability = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_14
  **/
-exports.getLiveFirmwareComponentList = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-component-list" : [ {
-    "local-id" : "local-id",
-    "firmware-component-pac" : {
-      "firmware-component-capability" : { },
-      "firmware-component-status" : { }
-    }
-  }, {
-    "local-id" : "local-id",
-    "firmware-component-pac" : {
-      "firmware-component-capability" : { },
-      "firmware-component-status" : { }
-    }
-  } ]
-};
+      "firmware-1-0:firmware-component-list": [{
+        "local-id": "local-id",
+        "firmware-component-pac": {
+          "firmware-component-capability": {},
+          "firmware-component-status": {}
+        }
+      }, {
+        "local-id": "local-id",
+        "firmware-component-pac": {
+          "firmware-component-capability": {},
+          "firmware-component-status": {}
+        }
+      }]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2872,12 +2924,12 @@ exports.getLiveFirmwareComponentList = function(url,user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_16
  **/
-exports.getLiveFirmwareComponentStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firmware-1-0:firmware-component-status" : { }
-};
+      "firmware-1-0:firmware-component-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2901,12 +2953,12 @@ exports.getLiveFirmwareComponentStatus = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_39
  **/
-exports.getLiveHybridMwStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-capability" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2930,12 +2982,12 @@ exports.getLiveHybridMwStructureCapability = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_40
  **/
-exports.getLiveHybridMwStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-configuration" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2959,12 +3011,12 @@ exports.getLiveHybridMwStructureConfiguration = function(url,user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_61
  **/
-exports.getLiveHybridMwStructureCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -2988,12 +3040,12 @@ exports.getLiveHybridMwStructureCurrentPerformance = function(url,user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_42
  **/
-exports.getLiveHybridMwStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-historical-performances" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3017,12 +3069,12 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function(url,user,origi
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_41
  **/
-exports.getLiveHybridMwStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "hybrid-mw-structure-2-0:hybrid-mw-structure-status" : { }
-};
+      "hybrid-mw-structure-2-0:hybrid-mw-structure-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3046,12 +3098,12 @@ exports.getLiveHybridMwStructureStatus = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_43
  **/
-exports.getLiveMacInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-capability" : { }
-};
+      "mac-interface-1-0:mac-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3075,12 +3127,12 @@ exports.getLiveMacInterfaceCapability = function(url,user,originator,xCorrelator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_44
  **/
-exports.getLiveMacInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-configuration" : { }
-};
+      "mac-interface-1-0:mac-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3104,12 +3156,12 @@ exports.getLiveMacInterfaceConfiguration = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_62
  **/
-exports.getLiveMacInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-current-performance" : { }
-};
+      "mac-interface-1-0:mac-interface-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3133,12 +3185,12 @@ exports.getLiveMacInterfaceCurrentPerformance = function(url,user,originator,xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_46
  **/
-exports.getLiveMacInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-historical-performances" : { }
-};
+      "mac-interface-1-0:mac-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3162,12 +3214,12 @@ exports.getLiveMacInterfaceHistoricalPerformances = function(url,user,originator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_45
  **/
-exports.getLiveMacInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "mac-interface-1-0:mac-interface-status" : { }
-};
+      "mac-interface-1-0:mac-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3190,12 +3242,12 @@ exports.getLiveMacInterfaceStatus = function(url,user,originator,xCorrelator,tra
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_21
  **/
-exports.getLivePolicingProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePolicingProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "policing-profile-1-0:policing-profile-capability" : { }
-};
+      "policing-profile-1-0:policing-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3218,12 +3270,12 @@ exports.getLivePolicingProfileCapability = function(url,user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_22
  **/
-exports.getLivePolicingProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePolicingProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "policing-profile-1-0:policing-profile-configuration" : { }
-};
+      "policing-profile-1-0:policing-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3246,12 +3298,12 @@ exports.getLivePolicingProfileConfiguration = function(url,user,originator,xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_18
  **/
-exports.getLiveProfile = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "core-model-1-4:profile" : [ "", "" ]
-};
+      "core-model-1-4:profile": ["", ""]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3273,14 +3325,14 @@ exports.getLiveProfile = function(url,user,originator,xCorrelator,traceIndicator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_17
  **/
-exports.getLiveProfileCollection = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "core-model-1-4:profile-collection" : {
-    "profile" : [ "", "" ]
-  }
-};
+      "core-model-1-4:profile-collection": {
+        "profile": ["", ""]
+      }
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3304,12 +3356,12 @@ exports.getLiveProfileCollection = function(url,user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_47
  **/
-exports.getLivePureEthernetStructureCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePureEthernetStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-capability" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3333,12 +3385,12 @@ exports.getLivePureEthernetStructureCapability = function(url,user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_48
  **/
-exports.getLivePureEthernetStructureConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePureEthernetStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-configuration" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3362,12 +3414,12 @@ exports.getLivePureEthernetStructureConfiguration = function(url,user,originator
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_63
  **/
-exports.getLivePureEthernetStructureCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3391,12 +3443,12 @@ exports.getLivePureEthernetStructureCurrentPerformance = function(url,user,origi
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_50
  **/
-exports.getLivePureEthernetStructureHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3420,12 +3472,12 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function(url,user,o
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_49
  **/
-exports.getLivePureEthernetStructureStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLivePureEthernetStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "pure-ethernet-structure-2-0:pure-ethernet-structure-status" : { }
-};
+      "pure-ethernet-structure-2-0:pure-ethernet-structure-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3448,12 +3500,12 @@ exports.getLivePureEthernetStructureStatus = function(url,user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_23
  **/
-exports.getLiveQosProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "qos-profile-1-0:qos-profile-capability" : { }
-};
+      "qos-profile-1-0:qos-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3476,12 +3528,12 @@ exports.getLiveQosProfileCapability = function(url,user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_24
  **/
-exports.getLiveQosProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "qos-profile-1-0:qos-profile-configuration" : { }
-};
+      "qos-profile-1-0:qos-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3504,12 +3556,12 @@ exports.getLiveQosProfileConfiguration = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_25
  **/
-exports.getLiveSchedulerProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "scheduler-profile-1-0:scheduler-profile-capability" : { }
-};
+      "scheduler-profile-1-0:scheduler-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3532,12 +3584,12 @@ exports.getLiveSchedulerProfileCapability = function(url,user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_26
  **/
-exports.getLiveSchedulerProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "scheduler-profile-1-0:scheduler-profile-configuration" : { }
-};
+      "scheduler-profile-1-0:scheduler-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3561,12 +3613,12 @@ exports.getLiveSchedulerProfileConfiguration = function(url,user,originator,xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_51
  **/
-exports.getLiveVlanInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-capability" : { }
-};
+      "vlan-interface-1-0:vlan-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3590,12 +3642,12 @@ exports.getLiveVlanInterfaceCapability = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_52
  **/
-exports.getLiveVlanInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-configuration" : { }
-};
+      "vlan-interface-1-0:vlan-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3619,12 +3671,12 @@ exports.getLiveVlanInterfaceConfiguration = function(url,user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_64
  **/
-exports.getLiveVlanInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-current-performance" : { }
-};
+      "vlan-interface-1-0:vlan-interface-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3648,12 +3700,12 @@ exports.getLiveVlanInterfaceCurrentPerformance = function(url,user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_54
  **/
-exports.getLiveVlanInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-historical-performances" : { }
-};
+      "vlan-interface-1-0:vlan-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3677,12 +3729,12 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function(url,user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_53
  **/
-exports.getLiveVlanInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "vlan-interface-1-0:vlan-interface-status" : { }
-};
+      "vlan-interface-1-0:vlan-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3706,12 +3758,12 @@ exports.getLiveVlanInterfaceStatus = function(url,user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_55
  **/
-exports.getLiveWireInterfaceCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-capability" : { }
-};
+      "wire-interface-2-0:wire-interface-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3735,12 +3787,12 @@ exports.getLiveWireInterfaceCapability = function(url,user,originator,xCorrelato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_56
  **/
-exports.getLiveWireInterfaceConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-configuration" : { }
-};
+      "wire-interface-2-0:wire-interface-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3764,12 +3816,12 @@ exports.getLiveWireInterfaceConfiguration = function(url,user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_65
  **/
-exports.getLiveWireInterfaceCurrentPerformance = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-current-performance" : { }
-};
+      "wire-interface-2-0:wire-interface-current-performance": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3793,12 +3845,12 @@ exports.getLiveWireInterfaceCurrentPerformance = function(url,user,originator,xC
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_58
  **/
-exports.getLiveWireInterfaceHistoricalPerformances = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-historical-performances" : { }
-};
+      "wire-interface-2-0:wire-interface-historical-performances": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3822,12 +3874,12 @@ exports.getLiveWireInterfaceHistoricalPerformances = function(url,user,originato
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_57
  **/
-exports.getLiveWireInterfaceStatus = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,localId,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wire-interface-2-0:wire-interface-status" : { }
-};
+      "wire-interface-2-0:wire-interface-status": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3850,12 +3902,12 @@ exports.getLiveWireInterfaceStatus = function(url,user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_27
  **/
-exports.getLiveWredProfileCapability = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWredProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-profile-1-0:wred-profile-capability" : { }
-};
+      "wred-profile-1-0:wred-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3878,12 +3930,12 @@ exports.getLiveWredProfileCapability = function(url,user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_28
  **/
-exports.getLiveWredProfileConfiguration = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-profile-1-0:wred-profile-configuration" : { }
-};
+      "wred-profile-1-0:wred-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3903,8 +3955,8 @@ exports.getLiveWredProfileConfiguration = function(url,user,originator,xCorrelat
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyAttributeValueChanges = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.notifyAttributeValueChanges = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -3921,8 +3973,8 @@ exports.notifyAttributeValueChanges = function(url,body,user,originator,xCorrela
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyObjectCreations = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.notifyObjectCreations = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -3939,8 +3991,8 @@ exports.notifyObjectCreations = function(url,body,user,originator,xCorrelator,tr
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyObjectDeletions = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -3957,19 +4009,19 @@ exports.notifyObjectDeletions = function(url,body,user,originator,xCorrelator,tr
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_2
  **/
-exports.provideListOfActualDeviceEquipment = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.provideListOfActualDeviceEquipment = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "actual-equipment-list" : [ {
-    "equipment-type-name" : "equipment-type-name",
-    "uuid" : "uuid"
-  }, {
-    "equipment-type-name" : "equipment-type-name",
-    "uuid" : "uuid"
-  } ],
-  "top-level-equipment" : [ "top-level-equipment", "top-level-equipment" ]
-};
+      "actual-equipment-list": [{
+        "equipment-type-name": "equipment-type-name",
+        "uuid": "uuid"
+      }, {
+        "equipment-type-name": "equipment-type-name",
+        "uuid": "uuid"
+      }],
+      "top-level-equipment": ["top-level-equipment", "top-level-equipment"]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -3989,16 +4041,18 @@ exports.provideListOfActualDeviceEquipment = function(url,body,user,originator,x
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200
  **/
-exports.provideListOfConnectedDevices = function(url,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "mount-name-list" : [ "mount-name-list", "mount-name-list" ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+exports.provideListOfConnectedDevices = function (url, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    let mountname = "DeviceList"
+    let returnObject = {};
+    let result = await ReadRecords(mountname);
+    if (result != undefined) {
+      const outputJson = {
+        "mountName-list": result.deviceList.map(item => item["node-id"])
+      };
+      resolve(outputJson);
     } else {
-      resolve();
+      resolve(notFoundError());
     }
   });
 }
@@ -4015,20 +4069,20 @@ exports.provideListOfConnectedDevices = function(url,user,originator,xCorrelator
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_1
  **/
-exports.provideListOfDeviceInterfaces = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.provideListOfDeviceInterfaces = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "logical-termination-point-list" : [ {
-    "local-id" : "local-id",
-    "layer-protocol-name" : "layer-protocol-name",
-    "uuid" : "uuid"
-  }, {
-    "local-id" : "local-id",
-    "layer-protocol-name" : "layer-protocol-name",
-    "uuid" : "uuid"
-  } ]
-};
+      "logical-termination-point-list": [{
+        "local-id": "local-id",
+        "layer-protocol-name": "layer-protocol-name",
+        "uuid": "uuid"
+      }, {
+        "local-id": "local-id",
+        "layer-protocol-name": "layer-protocol-name",
+        "uuid": "uuid"
+      }]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -4049,8 +4103,8 @@ exports.provideListOfDeviceInterfaces = function(url,body,user,originator,xCorre
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardControllerAttributeValueChange = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.regardControllerAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -4067,8 +4121,8 @@ exports.regardControllerAttributeValueChange = function(url,body,user,originator
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceAlarm = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -4085,8 +4139,8 @@ exports.regardDeviceAlarm = function(url,body,user,originator,xCorrelator,traceI
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceAttributeValueChange = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.regardDeviceAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -4103,8 +4157,8 @@ exports.regardDeviceAttributeValueChange = function(url,body,user,originator,xCo
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceObjectCreation = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.regardDeviceObjectCreation = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -4121,79 +4175,23 @@ exports.regardDeviceObjectCreation = function(url,body,user,originator,xCorrelat
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceObjectDeletion = function(url,body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
 
-
-exports.writeDeviceListToElasticsearch = function(deviceList) {
-    return new Promise(async function(resolve, reject) {
-        let deviceListToWrite = '{"deviceList":' + deviceList + '}'
-        let result = await recordRequest(deviceListToWrite, "DeviceList");
-        resolve(true);
-    })
-}
-
-exports.readDeviceListFromElasticsearch = function() {
-  return new Promise(async function(resolve, reject) {
-      let result = await ReadRecords("DeviceList")
-      resolve(result);
-  })
-}
+/* List of functions needed for individual services*/
 
 
-async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList() {
-    const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
-    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-    if (forwardingConstruct === undefined) {
-        return null;
-    }
-
-    let fcPortOutputDirectionLogicalTerminationPointList = [];
-    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-    for (const fcPort of fcPortList) {
-        const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-        if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-        }
-    }
-    
-    let applicationNameList = [];
-    //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
-    //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
-    let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
-    for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-        const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-        const httpClientLtpUuid = httpLtpUuidList[0];
-        let applicationName = 'api';
-        const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-        let url = "";
-        let tcpConn = "";
-        if (opLtpUuid.includes("odl")) { 
-            applicationName = "OpenDayLight";
-            tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-            url = tcpConn + urlForOdl;
-        }
-        const applicationNameData = applicationName === undefined ? {
-            applicationName: null,
-            httpClientLtpUuid,
-            url: null, key: null
-        } : {
-            applicationName,
-            httpClientLtpUuid,
-            url, key
-        };
-        applicationNameList.push(applicationNameData);      
-    }
-    return applicationNameList;
-  }
-
-
-
-
+/**
+ * Receives notifications about objects that have been deleted inside the devices
+ *
+ * calculates the correct ip, port and protocol to address ODL and ES 
+ * Returns a list of 2 arrays.
+ * the first contains the ODL parameters and the URL to call
+ * the second contains the same for ES
+ **/
 async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(originalUrl) {
   const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
@@ -4209,10 +4207,10 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
       fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
     }
   }
-  
- /*  if (fcPortOutputDirectionLogicalTerminationPointList.length !== 1) {
-    return null;
-  } */
+
+  /*  if (fcPortOutputDirectionLogicalTerminationPointList.length !== 1) {
+     return null;
+   } */
   let applicationNameList = [];
   let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
   for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
@@ -4225,14 +4223,14 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
     const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
     let url = "";
     let tcpConn = "";
-    if (opLtpUuid.includes("odl")){ 
+    if (opLtpUuid.includes("odl")) {
       applicationName = "OpenDayLight";
       tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
       url = retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
-    } else if (opLtpUuid.includes("es")){
+    } else if (opLtpUuid.includes("es")) {
       tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
       applicationName = "ElasticSearch";
-      url = retrieveCorrectUrl (originalUrl, tcpConn, applicationName);
+      url = retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
     }
     const applicationNameData = applicationName === undefined ? {
       applicationName: null,
@@ -4243,69 +4241,69 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
       httpClientLtpUuid,
       url, key
     };
-
-
     applicationNameList.push(applicationNameData);
-    
   }
-    return applicationNameList;
-  }
+  return applicationNameList;
+}
 
-  async function getTcpClientConnectionInfoAsync(operationClientUuid) {
-    let httpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid);
-    let httpClientUuid = httpClientUuidList[0];
-    let tcpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid);
-    let tcpClientUuid = tcpClientUuidList[0];
-    let tcpServerUuidList = await logicalTerminationPoint.getServerLtpListAsync(tcpClientUuid);
-    let tcpServerUuid = tcpServerUuidList[0];
-    let tcpClientRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpServerUuid);
-    let remoteAddress = await getConfiguredRemoteAddress(tcpClientRemoteAddress);
-    let remotePort = await tcpClientInterface.getRemotePortAsync(tcpServerUuid);
-    let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
-    return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
+async function getTcpClientConnectionInfoAsync(operationClientUuid) {
+  let httpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid);
+  let httpClientUuid = httpClientUuidList[0];
+  let tcpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid);
+  let tcpClientUuid = tcpClientUuidList[0];
+  let tcpServerUuidList = await logicalTerminationPoint.getServerLtpListAsync(tcpClientUuid);
+  let tcpServerUuid = tcpServerUuidList[0];
+  let tcpClientRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpServerUuid);
+  let remoteAddress = await getConfiguredRemoteAddress(tcpClientRemoteAddress);
+  let remotePort = await tcpClientInterface.getRemotePortAsync(tcpServerUuid);
+  let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
+  return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
 }
 
 function getConfiguredRemoteAddress(remoteAddress) {
   let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
   if (domainName in remoteAddress) {
-      remoteAddress = remoteAddress["domain-name"];
+    remoteAddress = remoteAddress["domain-name"];
   } else {
-      remoteAddress = remoteAddress[
-          onfAttributes.TCP_CLIENT.IP_ADDRESS][
-          onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
-      ];
+    remoteAddress = remoteAddress[
+      onfAttributes.TCP_CLIENT.IP_ADDRESS][
+      onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
+    ];
   }
   return remoteAddress;
 }
 
-function retrieveCorrectUrl (originalUrl, path, applicationName){
-  let ControlConstruct = originalUrl.match(/control-construct=([^/]+)/)[1];
+function retrieveCorrectUrl(originalUrl, path, applicationName) {
+  const urlParts = originalUrl.split("?fields=");
+  const myFields = urlParts[1];
+  let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
   let placeHolder = "";
-  if (applicationName === "OpenDayLight"){
+  if (applicationName === "OpenDayLight") {
     placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
-  } else if (applicationName === "ElasticSearch"){
+  } else if (applicationName === "ElasticSearch") {
     placeHolder = "/";
   }
-  // Cerca la sequenza "control-construct={controlconstruct/" nella stringa
   var sequenzaDaCercare = "control-construct=" + ControlConstruct;
   var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
 
   if (indiceSequenza !== -1) {
-    // Se la sequenza è stata trovata, separa la stringa in due parti
-    var parte1 = originalUrl.substring(0, indiceSequenza); // Parte prima
-    if (applicationName === "OpenDayLight"){
-      var parte2 = originalUrl.substring(indiceSequenza + sequenzaDaCercare.length); // Parte seconda
-    } else if (applicationName === "ElasticSearch"){
-      var parte2 = originalUrl.substring(indiceSequenza); // Parte seconda
+    var parte1 = urlParts[0].substring(0, indiceSequenza);
+    if (applicationName === "OpenDayLight") {
+      var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
+    } else if (applicationName === "ElasticSearch") {
+      var parte2 = urlParts[0].substring(indiceSequenza);
     }
   }
 
   let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
   let final = path + correctPlaceHolder + parte2;
-  if (final.indexOf("+") != -1){
-      var correctUrl = final.replace(/=.*?\+/g, "=");
+  if (final.indexOf("+") != -1) {
+    var correctUrl = final.replace(/=.*?\+/g, "=");
   } else {
-      correctUrl = final;
+    correctUrl = final;
+  }
+  if (myFields != undefined) {
+    final = final + "?fields=" + myFields;
   }
   return final;
 }
@@ -4316,7 +4314,7 @@ function retrieveCorrectUrl (originalUrl, path, applicationName){
  * body controlconstruct 
  * no response value expected for this operation
  **/
-async function recordRequest (body, cc) {
+async function recordRequest(body, cc) {
   let indexAlias = await getIndexAliasAsync();
   let client = await elasticsearchService.getClient(false);
   let startTime = process.hrtime();
@@ -4331,15 +4329,21 @@ async function recordRequest (body, cc) {
   }
 }
 
+/**
+ * Read from ES
+ *
+ * response value expected for this operation
+ **/
 async function ReadRecords(cc) {
   let size = 100;
   let from = 0;
   let query = {
+
     term: {
       _id: cc
     }
-  };
 
+  };
   let indexAlias = await getIndexAliasAsync();
   let client = await elasticsearchService.getClient(false);
   const result = await client.search({
@@ -4348,22 +4352,76 @@ async function ReadRecords(cc) {
       query: query
     }
   });
-
   const resultArray = createResultArray(result);
-
   return (resultArray[0])
-
 }
 
-// Function to modify gli UUID
+// Function to modify UUID to mountName+UUID
 function modificaUUID(obj, mountName) {
   for (const key in obj) {
     if (typeof obj[key] === 'object') {
-      // Se il valore è un oggetto, richiama la funzione in modo ricorsivo
+      // if the value is an object, recall the function recursively
       modificaUUID(obj[key], mountName);
     } else if (key === 'uuid' || key === 'local-id') {
-      // Se la chiave è 'uuid', aggiungi "mountName+" al valore
       obj[key] = mountName + "+" + obj[key];
     }
   }
+}
+
+function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
+  const urlParts = url.split("?fields=");
+  const myFields = urlParts[1];
+  // Split the url using = as delimitator 
+  const parts = urlParts[0].split('=');
+
+  // Modify the values
+  for (let i = 1; i < parts.length; i++) {
+    if (parts[i].indexOf("+") == -1) {
+      parts[i] = mountname + "+" + parts[i];
+    }
+  }
+
+  // Reconstruct the string
+  let modifiedString = parts.join('=');
+  if (myFields != undefined) {
+    modifiedString = modifiedString + "?fields=" + myFields;
+  }
+  return modifiedString;
+
+}
+
+function notFoundError() {
+  const myJson = {
+    "code": 404,
+    "message": "not found"
+  };
+  return myJson;
+}
+
+function Error(code, message) {
+  const myJson = {
+    "code": code,
+    "message": message
+  };
+  return myJson;
+}
+
+function formatUrlForOdl(url) {
+  const segments = url.split("/");
+  let newSegments = [];
+  // loop over segments
+  for (const segment of segments) {
+    const parts = segment.split("+");
+    if (parts.length > 1) {
+      if (parts[0].indexOf("control-construct") != -1) {
+        newSegments.push(parts[0]);
+      } else {
+        newSegments.push(parts[0].split("=")[0] + "=" + parts[1]);
+      }
+    } else {
+      newSegments.push(segment);
+    }
+  }
+  let newUrl = newSegments.join("/");
+  return newUrl;
 }

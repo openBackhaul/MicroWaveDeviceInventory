@@ -47,7 +47,7 @@ prepareElasticsearch(false).catch(err => {
     appCommons.performApplicationRegistration();
 
     /******************* CYCLIC PROCESS START POINT **********************/
-//    startModule.start()
+    startModule.start()
     /*********************************************************************/
 }
 );

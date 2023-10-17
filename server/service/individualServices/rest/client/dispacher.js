@@ -24,7 +24,8 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
                      
                 );
             let response = await RestRequestBuilder.BuildAndTriggerRestRequest(
-                decodeURIComponent(url),
+                //decodeURIComponent(url),
+                url,
                 httpRequestHeader, 
                 httpRequestBody
                 );

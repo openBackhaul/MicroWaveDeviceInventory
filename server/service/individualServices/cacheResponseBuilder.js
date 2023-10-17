@@ -42,7 +42,7 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
                 }
             }
         } else {
-            console.log(`Field not found: ${key}`);
+            //console.log(`Field not found: ${key}`);
             break;
         }
         lastkey = key;

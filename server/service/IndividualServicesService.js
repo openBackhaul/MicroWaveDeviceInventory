@@ -2477,7 +2477,8 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
     } else {
       correctCc = ControlConstruct;
     }
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
@@ -2490,7 +2491,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
         modificaUUID(jsonObj, correctCc);
         if (myFields === undefined) {
           let elapsedTime = await recordRequest(jsonObj, correctCc);
-          let res = cacheResponse.cacheResponseBuilder(finalUrl, jsonObj);
+          let res = cacheResponse.cacheResponseBuilder(finalUrl1, jsonObj);
           resolve(res);
         } else {
           let filters = true;
@@ -2498,11 +2499,12 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
           let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
           // read from ES
-          let result = await ReadRecords(correctCc);
+          let result1 = await ReadRecords(correctCc);
           // Update json object
-          let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+          let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
           // Write updated Json to ES
-          let elapsedTime = await recordRequest(result, correctCc);
+          let elapsedTime = await recordRequest(result1, correctCc);
+          resolve(result.data);
         }
 
       }

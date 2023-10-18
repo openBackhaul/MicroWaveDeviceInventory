@@ -8,7 +8,7 @@ WORKDIR /home/openbackhaul/microWaveDeviceInventory
 COPY package*.json ./
 
 #RUN npm install
-RUN npm --proxy http://172.16.1.2:8080 --without-ssl --insecure i --only=production
+RUN npm ci --only=production
 
 # Bundle app source
 COPY . .

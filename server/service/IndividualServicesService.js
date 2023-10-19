@@ -1067,28 +1067,43 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
  * returns inline_response_200_14
  **/
 exports.getCachedFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "firmware-1-0:firmware-component-list": [{
-        "local-id": "local-id",
-        "firmware-component-pac": {
-          "firmware-component-capability": {},
-          "firmware-component-status": {}
-        }
-      }, {
-        "local-id": "local-id",
-        "firmware-component-pac": {
-          "firmware-component-capability": {},
-          "firmware-component-status": {}
-        }
-      }]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 

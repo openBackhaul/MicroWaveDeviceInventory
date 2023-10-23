@@ -169,7 +169,10 @@ function setDeviceListElementTimeStamp(node_id) {
     try {
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
-                deviceList[i]['timestamp'] = Date.now();
+                if ((Date.now() - deviceList[i]['timestamp']) < 1000) {
+                    debugger;
+                }
+                deviceList[i]['timestamp'] = Date.now();                
                 return;
             }
         }
@@ -187,15 +190,18 @@ function setDeviceListElementTimeStamp(node_id) {
  */
 async function startTtlChecking() {
     try {
-        function upgradeTtl() {
+        async function upgradeTtl() {
             for (let index = 0; index < slidingWindow.length; index++) {
                 slidingWindow[index].ttl -= 1;
                 if (slidingWindow[index].ttl == 0) {
                     if (slidingWindow[index].retries == 0) {
                         printLog("Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from both Window and deviceList", print_log_level >= 2);
-                        discardElementFromDeviceList(slidingWindow[index]['node-id']);
+                        let cc_id = slidingWindow[index]['node-id'];
+                        discardElementFromDeviceList(cc_id);
                         printLog(printList('Device List', deviceList));
-                        slidingWindow.splice(index, 1);                            
+                        slidingWindow.splice(index, 1);
+                        let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+                        printLog(ret.result, print_log_level >= 2);
                         if (addNextDeviceListElementInWindow()) {
                             printLog('Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in window and sent request...', print_log_level >= 2);
                             printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);

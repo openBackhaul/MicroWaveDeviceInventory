@@ -4143,13 +4143,21 @@ exports.readDeviceListFromElasticsearch = function() {
   })
 }
 
-exports.deleteRecord = function(cc) {
+exports.deleteRecordFromElasticsearch = function(index, type, id) {
   return new Promise(async function(resolve, reject) {
+    let exists = false;
     let client = await elasticsearchService.getClient(false);
-    const result = await client.indices.delete({
-      index: cc
-    })
-    resolve(result);
+    if (id) {
+      exists = await client.exists({ index: index, type: type, id: id });
+    }
+    let ret
+    if (exists.body) {
+      await client.delete({ index: index, type: type, id: id });
+      ret = { _id: id, result: 'Element '+ id + ' deleted.'};
+    } else {
+      ret = { _id: id, result: 'Element '+ id + ' not deleted. (Not found in elasticsearch).'};
+    }    
+    resolve(ret);
   })
 }
 

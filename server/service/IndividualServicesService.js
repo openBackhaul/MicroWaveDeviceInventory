@@ -4544,6 +4544,23 @@ exports.readDeviceListFromElasticsearch = function() {
   })
 }
 
+exports.deleteRecordFromElasticsearch = function(index, type, id) {
+  return new Promise(async function(resolve, reject) {
+    let exists = false;
+    let client = await elasticsearchService.getClient(false);
+    if (id) {
+      exists = await client.exists({ index: index, type: type, id: id });
+    }
+    let ret
+    if (exists.body) {
+      await client.delete({ index: index, type: type, id: id });
+      ret = { _id: id, result: 'Element '+ id + ' deleted.'};
+    } else {
+      ret = { _id: id, result: 'Element '+ id + ' not deleted. (Not found in elasticsearch).'};
+    }    
+    resolve(ret);
+  })
+}
 
 async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList() {
   const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
@@ -4768,6 +4785,7 @@ async function ReadRecords(cc) {
   const resultArray = createResultArray(result);
   return (resultArray[0])
 }
+
 
 // Function to modify UUID to mountName+UUID
 function modificaUUID(obj, mountName) {

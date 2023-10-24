@@ -206,45 +206,42 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
  **/
 exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
+    const myFields = user;
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const urlParts = url.split("?fields=");
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     if (mountname.indexOf("+") != -1) {
       const parts = mountname.split("+");
-      var correctCc = parts[0];
+      var correctMountname = parts[0];
     } else {
-      correctCc = mountname;
+      correctMountname = mountname;
     }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
-      } else {
-        let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
         }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
       }
+    } else {
+      returnObject = notFoundError();
     }
+    resolve(returnObject);
   });
 }
 
@@ -1349,7 +1346,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1387,7 +1384,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2184,7 +2181,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getChachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2222,47 +2219,44 @@ exports.getChachedLogicalTerminationPoint = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getChachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
+    const myFields = user;
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const urlParts = url.split("?fields=");
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     if (mountname.indexOf("+") != -1) {
       const parts = mountname.split("+");
-      var correctCc = parts[0];
+      var correctMountname = parts[0];
     } else {
-      correctCc = mountname;
+      correctMountname = mountname;
     }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
-      } else {
-        let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
         }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
       }
+    } else {
+      returnObject = notFoundError();
     }
+    resolve(returnObject);
   });
 }
 

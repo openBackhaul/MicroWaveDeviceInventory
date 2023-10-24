@@ -7414,6 +7414,188 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
+  /core-model-1-4:network-control-domain=cache/link={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/uuid'
+    get:
+      operationId: getCachedLink
+      summary: 'Provides Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Link provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-330/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForCachedLinkCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-330/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                    'The UUID of the Link that is addressed by the request
+                    from {$request.parameters#uuid}'
+              responses:
+                '200':
+                  description: 'Link provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:link:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/LINK'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putCachedLink
+      summary: 'Updates Link in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - core-model-1-4:link
+              properties:
+                core-model-1-4:link:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK'
+      responses:
+        '204':
+          description: 'Link updated in cache'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForUpdatingLinkCausesWritingIntoCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-630/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                    'The UUID of the Link that is addressed by the request
+                    from {$request.parameters#uuid}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - core-model-1-4:link
+                      properties:
+                        core-model-1-4:link:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/LINK'
+              responses:
+                '204':
+                  description: 'Link written to cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLink
+      summary: 'Deletes Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'Link deleted from cache'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForDeletingLinkCausesDeletingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-930/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            delete:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                    'The UUID of the Link that is addressed by the request
+                    from {$request.parameters#uuid}'
+              responses:
+                '204':
+                  description: 'Link deleted from cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+
   /core-model-1-4:network-control-domain=live/control-construct={mount-name}:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -26940,6 +27122,95 @@ components:
       type: object
     WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
+
+    LINK:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - link-direction
+            - link-port
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_GENERIC'
+            link-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+            link-port:
+              type: array
+              minItems: 2
+              items:
+                $ref: '#/components/schemas/LINK_PORT'
+            lower-level-link:
+              type: array
+              items:
+                $ref: '#/components/schemas/LINK'
+        - description: 'air-layer'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - link-direction
+            - link-port
+            - frequency
+          properties:
+            uuid:
+              type: string
+              pattern: '^([0-9]{9})([ul]{1})$'
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'air-link-1-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+            link-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+            link-port:
+              type: array
+              minItems: 2
+              maxItems: 2
+              items:
+                $ref: '#/components/schemas/LINK_PORT'
+            lower-level-link:
+              type: array
+              items:
+                $ref: '#/components/schemas/LINK'
+            frequency:
+              type: integer
+            path-loss:
+              type: integer
+    LINK_PORT:
+      type: object
+      required:
+        - local-id
+        - logical-termination-point
+        - link-port-direction
+      properties:
+        local-id:
+          type: string
+        logical-termination-point:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        link-port-direction:
+          type: string
+          enum:
+            - 'core-model-1-4:PORT_DIRECTION_INPUT'
+            - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+            - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+            - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+            - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
 
   securitySchemes:
     apiKeyAuth:

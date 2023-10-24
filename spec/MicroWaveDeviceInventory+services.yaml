@@ -197,6 +197,9 @@ servers:
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
           uuid: mwdi-1-0-0-op-s-is-274
 
+        - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
+          uuid: mwdi-1-0-0-op-s-is-330
+
         # ressources retrieved from devices
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}
           uuid: mwdi-1-0-0-op-s-is-400
@@ -496,6 +499,9 @@ clients:
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
           uuid: mwdi-1-0-0-op-c-get-es-1-0-0-274
 
+        - operation-name: /link={uuid}
+          uuid: mwdi-1-0-0-op-c-get-es-1-0-0-330
+
       put:
         - operation-name: /control-construct={mount-name}
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-400
@@ -621,6 +627,9 @@ clients:
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-572
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-574
+
+        - operation-name: /link={uuid}
+          uuid: mwdi-1-0-0-op-c-put-es-1-0-0-630
 
       delete:
         - operation-name: /control-construct={mount-name}
@@ -748,6 +757,9 @@ clients:
         - operation-name: /control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-874
 
+        - operation-name: /link={uuid}
+          uuid: mwdi-1-0-0-op-c-del-es-1-0-0-930
+
   - http-client:
       application-name: OldRelease
       release-number: 1.0.0
@@ -786,6 +798,8 @@ clients:
             uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
           - operation-name: /v1/notify-object-deletions
             uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
+          - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
+            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-010
       service:
         basic:
         individual:

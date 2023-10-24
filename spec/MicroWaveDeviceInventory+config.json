@@ -2329,6 +2329,30 @@
         ]
       },
       {
+        "uuid": "mwdi-1-0-0-op-s-is-330",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-0-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-1-0-0-op-s-is-400",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
         "client-ltp": [
@@ -3929,6 +3953,7 @@
           "mwdi-1-0-0-op-s-is-271",
           "mwdi-1-0-0-op-s-is-272",
           "mwdi-1-0-0-op-s-is-274",
+          "mwdi-1-0-0-op-s-is-330",
           "mwdi-1-0-0-op-s-is-400",
           "mwdi-1-0-0-op-s-is-405",
           "mwdi-1-0-0-op-s-is-406",
@@ -5498,6 +5523,31 @@
         ]
       },
       {
+        "uuid": "mwdi-1-0-0-op-c-get-es-1-0-0-330",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-0-0-es-c-es-1-0-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/link={uuid}",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-1-0-0-op-c-put-es-1-0-0-400",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
@@ -6887,6 +6937,31 @@
             "operation-client-interface-1-0:operation-client-interface-pac": {
               "operation-client-interface-configuration": {
                 "operation-name": "/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-1-0-0-op-c-put-es-1-0-0-630",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-0-0-es-c-es-1-0-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/link={uuid}",
                 "operation-key": "Operation key not yet provided."
               },
               "operation-client-interface-status": {
@@ -8298,6 +8373,31 @@
         ]
       },
       {
+        "uuid": "mwdi-1-0-0-op-c-del-es-1-0-0-930",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-0-0-es-c-es-1-0-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/link={uuid}",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-1-0-0-es-c-es-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
@@ -8358,6 +8458,7 @@
           "mwdi-1-0-0-op-c-get-es-1-0-0-271",
           "mwdi-1-0-0-op-c-get-es-1-0-0-272",
           "mwdi-1-0-0-op-c-get-es-1-0-0-274",
+          "mwdi-1-0-0-op-c-get-es-1-0-0-330",
           "mwdi-1-0-0-op-c-put-es-1-0-0-400",
           "mwdi-1-0-0-op-c-put-es-1-0-0-405",
           "mwdi-1-0-0-op-c-put-es-1-0-0-406",
@@ -8415,6 +8516,7 @@
           "mwdi-1-0-0-op-c-put-es-1-0-0-571",
           "mwdi-1-0-0-op-c-put-es-1-0-0-572",
           "mwdi-1-0-0-op-c-put-es-1-0-0-574",
+          "mwdi-1-0-0-op-c-put-es-1-0-0-630",
           "mwdi-1-0-0-op-c-del-es-1-0-0-700",
           "mwdi-1-0-0-op-c-del-es-1-0-0-705",
           "mwdi-1-0-0-op-c-del-es-1-0-0-706",
@@ -8471,7 +8573,8 @@
           "mwdi-1-0-0-op-c-del-es-1-0-0-870",
           "mwdi-1-0-0-op-c-del-es-1-0-0-871",
           "mwdi-1-0-0-op-c-del-es-1-0-0-872",
-          "mwdi-1-0-0-op-c-del-es-1-0-0-874"
+          "mwdi-1-0-0-op-c-del-es-1-0-0-874",
+          "mwdi-1-0-0-op-c-del-es-1-0-0-930"
         ],
         "server-ltp": [
           "mwdi-1-0-0-http-c-es-1-0-0-000"
@@ -8691,14 +8794,39 @@
           }
         ]
       },
-
+      {
+        "uuid": "mwdi-1-0-0-op-c-im-nr-1-0-0-010",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-0-0-http-c-nr-1-0-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },
       {
         "uuid": "mwdi-1-0-0-http-c-nr-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
           "mwdi-1-0-0-op-c-im-nr-1-0-0-000",
           "mwdi-1-0-0-op-c-im-nr-1-0-0-001",
-          "mwdi-1-0-0-op-c-im-nr-1-0-0-002"
+          "mwdi-1-0-0-op-c-im-nr-1-0-0-002",
+          "mwdi-1-0-0-op-c-im-nr-1-0-0-010"
         ],
         "server-ltp": [
           "mwdi-1-0-0-tcp-c-nr-1-0-0-000"
@@ -13787,6 +13915,11 @@
                 "logical-termination-point": "mwdi-1-0-0-op-s-is-274"
               },
               {
+                "local-id": "1348",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-s-is-330"
+              },
+              {
                 "local-id": "1418",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-1-0-0-op-s-is-400"
@@ -14235,6 +14368,31 @@
           },
           {
             "uuid": "mwdi-1-0-0-op-fc-im-113",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForBequeathingDataCausesTranferringOfLinks"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-s-im-000"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-c-im-nr-1-0-0-010"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-op-fc-im-115",
             "name": [
               {
                 "value-name": "ForwardingKind",
@@ -17540,6 +17698,31 @@
             ]
           },
           {
+            "uuid": "mwdi-1-0-0-op-fc-is-330",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForCachedLinkCausesReadingFromCache"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-s-is-330"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-330"
+              }
+            ]
+          },
+          {
             "uuid": "mwdi-1-0-0-op-fc-is-400",
             "name": [
               {
@@ -19391,6 +19574,56 @@
                 "local-id": "2001",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-574"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-op-fc-is-630",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUpdatingLinkCausesWritingIntoCache"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-s-is-330"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-c-put-es-1-0-0-630"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-op-fc-is-930",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForDeletingLinkCausesDeletingFromCache"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-s-is-330"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-c-del-es-1-0-0-930"
               }
             ]
           }

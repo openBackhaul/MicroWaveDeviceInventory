@@ -1,7 +1,7 @@
 @startuml 103_ProvideListOfParallelLinks
 skinparam responseMessageBelowArrow true
 
-title  RequestForListOfParallelLinksCausesReadingFromCache
+title  RequestForListOfParallelLinksCauses
 
 participant "external" as requestor
 participant "MWDI://v1/provide-list-of-parallel-links" as provideListOfParallelLinks
@@ -10,11 +10,15 @@ participant "ElasticSearch://link={uuid}" as Link
 
 requestor -> provideListOfParallelLinks: {link-id}(apiKeyAuth)
 
+note over provideListOfParallelLinks 
+<u> ReadingEndpointsFromCache </u>
+end note
 activate provideListOfParallelLinks
 provideListOfParallelLinks -> Link : {uuid=link-id}
 Link --> provideListOfParallelLinks: {given-layer-protocol-name, given-list-of-fd}
 
 note over provideListOfParallelLinks
+<u> SearchingParallelLinksInChache </u>
 Filter all Links in Cache for:
   (layer-protocol-name == given-layer-protocol-name)
   AND (elements of given-list-of-fd also elements of list-of-fd)

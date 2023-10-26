@@ -828,8 +828,6 @@ clients:
             uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-001
           - operation-name: /v1/notify-object-deletions
             uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
-          - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
-            uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-010
       service:
         basic:
         individual:

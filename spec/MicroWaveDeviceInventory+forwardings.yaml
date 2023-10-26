@@ -526,21 +526,6 @@ forwardings:
       - client-name: NewRelease://v1/notify-object-deletions
         uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-002
 
-  - forwarding-name: PromptForBequeathingDataCausesTranferringOfLinks
-    uuid: mwdi-1-0-0-op-fc-im-113
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/bequeath-your-data-and-die
-        uuid: mwdi-1-0-0-op-s-im-000
-    consequent-requests:
-      - client-name: NewRelease://v1/notify-object-creations
-        uuid: mwdi-1-0-0-op-c-im-nr-1-0-0-010
-
   - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
     uuid: mwdi-1-0-0-op-fc-im-115
     forwarding-type: InvariantProcessSnippet
@@ -1422,8 +1407,23 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-100
 
-  - forwarding-name: RequestForListOfParallelLinksCausesReadingFromCache
+  - forwarding-name: RequestForListOfParallelLinksCauses.ReadingEndpointsFromCache
     uuid: mwdi-1-0-0-op-fc-is-013
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-list-of-parallel-links
+        uuid: mwdi-1-0-0-op-s-is-013
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-205
+
+  - forwarding-name: RequestForListOfParallelLinksCauses.SearchingParallelLinksInChache
+    uuid: mwdi-1-0-0-op-fc-is-014
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

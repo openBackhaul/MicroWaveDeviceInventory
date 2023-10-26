@@ -16978,7 +16978,32 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "RequestForListOfParallelLinksCausesReadingFromCache"
+                "value": "RequestForListOfParallelLinksCauses.ReadingEndpointsFromCache"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-s-is-013"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-1-0-0-op-c-get-es-1-0-0-205"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-0-0-op-fc-is-014",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForListOfParallelLinksCauses.SearchingParallelLinksInChache"
               }
             ],
             "fc-port": [

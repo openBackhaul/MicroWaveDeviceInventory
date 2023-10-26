@@ -185,6 +185,8 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-011
       - server-name: /v1/provide-list-of-actual-device-equipment
         uuid: mwdi-1-0-0-op-s-is-012
+      - server-name: /v1/provide-list-of-parallel-links
+        uuid: mwdi-1-0-0-op-s-is-013
       - server-name: /v1/notify-attribute-value-changes
         uuid: mwdi-1-0-0-op-s-is-020
       - server-name: /v1/notify-object-creations
@@ -247,6 +249,16 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-200
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-s-is-201
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-s-get-is-202, mwdi-1-0-0-op-s-put-is-202, mwdi-1-0-0-op-s-del-is-202
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-s-get-is-203, mwdi-1-0-0-op-s-put-is-203, mwdi-1-0-0-op-s-del-is-203
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-s-get-is-204, mwdi-1-0-0-op-s-put-is-204, mwdi-1-0-0-op-s-del-is-204
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: mwdi-1-0-0-op-s-get-is-205, mwdi-1-0-0-op-s-put-is-205, mwdi-1-0-0-op-s-del-is-205
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-s-get-is-206, mwdi-1-0-0-op-s-put-is-206, mwdi-1-0-0-op-s-del-is-206
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-0-0-op-s-is-210
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
@@ -303,8 +315,6 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-272
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-0-0-op-s-is-274
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: mwdi-1-0-0-op-s-is-330
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}
         uuid: mwdi-1-0-0-op-s-is-400
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability
@@ -1412,6 +1422,21 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-100
 
+  - forwarding-name: RequestForListOfParallelLinksCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-013
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-list-of-parallel-links
+        uuid: mwdi-1-0-0-op-s-is-013
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-205
+
   - forwarding-name: SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications
     uuid: mwdi-1-0-0-op-fc-is-020
     forwarding-type: Subscription
@@ -1902,6 +1927,81 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-201
 
+  - forwarding-name: RequestForCachedForwardingDomainCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-202
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-s-get-is-202
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-202
+
+  - forwarding-name: RequestForCachedForwardingConstructCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-203
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-s-get-is-203
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-203
+
+  - forwarding-name: RequestForCachedForwardingConstructPortCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-204
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-s-get-is-204
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-204
+
+  - forwarding-name: RequestForCachedLinkCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-205
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: mwdi-1-0-0-op-s-get-is-205
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-205
+
+  - forwarding-name: RequestForCachedLinkPortCausesReadingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-206
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-s-get-is-206
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-206
+
   - forwarding-name: RequestForCachedAirInterfaceCapabilityCausesReadingFromCache
     uuid: mwdi-1-0-0-op-fc-is-210
     forwarding-type: InvariantProcessSnippet
@@ -2321,21 +2421,6 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-274
-
-  - forwarding-name: RequestForCachedLinkCausesReadingFromCache
-    uuid: mwdi-1-0-0-op-fc-is-330
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: GET /core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: mwdi-1-0-0-op-s-is-330
-    consequent-requests:
-      - client-name: ElasticSearch://link={uuid}
-        uuid: mwdi-1-0-0-op-c-get-es-1-0-0-330
 
 
   - forwarding-name: RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
@@ -2814,6 +2899,81 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-501
 
+  - forwarding-name: RequestForUpdatingForwardingDomainCausesWritingIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-502
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-s-put-is-202
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-502
+
+  - forwarding-name: RequestForUpdatingForwardingConstructCausesWritingIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-503
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-s-put-is-203
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-503
+
+  - forwarding-name: RequestForUpdatingForwardingConstructPortCausesWritingIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-504
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-s-put-is-204
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-504
+
+  - forwarding-name: RequestForUpdatingLinkCausesWritingIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-505
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: mwdi-1-0-0-op-s-put-is-205
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-505
+
+  - forwarding-name: RequestForUpdatingLinkPortCausesWritingIntoCache
+    uuid: mwdi-1-0-0-op-fc-is-506
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-s-put-is-206
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-506
+
   - forwarding-name: RequestForLiveAirInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache
     uuid: mwdi-1-0-0-op-fc-is-510
     forwarding-type: InvariantProcessSnippet
@@ -3291,7 +3451,7 @@ forwardings:
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-574
 
     # CurrentPerformanceValues shall not be PUT into ElasticSearch.
-    # Thus there is just the one consequent-requests for reading from OpenDayLight. See the following example:
+    # Thus there is just the one consequent-requests for reading from OpenDayLight.
 
   - forwarding-name: RequestForLiveAirInterfaceCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-0-0-op-fc-is-513
@@ -3398,8 +3558,9 @@ forwardings:
       - client-name: OpenDayLight://{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
         uuid: mwdi-1-0-0-op-c-is-odl-4-0-2-573
 
-  - forwarding-name: RequestForUpdatingLinkCausesWritingIntoCache
-    uuid: mwdi-1-0-0-op-fc-is-630
+
+  - forwarding-name: RequestForDeletingForwardingDomainCausesDeletingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-802
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -3407,15 +3568,44 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: PUT /core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: mwdi-1-0-0-op-s-is-330
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-s-del-is-202
     consequent-requests:
-      - client-name: ElasticSearch://link={uuid}
-        uuid: mwdi-1-0-0-op-c-put-es-1-0-0-630
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-802
 
+  - forwarding-name: RequestForDeletingForwardingConstructCausesDeletingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-803
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-s-del-is-203
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-803
+
+  - forwarding-name: RequestForDeletingForwardingConstructPortCausesDeletingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-804
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-s-del-is-204
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-804
 
   - forwarding-name: RequestForDeletingLinkCausesDeletingFromCache
-    uuid: mwdi-1-0-0-op-fc-is-930
+    uuid: mwdi-1-0-0-op-fc-is-805
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -3423,8 +3613,23 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: DEL /core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: mwdi-1-0-0-op-s-is-330
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: mwdi-1-0-0-op-s-del-is-205
     consequent-requests:
       - client-name: ElasticSearch://link={uuid}
-        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-930
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-805
+
+  - forwarding-name: RequestForDeletingLinkPortCausesDeletingFromCache
+    uuid: mwdi-1-0-0-op-fc-is-806
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-s-del-is-206
+    consequent-requests:
+      - client-name: ElasticSearch://link={uuid}/link-port{local-id}
+        uuid: mwdi-1-0-0-op-c-del-es-1-0-0-806

@@ -7452,7 +7452,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-330/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -26786,6 +26786,134 @@ components:
                 - 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
             wire-interface-2-0:wire-interface-pac:
               $ref: '#/components/schemas/WIRE_INTERFACE_PAC'
+    FORWARDING_DOMAIN:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - forwarding-construct
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            forwarding-construct:
+              type: array
+              items:
+                $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
+    FORWARDING_CONSTRUCT:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - forwarding-direction
+            - fc-port
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            forwarding-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+            name:
+              type: array
+              items:
+                type: object
+                required:
+                  - value-name
+                  - value
+                properties:
+                  value-name:
+                    type: string
+                  value:
+                    type: string
+            fc-port:
+              type: array
+              items:
+                $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
+    FORWARDING_CONSTRUCT_PORT:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - local-id
+            - port-direction
+            - logical-termination-point
+          properties:
+            local-id:
+              type: string
+            port-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+            logical-termination-point:
+              type: string
+    LINK:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - link-direction
+            - forwarding-domain
+            - link-port
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_GENERIC'
+            link-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+            forwarding-domain:
+              type: array
+              items:
+                type: string
+            link-port:
+              type: array
+              items:
+                $ref: '#/components/schemas/LINK_PORT'
+    LINK_PORT:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - local-id
+            - link-port-direction
+            - logical-termination-point
+          properties:
+            local-id:
+              type: string
+            link-port-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+            logical-termination-point:
+              type: string
 
     AIR_INTERFACE_PAC:
       oneOf:
@@ -27122,95 +27250,6 @@ components:
       type: object
     WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
-
-    LINK:
-      oneOf:
-        - description: 'generic'
-          type: object
-          required:
-            - uuid
-            - layer-protocol-name
-            - link-direction
-            - link-port
-          properties:
-            uuid:
-              type: string
-            layer-protocol-name:
-              type: string
-              enum:
-                - 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_GENERIC'
-            link-direction:
-              type: string
-              enum:
-                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
-                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
-                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
-                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
-            link-port:
-              type: array
-              minItems: 2
-              items:
-                $ref: '#/components/schemas/LINK_PORT'
-            lower-level-link:
-              type: array
-              items:
-                $ref: '#/components/schemas/LINK'
-        - description: 'air-layer'
-          type: object
-          required:
-            - uuid
-            - layer-protocol-name
-            - link-direction
-            - link-port
-            - frequency
-          properties:
-            uuid:
-              type: string
-              pattern: '^([0-9]{9})([ul]{1})$'
-            layer-protocol-name:
-              type: string
-              enum:
-                - 'air-link-1-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-            link-direction:
-              type: string
-              enum:
-                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
-            link-port:
-              type: array
-              minItems: 2
-              maxItems: 2
-              items:
-                $ref: '#/components/schemas/LINK_PORT'
-            lower-level-link:
-              type: array
-              items:
-                $ref: '#/components/schemas/LINK'
-            frequency:
-              type: integer
-            path-loss:
-              type: integer
-    LINK_PORT:
-      type: object
-      required:
-        - local-id
-        - logical-termination-point
-        - link-port-direction
-      properties:
-        local-id:
-          type: string
-        logical-termination-point:
-          type: array
-          minItems: 1
-          items:
-            type: string
-        link-port-direction:
-          type: string
-          enum:
-            - 'core-model-1-4:PORT_DIRECTION_INPUT'
-            - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-            - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
-            - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
-            - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
 
   securitySchemes:
     apiKeyAuth:

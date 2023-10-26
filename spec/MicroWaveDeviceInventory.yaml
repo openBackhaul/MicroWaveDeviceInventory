@@ -1868,6 +1868,7 @@ paths:
                       from {$RequestForListOfParallelLinksCauses.SearchingParallelLinksInChache.response.body#/core-model-1-4:link=*/uuid}'
               example:
                 parallel-links:
+                  - '305551234'
                   - '305551235'
           headers:
             x-correlator:
@@ -4945,31 +4946,1214 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-# /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
-#   callbacks:
-#     RequestForCachedForwardingDomainCausesReadingFromCache
-#     RequestForUpdatingForwardingDomainCausesWritingIntoCache
-#     RequestForDeletingForwardingDomainCausesDeletingFromCache
-# /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
-#   callbacks:
-#     RequestForCachedForwardingConstructCausesReadingFromCache
-#     RequestForUpdatingForwardingDomainCausesWritingIntoCache
-#     RequestForDeletingForwardingConstructCausesDeletingFromCache
-# /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
-#   callbacks:
-#     RequestForCachedForwardingConstructPortCausesReadingFromCache
-#     RequestForUpdatingForwardingConstructPortCausesWritingIntoCache
-#     RequestForDeletingForwardingConstructPortCausesDeletingFromCache
-# /core-model-1-4:network-control-domain=cache/link={uuid}
-#   callbacks:
-#     RequestForCachedLinkCausesReadingFromCache
-#     RequestForUpdatingLinkCausesWritingIntoCache
-#     RequestForDeletingLinkCausesDeletingFromCache
-# /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
-#   callbacks:
-#     RequestForCachedLinkPortCausesReadingFromCache
-#     RequestForUpdatingLinkPortCausesWritingIntoCache
-#     RequestForDeletingLinkPortCausesDeletingFromCache
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedForwardingDomain
+      summary: 'Provides ForwardingDomain from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ForwardingDomain provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:forwarding-domain:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FORWARDING_DOMAIN'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-get-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForCachedForwardingDomainCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-202/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+              responses:
+                '200':
+                  description: 'ForwardingDomain provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:forwarding-domain:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/FORWARDING_DOMAIN'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putForwardingDomainToCache
+      summary: 'Writes ForwardingDomain to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - core-model-1-4:forwarding-domain
+              properties:
+                core-model-1-4:forwarding-domain:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FORWARDING_DOMAIN'
+      responses:
+        '204':
+          description: 'ForwardingDomain written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-put-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForUpdatingForwardingDomainCausesWritingIntoCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-502/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the ForwardingDomain that is addressed by the request
+                    from {$request.parameters#uuid}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - core-model-1-4:forwarding-domain
+                      properties:
+                        core-model-1-4:forwarding-domain:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FORWARDING_DOMAIN'
+              responses:
+                '204':
+                  description: 'ForwardingDomain written to cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedForwardingDomain
+      summary: 'Deletes ForwardingDomain from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'ForwardingDomain deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-del-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForDeletingForwardingDomainCausesDeletingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-802/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            delete:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+              responses:
+                '204':
+                  description: 'ForwardingDomain deleted from cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/uuid1'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedForwardingConstruct
+      summary: 'Provides ForwardingConstruct from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ForwardingConstruct provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:forwarding-construct:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-get-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForCachedForwardingConstructCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-203/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: uuid1
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'Another instance identifier that is unique within the device
+                    from {$request.parameters#uuid1}'
+              responses:
+                '200':
+                  description: 'ForwardingConstruct provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:forwarding-construct:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putForwardingConstructToCache
+      summary: 'Writes ForwardingConstruct to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:forwarding-construct:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
+      responses:
+        '204':
+          description: 'ForwardingConstruct written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-put-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForUpdatingForwardingConstructCausesWritingIntoCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-503/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: uuid1
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'Another instance identifier that is unique within the device
+                    from {$request.parameters#uuid1}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        core-model-1-4:forwarding-construct:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
+              responses:
+                '204':
+                  description: 'ForwardingConstruct written to cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedForwardingConstruct
+      summary: 'Deletes ForwardingConstruct from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'ForwardingConstruct deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-del-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForDeletingForwardingConstructCausesDeletingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-803/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            delete:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: uuid1
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'Another instance identifier that is unique within the device
+                    from {$request.parameters#uuid1}'
+              responses:
+                '204':
+                  description: 'ForwardingConstruct deleted from cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}/forwarding-construct-port{local-id}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mount-name'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/uuid1'
+      - $ref: '#/components/parameters/local-id'
+    get:
+      operationId: getCachedForwardingConstructPort
+      summary: 'Provides ForwardingConstructPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ForwardingConstructPort provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:forwarding-construct-port:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-get-is-204/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForCachedForwardingConstructPortCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-204/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: uuid1
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'Another instance identifier that is unique within the device
+                    from {$request.parameters#uuid1}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the FcPort that is addressed by the request
+                    from {$request.parameters#local-id}'
+              responses:
+                '200':
+                  description: 'ForwardingConstructPort provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:fc-port:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putForwardingConstructPortToCache
+      summary: 'Writes ForwardingConstructPort to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:forwarding-construct-port:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
+      responses:
+        '204':
+          description: 'ForwardingConstructPort written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-put-is-204/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForUpdatingForwardingConstructPortCausesWritingIntoCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-504/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: uuid1
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'Another instance identifier that is unique within the device
+                    from {$request.parameters#uuid1}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the FcPort that is addressed by the request
+                    from {$request.parameters#local-id}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        core-model-1-4:forwarding-construct-port:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
+              responses:
+                '204':
+                  description: 'ForwardingConstructPort written to cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedForwardingConstructPort
+      summary: 'Deletes ForwardingConstructPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'ForwardingConstructPort deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-del-is-204/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForDeletingForwardingConstructPortCausesDeletingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-804/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            delete:
+              parameters:
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by the request
+                    from {$request.parameters#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: uuid1
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'Another instance identifier that is unique within the device
+                    from {$request.parameters#uuid1}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the FcPort that is addressed by the request
+                    from {$request.parameters#local-id}'
+              responses:
+                '204':
+                  description: 'ForwardingConstructPort deleted from cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/link={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLink
+      summary: 'Provides Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Link provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForCachedLinkCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the Link that is addressed by the request
+                    from {$request.parameters#uuid}'
+              responses:
+                '200':
+                  description: 'Link provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:link:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/LINK'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkToCache
+      summary: 'Writes Link to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:link:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK'
+      responses:
+        '204':
+          description: 'Link written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForUpdatingLinkCausesWritingIntoCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-505/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        core-model-1-4:link:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/LINK'
+              responses:
+                '204':
+                  description: 'Link written to cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLink
+      summary: 'Deletes Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'Link deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForDeletingLinkCausesDeletingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-805/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            delete:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+              responses:
+                '204':
+                  description: 'Link deleted from cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/local-id'
+    get:
+      operationId: getCachedLinkPort
+      summary: 'Provides LinkPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'LinkPort provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link-port:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK_PORT'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForCachedLinkPortCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-206/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the list entry that is addressed by the request
+                    from {$request.parameters#local-id}'
+              responses:
+                '200':
+                  description: 'LinkPort provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:link-port:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/LINK_PORT'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkPortToCache
+      summary: 'Writes LinkPort to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:link-port:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK_PORT'
+      responses:
+        '204':
+          description: 'LinkPort written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForUpdatingLinkPortCausesWritingIntoCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-506/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the list entry that is addressed by the request
+                    from {$request.parameters#local-id}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        core-model-1-4:link-port:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/LINK_PORT'
+              responses:
+                '204':
+                  description: 'LinkPort written to cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLinkPort
+      summary: 'Deletes LinkPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'LinkPort deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForDeletingLinkPortCausesDeletingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-806/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            delete:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the instance that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The identifier of the list entry that is addressed by the request
+                    from {$request.parameters#local-id}'
+              responses:
+                '204':
+                  description: 'LinkPort deleted from cache'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
     parameters:
@@ -7603,188 +8787,6 @@ paths:
                         properties:
                           wire-interface-2-0:wire-interface-historical-performances:
                             $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-
-  /core-model-1-4:network-control-domain=cache/link={uuid}:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/uuid'
-    get:
-      operationId: getCachedLink
-      summary: 'Provides Link from cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'Link provided from cache'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  core-model-1-4:link:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/LINK'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-s-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForCachedLinkCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-get-es-1-0-0-330/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '305551234'
-                  description: >
-                    'The UUID of the Link that is addressed by the request
-                    from {$request.parameters#uuid}'
-              responses:
-                '200':
-                  description: 'Link provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          core-model-1-4:link:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/LINK'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-    put:
-      operationId: putCachedLink
-      summary: 'Updates Link in cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - core-model-1-4:link
-              properties:
-                core-model-1-4:link:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/LINK'
-      responses:
-        '204':
-          description: 'Link updated in cache'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForUpdatingLinkCausesWritingIntoCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-put-es-1-0-0-630/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              parameters:
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '305551234'
-                  description: >
-                    'The UUID of the Link that is addressed by the request
-                    from {$request.parameters#uuid}'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - core-model-1-4:link
-                      properties:
-                        core-model-1-4:link:
-                          type: array
-                          items:
-                            $ref: '#/components/schemas/LINK'
-              responses:
-                '204':
-                  description: 'Link written to cache'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-    delete:
-      operationId: deleteCachedLink
-      summary: 'Deletes Link from cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '204':
-          description: 'Link deleted from cache'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForDeletingLinkCausesDeletingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-op-c-del-es-1-0-0-930/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            delete:
-              parameters:
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '305551234'
-                  description: >
-                    'The UUID of the Link that is addressed by the request
-                    from {$request.parameters#uuid}'
-              responses:
-                '204':
-                  description: 'Link deleted from cache'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -26109,6 +27111,14 @@ components:
         type: string
         example: 'LTP-MWPS-TTP-1-1'
       description: 'Instance identifier that is unique within the device'
+    uuid1:
+      name: uuid1
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'LTP-MWPS-TTP-1-1'
+      description: 'Another instance identifier that is unique within the device'
     local-id:
       name: local-id
       in: path

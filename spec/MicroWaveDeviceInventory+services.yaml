@@ -137,9 +137,9 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-201
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
           uuid: mwdi-1-0-0-op-s-get-is-202, mwdi-1-0-0-op-s-put-is-202, mwdi-1-0-0-op-s-del-is-202
-        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-0-0-op-s-get-is-203, mwdi-1-0-0-op-s-put-is-203, mwdi-1-0-0-op-s-del-is-203
-        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}/forwarding-construct-port{local-id}
           uuid: mwdi-1-0-0-op-s-get-is-204, mwdi-1-0-0-op-s-put-is-204, mwdi-1-0-0-op-s-del-is-204
         - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
           uuid: mwdi-1-0-0-op-s-get-is-205, mwdi-1-0-0-op-s-put-is-205, mwdi-1-0-0-op-s-del-is-205
@@ -446,9 +446,9 @@ clients:
           uuid: mwdi-1-0-0-op-c-get-es-1-0-0-201
         - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}
           uuid: mwdi-1-0-0-op-c-get-es-1-0-0-202
-        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-0-0-op-c-get-es-1-0-0-203
-        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}/forwarding-construct-port{local-id}
           uuid: mwdi-1-0-0-op-c-get-es-1-0-0-204
         - operation-name: /link={uuid}
           uuid: mwdi-1-0-0-op-c-get-es-1-0-0-205
@@ -582,9 +582,9 @@ clients:
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-501
         - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-502
-        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-503
-        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}/forwarding-construct-port{local-id}
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-504
         - operation-name: /link={uuid}
           uuid: mwdi-1-0-0-op-c-put-es-1-0-0-505
@@ -718,9 +718,9 @@ clients:
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-801
         - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-802
-        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-803
-        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+        - operation-name: /control-construct={mount-name}/forwarding-domain={uuid}/forwarding-construct{uuid1}/forwarding-construct-port{local-id}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-804
         - operation-name: /link={uuid}
           uuid: mwdi-1-0-0-op-c-del-es-1-0-0-805

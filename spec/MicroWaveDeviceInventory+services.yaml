@@ -338,7 +338,7 @@ servers:
           uuid: mwdi-1-0-0-op-s-is-574
   http-server:
     own-application-name: MicroWaveDeviceInventory
-    own-release-number: 1.0.0
+    own-release-number: 1.0.1
     uuid: mwdi-1-0-0-http-s-000
   tcp-server:
     - description: Without TLS layer
@@ -346,11 +346,7 @@ servers:
       own-ip-address: 1.1.4.4
       own-tcp-port: 4004
       uuid: mwdi-1-0-0-tcp-s-000
-    - description: With TLS layer
-      local-protocol: https
-      own-ip-address: 1.2.4.4
-      own-tcp-port: 4204
-      uuid: mwdi-1-0-0-tcp-s-001
+
 
 clients:
 
@@ -750,7 +746,7 @@ clients:
 
   - http-client:
       application-name: OldRelease
-      release-number: 1.0.0
+      release-number: 1.0.1
       uuid: mwdi-1-0-0-http-c-or-1-0-0-000
     tcp-client:
       remote-protocol: http
@@ -769,7 +765,7 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: 1.0.0
+      release-number: 1.0.1
       uuid: mwdi-1-0-0-http-c-nr-1-0-0-000
     tcp-client:
       remote-protocol: http
@@ -792,12 +788,12 @@ clients:
 
   - http-client:
       application-name: RegistryOffice
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-ro-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.8
-      tcp-port: 3008
+      ip-address: 1.1.3.17
+      tcp-port: 3017
       uuid: mwdi-1-0-0-tcp-c-ro-2-0-1-000
     operation-clients:
       own-oam:
@@ -817,12 +813,12 @@ clients:
 
   - http-client:
       application-name: TypeApprovalRegister
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-tar-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.9
-      tcp-port: 3009
+      ip-address: 1.1.3.18
+      tcp-port: 3018
       uuid: mwdi-1-0-0-tcp-c-tar-2-0-1-000
     operation-clients:
       own-oam:
@@ -834,12 +830,12 @@ clients:
 
   - http-client:
       application-name: ExecutionAndTraceLog
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-eatl-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.10
-      tcp-port: 3010
+      ip-address: 1.1.3.19
+      tcp-port: 3019
       uuid: mwdi-1-0-0-tcp-c-eatl-2-0-1-000
     operation-clients:
       own-oam:
@@ -853,12 +849,12 @@ clients:
 
   - http-client:
       application-name: OamLog
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-ol-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.11
-      tcp-port: 3011
+      ip-address: 1.1.3.20
+      tcp-port: 3020
       uuid: mwdi-1-0-0-tcp-c-ol-2-0-1-000
     operation-clients:
       own-oam:
@@ -872,12 +868,12 @@ clients:
 
   - http-client:
       application-name: AdministratorAdministration
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-aa-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.12
-      tcp-port: 3012
+      ip-address: 1.1.3.21
+      tcp-port: 3021
       uuid: mwdi-1-0-0-tcp-c-aa-2-0-1-000
     operation-clients:
       own-oam:
@@ -891,12 +887,12 @@ clients:
 
   - http-client:
       application-name: ApplicationLayerTopology
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-alt-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.13
-      tcp-port: 3013
+      ip-address: 1.1.3.22
+      tcp-port: 3022
       uuid: mwdi-1-0-0-tcp-c-alt-2-0-1-000
     operation-clients:
       own-oam:
@@ -920,12 +916,12 @@ clients:
 
   - http-client:
       application-name: OperationKeyManagement
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: mwdi-1-0-0-http-c-okm-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.14
-      tcp-port: 3014
+      ip-address: 1.1.3.23
+      tcp-port: 3023
       uuid: mwdi-1-0-0-tcp-c-okm-2-0-1-000
     operation-clients:
       own-oam:
@@ -937,7 +933,7 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 1.0.0
+      release-number: 1.0.1
       uuid: mwdi-1-0-0-http-c-mwdi-1-0-0-000
     tcp-client:
       remote-protocol: http
@@ -1254,7 +1250,7 @@ clients:
 
   - http-client:
       application-name: NotificationProxy
-      release-number: 1.0.0
+      release-number: 1.0.1
       uuid: mwdi-1-0-0-http-c-np-1-0-0-000
     tcp-client:
       remote-protocol: http

@@ -165,9 +165,10 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -221,9 +222,10 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -277,9 +279,10 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -389,9 +392,10 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -443,9 +447,10 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -497,9 +502,10 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -609,9 +615,10 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -665,9 +672,10 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -719,9 +727,10 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -773,9 +782,10 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -828,9 +838,10 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -971,9 +982,10 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1027,9 +1039,10 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1081,9 +1094,10 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1136,9 +1150,10 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1191,9 +1206,10 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1246,9 +1262,10 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1682,9 +1699,10 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1703,8 +1721,8 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       returnObject = notFoundError();
     }
     resolve(returnObject);
-  });}
-
+  });
+}
 
 /**
  * Provides PureEthernetStructureCapability from cache
@@ -1994,9 +2012,10 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -2108,9 +2127,10 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -2222,9 +2242,10 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -2371,9 +2392,10 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];

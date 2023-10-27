@@ -4613,7 +4613,7 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getChachedLogicalTerminationPoint
+      operationId: getCachedLogicalTerminationPoint
       summary: 'Provides LogicalTerminationPoint from cache'
       tags:
         - IndividualServices
@@ -4701,7 +4701,7 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getChachedLtpAugment
+      operationId: getCachedLtpAugment
       summary: 'Provides LtpAugment from cache'
       tags:
         - IndividualServices
@@ -7607,15 +7607,6 @@ paths:
                       'Controller internal path to the device mount points
                       from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-0-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
                     example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-                - name: mount-name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mount-name of the device that is addressed by the request
-                    from {$request.parameters#mount-name}'
                 - name: mount-name
                   in: path
                   required: true
@@ -11045,7 +11036,7 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getChachedLogicalTerminationPoint
+      operationId: getCachedLogicalTerminationPoint
       summary: 'Provides LogicalTerminationPoint from live network'
       tags:
         - IndividualServices
@@ -11191,7 +11182,7 @@ paths:
       - $ref: '#/components/parameters/uuid'
       - $ref: '#/components/parameters/fields'
     get:
-      operationId: getChachedLtpAugment
+      operationId: getCachedLtpAugment
       summary: 'Provides LtpAugment from live network'
       tags:
         - IndividualServices

@@ -1,0 +1,42 @@
+{
+    "network-topology:network-topology": {
+        "topology": [
+            {
+                "node": [                    
+                    {
+                        "node-id": "S",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "T",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "U",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "V",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "W",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "X",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "Y",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "Z",
+                        "netconf-node-topology:connection-status": "connected"
+                    }
+                ]
+            }
+        ]
+    }
+}

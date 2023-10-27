@@ -275,8 +275,20 @@
                 "string-profile-capability": {
                   "string-name": "controllerInternalPathToMountPoint"
                 },
-                "integer-profile-configuration": {
+                "string-profile-configuration": {
                   "string-name": "rests/data/network-topology:network-topology/topology=topology-netconf"
+                }
+              }
+            },
+            {
+              "uuid": "mwdi-1-0-0-string-p-001",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "string-profile-1-0:integer-profile-pac": {
+                "string-profile-capability": {
+                  "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter"
+                },
+                "string-profile-configuration": {
+                  "string-name": "node(node-id;netconf-node-topology:connection-status)"
                 }
               }
             }
@@ -3989,8 +4001,7 @@
               "mwdi-1-0-0-op-s-is-574"              
             ],
             "server-ltp": [
-              "mwdi-1-0-0-tcp-s-000",
-              "mwdi-1-0-0-tcp-s-001"
+              "mwdi-1-0-0-tcp-s-000"
             ],
             "layer-protocol": [
               {
@@ -3999,7 +4010,7 @@
                 "http-server-interface-1-0:http-server-interface-pac": {
                   "http-server-interface-capability": {
                     "application-name": "MicroWaveDeviceInventory",
-                    "release-number": "1.0.0",
+                    "release-number": "1.0.1",
                     "application-purpose": "Provide cached ControlConstruct data for devices in connected state on the Controller",
                     "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
                     "owner-name": "Katharina Mohr",
@@ -4007,8 +4018,8 @@
                     "release-list": [
                       {
                         "local-id": "0",
-                        "release-number": "1.0.0",
-                        "release-date": "31.08.2023",
+                        "release-number": "1.0.1",
+                        "release-date": "27.10.2023",
                         "changes": "Initial version."
                       }
                     ]
@@ -4037,31 +4048,6 @@
                       "ipv-4-address": "1.1.4.4"
                     },
                     "local-port": 4004
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "uuid": "mwdi-1-0-0-tcp-s-001",
-            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-              "mwdi-1-0-0-http-s-000"
-            ],
-            "server-ltp": [
-            ],
-            "layer-protocol": [
-              {
-                "local-id": "0",
-                "layer-protocol-name": "tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
-                "tcp-server-interface-1-0:tcp-server-interface-pac": {
-                  "tcp-server-interface-configuration": {
-                    "description": "With TLS layer",
-                    "local-protocol": "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS",
-                    "local-address": {
-                      "ipv-4-address": "1.2.4.4"
-                    },
-                    "local-port": 4204
                   }
                 }
               }
@@ -8579,7 +8565,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "OldRelease",
-                    "release-number": "1.0.0"
+                    "release-number": "1.0.1"
                   }
                 }
               }
@@ -8705,7 +8691,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "NewRelease",
-                    "release-number": "1.0.0"
+                    "release-number": "1.0.1"
                   }
                 }
               }
@@ -8856,7 +8842,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "RegistryOffice",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -8879,10 +8865,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.8"
+                        "ipv-4-address": "1.1.3.17"
                       }
                     },
-                    "remote-port": 3008
+                    "remote-port": 3017
                   }
                 }
               }
@@ -8903,7 +8889,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "TypeApprovalRegister",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -8926,10 +8912,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.9"
+                        "ipv-4-address": "1.1.3.18"
                       }
                     },
-                    "remote-port": 3009
+                    "remote-port": 3018
                   }
                 }
               }
@@ -8977,7 +8963,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "ExecutionAndTraceLog",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -9000,10 +8986,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.10"
+                        "ipv-4-address": "1.1.3.19"
                       }
                     },
-                    "remote-port": 3010
+                    "remote-port": 3019
                   }
                 }
               }
@@ -9050,7 +9036,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "OamLog",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -9073,10 +9059,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.11"
+                        "ipv-4-address": "1.1.3.20"
                       }
                     },
-                    "remote-port": 3011
+                    "remote-port": 3020
                   }
                 }
               }
@@ -9123,7 +9109,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "AdministratorAdministration",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -9146,10 +9132,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.12"
+                        "ipv-4-address": "1.1.3.21"
                       }
                     },
-                    "remote-port": 3012
+                    "remote-port": 3021
                   }
                 }
               }
@@ -9326,7 +9312,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "ApplicationLayerTopology",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -9349,10 +9335,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.13"
+                        "ipv-4-address": "1.1.3.22"
                       }
                     },
-                    "remote-port": 3013
+                    "remote-port": 3022
                   }
                 }
               }
@@ -9373,7 +9359,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "OperationKeyManagement",
-                    "release-number": "2.0.1"
+                    "release-number": "2.0.2"
                   }
                 }
               }
@@ -9396,10 +9382,10 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": "1.1.3.14"
+                        "ipv-4-address": "1.1.3.23"
                       }
                     },
-                    "remote-port": 3014
+                    "remote-port": 3023
                   }
                 }
               }
@@ -11059,7 +11045,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "MicrowaveDeviceInventory",
-                    "release-number": "1.0.0"
+                    "release-number": "1.0.1"
                   }
                 }
               }
@@ -12975,7 +12961,7 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "NotificationProxy",
-                    "release-number": "1.0.0"
+                    "release-number": "1.0.1"
                   }
                 }
               }

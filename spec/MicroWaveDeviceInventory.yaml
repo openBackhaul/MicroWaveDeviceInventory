@@ -2893,7 +2893,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -2902,7 +2902,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedConnector
@@ -2964,7 +2964,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -2972,7 +2972,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the Connector that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'Connector provided from cache'
@@ -2991,7 +2991,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/contained-holder={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -3000,7 +3000,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedContainedHolder
@@ -3062,7 +3062,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -3070,7 +3070,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the Holder that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'ContainedHolder provided from cache'
@@ -3089,7 +3089,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/expected-equipment={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -3098,7 +3098,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedExpectedEquipment
@@ -3160,7 +3160,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -3168,7 +3168,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the ExpectedEquipment that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'ExpectedEquipment provided from cache'
@@ -3346,7 +3346,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -3354,7 +3354,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedFirmwareComponentList
@@ -3405,7 +3405,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -3413,7 +3413,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'FirmwareComponentList provided from cache'
@@ -3430,7 +3430,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -3438,7 +3438,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedFirmwareComponentCapability
@@ -3489,7 +3489,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -3497,7 +3497,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'FirmwareComponentCapability provided from cache'
@@ -3514,7 +3514,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -3522,7 +3522,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedFirmwareComponentStatus
@@ -3573,7 +3573,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -3581,7 +3581,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'FirmwareComponentStatus provided from cache'
@@ -4775,7 +4775,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -4784,7 +4784,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedAirInterfaceCapability
@@ -4844,7 +4844,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -4852,7 +4852,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'AirInterfaceCapability provided from cache'
@@ -4869,7 +4869,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -4878,7 +4878,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedAirInterfaceConfiguration
@@ -4938,7 +4938,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -4946,7 +4946,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'AirInterfaceConfiguration provided from cache'
@@ -4963,7 +4963,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -4972,7 +4972,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedAirInterfaceStatus
@@ -5032,7 +5032,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5040,7 +5040,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'AirInterfaceStatus provided from cache'
@@ -5057,7 +5057,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5066,7 +5066,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedAirInterfaceHistoricalPerformances
@@ -5126,7 +5126,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5134,7 +5134,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'AirInterfaceHistoricalPerformances provided from cache'
@@ -5152,7 +5152,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5161,7 +5161,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedEthernetContainerCapability
@@ -5221,7 +5221,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5229,7 +5229,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'EthernetContainerCapability provided from cache'
@@ -5246,7 +5246,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5255,7 +5255,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedEthernetContainerConfiguration
@@ -5315,7 +5315,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5323,7 +5323,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'EthernetContainerConfiguration provided from cache'
@@ -5340,7 +5340,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5349,7 +5349,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedEthernetContainerStatus
@@ -5409,7 +5409,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5417,7 +5417,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'EthernetContainerStatus provided from cache'
@@ -5434,7 +5434,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5443,7 +5443,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedEthernetContainerHistoricalPerformances
@@ -5503,7 +5503,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5511,7 +5511,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'EthernetContainerHistoricalPerformances provided from cache'
@@ -5529,7 +5529,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5538,7 +5538,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedHybridMwStructureCapability
@@ -5598,7 +5598,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5606,7 +5606,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'HybridMwStructureCapability provided from cache'
@@ -5623,7 +5623,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5632,7 +5632,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedHybridMwStructureConfiguration
@@ -5692,7 +5692,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5700,7 +5700,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'HybridMwStructureConfiguration provided from cache'
@@ -5717,7 +5717,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5726,7 +5726,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedHybridMwStructureStatus
@@ -5786,7 +5786,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5794,7 +5794,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'HybridMwStructureStatus provided from cache'
@@ -5811,7 +5811,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5820,7 +5820,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedHybridMwStructureHistoricalPerformances
@@ -5880,7 +5880,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5888,7 +5888,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'HybridMwStructureHistoricalPerformances provided from cache'
@@ -5906,7 +5906,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5915,7 +5915,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedMacInterfaceCapability
@@ -5975,7 +5975,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -5983,7 +5983,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'MacInterfaceCapability provided from cache'
@@ -6000,7 +6000,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6009,7 +6009,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedMacInterfaceConfiguration
@@ -6069,7 +6069,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6077,7 +6077,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'MacInterfaceConfiguration provided from cache'
@@ -6094,7 +6094,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6103,7 +6103,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedMacInterfaceStatus
@@ -6163,7 +6163,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6171,7 +6171,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'MacInterfaceStatus provided from cache'
@@ -6188,7 +6188,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6197,7 +6197,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedMacInterfaceHistoricalPerformances
@@ -6257,7 +6257,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6265,7 +6265,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'MacInterfaceHistoricalPerformances provided from cache'
@@ -6283,7 +6283,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6292,7 +6292,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedPureEthernetStructureCapability
@@ -6352,7 +6352,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6360,7 +6360,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'PureEthernetStructureCapability provided from cache'
@@ -6377,7 +6377,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6386,7 +6386,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedPureEthernetStructureConfiguration
@@ -6446,7 +6446,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6454,7 +6454,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'PureEthernetStructureConfiguration provided from cache'
@@ -6471,7 +6471,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6480,7 +6480,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedPureEthernetStructureStatus
@@ -6540,7 +6540,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6548,7 +6548,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'PureEthernetStructureStatus provided from cache'
@@ -6565,7 +6565,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6574,7 +6574,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedPureEthernetStructureHistoricalPerformances
@@ -6634,7 +6634,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6642,7 +6642,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'PureEthernetStructureHistoricalPerformances provided from cache'
@@ -6660,7 +6660,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6669,7 +6669,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedVlanInterfaceCapability
@@ -6729,7 +6729,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6737,7 +6737,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'VlanInterfaceCapability provided from cache'
@@ -6754,7 +6754,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6763,7 +6763,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedVlanInterfaceConfiguration
@@ -6823,7 +6823,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6831,7 +6831,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'VlanInterfaceConfiguration provided from cache'
@@ -6848,7 +6848,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6857,7 +6857,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedVlanInterfaceStatus
@@ -6917,7 +6917,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -6925,7 +6925,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'VlanInterfaceStatus provided from cache'
@@ -6942,7 +6942,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -6951,7 +6951,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedVlanInterfaceHistoricalPerformances
@@ -7011,7 +7011,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -7019,7 +7019,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'VlanInterfaceHistoricalPerformances provided from cache'
@@ -7037,7 +7037,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -7046,7 +7046,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedWireInterfaceCapability
@@ -7106,7 +7106,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -7114,7 +7114,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'WireInterfaceCapability provided from cache'
@@ -7131,7 +7131,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -7140,7 +7140,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedWireInterfaceConfiguration
@@ -7200,7 +7200,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -7208,7 +7208,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'WireInterfaceConfiguration provided from cache'
@@ -7225,7 +7225,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -7234,7 +7234,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedWireInterfaceStatus
@@ -7294,7 +7294,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -7302,7 +7302,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'WireInterfaceStatus provided from cache'
@@ -7319,7 +7319,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
+  /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -7328,7 +7328,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedWireInterfaceHistoricalPerformances
@@ -7388,7 +7388,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -7396,7 +7396,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'WireInterfaceHistoricalPerformances provided from cache'
@@ -7535,7 +7535,7 @@ paths:
                               but {$RequestForReadingFromDevice.response.body#core-model-1-4:control-construct.uuid} = {$request.parameter#mount-name}
                               and all other UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)
                               and all values in control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms/current-alarm-list/resource being composed from [/core-model-1-4:network-control-domain=live/control-construct=][{$request.parameter#mount-name}][path to the class derived from {$RequestForReadingFromDevice.response.body#alarms-1-0:current-alarms/current-alarm-list/resource}
-                              example: '[/core-model-1-4:network-control-domain=live/control-construct=][{mount-name}][/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac]'
+                              example: '[/core-model-1-4:network-control-domain=live/control-construct=][{mount-name}][/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac]'
               responses:
                 '204':
                   description: 'ControlConstruct written to cache'
@@ -7818,7 +7818,7 @@ paths:
                       'from {$RequestForReadingFromDevice.response.body#alarms-1-0:current-alarms}
                       and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)
                       and all resource values being composed from [/core-model-1-4:network-control-domain=live/control-construct=][{$request.parameter#mount-name}][path to the class derived from {$RequestForReadingFromDevice.response.body#alarms-1-0:current-alarms/current-alarm-list/resource}
-                      example: '[/core-model-1-4:network-control-domain=live/control-construct=][{mount-name}][/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac]'
+                      example: '[/core-model-1-4:network-control-domain=live/control-construct=][{mount-name}][/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac]'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -7903,7 +7903,7 @@ paths:
                             'from {$RequestForReadingFromDevice.response.body#alarms-1-0:current-alarms}
                             and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameter#mount-name}.concat("+", uuid)
                             and all resource values being composed from [/core-model-1-4:network-control-domain=live/control-construct=][{$request.parameter#mount-name}][path to the class derived from {$RequestForReadingFromDevice.response.body#alarms-1-0:current-alarms/current-alarm-list/resource}
-                            example: '[/core-model-1-4:network-control-domain=live/control-construct=][{mount-name}][/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac]'
+                            example: '[/core-model-1-4:network-control-domain=live/control-construct=][{mount-name}][/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac]'
               responses:
                 '204':
                   description: 'CurrentAlarms written to cache'
@@ -8181,7 +8181,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/connector={local-id}:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/connector={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -8190,7 +8190,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveConnector
@@ -8264,7 +8264,7 @@ paths:
                   description: >
                     'The UUID of the equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -8272,7 +8272,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the Connector that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -8312,7 +8312,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -8320,7 +8320,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the Connector that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -8346,7 +8346,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/contained-holder={local-id}:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/contained-holder={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -8355,7 +8355,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveContainedHolder
@@ -8429,7 +8429,7 @@ paths:
                   description: >
                     'The UUID of the equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -8437,7 +8437,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the Holder that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -8477,7 +8477,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -8485,7 +8485,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the Holder that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -8511,7 +8511,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/expected-equipment={local-id}:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/equipment={uuid}/expected-equipment={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -8520,7 +8520,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveExpectedEquipment
@@ -8594,7 +8594,7 @@ paths:
                   description: >
                     'The UUID of the equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -8602,7 +8602,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the ExpectedEquipment that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -8642,7 +8642,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -8650,7 +8650,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the ExpectedEquipment that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -8938,7 +8938,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -8946,7 +8946,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveFirmwareComponentList
@@ -9009,7 +9009,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -9017,7 +9017,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -9046,7 +9046,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -9054,7 +9054,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -9078,7 +9078,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -9086,7 +9086,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveFirmwareComponentCapability
@@ -9149,7 +9149,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -9157,7 +9157,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -9186,7 +9186,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -9194,7 +9194,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -9218,7 +9218,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -9226,7 +9226,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveFirmwareComponentStatus
@@ -9289,7 +9289,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -9297,7 +9297,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -9326,7 +9326,7 @@ paths:
                   description: >
                     'The mount-name of the device that is addressed by the request
                     from {$request.parameters#mount-name}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -9334,7 +9334,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the FirmwareComponent that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -11312,7 +11312,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -11321,7 +11321,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveAirInterfaceCapability
@@ -11393,7 +11393,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11401,7 +11401,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -11439,7 +11439,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11447,7 +11447,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -11471,7 +11471,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -11480,7 +11480,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveAirInterfaceConfiguration
@@ -11552,7 +11552,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11560,7 +11560,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -11598,7 +11598,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11606,7 +11606,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -11630,7 +11630,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -11639,7 +11639,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveAirInterfaceStatus
@@ -11711,7 +11711,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11719,7 +11719,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -11757,7 +11757,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11765,7 +11765,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -11789,7 +11789,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -11798,7 +11798,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveAirInterfaceCurrentPerformance
@@ -11870,7 +11870,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11878,7 +11878,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -11895,7 +11895,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -11904,7 +11904,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveAirInterfaceHistoricalPerformances
@@ -11976,7 +11976,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11984,7 +11984,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12022,7 +12022,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12030,7 +12030,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -12055,7 +12055,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12064,7 +12064,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveEthernetContainerCapability
@@ -12136,7 +12136,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12144,7 +12144,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12182,7 +12182,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12190,7 +12190,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -12214,7 +12214,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12223,7 +12223,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveEthernetContainerConfiguration
@@ -12295,7 +12295,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12303,7 +12303,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12341,7 +12341,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12349,7 +12349,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -12373,7 +12373,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12382,7 +12382,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveEthernetContainerStatus
@@ -12454,7 +12454,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12462,7 +12462,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12500,7 +12500,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12508,7 +12508,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -12532,7 +12532,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12541,7 +12541,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveEthernetContainerCurrentPerformance
@@ -12613,7 +12613,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12621,7 +12621,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12638,7 +12638,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12647,7 +12647,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveEthernetContainerHistoricalPerformances
@@ -12719,7 +12719,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12727,7 +12727,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12765,7 +12765,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12773,7 +12773,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -12798,7 +12798,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12807,7 +12807,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveHybridMwStructureCapability
@@ -12879,7 +12879,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12887,7 +12887,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -12925,7 +12925,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -12933,7 +12933,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -12957,7 +12957,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12966,7 +12966,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveHybridMwStructureConfiguration
@@ -13038,7 +13038,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13046,7 +13046,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13084,7 +13084,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13092,7 +13092,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -13116,7 +13116,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -13125,7 +13125,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveHybridMwStructureStatus
@@ -13197,7 +13197,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13205,7 +13205,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13243,7 +13243,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13251,7 +13251,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -13275,7 +13275,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -13284,7 +13284,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveHybridMwStructureCurrentPerformance
@@ -13356,7 +13356,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13364,7 +13364,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13381,7 +13381,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -13390,7 +13390,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveHybridMwStructureHistoricalPerformances
@@ -13462,7 +13462,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13470,7 +13470,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13508,7 +13508,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13516,7 +13516,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -13541,7 +13541,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -13550,7 +13550,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveMacInterfaceCapability
@@ -13622,7 +13622,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13630,7 +13630,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13668,7 +13668,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13676,7 +13676,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -13700,7 +13700,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -13709,7 +13709,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveMacInterfaceConfiguration
@@ -13781,7 +13781,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13789,7 +13789,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13827,7 +13827,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13835,7 +13835,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -13859,7 +13859,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -13868,7 +13868,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveMacInterfaceStatus
@@ -13940,7 +13940,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13948,7 +13948,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -13986,7 +13986,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -13994,7 +13994,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -14018,7 +14018,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14027,7 +14027,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveMacInterfaceCurrentPerformance
@@ -14099,7 +14099,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14107,7 +14107,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14124,7 +14124,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14133,7 +14133,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveMacInterfaceHistoricalPerformances
@@ -14205,7 +14205,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14213,7 +14213,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14251,7 +14251,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14259,7 +14259,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -14284,7 +14284,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14293,7 +14293,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLivePureEthernetStructureCapability
@@ -14365,7 +14365,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14373,7 +14373,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14411,7 +14411,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14419,7 +14419,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -14443,7 +14443,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14452,7 +14452,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLivePureEthernetStructureConfiguration
@@ -14524,7 +14524,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14532,7 +14532,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14570,7 +14570,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14578,7 +14578,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -14602,7 +14602,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14611,7 +14611,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLivePureEthernetStructureStatus
@@ -14683,7 +14683,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14691,7 +14691,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14729,7 +14729,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14737,7 +14737,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -14761,7 +14761,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14770,7 +14770,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLivePureEthernetStructureCurrentPerformance
@@ -14842,7 +14842,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14850,7 +14850,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14867,7 +14867,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -14876,7 +14876,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLivePureEthernetStructureHistoricalPerformances
@@ -14948,7 +14948,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -14956,7 +14956,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -14994,7 +14994,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15002,7 +15002,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -15027,7 +15027,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15036,7 +15036,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveVlanInterfaceCapability
@@ -15108,7 +15108,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15116,7 +15116,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -15154,7 +15154,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15162,7 +15162,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -15186,7 +15186,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15195,7 +15195,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveVlanInterfaceConfiguration
@@ -15267,7 +15267,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15275,7 +15275,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -15313,7 +15313,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15321,7 +15321,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -15345,7 +15345,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15354,7 +15354,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveVlanInterfaceStatus
@@ -15426,7 +15426,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15434,7 +15434,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -15472,7 +15472,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15480,7 +15480,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -15504,7 +15504,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15513,7 +15513,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveVlanInterfaceCurrentPerformance
@@ -15585,7 +15585,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15593,7 +15593,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -15610,7 +15610,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15619,7 +15619,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveVlanInterfaceHistoricalPerformances
@@ -15691,7 +15691,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15699,7 +15699,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -15737,7 +15737,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15745,7 +15745,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -15770,7 +15770,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15779,7 +15779,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveWireInterfaceCapability
@@ -15851,7 +15851,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15859,7 +15859,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -15897,7 +15897,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -15905,7 +15905,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -15929,7 +15929,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15938,7 +15938,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveWireInterfaceConfiguration
@@ -16010,7 +16010,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16018,7 +16018,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -16056,7 +16056,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16064,7 +16064,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -16088,7 +16088,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -16097,7 +16097,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveWireInterfaceStatus
@@ -16169,7 +16169,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16177,7 +16177,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -16215,7 +16215,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16223,7 +16223,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -16247,7 +16247,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -16256,7 +16256,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveWireInterfaceCurrentPerformance
@@ -16328,7 +16328,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16336,7 +16336,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -16353,7 +16353,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
+  /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -16362,7 +16362,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mount-name'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/local-id'
+      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getLiveWireInterfaceHistoricalPerformances
@@ -16434,7 +16434,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16442,7 +16442,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               responses:
                 '200':
                   description: 'OK'
@@ -16480,7 +16480,7 @@ paths:
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$request.parameters#uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -16488,7 +16488,7 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#local-id}'
+                    from {$request.parameters#localId}'
               requestBody:
                 required: true
                 content:
@@ -25966,8 +25966,8 @@ components:
         type: string
         example: 'LTP-MWPS-TTP-1-1'
       description: 'Instance identifier that is unique within the device'
-    local-id:
-      name: local-id
+    localId:
+      name: localId
       in: path
       required: true
       schema:

@@ -5,7 +5,7 @@ title  RequestForListOfActualDeviceEquipmentCausesReadingFromCache
 
 participant "external" as requestor
 participant "MWDI://v1/provide-list-of-device-interfaces" as provideListOfActualDeviceEquipment
-participant "ElasticSearch://control-construct={mount-name}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))" as ActualDeviceEquipmentList
+participant "ElasticSearch://control-construct={mountName}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))" as ActualDeviceEquipmentList
 
 requestor -> provideListOfActualDeviceEquipment: (apiKeyAuth)
 activate provideListOfActualDeviceEquipment

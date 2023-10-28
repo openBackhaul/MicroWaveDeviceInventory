@@ -16535,7 +16535,7 @@ paths:
       tags:
       - IndividualServices
       summary: Provides LogicalTerminationPoint from cache
-      operationId: getChachedLogicalTerminationPoint
+      operationId: getCachedLogicalTerminationPoint
       parameters:
       - name: user
         in: header
@@ -16896,7 +16896,7 @@ paths:
       tags:
       - IndividualServices
       summary: Provides LtpAugment from cache
-      operationId: getChachedLtpAugment
+      operationId: getCachedLtpAugment
       parameters:
       - name: user
         in: header
@@ -41120,7 +41120,7 @@ paths:
       tags:
       - IndividualServices
       summary: Provides LogicalTerminationPoint from live network
-      operationId: getCachedLogicalTerminationPoint
+      operationId: getLiveLogicalTerminationPoint
       parameters:
       - name: user
         in: header
@@ -41638,7 +41638,7 @@ paths:
       tags:
       - IndividualServices
       summary: Provides LtpAugment from live network
-      operationId: getCachedLtpAugment
+      operationId: getLiveLtpAugment
       parameters:
       - name: user
         in: header
@@ -61520,6 +61520,16 @@ paths:
                   description: |
                     'Controller internal path to the device mount points from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-0-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
                   example: rests/data/network-topology:network-topology/topology=topology-netconf
+              - name: fields
+                in: query
+                description: |
+                  'If different from empty string, a fields filter with the following value to be added to the request from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-0-0-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                required: true
+                style: form
+                explode: true
+                schema:
+                  type: string
+                  example: node(node-id;netconf-node-topology:connection-status)
               responses:
                 "200":
                   description: OK
@@ -80991,7 +81001,9 @@ components:
                       string-name:
                         type: string
                       enumeration:
-                        type: string
+                        type: array
+                        items:
+                          type: string
                       pattern:
                         type: string
                   string-profile-configuration:
@@ -82607,6 +82619,7 @@ components:
                       properties:
                         consequent-operation-reference:
                           type: string
+              additionalProperties: false
               description: action profile
             - required:
               - profile-name
@@ -82793,7 +82806,9 @@ components:
                         string-name:
                           type: string
                         enumeration:
-                          type: string
+                          type: array
+                          items:
+                            type: string
                         pattern:
                           type: string
                     string-profile-configuration:

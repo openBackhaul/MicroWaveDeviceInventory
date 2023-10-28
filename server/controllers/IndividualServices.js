@@ -576,11 +576,11 @@ module.exports.getCachedLogicalTerminationPoint = function getCachedLogicalTermi
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+module.exports.getLiveLtpAugment = function getLiveLtpAugment (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.getCachedLtpAugment(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
+  IndividualServices.getLiveLtpAugment(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -1089,11 +1089,11 @@ module.exports.getCachedWredProfileConfiguration = function getCachedWredProfile
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getChachedLogicalTerminationPoint = function getChachedLogicalTerminationPoint (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+module.exports.getLiveLogicalTerminationPoint = function getLiveLogicalTerminationPoint (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.getChachedLogicalTerminationPoint(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
+  IndividualServices.getLiveLogicalTerminationPoint(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -1108,11 +1108,11 @@ module.exports.getChachedLogicalTerminationPoint = function getChachedLogicalTer
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getChachedLtpAugment = function getChachedLtpAugment (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.getChachedLtpAugment(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
+  IndividualServices.getCachedLtpAugment(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);

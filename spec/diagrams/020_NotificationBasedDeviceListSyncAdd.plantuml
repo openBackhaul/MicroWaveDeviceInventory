@@ -5,7 +5,7 @@ title  NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
 
 participant "NP://v1/notify-controller-attribute-value-changes" as subscription
 participant "MWDI://v1/regard-controller-attribute-value-change" as regardNewDevice
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}" as liveControlConstruct
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as liveControlConstruct
 
 subscription -> regardNewDevice: AttributeValueChangedNotification (apiKeyAuth)
 activate regardNewDevice

@@ -165,9 +165,10 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -206,45 +207,43 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
  **/
 exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
+    const myFields = user;
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const urlParts = url.split("?fields=");
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     if (mountname.indexOf("+") != -1) {
       const parts = mountname.split("+");
-      var correctCc = parts[0];
+      var correctMountname = parts[0];
     } else {
-      correctCc = mountname;
+      correctMountname = mountname;
     }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
-      } else {
-        let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
         }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
       }
+    } else {
+      returnObject = notFoundError();
     }
+    resolve(returnObject);
   });
 }
 
@@ -264,16 +263,44 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
  * returns inline_response_200_32
  **/
 exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "air-interface-2-0:air-interface-configuration": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -365,9 +392,10 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -419,9 +447,10 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -473,9 +502,10 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -585,9 +615,10 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -641,9 +672,10 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -695,9 +727,10 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -749,9 +782,10 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -804,9 +838,10 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -931,16 +966,44 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
  * returns inline_response_200_37
  **/
 exports.getCachedEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "ethernet-container-2-0:ethernet-container-status": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -976,9 +1039,10 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1030,9 +1094,10 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1085,9 +1150,10 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1140,9 +1206,10 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1195,9 +1262,10 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1349,7 +1417,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1387,7 +1455,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -1631,9 +1699,10 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
     }
     let returnObject = {};
     const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
     let result = await ReadRecords(correctMountname);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(finalUrl, result);
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
@@ -1652,8 +1721,8 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       returnObject = notFoundError();
     }
     resolve(returnObject);
-  });}
-
+  });
+}
 
 /**
  * Provides PureEthernetStructureCapability from cache
@@ -1927,16 +1996,44 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
  * returns inline_response_200_52
  **/
 exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "vlan-interface-1-0:vlan-interface-configuration": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -2014,16 +2111,44 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
  * returns inline_response_200_55
  **/
 exports.getCachedWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "wire-interface-2-0:wire-interface-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -2101,16 +2226,44 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
  * returns inline_response_200_57
  **/
 exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "wire-interface-2-0:wire-interface-status": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctMountname = parts[0];
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -2184,7 +2337,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getChachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -2222,47 +2375,45 @@ exports.getChachedLogicalTerminationPoint = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getChachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
+    const myFields = user;
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const urlParts = url.split("?fields=");
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     if (mountname.indexOf("+") != -1) {
       const parts = mountname.split("+");
-      var correctCc = parts[0];
+      var correctMountname = parts[0];
     } else {
-      correctCc = mountname;
+      correctMountname = mountname;
     }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
-      } else {
-        let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
         }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
       }
+    } else {
+      returnObject = notFoundError();
     }
+    resolve(returnObject);
   });
 }
 
@@ -2456,15 +2607,45 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
  * returns inline_response_200_33
  **/
 exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "air-interface-2-0:air-interface-status": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -3211,29 +3392,45 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
  * returns inline_response_200_13
  **/
 exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "firmware-1-0:firmware-collection": {
-        "firmware-component-list": [{
-          "local-id": "local-id",
-          "firmware-component-pac": {
-            "firmware-component-capability": {},
-            "firmware-component-status": {}
-          }
-        }, {
-          "local-id": "local-id",
-          "firmware-component-pac": {
-            "firmware-component-capability": {},
-            "firmware-component-status": {}
-          }
-        }]
-      }
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    if (mountname.indexOf("+") != -1) {
+      const parts = mountname.split("+");
+      var correctCc = parts[0];
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }

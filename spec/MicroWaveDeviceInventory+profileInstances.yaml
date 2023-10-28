@@ -107,6 +107,17 @@ profile-instances:
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
 
+  - profile-name: 'FileProfile'
+    uuid: 'mwdi-1-0-0-file-p-000'
+    capability:
+      file-identifier: 'EncryptedOdlKey'
+      file-description: 'Authorization key for OpenDayLight'
+    configuration:
+      file-path: '../application-data/encrypted-odl-key.json'
+      user-name: 'MicroWaveDeviceInventory'
+      password: 'Operations to add password'
+      operation: 'read'
+
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-1-0-0-integer-p-000'
     capability:

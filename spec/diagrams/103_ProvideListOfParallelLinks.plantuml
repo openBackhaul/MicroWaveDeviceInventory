@@ -18,7 +18,7 @@ provideListOfParallelLinks -> Link : {uuid=link-id}
 Link --> provideListOfParallelLinks: {given-layer-protocol-name, given-list-of-fd}
 
 note over provideListOfParallelLinks
-<u> SearchingParallelLinksInChache </u>
+<u> SearchingParallelLinksInCache </u>
 Filter all Links in Cache for:
   (layer-protocol-name == given-layer-protocol-name)
   AND (elements of given-list-of-fd also elements of list-of-fd)

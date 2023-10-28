@@ -36,7 +36,7 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 
 **`ControllerInternalPathToMountPoint`**  
 - The actual path to the mount-point inside the Controller depends on the used Controller (currently ODL). After the mount-point has been reached the subsequent parts of the path are the same across different Controllers.
-- The profileInstance allows to **configure the path to the mount-point depending on the used Controller**. The related **path-parameter** `{controller-internal-path-to-mount-point}`, which is **used in all operation-clients of the OpenDaylight client-stack**, contains a reference to the profileInstance information inside the ConfigFile.
+- The profileInstance allows to **configure the path to the mount-point depending on the used Controller**. The related **path-parameter** `{controllerInternalPathToMountPoint}`, which is **used in all operation-clients of the OpenDaylight client-stack**, contains a reference to the profileInstance information inside the ConfigFile.
 - (initial) configuration: `rests/data/network-topology:network-topology/topology=topology-netconf`
 
 ---

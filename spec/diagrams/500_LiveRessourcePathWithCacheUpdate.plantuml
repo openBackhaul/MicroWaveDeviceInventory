@@ -13,7 +13,7 @@ end title
 
 participant "external" as requestor
 participant "MWDI:/{livePath}" as LiveControlConstructClass
-participant "ODL://{controller-internal-path-to-mount-point}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct{livePath shortened by /core-model-1-4:network-control-domain=cache/control-construct={mountName}}" as OdlControlConstructClass
+participant "ODL://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct{livePath shortened by /core-model-1-4:network-control-domain=cache/control-construct={mountName}}" as OdlControlConstructClass
 participant "ElasticSearch:/{livePath, but shortened by /core-model-1-4:network-control-domain=live}" as EsControlConstructClass
 
 

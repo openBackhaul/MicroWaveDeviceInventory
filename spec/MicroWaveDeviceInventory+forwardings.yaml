@@ -249,15 +249,15 @@ forwardings:
         uuid: mwdi-1-0-0-op-s-is-200
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
         uuid: mwdi-1-0-0-op-s-is-201
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-s-get-is-202, mwdi-1-0-0-op-s-put-is-202, mwdi-1-0-0-op-s-del-is-202
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-s-get-is-203, mwdi-1-0-0-op-s-put-is-203, mwdi-1-0-0-op-s-del-is-203
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-s-get-is-204, mwdi-1-0-0-op-s-put-is-204, mwdi-1-0-0-op-s-del-is-204
       - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
         uuid: mwdi-1-0-0-op-s-get-is-205, mwdi-1-0-0-op-s-put-is-205, mwdi-1-0-0-op-s-del-is-205
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-s-get-is-206, mwdi-1-0-0-op-s-put-is-206, mwdi-1-0-0-op-s-del-is-206
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-0-0-op-s-is-210
@@ -1936,10 +1936,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-s-get-is-202
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-202
 
   - forwarding-name: RequestForCachedForwardingConstructCausesReadingFromCache
@@ -1951,10 +1951,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-s-get-is-203
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-203
 
   - forwarding-name: RequestForCachedForwardingConstructPortCausesReadingFromCache
@@ -1966,10 +1966,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-s-get-is-204
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-204
 
   - forwarding-name: RequestForCachedLinkCausesReadingFromCache
@@ -1996,10 +1996,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-s-get-is-206
     consequent-requests:
-      - client-name: ElasticSearch://link={uuid}/link-port{local-id}
+      - client-name: ElasticSearch://link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-c-get-es-1-0-0-206
 
   - forwarding-name: RequestForCachedAirInterfaceCapabilityCausesReadingFromCache
@@ -2908,10 +2908,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-s-put-is-202
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-502
 
   - forwarding-name: RequestForUpdatingForwardingConstructCausesWritingIntoCache
@@ -2923,10 +2923,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-s-put-is-203
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-503
 
   - forwarding-name: RequestForUpdatingForwardingConstructPortCausesWritingIntoCache
@@ -2938,10 +2938,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-s-put-is-204
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-504
 
   - forwarding-name: RequestForUpdatingLinkCausesWritingIntoCache
@@ -2968,10 +2968,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-s-put-is-206
     consequent-requests:
-      - client-name: ElasticSearch://link={uuid}/link-port{local-id}
+      - client-name: ElasticSearch://link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-c-put-es-1-0-0-506
 
   - forwarding-name: RequestForLiveAirInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache
@@ -3568,10 +3568,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-s-del-is-202
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-802
 
   - forwarding-name: RequestForDeletingForwardingConstructCausesDeletingFromCache
@@ -3583,10 +3583,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-s-del-is-203
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-803
 
   - forwarding-name: RequestForDeletingForwardingConstructPortCausesDeletingFromCache
@@ -3598,10 +3598,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-s-del-is-204
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mount-name}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{local-id}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid1}/forwarding-construct{uuid2}/forwarding-construct-port{localId}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-804
 
   - forwarding-name: RequestForDeletingLinkCausesDeletingFromCache
@@ -3628,8 +3628,8 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{local-id}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-s-del-is-206
     consequent-requests:
-      - client-name: ElasticSearch://link={uuid}/link-port{local-id}
+      - client-name: ElasticSearch://link={uuid}/link-port{localId}
         uuid: mwdi-1-0-0-op-c-del-es-1-0-0-806

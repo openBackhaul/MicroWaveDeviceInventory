@@ -22685,6 +22685,250 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-capability/file-identifier:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
+          example: 'ro-2-0-1-file-p-000'
+    get:
+      operationId: getFileProfileFileIdentifier
+      summary: 'Returns the identifier of the file'
+      tags:
+        - FileProfile
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'File identifier provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - file-profile-1-0:file-identifier
+                properties:
+                  file-profile-1-0:file-identifier:
+                    type: string
+                    example: 'applicationData'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-capability/file-description:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
+          example: 'ro-2-0-1-file-p-000'
+    get:
+      operationId: getFileProfileFileDescription
+      summary: 'Returns the description of the file'
+      tags:
+        - FileProfile
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'File description provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - file-profile-1-0:file-description
+                properties:
+                  file-profile-1-0:file-description:
+                    type: string
+                    example: 'Holds administrator-names, user-names, authorization codes and allowed-methods.'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-configuration/file-name:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
+          example: 'ro-2-0-1-file-p-000'
+    get:
+      operationId: getFileProfileFileName
+      summary: 'Returns the name of the file'
+      tags:
+        - FileProfile
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'File name provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - file-profile-1-0:file-name
+                properties:
+                  file-profile-1-0:file-name:
+                    type: string
+                    example: 'application-data.json'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putFileProfileFileName
+      summary: 'Configures name of the file'
+      tags:
+        - FileProfile
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - file-profile-1-0:file-name
+              properties:
+                file-profile-1-0:file-name:
+                  type: string
+                  pattern: '^([A-Za-z0-9-_,\s]{3,})\.([A-Za-z]{3})$'
+                  example: 'application-data.json'
+      responses:
+        '204':
+          description: 'File name configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-configuration/operation:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
+          example: 'ro-2-0-1-file-p-000'
+    get:
+      operationId: getFileProfileOperation
+      summary: 'Returns the allowed operation on the file'
+      tags:
+        - FileProfile
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Operation provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - file-profile-1-0:operation
+                properties:
+                  file-profile-1-0:operation:
+                    type: string
+                    enum:
+                      - 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
+                      - 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
+                      - 'file-profile-1-0:OPERATION_TYPE_OFF'
+                      - 'file-profile-1-0:OPERATION_TYPE_NOT_YET_DEFINED'
+                    example: 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putFileProfileOperation
+      summary: 'Configures the allowed operation on the file'
+      tags:
+        - FileProfile
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - file-profile-1-0:operation
+              properties:
+                file-profile-1-0:operation:
+                  type: string
+                  enum:
+                    - 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
+                    - 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
+                    - 'file-profile-1-0:OPERATION_TYPE_OFF'
+                    - 'file-profile-1-0:OPERATION_TYPE_NOT_YET_DEFINED'
+                  example: 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
+      responses:
+        '204':
+          description: 'Operation configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/integer-profile-1-0:integer-profile-pac/integer-profile-capability/integer-name:
     parameters:
       - in: path

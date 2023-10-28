@@ -204,6 +204,22 @@
           }
         },
         {
+          "uuid": "mwdi-1-0-0-file-p-000",
+          "profile-name": "file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE",
+          "file-profile-1-0:file-profile-pac": {
+            "file-profile-capability": {
+              "file-identifier": "EncryptedOdlKey",
+              "file-description": "Authorization key for OpenDayLight"
+            },
+            "file-profile-configuration": {
+              "file-path": "../application-data/encrypted-odl-key.json",
+              "user-name": "MicroWaveDeviceInventory",
+              "password": "Operations to add password",
+              "operation": "file-profile-1-0:OPERATION_TYPE_READ_ONLY"
+            }
+          }
+        },
+        {
           "uuid": "mwdi-1-0-0-integer-p-000",
           "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {

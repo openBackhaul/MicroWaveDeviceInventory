@@ -10,7 +10,7 @@ end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "ODL://{controller-internal-path-to-mount-point}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
+participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
 participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
 participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as ControlConstruct
 participant "ElasticSearch://control-construct={mountName}" as es

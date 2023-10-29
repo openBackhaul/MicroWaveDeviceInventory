@@ -36,7 +36,7 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 
 **`ControllerInternalPathToMountPoint`**  
 - The actual path to the mount-point inside the Controller depends on the used Controller (currently ODL). After the mount-point has been reached the subsequent parts of the path are the same across different Controllers.
-- The profileInstance allows to **configure the path to the mount-point depending on the used Controller**. The related **path-parameter** `{controller-internal-path-to-mount-point}`, which is **used in all operation-clients of the OpenDaylight client-stack**, contains a reference to the profileInstance information inside the ConfigFile.
+- The profileInstance allows to **configure the path to the mount-point depending on the used Controller**. The related **path-parameter** `{controllerInternalPathToMountPoint}`, which is **used in all operation-clients of the OpenDaylight client-stack**, contains a reference to the profileInstance information inside the ConfigFile.
 - (initial) configuration: `rests/data/network-topology:network-topology/topology=topology-netconf`
 
 ---
@@ -75,7 +75,7 @@ For the related device from the notification:
 ---
 ## ControlConstruct retrieval
 
-A ControlConstruct for a device is updated by first retrieving it from the Controller via sending a live path request (`/core-model-1-4:network-control-domain=live/control-construct={mount-name}`), and upon receipt the ControlConstruct is written to the ElasticSearch database.
+A ControlConstruct for a device is updated by first retrieving it from the Controller via sending a live path request (`/core-model-1-4:network-control-domain=live/control-construct={mountName}`), and upon receipt the ControlConstruct is written to the ElasticSearch database.
 
 To update the MWDI cache the deviceList is used as input to a cyclic operation which processed the list in a sliding window approach. 
 This means, that a configured amount of devices is queried in parallel. Once a retrieval is finished the next device from the deviceList is added to the sliding window until all devices have been queried. When the end of the list is reached, the process just starts again at the start of the list. 

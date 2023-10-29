@@ -37,6 +37,9 @@
 ![RequestForListOfActualDeviceEquipmentCausesReadingFromCache](./102_provideListOfActualDeviceEquipment.png)  
 .  
 .  
+![RequestForListOfActualDeviceEquipmentCausesReadingFromCache](./103_ProvideListOfParallelLinks.png)  
+.  
+.  
 ![SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications](./120_MwdiNotifiesAttributeChange.png)  
 .  
 .  

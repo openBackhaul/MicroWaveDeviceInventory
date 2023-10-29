@@ -5,7 +5,7 @@ title  RequestForListOfDeviceInterfacesCausesReadingFromCache
 
 participant "external" as requestor
 participant "MWDI://v1/provide-list-of-device-interfaces" as provideListOfDeviceInterfaces
-participant "ElasticSearch://control-construct={mount-name}?fields=fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))" as DeviceInterfaceList
+participant "ElasticSearch://control-construct={mountName}?fields=fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))" as DeviceInterfaceList
 
 requestor -> provideListOfDeviceInterfaces: {mount-name} (apiKeyAuth)
 activate provideListOfDeviceInterfaces

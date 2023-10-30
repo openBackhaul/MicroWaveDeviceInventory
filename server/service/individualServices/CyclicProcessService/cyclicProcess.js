@@ -2,10 +2,12 @@
 
 const { strict } = require('assert');
 const { setTimeout } = require('timers');
+const { CronJob } = require('cron');
 const path = require("path");
 const individualServices = require( "../../IndividualServicesService.js");
 
 const DEVICE_NOT_PRESENT = -1;
+let deviceListSyncPeriod = 24;
 let maximumNumberOfRetries = 1;
 let responseTimeout = 600;
 let slidingWindowSizeDb = 500;
@@ -165,11 +167,12 @@ function printLog(text, print_log) {
 /**
  * Sets the timestamp to a deviceList element indexed by its node-id
  */
-function setDeviceListElementTimeStamp(node_id) {
+function setDeviceListElementTimeStamp(node_id, retObj) {
     try {
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
                 if ((Date.now() - deviceList[i]['timestamp']) < 1000) {
+                    console.log(retObj)
                     debugger;
                 }
                 deviceList[i]['timestamp'] = Date.now();                
@@ -262,7 +265,7 @@ async function requestMessage(index) {
                 } else {
                     printLog('Response from element ' + retObj['node-id'] + ' --> Dropped from Sliding Window. Timestamp: ' + Date.now(), print_log_level >= 2);
                     slidingWindow.splice(elementIndex, 1);
-                    setDeviceListElementTimeStamp(retObj['node-id']);                    
+                    setDeviceListElementTimeStamp(retObj['node-id'], retObj);                    
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
                         printLog(printList('Device List', deviceList), print_log_level >= 2);
@@ -279,6 +282,13 @@ async function requestMessage(index) {
     }      
 }
 
+function filterConnectedDevices(deviceList) {
+    return deviceList.filter(device => {
+        return device['netconf-node-topology:connection-status'] === 'connected';
+    })
+}
+
+
 /**
  * Realigns the current device list with the new one 
  * 
@@ -290,14 +300,31 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         if (newDeviceList == false) {
             return false;
         }
-
-        slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
-        
-        printLog(printList('Device List', deviceList), print_log_level >= 2);
+        newDeviceList = filterConnectedDevices(newDeviceList);        
+                
         printLog('***************************************************************************', print_log_level >= 2);
         printLog('*                       DEVICE LIST REALIGNMENT', print_log_level >= 2);
         printLog('***************************************************************************', print_log_level >= 2);
-        printLog(printList('New Device List', newDeviceList), print_log_level >= 2);
+        printLog(printList('Current Device List', deviceList), print_log_level >= 2);
+        printLog(printList('New Device List (ODL)', newDeviceList), print_log_level >= 2);
+
+        // Drop all the control constructs from elasticsearch referring elements not more present in new device list
+        let dbDeviceLIst = await individualServices.readDeviceListFromElasticsearch();
+        printLog(printList('Elasticsearch Device List', deviceList), print_log_level >= 2);
+        for (let i = 0; i < dbDeviceLIst.length; i++) {
+            let found = false;
+            for (let j = 0; j < newDeviceList.length; j++) {
+                if (dbDeviceLIst[i]['node-id'] == newDeviceList[j]['node-id']) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                let cc_id = dbDeviceLIst[i]['node-id'];
+                let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+                printLog(ret.result, print_log_level >= 2);
+            }
+        }
 
         // Drop all the sliding window elements not more present in new device list
         for (let i = 0; i < slidingWindow.length; ) {
@@ -331,7 +358,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
 
-        // Drop all the device list and new device list elements present in sliding window
+        // Drop all the device list elements present in sliding window
         for (let i = 0; i < deviceList.length; ) {
             let found = false;
             for (let j = 0; j < slidingWindow.length; j++) {                
@@ -403,8 +430,10 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         // Update the device list composing the three lists above
         deviceList = [].concat(headDeviceList, middleDeviceList, tailDeviceList);
         printLog(printList('Device List', deviceList), print_log_level >= 2);
-
+        let result = await individualServices.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
+        
         // Fill the sliding window at the max allowed
+        slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
         let slidingWindowFilled = false
         for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
             for (let j = 0; j < deviceList.length; j++) {
@@ -447,37 +476,43 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
             return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
         }
         
-        function filterConnectedDevices(deviceList){
-            return deviceList.filter(device =>{
-                return device['netconf-node-topology:connection-status'] === 'connected';
-            })
-        }
+       
 
         slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
         responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
         maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
-
-        print_log_level = logging_level;
-        let odlDeviceList = await individualServices.getLiveDeviceList();
+        deviceListSyncPeriod = await extractProfileConfiguration("mwdi-1-0-0-integer-p-003") 
         
-        if (odlDeviceList == false) {
+        print_log_level = logging_level;
+        let liveDeviceList = await individualServices.getLiveDeviceList();
+        
+        if (liveDeviceList == false) {
             return false;
         } else {
-            odlDeviceList = filterConnectedDevices(odlDeviceList);
+            liveDeviceList = filterConnectedDevices(liveDeviceList);
 
             let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
-            if (elasticsearchList == undefined) {
-                let odlDeviceListString = JSON.stringify(odlDeviceList);
-                let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
-            } else {
-                // Comparison logic (to do)
-
-                // For this release overwrite 
-                let odlDeviceListString = JSON.stringify(odlDeviceList);
-                let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+            if (elasticsearchList !== undefined) {
+                for (let i = 0; i < elasticsearchList.length; i++) {
+                    let found = false;
+                    for (let j = 0; j < liveDeviceList.length; j++) {
+                        if (elasticsearchList[i]['node-id'] == liveDeviceList[j]['node-id']) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        let cc_id = elasticsearchList[i]['node-id'];
+                        let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+                        printLog(ret.result, print_log_level >= 2);
+                    }
+                }
             }
 
-            deviceList = odlDeviceList;            
+            let liveDeviceListString = JSON.stringify(liveDeviceList);
+            let result = await individualServices.writeDeviceListToElasticsearch(liveDeviceListString);
+            
+            deviceList = liveDeviceList;            
             slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
             printLog(printList('Device List', deviceList), print_log_level >= 1);
 
@@ -488,6 +523,18 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
                 requestMessage(i);
                 printLog('Element ' + slidingWindow[i]['node-id'] + ' send request...', print_log_level >= 2);
             }
+            
+            //
+            // Periodic Synchronization
+            //
+            // const cronTimeInterval = '* */' + deviceListSyncPeriod + ' * * *';
+            const { deviceListSynchronization } = module.exports;
+            const cronTimeInterval = '*/5 * * * *'
+            const job = new CronJob(cronTimeInterval, function () {
+                printLog('Device list synchronization in progress...', print_log_level >= 2);
+                deviceListSynchronization();
+            });            
+            job.start();
         }
         printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
         startTtlChecking();

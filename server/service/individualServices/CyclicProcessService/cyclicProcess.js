@@ -169,9 +169,6 @@ function setDeviceListElementTimeStamp(node_id) {
     try {
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
-                if ((Date.now() - deviceList[i]['timestamp']) < 1000) {
-                    debugger;
-                }
                 deviceList[i]['timestamp'] = Date.now();                
                 return;
             }
@@ -236,10 +233,10 @@ async function requestMessage(index) {
         }
         
         sendRequest(slidingWindow[index]).then(retObj => {
-            if (retObj.ret == false) {
+            if (retObj.ret.code !== undefined) {
                 let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id'])
                 if (slidingWindow[elementIndex].retries == 0) {
-                    printLog('Response FALSE from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window and Device list', print_log_level >= 2);                    
+                    printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window and Device list', print_log_level >= 2);                    
                     discardElementFromDeviceList(retObj['node-id']);
                     slidingWindow.splice(elementIndex, 1);
                     if (addNextDeviceListElementInWindow()) {
@@ -249,7 +246,7 @@ async function requestMessage(index) {
                     printLog(printList('Device List', deviceList), print_log_level >= 2);
                     printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                 } else {
-                    printLog('Response FALSE from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
+                    printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
                     slidingWindow[elementIndex].ttl = responseTimeout;
                     slidingWindow[elementIndex].retries -= 1;
                     requestMessage(elementIndex);                

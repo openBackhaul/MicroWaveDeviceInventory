@@ -154,7 +154,7 @@ function printList(listName, list) {
 }
 
 /**
- * Prints a consol log message only the print_log flag is enabled
+ * Prints a console log message only the print_log flag is enabled
  */
 function printLog(text, print_log) {
     if (print_log) {
@@ -192,13 +192,8 @@ async function startTtlChecking() {
                 slidingWindow[index].ttl -= 1;
                 if (slidingWindow[index].ttl == 0) {
                     if (slidingWindow[index].retries == 0) {
-                        printLog("Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from both Window and deviceList", print_log_level >= 2);
-                        let cc_id = slidingWindow[index]['node-id'];
-                        discardElementFromDeviceList(cc_id);
-                        printLog(printList('Device List', deviceList));
+                        printLog("Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from Sliding Window", print_log_level >= 2);
                         slidingWindow.splice(index, 1);
-                        let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
-                        printLog(ret.result, print_log_level >= 2);
                         if (addNextDeviceListElementInWindow()) {
                             printLog('Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in window and sent request...', print_log_level >= 2);
                             printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
@@ -234,16 +229,14 @@ async function requestMessage(index) {
         
         sendRequest(slidingWindow[index]).then(retObj => {
             if (retObj.ret.code !== undefined) {
-                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id'])
+                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
                 if (slidingWindow[elementIndex].retries == 0) {
-                    printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window and Device list', print_log_level >= 2);                    
-                    discardElementFromDeviceList(retObj['node-id']);
+                    printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window', print_log_level >= 2);                    
                     slidingWindow.splice(elementIndex, 1);
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
                         requestMessage(slidingWindow.length-1);
                     }
-                    printLog(printList('Device List', deviceList), print_log_level >= 2);
                     printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                 } else {
                     printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);

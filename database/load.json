@@ -8471,7 +8471,7 @@
               "elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac": {
                 "elasticsearch-client-interface-configuration": {
                   "auth": {
-                    "api-key": "ZWxhc3RpYzpHMGNNbkJwMEYtSkpoZVVSa0Fzdw=="
+                    "api-key": "API key not yet defined."
                   },
                   "index-alias": "7"
                 },
@@ -8522,10 +8522,10 @@
                   "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                   "remote-address": {
                     "ip-address": {
-                      "ipv-4-address": "172.28.127.21"
+                      "ipv-4-address": "1.1.3.15"
                     }
                   },
-                  "remote-port": 9200
+                  "remote-port": 3015
                 }
               }
             }
@@ -11099,7 +11099,7 @@
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
                   "operation-name": "/{controller-internal-path-to-mount-point}?fields=node(node-id;netconf-node-topology:connection-status)",
-                  "operation-key": "Basic c2lhZTpTaUdlbjAx"
+                  "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
                   "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
@@ -11124,7 +11124,7 @@
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
                   "operation-name": "/{controller-internal-path-to-mount-point}/node={mount-name}/yang-ext:mount/core-model-1-4:control-construct",
-                  "operation-key": "Basic c2lhZTpTaUdlbjAx"
+                  "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
                   "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
@@ -12787,10 +12787,10 @@
                   "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                   "remote-address": {
                     "ip-address": {
-                      "ipv-4-address": "172.28.127.21"
+                      "ipv-4-address": "1.1.1.1"
                     }
                   },
-                  "remote-port": 8181
+                  "remote-port": 1001
                 }
               }
             }

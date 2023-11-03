@@ -430,60 +430,70 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
  *             deviceList is present the procedure will starts immediatly
  **/
 module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {    
+    
+    // 0) eliminare il try in testa
+    // Testare la funzione nelle quattro combinazioni:
+    // 1) ODL non risponde
+    // 2) ODL risponde
+    // 3) ES DL non esiste --> la sovrascrivo
+    // 4) ES esiste quindi effettuo il comparison (in una versione futura)
+    // 
+    
+    async function extractProfileConfiguration(uuid) {
+        const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+        const profile = await profileCollection.getProfileAsync(uuid)
+        return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
+    }
+    
+    function filterConnectedDevices(deviceList){
+        return deviceList.filter(device =>{
+            return device['netconf-node-topology:connection-status'] === 'connected';
+        })
+    }
+
+    slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
+    responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
+    maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
+
+    print_log_level = logging_level;
+
+    let odlDeviceList;
     try {
-        async function extractProfileConfiguration(uuid) {
-            const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-            const profile = await profileCollection.getProfileAsync(uuid)
-            return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
-        }
-        
-        function filterConnectedDevices(deviceList){
-            return deviceList.filter(device =>{
-                return device['netconf-node-topology:connection-status'] === 'connected';
-            })
-        }
+        odlDeviceList = await individualServices.getLiveDeviceList();
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+    
+    odlDeviceList = filterConnectedDevices(odlDeviceList);
+    printLog(printList('Device List (ODL)', odlDeviceList), print_log_level >= 1);
 
-        slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
-        responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
-        maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
+    try {
+        let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
+        // Comparison logic (to do) 
 
-        print_log_level = logging_level;
-        let odlDeviceList = await individualServices.getLiveDeviceList();
-        
-        if (odlDeviceList == false) {
-            return false;
-        } else {
-            odlDeviceList = filterConnectedDevices(odlDeviceList);
+        // For this release overwrite 
+        printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
+        let odlDeviceListString = JSON.stringify(odlDeviceList);                
+        let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+    } catch (error) {
+        console.log(error);
+        console.log("Write ODL device list to Elasticsearch")
+        let odlDeviceListString = JSON.stringify(odlDeviceList);
+        let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+    }
+    
+    deviceList = odlDeviceList;            
+    slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
+    
+    lastDeviceListIndex = -1;
+    for (let i = 0; i < slidingWindowSize; i++) {
+        addNextDeviceListElementInWindow();
+        requestMessage(i);
+        printLog('Element ' + slidingWindow[i]['node-id'] + ' send request...', print_log_level >= 2);
+    }
 
-            let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
-            if (elasticsearchList == undefined) {
-                let odlDeviceListString = JSON.stringify(odlDeviceList);
-                let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
-            } else {
-                // Comparison logic (to do)
-
-                // For this release overwrite 
-                let odlDeviceListString = JSON.stringify(odlDeviceList);
-                let result = await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
-            }
-
-            deviceList = odlDeviceList;            
-            slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
-            printLog(printList('Device List', deviceList), print_log_level >= 1);
-
-
-            lastDeviceListIndex = -1;
-            for (let i = 0; i < slidingWindowSize; i++) {
-                addNextDeviceListElementInWindow();
-                requestMessage(i);
-                printLog('Element ' + slidingWindow[i]['node-id'] + ' send request...', print_log_level >= 2);
-            }
-        }
-        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
-        startTtlChecking();
-        return true;
-    } catch(error) {
-        console.log('Error in startCyclingProcess: ' + error);
-        debugger;
-    }    
+    printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+    startTtlChecking();
+    return true; 
 }

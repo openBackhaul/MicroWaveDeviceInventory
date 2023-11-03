@@ -3036,7 +3036,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
         modificaUUID(jsonObj, correctCc);
         if (myFields === undefined) {
           let elapsedTime = await recordRequest(jsonObj, correctCc);
-          let res = cacheResponse.cacheResponseBuilder(finalUrl1, jsonObj);
+          let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
           resolve(res);
         } else {
           let filters = true;

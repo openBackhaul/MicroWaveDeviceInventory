@@ -1,7 +1,7 @@
 exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
   const myFields = urlParts[1];
-  // Analizza la URL per estrarre i segmenti
+  // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
 
   let currentJSON = originalJSON;
@@ -22,17 +22,17 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
 
     const [key, value] = segment.split('=');
 
-    // Verifica se il campo esiste nell'oggetto JSON corrente
+    // Verify if the property exists in the current JSON
     if (currentJSON.hasOwnProperty(key)) {
       if (Array.isArray(currentJSON[key])) {
-        // Se il campo è un array, cerca l'elemento con l'UUID corrispondente
+        // If the field is an array try to find the elemnt with the corrispondent UUID
         const uuidDaCercare = decodeURIComponent(value);
         const indexDaSostituire = currentJSON[key].findIndex(item =>
           (item.uuid && item.uuid === uuidDaCercare) ||
           (item['local-id'] && item['local-id'] === uuidDaCercare)
         );
         if (indexDaSostituire !== -1) {
-          // Sostituisci solo l'elemento nell'array con il nuovo JSON
+          // Substitute only the element into the array with the new JSON
           if (currentJSON[key]) {
             if (i == 1) {
               lastKey = "[" + objectKey + "]" + "." + key + "[" + indexDaSostituire + "]";
@@ -44,23 +44,24 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             console.log(`Campo "${key}" non trovato.`);
             break;
           }
-          console.log('JSON originale aggiornato:');
-          console.log(JSON.stringify(originalJSON, null, 2));
+//          console.log('JSON originale aggiornato:');
+//          console.log(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
-          console.log(`Nessun elemento trovato con UUID: ${uuidDaCercare}`);
+//          console.log(`Nessun elemento trovato con UUID: ${uuidDaCercare}`);
           break;
         }
       } else {
-        // Se il campo non è un array, aggiorna l'ultima chiave
+        // If the field is not an array, update last key
         if (lastKey != null){
           lastKey = lastKey + "." + key;
         } else {
           lastKey = "[" + key + "]";
         }
+        currentJSON = currentJSON[key];
       }
     } else {
-      console.log(`Campo non trovato: ${key}`);
+//      console.log(`Campo non trovato: ${key}`);
       break;
     }
     i += 1;
@@ -68,17 +69,17 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   if (lastKey == null) {
     lastKey = "[" + objectKey + "]";
   }
-  // Verifica se c'è un'ultima chiave e la sostituisce con il nuovo JSON
+  // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) {
     console.log(originalJSON[lastKey])
     
-    assegnaValoreAJson(originalJSON, lastKey, toInsert, myFields);
+    assignValueToJson(originalJSON, lastKey, toInsert, myFields);
     //console.log(JSON.stringify(jsonOriginale, null, 2));
   }
 };
 
 
-function assegnaValoreAJson(json, percorso, nuovoJSON, filters) {
+function assignValueToJson(json, percorso, nuovoJSON, filters) {
 
   const chiavi = percorso.split('.');
 
@@ -87,7 +88,7 @@ function assegnaValoreAJson(json, percorso, nuovoJSON, filters) {
   if (filters != "" && filters != undefined) {
     Filters = true;
   }
-
+  let nomeArray = "";
   for (let i = 0; i < chiavi.length; i++) {
     if (i == 0) {
       const chiave = chiavi[i];
@@ -120,7 +121,7 @@ function assegnaValoreAJson(json, percorso, nuovoJSON, filters) {
 
       if (parentesiQuadraApertaIndex !== -1 && parentesiQuadraChiusaIndex !== -1) {
         // Se la chiave contiene parentesi quadre per indicare un indice di array
-        const nomeArray = chiave.substring(0, parentesiQuadraApertaIndex);
+        nomeArray = chiave.substring(0, parentesiQuadraApertaIndex);
         const indice = parseInt(chiave.substring(parentesiQuadraApertaIndex + 1, parentesiQuadraChiusaIndex), 10);
 
         if (i === chiavi.length - 1) {
@@ -140,7 +141,7 @@ function assegnaValoreAJson(json, percorso, nuovoJSON, filters) {
         }
       } else {
         // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
-        if (i === chiavi.length - 1) {
+      /*  if (i === chiavi.length -1) {
           // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
           if (Filters) {
             let objectKey = Object.keys(nuovoJSON)[0];
@@ -151,18 +152,27 @@ function assegnaValoreAJson(json, percorso, nuovoJSON, filters) {
             let newJSON = nuovoJSON[objectKey]
             oggetto[chiave] = newJSON;
           }
-        } else {
+        } else { */
           // Altrimenti, prosegui la navigazione dell'oggetto
           oggetto = oggetto[chiave];
-        }
+          nomeArray = chiave;
+        //}
       }
     }
+  }
+  if (Filters) {
+    let objectKey = Object.keys(nuovoJSON)[0];
+    let newJSON = nuovoJSON[objectKey];
+    let result = mergeJson(oggetto, newJSON)
+  } else {
+    let objectKey = Object.keys(nuovoJSON)[0];
+    let newJSON = nuovoJSON[objectKey]
+    oggetto = newJSON;
   }
 }
 
 function mergeJson(target, source) {
   if (Array.isArray(source)) {
-    // Se source è un array, assumiamo che sia un array di oggetti
     for (let i = 0; i < source.length; i++) {
       if (Array.isArray(target)) {
         mergeJson(target[i], source[i]);

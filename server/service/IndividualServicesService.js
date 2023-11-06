@@ -1547,17 +1547,48 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
  * returns inline_response_200_39
  **/
 exports.getCachedHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "hybrid-mw-structure-2-0:hybrid-mw-structure-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
+
 }
 
 
@@ -1576,17 +1607,48 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
  * returns inline_response_200_40
  **/
 exports.getCachedHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "hybrid-mw-structure-2-0:hybrid-mw-structure-configuration": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
+
 }
 
 
@@ -1605,16 +1667,46 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
  * returns inline_response_200_42
  **/
 exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "hybrid-mw-structure-2-0:hybrid-mw-structure-historical-performances": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -1634,16 +1726,46 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
  * returns inline_response_200_41
  **/
 exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "hybrid-mw-structure-2-0:hybrid-mw-structure-status": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -5232,6 +5354,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
     const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     let returnObject = {};
+    let toChangeObject = {};
     let parts = finalUrl.split("?fields=");
     let myFields = parts[1];
     let result = await ReadRecords(mountName);
@@ -5247,8 +5370,17 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           objList.push(rootObj)
           fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
         }
-
-        returnObject["logical-termination-point-list"] = finalJson[0][Object.keys(finalJson[0])];
+        toChangeObject["logical-termination-point-list"] = finalJson[0][Object.keys(finalJson[0])];
+        const transformedData = {
+          "logical-termination-point-list": toChangeObject["logical-termination-point-list"].map((item) => {
+            return {
+              "uuid": item.uuid,
+              "localId": item["layer-protocol"][0]["local-id"],
+              "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"],
+            };
+          }),
+        };
+        returnObject = transformedData;
       } else {
         returnObject = notFoundError();
       }

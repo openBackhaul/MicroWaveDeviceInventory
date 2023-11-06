@@ -5206,24 +5206,36 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
  * returns inline_response_200_1
  **/
 exports.provideListOfDeviceInterfaces = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "logical-termination-point-list": [{
-        "local-id": "local-id",
-        "layer-protocol-name": "layer-protocol-name",
-        "uuid": "uuid"
-      }, {
-        "local-id": "local-id",
-        "layer-protocol-name": "layer-protocol-name",
-        "uuid": "uuid"
-      }]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    
+    let mountName = body['mountName'];
+    const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    let returnObject = {};
+    let parts = finalUrl.split("?fields=");
+    let myFields = parts[1];
+    let result = await ReadRecords(mountName);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+
+        returnObject["logical-termination-point-list"] = finalJson[0][Object.keys(finalJson[0])];
+      } else {
+        returnObject = notFoundError();
+      }
     } else {
-      resolve();
+      returnObject = notFoundError();
     }
+    resolve(returnObject);
   });
 }
 
@@ -5544,6 +5556,53 @@ function retrieveCorrectUrl(originalUrl, path, applicationName) {
     final = final + "?fields=" + myFields;
   }
   return final;
+}
+
+async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName){
+  
+    const forwardingName = "RequestForListOfDeviceInterfacesCausesReadingFromCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+   // const forwardingConstruct1 = await ForwardingDomain.
+
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+        const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+        if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+        }
+    }
+
+    let applicationNameList = [];
+  //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+  //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+  let urlForEs = "/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
+  let correctUrl = urlForEs.replace("{mountName}", mountName);
+  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+      const httpClientLtpUuid = httpLtpUuidList[0];
+      let applicationName = 'api';
+      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+      let url = "";
+      let tcpConn = "";
+      
+      applicationName = "ElasticSearch";
+      tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
+      url = tcpConn + correctUrl;
+      
+      const applicationNameData = applicationName === undefined ? {
+          applicationName: null,
+          httpClientLtpUuid,
+          url: null, key: null
+      } : {
+          applicationName,
+          httpClientLtpUuid,
+          url, key
+      };
+      applicationNameList.push(applicationNameData);      
+  }
+  return applicationNameList;
 }
 
 /**

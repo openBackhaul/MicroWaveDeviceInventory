@@ -1021,16 +1021,46 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
  * returns inline_response_200_35
  **/
 exports.getCachedEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "ethernet-container-2-0:ethernet-container-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -1050,16 +1080,46 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
  * returns inline_response_200_36
  **/
 exports.getCachedEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "ethernet-container-2-0:ethernet-container-configuration": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -1079,16 +1139,46 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
  * returns inline_response_200_38
  **/
 exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "ethernet-container-2-0:ethernet-container-historical-performances": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 

@@ -37,13 +37,13 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
                         currentJSON = [equipmentCercato];
                     }
                 } else {
-                    console.log(`No elements found with UUID: ${uuidDaCercare}`);
+//                    console.log(`No elements found with UUID: ${uuidDaCercare}`);
                     return 
                     break;
                 }
             }
         } else {
-            console.log(`Field not found: ${key}`);
+//            console.log(`Field not found: ${key}`);
             lastValue = key;
             break;
         }

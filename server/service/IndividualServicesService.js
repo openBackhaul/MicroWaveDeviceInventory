@@ -155,11 +155,13 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -212,11 +214,13 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -269,11 +273,13 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -382,11 +388,13 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -437,11 +445,13 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -492,11 +502,13 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -605,11 +617,13 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -662,11 +676,13 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -714,14 +730,15 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields');
     url = parts[0];
     //const fields = parts[1];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+    let mountname = decodeMountName(url, true);
+    let correctMountname = "";
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -772,11 +789,13 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -828,11 +847,13 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -972,11 +993,13 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -1029,11 +1052,13 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -1084,11 +1109,13 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -1140,11 +1167,13 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -1196,11 +1225,13 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -1252,11 +1283,13 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -1656,16 +1689,46 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
  * returns inline_response_200_18
  **/
 exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "core-model-1-4:profile": ["", ""]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    const myFields = user;
+    url = decodeURIComponent(url);
+    const parts = url.split('?');
+    url = parts[0];
+    //const fields = parts[1];
+    let correctMountname = null;
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctMountname = mountname;
     }
+    let returnObject = {};
+    const finalUrl = appNameAndUuidFromForwarding[1].url;
+    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+    let result = await ReadRecords(correctMountname);
+    if (result != undefined) {
+      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+      if (finalJson != undefined) {
+        let objectKey = Object.keys(finalJson)[0];
+        finalJson = finalJson[objectKey];
+        if (myFields != undefined) {
+          var objList = [];
+          var rootObj = { value: "root", children: [] }
+          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+          objList.push(rootObj)
+          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+        }
+        returnObject[objectKey] = finalJson;
+      } else {
+        returnObject = notFoundError();
+      }
+    } else {
+      returnObject = notFoundError();
+    }
+    resolve(returnObject);
   });
 }
 
@@ -1689,11 +1752,13 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -2002,11 +2067,13 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -2117,11 +2184,13 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -2232,11 +2301,13 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -2382,11 +2453,13 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
     const parts = url.split('?');
     url = parts[0];
     //const fields = parts[1];
+    let correctMountname = null;
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctMountname = parts[0];
+//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctMountname = mountname;
     }
@@ -5120,4 +5193,63 @@ function formatUrlForOdl(url) {
   }
   let newUrl = newSegments.join("/");
   return newUrl;
+}
+
+function decodeMountName(url, cc) {
+  let response = [];
+  let responseData = null;
+  let regex = "";
+  let specialChars = "";
+  let extractedValue = "";
+  if (cc) {
+    regex = /control-construct=([^?&]*)(\?fields|$)?/;
+    specialChars = /[^a-zA-Z0-9+]/;
+  } else {
+    regex = /control-construct=([^/]+)\/?/;
+    specialChars = /[^a-zA-Z0-9+]/;
+  }
+  const match = decodeURIComponent(url).match(regex);
+ 
+  if (match) {
+    if (cc){
+      extractedValue = match[1];
+      if (!match[2]) {
+          const startIndex = url.indexOf("control-construct=") + "control-construct=".length;
+          extractedValue = url.substring(startIndex);
+      } 
+    } else {
+        extractedValue = match[1];
+    }
+    if (!specialChars.test(extractedValue)) {
+      if (extractedValue.indexOf("+") != -1){
+        let parts = extractedValue.split("+");
+        if (parts[1] != "" && parts[1] == parts[0]){
+          return parts[0];
+        } else {
+          responseData = {
+            code:"400",
+            message: "Control-construct must not contain special char"
+          }
+          response.push(responseData);
+          return response;  
+        }
+      } else {
+        return extractedValue;
+      }
+    } else {
+      responseData = {
+        code:"400",
+        message: "Control-construct must not contain special char"
+      }
+      response.push(responseData);
+      return response;
+    }
+  } else {
+    responseData = {
+      code:"400",
+      message: "no match found or wrong char at the end of the string"
+    }
+    response.push(responseData);
+    return response;
+  }
 }

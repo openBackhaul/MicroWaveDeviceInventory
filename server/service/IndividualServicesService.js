@@ -6495,15 +6495,48 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
  * returns inline_response_200_51
  **/
 exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "vlan-interface-1-0:vlan-interface-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -6524,15 +6557,48 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
  * returns inline_response_200_52
  **/
 exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "vlan-interface-1-0:vlan-interface-configuration": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -6553,15 +6619,35 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
  * returns inline_response_200_64
  **/
 exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "vlan-interface-1-0:vlan-interface-current-performance": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+      }
     }
   });
 }
@@ -6582,15 +6668,48 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
  * returns inline_response_200_54
  **/
 exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "vlan-interface-1-0:vlan-interface-historical-performances": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -6611,15 +6730,48 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
  * returns inline_response_200_53
  **/
 exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "vlan-interface-1-0:vlan-interface-status": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }

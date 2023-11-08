@@ -4523,9 +4523,12 @@ exports.getLiveDeviceList = function(url) {
     const finalUrl = appNameAndUuidFromForwarding[0].url;
     const Authorization = appNameAndUuidFromForwarding[0].key;
     const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization);
-    let deviceList = result["data"]["network-topology:topology"][0].node;
-    console.log(deviceList);
-    resolve(deviceList);
+    if (result.status == 200) {
+      let deviceList = result["data"]["network-topology:topology"][0].node;
+      resolve(deviceList);
+    } else {
+      reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.statusText + ")");
+    }
   });
 }
 
@@ -4533,14 +4536,23 @@ exports.writeDeviceListToElasticsearch = function(deviceList) {
   return new Promise(async function(resolve, reject) {
     let deviceListToWrite = '{"deviceList":' + deviceList + '}';
     let result = await recordRequest(deviceListToWrite, "DeviceList");
-    resolve(true);
+    if (result.took !== undefined) {
+      resolve(true);
+    } else {
+      reject("Error in writing device list to elasticsearch.")
+    }    
   })
 }
 
 exports.readDeviceListFromElasticsearch = function() {
   return new Promise(async function(resolve, reject) {
     let result = await ReadRecords("DeviceList");
-    resolve(result);
+    if (result == undefined) {
+      reject("Device list in Elasticsearch not found");
+    } else {
+      let esDeviceList = result["deviceList"];
+      resolve(esDeviceList);
+    }    
   })
 }
 

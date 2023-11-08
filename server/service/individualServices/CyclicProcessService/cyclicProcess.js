@@ -156,7 +156,7 @@ function printList(listName, list) {
 }
 
 /**
- * Prints a consol log message only the print_log flag is enabled
+ * Prints a console log message only the print_log flag is enabled
  */
 function printLog(text, print_log) {
     if (print_log) {
@@ -167,14 +167,10 @@ function printLog(text, print_log) {
 /**
  * Sets the timestamp to a deviceList element indexed by its node-id
  */
-function setDeviceListElementTimeStamp(node_id, retObj) {
+function setDeviceListElementTimeStamp(node_id) {
     try {
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
-                if ((Date.now() - deviceList[i]['timestamp']) < 1000) {
-                    console.log(retObj)
-                    debugger;
-                }
                 deviceList[i]['timestamp'] = Date.now();                
                 return;
             }
@@ -198,13 +194,8 @@ async function startTtlChecking() {
                 slidingWindow[index].ttl -= 1;
                 if (slidingWindow[index].ttl == 0) {
                     if (slidingWindow[index].retries == 0) {
-                        printLog("Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from both Window and deviceList", print_log_level >= 2);
-                        let cc_id = slidingWindow[index]['node-id'];
-                        discardElementFromDeviceList(cc_id);
-                        printLog(printList('Device List', deviceList));
+                        printLog("Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from Sliding Window", print_log_level >= 2);
                         slidingWindow.splice(index, 1);
-                        let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
-                        printLog(ret.result, print_log_level >= 2);
                         if (addNextDeviceListElementInWindow()) {
                             printLog('Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in window and sent request...', print_log_level >= 2);
                             printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
@@ -239,20 +230,18 @@ async function requestMessage(index) {
         }
         
         sendRequest(slidingWindow[index]).then(retObj => {
-            if (retObj.ret == false) {
-                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id'])
+            if (retObj.ret.code !== undefined) {
+                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
                 if (slidingWindow[elementIndex].retries == 0) {
-                    printLog('Response FALSE from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window and Device list', print_log_level >= 2);                    
-                    discardElementFromDeviceList(retObj['node-id']);
+                    printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window', print_log_level >= 2);                    
                     slidingWindow.splice(elementIndex, 1);
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
                         requestMessage(slidingWindow.length-1);
                     }
-                    printLog(printList('Device List', deviceList), print_log_level >= 2);
                     printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
                 } else {
-                    printLog('Response FALSE from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
+                    printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (I time) ' + retObj['node-id'] + ' Resend the request....', print_log_level >= 2);
                     slidingWindow[elementIndex].ttl = responseTimeout;
                     slidingWindow[elementIndex].retries -= 1;
                     requestMessage(elementIndex);                
@@ -265,7 +254,7 @@ async function requestMessage(index) {
                 } else {
                     printLog('Response from element ' + retObj['node-id'] + ' --> Dropped from Sliding Window. Timestamp: ' + Date.now(), print_log_level >= 2);
                     slidingWindow.splice(elementIndex, 1);
-                    setDeviceListElementTimeStamp(retObj['node-id'], retObj);                    
+                    setDeviceListElementTimeStamp(retObj['node-id']);
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
                         printLog(printList('Device List', deviceList), print_log_level >= 2);
@@ -295,167 +284,171 @@ function filterConnectedDevices(deviceList) {
  * newDeviceList is the new device list that update the old one. It's mandatory.
  */
 module.exports.deviceListSynchronization = async function deviceListSynchronization() {
+    
+    let newDeviceList;
     try {
-        let newDeviceList = await individualServices.getLiveDeviceList();
-        if (newDeviceList == false) {
-            return false;
-        }
-        newDeviceList = filterConnectedDevices(newDeviceList);        
-                
-        printLog('***************************************************************************', print_log_level >= 2);
-        printLog('*                       DEVICE LIST REALIGNMENT', print_log_level >= 2);
-        printLog('***************************************************************************', print_log_level >= 2);
-        printLog(printList('Current Device List', deviceList), print_log_level >= 2);
-        printLog(printList('New Device List (ODL)', newDeviceList), print_log_level >= 2);
-
-        // Drop all the control constructs from elasticsearch referring elements not more present in new device list
-        let dbDeviceLIst = await individualServices.readDeviceListFromElasticsearch();
-        printLog(printList('Elasticsearch Device List', deviceList), print_log_level >= 2);
-        for (let i = 0; i < dbDeviceLIst.length; i++) {
-            let found = false;
-            for (let j = 0; j < newDeviceList.length; j++) {
-                if (dbDeviceLIst[i]['node-id'] == newDeviceList[j]['node-id']) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                let cc_id = dbDeviceLIst[i]['node-id'];
-                let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
-                printLog(ret.result, print_log_level >= 2);
-            }
-        }
-
-        // Drop all the sliding window elements not more present in new device list
-        for (let i = 0; i < slidingWindow.length; ) {
-            let found = false;
-            for (let j = 0; j < newDeviceList.length; j++) {                
-                if (slidingWindow[i]['node-id'] == newDeviceList[j]['node-id']) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                slidingWindow.splice(i, 1);
-            } else {
-                i++;
-            }
-        }
-
-        // Drop all the device list elements not more present in new device list
-        for (let i = 0; i < deviceList.length; ) {
-            let found = false;
-            for (let j = 0; j < newDeviceList.length; j++) {                
-                if (deviceList[i]['node-id'] == newDeviceList[j]['node-id']) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                deviceList.splice(i, 1);
-            } else {
-                i++;
-            }
-        }
-
-        // Drop all the device list elements present in sliding window
-        for (let i = 0; i < deviceList.length; ) {
-            let found = false;
-            for (let j = 0; j < slidingWindow.length; j++) {                
-                if (deviceList[i]['node-id'] == slidingWindow[j]['node-id']) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                deviceList.splice(i, 1);
-            } else {
-                i++;
-            }
-        }
-
-        // Drop all the new device list elements present in sliding window
-        for (let i = 0; i < newDeviceList.length; ) {
-            let found = false;
-            for (let j = 0; j < slidingWindow.length; j++) {                
-                if (newDeviceList[i]['node-id'] == slidingWindow[j]['node-id']) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                newDeviceList.splice(i, 1);
-            } else {
-                i++;
-            }
-        }
-
-        // Creation of a tail device list with all the elements from:
-        // (1) all the sliding window elements (waiting a response)
-        // (2) device list with defined time stamp not present in device list sorted ascending
-        let tailDeviceList = []
-        for (let i = 0; i < deviceList.length; i++) {
-            if (deviceList[i]['timestamp']) {
-                tailDeviceList.push(deviceList[i]);
-            }
-        }
-        tailDeviceList.sort((a, b) => (a.timestamp - b.timestamp));
-        tailDeviceList = [].concat(tailDeviceList, slidingWindow);
-
-        // Creation of middle device list with all the new
-        // device list elements not present in device list
-        let middleDeviceList = [];
-        for (let i = 0; i < newDeviceList.length; i++) {
-            let found = false;
-            for (let j = 0; j < deviceList.length; j++) {
-                if (newDeviceList[i]['node-id'] == deviceList[j]['node-id']) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                middleDeviceList.push(newDeviceList[i]);
-            }
-        }
-
-        // Creation of head device list with all the 
-        // device list elements with timestamp not defined
-        let headDeviceList = [];
-        for (let i = 0; i < deviceList.length; i++) {
-            if (deviceList[i]['timestamp'] == undefined) {
-                headDeviceList.push(deviceList[i]);
-            }
-        }
-
-        // Update the device list composing the three lists above
-        deviceList = [].concat(headDeviceList, middleDeviceList, tailDeviceList);
-        printLog(printList('Device List', deviceList), print_log_level >= 2);
-        let result = await individualServices.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
-        
-        // Fill the sliding window at the max allowed
-        slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
-        let slidingWindowFilled = false
-        for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
-            for (let j = 0; j < deviceList.length; j++) {
-                if (checkDeviceExistsInSlidingWindow(deviceList[j]['node-id']) == DEVICE_NOT_PRESENT) {
-                    slidingWindow.push(prepareObjectForWindow(j));
-                    lastDeviceListIndex = j;
-                    printLog('Filled sliding window with ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' then send request...', print_log_level >= 2);
-                    printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
-                    requestMessage(slidingWindow.length-1);
-                    slidingWindowFilled = true;
-                    break;
-                }
-            }
-        }
-        if (!slidingWindowFilled) {
-            lastDeviceListIndex = -1;
-        }        
-        return true;
-    } catch(error) {
-        console.log('Error in realignDeviceList: ' + error);
-        debugger;
+        newDeviceList = await individualServices.getLiveDeviceList();
+    } catch (error) {
+        console.log(error);
+        return;
     }
+        
+    newDeviceList = filterConnectedDevices(newDeviceList);        
+                
+    printLog('***************************************************************************', print_log_level >= 2);
+    printLog('*                       DEVICE LIST REALIGNMENT', print_log_level >= 2);
+    printLog('***************************************************************************', print_log_level >= 2);
+    printLog(printList('Current Device List', deviceList), print_log_level >= 2);
+    printLog(printList('New Device List (ODL)', newDeviceList), print_log_level >= 2);
+
+    // Drop all the control constructs from elasticsearch referring elements not more present in new device list
+    let dbDeviceLIst = await individualServices.readDeviceListFromElasticsearch();
+    printLog(printList('Elasticsearch Device List', deviceList), print_log_level >= 2);
+    for (let i = 0; i < dbDeviceLIst.length; i++) {
+        let found = false;
+        for (let j = 0; j < newDeviceList.length; j++) {
+            if (dbDeviceLIst[i]['node-id'] == newDeviceList[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            let cc_id = dbDeviceLIst[i]['node-id'];
+            let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+            printLog(ret.result, print_log_level >= 2);
+        }
+    }
+
+    // Drop all the sliding window elements not more present in new device list
+    for (let i = 0; i < slidingWindow.length; ) {
+        let found = false;
+        for (let j = 0; j < newDeviceList.length; j++) {                
+            if (slidingWindow[i]['node-id'] == newDeviceList[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            slidingWindow.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+
+    // Drop all the device list elements not more present in new device list
+    for (let i = 0; i < deviceList.length; ) {
+        let found = false;
+        for (let j = 0; j < newDeviceList.length; j++) {                
+            if (deviceList[i]['node-id'] == newDeviceList[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            deviceList.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+
+    // Drop all the device list elements present in sliding window
+    for (let i = 0; i < deviceList.length; ) {
+        let found = false;
+        for (let j = 0; j < slidingWindow.length; j++) {                
+            if (deviceList[i]['node-id'] == slidingWindow[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            deviceList.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+
+    // Drop all the new device list elements present in sliding window
+    for (let i = 0; i < newDeviceList.length; ) {
+        let found = false;
+        for (let j = 0; j < slidingWindow.length; j++) {                
+            if (newDeviceList[i]['node-id'] == slidingWindow[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            newDeviceList.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+
+    // Creation of a tail device list with all the elements from:
+    // (1) all the sliding window elements (waiting a response)
+    // (2) device list with defined time stamp not present in device list sorted ascending
+    let tailDeviceList = []
+    for (let i = 0; i < deviceList.length; i++) {
+        if (deviceList[i]['timestamp']) {
+            tailDeviceList.push(deviceList[i]);
+        }
+    }
+    tailDeviceList.sort((a, b) => (a.timestamp - b.timestamp));
+    tailDeviceList = [].concat(tailDeviceList, slidingWindow);
+
+    // Creation of middle device list with all the 
+    // device list elements with timestamp not defined        
+    let middleDeviceList = [];
+    for (let i = 0; i < deviceList.length; i++) {
+        if (deviceList[i]['timestamp'] == undefined) {
+            middleDeviceList.push(deviceList[i]);
+        }
+    }
+
+    // Creation of head device list with all the new
+    // device list elements not present in device list
+    let headDeviceList = [];
+    for (let i = 0; i < newDeviceList.length; i++) {
+        let found = false;
+        for (let j = 0; j < deviceList.length; j++) {
+            if (newDeviceList[i]['node-id'] == deviceList[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            headDeviceList.push(newDeviceList[i]);
+        }
+    }
+
+    // Update the device list composing the three lists above
+    deviceList = [].concat(headDeviceList, middleDeviceList, tailDeviceList);
+    printLog(printList('Device List', deviceList), print_log_level >= 2);
+    try {
+        await individualServices.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
+    } catch (error) {
+        console.log(error);
+    }        
+    
+    // Fill the sliding window at the max allowed
+    slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
+    let slidingWindowFilled = false
+    for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
+        for (let j = 0; j < deviceList.length; j++) {
+            if (checkDeviceExistsInSlidingWindow(deviceList[j]['node-id']) == DEVICE_NOT_PRESENT) {
+                slidingWindow.push(prepareObjectForWindow(j));
+                lastDeviceListIndex = j;
+                printLog('Filled sliding window with ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' then send request...', print_log_level >= 2);
+                printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+                requestMessage(slidingWindow.length-1);
+                slidingWindowFilled = true;
+                break;
+            }
+        }
+    }
+    if (!slidingWindowFilled) {
+        lastDeviceListIndex = -1;
+    }        
+    return true;
 }
 
 
@@ -469,78 +462,84 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
  *             deviceList is present the procedure will starts immediatly
  **/
 module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {    
+    
+    async function extractProfileConfiguration(uuid) {
+        const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+        const profile = await profileCollection.getProfileAsync(uuid)
+        return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
+    }
+    
+    slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
+    responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
+    maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
+    deviceListSyncPeriod = await extractProfileConfiguration("mwdi-1-0-0-integer-p-003") 
+    
+    print_log_level = logging_level;
+    
+    let odlDeviceList;
     try {
-        async function extractProfileConfiguration(uuid) {
-            const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-            const profile = await profileCollection.getProfileAsync(uuid)
-            return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"]
-        }
-        
-       
+        odlDeviceList = await individualServices.getLiveDeviceList();        
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+    odlDeviceList = filterConnectedDevices(odlDeviceList);
 
-        slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000")
-        responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001")
-        maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002")
-        deviceListSyncPeriod = await extractProfileConfiguration("mwdi-1-0-0-integer-p-003") 
-        
-        print_log_level = logging_level;
-        let liveDeviceList = await individualServices.getLiveDeviceList();
-        
-        if (liveDeviceList == false) {
-            return false;
-        } else {
-            liveDeviceList = filterConnectedDevices(liveDeviceList);
-
-            let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
-            if (elasticsearchList !== undefined) {
-                for (let i = 0; i < elasticsearchList.length; i++) {
-                    let found = false;
-                    for (let j = 0; j < liveDeviceList.length; j++) {
-                        if (elasticsearchList[i]['node-id'] == liveDeviceList[j]['node-id']) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        let cc_id = elasticsearchList[i]['node-id'];
-                        let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
-                        printLog(ret.result, print_log_level >= 2);
-                    }
+    try {
+        let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
+        printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
+        for (let i = 0; i < elasticsearchList.length; i++) {
+            let found = false;
+            for (let j = 0; j < odlDeviceList.length; j++) {
+                if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
+                    found = true;
+                    break;
                 }
             }
-
-            let liveDeviceListString = JSON.stringify(liveDeviceList);
-            let result = await individualServices.writeDeviceListToElasticsearch(liveDeviceListString);
-            
-            deviceList = liveDeviceList;            
-            slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
-            printLog(printList('Device List', deviceList), print_log_level >= 1);
-
-
-            lastDeviceListIndex = -1;
-            for (let i = 0; i < slidingWindowSize; i++) {
-                addNextDeviceListElementInWindow();
-                requestMessage(i);
-                printLog('Element ' + slidingWindow[i]['node-id'] + ' send request...', print_log_level >= 2);
+            if (!found) {
+                let cc_id = elasticsearchList[i]['node-id'];
+                let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+                printLog(ret.result, print_log_level >= 2);
             }
-            
-            //
-            // Periodic Synchronization
-            //
-            // const cronTimeInterval = '* */' + deviceListSyncPeriod + ' * * *';
-            const { deviceListSynchronization } = module.exports;
-            const cronTimeInterval = '*/5 * * * *'
-            const job = new CronJob(cronTimeInterval, function () {
-                printLog('Device list synchronization in progress...', print_log_level >= 2);
-                deviceListSynchronization();
-            });            
-            job.start();
-        }
-        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
-        startTtlChecking();
-        return true;
-    } catch(error) {
-        console.log('Error in startCyclingProcess: ' + error);
-        debugger;
-    }    
+        } 
+
+        printLog("Update device list to elasticsearch", print_log_level >= 2)
+    } catch (error) {
+        console.log(error);
+        printLog("Write ODL device list to Elasticsearch", print_log_level >= 2);        
+    }
+    let odlDeviceListString = JSON.stringify(odlDeviceList);
+    try {
+        await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+    } catch (error) {
+        console.log(error);        
+    }
+         
+    deviceList = odlDeviceList;            
+    slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
+    printLog(printList('Device List', deviceList), print_log_level >= 1);
+
+
+    lastDeviceListIndex = -1;
+    for (let i = 0; i < slidingWindowSize; i++) {
+        addNextDeviceListElementInWindow();
+        requestMessage(i);
+        printLog('Element ' + slidingWindow[i]['node-id'] + ' send request...', print_log_level >= 2);
+    }
+    
+    //
+    // Periodic Synchronization
+    //
+    // const cronTimeInterval = '* */' + deviceListSyncPeriod + ' * * *';
+    const { deviceListSynchronization } = module.exports;
+    const cronTimeInterval = '*/5 * * * *'
+    const job = new CronJob(cronTimeInterval, function () {
+        printLog('Device list synchronization in progress...', print_log_level >= 2);
+        deviceListSynchronization();
+    });            
+    job.start();
+    
+    printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+    startTtlChecking();
+    return true;
 }

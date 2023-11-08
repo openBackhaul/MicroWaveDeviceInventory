@@ -15,18 +15,24 @@ note over provideListOfParallelLinks
 end note
 activate provideListOfParallelLinks
 provideListOfParallelLinks -> Link : {uuid=link-id}
-Link --> provideListOfParallelLinks: {given-layer-protocol-name, given-list-of-fd}
+Link --> provideListOfParallelLinks: {given-layer-protocol-name, given-list-of-endpoints(cc,ltp,lp)}
 
 note over provideListOfParallelLinks
 <u> SearchingParallelLinksInCache </u>
 Filter all Links in Cache for:
   (layer-protocol-name == given-layer-protocol-name)
-  AND (elements of given-list-of-fd also elements of list-of-fd)
+  AND ( list-of(cc) has same elements as given-list-of(cc) )
 end note
 provideListOfParallelLinks -> Link : {uuid=*}
 Link --> provideListOfParallelLinks:
 
 provideListOfParallelLinks --> requestor: {list of {link-id}}
+
+note left provideListOfParallelLinks
+Please regard, that the original
+link-id will be included in the response
+end note
+
 deactivate provideListOfParallelLinks
 
 @enduml

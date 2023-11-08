@@ -1830,7 +1830,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfParallelLinks
-      summary: 'Provides list of Links between the same ForwardingDomains'
+      summary: 'Provides list of Links between the same ControlConstructs'
       tags:
         - IndividualServices
       security:
@@ -1864,7 +1864,7 @@ paths:
                     items:
                       type: string
                     description: >
-                      'List of UUIDs of Links that terminate at the same ForwardingDomain
+                      'List of UUIDs of Links that connect the same ControlConstructs
                       from {$RequestForListOfParallelLinksCauses.SearchingParallelLinksInCache.response.body#/core-model-1-4:link=*/uuid}'
               example:
                 parallel-links:
@@ -1902,63 +1902,6 @@ paths:
                   description: >
                     'The uuid of the Link
                     from {$request.body#link-id}
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    enum:
-                      - 'layer-protocol-name;forwarding-domain'
-              responses:
-                '200':
-                  description: 'Link provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          core-model-1-4:link:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                layer-protocol-name:
-                                  type: string
-                                forwarding-domain:
-                                  type: array
-                                  items:
-                                    type: string
-                      example:
-                        core-model-1-4:link:
-                        - layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                          forwarding-domain:
-                            - '305251234+AirLayerFd'
-                            - '305251235+AirLayerFd'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          SearchingParallelLinksInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '305551234'
-                  description: >
-                    'The uuid of the Link
-                    all Links in Cache to be filtered for ( (layer-protocol-name == ReadingEndpointsFromCache.response.body#/core-model-1-4:link/layer-protocol-name) AND (forwarding-domain = ReadingEndpointsFromCache.response.body#/core-model-1-4:link/forwarding-domain) )
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    enum:
-                      - 'uuid;layer-protocol-name;forwarding-domain'
               responses:
                 '200':
                   description: 'Link provided from cache'
@@ -1976,17 +1919,87 @@ paths:
                                   type: string
                                 layer-protocol-name:
                                   type: string
-                                forwarding-domain:
+                                end-point-list:
                                   type: array
                                   items:
-                                    type: string
-                      example:
-                        core-model-1-4:link:
-                        - uuid: '305551234'
-                          layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                          forwarding-domain:
-                            - '305251234+AirLayerFd'
-                            - '305251235+AirLayerFd'
+                                    type: object
+                                    properties:
+                                      control-construct:
+                                        type: string
+                                      logical-termination-point:
+                                        type: string
+                                      layer-protocol:
+                                        type: string
+                        example:
+                          core-model-1-4:link:
+                            - uuid: '305551234'
+                              layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                              end-point-list:
+                                - control-construct: 'mountNameSideA'
+                                  logical-termination-point: 'mountNameSideA+airInterfaceLtpUuid'
+                                  layer-protocol: 'mountNameSideA+airInterfaceLpLocalId'
+                                - control-construct: 'mountNameSideB'
+                                  logical-termination-point: 'mountNameSideB+airInterfaceLtpUuid'
+                                  layer-protocol: 'mountNameSideB+airInterfaceLpLocalId'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          SearchingParallelLinksInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                    'The uuid of the Link
+                    all Links in Cache to be filtered for 
+                    ( (layer-protocol-name == ReadingEndpointsFromCache.response.body#/core-model-1-4:link/layer-protocol-name) 
+                    AND ( core-model-1-4:link/end-point-list/control-construct = ReadingEndpointsFromCache.response.body#core-model-1-4:link/end-point-list/control-construct) )
+              responses:
+                '200':
+                  description: 'Link provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:link:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                uuid:
+                                  type: string
+                                layer-protocol-name:
+                                  type: string
+                                end-point-list:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      control-construct:
+                                        type: string
+                                      logical-termination-point:
+                                        type: string
+                                      layer-protocol:
+                                        type: string
+                        example:
+                          core-model-1-4:link:
+                            - uuid: '305551235'
+                              layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                              end-point-list:
+                                - control-construct: 'mountNameSideA'
+                                  logical-termination-point: 'mountNameSideA+airInterfaceLtpUuid'
+                                  layer-protocol: 'mountNameSideA+airInterfaceLpLocalId'
+                                - control-construct: 'mountNameSideB'
+                                  logical-termination-point: 'mountNameSideB+airInterfaceLtpUuid'
+                                  layer-protocol: 'mountNameSideB+airInterfaceLpLocalId'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -28305,6 +28318,32 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/LINK_PORT'
+        - description: 'minimum for rest'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - end-point-list
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            end-point-list:
+              type: array
+              items:
+                type: object
+                required:
+                  - control-construct
+                  - logical-termination-point
+                  - layer-protocol
+                properties:
+                  control-construct:
+                    type: string
+                  logical-termination-point:
+                    type: string
+                  layer-protocol:
+                    type: string
     LINK_PORT:
       oneOf:
         - description: 'generic'

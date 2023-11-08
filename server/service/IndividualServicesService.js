@@ -1784,25 +1784,48 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
  * returns inline_response_200_29
  **/
 exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "core-model-1-4:logical-termination-point": [{
-        "ltp-augment-1-0:ltp-augment-pac": {},
-        "layer-protocol": ["", ""],
-        "embedded-clock": [{}, {}],
-        "uuid": "uuid"
-      }, {
-        "ltp-augment-1-0:ltp-augment-pac": {},
-        "layer-protocol": ["", ""],
-        "embedded-clock": [{}, {}],
-        "uuid": "uuid"
-      }]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -1822,15 +1845,48 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
  * returns inline_response_200_30
  **/
 exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "ltp-augment-1-0:ltp-augment-pac": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }

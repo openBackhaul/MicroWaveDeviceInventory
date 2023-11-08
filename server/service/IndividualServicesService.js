@@ -3907,15 +3907,48 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
  * returns inline_response_200_19
  **/
 exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "co-channel-profile-1-0:co-channel-profile-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -3935,15 +3968,48 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
  * returns inline_response_200_20
  **/
 exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "co-channel-profile-1-0:co-channel-profile-configuration": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -5070,15 +5136,48 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
  * returns inline_response_200_18
  **/
 exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "core-model-1-4:profile": ["", ""]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -5097,17 +5196,48 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
  * returns inline_response_200_17
  **/
 exports.getLiveProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "core-model-1-4:profile-collection": {
-        "profile": ["", ""]
-      }
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }

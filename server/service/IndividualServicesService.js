@@ -152,7 +152,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -211,7 +211,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -270,7 +270,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -329,7 +329,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -389,7 +389,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -447,7 +447,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -504,7 +504,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -561,7 +561,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -619,7 +619,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -677,7 +677,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -735,7 +735,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -794,7 +794,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -907,7 +907,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -965,7 +965,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1024,7 +1024,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1083,7 +1083,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1142,7 +1142,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1201,7 +1201,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1260,7 +1260,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1317,7 +1317,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1375,7 +1375,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1433,7 +1433,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1491,7 +1491,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1550,7 +1550,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1610,7 +1610,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1670,7 +1670,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1729,7 +1729,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1854,7 +1854,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1913,7 +1913,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -1972,7 +1972,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2031,7 +2031,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2089,7 +2089,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2147,7 +2147,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2205,7 +2205,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2262,7 +2262,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2320,7 +2320,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2379,7 +2379,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2438,7 +2438,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2497,7 +2497,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2555,7 +2555,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2613,7 +2613,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2671,7 +2671,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2729,7 +2729,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2788,7 +2788,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2847,7 +2847,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2906,7 +2906,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -2965,7 +2965,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3024,7 +3024,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3083,7 +3083,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3142,7 +3142,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3201,7 +3201,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3259,7 +3259,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3317,7 +3317,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3375,7 +3375,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3433,7 +3433,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
   return new Promise(async function (resolve, reject) {
     const myFields = user;
     url = decodeURIComponent(url);
-    const parts = url.split('?');
+    const parts = url.split('?fields=');
     url = parts[0];
     //const fields = parts[1];
     let correctMountname = null;
@@ -3491,15 +3491,18 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -3666,15 +3669,18 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -3723,15 +3729,18 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -3780,15 +3789,18 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -3837,15 +3849,18 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -3952,15 +3967,18 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -4011,15 +4029,18 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -4071,12 +4092,14 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
     const urlParts = url.split("?fields=");
     const myFields = urlParts[1];
 
-    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (ControlConstruct.indexOf("+") != -1) {
-      const parts = ControlConstruct.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      correctCc = ControlConstruct;
+      correctCc = mountname;
     }
     const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
@@ -4132,15 +4155,18 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -4190,15 +4216,18 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -4394,15 +4423,18 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -4451,15 +4483,18 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
   return new Promise(async function (resolve, reject) {
     let jsonObj = "";
     url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
-    let mountname = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    if (mountname.indexOf("+") != -1) {
-      const parts = mountname.split("+");
-      var correctCc = parts[0];
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
       correctCc = mountname;
     }
@@ -4506,15 +4541,48 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
  * returns inline_response_200_15
  **/
 exports.getLiveFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "firmware-1-0:firmware-component-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -4534,27 +4602,48 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
  * returns inline_response_200_14
  **/
 exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "firmware-1-0:firmware-component-list": [{
-        "local-id": "local-id",
-        "firmware-component-pac": {
-          "firmware-component-capability": {},
-          "firmware-component-status": {}
-        }
-      }, {
-        "local-id": "local-id",
-        "firmware-component-pac": {
-          "firmware-component-capability": {},
-          "firmware-component-status": {}
-        }
-      }]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }
@@ -4574,15 +4663,48 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
  * returns inline_response_200_16
  **/
 exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "firmware-1-0:firmware-component-status": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let jsonObj = "";
+    url = decodeURIComponent(url);
+    const urlParts = url.split("?fields=");
+    url = urlParts[0];
+    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    const myFields = urlParts[1];
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const Authorization = appNameAndUuidFromForwarding[0].key;
+    let correctCc = null;
+    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+    let mountname = decodeMountName(url, false);
+    if (typeof mountname === 'object') {
+      resolve(Error(mountname[0].code, mountname[0].message));
+      return;
     } else {
-      resolve();
+      correctCc = mountname;
+    }
+    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+      if (res == false) {
+        resolve(notFoundError());
+      } else if (res.status != 200) {
+        resolve(Error(res.status, res.statusText));
+      } else {
+        let jsonObj = res.data;
+        modificaUUID(jsonObj, correctCc);
+        resolve(jsonObj);
+        let filters = false;
+        if (myFields !== undefined) {
+          filters = true;
+        }
+        // Update record on ES
+        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+        // read from ES
+        let result = await ReadRecords(correctCc);
+        // Update json object
+        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+        // Write updated Json to ES
+        let elapsedTime = await recordRequest(result, correctCc);
+      }
     }
   });
 }

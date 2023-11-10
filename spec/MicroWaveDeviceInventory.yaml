@@ -149,8 +149,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -889,8 +889,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1036,8 +1036,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1183,8 +1183,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1286,8 +1286,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1377,8 +1377,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1444,8 +1444,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1579,8 +1579,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1736,8 +1736,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-012/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-012/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1857,17 +1857,17 @@ paths:
               schema:
                 type: object
                 required:
-                  - parallel-links
+                  - parallel-link-list
                 properties:
-                  parallel-links:
+                  parallel-link-list:
                     type: array
-                    items:
-                      type: string
                     description: >
                       'List of UUIDs of Links that connect the same ControlConstructs
                       from {$RequestForListOfParallelLinksCauses.SearchingParallelLinksInCache.response.body#/core-model-1-4:link=*/uuid}'
+                    items:
+                      type: string
               example:
-                parallel-links:
+                parallel-link-list:
                   - '305551234'
                   - '305551235'
           headers:
@@ -1880,8 +1880,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2112,8 +2112,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2319,8 +2319,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2521,8 +2521,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2652,8 +2652,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-100/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-100/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2729,8 +2729,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-105/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-105/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2803,8 +2803,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2877,8 +2877,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-107/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-107/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2951,8 +2951,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-108/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-108/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3029,8 +3029,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-110/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-110/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3118,8 +3118,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-111/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-111/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3216,8 +3216,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-112/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-112/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3314,8 +3314,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-113/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-113/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3409,8 +3409,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-114/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-114/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3493,8 +3493,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-120/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-120/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3568,8 +3568,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-121/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-121/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3652,8 +3652,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-122/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-122/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3736,8 +3736,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-123/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-123/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3820,8 +3820,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-130/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-130/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3897,8 +3897,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-131/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-131/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -3983,8 +3983,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-135/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-135/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4067,8 +4067,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-136/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-136/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4151,8 +4151,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-145/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-145/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4235,8 +4235,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-146/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-146/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4319,8 +4319,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-150/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-150/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4403,8 +4403,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-151/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-151/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4487,8 +4487,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-155/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-155/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4571,8 +4571,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-156/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-156/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4655,8 +4655,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-160/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-160/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4739,8 +4739,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-161/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-161/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4826,8 +4826,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-200/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-200/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4912,8 +4912,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-201/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-201/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -4998,8 +4998,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5087,8 +5087,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5186,8 +5186,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-204/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-204/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5291,8 +5291,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5362,8 +5362,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5424,8 +5424,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5494,8 +5494,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5574,8 +5574,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5645,8 +5645,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5724,8 +5724,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-210/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-210/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5818,8 +5818,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-211/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-211/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -5912,8 +5912,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-212/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-212/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6006,8 +6006,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-214/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-214/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6101,8 +6101,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-220/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-220/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6195,8 +6195,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-221/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-221/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6289,8 +6289,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-222/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-222/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6383,8 +6383,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-224/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-224/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6478,8 +6478,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-230/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-230/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6572,8 +6572,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-231/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-231/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6666,8 +6666,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-232/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-232/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6760,8 +6760,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-234/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-234/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6855,8 +6855,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-240/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-240/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -6949,8 +6949,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-241/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-241/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7043,8 +7043,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-242/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-242/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7137,8 +7137,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-244/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-244/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7232,8 +7232,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-250/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-250/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7326,8 +7326,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-251/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-251/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7420,8 +7420,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-252/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-252/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7514,8 +7514,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-254/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-254/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7609,8 +7609,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-260/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-260/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7703,8 +7703,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-261/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-261/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7759,100 +7759,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mountName'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getCachedVlanInterfaceStatus
-      summary: 'Provides VlanInterfaceStatus from cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'VlanInterfaceStatus provided from cache'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  vlan-interface-1-0:vlan-interface-status:
-                    $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-262/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForCachedVlanInterfaceStatusCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-c-get-es-1-0-0-262/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the LogicalTerminationPoint that is addressed by the request
-                    from {$request.parameters#uuid}'
-                - name: localId
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LP-MWPS-TTP-1-1'
-                  description: >
-                    'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#localId}'
-              responses:
-                '200':
-                  description: 'VlanInterfaceStatus provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          vlan-interface-1-0:vlan-interface-status:
-                            $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -7891,8 +7797,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-264/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-264/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -7986,8 +7892,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-270/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-270/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8080,8 +7986,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-271/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-271/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8174,8 +8080,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-272/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-272/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8268,8 +8174,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-274/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-274/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8367,8 +8273,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-400/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-400/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8496,8 +8402,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-405/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-405/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8617,8 +8523,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-406/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-406/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8740,8 +8646,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-407/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-407/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8863,8 +8769,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-408/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-408/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -8988,8 +8894,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-410/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-410/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -9135,8 +9041,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-411/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-411/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -9300,8 +9206,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-412/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-412/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -9465,8 +9371,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-413/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-413/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -9627,8 +9533,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-414/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-414/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -9767,8 +9673,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-420/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-420/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -9889,8 +9795,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-421/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-421/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10029,8 +9935,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-422/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-422/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10169,8 +10075,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-423/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-423/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10309,8 +10215,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-430/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-430/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10433,8 +10339,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-431/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-431/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10575,8 +10481,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-435/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-435/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10715,8 +10621,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-436/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-436/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10855,8 +10761,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-445/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-445/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -10995,8 +10901,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-446/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-446/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11135,8 +11041,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-450/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-450/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11275,8 +11181,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-451/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-451/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11415,8 +11321,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-455/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-455/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11555,8 +11461,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-456/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-456/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11695,8 +11601,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-460/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-460/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11835,8 +11741,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-461/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-461/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -11978,8 +11884,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-500/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-500/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -12122,8 +12028,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-501/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-501/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -12264,8 +12170,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-502/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-502/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -12411,8 +12317,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-503/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-503/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -12577,8 +12483,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-504/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-504/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -12759,8 +12665,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-510/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-510/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -12918,8 +12824,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-511/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-511/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13077,8 +12983,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-512/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-512/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13236,8 +13142,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-513/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-513/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13342,8 +13248,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-514/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-514/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13502,8 +13408,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-520/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-520/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13661,8 +13567,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-521/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-521/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13820,8 +13726,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-522/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-522/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -13979,8 +13885,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-523/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-523/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14085,8 +13991,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-524/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-524/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14245,8 +14151,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-530/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-530/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14404,8 +14310,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-531/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-531/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14563,8 +14469,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-532/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-532/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14722,8 +14628,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-533/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-533/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14828,8 +14734,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-534/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-534/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -14988,8 +14894,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-540/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-540/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -15147,8 +15053,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-541/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-541/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -15306,8 +15212,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-542/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-542/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -15465,8 +15371,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-543/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-543/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -15571,8 +15477,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-544/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-544/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -15731,8 +15637,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-550/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-550/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -15890,8 +15796,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-551/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-551/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -16049,8 +15955,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-552/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-552/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -16208,8 +16114,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-553/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-553/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -16314,8 +16220,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-554/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-554/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -16474,8 +16380,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-560/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-560/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -16633,8 +16539,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-561/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-561/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -16751,165 +16657,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-status:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mountName'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getLiveVlanInterfaceStatus
-      summary: 'Provides VlanInterfaceStatus from live network'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'VlanInterfaceStatus provided from live network'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  vlan-interface-1-0:vlan-interface-status:
-                    $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
-                    description: >
-                      'from {$RequestForReadingFromDevice.response.body#vlan-interface-1-0:vlan-interface-status}
-                      and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-562/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForLiveVlanInterfaceStatusCausesReadingFromDeviceAndWritingIntoCache:
-          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-c-is-odl-4-0-2-562/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: controllerInternalPathToMountPoint
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    description: >
-                      'Controller internal path to the device mount points
-                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the LogicalTerminationPoint that is addressed by the request
-                    from {$request.parameters#uuid}'
-                - name: localId
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LP-MWPS-TTP-1-1'
-                  description: >
-                    'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#localId}'
-              responses:
-                '200':
-                  description: 'OK'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          vlan-interface-1-0:vlan-interface-status:
-                            $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-c-put-es-1-0-0-562/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the LogicalTerminationPoint that is addressed by the request
-                    from {$request.parameters#uuid}'
-                - name: localId
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LP-MWPS-TTP-1-1'
-                  description: >
-                    'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$request.parameters#localId}'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - vlan-interface-1-0:vlan-interface-status
-                      properties:
-                        vlan-interface-1-0:vlan-interface-status:
-                          $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#vlan-interface-1-0:vlan-interface-status}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'VlanInterfaceStatus written to cache'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -16951,8 +16698,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-563/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-563/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -17057,8 +16804,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-564/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-564/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -17217,8 +16964,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-570/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-570/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -17376,8 +17123,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-571/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-571/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -17535,8 +17282,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-572/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-572/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -17694,8 +17441,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-573/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-573/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -17800,8 +17547,8 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-574/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-574/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -18138,8 +17885,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -18493,8 +18240,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -18813,17 +18560,17 @@ paths:
                           type: string
                           description: >
                             'Name of the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         subscribing-application-release:
                           type: string
                           description: >
                             'Release of the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         subscribing-application-protocol:
                           type: string
                           description: >
                             'Protocol to be used for addressing the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
                         subscribing-application-address:
                           type: object
                           properties:
@@ -18834,22 +18581,22 @@ paths:
                                   type: string
                                   description: >
                                     'IPv4 address of the application that is subscribing for notifications about changes of attributes at the controllers
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
                                 'Domain name of the application that is subscribing for notifications about changes of attributes at the controllers
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
                         subscribing-application-port:
                           type: integer
                           description: >
                             'Port of the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
                         notifications-receiving-operation:
                           type: string
                           description: >
                             'Operation for receiving the notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
                       example:
                         subscribing-application-name: 'MicroWaveDeviceInventory'
                         subscribing-application-release: '1.0.0'
@@ -18928,17 +18675,17 @@ paths:
                           type: string
                           description: >
                             'Name of the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         subscribing-application-release:
                           type: string
                           description: >
                             'Release of the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         subscribing-application-protocol:
                           type: string
                           description: >
                             'Protocol to be used for addressing the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
                         subscribing-application-address:
                           type: object
                           properties:
@@ -18949,22 +18696,22 @@ paths:
                                   type: string
                                   description: >
                                     'IPv4 address of the application that is subscribing for notifications about alarms at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
                                 'Domain name of the application that is subscribing for notifications about alarms at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
                         subscribing-application-port:
                           type: integer
                           description: >
                             'Port of the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
                         notifications-receiving-operation:
                           type: string
                           description: >
                             'Operation for receiving the notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
                       example:
                         subscribing-application-name: 'MicroWaveDeviceInventory'
                         subscribing-application-release: '1.0.0'
@@ -19043,17 +18790,17 @@ paths:
                           type: string
                           description: >
                             'Name of the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         subscribing-application-release:
                           type: string
                           description: >
                             'Release of the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         subscribing-application-protocol:
                           type: string
                           description: >
                             'Protocol to be used for addressing the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
                         subscribing-application-address:
                           type: object
                           properties:
@@ -19064,22 +18811,22 @@ paths:
                                   type: string
                                   description: >
                                     'IPv4 address of the application that is subscribing for notifications about changes of attributes at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
                                 'Domain name of the application that is subscribing for notifications about changes of attributes at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
                         subscribing-application-port:
                           type: integer
                           description: >
                             'Port of the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
                         notifications-receiving-operation:
                           type: string
                           description: >
                             'Operation for receiving the notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
                       example:
                         subscribing-application-name: 'MicroWaveDeviceInventory'
                         subscribing-application-release: '1.0.0'
@@ -19158,17 +18905,17 @@ paths:
                           type: string
                           description: >
                             'Name of the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         subscribing-application-release:
                           type: string
                           description: >
                             'Release of the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         subscribing-application-protocol:
                           type: string
                           description: >
                             'Protocol to be used for addressing the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
                         subscribing-application-address:
                           type: object
                           properties:
@@ -19179,22 +18926,22 @@ paths:
                                   type: string
                                   description: >
                                     'IPv4 address of the application that is subscribing for notifications about object creations at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
                                 'Domain name of the application that is subscribing for notifications about object creations at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
                         subscribing-application-port:
                           type: integer
                           description: >
                             'Port of the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
                         notifications-receiving-operation:
                           type: string
                           description: >
                             'Operation for receiving the notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-004/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
                       example:
                         subscribing-application-name: 'MicroWaveDeviceInventory'
                         subscribing-application-release: '1.0.0'
@@ -19273,17 +19020,17 @@ paths:
                           type: string
                           description: >
                             'Name of the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         subscribing-application-release:
                           type: string
                           description: >
                             'Release of the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         subscribing-application-protocol:
                           type: string
                           description: >
                             'Protocol to be used for addressing the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
                         subscribing-application-address:
                           type: object
                           properties:
@@ -19294,22 +19041,22 @@ paths:
                                   type: string
                                   description: >
                                     'IPv4 address of the application that is subscribing for notifications about object deletions at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
                                 'Domain name of the application that is subscribing for notifications about object deletions at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
                         subscribing-application-port:
                           type: integer
                           description: >
                             'Port of the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
                         notifications-receiving-operation:
                           type: string
                           description: >
                             'Operation for receiving the notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-005/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
                       example:
                         subscribing-application-name: 'MicroWaveDeviceInventory'
                         subscribing-application-release: '1.0.0'
@@ -19485,8 +19232,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -19736,8 +19483,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -19933,8 +19680,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20070,8 +19817,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20335,8 +20082,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20475,8 +20222,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20728,8 +20475,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -21615,8 +21362,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -21714,8 +21461,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bm-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -21785,8 +21532,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '403':
@@ -21888,8 +21635,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -21972,8 +21719,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -22050,8 +21797,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -22113,8 +21860,8 @@ paths:
                   - 'NOT_YET_DEFINED'
                 example: 'EXPERIMENTAL'
               description: >
-                  'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -28613,15 +28360,12 @@ components:
           required:
             - vlan-interface-capability
             - vlan-interface-configuration
-            - vlan-interface-status
             - vlan-interface-historical-performances
           properties:
             vlan-interface-capability:
               $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
             vlan-interface-configuration:
               $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
-            vlan-interface-status:
-              $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
             vlan-interface-historical-performances:
               $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
         - description: 'live'
@@ -28629,7 +28373,6 @@ components:
           required:
             - vlan-interface-capability
             - vlan-interface-configuration
-            - vlan-interface-status
             - vlan-interface-current-performance
             - vlan-interface-historical-performances
           properties:
@@ -28637,8 +28380,6 @@ components:
               $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
             vlan-interface-configuration:
               $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
-            vlan-interface-status:
-              $ref: '#/components/schemas/VLAN_INTERFACE_STATUS'
             vlan-interface-current-performance:
               $ref: '#/components/schemas/VLAN_INTERFACE_CURRENT_PERFORMANCE'
             vlan-interface-historical-performances:
@@ -28646,8 +28387,6 @@ components:
     VLAN_INTERFACE_CAPABILITY:
       type: object
     VLAN_INTERFACE_CONFIGURATION:
-      type: object
-    VLAN_INTERFACE_STATUS:
       type: object
     VLAN_INTERFACE_CURRENT_PERFORMANCE:
       type: object

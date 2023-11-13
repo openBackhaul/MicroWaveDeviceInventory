@@ -172,6 +172,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -231,6 +232,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -290,6 +292,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -349,6 +352,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -409,6 +413,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -467,6 +472,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -524,6 +530,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -581,6 +588,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -639,6 +647,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -697,6 +706,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -755,6 +765,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -814,6 +825,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -870,6 +882,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -927,6 +940,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -985,6 +999,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1044,6 +1059,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1103,6 +1119,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1162,6 +1179,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1221,6 +1239,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1280,6 +1299,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1337,6 +1357,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1395,6 +1416,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1453,6 +1475,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1511,6 +1534,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1570,6 +1594,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1630,6 +1655,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1690,6 +1716,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1749,6 +1776,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1794,6 +1822,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -1810,8 +1839,8 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -1824,8 +1853,10 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -1855,6 +1886,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -1871,8 +1903,8 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -1885,8 +1917,10 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -1930,6 +1964,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -1989,6 +2024,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2048,6 +2084,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2107,6 +2144,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2165,6 +2203,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2223,6 +2262,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2281,6 +2321,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2338,6 +2379,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2396,6 +2438,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2455,6 +2498,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2514,6 +2558,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2573,6 +2618,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2631,6 +2677,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2689,6 +2736,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2747,6 +2795,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2805,6 +2854,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2864,6 +2914,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2923,6 +2974,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -2982,6 +3034,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3041,6 +3094,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3100,6 +3154,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3159,6 +3214,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3218,6 +3274,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3277,6 +3334,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3335,6 +3393,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3393,6 +3452,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3451,6 +3511,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3509,6 +3570,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -3554,6 +3616,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3570,8 +3633,8 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -3584,8 +3647,10 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -3616,6 +3681,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3632,8 +3698,8 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -3646,8 +3712,10 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -3678,6 +3746,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3694,8 +3763,8 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -3708,8 +3777,10 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -3756,7 +3827,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+       // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -3789,6 +3860,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3805,8 +3877,8 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -3819,8 +3891,10 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -3851,6 +3925,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3867,8 +3942,8 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -3881,8 +3956,10 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -3911,6 +3988,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3927,8 +4005,8 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -3941,8 +4019,10 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -3971,6 +4051,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -3987,8 +4068,8 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4001,8 +4082,10 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4031,6 +4114,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4047,8 +4131,8 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4061,8 +4145,10 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4092,6 +4178,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4108,8 +4195,8 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4122,8 +4209,10 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4153,6 +4242,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4169,8 +4259,8 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4183,8 +4273,10 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4215,6 +4307,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4231,8 +4324,8 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4245,8 +4338,10 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4277,6 +4372,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4293,8 +4389,8 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4307,8 +4403,10 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4335,7 +4433,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
 
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
+    let mountname = decodeMountName(url, true);
     if (typeof mountname === 'object') {
       resolve(Error(mountname[0].code, mountname[0].message));
       return;
@@ -4357,6 +4455,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
         if (myFields === undefined) {
           let elapsedTime = await recordRequest(jsonObj, correctCc);
           let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
+          modifyReturnJson(res);
           resolve(res);
         } else {
           let filters = true;
@@ -4369,7 +4468,8 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
           // Write updated Json to ES
           let elapsedTime = await recordRequest(result1, correctCc);
-          resolve(result.data);
+          modifyReturnJson(jsonObj)
+          resolve(jsonObj);
         }
 
       }
@@ -4403,6 +4503,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4419,8 +4520,8 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4433,8 +4534,10 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4464,6 +4567,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4480,8 +4584,8 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4494,8 +4598,10 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4526,6 +4632,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4542,8 +4649,8 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4556,8 +4663,10 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4588,6 +4697,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4604,8 +4714,8 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4618,8 +4728,10 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4666,7 +4778,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+       // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -4699,6 +4811,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4715,8 +4828,8 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4729,8 +4842,10 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4761,6 +4876,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4777,8 +4893,8 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4791,8 +4907,10 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4823,6 +4941,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4839,8 +4958,8 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4853,8 +4972,10 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4883,6 +5004,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4899,8 +5021,8 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4913,8 +5035,10 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -4944,6 +5068,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -4960,8 +5085,8 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -4974,8 +5099,10 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5005,6 +5132,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5021,8 +5149,8 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5035,8 +5163,10 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5066,6 +5196,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5082,8 +5213,8 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5096,10 +5227,13 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
+
 }
 
 
@@ -5128,6 +5262,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5144,8 +5279,8 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5158,8 +5293,10 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5190,6 +5327,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5206,8 +5344,8 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5220,8 +5358,10 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5268,7 +5408,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+       // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -5301,6 +5441,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5317,8 +5458,8 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5331,8 +5472,10 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5363,6 +5506,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5379,8 +5523,8 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5393,8 +5537,10 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5425,6 +5571,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5441,8 +5588,8 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5455,8 +5602,10 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5487,6 +5636,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5503,8 +5653,8 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5517,10 +5667,13 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
+
 }
 
 
@@ -5565,7 +5718,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+       // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -5598,6 +5751,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5614,8 +5768,8 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5628,8 +5782,10 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5660,6 +5816,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5676,8 +5833,8 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5690,8 +5847,10 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5721,6 +5880,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5737,8 +5897,8 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5751,8 +5911,10 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5782,6 +5944,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5798,8 +5961,8 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5812,8 +5975,10 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5843,6 +6008,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5859,8 +6025,8 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5873,8 +6039,10 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5903,6 +6071,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5919,8 +6088,8 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5933,8 +6102,10 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -5965,6 +6136,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -5981,8 +6153,8 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -5995,8 +6167,10 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6027,6 +6201,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6043,8 +6218,8 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6057,8 +6232,10 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6105,7 +6282,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+       // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -6138,6 +6315,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6154,8 +6332,8 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6168,8 +6346,10 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6200,6 +6380,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6216,8 +6397,8 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6230,8 +6411,10 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6261,6 +6444,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6277,8 +6461,8 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6291,8 +6475,10 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6322,6 +6508,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6338,8 +6525,8 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6352,8 +6539,10 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6383,6 +6572,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6399,8 +6589,8 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6413,11 +6603,13 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
-  });}
-
+  });
+}
 
 /**
  * Provides SchedulerProfileConfiguration from live network
@@ -6443,6 +6635,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6459,8 +6652,8 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6473,8 +6666,10 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6505,6 +6700,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6521,8 +6717,8 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6535,8 +6731,10 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6567,6 +6765,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6583,8 +6782,8 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6597,8 +6796,10 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6645,7 +6846,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+      //  modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -6678,6 +6879,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6694,8 +6896,8 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6708,8 +6910,10 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6740,6 +6944,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6756,8 +6961,8 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6770,8 +6975,10 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6802,6 +7009,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6818,8 +7026,8 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6832,8 +7040,10 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6864,6 +7074,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6880,8 +7091,8 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -6894,8 +7105,10 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -6942,7 +7155,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
-        modificaUUID(jsonObj, correctCc);
+       // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
@@ -6975,6 +7188,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -6991,8 +7205,8 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -7005,8 +7219,10 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -7037,6 +7253,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -7053,8 +7270,8 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -7067,8 +7284,10 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -7098,6 +7317,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -7114,8 +7334,8 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -7128,8 +7348,10 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -7159,6 +7381,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
+    let retJson = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
@@ -7175,8 +7398,8 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
         resolve(Error(res.status, res.statusText));
       } else {
         let jsonObj = res.data;
+        retJson = jsonObj;
         modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
         let filters = false;
         if (myFields !== undefined) {
           filters = true;
@@ -7189,8 +7412,10 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
         // Update json object
         let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
         // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc);
+        let elapsedTime = await recordRequest(result, correctCc); 
       }
+      modifyReturnJson(retJson)
+      resolve(retJson); 
     }
   });
 }
@@ -7854,6 +8079,24 @@ function modificaUUID(obj, mountName) {
       modificaUUID(obj[key], mountName);
     } else if (key === 'uuid' || key === 'local-id') {
       obj[key] = mountName + "+" + obj[key];
+    }
+  }
+}
+
+// function to convert the response from String1+String2 to String1
+function modifyReturnJson(obj) {
+  for (const key in obj) {
+    if (Array.isArray(obj[key])) {
+      obj[key].forEach(item => {
+        modifyReturnJson(item);
+      });
+    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+      modifyReturnJson(obj[key]);
+    } else {
+      if (key === 'uuid' || key === 'local-id') {
+        const parts = obj[key].split('+');
+        obj[key] = parts[1];
+      }
     }
   }
 }

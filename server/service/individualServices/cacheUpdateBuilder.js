@@ -100,6 +100,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
       } else {
         let objectKey1 = Object.keys(oggetto)[0];
         oggetto = oggetto[objectKey1];
+        oggetto = oggetto[nomeArray];
       }
       // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
       if (i === chiavi.length - 1) {

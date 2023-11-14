@@ -6,7 +6,7 @@ title NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
 
 participant "NP://v1/notify-device-alarms" as subscription
 participant "MWDI://v1/regard-device-alarm" as regardAlarm
-participant "ElasticSearch://control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
+participant "ElasticSearch://control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
 
 subscription -> regardAlarm: {counter, timestamp, resource, alarm-type-id, alarm-type-qualifier, severity} (apiKeyAuth)
 activate regardAlarm
@@ -47,7 +47,7 @@ note over CurrentAlarms
 Remark 2: 
 There would be an alternative way.
 Instead of loading the list of current alarms from cache, updating it, and writing it back into the cache,
-self-calling of MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms would lead to the same result.
+self-calling of MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms would lead to the same result.
 The latter way would be slower, but probably compensate missed alarm notifications.
 The implementer to comment on the preferred way.
 end note

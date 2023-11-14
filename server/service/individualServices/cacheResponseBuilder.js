@@ -1,10 +1,10 @@
 exports.cacheResponseBuilder = function (url, currentJSON) {
     let objectKey = Object.keys(currentJSON)[0];
     currentJSON = currentJSON[objectKey];
-
     const parts = objectKey.split(':');
-
     let lastkey = null;
+    let lastUrlSegment="";
+    let penultimateUrlSegment="";
     const urlSegments = url.split('/').filter(segment => segment.trim() !== '');
     let startParsing = false;
     let i = urlSegments.length;
@@ -17,12 +17,13 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
             i--;
             continue;
         }
-       
+        //lastValue = key;
         const [key, value] = segment.split('=');
 
         // Verify if the field exists in the current JSON
         if (currentJSON.hasOwnProperty(key)) {
             currentJSON = currentJSON[key];
+            lastValue = key;
             if (Array.isArray(currentJSON)) {
                 // If the field is an Array search for the field with the correct UUID or Local-id
                 const uuidDaCercare = decodeURIComponent(value);
@@ -36,29 +37,39 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
                         currentJSON = [equipmentCercato];
                     }
                 } else {
-                    console.log(`No elements found with UUID: ${uuidDaCercare}`);
+//                    console.log(`No elements found with UUID: ${uuidDaCercare}`);
                     return 
                     break;
                 }
             }
         } else {
-            //console.log(`Field not found: ${key}`);
+//            console.log(`Field not found: ${key}`);
+            lastValue = key;
             break;
         }
         lastkey = key;
         i--;
     }
     let topJsonWrapper ="";
-    let returnObject = null;
-    if (lastkey != null){
-        topJsonWrapper = parts[0] + ":" + lastkey;
+    let size = urlSegments.length;
+    lastUrlSegment = urlSegments[size-1];
+    penultimateUrlSegment = urlSegments[size-2];
+    if (penultimateUrlSegment.indexOf(":") != -1 && lastUrlSegment.indexOf("control-construct") == -1) {
+        const parts1 = penultimateUrlSegment.split(':');
+        topJsonWrapper = parts1[0] + ":" + lastUrlSegment;
         returnObject = { [topJsonWrapper]: currentJSON };
-    } else {
-        topJsonWrapper = parts[0] + ":" + parts[1];
+    } else if (lastUrlSegment.indexOf(":") != -1){
+        topJsonWrapper =  lastUrlSegment;
+        returnObject = { [topJsonWrapper]: currentJSON };
+    } else if (lastUrlSegment.indexOf("=") != -1) {
+        let parts2 = lastUrlSegment.split("=");
+        topJsonWrapper = parts[0] + ":" + parts2[0];
         returnObject = { [topJsonWrapper]: [currentJSON] };
+    } else {
+        topJsonWrapper = parts[0] + ":" + lastUrlSegment;
+        returnObject = { [topJsonWrapper]: currentJSON };
     }
- 
-   // returnObject[topJsonWrapper] = [currentJSON] + "}"; 
+
     return returnObject;
 }
 

@@ -5,6 +5,7 @@ const { setTimeout } = require('timers');
 const { CronJob } = require('cron');
 const path = require("path");
 const individualServices = require( "../../IndividualServicesService.js");
+const shuffleArray = require('shuffle-array');
 
 const DEVICE_NOT_PRESENT = -1;
 let deviceListSyncPeriod = 24;
@@ -284,46 +285,64 @@ function filterConnectedDevices(deviceList) {
  * newDeviceList is the new device list that update the old one. It's mandatory.
  */
 module.exports.deviceListSynchronization = async function deviceListSynchronization() {
-    
-    let newDeviceList;
+        
+    let odlDeviceList;
     try {
-        newDeviceList = await individualServices.getLiveDeviceList();
+        odlDeviceList = await individualServices.getLiveDeviceList();        
     } catch (error) {
         console.log(error);
         return;
     }
-        
-    newDeviceList = filterConnectedDevices(newDeviceList);        
-                
+    odlDeviceList = filterConnectedDevices(odlDeviceList);
+
     printLog('***************************************************************************', print_log_level >= 2);
     printLog('*                       DEVICE LIST REALIGNMENT', print_log_level >= 2);
     printLog('***************************************************************************', print_log_level >= 2);
-    printLog(printList('Current Device List', deviceList), print_log_level >= 2);
-    printLog(printList('New Device List (ODL)', newDeviceList), print_log_level >= 2);
 
-    // Drop all the control constructs from elasticsearch referring elements not more present in new device list
-    let dbDeviceLIst = await individualServices.readDeviceListFromElasticsearch();
-    printLog(printList('Elasticsearch Device List', deviceList), print_log_level >= 2);
-    for (let i = 0; i < dbDeviceLIst.length; i++) {
+    let esDeviceList = await individualServices.readDeviceListFromElasticsearch();
+    //
+    // Get the next element common to both the esDeviceList and odlDeviceList. 
+    // This element will provide the index needed to split the commonElements list.
+    //
+    let elementFound = false;
+    let nextElement;
+    do {
+        nextElement = esDeviceList[getNextDeviceListIndex()];
+        for (let i = 0; i < odlDeviceList.length; i++) {
+            if (nextElement == odlDeviceList[i]['node-id']) {
+                elementFound = true;
+                break;
+            }
+        }
+    } while (elementFound == false);
+    
+    //
+    // Drop all the control constructs from elasticsearch referring elements not more present in new odl device list
+    //
+    let commonElements = [];
+    for (let i = 0; i < esDeviceList.length; i++) {
         let found = false;
-        for (let j = 0; j < newDeviceList.length; j++) {
-            if (dbDeviceLIst[i]['node-id'] == newDeviceList[j]['node-id']) {
+        for (let j = 0; j < odlDeviceList.length; j++) {
+            if (esDeviceList[i]['node-id'] == odlDeviceList[j]['node-id']) {
                 found = true;
+                commonElements.push(esDeviceList[i]['node-id']);
                 break;
             }
         }
         if (!found) {
-            let cc_id = dbDeviceLIst[i]['node-id'];
+            let cc_id = esDeviceList[i]['node-id'];
             let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
             printLog(ret.result, print_log_level >= 2);
         }
     }
 
-    // Drop all the sliding window elements not more present in new device list
+    //
+    // Drop all the sliding window elements not more present in new odl device list
+    //
     for (let i = 0; i < slidingWindow.length; ) {
         let found = false;
-        for (let j = 0; j < newDeviceList.length; j++) {                
-            if (slidingWindow[i]['node-id'] == newDeviceList[j]['node-id']) {
+        for (let j = 0; j < odlDeviceList.length; j++) {                
+            if (slidingWindow[i]['node-id'] == odlDeviceList[j]['node-id']) {
                 found = true;
                 break;
             }
@@ -335,93 +354,44 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }
     }
 
-    // Drop all the device list elements not more present in new device list
-    for (let i = 0; i < deviceList.length; ) {
+    //
+    // Create the array of new elements from ODL-DL (not found in ES-DL)
+    //
+    let newElements = [];
+    for (let i = 0; i < odlDeviceList.length; i++) {
         let found = false;
-        for (let j = 0; j < newDeviceList.length; j++) {                
-            if (deviceList[i]['node-id'] == newDeviceList[j]['node-id']) {
+        for (let j = 0; j < esDeviceList.length; j++) {
+            if (odlDeviceList[i]['node-id'] == esDeviceList[j]['node-id']) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            deviceList.splice(i, 1);
+            newElements.push(odlDeviceList[i]['node-id']);
+        }
+    }
+    newElements = shuffleArray(newElements);
+
+    //
+    // Split esDeviceList to insert newElements array inside
+    //
+    let nextElementFound = false;
+    let newDeviceListLeft = [];
+    let newDeviceListRight = [];
+    for (let i = 0; i < esDeviceList.length; i++) {
+        if (nextElement == esDeviceList[i]['node-id']) {
+            nextElementFound = true
+            // Update the lastDeviceListIndex: it must be relocated to the last element of newDeviceListLeft
+            lastDeviceListIndex = i - 1;
+        }
+        if (nextElementFound == false) {
+            newDeviceListLeft.push(esDeviceList[i]);
         } else {
-            i++;
+            newDeviceListRight.push(esDeviceList[i]);
         }
     }
+    deviceList = [].concat(newDeviceListLeft, newElements, newDeviceListRight);
 
-    // Drop all the device list elements present in sliding window
-    for (let i = 0; i < deviceList.length; ) {
-        let found = false;
-        for (let j = 0; j < slidingWindow.length; j++) {                
-            if (deviceList[i]['node-id'] == slidingWindow[j]['node-id']) {
-                found = true;
-                break;
-            }
-        }
-        if (found) {
-            deviceList.splice(i, 1);
-        } else {
-            i++;
-        }
-    }
-
-    // Drop all the new device list elements present in sliding window
-    for (let i = 0; i < newDeviceList.length; ) {
-        let found = false;
-        for (let j = 0; j < slidingWindow.length; j++) {                
-            if (newDeviceList[i]['node-id'] == slidingWindow[j]['node-id']) {
-                found = true;
-                break;
-            }
-        }
-        if (found) {
-            newDeviceList.splice(i, 1);
-        } else {
-            i++;
-        }
-    }
-
-    // Creation of a tail device list with all the elements from:
-    // (1) all the sliding window elements (waiting a response)
-    // (2) device list with defined time stamp not present in device list sorted ascending
-    let tailDeviceList = []
-    for (let i = 0; i < deviceList.length; i++) {
-        if (deviceList[i]['timestamp']) {
-            tailDeviceList.push(deviceList[i]);
-        }
-    }
-    tailDeviceList.sort((a, b) => (a.timestamp - b.timestamp));
-    tailDeviceList = [].concat(tailDeviceList, slidingWindow);
-
-    // Creation of middle device list with all the 
-    // device list elements with timestamp not defined        
-    let middleDeviceList = [];
-    for (let i = 0; i < deviceList.length; i++) {
-        if (deviceList[i]['timestamp'] == undefined) {
-            middleDeviceList.push(deviceList[i]);
-        }
-    }
-
-    // Creation of head device list with all the new
-    // device list elements not present in device list
-    let headDeviceList = [];
-    for (let i = 0; i < newDeviceList.length; i++) {
-        let found = false;
-        for (let j = 0; j < deviceList.length; j++) {
-            if (newDeviceList[i]['node-id'] == deviceList[j]['node-id']) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            headDeviceList.push(newDeviceList[i]);
-        }
-    }
-
-    // Update the device list composing the three lists above
-    deviceList = [].concat(headDeviceList, middleDeviceList, tailDeviceList);
     printLog(printList('Device List', deviceList), print_log_level >= 2);
     try {
         await individualServices.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
@@ -431,27 +401,11 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     
     // Fill the sliding window at the max allowed
     slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
-    let slidingWindowFilled = false
     for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
-        for (let j = 0; j < deviceList.length; j++) {
-            if (checkDeviceExistsInSlidingWindow(deviceList[j]['node-id']) == DEVICE_NOT_PRESENT) {
-                slidingWindow.push(prepareObjectForWindow(j));
-                lastDeviceListIndex = j;
-                printLog('Filled sliding window with ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' then send request...', print_log_level >= 2);
-                printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
-                requestMessage(slidingWindow.length-1);
-                slidingWindowFilled = true;
-                break;
-            }
-        }
+        addNextDeviceListElementInWindow();
     }
-    if (!slidingWindowFilled) {
-        lastDeviceListIndex = -1;
-    }        
-    return true;
+    return true
 }
-
-
 
 /**
  * Entry point function
@@ -488,11 +442,14 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     try {
         let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
         printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
+        // Delete from ES all the CC not found in ODL-DL and prepare the array of common elements starting ES elements previous shuffled
+        let commonElements = [];
         for (let i = 0; i < elasticsearchList.length; i++) {
             let found = false;
             for (let j = 0; j < odlDeviceList.length; j++) {
                 if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
                     found = true;
+                    commonElements.push(elasticsearchList[i]['node-id']);
                     break;
                 }
             }
@@ -503,10 +460,27 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
             }
         } 
 
+        // Create the array of new elements from ODL-DL (not found in ES-DL)
+        let newElements = []
+        for (let i = 0; i < odlDeviceList.length; i++) {
+            let found = false;
+            for (let j = 0; j < elasticsearchList.length; j++) {
+                if (odlDeviceList[i]['node-id'] == elasticsearchList[j]['node-id']) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                newElements.push(odlDeviceList[i]['node-id'])
+            }
+        }
+        newElements = shuffleArray(newElements);
+        odlDeviceList = [].concat(newElements, commonElements);
         printLog("Update device list to elasticsearch", print_log_level >= 2)
     } catch (error) {
         console.log(error);
-        printLog("Write ODL device list to Elasticsearch", print_log_level >= 2);        
+        odlDeviceList = shuffleArray(odlDeviceList);
+        printLog("Write ODL device list shuffled to Elasticsearch", print_log_level >= 2);        
     }
     let odlDeviceListString = JSON.stringify(odlDeviceList);
     try {
@@ -518,7 +492,6 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     deviceList = odlDeviceList;            
     slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
     printLog(printList('Device List', deviceList), print_log_level >= 1);
-
 
     lastDeviceListIndex = -1;
     for (let i = 0; i < slidingWindowSize; i++) {

@@ -4847,7 +4847,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
         correctCc = mountname;
       }
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
+      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url, myFields);
       const Authorization = appNameAndUuidFromForwarding[0].key;
       if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)

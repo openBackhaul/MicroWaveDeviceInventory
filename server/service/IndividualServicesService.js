@@ -1,6 +1,4 @@
 'use strict';
-const LogicalTerminationPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInput');
-const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointServices');
 const ForwardingConfigurationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructConfigurationServices');
 const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
@@ -25,7 +23,6 @@ const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/on
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const genericRepresentation = require('onf-core-model-ap-bs/basicServices/GenericRepresentation');
 const createHttpError = require('http-errors');
-const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/services/models/TcpObject');
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
@@ -150,46 +147,51 @@ exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrela
  **/
 exports.getCachedActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -210,46 +212,51 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
  **/
 exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -270,46 +277,51 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
  **/
 exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -330,48 +342,52 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
  **/
 exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
-  });
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
 }
 
 
@@ -391,48 +407,52 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
  **/
 exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
-  });
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
 }
 
 
@@ -450,46 +470,51 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
  **/
 exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -508,46 +533,51 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
  **/
 exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -566,46 +596,51 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
  **/
 exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -625,46 +660,51 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
  **/
 exports.getCachedCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -684,47 +724,53 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
  **/
 exports.getCachedCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
-  });}
+  });
+}
 
 
 /**
@@ -743,46 +789,51 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
  **/
 exports.getCachedConnector = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -803,46 +854,51 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
  **/
 exports.getCachedContainedHolder = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -861,45 +917,51 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
  **/
 exports.getCachedControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields');
-    url = parts[0];
-    //const fields = parts[1];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-    let mountname = decodeMountName(url, true);
-    let correctMountname = "";
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, true);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -918,46 +980,51 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
  **/
 exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -977,46 +1044,51 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
  **/
 exports.getCachedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1037,46 +1109,51 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
  **/
 exports.getCachedEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1097,46 +1174,51 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
  **/
 exports.getCachedEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1157,46 +1239,51 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
  **/
 exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1217,46 +1304,51 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
  **/
 exports.getCachedEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1277,46 +1369,51 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
  **/
 exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1335,46 +1432,51 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
  **/
 exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1394,46 +1496,51 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
  **/
 exports.getCachedFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1453,46 +1560,51 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
  **/
 exports.getCachedFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1512,46 +1624,51 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
  **/
 exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1572,48 +1689,52 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
  **/
 exports.getCachedHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
-  });
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
 }
 
 
@@ -1633,48 +1754,52 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
  **/
 exports.getCachedHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
-  });
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
 }
 
 
@@ -1694,46 +1819,51 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
  **/
 exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1754,46 +1884,51 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
  **/
 exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1813,50 +1948,59 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
  **/
 exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -1877,50 +2021,59 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
  **/
 exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -1942,46 +2095,51 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
  **/
 exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2002,46 +2160,51 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
  **/
 exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2062,46 +2225,51 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
  **/
 exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2122,46 +2290,51 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
  **/
 exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2181,46 +2354,51 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
  **/
 exports.getCachedPolicingProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2240,46 +2418,51 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
  **/
 exports.getCachedPolicingProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2299,46 +2482,51 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
  **/
 exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2357,46 +2545,51 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
  **/
 exports.getCachedProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2416,46 +2609,51 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
  **/
 exports.getCachedPureEthernetStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2476,46 +2674,51 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
  **/
 exports.getCachedPureEthernetStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2536,46 +2739,51 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
  **/
 exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2596,46 +2804,51 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
  **/
 exports.getCachedPureEthernetStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2655,46 +2868,51 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
  **/
 exports.getCachedQosProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2714,46 +2932,51 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
  **/
 exports.getCachedQosProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2773,46 +2996,51 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
  **/
 exports.getCachedSchedulerProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2832,46 +3060,51 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
  **/
 exports.getCachedSchedulerProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2892,46 +3125,51 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
  **/
 exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2952,46 +3190,51 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
  **/
 exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3012,46 +3255,51 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
  **/
 exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3072,46 +3320,51 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
  **/
 exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3132,46 +3385,51 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
  **/
 exports.getCachedWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3192,46 +3450,51 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
  **/
 exports.getCachedWireInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3252,46 +3515,51 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
  **/
 exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3312,46 +3580,51 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
  **/
 exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3371,46 +3644,51 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
  **/
 exports.getCachedWredProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3430,46 +3708,51 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
  **/
 exports.getCachedWredProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3489,46 +3772,51 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  **/
 exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3548,46 +3836,51 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
  **/
 exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    const myFields = user;
-    url = decodeURIComponent(url);
-    const parts = url.split('?fields=');
-    url = parts[0];
-    //const fields = parts[1];
-    let correctMountname = null;
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-//    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctMountname = mountname;
-    }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
+    try {
+      const myFields = user;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        returnObject = notFoundError();
+        correctMountname = mountname;
       }
-    } else {
-      returnObject = notFoundError();
+      let returnObject = {};
+      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3607,50 +3900,59 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
  **/
 exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -3672,50 +3974,59 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
  **/
 exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -3737,50 +4048,59 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
  **/
 exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -3802,36 +4122,40 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
  **/
 exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-       // modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -3851,50 +4175,59 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
  **/
 exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -3916,50 +4249,59 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
  **/
 exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -3979,50 +4321,59 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
  **/
 exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4042,50 +4393,59 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
  **/
 exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4105,50 +4465,59 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
  **/
 exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4169,50 +4538,59 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
  **/
 exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4233,50 +4611,59 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
  **/
 exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4298,50 +4685,59 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
  **/
 exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4363,50 +4759,59 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
  **/
 exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4426,55 +4831,71 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
  **/
 exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields) {
   return new Promise(async function (resolve, reject) {
-    url = decodeURIComponent(url);
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const urlParts = url.split("?fields=");
-    const myFields = urlParts[1];
+    try {
+      url = decodeURIComponent(url);
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const urlParts = url.split("?fields=");
+      const myFields = urlParts[1];
 
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, true);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (result == false) {
-        resolve(notFoundError());
-      } else if (result.status != 200) {
-        resolve(Error(result.status, result.statusText));
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, true);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+        return;
       } else {
-        let jsonObj = result.data;
-        modificaUUID(jsonObj, correctCc);
-        if (myFields === undefined) {
-          let elapsedTime = await recordRequest(jsonObj, correctCc);
-          let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
-          modifyReturnJson(res);
-          resolve(res);
+        correctCc = mountname;
+      }
+      const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (result == false) {
+          resolve(notFoundError());
+          throw new createHttpError.NotFound;
+        } else if (result.status != 200) {
+          resolve(Error(result.status, result.statusText));
+          throw new createHttpError(result.status, result.statusText);
         } else {
-          let filters = true;
-          // Update record on ES
-          let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-          let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-          // read from ES
-          let result1 = await ReadRecords(correctCc);
-          // Update json object
-          let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
-          // Write updated Json to ES
-          let elapsedTime = await recordRequest(result1, correctCc);
+          let jsonObj = result.data;
+          modificaUUID(jsonObj, correctCc);
+          if (myFields === undefined) {
+            try {
+              let elapsedTime = await recordRequest(jsonObj, correctCc);
+            }
+            catch (error) {
+              console.log(error);
+            }
+            let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
+            modifyReturnJson(res);
+            resolve(res);
+          } else {
+            let filters = true;
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            try {
+              // read from ES
+              let result1 = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result1, correctCc);
+            }
+            catch (error) {
+              console.log(error);
+            }
+          }
           modifyReturnJson(jsonObj)
           resolve(jsonObj);
         }
-
       }
     }
-
+    catch (error) {
+      console.log(error);
+      reject(error);
+    }
 
   });
 }
@@ -4494,50 +4915,59 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
  **/
 exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4558,50 +4988,59 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
  **/
 exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4623,50 +5062,59 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
  **/
 exports.getLiveEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4688,50 +5136,59 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
  **/
 exports.getLiveEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4753,36 +5210,40 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
  **/
 exports.getLiveEthernetContainerCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-       // modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -4802,50 +5263,59 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
  **/
 exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4867,50 +5337,59 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
  **/
 exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4932,50 +5411,59 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
  **/
 exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -4995,50 +5483,59 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
  **/
 exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5059,50 +5556,59 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
  **/
 exports.getLiveFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5123,50 +5629,59 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
  **/
 exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5187,53 +5702,61 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
  **/
 exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
-
 }
 
 
@@ -5253,50 +5776,59 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
  **/
 exports.getLiveHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5318,50 +5850,59 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
  **/
 exports.getLiveHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5383,36 +5924,40 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
  **/
 exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-       // modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -5432,50 +5977,59 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
  **/
 exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5497,50 +6051,59 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
  **/
 exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5562,50 +6125,59 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
  **/
 exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5627,53 +6199,61 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
  **/
 exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
-
 }
 
 
@@ -5693,36 +6273,40 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
  **/
 exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-       // modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -5742,50 +6326,59 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
  **/
 exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5807,50 +6400,59 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
  **/
 exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5871,50 +6473,59 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
  **/
 exports.getLivePolicingProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5935,50 +6546,59 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
  **/
 exports.getLivePolicingProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -5999,50 +6619,59 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
  **/
 exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6062,50 +6691,59 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
  **/
 exports.getLiveProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6127,50 +6765,59 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
  **/
 exports.getLivePureEthernetStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6192,50 +6839,59 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
  **/
 exports.getLivePureEthernetStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6257,36 +6913,40 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
  **/
 exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-       // modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -6306,50 +6966,59 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
  **/
 exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6371,50 +7040,59 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
  **/
 exports.getLivePureEthernetStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6435,50 +7113,59 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
  **/
 exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6499,50 +7186,59 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
  **/
 exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6563,50 +7259,59 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
  **/
 exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6626,50 +7331,59 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
  **/
 exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6691,50 +7405,59 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
  **/
 exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6756,50 +7479,59 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
  **/
 exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6821,36 +7553,40 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
  **/
 exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-      //  modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -6870,50 +7606,59 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
  **/
 exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -6935,50 +7680,59 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
  **/
 exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7000,50 +7754,59 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
  **/
 exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7065,50 +7828,59 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
  **/
 exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7130,36 +7902,40 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
  **/
 exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
     let jsonObj = "";
     url = decodeURIComponent(url);
     const urlParts = url.split("?fields=");
     url = urlParts[0];
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
     const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     const Authorization = appNameAndUuidFromForwarding[0].key;
     let correctCc = null;
     //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
     let mountname = decodeMountName(url, false);
     if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
+      throw new createHttpError(mountname[0].code, mountname[0].message);
     } else {
       correctCc = mountname;
     }
     if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
       const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
       if (res == false) {
-        resolve(notFoundError());
+        throw new createHttpError.notFoundError;
       } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+        throw new createHttpError(res.status, res.statusText);
       } else {
         let jsonObj = res.data;
-       // modificaUUID(jsonObj, correctCc);
+        // modificaUUID(jsonObj, correctCc);
         resolve(jsonObj);
       }
     }
-  });
+  } catch (error) {
+    console.log(error);
+    reject(error);
+  }
+});
 }
 
 
@@ -7179,50 +7955,59 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
  **/
 exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7244,50 +8029,59 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
  **/
 exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7308,50 +8102,59 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
  **/
 exports.getLiveWredProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7372,50 +8175,59 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
  **/
 exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    let retJson = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      resolve(Error(mountname[0].code, mountname[0].message));
-      return;
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
+        correctCc = mountname;
       }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -7489,7 +8301,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
   return new Promise(async function (resolve, reject) {
     let mountName = body['mountName'];
     const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     let returnObject = {};
     let parts = finalUrl.split("?fields=");
     let myFields = parts[1];
@@ -7567,10 +8379,10 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
  **/
 exports.provideListOfDeviceInterfaces = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    
+
     let mountName = body['mountName'];
     const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
+    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     let returnObject = {};
     let toChangeObject = {};
     let parts = finalUrl.split("?fields=");
@@ -7699,8 +8511,8 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
   });
 }
 
-exports.getLiveDeviceList = function(url) {
-  return new Promise(async function(resolve, reject) {
+exports.getLiveDeviceList = function (url) {
+  return new Promise(async function (resolve, reject) {
     const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList();
     const finalUrl = appNameAndUuidFromForwarding[0].url;
     const Authorization = appNameAndUuidFromForwarding[0].key;
@@ -7714,28 +8526,28 @@ exports.getLiveDeviceList = function(url) {
   });
 }
 
-exports.writeDeviceListToElasticsearch = function(deviceList) {
-  return new Promise(async function(resolve, reject) {
+exports.writeDeviceListToElasticsearch = function (deviceList) {
+  return new Promise(async function (resolve, reject) {
     let deviceListToWrite = '{"deviceList":' + deviceList + '}';
     let result = await recordRequest(deviceListToWrite, "DeviceList");
     resolve(true);
   })
 }
 
-exports.readDeviceListFromElasticsearch = function() {
-  return new Promise(async function(resolve, reject) {
+exports.readDeviceListFromElasticsearch = function () {
+  return new Promise(async function (resolve, reject) {
     let result = await ReadRecords("DeviceList");
     if (result == undefined) {
       reject("Device list in Elasticsearch not found");
     } else {
       let esDeviceList = result["deviceList"];
       resolve(esDeviceList);
-    }    
+    }
   })
 }
 
-exports.deleteRecordFromElasticsearch = function(index, type, id) {
-  return new Promise(async function(resolve, reject) {
+exports.deleteRecordFromElasticsearch = function (index, type, id) {
+  return new Promise(async function (resolve, reject) {
     let exists = false;
     let client = await elasticsearchService.getClient(false);
     if (id) {
@@ -7744,10 +8556,10 @@ exports.deleteRecordFromElasticsearch = function(index, type, id) {
     let ret
     if (exists.body) {
       await client.delete({ index: index, type: type, id: id });
-      ret = { _id: id, result: 'Element '+ id + ' deleted.'};
+      ret = { _id: id, result: 'Element ' + id + ' deleted.' };
     } else {
-      ret = { _id: id, result: 'Element '+ id + ' not deleted. (Not found in elasticsearch).'};
-    }    
+      ret = { _id: id, result: 'Element ' + id + ' not deleted. (Not found in elasticsearch).' };
+    }
     resolve(ret);
   })
 }
@@ -7756,45 +8568,45 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
   const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {
-      return null;
+    return null;
   }
 
   let fcPortOutputDirectionLogicalTerminationPointList = [];
   const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
   for (const fcPort of fcPortList) {
-      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-          fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-      }
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
   }
-  
+
   let applicationNameList = [];
   //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
   //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
   let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
   for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-      const httpClientLtpUuid = httpLtpUuidList[0];
-      let applicationName = 'api';
-      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-      let url = "";
-      let tcpConn = "";
-      if (opLtpUuid.includes("odl")) { 
-          applicationName = "OpenDayLight";
-          tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-          url = tcpConn + urlForOdl;
-      }
-      const applicationNameData = applicationName === undefined ? {
-          applicationName: null,
-          httpClientLtpUuid,
-          url: null, key: null
-      } : {
-          applicationName,
-          httpClientLtpUuid,
-          url, key
-      };
-      applicationNameList.push(applicationNameData);      
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let applicationName = 'api';
+    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    let url = "";
+    let tcpConn = "";
+    if (opLtpUuid.includes("odl")) {
+      applicationName = "OpenDayLight";
+      tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+      url = tcpConn + urlForOdl;
+    }
+    const applicationNameData = applicationName === undefined ? {
+      applicationName: null,
+      httpClientLtpUuid,
+      url: null, key: null
+    } : {
+      applicationName,
+      httpClientLtpUuid,
+      url, key
+    };
+    applicationNameList.push(applicationNameData);
   }
   return applicationNameList;
 }
@@ -7928,74 +8740,27 @@ function retrieveCorrectUrl(originalUrl, path, applicationName) {
   return final;
 }
 
-async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName){
-  
-    const forwardingName = "RequestForListOfDeviceInterfacesCausesReadingFromCache";
-    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-   // const forwardingConstruct1 = await ForwardingDomain.
+async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName) {
 
-    let fcPortOutputDirectionLogicalTerminationPointList = [];
-    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-    for (const fcPort of fcPortList) {
-        const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-        if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-        }
+  const forwardingName = "RequestForListOfDeviceInterfacesCausesReadingFromCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  // const forwardingConstruct1 = await ForwardingDomain.
+
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
     }
+  }
 
-    let applicationNameList = [];
+  let applicationNameList = [];
   //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
   //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
   let urlForEs = "/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
   let correctUrl = urlForEs.replace("{mountName}", mountName);
   for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-      const httpClientLtpUuid = httpLtpUuidList[0];
-      let applicationName = 'api';
-      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-      let url = "";
-      let tcpConn = "";
-      
-      applicationName = "ElasticSearch";
-      tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
-      url = tcpConn + correctUrl;
-      
-      const applicationNameData = applicationName === undefined ? {
-          applicationName: null,
-          httpClientLtpUuid,
-          url: null, key: null
-      } : {
-          applicationName,
-          httpClientLtpUuid,
-          url, key
-      };
-      applicationNameList.push(applicationNameData);      
-  }
-  return applicationNameList;
-}
-
-async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName){
-  
-  const forwardingName = "RequestForListOfActualDeviceEquipmentCausesReadingFromCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
- // const forwardingConstruct1 = await ForwardingDomain.
-
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-          fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-      }
-  }
-
-  let applicationNameList = [];
-//let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
-//let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
-let urlForEs = "/control-construct={mountName}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))"
-let correctUrl = urlForEs.replace("{mountName}", mountName);
-for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
     const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
     const httpClientLtpUuid = httpLtpUuidList[0];
     let applicationName = 'api';
@@ -8003,23 +8768,70 @@ for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
     const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
     let url = "";
     let tcpConn = "";
-    
+
     applicationName = "ElasticSearch";
     tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
     url = tcpConn + correctUrl;
-    
+
     const applicationNameData = applicationName === undefined ? {
-        applicationName: null,
-        httpClientLtpUuid,
-        url: null, key: null
+      applicationName: null,
+      httpClientLtpUuid,
+      url: null, key: null
     } : {
-        applicationName,
-        httpClientLtpUuid,
-        url, key
+      applicationName,
+      httpClientLtpUuid,
+      url, key
     };
-    applicationNameList.push(applicationNameData);      
+    applicationNameList.push(applicationNameData);
+  }
+  return applicationNameList;
 }
-return applicationNameList;
+
+async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName) {
+
+  const forwardingName = "RequestForListOfActualDeviceEquipmentCausesReadingFromCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  // const forwardingConstruct1 = await ForwardingDomain.
+
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+
+  let applicationNameList = [];
+  //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+  //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+  let urlForEs = "/control-construct={mountName}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))"
+  let correctUrl = urlForEs.replace("{mountName}", mountName);
+  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let applicationName = 'api';
+    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    let url = "";
+    let tcpConn = "";
+
+    applicationName = "ElasticSearch";
+    tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
+    url = tcpConn + correctUrl;
+
+    const applicationNameData = applicationName === undefined ? {
+      applicationName: null,
+      httpClientLtpUuid,
+      url: null, key: null
+    } : {
+      applicationName,
+      httpClientLtpUuid,
+      url, key
+    };
+    applicationNameList.push(applicationNameData);
+  }
+  return applicationNameList;
 }
 
 /**
@@ -8139,7 +8951,7 @@ function Error(code, message) {
   return myJson;
 }
 
-function formatUrlForOdl(url) {
+function formatUrlForOdl(url, fields) {
   const segments = url.split("/");
   let newSegments = [];
   // loop over segments
@@ -8156,6 +8968,9 @@ function formatUrlForOdl(url) {
     }
   }
   let newUrl = newSegments.join("/");
+  if (fields !== undefined){
+    newUrl = newUrl + "?fields=" + fields;
+  }
   return newUrl;
 }
 
@@ -8173,36 +8988,36 @@ function decodeMountName(url, cc) {
     specialChars = /[^a-zA-Z0-9+]/;
   }
   const match = decodeURIComponent(url).match(regex);
- 
+
   if (match) {
-    if (cc){
+    if (cc) {
       extractedValue = match[1];
       if (!match[2]) {
-          const startIndex = url.indexOf("control-construct=") + "control-construct=".length;
-          extractedValue = url.substring(startIndex);
-      } 
+        const startIndex = url.indexOf("control-construct=") + "control-construct=".length;
+        extractedValue = url.substring(startIndex);
+      }
     } else {
-        extractedValue = match[1];
+      extractedValue = match[1];
     }
     if (!specialChars.test(extractedValue)) {
-      if (extractedValue.indexOf("+") != -1){
+      if (extractedValue.indexOf("+") != -1) {
         let parts = extractedValue.split("+");
-        if (parts[1] != "" && parts[1] == parts[0]){
+        if (parts[1] != "" && parts[1] == parts[0]) {
           return parts[0];
         } else {
           responseData = {
-            code:"400",
+            code: "400",
             message: "Control-construct must not contain special char"
           }
           response.push(responseData);
-          return response;  
+          return response;
         }
       } else {
         return extractedValue;
       }
     } else {
       responseData = {
-        code:"400",
+        code: "400",
         message: "Control-construct must not contain special char"
       }
       response.push(responseData);
@@ -8210,7 +9025,7 @@ function decodeMountName(url, cc) {
     }
   } else {
     responseData = {
-      code:"400",
+      code: "400",
       message: "no match found or wrong char at the end of the string"
     }
     response.push(responseData);

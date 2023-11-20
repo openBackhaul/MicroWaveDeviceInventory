@@ -5,8 +5,50 @@ const fs = require('fs');
 const path = require("path");
 const cp = require(cyclicProcessServicePath + '/cyclicProcess');
 
-const SINGLE_DEVICE_LIST = true;
-let devicelistSimulationIndex = 0;
+const SINGLE_DEVICE_LIST = false;
+let devicelistSimulationIndex = 6;
+
+//
+    // Get the device list from a json file at the moment (simulation)
+    //
+    module.exports.getNewDeviceListExp = async function getNewDeviceListExp() {
+        try {
+            await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    //simula richiesta deviceList
+                    resolve();
+                }, 1000);
+            })            
+            let fileName = ''
+            if (SINGLE_DEVICE_LIST) {
+                fileName = path.resolve(__dirname, "TestLabDeviceMinimal.Json");
+            } else {
+                /*
+                if (devicelistSimulationIndex == 0) {
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal.Json");       
+                } else if (devicelistSimulationIndex == 1) {
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal1.Json");       
+                } else if (devicelistSimulationIndex == 2) {
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal2.Json");       
+                } else if (devicelistSimulationIndex == 3) {
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal3.Json");       
+                } else if (devicelistSimulationIndex == 4) {
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal4.Json");       
+                } else if (devicelistSimulationIndex == 5) {
+                    fileName = path.resolve(__dirname, "TestLabDeviceMinimal5.Json");       
+                }
+                */
+                fileName = path.resolve(__dirname, "TestLabDeviceMinimal" + devicelistSimulationIndex + ".Json");       
+                devicelistSimulationIndex = (devicelistSimulationIndex == 13) ? 6 : (devicelistSimulationIndex + 1);
+            }
+            let deviceList = JSON.parse(fs.readFileSync(fileName, 'utf8'))["network-topology:network-topology"].topology[0].node;
+            return deviceList;
+
+        } catch (error) {
+            console.log("Error in getNewDeviceList(): " + error);
+            debugger;
+        }
+    }
 
 module.exports.start = async function start() {
     //
@@ -69,13 +111,6 @@ module.exports.start = async function start() {
             startDeviceListRealignmentSimulation();
         }, delay * 1000);
     }
-
-
-    
-    //let deviceList = await getNewDeviceList();
-    
     cp.startCyclicProcess(2);
-    if (SINGLE_DEVICE_LIST == false) {
-        startDeviceListRealignmentSimulation();
-    }
+    
 }

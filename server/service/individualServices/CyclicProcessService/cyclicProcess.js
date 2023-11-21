@@ -9,7 +9,7 @@ const shuffleArray = require('shuffle-array');
 // SIMULAZIONE
 const startModule = require('../../../temporarySupportFiles/StartModule.js');
 const { inherits } = require('util');
-let simulationProgress = true
+let simulationProgress = false;
 // SIMULAZIONE
 
 const DEVICE_NOT_PRESENT = -1;
@@ -182,7 +182,7 @@ async function startTtlChecking() {
                 slidingWindow[index].ttl -= 1;
                 if (slidingWindow[index].ttl == 0) {
                     if (slidingWindow[index].retries == 0) {
-                        printLog("Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from Sliding Window", print_log_level >= 2);
+                        console.log("%cElement " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from Sliding Window", "color:red");
                         slidingWindow.splice(index, 1);
                         if (addNextDeviceListElementInWindow()) {
                             printLog('Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in window and sent request...', print_log_level >= 2);
@@ -200,7 +200,7 @@ async function startTtlChecking() {
         }        
         setInterval(upgradeTtl, 1000);
     } catch(error) {
-        console.log("Error in startTtlChecking (" + error + ")");
+        console.log("%cError in startTtlChecking (" + error + ")", "color:red");
         debugger;
     }    
 }
@@ -225,9 +225,9 @@ async function requestMessage(index) {
                 } else {
                     if (slidingWindow[elementIndex].retries == 0) {
                         if (retObj.ret.code == 503) {
-                            printLog('Element ' + retObj['node-id'] + ' not available (II time). --> Dropped from Sliding Window', print_log_level >= 2);
+                            console.log('%cElement ' + retObj['node-id'] + ' not available (II time). --> Dropped from Sliding Window', 'color:red');
                         } else {
-                            printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window', print_log_level >= 2);
+                            console.log('%cError (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window', 'color:red');
                         }                    
                         slidingWindow.splice(elementIndex, 1);
                         if (addNextDeviceListElementInWindow()) {
@@ -257,8 +257,8 @@ async function requestMessage(index) {
                     setDeviceListElementTimeStamp(retObj['node-id']);
                     if (addNextDeviceListElementInWindow()) {
                         printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
-                        printLog(printList('Device List', deviceList), print_log_level >= 2);
-                        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+                        printLog(printList('Device List', deviceList), simulationProgress);
+                        printLog(printList('Sliding Window', slidingWindow), simulationProgress);
                         requestMessage(slidingWindow.length-1);
                     }
                 }
@@ -282,18 +282,27 @@ async function requestMessage(index) {
             manageResponse(retObj);            
         })
     } catch(error) {
-        console.log("Error in requestMessage (" + error + ")");
+        console.log("%cError in requestMessage (" + error + ")", "color:red");
         debugger;
     }      
 }
 
+/**
+ * filterConnectedDevices()
+ * 
+ * Returns the device list filtered with equipments in connected status only
+ */
 function filterConnectedDevices(deviceList) {
     return deviceList.filter(device => {
         return device['netconf-node-topology:connection-status'] === 'connected';
     })
 }
 
-
+/**
+ * getTime()
+ * 
+ * Returns formatted date/time information Ex: ( 25/11/2023 09:43.14 )
+ */
   
 function getTime() {
     let d = new Date();
@@ -323,19 +332,16 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
     odlDeviceList = filterConnectedDevices(odlDeviceList);
 
-    printLog('', print_log_level >= 2);
-    printLog('*******************************************************************************************************', print_log_level >= 2);
-    printLog('*                                        DEVICE LIST REALIGNMENT                                      *', print_log_level >= 2);
-    printLog('*                                                                                                     *', print_log_level >= 2);
+    console.log('');
+    console.log('*******************************************************************************************************');
+    console.log('*                                        DEVICE LIST REALIGNMENT                                      *');
+    console.log('*                                                                                                     *');
     console.log('*                                       ( ' + getTime() + ' )                                       *');
-    printLog('*                                                                                                     *', print_log_level >= 2);
-    console.log('*  Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                   %c*','color:yellow','color:green','color:red', 'color:inherits');
-    printLog('*                                                                                                     *', print_log_level >= 2);
-    //printLog(printList('* ODL Device List', odlDeviceList), print_log_level >= 2);
+    console.log('*                                                                                                     *');
+    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*','color:yellow','color:green','color:red', 'color:inherits');
+    console.log('*                                                                                                     *');
     
     let esDeviceList = await individualServices.readDeviceListFromElasticsearch();
-    //printLog(printList('* ES Device List', esDeviceList), print_log_level >= 2);
-    
     
     //
     // Calculate common elements and drop elements of ES-DL and print ES-DL
@@ -432,7 +438,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
                 }
             }
         } while (elementFound == false);
-        printLog('* nextElement: ' + nextElement['node-id'], print_log_level >= 2);
+        //printLog('* nextElement: ' + nextElement['node-id'], simulationProgress);
     } else if (commonEsElements.length == 0 || newOdlElements.length == 0) {
         lastDeviceListIndex = -1;
     }
@@ -459,7 +465,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     // Print the new ODL-DL (Updated)
     //
-    //printLog(printList('* New Device List', deviceList), print_log_level >= 2);
     let newRules = [];
     let newString = '* Device List (Updated): [';
     let newPiped = false;
@@ -493,7 +498,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     } catch (error) {
         console.log(error);
     }
-    printLog('* lastDeviceListIndex: ' + lastDeviceListIndex, print_log_level >= 2);    
+    //printLog('* lastDeviceListIndex: ' + lastDeviceListIndex, simulationProgress);    
     
     //
     // Fill the sliding window at the max allowed
@@ -514,11 +519,11 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
         printLog('* ' + ret.result, print_log_level >= 2);
     }
-    printLog('*******************************************************************************************************', print_log_level >= 2);
-    printLog('', print_log_level >= 2);
+    console.log('*******************************************************************************************************');
+    console.log('');
 
     synchInProgress = false;
-    return true
+    return true;
 }
 
 /**
@@ -689,11 +694,11 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     // Periodic Synchronization
     //
     const periodicSynchTime = deviceListSyncPeriod * 3600 * 1000;
-    //const periodicSynchTime = 3 * 60 * 1000;
     const { deviceListSynchronization } = module.exports;
     setInterval(deviceListSynchronization, periodicSynchTime);
     //
     // TTL checking
+    //
     startTtlChecking();
     return true;
 }

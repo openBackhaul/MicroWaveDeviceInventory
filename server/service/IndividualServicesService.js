@@ -4123,39 +4123,39 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
 exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -4847,7 +4847,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
         correctCc = mountname;
       }
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url, myFields);
+      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
       const Authorization = appNameAndUuidFromForwarding[0].key;
       if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
@@ -5211,39 +5211,39 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
 exports.getLiveEthernetContainerCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -5925,39 +5925,39 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
 exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -6274,39 +6274,39 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
 exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -6914,39 +6914,39 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
 exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -7554,39 +7554,39 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
 exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -7903,39 +7903,39 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
 exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-    let jsonObj = "";
-    url = decodeURIComponent(url);
-    const urlParts = url.split("?fields=");
-    url = urlParts[0];
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-    const myFields = urlParts[1];
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    const Authorization = appNameAndUuidFromForwarding[0].key;
-    let correctCc = null;
-    //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-    let mountname = decodeMountName(url, false);
-    if (typeof mountname === 'object') {
-      throw new createHttpError(mountname[0].code, mountname[0].message);
-    } else {
-      correctCc = mountname;
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        throw new createHttpError.notFoundError;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      const Authorization = appNameAndUuidFromForwarding[0].key;
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        let jsonObj = res.data;
-        // modificaUUID(jsonObj, correctCc);
-        resolve(jsonObj);
+        correctCc = mountname;
       }
+      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.notFoundError;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          // modificaUUID(jsonObj, correctCc);
+          resolve(jsonObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
-  } catch (error) {
-    console.log(error);
-    reject(error);
-  }
-});
+  });
 }
 
 
@@ -8470,8 +8470,33 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
  * no response value expected for this operation
  **/
 exports.regardDeviceAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let resource = body['notification-proxy-1-0:attribute-value-changed-notification']['resource'];
+      let counter = body['notification-proxy-1-0:attribute-value-changed-notification']['counter'];
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+
+      const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
+      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      // Parse the URL
+      const parsedUrl = new URL(tempUrl);
+
+      // Construct the base URL
+      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+      const finalUrl = baseUrl + resource;
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+      if (res == false) {
+        throw new createHttpError.NotFound;
+      } else if (res.status != 200) {
+        throw new createHttpError(res.status, res.statusText);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
   });
 }
 
@@ -8614,6 +8639,61 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
 
 
 /* List of functions needed for individual services*/
+
+async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
+  const forwardingName = "NotifiedDeviceAttributeValueChangeCausesUpdateOfCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  if (forwardingConstruct === undefined) {
+    return null;
+  }
+
+  let fcPortInputDirectionLogicalTerminationPointList = [];
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.INPUT === portDirection) {
+      fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+
+  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter-3];
+  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
+  let applicationNameList = [];
+  const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+  // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+  const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+  const httpClientLtpUuid = httpLtpUuidList[0];
+  let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+  let i = 0;
+  let protocol = "";
+  for (const connection of tcpConn) {
+    if (i == 0) {
+      protocol = "HTTP";
+    } else {
+      protocol = "HTTPS";
+    }
+    let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+    let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+    //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
+    let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+
+    const applicationNameData = {
+      key,
+      protocol,
+      finalTcpAddr
+    };
+    i++;
+    applicationNameList.push(applicationNameData);
+  }
+  return applicationNameList;
+}
 
 
 /**
@@ -8968,7 +9048,7 @@ function formatUrlForOdl(url, fields) {
     }
   }
   let newUrl = newSegments.join("/");
-  if (fields !== undefined){
+  if (fields !== undefined) {
     newUrl = newUrl + "?fields=" + fields;
   }
   return newUrl;

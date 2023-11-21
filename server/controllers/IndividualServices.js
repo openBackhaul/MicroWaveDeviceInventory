@@ -2440,7 +2440,7 @@ module.exports.regardDeviceAlarm = function regardDeviceAlarm (req, res, next, b
 
 module.exports.regardDeviceAttributeValueChange = function regardDeviceAttributeValueChange (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.OK;
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   IndividualServices.regardDeviceAttributeValueChange(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {

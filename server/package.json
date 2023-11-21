@@ -15,9 +15,8 @@
   "dependencies": {
     "connect": "^3.7.0",
     "js-yaml": "^4.1.0",
-    "oas3-tools": "^2.2.3",
-    "onf-core-model-ap": "^2.0.2-alpha.1",
-    "onf-core-model-ap-bs": "^2.0.2-alpha.1",
+    "onf-core-model-ap": "2.0.1-alpha.22",
+    "onf-core-model-ap-bs": "2.0.1-alpha.22",
     "openbackhaul-oas3-tools": "2.3.1-alpha.3",
     "request": "^2.88.2",
     "shuffle-array": "^1.0.1"

@@ -64,7 +64,11 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
     } else if (lastUrlSegment.indexOf("=") != -1) {
         let parts2 = lastUrlSegment.split("=");
         topJsonWrapper = parts[0] + ":" + parts2[0];
-        returnObject = { [topJsonWrapper]: [currentJSON] };
+        if (lastUrlSegment.indexOf("control-construct") != -1){
+            returnObject = { [topJsonWrapper]: [currentJSON] };
+        } else {
+            returnObject = { [topJsonWrapper]: [currentJSON[0]] };
+        }
     } else {
         topJsonWrapper = parts[0] + ":" + lastUrlSegment;
         returnObject = { [topJsonWrapper]: currentJSON };

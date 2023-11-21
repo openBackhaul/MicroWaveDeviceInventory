@@ -4,23 +4,15 @@
             {
                 "node": [
                     {
-                        "node-id": "CO02060",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "513559991B",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "513250011",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
                         "node-id": "513250007",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
                         "node-id": "513250006",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "513250009",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
@@ -32,19 +24,7 @@
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "CO17693",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "CO15338",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "CO15337",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "CO15951",
+                        "node-id": "CO12124",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
@@ -52,15 +32,15 @@
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "CO17690",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "513250013",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
                         "node-id": "CO13306",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO13305",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "AAAAAAA",
                         "netconf-node-topology:connection-status": "connected"
                     }
                 ]

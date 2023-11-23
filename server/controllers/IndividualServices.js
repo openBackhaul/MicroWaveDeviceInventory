@@ -2402,7 +2402,7 @@ module.exports.provideListOfDeviceInterfaces = function provideListOfDeviceInter
 
 module.exports.regardControllerAttributeValueChange = function regardControllerAttributeValueChange (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.OK;
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   IndividualServices.regardControllerAttributeValueChange(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {

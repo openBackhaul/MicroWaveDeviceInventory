@@ -113,9 +113,7 @@ profile-instances:
       file-identifier: 'EncryptedOdlKey'
       file-description: 'Authorization key for OpenDayLight'
     configuration:
-      file-path: '../application-data/encrypted-odl-key.json'
-      user-name: 'MicroWaveDeviceInventory'
-      password: 'Operations to add password'
+      file-name: 'encrypted-odl-key.json'
       operation: 'read'
 
   - profile-name: 'IntegerProfile'

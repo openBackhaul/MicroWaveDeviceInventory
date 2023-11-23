@@ -212,9 +212,7 @@
               "file-description": "Authorization key for OpenDayLight"
             },
             "file-profile-configuration": {
-              "file-path": "../application-data/encrypted-odl-key.json",
-              "user-name": "MicroWaveDeviceInventory",
-              "password": "Operations to add password",
+              "file-name": "encrypted-odl-key.json",
               "operation": "file-profile-1-0:OPERATION_TYPE_READ_ONLY"
             }
           }
@@ -280,24 +278,24 @@
         {
           "uuid": "mwdi-1-1-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
-          "string-profile-1-0:integer-profile-pac": {
+          "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "controllerInternalPathToMountPoint"
             },
             "string-profile-configuration": {
-              "string-name": "rests/data/network-topology:network-topology/topology=topology-netconf"
+              "string-value": "rests/data/network-topology:network-topology/topology=topology-netconf"
             }
           }
         },
         {
           "uuid": "mwdi-1-1-0-string-p-001",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
-          "string-profile-1-0:integer-profile-pac": {
+          "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter"
             },
             "string-profile-configuration": {
-              "string-name": "node(node-id;netconf-node-topology:connection-status)"
+              "string-value": "node(node-id;netconf-node-topology:connection-status)"
             }
           }
         }
@@ -754,7 +752,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -778,7 +776,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -802,7 +800,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -826,7 +824,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -850,7 +848,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -874,7 +872,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -898,7 +896,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -922,7 +920,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -946,7 +944,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -970,7 +968,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -994,7 +992,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1018,7 +1016,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1042,7 +1040,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1066,7 +1064,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1090,7 +1088,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1114,7 +1112,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1138,7 +1136,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1162,7 +1160,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1186,7 +1184,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1210,7 +1208,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1234,7 +1232,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1258,7 +1256,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1282,7 +1280,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1306,7 +1304,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1330,7 +1328,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1354,7 +1352,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1378,7 +1376,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1402,7 +1400,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1426,7 +1424,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1450,7 +1448,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1474,7 +1472,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1498,7 +1496,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1522,7 +1520,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1546,7 +1544,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1570,7 +1568,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1594,7 +1592,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1618,7 +1616,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1642,7 +1640,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1666,7 +1664,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1690,7 +1688,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1714,7 +1712,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1738,7 +1736,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1762,7 +1760,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1786,7 +1784,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1858,7 +1856,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1930,7 +1928,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1954,7 +1952,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -1978,7 +1976,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2002,7 +2000,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2026,7 +2024,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2050,7 +2048,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2074,7 +2072,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2098,7 +2096,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2122,7 +2120,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2146,7 +2144,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2170,7 +2168,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2194,7 +2192,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2218,7 +2216,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2242,7 +2240,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2266,7 +2264,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2290,7 +2288,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2314,7 +2312,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2338,7 +2336,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2362,7 +2360,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2386,7 +2384,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2410,7 +2408,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2434,7 +2432,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2458,7 +2456,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2482,7 +2480,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2506,7 +2504,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2530,7 +2528,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2554,7 +2552,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2578,7 +2576,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2602,7 +2600,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2626,7 +2624,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2650,7 +2648,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2674,7 +2672,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2698,7 +2696,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2722,7 +2720,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2746,7 +2744,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2770,7 +2768,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2794,7 +2792,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2818,7 +2816,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2842,7 +2840,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2866,7 +2864,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2890,7 +2888,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2914,7 +2912,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2938,7 +2936,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2962,7 +2960,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -2986,7 +2984,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3010,7 +3008,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3034,7 +3032,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3058,7 +3056,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3082,7 +3080,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3106,7 +3104,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3130,7 +3128,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3154,7 +3152,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3178,7 +3176,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3202,7 +3200,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3226,7 +3224,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3250,7 +3248,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3274,7 +3272,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3298,7 +3296,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3322,7 +3320,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3346,7 +3344,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3370,7 +3368,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3394,7 +3392,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3418,7 +3416,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3442,7 +3440,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3466,7 +3464,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3490,7 +3488,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3514,7 +3512,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3538,7 +3536,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3562,7 +3560,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3586,7 +3584,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3610,7 +3608,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3634,7 +3632,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3658,7 +3656,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3682,7 +3680,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3706,7 +3704,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3730,7 +3728,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3754,7 +3752,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3778,7 +3776,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3802,7 +3800,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3826,7 +3824,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3850,7 +3848,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3874,7 +3872,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3898,7 +3896,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3922,7 +3920,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3946,7 +3944,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3970,7 +3968,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -3994,7 +3992,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -4018,7 +4016,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -4042,7 +4040,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -4066,7 +4064,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -4090,7 +4088,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -4114,7 +4112,7 @@
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
-                "operation-key": "n.a."
+                "operation-key": "Operation key not yet provided."
               }
             }
           }
@@ -4294,7 +4292,7 @@
             "http-server-interface-1-0:http-server-interface-pac": {
               "http-server-interface-capability": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "1.1.0",
+                "release-number": "1.1.2",
                 "application-purpose": "Provide cached ControlConstruct data for devices in connected state on the Controller",
                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
                 "owner-name": "Katharina Mohr",
@@ -4308,8 +4306,8 @@
                   },
                   {
                     "local-id": "1",
-                    "release-number": "1.1.0",
-                    "release-date": "28.10.2023",
+                    "release-number": "1.1.2",
+                    "release-date": "23.11.2023",
                     "changes": "FD, FC, FcPort, Link and LinkPort added."
                   }
                 ]
@@ -9292,7 +9290,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "NewRelease",
-                "release-number": "1.1.0"
+                "release-number": "1.1.2"
               }
             }
           }
@@ -11698,7 +11696,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicrowaveDeviceInventory",
-                "release-number": "1.1.0"
+                "release-number": "1.1.2"
               }
             }
           }

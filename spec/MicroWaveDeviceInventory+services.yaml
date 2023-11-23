@@ -352,7 +352,7 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-574
   http-server:
     own-application-name: MicroWaveDeviceInventory
-    own-release-number: 1.1.0
+    own-release-number: 1.1.2
     uuid: mwdi-1-1-0-http-s-000
   tcp-server:
     - description: Without TLS layer
@@ -803,7 +803,7 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: 1.1.0
+      release-number: 1.1.2
       uuid: mwdi-1-1-0-http-c-nr-1-0-0-000
     tcp-client:
       remote-protocol: http
@@ -971,7 +971,7 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 1.1.0
+      release-number: 1.1.2
       uuid: mwdi-1-1-0-http-c-mwdi-1-1-0-000
     tcp-client:
       remote-protocol: http

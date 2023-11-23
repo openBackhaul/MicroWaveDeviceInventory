@@ -28,6 +28,7 @@ const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
 const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
+const { getLiveControlConstruct } = require('../controllers/IndividualServices');
 
 
 /**
@@ -257,7 +258,6 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -323,7 +323,6 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -389,9 +388,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
-
 }
 
 
@@ -456,9 +453,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
-
 }
 
 
@@ -711,7 +706,6 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -776,32 +770,8 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
-  });}
+  });
+}
 
 
 /**
@@ -1185,7 +1155,6 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1251,31 +1220,6 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -1341,7 +1285,6 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1407,7 +1350,6 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1793,9 +1735,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
-
 }
 
 
@@ -1860,9 +1800,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
-
 }
 
 
@@ -1927,7 +1865,6 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -1993,7 +1930,6 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2066,33 +2002,6 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
     } catch (error) {
       console.log(error);
       reject(error);
-    }
-    if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-      if (res == false) {
-        resolve(notFoundError());
-      } else if (res.status != 200) {
-        resolve(Error(res.status, res.statusText));
-      } else {
-        let jsonObj = res.data;
-        retJson = jsonObj;
-        modificaUUID(jsonObj, correctCc);
-        let filters = false;
-        if (myFields !== undefined) {
-          filters = true;
-        }
-        // Update record on ES
-        let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
-        let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-        // read from ES
-        let result = await ReadRecords(correctCc);
-        // Update json object
-        let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-        // Write updated Json to ES
-        let elapsedTime = await recordRequest(result, correctCc); 
-      }
-      modifyReturnJson(retJson)
-      resolve(retJson); 
     }
   });
 }
@@ -2232,31 +2141,6 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -2322,31 +2206,6 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -2412,31 +2271,6 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -2502,31 +2336,6 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -2591,7 +2400,6 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2656,7 +2464,6 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2721,31 +2528,6 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -2873,7 +2655,6 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -2939,31 +2720,6 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -3029,31 +2785,6 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -3119,31 +2850,6 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -3208,31 +2914,6 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       console.log(error);
       reject(error);
     }
-    let returnObject = {};
-    const finalUrl = appNameAndUuidFromForwarding[1].url;
-    const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-    let result = await ReadRecords(correctMountname);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-        }
-        returnObject[objectKey] = finalJson;
-      } else {
-        returnObject = notFoundError();
-      }
-    } else {
-      returnObject = notFoundError();
-    }
-    resolve(returnObject);
   });
 }
 
@@ -3297,7 +2978,6 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3362,7 +3042,6 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3427,7 +3106,6 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3493,7 +3171,6 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3559,7 +3236,6 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3625,7 +3301,6 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3691,7 +3366,6 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3757,7 +3431,6 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3823,7 +3496,6 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3889,7 +3561,6 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -3955,7 +3626,6 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -4020,7 +3690,6 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -4085,7 +3754,6 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -4150,7 +3818,6 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -4215,7 +3882,6 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       console.log(error);
       reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -6092,7 +5758,6 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       reject(error);
     }
   });
-
 }
 
 
@@ -6590,7 +6255,6 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       reject(error);
     }
   });
-
 }
 
 
@@ -8693,7 +8357,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
     let result = await ReadRecords(mountname);
     if (result != undefined) {
       const outputJson = {
-        "mountName-list": result.deviceList.map(item => item["node-id"])
+        "mount-name-list": result.deviceList.map(item => item["node-id"])
       };
       resolve(outputJson);
     } else {
@@ -8771,7 +8435,37 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
  * no response value expected for this operation
  **/
 exports.regardControllerAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(async function (resolve, reject) {
+    let resource = body['notification-proxy-1-0:attribute-value-changed-notification']['resource'];
+    let attributeName = body['notification-proxy-1-0:attribute-value-changed-notification']['attribute-name'];
+    let newValue = body['notification-proxy-1-0:attribute-value-changed-notification']['new-value'];
+
+    const match = resource.match(/logical-termination-point=(\w+)/);
+
+    // Extract the Control-construct
+    const logicalTerminationPoint = match ? match[1] : null;
+    // Create an object req 
+    let urlString = '/core-model-1-4:network-control-domain=live/control-construct=' + logicalTerminationPoint;
+    const urlf = require('url');
+    const parsedUrl = urlf.parse(urlString);
+
+    const simulatedReq = {
+      url: parsedUrl.path 
+    };
+
+    if (attributeName == 'connection-status' && newValue == 'connected') {
+      try {
+        let ret = await getLiveControlConstruct( simulatedReq, user, originator, xCorrelator, traceIndicator, customerJourney);
+        console.log("")
+      } catch (error) {
+        console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
+        reject(error);
+      }
+    } else if (attributeName == 'connection-status' && newValue !== 'connected') {
+      let indexAlias = await getIndexAliasAsync();
+      let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
+      printLog('* ' + ret.result, print_log_level >= 2);
+    }
     resolve();
   });
 }
@@ -9004,7 +8698,7 @@ async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
     }
   }
 
-  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter-3];
+  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
   const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
   let applicationNameList = [];
   const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];

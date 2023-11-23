@@ -4868,8 +4868,8 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             catch (error) {
               console.log(error);
             }
+            modifyReturnJson(jsonObj);
             let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
-            modifyReturnJson(res);
             resolve(res);
           } else {
             let filters = true;
@@ -4878,7 +4878,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
-              let result1 = await ReadRecords(correctCc);
+              result1 = await ReadRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
               // Write updated Json to ES
@@ -4887,9 +4887,10 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             catch (error) {
               console.log(error);
             }
+            modifyReturnJson(jsonObj)
+            resolve(jsonObj);
           }
-          modifyReturnJson(jsonObj)
-          resolve(jsonObj);
+         
         }
       }
     }
@@ -8483,8 +8484,29 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
  * no response value expected for this operation
  **/
 exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let resource = body['notification-proxy-1-0:alarm-event-notification']['resource'];
+      const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
+      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      // Parse the URL
+      const parsedUrl = new URL(tempUrl);
+
+      // Construct the base URL
+      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+      const finalUrl = baseUrl + resource;
+      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+      if (res == false) {
+        throw new createHttpError.NotFound;
+      } else if (res.status != 200) {
+        throw new createHttpError(res.status, res.statusText);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
   });
 }
 
@@ -8674,6 +8696,19 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
 
 
 /* List of functions needed for individual services*/
+
+async function NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache() {
+  const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  if (forwardingConstruct === undefined) {
+    return null;
+  }
+
+  let fcPortInputDirectionLogicalTerminationPointList = [];
+
+
+
+}
 
 async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
   const forwardingName = "NotifiedDeviceAttributeValueChangeCausesUpdateOfCache";

@@ -8487,7 +8487,9 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let resource = body['notification-proxy-1-0:alarm-event-notification']['resource'];
+      let objectKey = Object.keys(body)[0];
+      let currentJSON = body[objectKey];
+      let resource = currentJSON['resource'];
       const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
       const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
       // Parse the URL
@@ -8527,8 +8529,10 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
 exports.regardDeviceAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let resource = body['notification-proxy-1-0:attribute-value-changed-notification']['resource'];
-      let counter = body['notification-proxy-1-0:attribute-value-changed-notification']['counter'];
+      let objectKey = Object.keys(body)[0];
+      let currentJSON = body[objectKey];
+      let resource = currentJSON['resource'];
+      let counter = currentJSON['counter'];
       let jsonObj = "";
       url = decodeURIComponent(url);
 
@@ -8569,8 +8573,35 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
  * no response value expected for this operation
  **/
 exports.regardDeviceObjectCreation = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let objectKey = Object.keys(body)[0];
+      let currentJSON = body[objectKey];
+      let resource = currentJSON['resource'];
+      let counter = currentJSON['counter'];
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+
+      const appNameAndUuidFromForwarding = await NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter)
+      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      // Parse the URL
+      const parsedUrl = new URL(tempUrl);
+
+      // Construct the base URL
+      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+      const finalUrl = baseUrl + resource;
+      resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      if (resRequestor == null) {
+        throw new createHttpError.NotFound;
+      } else if (res.status != 200) {
+        throw new createHttpError(res.status, res.statusText);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
   });
 }
 
@@ -8787,6 +8818,61 @@ async function NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCach
 
 async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
   const forwardingName = "NotifiedDeviceAttributeValueChangeCausesUpdateOfCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  if (forwardingConstruct === undefined) {
+    return null;
+  }
+
+  let fcPortInputDirectionLogicalTerminationPointList = [];
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.INPUT === portDirection) {
+      fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+
+  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
+  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
+  let applicationNameList = [];
+  const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+  // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+  const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+  const httpClientLtpUuid = httpLtpUuidList[0];
+  let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+  let i = 0;
+  let protocol = "";
+  for (const connection of tcpConn) {
+    if (i == 0) {
+      protocol = "HTTP";
+    } else {
+      protocol = "HTTPS";
+    }
+    let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+    let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+    //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
+    let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+
+    const applicationNameData = {
+      key,
+      protocol,
+      finalTcpAddr
+    };
+    i++;
+    applicationNameList.push(applicationNameData);
+  }
+  return applicationNameList;
+}
+
+async function NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter) {
+  const forwardingName = "NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {
     return null;

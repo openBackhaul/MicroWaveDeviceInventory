@@ -44,16 +44,16 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             console.log(`Campo "${key}" non trovato.`);
             break;
           }
-//          console.log('JSON originale aggiornato:');
-//          console.log(JSON.stringify(originalJSON, null, 2));
+          //          console.log('JSON originale aggiornato:');
+          //          console.log(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
-//          console.log(`Nessun elemento trovato con UUID: ${uuidDaCercare}`);
+          //          console.log(`Nessun elemento trovato con UUID: ${uuidDaCercare}`);
           break;
         }
       } else {
         // If the field is not an array, update last key
-        if (lastKey != null){
+        if (lastKey != null) {
           lastKey = lastKey + "." + key;
         } else {
           lastKey = "[" + key + "]";
@@ -61,7 +61,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
         currentJSON = currentJSON[key];
       }
     } else {
-//      console.log(`Campo non trovato: ${key}`);
+      //      console.log(`Campo non trovato: ${key}`);
       break;
     }
     i += 1;
@@ -72,7 +72,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) {
     console.log(originalJSON[lastKey])
-    
+
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
     //console.log(JSON.stringify(jsonOriginale, null, 2));
   }
@@ -95,7 +95,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
       const parentesiQuadraApertaIndex = chiave.indexOf('[');
       const parentesiQuadraChiusaIndex = chiave.indexOf(']');
       const nomeArray = chiave.substring(1, parentesiQuadraChiusaIndex);
-      if (nomeArray.indexOf("control-construct") != -1){
+      if (nomeArray.indexOf("control-construct") != -1) {
         oggetto = oggetto[nomeArray];
       } else {
         let objectKey1 = Object.keys(oggetto)[0];
@@ -110,9 +110,13 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
           let newJSON = nuovoJSON[objectKey];
           let result = mergeJson(oggetto, newJSON)
         } else {
-          let objectKey = Object.keys(nuovoJSON)[0];
-          let newJSON = nuovoJSON[objectKey];
-          oggetto[nomeArray] = newJSON;
+          if (nuovoJSON === null) {
+            oggetto[nomeArray].splice(indice,1);
+          } else {
+            let objectKey = Object.keys(nuovoJSON)[0];
+            let newJSON = nuovoJSON[objectKey];
+            oggetto[nomeArray] = newJSON;
+          }
         }
       }
     } else {
@@ -132,9 +136,13 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
             let newJSON = nuovoJSON[objectKey];
             let result = mergeJson(oggetto[nomeArray][indice], newJSON)
           } else {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey][0];
-            oggetto[nomeArray][indice] = newJSON;
+            if (nuovoJSON === null) {
+              delete oggetto[nomeArray][indice];
+            } else {
+              let objectKey = Object.keys(nuovoJSON)[0];
+              let newJSON = nuovoJSON[objectKey][0];
+              oggetto[nomeArray][indice] = newJSON;
+            }
           }
         } else {
           // Altrimenti, prosegui la navigazione dell'oggetto
@@ -142,21 +150,21 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         }
       } else {
         // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
-      /*  if (i === chiavi.length -1) {
-          // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
-          if (Filters) {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[nomeArray], newJSON)
-          } else {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey]
-            oggetto[chiave] = newJSON;
-          }
-        } else { */
-          // Altrimenti, prosegui la navigazione dell'oggetto
-          oggetto = oggetto[chiave];
-          nomeArray = chiave;
+        /*  if (i === chiavi.length -1) {
+            // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
+            if (Filters) {
+              let objectKey = Object.keys(nuovoJSON)[0];
+              let newJSON = nuovoJSON[objectKey];
+              let result = mergeJson(oggetto[nomeArray], newJSON)
+            } else {
+              let objectKey = Object.keys(nuovoJSON)[0];
+              let newJSON = nuovoJSON[objectKey]
+              oggetto[chiave] = newJSON;
+            }
+          } else { */
+        // Altrimenti, prosegui la navigazione dell'oggetto
+        oggetto = oggetto[chiave];
+        nomeArray = chiave;
         //}
       }
     }
@@ -166,9 +174,11 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
     let newJSON = nuovoJSON[objectKey];
     let result = mergeJson(oggetto, newJSON)
   } else {
-    let objectKey = Object.keys(nuovoJSON)[0];
-    let newJSON = nuovoJSON[objectKey]
-    oggetto = newJSON;
+    if (nuovoJSON !== null) {
+      let objectKey = Object.keys(nuovoJSON)[0];
+      let newJSON = nuovoJSON[objectKey]
+      oggetto = newJSON;
+    }
   }
 }
 

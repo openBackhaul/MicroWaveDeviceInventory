@@ -16113,7 +16113,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath "
+                "value": "NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath"
               }
             ],
             "fc-port": [

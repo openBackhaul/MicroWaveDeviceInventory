@@ -29,6 +29,7 @@ const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
 const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 const { getLiveControlConstruct } = require('../controllers/IndividualServices');
+const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
 
 
 /**
@@ -8495,8 +8496,9 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
-      if (res == false) {
+      resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+      if (resRequestor == false) {
         throw new createHttpError.NotFound;
       } else if (res.status != 200) {
         throw new createHttpError(res.status, res.statusText);
@@ -8538,8 +8540,9 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
-      if (res == false) {
+      resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+      if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (res.status != 200) {
         throw new createHttpError(res.status, res.statusText);
@@ -8697,6 +8700,36 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
 
 /* List of functions needed for individual services*/
 
+async function sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, requestorUrl, operationKey) {
+  let httpRequestHeaderRequestor;
+
+  //TO FIX
+  //let operationKey = 'Operation key not yet provided.'
+
+  let httpRequestHeader = new RequestHeader(
+    user,
+    originator,
+    xCorrelator,
+    traceIndicator,
+    customerJourney,
+    operationKey
+  );
+
+  httpRequestHeaderRequestor = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
+  console.log('Send data to Requestor:' + requestorUrl);
+
+  try {
+    let response = await axios.post(requestorUrl, body, {
+      headers: httpRequestHeaderRequestor
+    });
+    return true;
+  }
+  catch (error) {
+    return (null);
+  }
+}
+
+
 async function NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache() {
   const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
@@ -8705,9 +8738,51 @@ async function NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCach
   }
 
   let fcPortInputDirectionLogicalTerminationPointList = [];
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
 
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.INPUT === portDirection) {
+      fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[0];
+  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
+  let applicationNameList = [];
+  const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+  // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+  const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+  const httpClientLtpUuid = httpLtpUuidList[0];
+  let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+  let i = 0;
+  let protocol = "";
+  for (const connection of tcpConn) {
+    if (i == 0) {
+      protocol = "HTTP";
+    } else {
+      protocol = "HTTPS";
+    }
+    let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+    let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+    //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
+    let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
 
-
+    const applicationNameData = {
+      key,
+      protocol,
+      finalTcpAddr
+    };
+    i++;
+    applicationNameList.push(applicationNameData);
+  }
+  return applicationNameList;
 }
 
 async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {

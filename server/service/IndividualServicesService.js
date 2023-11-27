@@ -30,6 +30,7 @@ const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 const { getLiveControlConstruct } = require('../controllers/IndividualServices');
 const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
+const axios = require('axios');
 
 
 /**
@@ -8438,9 +8439,11 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
  **/
 exports.regardControllerAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let resource = body['notification-proxy-1-0:attribute-value-changed-notification']['resource'];
-    let attributeName = body['notification-proxy-1-0:attribute-value-changed-notification']['attribute-name'];
-    let newValue = body['notification-proxy-1-0:attribute-value-changed-notification']['new-value'];
+    let objectKey = Object.keys(body)[0];
+    let currentJSON = body[objectKey];
+    let resource = currentJSON['resource'];
+    let attributeName = currentJSON['attribute-name'];
+    let newValue = currentJSON['new-value'];
 
     const match = resource.match(/logical-termination-point=(\w+)/);
 
@@ -8498,7 +8501,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == false) {
         throw new createHttpError.NotFound;
@@ -8544,7 +8547,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
@@ -8590,7 +8593,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (res.status != 200) {
@@ -8618,8 +8621,40 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
  * no response value expected for this operation
  **/
 exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let objectKey = Object.keys(body)[0];
+      let currentJSON = body[objectKey];
+      let resource = currentJSON['resource'];
+      let counter = currentJSON['counter'];
+      /*
+      let jsonObj = "";
+      let correctPlaceHolder = resource.replace("live", "cache");      
+      const appNameAndUuidFromForwarding = await NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counter)
+      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].tcpConn);
+      // Parse the URL
+      const parsedUrl = new URL(tempUrl);
+
+      // Construct the base URL
+      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+      const finalUrl = baseUrl + correctPlaceHolder;
+      */
+      let matchUrl = resource.split("live/");
+      let DefUrl = matchUrl[1];
+      // Find CC in url
+      const match = resource.match(/control-construct=(\w+)/);
+      const controlConstruct = match ? match[1] : null;
+      // read from ES
+      let result = await ReadRecords(controlConstruct);
+      // Update json object
+      let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
+      // Write updated Json to ES
+      let elapsedTime = await recordRequest(result, controlConstruct);
+
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
   });
 }
 
@@ -8926,6 +8961,34 @@ async function NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(c
   return applicationNameList;
 }
 
+async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache (counter) {
+  const forwardingName = "NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache";
+  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  if (forwardingConstruct === undefined) {
+    return null;
+  }
+  
+  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  let fcPortOutputDirectionLogicalTerminationPointList = [];
+  for (const fcPort of fcPortList) {
+    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    }
+  }
+
+  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
+  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
+  let applicationNameList = [];
+  let tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuidOutput);
+  const applicationNameData = {
+    key,
+    tcpConn
+  };
+  applicationNameList.push(applicationNameData);
+
+  return applicationNameList;
+}
 
 /**
  * Receives notifications about objects that have been deleted inside the devices

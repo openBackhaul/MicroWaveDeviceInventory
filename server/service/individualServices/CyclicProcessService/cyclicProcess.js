@@ -418,9 +418,9 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     odlString += (']  (' + odlDeviceList.length + ')');
     console.log(odlString, ...odlRules);
     //
-    // Shuffle new odl elements
+    // Shuffle new odl elements (commented issue 757)
     //
-    newOdlElements = shuffleArray(newOdlElements);
+    //newOdlElements = shuffleArray(newOdlElements); 
     
     //
     // Get the next element common to both the esDeviceList and odlDeviceList. 
@@ -628,9 +628,10 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         odlString += (']  (' + odlDeviceList.length + ')');
         console.log(odlString, ...odlRules);
         //
-        // Shuffle the new elements
+        // Shuffle the new elements (commented issue 757)
         //
-        newOdlElements = shuffleArray(newOdlElements);
+        //newOdlElements = shuffleArray(newOdlElements);
+
         //
         // Calculate the new ODL-DL: [new odl elements shuffled] + [common es elements]
         //
@@ -665,9 +666,11 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         printLog("Update device list to elasticsearch", print_log_level >= 2)
     } catch (error) {
         console.log(error);
-        odlDeviceList = shuffleArray(odlDeviceList);
+        // (commented issue 757)
+        // odlDeviceList = shuffleArray(odlDeviceList);
         printLog(printList('Device List', odlDeviceList), print_log_level >= 1);
-        printLog("Write ODL device list shuffled to Elasticsearch", print_log_level >= 2);        
+        // printLog("Write ODL device list shuffled to Elasticsearch", print_log_level >= 2);
+        printLog("Write ODL device list to Elasticsearch", print_log_level >= 2);
     }
     
     let odlDeviceListString = JSON.stringify(odlDeviceList);

@@ -30,6 +30,7 @@ const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 const { getLiveControlConstruct } = require('../controllers/IndividualServices');
 const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const axios = require('axios');
 
 
@@ -46,90 +47,15 @@ const axios = require('axios');
  **/
 exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    try {
-      let newApplicationName = body["new-application-name"];
-      let newReleaseNumber = body["new-application-release"];
-      let newAddress = body["new-application-address"];
-      let newPort = body["new-application-port"];
-      let newProtocol = body['new-application-protocol'];
-
-      let newReleaseHttpClientLtpUuid = await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease();
-      let newReleaseHttpUuid = newReleaseHttpClientLtpUuid.httpClientUuid;
-      let newReleaseTcpUuid = newReleaseHttpClientLtpUuid.tcpClientUuid;
-
-      /**
-       * Current values in NewRelease client.
-       */
-      let currentApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpUuid);
-      let currentReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpUuid);
-      let currentRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpUuid);
-      let currentRemoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpUuid);
-      let currentRemotePort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpUuid);
-
-      /**
-       * Update only data that needs to be updated, comparing incoming values with values set in
-       * NewRelease client.
-       */
-      let isUpdated = {};
-      let isDataTransferRequired = true;
-      if (newApplicationName !== currentApplicationName) {
-        isUpdated.applicationName = await httpClientInterface.setApplicationNameAsync(newReleaseHttpUuid, newApplicationName)
-      }
-      if (newReleaseNumber !== currentReleaseNumber) {
-        isUpdated.releaseNumber = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpUuid, newReleaseNumber);
-      }
-      if (isAddressChanged(currentRemoteAddress, newAddress)) {
-        isUpdated.address = await tcpClientInterface.setRemoteAddressAsync(newReleaseTcpUuid, newAddress);
-      }
-      if (newPort !== currentRemotePort) {
-        isUpdated.port = await tcpClientInterface.setRemotePortAsync(newReleaseTcpUuid, newPort);
-      }
-      if (newProtocol !== currentRemoteProtocol) {
-        isUpdated.protocol = await tcpClientInterface.setRemoteProtocolAsync(newReleaseTcpUuid, newProtocol);
-      }
-
-
-      /**
-       * Updating the Configuration Status based on the application information updated
-       */
-      let tcpClientConfigurationStatus = new ConfigurationStatus(
-        newReleaseTcpUuid,
-        '',
-        (isUpdated.address || isUpdated.port || isUpdated.protocol)
-      );
-      let httpClientConfigurationStatus = new ConfigurationStatus(
-        newReleaseHttpUuid,
-        '',
-        (isUpdated.applicationName || isUpdated.releaseNumber)
-      );
-
-      let logicalTerminationPointConfigurationStatus = new LogicalTerminationPointConfigurationStatus(
-        false,
-        httpClientConfigurationStatus,
-        [tcpClientConfigurationStatus]
-      );
-
-      /****************************************************************************************
-       * Prepare attributes to automate forwarding-construct
-       ****************************************************************************************/
-      let forwardingAutomationInputList = await prepareALTForwardingAutomation.getALTForwardingAutomationInputAsync(
-        logicalTerminationPointConfigurationStatus,
-        undefined
-      );
-      ForwardingAutomationService.automateForwardingConstructAsync(
-        operationServerName,
-        forwardingAutomationInputList,
-        user,
-        xCorrelator,
-        traceIndicator,
-        customerJourney
-      );
-
-      softwareUpgrade.upgradeSoftwareVersion(isDataTransferRequired, newReleaseHttpUuid, user, xCorrelator, traceIndicator, customerJourney, forwardingAutomationInputList.length)
+  
+    let newApplicationDetails = body;
+    let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+    let newReleaseNumber = body["new-application-release"];
+  
+    if (newReleaseNumber !== currentReleaseNumber) {
+  
+      softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
         .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
-      resolve();
-    } catch (error) {
-      reject(error);
     }
   });
 }
@@ -8501,12 +8427,12 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == false) {
         throw new createHttpError.NotFound;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      } else if (resRequestor.status != 200) {
+        throw new createHttpError(resRequestor.status, resRequestor.statusText);
       } else {
         resolve();
       }
@@ -8551,8 +8477,8 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      } else if (resRequestor.status != 200) {
+        throw new createHttpError(resRequestor.status, resRequestor.statusText);
       } else {
         resolve();
       }
@@ -8596,8 +8522,8 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
-      } else if (res.status != 200) {
-        throw new createHttpError(res.status, res.statusText);
+      } else if (resRequestor.status != 200) {
+        throw new createHttpError(resRequestor.status, resRequestor.statusText);
       } else {
         resolve();
       }
@@ -8785,10 +8711,10 @@ async function sentDataToRequestor(body, user, originator, xCorrelator, traceInd
   console.log('Send data to Requestor:' + requestorUrl);
 
   try {
-    let response = await axios.post(requestorUrl, body, {
+    let response = await axios(requestorUrl, {
       headers: httpRequestHeaderRequestor
     });
-    return true;
+    return response;
   }
   catch (error) {
     return (null);

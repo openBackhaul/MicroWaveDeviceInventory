@@ -5,12 +5,12 @@ const { setTimeout } = require('timers');
 const path = require("path");
 const individualServices = require( "../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
-
-// SIMULAZIONE
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+// SIMULATION
 const startModule = require('../../../temporarySupportFiles/StartModule.js');
 const { inherits } = require('util');
 let simulationProgress = false;
-// SIMULAZIONE
+// SIMULATION
 
 const DEVICE_NOT_PRESENT = -1;
 let deviceListSyncPeriod = 24;
@@ -23,14 +23,14 @@ let deviceList = [];
 let lastDeviceListIndex = -1;
 let print_log_level = 2;    
 let synchInProgress = false;
-
+let coreModelPrefix = ''
 
 /**
  * REST request simulator with random delay
  */
 async function sendRequest(device) {    
     try {        
-        let ret = await individualServices.getLiveControlConstruct('/core-model-1-4:network-control-domain=live/control-construct=' + device['node-id'])
+        let ret = await individualServices.getLiveControlConstruct('/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device['node-id'])
         return {
             'ret': ret,
             'node-id': device['node-id']
@@ -538,15 +538,21 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     
     async function extractProfileConfiguration(uuid) {
         const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-        const profile = await profileCollection.getProfileAsync(uuid);
-        return profile["integer-profile-1-0:integer-profile-pac"]["integer-profile-configuration"]["integer-value"];
+        let profile = await profileCollection.getProfileAsync(uuid);
+        let objectKey = Object.keys(profile)[2];
+        profile = profile[objectKey];
+        return profile["integer-profile-configuration"]["integer-value"];
     }
         
-    slidingWindowSizeDb = await extractProfileConfiguration("mwdi-1-0-0-integer-p-000");
-    responseTimeout = await extractProfileConfiguration("mwdi-1-0-0-integer-p-001");
-    maximumNumberOfRetries = await extractProfileConfiguration("mwdi-1-0-0-integer-p-002");
-    deviceListSyncPeriod = await extractProfileConfiguration("mwdi-1-0-0-integer-p-003");
-    
+    const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
+    const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    coreModelPrefix = forwardingConstruct.name[0].value.split(':')[0];
+    let prefix = forwardingConstruct.uuid.split('op')[0];
+    slidingWindowSizeDb = await extractProfileConfiguration(prefix + "integer-p-000");
+    responseTimeout = await extractProfileConfiguration(prefix + "integer-p-001");
+    maximumNumberOfRetries = await extractProfileConfiguration(prefix + "integer-p-002");
+    deviceListSyncPeriod = await extractProfileConfiguration(prefix + "integer-p-003");
+
     print_log_level = logging_level;
     console.log('');
     console.log('*******************************************************************************************************');

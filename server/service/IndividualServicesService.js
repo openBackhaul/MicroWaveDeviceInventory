@@ -77,7 +77,7 @@ exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrela
 exports.getCachedActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -142,7 +142,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
 exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -207,7 +207,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
 exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -272,7 +272,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
 exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -337,7 +337,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
 exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -400,7 +400,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
 exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -463,7 +463,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
 exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -526,7 +526,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
 exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -590,7 +590,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
 exports.getCachedCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -654,7 +654,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
 exports.getCachedCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -719,7 +719,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
 exports.getCachedConnector = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -784,7 +784,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
 exports.getCachedContainedHolder = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -847,7 +847,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
 exports.getCachedControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -910,7 +910,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
 exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -974,7 +974,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
 exports.getCachedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1039,7 +1039,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
 exports.getCachedEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1104,7 +1104,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
 exports.getCachedEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1169,7 +1169,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
 exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1234,7 +1234,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
 exports.getCachedEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1299,7 +1299,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
 exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1362,7 +1362,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
 exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1426,7 +1426,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
 exports.getCachedFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1490,7 +1490,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
 exports.getCachedFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1554,7 +1554,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
 exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1619,7 +1619,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
 exports.getCachedHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1684,7 +1684,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
 exports.getCachedHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1749,7 +1749,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
 exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1814,7 +1814,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
 exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2025,7 +2025,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
 exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2090,7 +2090,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
 exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2155,7 +2155,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
 exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2220,7 +2220,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
 exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2284,7 +2284,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
 exports.getCachedPolicingProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2348,7 +2348,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
 exports.getCachedPolicingProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2412,7 +2412,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
 exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2475,7 +2475,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
 exports.getCachedProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2539,7 +2539,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
 exports.getCachedPureEthernetStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2604,7 +2604,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
 exports.getCachedPureEthernetStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2669,7 +2669,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
 exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2734,7 +2734,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
 exports.getCachedPureEthernetStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2798,7 +2798,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
 exports.getCachedQosProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2862,7 +2862,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
 exports.getCachedQosProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2926,7 +2926,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
 exports.getCachedSchedulerProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2990,7 +2990,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
 exports.getCachedSchedulerProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3055,7 +3055,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
 exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3120,7 +3120,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
 exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3185,7 +3185,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
 exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3250,7 +3250,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
 exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3315,7 +3315,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
 exports.getCachedWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3380,7 +3380,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
 exports.getCachedWireInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3445,7 +3445,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
 exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3510,7 +3510,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
 exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3574,7 +3574,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
 exports.getCachedWredProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3638,7 +3638,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
 exports.getCachedWredProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3702,7 +3702,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
 exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3766,7 +3766,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = user;
+      const myFields = fields;
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];

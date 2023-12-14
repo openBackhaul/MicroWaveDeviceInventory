@@ -25,7 +25,7 @@ module.exports.bequeathYourDataAndDie = function bequeathYourDataAndDie (req, re
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedActualEquipment = function getCachedActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedActualEquipment = function getCachedActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -177,7 +177,7 @@ module.exports.getCachedAlarmEventRecords = function getCachedAlarmEventRecords 
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedCoChannelProfileCapability = function getCachedCoChannelProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedCoChannelProfileCapability = function getCachedCoChannelProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -196,7 +196,7 @@ module.exports.getCachedCoChannelProfileCapability = function getCachedCoChannel
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedCoChannelProfileConfiguration = function getCachedCoChannelProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedCoChannelProfileConfiguration = function getCachedCoChannelProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -557,7 +557,7 @@ module.exports.getCachedHybridMwStructureStatus = function getCachedHybridMwStru
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedLogicalTerminationPoint = function getCachedLogicalTerminationPoint (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedLogicalTerminationPoint = function getCachedLogicalTerminationPoint (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -576,7 +576,7 @@ module.exports.getCachedLogicalTerminationPoint = function getCachedLogicalTermi
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveLtpAugment = function getLiveLtpAugment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveLtpAugment = function getLiveLtpAugment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -671,7 +671,7 @@ module.exports.getCachedMacInterfaceStatus = function getCachedMacInterfaceStatu
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedPolicingProfileCapability = function getCachedPolicingProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedPolicingProfileCapability = function getCachedPolicingProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -690,7 +690,7 @@ module.exports.getCachedPolicingProfileCapability = function getCachedPolicingPr
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedPolicingProfileConfiguration = function getCachedPolicingProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedPolicingProfileConfiguration = function getCachedPolicingProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -709,7 +709,7 @@ module.exports.getCachedPolicingProfileConfiguration = function getCachedPolicin
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedProfile = function getCachedProfile (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedProfile = function getCachedProfile (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -823,7 +823,7 @@ module.exports.getCachedPureEthernetStructureStatus = function getCachedPureEthe
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedQosProfileCapability = function getCachedQosProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedQosProfileCapability = function getCachedQosProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -842,7 +842,7 @@ module.exports.getCachedQosProfileCapability = function getCachedQosProfileCapab
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedQosProfileConfiguration = function getCachedQosProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedQosProfileConfiguration = function getCachedQosProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -861,7 +861,7 @@ module.exports.getCachedQosProfileConfiguration = function getCachedQosProfileCo
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedSchedulerProfileCapability = function getCachedSchedulerProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedSchedulerProfileCapability = function getCachedSchedulerProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -880,7 +880,7 @@ module.exports.getCachedSchedulerProfileCapability = function getCachedScheduler
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedSchedulerProfileConfiguration = function getCachedSchedulerProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedSchedulerProfileConfiguration = function getCachedSchedulerProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1051,7 +1051,7 @@ module.exports.getCachedWireInterfaceStatus = function getCachedWireInterfaceSta
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedWredProfileCapability = function getCachedWredProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedWredProfileCapability = function getCachedWredProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1070,7 +1070,7 @@ module.exports.getCachedWredProfileCapability = function getCachedWredProfileCap
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedWredProfileConfiguration = function getCachedWredProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedWredProfileConfiguration = function getCachedWredProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1089,7 +1089,7 @@ module.exports.getCachedWredProfileConfiguration = function getCachedWredProfile
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveLogicalTerminationPoint = function getLiveLogicalTerminationPoint (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveLogicalTerminationPoint = function getLiveLogicalTerminationPoint (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1108,7 +1108,7 @@ module.exports.getLiveLogicalTerminationPoint = function getLiveLogicalTerminati
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1127,7 +1127,7 @@ module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, nex
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveActualEquipment = function getLiveActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveActualEquipment = function getLiveActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1298,7 +1298,7 @@ module.exports.getLiveAlarmEventRecords = function getLiveAlarmEventRecords (req
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveCoChannelProfileCapability = function getLiveCoChannelProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveCoChannelProfileCapability = function getLiveCoChannelProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1317,7 +1317,7 @@ module.exports.getLiveCoChannelProfileCapability = function getLiveCoChannelProf
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveCoChannelProfileConfiguration = function getLiveCoChannelProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveCoChannelProfileConfiguration = function getLiveCoChannelProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1412,7 +1412,7 @@ module.exports.getLiveCurrentAlarms = function getLiveCurrentAlarms (req, res, n
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveEquipment = function getLiveEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveEquipment = function getLiveEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1811,7 +1811,7 @@ module.exports.getLiveMacInterfaceStatus = function getLiveMacInterfaceStatus (r
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLivePolicingProfileCapability = function getLivePolicingProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLivePolicingProfileCapability = function getLivePolicingProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1830,7 +1830,7 @@ module.exports.getLivePolicingProfileCapability = function getLivePolicingProfil
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLivePolicingProfileConfiguration = function getLivePolicingProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLivePolicingProfileConfiguration = function getLivePolicingProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1849,7 +1849,7 @@ module.exports.getLivePolicingProfileConfiguration = function getLivePolicingPro
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveProfile = function getLiveProfile (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveProfile = function getLiveProfile (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -1982,7 +1982,7 @@ module.exports.getLivePureEthernetStructureStatus = function getLivePureEthernet
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveQosProfileCapability = function getLiveQosProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveQosProfileCapability = function getLiveQosProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -2001,7 +2001,7 @@ module.exports.getLiveQosProfileCapability = function getLiveQosProfileCapabilit
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveQosProfileConfiguration = function getLiveQosProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveQosProfileConfiguration = function getLiveQosProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -2020,7 +2020,7 @@ module.exports.getLiveQosProfileConfiguration = function getLiveQosProfileConfig
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveSchedulerProfileCapability = function getLiveSchedulerProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveSchedulerProfileCapability = function getLiveSchedulerProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -2039,7 +2039,7 @@ module.exports.getLiveSchedulerProfileCapability = function getLiveSchedulerProf
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveSchedulerProfileConfiguration = function getLiveSchedulerProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveSchedulerProfileConfiguration = function getLiveSchedulerProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -2248,7 +2248,7 @@ module.exports.getLiveWireInterfaceStatus = function getLiveWireInterfaceStatus 
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveWredProfileCapability = function getLiveWredProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveWredProfileCapability = function getLiveWredProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -2267,7 +2267,7 @@ module.exports.getLiveWredProfileCapability = function getLiveWredProfileCapabil
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveWredProfileConfiguration = function getLiveWredProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator) {
+module.exports.getLiveWredProfileConfiguration = function getLiveWredProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};

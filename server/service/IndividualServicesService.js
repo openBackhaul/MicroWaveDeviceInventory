@@ -8229,6 +8229,7 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
  **/
 exports.provideListOfActualDeviceEquipment = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
+    let urlParts = url.split("?fields=");
     let mountName = body['mountName'];
     const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
@@ -8309,7 +8310,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
  **/
 exports.provideListOfDeviceInterfaces = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-
+    let urlParts = url.split("?fields=");
     let mountName = body['mountName'];
     const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);

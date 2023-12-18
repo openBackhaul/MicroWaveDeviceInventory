@@ -15,14 +15,15 @@ module.exports.bequeathYourDataAndDie = function bequeathYourDataAndDie (req, re
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedActualEquipment = function getCachedActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -34,14 +35,15 @@ module.exports.getCachedActualEquipment = function getCachedActualEquipment (req
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAirInterfaceCapability = function getCachedAirInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -53,14 +55,15 @@ module.exports.getCachedAirInterfaceCapability = function getCachedAirInterfaceC
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAirInterfaceConfiguration = function getCachedAirInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -72,14 +75,15 @@ module.exports.getCachedAirInterfaceConfiguration = function getCachedAirInterfa
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAirInterfaceHistoricalPerformances = function getCachedAirInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -91,14 +95,15 @@ module.exports.getCachedAirInterfaceHistoricalPerformances = function getCachedA
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAirInterfaceStatus = function getCachedAirInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -110,14 +115,15 @@ module.exports.getCachedAirInterfaceStatus = function getCachedAirInterfaceStatu
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAlarmCapability = function getCachedAlarmCapability (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -129,14 +135,15 @@ module.exports.getCachedAlarmCapability = function getCachedAlarmCapability (req
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAlarmConfiguration = function getCachedAlarmConfiguration (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -148,14 +155,15 @@ module.exports.getCachedAlarmConfiguration = function getCachedAlarmConfiguratio
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedAlarmEventRecords = function getCachedAlarmEventRecords (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -167,14 +175,15 @@ module.exports.getCachedAlarmEventRecords = function getCachedAlarmEventRecords 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedCoChannelProfileCapability = function getCachedCoChannelProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -186,14 +195,15 @@ module.exports.getCachedCoChannelProfileCapability = function getCachedCoChannel
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedCoChannelProfileConfiguration = function getCachedCoChannelProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -205,14 +215,15 @@ module.exports.getCachedCoChannelProfileConfiguration = function getCachedCoChan
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedConnector = function getCachedConnector (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -224,14 +235,15 @@ module.exports.getCachedConnector = function getCachedConnector (req, res, next,
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedContainedHolder = function getCachedContainedHolder (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -243,17 +255,18 @@ module.exports.getCachedContainedHolder = function getCachedContainedHolder (req
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getCachedControlConstruct = function getCachedControlConstruct (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.getCachedControlConstruct = function getCachedControlConstruct (req, res, next,  fields, mountName, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -262,14 +275,15 @@ module.exports.getCachedControlConstruct = function getCachedControlConstruct (r
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedCurrentAlarms = function getCachedCurrentAlarms (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -281,14 +295,15 @@ module.exports.getCachedCurrentAlarms = function getCachedCurrentAlarms (req, re
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedEquipment = function getCachedEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -300,14 +315,15 @@ module.exports.getCachedEquipment = function getCachedEquipment (req, res, next,
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedEthernetContainerCapability = function getCachedEthernetContainerCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -319,14 +335,15 @@ module.exports.getCachedEthernetContainerCapability = function getCachedEthernet
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedEthernetContainerConfiguration = function getCachedEthernetContainerConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -338,14 +355,15 @@ module.exports.getCachedEthernetContainerConfiguration = function getCachedEther
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedEthernetContainerHistoricalPerformances = function getCachedEthernetContainerHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -357,14 +375,15 @@ module.exports.getCachedEthernetContainerHistoricalPerformances = function getCa
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedEthernetContainerStatus = function getCachedEthernetContainerStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -376,14 +395,15 @@ module.exports.getCachedEthernetContainerStatus = function getCachedEthernetCont
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedExpectedEquipment = function getCachedExpectedEquipment (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -395,14 +415,15 @@ module.exports.getCachedExpectedEquipment = function getCachedExpectedEquipment 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedFirmwareCollection = function getCachedFirmwareCollection (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -414,14 +435,15 @@ module.exports.getCachedFirmwareCollection = function getCachedFirmwareCollectio
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedFirmwareComponentCapability = function getCachedFirmwareComponentCapability (req, res, next, fields, mountName, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -433,14 +455,15 @@ module.exports.getCachedFirmwareComponentCapability = function getCachedFirmware
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedFirmwareComponentList = function getCachedFirmwareComponentList (req, res, next, fields, mountName, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -452,14 +475,15 @@ module.exports.getCachedFirmwareComponentList = function getCachedFirmwareCompon
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedFirmwareComponentStatus = function getCachedFirmwareComponentStatus (req, res, next, fields, mountName, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -471,14 +495,15 @@ module.exports.getCachedFirmwareComponentStatus = function getCachedFirmwareComp
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedHybridMwStructureCapability = function getCachedHybridMwStructureCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -490,14 +515,15 @@ module.exports.getCachedHybridMwStructureCapability = function getCachedHybridMw
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedHybridMwStructureConfiguration = function getCachedHybridMwStructureConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -509,14 +535,15 @@ module.exports.getCachedHybridMwStructureConfiguration = function getCachedHybri
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedHybridMwStructureHistoricalPerformances = function getCachedHybridMwStructureHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -528,14 +555,15 @@ module.exports.getCachedHybridMwStructureHistoricalPerformances = function getCa
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedHybridMwStructureStatus = function getCachedHybridMwStructureStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -547,14 +575,15 @@ module.exports.getCachedHybridMwStructureStatus = function getCachedHybridMwStru
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedLogicalTerminationPoint = function getCachedLogicalTerminationPoint (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -566,14 +595,15 @@ module.exports.getCachedLogicalTerminationPoint = function getCachedLogicalTermi
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveLtpAugment = function getLiveLtpAugment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -585,14 +615,15 @@ module.exports.getLiveLtpAugment = function getLiveLtpAugment (req, res, next, f
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedMacInterfaceCapability = function getCachedMacInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -604,14 +635,15 @@ module.exports.getCachedMacInterfaceCapability = function getCachedMacInterfaceC
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedMacInterfaceConfiguration = function getCachedMacInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -623,14 +655,15 @@ module.exports.getCachedMacInterfaceConfiguration = function getCachedMacInterfa
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedMacInterfaceHistoricalPerformances = function getCachedMacInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -642,14 +675,15 @@ module.exports.getCachedMacInterfaceHistoricalPerformances = function getCachedM
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedMacInterfaceStatus = function getCachedMacInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -661,14 +695,15 @@ module.exports.getCachedMacInterfaceStatus = function getCachedMacInterfaceStatu
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedPolicingProfileCapability = function getCachedPolicingProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -680,14 +715,15 @@ module.exports.getCachedPolicingProfileCapability = function getCachedPolicingPr
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedPolicingProfileConfiguration = function getCachedPolicingProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -699,14 +735,15 @@ module.exports.getCachedPolicingProfileConfiguration = function getCachedPolicin
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedProfile = function getCachedProfile (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -718,14 +755,15 @@ module.exports.getCachedProfile = function getCachedProfile (req, res, next, fie
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedProfileCollection = function getCachedProfileCollection (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -737,14 +775,15 @@ module.exports.getCachedProfileCollection = function getCachedProfileCollection 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedPureEthernetStructureCapability = function getCachedPureEthernetStructureCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -756,14 +795,15 @@ module.exports.getCachedPureEthernetStructureCapability = function getCachedPure
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedPureEthernetStructureConfiguration = function getCachedPureEthernetStructureConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -775,14 +815,15 @@ module.exports.getCachedPureEthernetStructureConfiguration = function getCachedP
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedPureEthernetStructureHistoricalPerformances = function getCachedPureEthernetStructureHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -794,14 +835,15 @@ module.exports.getCachedPureEthernetStructureHistoricalPerformances = function g
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedPureEthernetStructureStatus = function getCachedPureEthernetStructureStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -813,14 +855,15 @@ module.exports.getCachedPureEthernetStructureStatus = function getCachedPureEthe
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedQosProfileCapability = function getCachedQosProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -832,14 +875,15 @@ module.exports.getCachedQosProfileCapability = function getCachedQosProfileCapab
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedQosProfileConfiguration = function getCachedQosProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -851,14 +895,15 @@ module.exports.getCachedQosProfileConfiguration = function getCachedQosProfileCo
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedSchedulerProfileCapability = function getCachedSchedulerProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -870,14 +915,15 @@ module.exports.getCachedSchedulerProfileCapability = function getCachedScheduler
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedSchedulerProfileConfiguration = function getCachedSchedulerProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -889,14 +935,15 @@ module.exports.getCachedSchedulerProfileConfiguration = function getCachedSchedu
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedVlanInterfaceCapability = function getCachedVlanInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -908,14 +955,15 @@ module.exports.getCachedVlanInterfaceCapability = function getCachedVlanInterfac
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedVlanInterfaceConfiguration = function getCachedVlanInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -927,14 +975,15 @@ module.exports.getCachedVlanInterfaceConfiguration = function getCachedVlanInter
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedVlanInterfaceHistoricalPerformances = function getCachedVlanInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -946,14 +995,15 @@ module.exports.getCachedVlanInterfaceHistoricalPerformances = function getCached
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedVlanInterfaceStatus = function getCachedVlanInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -965,14 +1015,15 @@ module.exports.getCachedVlanInterfaceStatus = function getCachedVlanInterfaceSta
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedWireInterfaceCapability = function getCachedWireInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -984,14 +1035,15 @@ module.exports.getCachedWireInterfaceCapability = function getCachedWireInterfac
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedWireInterfaceConfiguration = function getCachedWireInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1003,14 +1055,15 @@ module.exports.getCachedWireInterfaceConfiguration = function getCachedWireInter
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedWireInterfaceHistoricalPerformances = function getCachedWireInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1022,14 +1075,15 @@ module.exports.getCachedWireInterfaceHistoricalPerformances = function getCached
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedWireInterfaceStatus = function getCachedWireInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1041,14 +1095,15 @@ module.exports.getCachedWireInterfaceStatus = function getCachedWireInterfaceSta
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedWredProfileCapability = function getCachedWredProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1060,14 +1115,15 @@ module.exports.getCachedWredProfileCapability = function getCachedWredProfileCap
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedWredProfileConfiguration = function getCachedWredProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1079,14 +1135,15 @@ module.exports.getCachedWredProfileConfiguration = function getCachedWredProfile
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveLogicalTerminationPoint = function getLiveLogicalTerminationPoint (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1098,14 +1155,15 @@ module.exports.getLiveLogicalTerminationPoint = function getLiveLogicalTerminati
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1117,14 +1175,15 @@ module.exports.getCachedLtpAugment = function getCachedLtpAugment (req, res, nex
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveActualEquipment = function getLiveActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1136,14 +1195,15 @@ module.exports.getLiveActualEquipment = function getLiveActualEquipment (req, re
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAirInterfaceCapability = function getLiveAirInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1155,14 +1215,15 @@ module.exports.getLiveAirInterfaceCapability = function getLiveAirInterfaceCapab
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAirInterfaceConfiguration = function getLiveAirInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1174,14 +1235,15 @@ module.exports.getLiveAirInterfaceConfiguration = function getLiveAirInterfaceCo
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAirInterfaceCurrentPerformance = function getLiveAirInterfaceCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1193,14 +1255,15 @@ module.exports.getLiveAirInterfaceCurrentPerformance = function getLiveAirInterf
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAirInterfaceHistoricalPerformances = function getLiveAirInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1212,14 +1275,15 @@ module.exports.getLiveAirInterfaceHistoricalPerformances = function getLiveAirIn
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAirInterfaceStatus = function getLiveAirInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1231,14 +1295,15 @@ module.exports.getLiveAirInterfaceStatus = function getLiveAirInterfaceStatus (r
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAlarmCapability = function getLiveAlarmCapability (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1250,14 +1315,15 @@ module.exports.getLiveAlarmCapability = function getLiveAlarmCapability (req, re
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAlarmConfiguration = function getLiveAlarmConfiguration (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1269,14 +1335,15 @@ module.exports.getLiveAlarmConfiguration = function getLiveAlarmConfiguration (r
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveAlarmEventRecords = function getLiveAlarmEventRecords (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1288,14 +1355,15 @@ module.exports.getLiveAlarmEventRecords = function getLiveAlarmEventRecords (req
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveCoChannelProfileCapability = function getLiveCoChannelProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1307,14 +1375,15 @@ module.exports.getLiveCoChannelProfileCapability = function getLiveCoChannelProf
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveCoChannelProfileConfiguration = function getLiveCoChannelProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1326,14 +1395,15 @@ module.exports.getLiveCoChannelProfileConfiguration = function getLiveCoChannelP
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveConnector = function getLiveConnector (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1345,14 +1415,15 @@ module.exports.getLiveConnector = function getLiveConnector (req, res, next, fie
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveContainedHolder = function getLiveContainedHolder (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1364,33 +1435,35 @@ module.exports.getLiveContainedHolder = function getLiveContainedHolder (req, re
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.getLiveControlConstruct = function getLiveControlConstruct (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.getLiveControlConstruct = function getLiveControlConstruct (req, res, next,  fields, mountName, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.getLiveControlConstruct(req.url,req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields)
+  IndividualServices.getLiveControlConstruct(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveCurrentAlarms = function getLiveCurrentAlarms (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1402,14 +1475,15 @@ module.exports.getLiveCurrentAlarms = function getLiveCurrentAlarms (req, res, n
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveEquipment = function getLiveEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1421,14 +1495,15 @@ module.exports.getLiveEquipment = function getLiveEquipment (req, res, next, fie
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveEthernetContainerCapability = function getLiveEthernetContainerCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1440,14 +1515,15 @@ module.exports.getLiveEthernetContainerCapability = function getLiveEthernetCont
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveEthernetContainerConfiguration = function getLiveEthernetContainerConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1459,14 +1535,15 @@ module.exports.getLiveEthernetContainerConfiguration = function getLiveEthernetC
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveEthernetContainerCurrentPerformance = function getLiveEthernetContainerCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1478,14 +1555,15 @@ module.exports.getLiveEthernetContainerCurrentPerformance = function getLiveEthe
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveEthernetContainerHistoricalPerformances = function getLiveEthernetContainerHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1497,14 +1575,15 @@ module.exports.getLiveEthernetContainerHistoricalPerformances = function getLive
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveEthernetContainerStatus = function getLiveEthernetContainerStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1516,14 +1595,15 @@ module.exports.getLiveEthernetContainerStatus = function getLiveEthernetContaine
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveExpectedEquipment = function getLiveExpectedEquipment (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1535,14 +1615,15 @@ module.exports.getLiveExpectedEquipment = function getLiveExpectedEquipment (req
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveFirmwareCollection = function getLiveFirmwareCollection (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1554,14 +1635,15 @@ module.exports.getLiveFirmwareCollection = function getLiveFirmwareCollection (r
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveFirmwareComponentCapability = function getLiveFirmwareComponentCapability (req, res, next, fields, mountName, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1573,14 +1655,15 @@ module.exports.getLiveFirmwareComponentCapability = function getLiveFirmwareComp
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveFirmwareComponentList = function getLiveFirmwareComponentList (req, res, next, fields, mountName, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1592,14 +1675,15 @@ module.exports.getLiveFirmwareComponentList = function getLiveFirmwareComponentL
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveFirmwareComponentStatus = function getLiveFirmwareComponentStatus (req, res, next, fields, mountName, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1611,14 +1695,15 @@ module.exports.getLiveFirmwareComponentStatus = function getLiveFirmwareComponen
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveHybridMwStructureCapability = function getLiveHybridMwStructureCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1630,14 +1715,15 @@ module.exports.getLiveHybridMwStructureCapability = function getLiveHybridMwStru
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveHybridMwStructureConfiguration = function getLiveHybridMwStructureConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1649,14 +1735,15 @@ module.exports.getLiveHybridMwStructureConfiguration = function getLiveHybridMwS
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveHybridMwStructureCurrentPerformance = function getLiveHybridMwStructureCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1668,14 +1755,15 @@ module.exports.getLiveHybridMwStructureCurrentPerformance = function getLiveHybr
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveHybridMwStructureHistoricalPerformances = function getLiveHybridMwStructureHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1687,14 +1775,15 @@ module.exports.getLiveHybridMwStructureHistoricalPerformances = function getLive
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveHybridMwStructureStatus = function getLiveHybridMwStructureStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1706,14 +1795,15 @@ module.exports.getLiveHybridMwStructureStatus = function getLiveHybridMwStructur
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveMacInterfaceCapability = function getLiveMacInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1725,14 +1815,15 @@ module.exports.getLiveMacInterfaceCapability = function getLiveMacInterfaceCapab
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveMacInterfaceConfiguration = function getLiveMacInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1744,14 +1835,15 @@ module.exports.getLiveMacInterfaceConfiguration = function getLiveMacInterfaceCo
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveMacInterfaceCurrentPerformance = function getLiveMacInterfaceCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1763,14 +1855,15 @@ module.exports.getLiveMacInterfaceCurrentPerformance = function getLiveMacInterf
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveMacInterfaceHistoricalPerformances = function getLiveMacInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1782,14 +1875,15 @@ module.exports.getLiveMacInterfaceHistoricalPerformances = function getLiveMacIn
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveMacInterfaceStatus = function getLiveMacInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1801,14 +1895,15 @@ module.exports.getLiveMacInterfaceStatus = function getLiveMacInterfaceStatus (r
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePolicingProfileCapability = function getLivePolicingProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1820,14 +1915,15 @@ module.exports.getLivePolicingProfileCapability = function getLivePolicingProfil
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePolicingProfileConfiguration = function getLivePolicingProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1839,14 +1935,15 @@ module.exports.getLivePolicingProfileConfiguration = function getLivePolicingPro
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveProfile = function getLiveProfile (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1858,14 +1955,15 @@ module.exports.getLiveProfile = function getLiveProfile (req, res, next, fields,
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveProfileCollection = function getLiveProfileCollection (req, res, next,  fields, mountName,user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1877,14 +1975,15 @@ module.exports.getLiveProfileCollection = function getLiveProfileCollection (req
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePureEthernetStructureCapability = function getLivePureEthernetStructureCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1896,14 +1995,15 @@ module.exports.getLivePureEthernetStructureCapability = function getLivePureEthe
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePureEthernetStructureConfiguration = function getLivePureEthernetStructureConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1915,14 +2015,15 @@ module.exports.getLivePureEthernetStructureConfiguration = function getLivePureE
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePureEthernetStructureCurrentPerformance = function getLivePureEthernetStructureCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1934,14 +2035,15 @@ module.exports.getLivePureEthernetStructureCurrentPerformance = function getLive
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePureEthernetStructureHistoricalPerformances = function getLivePureEthernetStructureHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1953,14 +2055,15 @@ module.exports.getLivePureEthernetStructureHistoricalPerformances = function get
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLivePureEthernetStructureStatus = function getLivePureEthernetStructureStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1972,14 +2075,15 @@ module.exports.getLivePureEthernetStructureStatus = function getLivePureEthernet
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveQosProfileCapability = function getLiveQosProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -1991,14 +2095,15 @@ module.exports.getLiveQosProfileCapability = function getLiveQosProfileCapabilit
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveQosProfileConfiguration = function getLiveQosProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2010,14 +2115,15 @@ module.exports.getLiveQosProfileConfiguration = function getLiveQosProfileConfig
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveSchedulerProfileCapability = function getLiveSchedulerProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2029,14 +2135,15 @@ module.exports.getLiveSchedulerProfileCapability = function getLiveSchedulerProf
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveSchedulerProfileConfiguration = function getLiveSchedulerProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2048,14 +2155,15 @@ module.exports.getLiveSchedulerProfileConfiguration = function getLiveSchedulerP
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveVlanInterfaceCapability = function getLiveVlanInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2067,14 +2175,15 @@ module.exports.getLiveVlanInterfaceCapability = function getLiveVlanInterfaceCap
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveVlanInterfaceConfiguration = function getLiveVlanInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2086,14 +2195,15 @@ module.exports.getLiveVlanInterfaceConfiguration = function getLiveVlanInterface
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveVlanInterfaceCurrentPerformance = function getLiveVlanInterfaceCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2105,14 +2215,15 @@ module.exports.getLiveVlanInterfaceCurrentPerformance = function getLiveVlanInte
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveVlanInterfaceHistoricalPerformances = function getLiveVlanInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2124,14 +2235,15 @@ module.exports.getLiveVlanInterfaceHistoricalPerformances = function getLiveVlan
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveVlanInterfaceStatus = function getLiveVlanInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2143,14 +2255,15 @@ module.exports.getLiveVlanInterfaceStatus = function getLiveVlanInterfaceStatus 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWireInterfaceCapability = function getLiveWireInterfaceCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2162,14 +2275,15 @@ module.exports.getLiveWireInterfaceCapability = function getLiveWireInterfaceCap
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWireInterfaceConfiguration = function getLiveWireInterfaceConfiguration (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2181,14 +2295,15 @@ module.exports.getLiveWireInterfaceConfiguration = function getLiveWireInterface
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWireInterfaceCurrentPerformance = function getLiveWireInterfaceCurrentPerformance (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2200,14 +2315,15 @@ module.exports.getLiveWireInterfaceCurrentPerformance = function getLiveWireInte
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWireInterfaceHistoricalPerformances = function getLiveWireInterfaceHistoricalPerformances (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2219,14 +2335,15 @@ module.exports.getLiveWireInterfaceHistoricalPerformances = function getLiveWire
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWireInterfaceStatus = function getLiveWireInterfaceStatus (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2238,14 +2355,15 @@ module.exports.getLiveWireInterfaceStatus = function getLiveWireInterfaceStatus 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWredProfileCapability = function getLiveWredProfileCapability (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2257,14 +2375,15 @@ module.exports.getLiveWredProfileCapability = function getLiveWredProfileCapabil
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.getLiveWredProfileConfiguration = function getLiveWredProfileConfiguration (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2276,14 +2395,15 @@ module.exports.getLiveWredProfileConfiguration = function getLiveWredProfileConf
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.notifyAttributeValueChanges = function notifyAttributeValueChanges (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2295,14 +2415,15 @@ module.exports.notifyAttributeValueChanges = function notifyAttributeValueChange
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.notifyObjectCreations = function notifyObjectCreations (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2314,14 +2435,15 @@ module.exports.notifyObjectCreations = function notifyObjectCreations (req, res,
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.notifyObjectDeletions = function notifyObjectDeletions (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2333,14 +2455,15 @@ module.exports.notifyObjectDeletions = function notifyObjectDeletions (req, res,
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.provideListOfActualDeviceEquipment = function provideListOfActualDeviceEquipment (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2352,14 +2475,15 @@ module.exports.provideListOfActualDeviceEquipment = function provideListOfActual
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.provideListOfConnectedDevices = function provideListOfConnectedDevices (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2371,14 +2495,15 @@ module.exports.provideListOfConnectedDevices = function provideListOfConnectedDe
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.provideListOfDeviceInterfaces = function provideListOfDeviceInterfaces (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2390,14 +2515,15 @@ module.exports.provideListOfDeviceInterfaces = function provideListOfDeviceInter
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.regardControllerAttributeValueChange = function regardControllerAttributeValueChange (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2409,14 +2535,15 @@ module.exports.regardControllerAttributeValueChange = function regardControllerA
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.regardDeviceAlarm = function regardDeviceAlarm (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2428,14 +2555,15 @@ module.exports.regardDeviceAlarm = function regardDeviceAlarm (req, res, next, b
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.regardDeviceAttributeValueChange = function regardDeviceAttributeValueChange (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2447,14 +2575,15 @@ module.exports.regardDeviceAttributeValueChange = function regardDeviceAttribute
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.regardDeviceObjectCreation = function regardDeviceObjectCreation (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2466,14 +2595,15 @@ module.exports.regardDeviceObjectCreation = function regardDeviceObjectCreation 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.regardDeviceObjectDeletion = function regardDeviceObjectDeletion (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -2485,12 +2615,13 @@ module.exports.regardDeviceObjectDeletion = function regardDeviceObjectDeletion 
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };

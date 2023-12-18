@@ -8240,6 +8240,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {
@@ -8322,6 +8323,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
     if (result != undefined) {
       let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
       if (finalJson != undefined) {
+        modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
         finalJson = finalJson[objectKey];
         if (myFields != undefined) {

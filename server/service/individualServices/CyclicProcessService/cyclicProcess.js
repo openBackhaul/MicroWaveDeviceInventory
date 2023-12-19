@@ -3,7 +3,7 @@
 const { strict } = require('assert');
 const { setTimeout } = require('timers');
 const path = require("path");
-const individualServices = require( "../../IndividualServicesService.js");
+const individualServicesService = require( "../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 // SIMULATION
@@ -29,8 +29,26 @@ let coreModelPrefix = ''
  * REST request simulator with random delay
  */
 async function sendRequest(device) {    
-    try {        
-        let ret = await individualServices.getLiveControlConstruct('/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device['node-id'])
+    try {
+        let req = {
+            'url': '/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device['node-id'],
+            'body': {} 
+        }
+        let fields = "";
+        let mountName = "";
+        let user = "User Name";
+        let originator = "MicroWaveDeviceInventory";
+        let xCorrelator = "550e8400-e29b-11d4-a716-446655440000";
+        let traceIndicator = "1.3.1";
+        let customerJourney = "Unknown value";
+        let ret = await individualServicesService.getLiveControlConstruct(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
+        
+        let responseCode = 200;  // OK        
+        let responseBodyToDocument = {};
+        responseBodyToDocument = ret;
+        var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
+        executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+        
         return {
             'ret': ret,
             'node-id': device['node-id']
@@ -321,7 +339,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     let odlDeviceList;
     try {
         if (simulationProgress == false) {
-            odlDeviceList = await individualServices.getLiveDeviceList();
+            odlDeviceList = await individualServicesService.getLiveDeviceList();
         } else if (simulationProgress == true) {
             odlDeviceList = await startModule.getNewDeviceListExp();
         }        
@@ -341,7 +359,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*','color:yellow','color:green','color:red', 'color:inherits');
     console.log('*                                                                                                     *');
     
-    let esDeviceList = await individualServices.readDeviceListFromElasticsearch();
+    let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
     
     //
     // Calculate common elements and drop elements of ES-DL and print ES-DL
@@ -493,7 +511,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     // Write new ODL-DL to Elasticsearch
     //
     try {
-        await individualServices.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
+        await individualServicesService.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
         printLog('* Update new device list to Elasticsearch', print_log_level >= 2);
     } catch (error) {
         console.log(error);
@@ -516,7 +534,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     for (let i = 0; i < dropEsElements.length; i++) {
         let cc_id = dropEsElements[i]['node-id'];
-        let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+        let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
         printLog('* ' + ret.result, print_log_level >= 2);
     }
     console.log('*******************************************************************************************************');
@@ -565,7 +583,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('*******************************************************************************************************');
     let odlDeviceList;
     try {
-        odlDeviceList = await individualServices.getLiveDeviceList();        
+        odlDeviceList = await individualServicesService.getLiveDeviceList();        
     } catch (error) {
         console.log(error);
         return;
@@ -574,7 +592,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     //printLog(printList('Device List (ODL)', odlDeviceList), print_log_level >= 1);
 
     try {
-        let elasticsearchList = await individualServices.readDeviceListFromElasticsearch();
+        let elasticsearchList = await individualServicesService.readDeviceListFromElasticsearch();
         //printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
         //
         // Calculate common elements and drop elements of ES-DL and print the ES-DL
@@ -664,7 +682,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         //
         for (let i = 0; i < dropEsElements.length; i++) {
             let cc_id = dropEsElements[i]['node-id'];
-            let ret = await individualServices.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+            let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
             printLog(ret.result, print_log_level >= 2);
         }
 
@@ -681,7 +699,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     
     let odlDeviceListString = JSON.stringify(odlDeviceList);
     try {
-        await individualServices.writeDeviceListToElasticsearch(odlDeviceListString);
+        await individualServicesService.writeDeviceListToElasticsearch(odlDeviceListString);
     } catch (error) {
         console.log(error);        
     }         

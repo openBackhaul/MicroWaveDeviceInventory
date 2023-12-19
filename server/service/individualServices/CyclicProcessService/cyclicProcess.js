@@ -23,7 +23,8 @@ let deviceList = [];
 let lastDeviceListIndex = -1;
 let print_log_level = 2;    
 let synchInProgress = false;
-let coreModelPrefix = ''
+let coreModelPrefix = '';
+var procedureIsRunning = false;
 
 /**
  * REST request simulator with random delay
@@ -554,14 +555,19 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
  **/
 module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {    
     
+    if (procedureIsRunning) {
+        return;
+    }
+    procedureIsRunning = true;
+
     async function extractProfileConfiguration(uuid) {
         const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
         let profile = await profileCollection.getProfileAsync(uuid);
         let objectKey = Object.keys(profile)[2];
         profile = profile[objectKey];
         return profile["integer-profile-configuration"]["integer-value"];
-    }
-        
+    }    
+    
     const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
     const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
     coreModelPrefix = forwardingConstruct.name[0].value.split(':')[0];

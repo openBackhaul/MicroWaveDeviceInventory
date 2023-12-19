@@ -8,7 +8,7 @@ var serverPort = 8080;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
-const startModule = require('./temporarySupportFiles/StartModule.js');
+
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 appCommons.openApiValidatorOptions.validateSecurity = false;
@@ -45,9 +45,5 @@ prepareElasticsearch(false).catch(err => {
         console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
     appCommons.performApplicationRegistration();
-
-    /******************* CYCLIC PROCESS START POINT **********************/
-     startModule.start()
-    /*********************************************************************/
 }
 );

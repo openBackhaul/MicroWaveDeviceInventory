@@ -1,7 +1,7 @@
 'use strict';
 
 const { strict } = require('assert');
-const { setTimeout } = require('timers');
+const { setTimeout, clearInterval } = require('timers');
 const path = require("path");
 const individualServicesService = require( "../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
@@ -13,6 +13,7 @@ let simulationProgress = false;
 // SIMULATION
 
 const DEVICE_NOT_PRESENT = -1;
+const TTL_CHECKING_TIMER = 1000;
 let deviceListSyncPeriod = 24;
 let maximumNumberOfRetries = 1;
 let responseTimeout = 600;
@@ -25,6 +26,8 @@ let print_log_level = 2;
 let synchInProgress = false;
 let coreModelPrefix = '';
 var procedureIsRunning = false;
+var periodicSynchTimerId = 0;
+var ttlCheckingTimerId = 0;
 
 /**
  * REST request simulator with random delay
@@ -44,6 +47,10 @@ async function sendRequest(device) {
         let customerJourney = "Unknown value";
         let ret = await individualServicesService.getLiveControlConstruct(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
         
+        if (procedureIsRunning == false) {
+            return;
+        }
+
         let responseCode = 200;  // OK        
         let responseBodyToDocument = {};
         responseBodyToDocument = ret;
@@ -216,8 +223,10 @@ async function startTtlChecking() {
                     }                
                 }
             }
-        }        
-        setInterval(upgradeTtl, 1000);
+        }
+        if (procedureIsRunning) {
+            ttlCheckingTimerId = setInterval(upgradeTtl, TTL_CHECKING_TIMER);
+        }
     } catch(error) {
         console.log("%cError in startTtlChecking (" + error + ")", "color:red");
         debugger;
@@ -298,7 +307,9 @@ async function requestMessage(index) {
                     busy = false;
                 }
             } while (busy == true);
-            manageResponse(retObj);            
+            if (procedureIsRunning) {
+                manageResponse(retObj);
+            }
         })
     } catch(error) {
         console.log("%cError in requestMessage (" + error + ")", "color:red");
@@ -335,7 +346,9 @@ function getTime() {
  */
 module.exports.deviceListSynchronization = async function deviceListSynchronization() {
     
-    synchInProgress = true;
+    if (procedureIsRunning == false) {
+        return;
+    }
 
     let odlDeviceList;
     try {
@@ -728,10 +741,28 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     //
     const periodicSynchTime = deviceListSyncPeriod * 3600 * 1000;
     const { deviceListSynchronization } = module.exports;
-    setInterval(deviceListSynchronization, periodicSynchTime);
+    periodicSynchTimerId = setInterval(deviceListSynchronization, periodicSynchTime);
     //
     // TTL checking
     //
     startTtlChecking();
     return true;
+}
+
+/**
+ * Stops the cyclic process disabling the time to live check
+ * 
+ **/
+module.exports.stopCyclicProcess = async function stopCyclicProcess() { 
+
+    console.log('*******************************************************************************************************');
+    console.log('*                             CYCLIC PROCESS PROCEDURE STOPPED                                        *');
+    console.log('*                                                                                                     *');
+    console.log('*                                 ( ' + getTime() + ' )                                             *');
+    console.log('*                                                                                                     *');
+    console.log('*******************************************************************************************************');
+
+    procedureIsRunning = false;
+    clearInterval(periodicSynchTimerId);
+    clearInterval(ttlCheckingTimerId);
 }

@@ -32,6 +32,9 @@ const { getLiveControlConstruct } = require('../controllers/IndividualServices')
 const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const axios = require('axios');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
+
 
 
 /**
@@ -47,13 +50,13 @@ const axios = require('axios');
  **/
 exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-  
+
     let newApplicationDetails = body;
     let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
     let newReleaseNumber = body["new-application-release"];
-  
+
     if (newReleaseNumber !== currentReleaseNumber) {
-  
+
       softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
         .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
     }
@@ -4818,7 +4821,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             modifyReturnJson(jsonObj)
             resolve(jsonObj);
           }
-         
+
         }
       }
     }
@@ -8384,12 +8387,12 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     const parsedUrl = urlf.parse(urlString);
 
     const simulatedReq = {
-      url: parsedUrl.path 
+      url: parsedUrl.path
     };
 
     if (attributeName == 'connection-status' && newValue == 'connected') {
       try {
-        let ret = await getLiveControlConstruct( simulatedReq, user, originator, xCorrelator, traceIndicator, customerJourney);
+        let ret = await getLiveControlConstruct(simulatedReq, user, originator, xCorrelator, traceIndicator, customerJourney);
         console.log("")
       } catch (error) {
         console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
@@ -8610,7 +8613,7 @@ exports.writeDeviceListToElasticsearch = function (deviceList) {
       resolve(true);
     } else {
       reject("Error in writing device list to elasticsearch.")
-    }    
+    }
   })
 }
 
@@ -8724,6 +8727,73 @@ async function sentDataToRequestor(body, user, originator, xCorrelator, traceInd
   }
 }
 
+
+exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (user, originator, xCorrelator, traceIndicator, customerJourney) {
+  try {
+    const forwardingName = "PromptForEmbeddingCausesSubscribingForNotifications";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
+    }
+    let fcPortInputDirectionLogicalTerminationPointList = [];
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+  
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.INPUT === portDirection) {
+        fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
+  
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
+  
+    const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+    let applicationName = await HttpServerInterface.getApplicationNameAsync();
+    let applicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+  
+    let tcpClientLocalAddress = await tcpServerInterface.getLocalAddressOfTheProtocol('HTTP')
+    let tcpClientLocalport = await tcpServerInterface.getLocalPortOfTheProtocol('HTTP')
+  
+    for (const opLtpUuidOutput of fcPortOutputDirectionLogicalTerminationPointList) {
+      //let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[0];
+      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
+      const operation = await OperationClientInterface.getOperationNameAsync(opLtpUuidOutput);
+      let httpRequestHeader = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(new RequestHeader(user, originator, xCorrelator, traceIndicator, customerJourney, key));
+      let httpRequestBody = {
+        "subscribing-application-name": applicationName,
+        "subscribing-application-release": applicationReleaseNumber,
+        "subscribing-application-protocol": "HTTP",
+        "subscribing-application-address": {
+          "ip-address": {
+            "ipv-4-address": tcpClientLocalAddress
+          }
+        },
+        "subscribing-application-port": tcpClientLocalport,
+        "notifications-receiving-operation": operation
+      }
+  
+      let response = await RequestBuilder.BuildAndTriggerRestRequest(opLtpUuidOutput, "POST", httpRequestHeader, httpRequestBody);
+      let responseCodeValue = response.status.toString();
+        if (responseCodeValue.startsWith("2")) {
+          console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+        }
+        console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+    }
+  
+  } catch (error) {
+    console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
+    return false;
+  }
+}
 
 async function NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache() {
   const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
@@ -8890,13 +8960,13 @@ async function NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(c
   return applicationNameList;
 }
 
-async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache (counter) {
+async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counter) {
   const forwardingName = "NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {
     return null;
   }
-  
+
   const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
   let fcPortOutputDirectionLogicalTerminationPointList = [];
   for (const fcPort of fcPortList) {

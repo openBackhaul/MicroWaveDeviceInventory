@@ -2530,7 +2530,7 @@ module.exports.regardControllerAttributeValueChange = function regardControllerA
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  IndividualServices.regardControllerAttributeValueChange(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.regardControllerAttributeValueChange(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);

@@ -54,11 +54,28 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
     let size = urlSegments.length;
     lastUrlSegment = urlSegments[size-1];
     penultimateUrlSegment = urlSegments[size-2];
+    let targetPartIndex = -1;
+    for (let i = urlSegments.length - 1; i >= 0; i--) {
+        if (urlSegments[i].includes(':')) {
+            targetPartIndex = i;
+            break;
+        }
+    }
+    let fullPrefix = urlSegments[targetPartIndex].split(':');
+    let prefix = fullPrefix[0];
     if (penultimateUrlSegment.indexOf(":") != -1 && lastUrlSegment.indexOf("control-construct") == -1) {
         const parts1 = penultimateUrlSegment.split(':');
+        if (lastUrlSegment.indexOf("+") != -1){
+            const parts = lastUrlSegment.split('+');
+            lastUrlSegment = parts[1];
+        }
         topJsonWrapper = parts1[0] + ":" + lastUrlSegment;
         returnObject = { [topJsonWrapper]: currentJSON };
     } else if (lastUrlSegment.indexOf(":") != -1){
+        if (lastUrlSegment.indexOf("+") != -1){
+            const parts = lastUrlSegment.split('+');
+            lastUrlSegment = parts[1];
+        }
         topJsonWrapper =  lastUrlSegment;
         returnObject = { [topJsonWrapper]: currentJSON };
     } else if (lastUrlSegment.indexOf("=") != -1) {
@@ -70,7 +87,10 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
             returnObject = { [topJsonWrapper]: [currentJSON[0]] };
         }
     } else {
-        topJsonWrapper = parts[0] + ":" + lastUrlSegment;
+        if (isIPAddress(prefix) || prefix == "localhost"){
+            prefix = parts[0];
+        }
+        topJsonWrapper = prefix + ":" + lastUrlSegment;
         returnObject = { [topJsonWrapper]: currentJSON };
     }
 
@@ -84,3 +104,9 @@ function notFoundError(message) {
     };
     return myJson;
   }
+
+const net = require('net');
+
+function isIPAddress(input) {
+  return net.isIP(input) !== 0; // Return 0 if the string is not a valid IP address
+}

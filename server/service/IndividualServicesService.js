@@ -8386,13 +8386,27 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     const urlf = require('url');
     const parsedUrl = urlf.parse(urlString);
 
-    const simulatedReq = {
-      url: parsedUrl.path
+  /*  const simulatedReq = {
+      url: parsedUrl.path,
     };
+    simulatedReq.openapi = {
+      openApiRoute: parsedUrl.path.replace(/=(\d+)/, '={mountName}')
+    }
+    */
+    const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
+      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      // Parse the URL
+      const parsedNewUrl = new URL(tempUrl);
 
+      // Construct the base URL
+      const baseUrl = `${parsedNewUrl.protocol}//${parsedNewUrl.host}`;
+      const finalUrl = baseUrl + urlString;
+
+  //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
     if (attributeName == 'connection-status' && newValue == 'connected') {
       try {
-        let ret = await getLiveControlConstruct(simulatedReq, user, originator, xCorrelator, traceIndicator, customerJourney);
+        let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+        //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
         console.log("")
       } catch (error) {
         console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
@@ -8401,7 +8415,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     } else if (attributeName == 'connection-status' && newValue !== 'connected') {
       let indexAlias = await getIndexAliasAsync();
       let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
-      printLog('* ' + ret.result, print_log_level >= 2);
+      console.log('* ' + ret.result);
     }
     resolve();
   });

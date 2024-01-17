@@ -1,4 +1,4 @@
-exports.cacheResponseBuilder = function (url, currentJSON) {
+exports.cacheResponseBuilder = async function (url, currentJSON) {
     let objectKey = Object.keys(currentJSON)[0];
     currentJSON = currentJSON[objectKey];
     const parts = objectKey.split(':');

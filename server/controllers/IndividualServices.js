@@ -26,6 +26,46 @@ module.exports.bequeathYourDataAndDie = function bequeathYourDataAndDie (req, re
   });
 };
 
+module.exports.deleteCachedLink = function deleteCachedLink (req, res, next, fields, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = {};
+  IndividualServices.deleteCachedLink(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, fields)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
+};
+
+module.exports.deleteCachedLinkPort = function deleteCachedLinkPort (req, res, next, fields, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = {};
+  IndividualServices.deleteCachedLinkPort(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, localId, fields)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
+};
+
 module.exports.getCachedActualEquipment = function getCachedActualEquipment (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
@@ -579,6 +619,46 @@ module.exports.getCachedHybridMwStructureStatus = function getCachedHybridMwStru
   })
   .catch(async function (responseBody) {
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
+};
+
+module.exports.getCachedLink = function getCachedLink (req, res, next, fields, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.getCachedLink(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, fields)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
+};
+
+module.exports.getCachedLinkPort = function getCachedLinkPort (req, res, next, fields, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.getCachedLinkPort(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, localId, fields)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
     let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
     responseCode = sentResp.code;
     responseBodyToDocument = sentResp.body;
@@ -2524,13 +2604,74 @@ module.exports.provideListOfDeviceInterfaces = function provideListOfDeviceInter
     responseBodyToDocument = sentResp.body;
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+};
+
+module.exports.provideListOfParallelLinks = function provideListOfParallelLinks (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.provideListOfParallelLinks(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
+};
+
+module.exports.putLinkPortToCache = function putLinkPortToCache (req, res, next, body, fields, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = {};
+  IndividualServices.putLinkPortToCache(req.url, body, fields, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
+};
+
+module.exports.putLinkToCache = function putLinkToCache (req, res, next, body, fields, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = {};
+  IndividualServices.putLinkToCache(req.url, body, fields, uuid, user, originator, xCorrelator, traceIndicator, customerJourney)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  });
 };
 
 module.exports.regardControllerAttributeValueChange = function regardControllerAttributeValueChange (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  IndividualServices.regardControllerAttributeValueChange(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.regardControllerAttributeValueChange(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);

@@ -9015,7 +9015,8 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
     const httpClientLtpUuid = httpLtpUuidList[0];
     let applicationName = 'api';
     const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    let prefix = opLtpUuid.split('op')[0];
+    const key = await extractProfileConfiguration(prefix + "file-p-000");
     let url = "";
     let tcpConn = "";
     if (opLtpUuid.includes("odl")) {

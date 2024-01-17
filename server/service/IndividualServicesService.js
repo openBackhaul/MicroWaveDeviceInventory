@@ -63,6 +63,104 @@ exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrela
   });
 }
 
+/**
+ * Deletes Link from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * no response value expected for this operation
+ **/
+exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      let correctLink = null;
+      let link = decodeLinkUuid(url, true);
+      if (typeof link === 'object') {
+        throw new createHttpError(link[0].code, link[0].message);
+        return;
+      } else {
+        correctLink = link;
+      }
+      let result = await ReadRecords(correctLink);
+      if (result != undefined) {
+        let ret = await deleteRequest(correctLink);
+        let listLink = await ReadRecords("linkList");
+        if (listLink.LinkList.includes(correctLink)) {
+          listLink.LinkList.pop(correctLink);
+          let elapsedTime = await recordRequest(listLink, "linkList");
+        }
+      }
+      let listLink = await ReadRecords("linkList");
+      if (listLink.LinkList.includes(correctLink)) {
+        listLink.LinkList.pop(correctLink);
+        let elapsedTime = await recordRequest(listLink, "linkList");
+      }
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Deletes LinkPort from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * no response value expected for this operation
+ **/
+exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      let correctLink = null;
+      let link = uuid;//decodeLinkUuid(url, true);
+      let id = localId;
+      var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      const matchLink = format.test(link);
+      const matchId = format.test(id);
+      if (matchLink || matchId){
+        throw new createHttpError("400", "Fields must not contain special chars");
+      }
+      if (typeof link === 'object') {
+        throw new createHttpError(link[0].code, link[0].message);
+      } else {
+        correctLink = link;
+      }
+      let result = await ReadRecords(correctLink);
+      if (result != undefined) {
+        let objectKey = Object.keys(result)[0];
+        //result = result[objectKey];
+        //const objectKeyParts = objectKey.split(":");
+        //let prefix = objectKeyParts[0];
+        //let topJsonWrapper = prefix + ":link-port";
+        //const linkPortArray = result[objectKey][0]["link-port"].filter(
+        //  port => port["local-id"] === localId
+        //);
+        result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
+        let elapsedTime = await recordRequest(result, correctLink);
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+      }
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 /**
  * Provides ActualEquipment from cache
@@ -100,7 +198,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -165,7 +263,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -230,7 +328,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -295,7 +393,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -360,7 +458,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -423,7 +521,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -486,7 +584,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -549,7 +647,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -613,7 +711,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -677,7 +775,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -742,7 +840,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -807,7 +905,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -870,7 +968,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -933,7 +1031,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -997,7 +1095,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1062,7 +1160,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1127,7 +1225,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1192,7 +1290,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1257,7 +1355,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1322,7 +1420,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1385,7 +1483,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1449,7 +1547,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1513,7 +1611,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1577,7 +1675,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1642,7 +1740,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1707,7 +1805,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1772,7 +1870,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1837,7 +1935,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1859,6 +1957,96 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       resolve(returnObject);
     } catch (error) {
       console.log(error);
+      reject(error);
+    }
+  });
+}
+
+/**
+ * Provides Link from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_35
+ **/
+exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      let correctLink = null;
+      let link = decodeLinkUuid(url, true);
+      if (typeof link === 'object') {
+        throw new createHttpError(link[0].code, link[0].message);
+        return;
+      } else {
+        correctLink = link;
+      }
+      let result = await ReadRecords(correctLink);
+      if (result != undefined) {
+        resolve(result);
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides LinkPort from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_36
+ **/
+exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, uuid, localId, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      let correctLink = null;
+      let link = uuid;//decodeLinkUuid(url, true);
+      let id = localId;
+      var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      const matchLink = format.test(link);
+      const matchId = format.test(id);
+      if (matchLink || matchId){
+        throw new createHttpError("400", "Fields must not contain special chars");
+      }
+      if (typeof link === 'object') {
+        throw new createHttpError(link[0].code, link[0].message);
+        return;
+      } else {
+        correctLink = link;
+      }
+      let result = await ReadRecords(correctLink);
+      if (result != undefined) {
+        let objectKey = Object.keys(result)[0];
+        result = result[objectKey];
+        const objectKeyParts = objectKey.split(":");
+        let prefix = objectKeyParts[0];
+        let topJsonWrapper = prefix + ":link-port";
+        const linkPortArray = result[0]["link-port"].find(
+          port => port["local-id"] === id
+        );
+        let returnObject = { [topJsonWrapper]: [linkPortArray] };
+        resolve(returnObject);
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+      }
+    } catch (error) {
       reject(error);
     }
   });
@@ -2048,7 +2236,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2113,7 +2301,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2178,7 +2366,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2243,7 +2431,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2307,7 +2495,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2371,7 +2559,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2435,7 +2623,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2498,7 +2686,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2562,7 +2750,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2627,7 +2815,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2692,7 +2880,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2757,7 +2945,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2821,7 +3009,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2885,7 +3073,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2949,7 +3137,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3013,7 +3201,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3078,7 +3266,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3143,7 +3331,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3208,7 +3396,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3273,7 +3461,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3338,7 +3526,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3403,7 +3591,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3468,7 +3656,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3533,7 +3721,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3597,7 +3785,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3661,7 +3849,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3725,7 +3913,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3789,7 +3977,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4800,7 +4988,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               console.log(error);
             }
             modifyReturnJson(jsonObj);
-            let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
+            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
             resolve(res);
           } else {
             let filters = true;
@@ -8232,44 +8420,48 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
  **/
 exports.provideListOfActualDeviceEquipment = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let urlParts = url.split("?fields=");
-    let mountName = body['mountName'];
-    const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    let returnObject = {};
-    let parts = finalUrl.split("?fields=");
-    let myFields = parts[1];
-    let result = await ReadRecords(mountName);
-    if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+    try {
+      let urlParts = url.split("?fields=");
+      let mountName = body['mountName'];
+      const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      let returnObject = {};
+      let parts = finalUrl.split("?fields=");
+      let myFields = parts[1];
+      let result = await ReadRecords(mountName);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          const transformedData = {
+            "top-level-equipment": finalJson[0]["top-level-equipment"],
+            "actual-equipment-list": finalJson[0]["equipment"].map((item) => {
+              return {
+                uuid: item.uuid,
+                "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"],
+              };
+            }),
+          };
+          returnObject = transformedData;
+        } else {
+          returnObject = notFoundError();
         }
-        const transformedData = {
-          "top-level-equipment": finalJson[0]["top-level-equipment"],
-          "actual-equipment-list": finalJson[0]["equipment"].map((item) => {
-            return {
-              uuid: item.uuid,
-              "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"],
-            };
-          }),
-        };
-        returnObject = transformedData;
       } else {
         returnObject = notFoundError();
       }
-    } else {
-      returnObject = notFoundError();
+      resolve(returnObject);
+    } catch (error) {
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -8286,16 +8478,20 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
  **/
 exports.provideListOfConnectedDevices = function (url, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let mountname = "DeviceList"
-    let returnObject = {};
-    let result = await ReadRecords(mountname);
-    if (result != undefined) {
-      const outputJson = {
-        "mount-name-list": result.deviceList.map(item => item["node-id"])
-      };
-      resolve(outputJson);
-    } else {
-      resolve(notFoundError());
+    try {
+      let mountname = "DeviceList"
+      let returnObject = {};
+      let result = await ReadRecords(mountname);
+      if (result != undefined) {
+        const outputJson = {
+          "mount-name-list": result.deviceList.map(item => item["node-id"])
+        };
+        resolve(outputJson);
+      } else {
+        resolve(notFoundError());
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 }
@@ -8324,7 +8520,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
     let myFields = parts[1];
     let result = await ReadRecords(mountName);
     if (result != undefined) {
-      let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
+      let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
       if (finalJson != undefined) {
         modifyReturnJson(finalJson);
         let objectKey = Object.keys(finalJson)[0];
@@ -8357,6 +8553,147 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
   });
 }
 
+/**
+ * Provides list of Links between the same ControlConstructs
+ *
+ * body V1_providelistofparallellinks_body 
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_3
+ **/
+exports.provideListOfParallelLinks = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let linkId = body['link-id'];
+      let parallelLink = [linkId];
+      let linkToCompare = await ReadRecords(linkId);
+      const controlConstructList = linkToCompare["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+      let result = await ReadRecords("linkList");
+      for (var link of result.LinkList) {
+        if (link != linkId) {
+          let resLink = await ReadRecords(link);
+          const ccList = resLink["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+          if (arraysHaveSameElements(controlConstructList, ccList)) {
+            parallelLink.push(link);
+          }
+        }
+      }
+      const outputJson = { "parallel-link-list": parallelLink };
+      resolve(outputJson);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Writes LinkPort to cache
+ *
+ * body Linkuuid_linkportlocalId_body 
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * no response value expected for this operation
+ **/
+exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      let correctLink = null;
+      let link = uuid; //decodeLinkUuid(url, true);
+      var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      const matchLink = format.test(link);
+      if (matchLink){
+        throw new createHttpError("400", "Fields must not contain special chars");
+      }
+      if (typeof link === 'object') {
+        throw new createHttpError(link[0].code, link[0].message);
+        return;
+      } else {
+        correctLink = link;
+      }
+      let value = await ReadRecords(correctLink);
+      let result = await ReadRecords("linkList");
+      if (result != undefined) {
+        let objectKey = Object.keys(body)[0];
+        let valueObjKey = Object.keys(value)[0];
+        body = body[objectKey];
+        for (let i = 0; i < body.length; i++) {
+          const linkPortArray = value[valueObjKey][0]["link-port"].push(
+            body[i]
+          );
+        }
+        let elapsedTime = await recordRequest(value, correctLink);
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+      }
+      resolve();
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Writes Link to cache
+ *
+ * body Coremodel14networkcontroldomaincache_linkuuid_body 
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * uuid String Instance identifier that is unique within the device
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * no response value expected for this operation
+ **/
+exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      let correctLink = null;
+      let link = decodeLinkUuid(url, true);
+      if (typeof link === 'object') {
+        throw new createHttpError(link[0].code, link[0].message);
+        return;
+      } else {
+        correctLink = link;
+      }
+      let elapsedTime = await recordRequest(body, correctLink);
+      let result = await ReadRecords("linkList");
+      if (result == undefined) {
+        console.log("link list in Elasticsearch not found");
+        const myObject = { LinkList: [] };
+        myObject.LinkList.push(correctLink);
+        let elapsedTime = await recordRequest(myObject, "linkList");
+      } else {
+        let linkListArray = result["LinkList"];
+        // Verify if link already exists in linklist
+        if (!linkListArray.includes(correctLink)) {
+          result.LinkList.push(correctLink);
+          let elapsedTime = await recordRequest(result, "linkList");
+        }
+      }
+      resolve();
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+
+  });
+}
+
 
 /**
  * Receives notifications about attribute value changes at the Controller
@@ -8386,23 +8723,15 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     const urlf = require('url');
     const parsedUrl = urlf.parse(urlString);
 
-  /*  const simulatedReq = {
-      url: parsedUrl.path,
-    };
-    simulatedReq.openapi = {
-      openApiRoute: parsedUrl.path.replace(/=(\d+)/, '={mountName}')
-    }
-    */
     const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
-      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
-      // Parse the URL
-      const parsedNewUrl = new URL(tempUrl);
+    const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+    // Parse the URL
+    const parsedNewUrl = new URL(tempUrl);
+    // Construct the base URL
+    const baseUrl = `${parsedNewUrl.protocol}//${parsedNewUrl.host}`;
+    const finalUrl = baseUrl + urlString;
 
-      // Construct the base URL
-      const baseUrl = `${parsedNewUrl.protocol}//${parsedNewUrl.host}`;
-      const finalUrl = baseUrl + urlString;
-
-  //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
     if (attributeName == 'connection-status' && newValue == 'connected') {
       try {
         let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
@@ -8751,7 +9080,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
     }
     let fcPortInputDirectionLogicalTerminationPointList = [];
     let fcPortOutputDirectionLogicalTerminationPointList = [];
-  
+
     const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
     for (const fcPort of fcPortList) {
       const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
@@ -8759,24 +9088,24 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
         fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
       }
     }
-  
+
     for (const fcPort of fcPortList) {
       const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
       if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
         fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
       }
     }
-  
+
     const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
     const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
     const httpClientLtpUuid = httpLtpUuidList[0];
     let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
     let applicationName = await HttpServerInterface.getApplicationNameAsync();
     let applicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
-  
+
     let tcpClientLocalAddress = await tcpServerInterface.getLocalAddressOfTheProtocol('HTTP')
     let tcpClientLocalport = await tcpServerInterface.getLocalPortOfTheProtocol('HTTP')
-  
+
     for (const opLtpUuidOutput of fcPortOutputDirectionLogicalTerminationPointList) {
       //let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[0];
       const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
@@ -8794,15 +9123,15 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
         "subscribing-application-port": tcpClientLocalport,
         "notifications-receiving-operation": operation
       }
-  
+
       let response = await RequestBuilder.BuildAndTriggerRestRequest(opLtpUuidOutput, "POST", httpRequestHeader, httpRequestBody);
       let responseCodeValue = response.status.toString();
-        if (responseCodeValue.startsWith("2")) {
-          console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
-        }
+      if (responseCodeValue.startsWith("2")) {
         console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+      }
+      console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
     }
-  
+
   } catch (error) {
     console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
     return false;
@@ -9031,7 +9360,6 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
      return null;
    } */
   let applicationNameList = [];
-  let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
   for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
     //const opLtpUuid = fcPortOutputDirectionLogicalTerminationPointList[0];
     const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
@@ -9039,17 +9367,18 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
     let applicationName = 'api';
     /*const applicationName = await httpClientInterface.getApplicationNameAsync(httpClientLtpUuid);*/
     const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    let prefix = opLtpUuid.split('op')[0];
+    const key = await extractProfileConfiguration(prefix + "file-p-000");
     let url = "";
     let tcpConn = "";
     if (opLtpUuid.includes("odl")) {
       applicationName = "OpenDayLight";
       tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-      url = retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+      url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
     } else if (opLtpUuid.includes("es")) {
       tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
       applicationName = "ElasticSearch";
-      url = retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+      url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
     }
     const applicationNameData = applicationName === undefined ? {
       applicationName: null,
@@ -9092,7 +9421,7 @@ function getConfiguredRemoteAddress(remoteAddress) {
   return remoteAddress;
 }
 
-function retrieveCorrectUrl(originalUrl, path, applicationName) {
+async function retrieveCorrectUrl(originalUrl, path, applicationName) {
   const urlParts = originalUrl.split("?fields=");
   const myFields = urlParts[1];
   let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
@@ -9235,6 +9564,26 @@ async function recordRequest(body, cc) {
     index: indexAlias,
     id: cc,
     body: body
+  });
+  let backendTime = process.hrtime(startTime);
+  if (result.body.result == 'created' || result.body.result == 'updated') {
+    return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+  }
+}
+
+/**
+ * delete a request
+ *
+ * body controlconstruct 
+ * no response value expected for this operation
+ **/
+async function deleteRequest(cc) {
+  let indexAlias = await getIndexAliasAsync();
+  let client = await elasticsearchService.getClient(false);
+  let startTime = process.hrtime();
+  let result = await client.delete({
+    id: cc,
+    index: indexAlias
   });
   let backendTime = process.hrtime(startTime);
   if (result.body.result == 'created' || result.body.result == 'updated') {
@@ -9418,4 +9767,99 @@ function decodeMountName(url, cc) {
     response.push(responseData);
     return response;
   }
+}
+
+function decodeLinkUuid(url, uuid) {
+  let response = [];
+  let responseData = null;
+  let regex = "";
+  let specialChars = "";
+  let extractedValue = "";
+  if (uuid) {
+    regex = /link=([^?&]*)(\?fields|$)?/;
+    specialChars = /[^a-zA-Z0-9+]/;
+  } else {
+    regex = /link=([^/]+)\/?/;
+    specialChars = /[^a-zA-Z0-9+]/;
+  }
+  const match = decodeURIComponent(url).match(regex);
+
+  if (match) {
+    if (uuid) {
+      extractedValue = match[1];
+      if (!match[2]) {
+        const startIndex = url.indexOf("link=") + "link=".length;
+        extractedValue = url.substring(startIndex);
+      }
+    } else {
+      extractedValue = match[1];
+    }
+    if (!specialChars.test(extractedValue)) {
+      if (extractedValue.indexOf("+") != -1) {
+        let parts = extractedValue.split("+");
+        if (parts[1] != "" && parts[1] == parts[0]) {
+          return parts[0];
+        } else {
+          responseData = {
+            code: "400",
+            message: "link must not contain special char"
+          }
+          response.push(responseData);
+          return response;
+        }
+      } else {
+        return extractedValue;
+      }
+    } else {
+      responseData = {
+        code: "400",
+        message: "link must not contain special char"
+      }
+      response.push(responseData);
+      return response;
+    }
+  } else {
+    responseData = {
+      code: "400",
+      message: "no match found or wrong char at the end of the string"
+    }
+    response.push(responseData);
+    return response;
+  }
+}
+
+async function extractProfileConfiguration(uuid) {
+  const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+  let profile = await profileCollection.getProfileAsync(uuid);
+  let objectKey = Object.keys(profile)[2];
+  profile = profile[objectKey];
+  let filepath = profile["file-profile-configuration"]["file-path"];
+  const fs = require('fs');
+  const data = require(filepath);
+
+  return data["api-key"];
+}
+
+function arraysHaveSameElements(array1, array2) {
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  const frequencyMap = {};
+  for (const element of array1) {
+    frequencyMap[element] = (frequencyMap[element] || 0) + 1;
+  }
+
+  for (const element of array2) {
+    if (!(element in frequencyMap)) {
+      return false;
+    }
+    frequencyMap[element]--;
+
+    if (frequencyMap[element] === 0) {
+      delete frequencyMap[element];
+    }
+  }
+
+  return Object.keys(frequencyMap).length === 0;
 }

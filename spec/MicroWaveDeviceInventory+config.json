@@ -1854,7 +1854,7 @@
             "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-server-interface-1-0:operation-server-interface-pac": {
               "operation-server-interface-capability": {
-                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}"
+                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}"
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -1878,7 +1878,7 @@
             "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-server-interface-1-0:operation-server-interface-pac": {
               "operation-server-interface-capability": {
-                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}"
+                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}"
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -1902,7 +1902,7 @@
             "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-server-interface-1-0:operation-server-interface-pac": {
               "operation-server-interface-capability": {
-                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}"
+                "operation-name": "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}"
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",

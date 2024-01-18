@@ -289,8 +289,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-241
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-s-is-242
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-244
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-1-0-op-s-is-250
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
@@ -409,10 +407,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-541
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-s-is-542
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-        uuid: mwdi-1-1-0-op-s-is-543
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-544
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-1-0-op-s-is-550
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
@@ -953,8 +947,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-241
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-242
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-get-es-1-0-0-244
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-250
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
@@ -1068,8 +1060,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-541
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-542
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-put-es-1-0-0-544
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-550
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
@@ -1207,10 +1197,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-541
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-542
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-        uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-543
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-544
 
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-550
@@ -1345,8 +1331,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-841
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-842
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-del-es-1-0-0-844
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-850
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
@@ -2232,21 +2216,6 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-242
-
-  - forwarding-name: RequestForCachedMacInterfaceHistoricalPerformancesCausesReadingFromCache
-    uuid: mwdi-1-1-0-op-fc-is-244
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-244
-    consequent-requests:
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-get-es-1-0-0-244
 
   - forwarding-name: RequestForCachedPureEthernetStructureCapabilityCausesReadingFromCache
     uuid: mwdi-1-1-0-op-fc-is-250
@@ -3211,23 +3180,6 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-542
 
-  - forwarding-name: RequestForLiveMacInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache
-    uuid: mwdi-1-1-0-op-fc-is-544
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-544
-    consequent-requests:
-      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-544
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-put-es-1-0-0-544
-
   - forwarding-name: RequestForLivePureEthernetStructureCapabilityCausesReadingFromDeviceAndWritingIntoCache
     uuid: mwdi-1-1-0-op-fc-is-550
     forwarding-type: InvariantProcessSnippet
@@ -3445,21 +3397,6 @@ forwardings:
     consequent-requests:
       - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance
         uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-533
-
-  - forwarding-name: RequestForLiveMacInterfaceCurrentPerformanceCausesReadingFromDevice
-    uuid: mwdi-1-1-0-op-fc-is-543
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-        uuid: mwdi-1-1-0-op-s-is-543
-    consequent-requests:
-      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-        uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-543
 
   - forwarding-name: RequestForLivePureEthernetStructureCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-1-0-op-fc-is-553

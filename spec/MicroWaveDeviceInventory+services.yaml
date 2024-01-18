@@ -179,8 +179,6 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-241
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-1-0-op-s-is-242
-        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-          uuid: mwdi-1-1-0-op-s-is-244
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-1-0-op-s-is-250
@@ -313,10 +311,6 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-541
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-1-0-op-s-is-542
-        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-          uuid: mwdi-1-1-0-op-s-is-543
-        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-          uuid: mwdi-1-1-0-op-s-is-544
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-1-0-op-s-is-550
@@ -482,8 +476,6 @@ clients:
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-241
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-242
-        - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-          uuid: mwdi-1-1-0-op-c-get-es-1-0-0-244
 
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-250
@@ -614,8 +606,6 @@ clients:
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-541
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-542
-        - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-          uuid: mwdi-1-1-0-op-c-put-es-1-0-0-544
 
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-550
@@ -746,8 +736,6 @@ clients:
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-841
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-842
-        - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-          uuid: mwdi-1-1-0-op-c-del-es-1-0-0-844
 
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-850
@@ -1083,10 +1071,6 @@ clients:
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-541
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-542
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-            uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-543
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-            uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-544
 
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-550
@@ -1246,10 +1230,6 @@ clients:
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-541
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-542
-          - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-            uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-543
-          - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-            uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-544
 
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-550

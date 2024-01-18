@@ -257,7 +257,7 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-204
       - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
         uuid: mwdi-1-1-0-op-s-get-is-205, mwdi-1-1-0-op-s-put-is-205, mwdi-1-1-0-op-s-del-is-205
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}
         uuid: mwdi-1-1-0-op-s-get-is-206, mwdi-1-1-0-op-s-put-is-206, mwdi-1-1-0-op-s-del-is-206
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-1-0-op-s-is-210
@@ -2014,7 +2014,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}
         uuid: mwdi-1-1-0-op-s-get-is-206
     consequent-requests:
       - client-name: ElasticSearch://link={uuid}/link-port{localId}
@@ -2977,7 +2977,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}
         uuid: mwdi-1-1-0-op-s-put-is-206
     consequent-requests:
       - client-name: ElasticSearch://link={uuid}/link-port{localId}
@@ -3575,7 +3575,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}
         uuid: mwdi-1-1-0-op-s-del-is-206
     consequent-requests:
       - client-name: ElasticSearch://link={uuid}/link-port{localId}

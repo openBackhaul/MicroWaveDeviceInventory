@@ -225,6 +225,7 @@
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "slidingWindowSize",
+              "purpose": "Size of the sliding window for ControlConstruct retrieval (i.e. parallel number of retrieval requests)",
               "minimum": 1,
               "maximum": 5000
             },
@@ -239,6 +240,7 @@
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "responseTimeout",
+              "purpose": "Timeout for receiving the response of the ControlConstruct retrieval from the Controller",
               "unit": "second",
               "minimum": 5,
               "maximum": 2000
@@ -254,6 +256,7 @@
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "maximumNumberOfRetries",
+              "purpose": "Maximum number of retries for retrieving the ControlConstruct",
               "minimum": 0,
               "maximum": 10
             },
@@ -268,6 +271,7 @@
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "deviceListSyncPeriod",
+              "purpose": "Time period between the sync of MWDI deviceList with list of mounted devices on the Controller.",
               "unit": "hour",
               "minimum": 1,
               "maximum": 72

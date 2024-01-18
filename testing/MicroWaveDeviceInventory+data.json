@@ -292,7 +292,7 @@
                   "string-name": "controllerInternalPathToMountPoint"
                 },
                 "string-profile-configuration": {
-                  "string-name": "rests/data/network-topology:network-topology/topology=topology-netconf"
+                  "string-value": "rests/data/network-topology:network-topology/topology=topology-netconf"
                 }
               }
             },
@@ -304,7 +304,7 @@
                   "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter"
                 },
                 "string-profile-configuration": {
-                  "string-name": "node(node-id;netconf-node-topology:connection-status)"
+                  "string-value": "node(node-id;netconf-node-topology:connection-status)"
                 }
               }
             }

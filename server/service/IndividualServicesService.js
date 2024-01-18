@@ -954,7 +954,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
@@ -963,7 +963,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -4953,7 +4953,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
   return new Promise(async function (resolve, reject) {
     try {
       url = decodeURIComponent(url);
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const urlParts = url.split("?fields=");
       const myFields = urlParts[1];
 
@@ -4966,10 +4966,11 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       } else {
         correctCc = mountname;
       }
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl1 = formatUrlForOdl(decodeURIComponent(url));
+      const finalUrl = formatUrlForOdl(url);
+      const Authorization = common[0].key;
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
           resolve(notFoundError());
@@ -4993,7 +4994,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           } else {
             let filters = true;
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(common[1].url);
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
@@ -9341,7 +9342,7 @@ async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counte
  * the first contains the ODL parameters and the URL to call
  * the second contains the same for ES
  **/
-async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(originalUrl) {
+exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async function() {
   const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {
@@ -9375,20 +9376,20 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
     if (opLtpUuid.includes("odl")) {
       applicationName = "OpenDayLight";
       tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-      url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+      //url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
     } else if (opLtpUuid.includes("es")) {
       tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
       applicationName = "ElasticSearch";
-      url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+      //url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
     }
     const applicationNameData = applicationName === undefined ? {
       applicationName: null,
       httpClientLtpUuid,
-      url: null, key: null
+      tcpConn: null, key: null
     } : {
       applicationName,
       httpClientLtpUuid,
-      url, key
+      tcpConn, key
     };
     applicationNameList.push(applicationNameData);
   }

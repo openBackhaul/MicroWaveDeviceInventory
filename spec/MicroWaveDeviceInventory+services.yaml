@@ -195,8 +195,6 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-260
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
           uuid: mwdi-1-1-0-op-s-is-261
-        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-          uuid: mwdi-1-1-0-op-s-is-264
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-1-0-op-s-is-270
@@ -337,8 +335,6 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-561
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
           uuid: mwdi-1-1-0-op-s-is-563
-        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-          uuid: mwdi-1-1-0-op-s-is-564
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-1-0-op-s-is-570
@@ -502,8 +498,6 @@ clients:
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-260
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-261
-        - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-          uuid: mwdi-1-1-0-op-c-get-es-1-0-0-264
 
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-270
@@ -636,8 +630,6 @@ clients:
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-560
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-561
-        - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-          uuid: mwdi-1-1-0-op-c-put-es-1-0-0-564
 
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-570
@@ -770,8 +762,6 @@ clients:
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-860
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-861
-        - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-          uuid: mwdi-1-1-0-op-c-del-es-1-0-0-864
 
         - operation-name: /control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-870
@@ -1115,8 +1105,6 @@ clients:
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-561
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-563
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-            uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-564
 
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-570
@@ -1280,8 +1268,6 @@ clients:
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-561
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-563
-          - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-            uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-564
 
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-570

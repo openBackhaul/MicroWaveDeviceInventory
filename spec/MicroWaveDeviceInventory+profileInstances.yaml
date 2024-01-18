@@ -122,7 +122,7 @@ profile-instances:
     uuid: 'mwdi-1-1-0-integer-p-000'
     capability:
       integer-name: 'slidingWindowSize'
-      #description: 'Size of the sliding window for ControlConstruct retrieval (i.e. parallel number of retrieval requests)'
+      purpose: 'Size of the sliding window for ControlConstruct retrieval (i.e. parallel number of retrieval requests)'
       minimum: 1
       maximum: 5000
     configuration:
@@ -132,7 +132,7 @@ profile-instances:
     uuid: 'mwdi-1-1-0-integer-p-001'
     capability:
       integer-name: 'responseTimeout'
-      #description: 'Timeout for receiving the response of the ControlConstruct retrieval from the Controller'
+      purpose: 'Timeout for receiving the response of the ControlConstruct retrieval from the Controller'
       unit: 'second'
       minimum: 5
       maximum: 2000
@@ -143,7 +143,7 @@ profile-instances:
     uuid: 'mwdi-1-1-0-integer-p-002'
     capability:
       integer-name: 'maximumNumberOfRetries'
-      #description: 'Maximum number of retries for retrieving the ControlConstruct'
+      purpose: 'Maximum number of retries for retrieving the ControlConstruct'
       minimum: 0
       maximum: 10
     configuration:
@@ -153,7 +153,7 @@ profile-instances:
     uuid: 'mwdi-1-1-0-integer-p-003'
     capability:
       integer-name: 'deviceListSyncPeriod'
-      #description: 'Time period between the sync of MWDI deviceList with list of mounted devices on the Controller.'
+      purpose: 'Time period between the sync of MWDI deviceList with list of mounted devices on the Controller.'
       unit: 'hour'
       minimum: 1
       maximum: 72

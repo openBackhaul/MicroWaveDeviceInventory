@@ -303,8 +303,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-260
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-s-is-261
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-264
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-s-is-270
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
@@ -431,8 +429,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-561
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
         uuid: mwdi-1-1-0-op-s-is-563
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-564
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-s-is-570
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
@@ -971,8 +967,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-260
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-261
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-get-es-1-0-0-264
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-270
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
@@ -1088,8 +1082,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-560
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-561
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-put-es-1-0-0-564
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-570
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
@@ -1237,8 +1229,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-561
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-563
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-564
 
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-570
@@ -1369,8 +1359,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-860
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-861
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-del-es-1-0-0-864
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-870
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
@@ -2349,21 +2337,6 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-261
-
-  - forwarding-name: RequestForCachedVlanInterfaceHistoricalPerformancesCausesReadingFromCache
-    uuid: mwdi-1-1-0-op-fc-is-264
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-264
-    consequent-requests:
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-get-es-1-0-0-264
 
   - forwarding-name: RequestForCachedWireInterfaceCapabilityCausesReadingFromCache
     uuid: mwdi-1-1-0-op-fc-is-270
@@ -3356,23 +3329,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-561
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-561
-
-  - forwarding-name: RequestForLiveVlanInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache
-    uuid: mwdi-1-1-0-op-fc-is-564
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-s-is-564
-    consequent-requests:
-      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-564
-      - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-        uuid: mwdi-1-1-0-op-c-put-es-1-0-0-564
 
   - forwarding-name: RequestForLiveWireInterfaceCapabilityCausesReadingFromDeviceAndWritingIntoCache
     uuid: mwdi-1-1-0-op-fc-is-570

@@ -1144,7 +1144,7 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - resource
+                    - object-path
                     - attribute-name
                     - new-value
                   properties:
@@ -1154,7 +1154,7 @@ paths:
                     timestamp:
                       type: string
                       description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
-                    resource:
+                    object-path:
                       type: string
                       description: 'Path to the object that holds the attribute that changed its value'
                     attribute-name:
@@ -1167,7 +1167,7 @@ paths:
                 notification-proxy-1-0:attribute-value-changed-notification:
                   counter: 32
                   timestamp: '2010-11-20T14:00:00+01:00'
-                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
                   attribute-name: 'performance-monitoring-is-on'
                   new-value: 'true'
       responses:
@@ -1252,7 +1252,7 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - resource
+                    - object-path
                     - object-type
                   properties:
                     counter:
@@ -1261,7 +1261,7 @@ paths:
                     timestamp:
                       type: string
                       description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
-                    resource:
+                    object-path:
                       type: string
                       description: 'Path to the object that has been created'
                     object-type:
@@ -1271,7 +1271,7 @@ paths:
                 notification-proxy-1-0:object-creation-notification:
                   counter: 2
                   timestamp: '2023-07-10T12:27:03+01:00'
-                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
                   object-type: 'profile'
       responses:
         '204':
@@ -1345,7 +1345,7 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - resource
+                    - object-path
                   properties:
                     counter:
                       type: integer
@@ -1355,7 +1355,7 @@ paths:
                       type: string
                       description: >
                         'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
-                    resource:
+                    object-path:
                       type: string
                       description: >
                         'Path to the object that has been deleted'
@@ -1363,7 +1363,7 @@ paths:
                 notification-proxy-1-0:object-deletion-notification:
                   counter: 14
                   timestamp: '2023-07-13T09:31:48+01:00'
-                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857'
       responses:
         '204':
           description: 'Notification received'

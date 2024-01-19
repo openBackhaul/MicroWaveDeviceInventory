@@ -5281,6 +5281,43 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/LINK'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: 'genericLink1'
+                        layer-protocol-name: 'layer protocol name for the link'
+                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                        forwarding-domain:
+                          - 'forwarding domain entry'
+                        link-port:
+                          - local-id: '1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: 'mountnameA+ltpA'
+                          - local-id: '2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: 'mountnameB+ltpB'
+                minimum-for-rest:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: '513559996'
+                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        end-point-list:
+                          - control-construct: '513250009'
+                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                          - control-construct: '513250008'
+                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+                      - uuid: '513559997'
+                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        end-point-list:
+                          - control-construct: '513250009'
+                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
+                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
+                          - control-construct: '513250008'
+                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
+                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -5349,6 +5386,34 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/LINK'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link:
+                    - uuid: 'genericLink1'
+                      layer-protocol-name: 'layer protocol name for the link'
+                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                      forwarding-domain:
+                        - 'forwarding domain entry'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
+              minimum-for-rest:
+                value:
+                  core-model-1-4:link:
+                    - uuid: '513559996'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '513250009'
+                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '513250008'
+                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
       responses:
         '204':
           description: 'Link written to cache'
@@ -5484,6 +5549,16 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/LINK_PORT'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link-port:
+                          - local-id: '1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: '51359991A+819.1.1'
+                          - local-id: '2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: '51359991B+819.1.1'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -5512,18 +5587,18 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'LTP-MWPS-TTP-1-1'
+                    example: '530557202'
                   description: >
-                    'The identifier of the instance that is addressed by the request
+                    'The (link) identifier of the instance that is addressed by the request
                     from {$request.parameters#uuid}'
                 - name: localId
                   in: path
                   required: true
                   schema:
                     type: string
-                    example: 'LP-MWPS-TTP-1-1'
+                    example: '1'
                   description: >
-                    'The identifier of the list entry that is addressed by the request
+                    'The unique identifier of the list entry that is addressed by the request
                     from {$request.parameters#localId}'
               responses:
                 '200':
@@ -5561,6 +5636,16 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/LINK_PORT'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: '513270001+2146435233'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: '513270005+2146435247'
       responses:
         '204':
           description: 'LinkPort written to cache'
@@ -5592,18 +5677,18 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'LTP-MWPS-TTP-1-1'
+                    example: '530557202'
                   description: >
-                    'The identifier of the instance that is addressed by the request
+                    'The (link) identifier of the instance that is addressed by the request
                     from {$request.parameters#uuid}'
                 - name: localId
                   in: path
                   required: true
                   schema:
                     type: string
-                    example: 'LP-MWPS-TTP-1-1'
+                    example: '1'
                   description: >
-                    'The identifier of the list entry that is addressed by the request
+                    'The unique identifier of the list entry that is addressed by the request
                     from {$request.parameters#localId}'
               requestBody:
                 required: true
@@ -5663,18 +5748,18 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'LTP-MWPS-TTP-1-1'
+                    example: '530557202'
                   description: >
-                    'The identifier of the instance that is addressed by the request
+                    'The (link) identifier of the instance that is addressed by the request
                     from {$request.parameters#uuid}'
                 - name: localId
                   in: path
                   required: true
                   schema:
                     type: string
-                    example: 'LP-MWPS-TTP-1-1'
+                    example: '1'
                   description: >
-                    'The identifier of the list entry that is addressed by the request
+                    'The unique identifier of the list entry that is addressed by the request
                     from {$request.parameters#localId}'
               responses:
                 '204':

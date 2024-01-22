@@ -5520,7 +5520,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localid}:
+  /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

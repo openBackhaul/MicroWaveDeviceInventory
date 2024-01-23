@@ -184,7 +184,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -193,7 +193,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -249,7 +249,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -258,7 +258,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -314,7 +314,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -323,7 +323,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -379,7 +379,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -388,7 +388,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -444,7 +444,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -453,7 +453,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -507,7 +507,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -516,7 +516,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -570,7 +570,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -579,7 +579,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -633,7 +633,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -642,7 +642,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -697,7 +697,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -706,7 +706,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -761,7 +761,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -770,7 +770,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -826,7 +826,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -835,7 +835,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -891,7 +891,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -900,7 +900,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -954,7 +954,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
@@ -963,7 +963,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1017,7 +1017,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1026,7 +1026,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1081,7 +1081,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1090,7 +1090,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1146,7 +1146,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1155,7 +1155,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1211,7 +1211,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1220,7 +1220,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1276,7 +1276,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1285,7 +1285,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1341,7 +1341,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1350,7 +1350,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1406,7 +1406,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1415,7 +1415,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1469,7 +1469,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1478,7 +1478,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1533,7 +1533,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1542,7 +1542,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1597,7 +1597,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1606,7 +1606,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1661,7 +1661,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1670,7 +1670,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1726,7 +1726,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1735,7 +1735,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1791,7 +1791,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1800,7 +1800,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1856,7 +1856,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1865,7 +1865,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -1921,7 +1921,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -1930,7 +1930,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2073,10 +2073,11 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -2086,7 +2087,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -2102,7 +2103,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -2146,10 +2147,11 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -2159,7 +2161,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -2175,7 +2177,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -2222,7 +2224,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2231,7 +2233,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2287,7 +2289,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2296,7 +2298,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2352,7 +2354,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2361,7 +2363,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2417,7 +2419,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2426,7 +2428,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2481,7 +2483,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2490,7 +2492,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2545,7 +2547,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2554,7 +2556,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2609,7 +2611,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2618,7 +2620,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2672,7 +2674,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2681,7 +2683,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2736,7 +2738,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2745,7 +2747,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2801,7 +2803,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2810,7 +2812,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2866,7 +2868,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2875,7 +2877,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2931,7 +2933,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -2940,7 +2942,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -2995,7 +2997,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3004,7 +3006,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3059,7 +3061,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3068,7 +3070,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3123,7 +3125,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3132,7 +3134,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3187,7 +3189,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3196,7 +3198,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3252,7 +3254,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3261,7 +3263,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3317,7 +3319,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3326,7 +3328,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3382,7 +3384,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3391,7 +3393,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3447,7 +3449,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3456,7 +3458,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3512,7 +3514,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3521,7 +3523,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3577,7 +3579,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3586,7 +3588,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3642,7 +3644,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3651,7 +3653,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3707,7 +3709,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3716,7 +3718,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3771,7 +3773,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3780,7 +3782,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3835,7 +3837,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3844,7 +3846,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3899,7 +3901,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3908,7 +3910,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -3963,7 +3965,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
@@ -3972,7 +3974,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = appNameAndUuidFromForwarding[1].url;
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
@@ -4025,10 +4027,11 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4038,7 +4041,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4054,7 +4057,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4099,10 +4102,11 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4112,7 +4116,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4128,7 +4132,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4173,10 +4177,11 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4186,7 +4191,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4202,7 +4207,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4249,8 +4254,9 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -4259,7 +4265,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -4300,10 +4306,11 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4313,7 +4320,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4329,7 +4336,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4374,10 +4381,11 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4387,7 +4395,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4403,7 +4411,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4446,10 +4454,11 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4459,7 +4468,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4475,7 +4484,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4518,10 +4527,11 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4531,7 +4541,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4547,7 +4557,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4590,10 +4600,11 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4603,7 +4614,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4619,7 +4630,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4663,10 +4674,11 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4676,7 +4688,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4692,7 +4704,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4736,10 +4748,11 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4749,7 +4762,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4765,7 +4778,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4810,10 +4823,11 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4823,7 +4837,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4839,7 +4853,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4884,10 +4898,11 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -4897,7 +4912,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4913,7 +4928,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -4953,7 +4968,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
   return new Promise(async function (resolve, reject) {
     try {
       url = decodeURIComponent(url);
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const urlParts = url.split("?fields=");
       const myFields = urlParts[1];
 
@@ -4966,10 +4981,11 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       } else {
         correctCc = mountname;
       }
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url));
-      const finalUrl = formatUrlForOdl(appNameAndUuidFromForwarding[0].url);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl1 = formatUrlForOdl(decodeURIComponent(url));
+      const finalUrl = formatUrlForOdl(url);
+      const Authorization = common[0].key;
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
           resolve(notFoundError());
@@ -4993,7 +5009,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           } else {
             let filters = true;
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
@@ -5041,10 +5057,11 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5054,7 +5071,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5070,7 +5087,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5114,10 +5131,11 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5127,7 +5145,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5143,7 +5161,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5188,10 +5206,11 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5201,7 +5220,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5217,7 +5236,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5262,10 +5281,11 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5275,7 +5295,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5291,7 +5311,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5338,8 +5358,9 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -5348,7 +5369,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -5389,10 +5410,11 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5402,7 +5424,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5418,7 +5440,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5463,10 +5485,11 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5476,7 +5499,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5492,7 +5515,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5537,10 +5560,11 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5550,7 +5574,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5566,7 +5590,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5609,10 +5633,11 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5622,7 +5647,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5638,7 +5663,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5682,10 +5707,11 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5695,7 +5721,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5711,7 +5737,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5755,10 +5781,11 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5768,7 +5795,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5784,7 +5811,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5828,10 +5855,11 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5841,7 +5869,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5857,7 +5885,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5902,10 +5930,11 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5915,7 +5944,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5931,7 +5960,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -5976,10 +6005,11 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -5989,7 +6019,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6005,7 +6035,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6052,8 +6082,9 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -6062,7 +6093,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -6103,10 +6134,11 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6116,7 +6148,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6132,7 +6164,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6177,10 +6209,11 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6190,7 +6223,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6206,7 +6239,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6251,10 +6284,11 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6264,7 +6298,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6280,7 +6314,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6325,10 +6359,11 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6338,7 +6373,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6354,7 +6389,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6401,8 +6436,9 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -6411,7 +6447,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -6452,10 +6488,11 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6465,7 +6502,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6481,7 +6518,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6526,10 +6563,11 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6539,7 +6577,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6555,7 +6593,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6599,10 +6637,11 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6612,7 +6651,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6628,7 +6667,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6672,10 +6711,11 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6685,7 +6725,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6701,7 +6741,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6745,10 +6785,11 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6758,7 +6799,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6774,7 +6815,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6817,10 +6858,11 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6830,7 +6872,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6846,7 +6888,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6891,10 +6933,11 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6904,7 +6947,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6920,7 +6963,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -6965,10 +7008,11 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -6978,7 +7022,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6994,7 +7038,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7041,8 +7085,9 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -7051,7 +7096,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -7092,10 +7137,11 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7105,7 +7151,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7121,7 +7167,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7166,10 +7212,11 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7179,7 +7226,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7195,7 +7242,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7239,10 +7286,11 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7252,7 +7300,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7268,7 +7316,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7312,10 +7360,11 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7325,7 +7374,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7341,7 +7390,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7385,10 +7434,11 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7398,7 +7448,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7414,7 +7464,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7457,10 +7507,11 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7470,7 +7521,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7486,7 +7537,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7531,10 +7582,11 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7544,7 +7596,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7560,7 +7612,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7605,10 +7657,11 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7618,7 +7671,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7634,7 +7687,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7681,8 +7734,9 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -7691,7 +7745,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -7732,10 +7786,11 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7745,7 +7800,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7761,7 +7816,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7806,10 +7861,11 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7819,7 +7875,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7835,7 +7891,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7880,10 +7936,11 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7893,7 +7950,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7909,7 +7966,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -7954,10 +8011,11 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -7967,7 +8025,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7983,7 +8041,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -8030,8 +8088,9 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       url = urlParts[0];
       const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
@@ -8040,7 +8099,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFoundError;
@@ -8081,10 +8140,11 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -8094,7 +8154,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8110,7 +8170,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -8155,10 +8215,11 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -8168,7 +8229,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8184,7 +8245,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -8228,10 +8289,11 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -8241,7 +8303,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8257,7 +8319,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -8301,10 +8363,11 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-      const Authorization = appNameAndUuidFromForwarding[0].key;
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
       let correctCc = null;
       let retJson = null;
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
@@ -8314,7 +8377,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       } else {
         correctCc = mountname;
       }
-      if (appNameAndUuidFromForwarding[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8330,7 +8393,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
           }
           try {
             // Update record on ES
-            let Url = decodeURIComponent(appNameAndUuidFromForwarding[1].url);
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             // read from ES
             let result = await ReadRecords(correctCc);
@@ -8714,7 +8777,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     let attributeName = currentJSON['attribute-name'];
     let newValue = currentJSON['new-value'];
 
-    const match = resource.match(/logical-termination-point=(\w+)/);
+    const match = resource.match(/control-construct=(\w+)/);
 
     // Extract the Control-construct
     const logicalTerminationPoint = match ? match[1] : null;
@@ -8742,7 +8805,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         reject(error);
       }
     } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-      let indexAlias = await getIndexAliasAsync();
+      let indexAlias = common[1].indexAlias
       let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
       console.log('* ' + ret.result);
     }
@@ -8809,7 +8872,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
     try {
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
-      let resource = currentJSON['resource'];
+      let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
       url = decodeURIComponent(url);
@@ -8855,7 +8918,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
     try {
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
-      let resource = currentJSON['resource'];
+      let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
       url = decodeURIComponent(url);
@@ -8900,7 +8963,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
     try {
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
-      let resource = currentJSON['resource'];
+      let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       /*
       let jsonObj = "";
@@ -8975,7 +9038,7 @@ exports.readDeviceListFromElasticsearch = function () {
 exports.deleteRecordFromElasticsearch = function (index, type, id) {
   return new Promise(async function (resolve, reject) {
     let exists = false;
-    let client = await elasticsearchService.getClient(false);
+    let client = await common[1].EsClient;
     if (id) {
       exists = await client.exists({ index: index, type: type, id: id });
     }
@@ -9015,7 +9078,8 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
     const httpClientLtpUuid = httpLtpUuidList[0];
     let applicationName = 'api';
     const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    let prefix = opLtpUuid.split('op')[0];
+    const key = await extractProfileConfiguration(prefix + "file-p-000");
     let url = "";
     let tcpConn = "";
     if (opLtpUuid.includes("odl")) {
@@ -9340,7 +9404,7 @@ async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counte
  * the first contains the ODL parameters and the URL to call
  * the second contains the same for ES
  **/
-async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(originalUrl) {
+exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async function() {
   const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {
@@ -9371,23 +9435,28 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(orig
     const key = await extractProfileConfiguration(prefix + "file-p-000");
     let url = "";
     let tcpConn = "";
+    let EsClient = null;
+    let indexAlias = await getIndexAliasAsync();
+
     if (opLtpUuid.includes("odl")) {
       applicationName = "OpenDayLight";
       tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-      url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+      EsClient = await elasticsearchService.getClient(false);
     } else if (opLtpUuid.includes("es")) {
       tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
       applicationName = "ElasticSearch";
-      url = await retrieveCorrectUrl(originalUrl, tcpConn, applicationName);
+      EsClient = await elasticsearchService.getClient(false);
     }
     const applicationNameData = applicationName === undefined ? {
       applicationName: null,
       httpClientLtpUuid,
-      url: null, key: null
+      tcpConn: null, key: null,
+      indexAlias: null, EsClient: null
     } : {
       applicationName,
       httpClientLtpUuid,
-      url, key
+      tcpConn, key,
+      indexAlias, EsClient
     };
     applicationNameList.push(applicationNameData);
   }
@@ -9557,8 +9626,8 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
  * no response value expected for this operation
  **/
 async function recordRequest(body, cc) {
-  let indexAlias = await getIndexAliasAsync();
-  let client = await elasticsearchService.getClient(false);
+  let indexAlias = common[1].indexAlias
+  let client = await common[1].EsClient;
   let startTime = process.hrtime();
   let result = await client.index({
     index: indexAlias,
@@ -9578,8 +9647,8 @@ async function recordRequest(body, cc) {
  * no response value expected for this operation
  **/
 async function deleteRequest(cc) {
-  let indexAlias = await getIndexAliasAsync();
-  let client = await elasticsearchService.getClient(false);
+  let indexAlias = common[1].indexAlias
+  let client = await common[1].EsClient;
   let startTime = process.hrtime();
   let result = await client.delete({
     id: cc,
@@ -9606,8 +9675,8 @@ async function ReadRecords(cc) {
     }
 
   };
-  let indexAlias = await getIndexAliasAsync();
-  let client = await elasticsearchService.getClient(false);
+  let indexAlias = common[1].indexAlias
+  let client = await common[1].EsClient;
   const result = await client.search({
     index: indexAlias,
     body: {

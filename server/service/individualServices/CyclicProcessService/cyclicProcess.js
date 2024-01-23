@@ -50,13 +50,13 @@ async function sendRequest(device) {
         if (procedureIsRunning == false) {
             return;
         }
-
+        /*
         let responseCode = 200;  // OK        
         let responseBodyToDocument = {};
         responseBodyToDocument = ret;
         var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
         executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
-        
+        */
         return {
             'ret': ret,
             'node-id': device['node-id']
@@ -207,20 +207,21 @@ async function startTtlChecking() {
             for (let index = 0; index < slidingWindow.length; index++) {
                 slidingWindow[index].ttl -= 1;
                 if (slidingWindow[index].ttl == 0) {
+                    let consoleMsg = '';
                     if (slidingWindow[index].retries == 0) {
-                        console.log("%cElement " + slidingWindow[index]['node-id'] + " Timeout/Retries. -> Dropped from Sliding Window", "color:red");
+                        consoleMsg = "Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. Dropped from S-W.";
                         slidingWindow.splice(index, 1);
                         if (addNextDeviceListElementInWindow()) {
-                            printLog('Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in window and sent request...', print_log_level >= 2);
-                            printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+                            consoleMsg += (' Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and sent request...');
                             requestMessage(slidingWindow.length-1);
                         }
                     } else {
                         slidingWindow[index].ttl = responseTimeout;
                         slidingWindow[index].retries -= 1;
-                        printLog("Element " + slidingWindow[index]['node-id'] + " Timeout. -> Resend the request...", print_log_level >= 2);
+                        consoleMsg = "Element " + slidingWindow[index]['node-id'] + " Timeout. -> Resend the request...";
                         requestMessage(index);
-                    }                
+                    }
+                    console.log(consoleMsg);
                 }
             }
         }
@@ -228,7 +229,7 @@ async function startTtlChecking() {
             ttlCheckingTimerId = setInterval(upgradeTtl, TTL_CHECKING_TIMER);
         }
     } catch(error) {
-        console.log("%cError in startTtlChecking (" + error + ")", "color:red");
+        console.log("Error in startTtlChecking (" + error + ")");
         debugger;
     }    
 }
@@ -244,54 +245,42 @@ async function requestMessage(index) {
         if (index >= slidingWindow.length) {
             return;
         }
-        
+        let startTime = new Date();
         function manageResponse(retObj) {
+            let endTime = new Date();
+            let diffTime = endTime.getTime() - startTime.getTime();
+            let consoleMsg = '';
             if (retObj.ret.code !== undefined) {
-                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
+                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);                
                 if (elementIndex == DEVICE_NOT_PRESENT) {                
-                    printLog('Response from element ' + retObj['node-id'] + ' not more present in Sliding Window. Ignore that.', print_log_level >= 2);
-                } else {
-                    if (slidingWindow[elementIndex].retries == 0) {
-                        if (retObj.ret.code == 503) {
-                            console.log('%cElement ' + retObj['node-id'] + ' not available (II time). --> Dropped from Sliding Window', 'color:red');
-                        } else {
-                            console.log('%cError (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (II time) ' + retObj['node-id'] + ' --> Dropped from Sliding Window', 'color:red');
-                        }                    
-                        slidingWindow.splice(elementIndex, 1);
-                        if (addNextDeviceListElementInWindow()) {
-                            printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
-                            requestMessage(slidingWindow.length-1);
-                        }
-                        printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
+                    consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
+                } else {                                        
+                    if (retObj.ret.code == 503) {
+                        consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Element ' + retObj['node-id'] + ' not available. Dropped from S-W.';
                     } else {
-                        if (retObj.ret.code == 503) {
-                            printLog('Element ' + retObj['node-id'] + ' not available (I time). Resend the request...', print_log_level >= 2);
-                        } else {
-                            printLog('Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element (I time) ' + retObj['node-id'] + ' Resend the request...', print_log_level >= 2);
-                        }
-                        slidingWindow[elementIndex].ttl = responseTimeout;
-                        slidingWindow[elementIndex].retries -= 1;
-                        requestMessage(elementIndex);                
-                    }
+                        consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element ' + retObj['node-id'] + '. Dropped from S-W.';
+                    }                    
+                    slidingWindow.splice(elementIndex, 1);
+                    if (addNextDeviceListElementInWindow()) {
+                        consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+                        requestMessage(slidingWindow.length-1);
+                    }                    
                 }
             } else {
-                printLog('****************************************************************************************************', print_log_level >= 2);
                 let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
                 if (elementIndex == DEVICE_NOT_PRESENT) {                
-                    printLog('Response from element ' + retObj['node-id'] + ' not more present in Sliding Window. Ignore that.', print_log_level >= 2);
+                    consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
                 } else {
-                    printLog('Response from element ' + retObj['node-id'] + ' --> Dropped from Sliding Window.', print_log_level >= 2);
+                    consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Response from element ' + retObj['node-id'] + '. Dropped from S-W.';
                     slidingWindow.splice(elementIndex, 1);
                     setDeviceListElementTimeStamp(retObj['node-id']);
                     if (addNextDeviceListElementInWindow()) {
-                        printLog('Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in Sliding Window and send request...', print_log_level >= 2);
-                        printLog(printList('Device List', deviceList), simulationProgress);
-                        printLog(printList('Sliding Window', slidingWindow), simulationProgress);
+                        consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
                         requestMessage(slidingWindow.length-1);
                     }
-                }
-                printLog('****************************************************************************************************', print_log_level >= 2);
-            }            
+                }                
+            }
+            console.log(consoleMsg);         
         }
         function sleep(ms) {
             return new Promise((resolve) => {
@@ -312,7 +301,7 @@ async function requestMessage(index) {
             }
         })
     } catch(error) {
-        console.log("%cError in requestMessage (" + error + ")", "color:red");
+        console.log("Error in requestMessage (" + error + ")");
         debugger;
     }      
 }
@@ -597,7 +586,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('*                                                                                                     *');
     console.log('*                                 ( ' + getTime() + ' )                                             *');
     console.log('*                                                                                                     *');
-    console.log('*  Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                   %c*','color:yellow','color:green','color:red','color:inherits');
+    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*','color:yellow','color:green','color:red', 'color:inherits');
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     let odlDeviceList;

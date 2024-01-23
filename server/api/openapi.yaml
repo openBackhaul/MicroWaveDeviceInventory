@@ -19008,6 +19008,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200_35'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link:
+                    - uuid: genericLink1
+                      layer-protocol-name: layer protocol name for the link
+                      link-direction: core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL
+                      forwarding-domain:
+                      - forwarding domain entry
+                      link-port:
+                      - local-id: "1"
+                        link-port-direction: core-model-1-4:PORT_DIRECTION_INPUT
+                        logical-termination-point: mountnameA+ltpA
+                      - local-id: "2"
+                        link-port-direction: core-model-1-4:PORT_DIRECTION_OUTPUT
+                        logical-termination-point: mountnameB+ltpB
+                minimum-for-rest:
+                  value:
+                    core-model-1-4:link:
+                    - uuid: "513559996"
+                      layer-protocol-name: core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER
+                      end-point-list:
+                      - control-construct: "513250009"
+                        logical-termination-point: 513250009+LTP-MWPS-TTP-RADIO-2A
+                        layer-protocol: 513250009+LP-MWPS-TTP-RADIO-2A
+                      - control-construct: "513250008"
+                        logical-termination-point: 513250008+LTP-MWPS-TTP-RADIO-2A
+                        layer-protocol: 513250008+LP-MWPS-TTP-RADIO-2A
+                    - uuid: "513559997"
+                      layer-protocol-name: core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER
+                      end-point-list:
+                      - control-construct: "513250009"
+                        logical-termination-point: 513250009+LTP-MWPS-TTP-RADIO-1A
+                        layer-protocol: 513250009+LP-MWPS-TTP-RADIO-1A
+                      - control-construct: "513250008"
+                        logical-termination-point: 513250008+LTP-MWPS-TTP-RADIO-1A
+                        layer-protocol: 513250008+LP-MWPS-TTP-RADIO-1A
         "500":
           description: Response in case of errored service requests
           headers:
@@ -19338,6 +19375,34 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/coremodel14networkcontroldomaincache_linkuuid_body'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link:
+                  - uuid: genericLink1
+                    layer-protocol-name: layer protocol name for the link
+                    link-direction: core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL
+                    forwarding-domain:
+                    - forwarding domain entry
+                    link-port:
+                    - local-id: "1"
+                      link-port-direction: core-model-1-4:PORT_DIRECTION_INPUT
+                      logical-termination-point: mountnameA+ltpA
+                    - local-id: "2"
+                      link-port-direction: core-model-1-4:PORT_DIRECTION_OUTPUT
+                      logical-termination-point: mountnameB+ltpB
+              minimum-for-rest:
+                value:
+                  core-model-1-4:link:
+                  - uuid: "513559996"
+                    layer-protocol-name: core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER
+                    end-point-list:
+                    - control-construct: "513250009"
+                      logical-termination-point: 513250009+LTP-MWPS-TTP-RADIO-2A
+                      layer-protocol: 513250009+LP-MWPS-TTP-RADIO-2A
+                    - control-construct: "513250008"
+                      logical-termination-point: 513250008+LTP-MWPS-TTP-RADIO-2A
+                      layer-protocol: 513250008+LP-MWPS-TTP-RADIO-2A
         required: true
       responses:
         "204":
@@ -20032,6 +20097,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200_36'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link-port:
+                    - local-id: "1"
+                      link-port-direction: core-model-1-4:PORT_DIRECTION_INPUT
+                      logical-termination-point: 51359991A+819.1.1
+                    - local-id: "2"
+                      link-port-direction: core-model-1-4:PORT_DIRECTION_OUTPUT
+                      logical-termination-point: 51359991B+819.1.1
         "500":
           description: Response in case of errored service requests
           headers:
@@ -20148,23 +20223,23 @@ paths:
               - name: uuid
                 in: path
                 description: |
-                  'The identifier of the instance that is addressed by the request from {$request.parameters#uuid}'
+                  'The (link) identifier of the instance that is addressed by the request from {$request.parameters#uuid}'
                 required: true
                 style: simple
                 explode: false
                 schema:
                   type: string
-                  example: LTP-MWPS-TTP-1-1
+                  example: "530557202"
               - name: localId
                 in: path
                 description: |
-                  'The identifier of the list entry that is addressed by the request from {$request.parameters#localId}'
+                  'The unique identifier of the list entry that is addressed by the request from {$request.parameters#localId}'
                 required: true
                 style: simple
                 explode: false
                 schema:
                   type: string
-                  example: LP-MWPS-TTP-1-1
+                  example: "1"
               responses:
                 "200":
                   description: LinkPort provided from cache
@@ -20381,6 +20456,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/linkuuid_linkportlocalId_body'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link-port:
+                  - local-id: "1"
+                    link-port-direction: core-model-1-4:PORT_DIRECTION_INPUT
+                    logical-termination-point: 513270001+2146435233
+                  - local-id: "2"
+                    link-port-direction: core-model-1-4:PORT_DIRECTION_OUTPUT
+                    logical-termination-point: 513270005+2146435247
         required: true
       responses:
         "204":
@@ -20510,23 +20595,23 @@ paths:
               - name: uuid
                 in: path
                 description: |
-                  'The identifier of the instance that is addressed by the request from {$request.parameters#uuid}'
+                  'The (link) identifier of the instance that is addressed by the request from {$request.parameters#uuid}'
                 required: true
                 style: simple
                 explode: false
                 schema:
                   type: string
-                  example: LTP-MWPS-TTP-1-1
+                  example: "530557202"
               - name: localId
                 in: path
                 description: |
-                  'The identifier of the list entry that is addressed by the request from {$request.parameters#localId}'
+                  'The unique identifier of the list entry that is addressed by the request from {$request.parameters#localId}'
                 required: true
                 style: simple
                 explode: false
                 schema:
                   type: string
-                  example: LP-MWPS-TTP-1-1
+                  example: "1"
               requestBody:
                 content:
                   application/json:
@@ -20868,23 +20953,23 @@ paths:
               - name: uuid
                 in: path
                 description: |
-                  'The identifier of the instance that is addressed by the request from {$request.parameters#uuid}'
+                  'The (link) identifier of the instance that is addressed by the request from {$request.parameters#uuid}'
                 required: true
                 style: simple
                 explode: false
                 schema:
                   type: string
-                  example: LTP-MWPS-TTP-1-1
+                  example: "530557202"
               - name: localId
                 in: path
                 description: |
-                  'The identifier of the list entry that is addressed by the request from {$request.parameters#localId}'
+                  'The unique identifier of the list entry that is addressed by the request from {$request.parameters#localId}'
                 required: true
                 style: simple
                 explode: false
                 schema:
                   type: string
-                  example: LP-MWPS-TTP-1-1
+                  example: "1"
               responses:
                 "204":
                   description: LinkPort deleted from cache
@@ -26671,384 +26756,6 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-  : get:
-      tags:
-      - IndividualServices
-      summary: Provides MacInterfaceHistoricalPerformances from cache
-      operationId: getCachedMacInterfaceHistoricalPerformances
-      parameters:
-      - name: user
-        in: header
-        description: User identifier from the system starting the service call
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: User Name
-      - name: originator
-        in: header
-        description: |
-          'Identification for the system consuming the API, as defined in
-           [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minLength: 3
-          type: string
-          example: Resolver
-      - name: x-correlator
-        in: header
-        description: UUID for the service execution flow that allows to correlate
-          requests and responses
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 550e8400-e29b-11d4-a716-446655440000
-      - name: trace-indicator
-        in: header
-        description: Sequence of request numbers along the flow
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^([0-9]+)(\\.([0-9]+))*$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 1.3.1
-      - name: customer-journey
-        in: header
-        description: Holds information supporting customer’s journey to which the
-          execution applies
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: Unknown value
-      - name: mountName
-        in: path
-        description: The mountName of the device that is addressed by the request
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: "222250001"
-      - name: uuid
-        in: path
-        description: Instance identifier that is unique within the device
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LTP-MWPS-TTP-1-1
-      - name: localId
-        in: path
-        description: Instance identifier that is unique within its list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LP-MWPS-TTP-1-1
-      - name: fields
-        in: query
-        description: Query parameter to filter ressources according to RFC8040 fields
-          filter spec
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: node(node-id;netconf-node-topology:connection-status)
-      responses:
-        "200":
-          description: MacInterfaceHistoricalPerformances provided from cache
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200_52'
-        "500":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        "4XX":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        default:
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-      callbacks:
-        RequestForCachedMacInterfaceHistoricalPerformancesCausesReadingFromCache:
-          url:
-            get:
-              parameters:
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              responses:
-                "200":
-                  description: MacInterfaceHistoricalPerformances provided from cache
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          mac-interface-1-0:mac-interface-historical-performances:
-                            $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-      security:
-      - apiKeyAuth: []
-      x-swagger-router-controller: IndividualServices
   ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
   : get:
       tags:
@@ -27162,7 +26869,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_53'
+                $ref: '#/components/schemas/inline_response_200_52'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -27540,7 +27247,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_54'
+                $ref: '#/components/schemas/inline_response_200_53'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -27918,7 +27625,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_55'
+                $ref: '#/components/schemas/inline_response_200_54'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -28296,7 +28003,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_56'
+                $ref: '#/components/schemas/inline_response_200_55'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -28675,7 +28382,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_57'
+                $ref: '#/components/schemas/inline_response_200_56'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -29053,7 +28760,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_58'
+                $ref: '#/components/schemas/inline_response_200_57'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -29318,384 +29025,6 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-  : get:
-      tags:
-      - IndividualServices
-      summary: Provides VlanInterfaceHistoricalPerformances from cache
-      operationId: getCachedVlanInterfaceHistoricalPerformances
-      parameters:
-      - name: user
-        in: header
-        description: User identifier from the system starting the service call
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: User Name
-      - name: originator
-        in: header
-        description: |
-          'Identification for the system consuming the API, as defined in
-           [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minLength: 3
-          type: string
-          example: Resolver
-      - name: x-correlator
-        in: header
-        description: UUID for the service execution flow that allows to correlate
-          requests and responses
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 550e8400-e29b-11d4-a716-446655440000
-      - name: trace-indicator
-        in: header
-        description: Sequence of request numbers along the flow
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^([0-9]+)(\\.([0-9]+))*$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 1.3.1
-      - name: customer-journey
-        in: header
-        description: Holds information supporting customer’s journey to which the
-          execution applies
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: Unknown value
-      - name: mountName
-        in: path
-        description: The mountName of the device that is addressed by the request
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: "222250001"
-      - name: uuid
-        in: path
-        description: Instance identifier that is unique within the device
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LTP-MWPS-TTP-1-1
-      - name: localId
-        in: path
-        description: Instance identifier that is unique within its list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LP-MWPS-TTP-1-1
-      - name: fields
-        in: query
-        description: Query parameter to filter ressources according to RFC8040 fields
-          filter spec
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: node(node-id;netconf-node-topology:connection-status)
-      responses:
-        "200":
-          description: VlanInterfaceHistoricalPerformances provided from cache
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200_59'
-        "500":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        "4XX":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        default:
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-      callbacks:
-        RequestForCachedVlanInterfaceHistoricalPerformancesCausesReadingFromCache:
-          url:
-            get:
-              parameters:
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              responses:
-                "200":
-                  description: VlanInterfaceHistoricalPerformances provided from cache
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          vlan-interface-1-0:vlan-interface-historical-performances:
-                            $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-      security:
-      - apiKeyAuth: []
-      x-swagger-router-controller: IndividualServices
   ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
   : get:
       tags:
@@ -29809,7 +29138,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_60'
+                $ref: '#/components/schemas/inline_response_200_58'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -30187,7 +29516,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_61'
+                $ref: '#/components/schemas/inline_response_200_59'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -30565,7 +29894,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_62'
+                $ref: '#/components/schemas/inline_response_200_60'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -30943,7 +30272,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_63'
+                $ref: '#/components/schemas/inline_response_200_61'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -45622,7 +44951,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_64'
+                $ref: '#/components/schemas/inline_response_200_62'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -46151,7 +45480,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_65'
+                $ref: '#/components/schemas/inline_response_200_63'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -46709,7 +46038,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_66'
+                $ref: '#/components/schemas/inline_response_200_64'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -48907,7 +48236,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_67'
+                $ref: '#/components/schemas/inline_response_200_65'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -51467,7 +50796,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_68'
+                $ref: '#/components/schemas/inline_response_200_66'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -54029,7 +53358,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_69'
+                $ref: '#/components/schemas/inline_response_200_67'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -56478,937 +55807,6 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-current-performance
-  : get:
-      tags:
-      - IndividualServices
-      summary: Provides MacInterfaceCurrentPerformance from live network
-      operationId: getLiveMacInterfaceCurrentPerformance
-      parameters:
-      - name: user
-        in: header
-        description: User identifier from the system starting the service call
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: User Name
-      - name: originator
-        in: header
-        description: |
-          'Identification for the system consuming the API, as defined in
-           [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minLength: 3
-          type: string
-          example: Resolver
-      - name: x-correlator
-        in: header
-        description: UUID for the service execution flow that allows to correlate
-          requests and responses
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 550e8400-e29b-11d4-a716-446655440000
-      - name: trace-indicator
-        in: header
-        description: Sequence of request numbers along the flow
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^([0-9]+)(\\.([0-9]+))*$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 1.3.1
-      - name: customer-journey
-        in: header
-        description: Holds information supporting customer’s journey to which the
-          execution applies
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: Unknown value
-      - name: mountName
-        in: path
-        description: The mountName of the device that is addressed by the request
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: "222250001"
-      - name: uuid
-        in: path
-        description: Instance identifier that is unique within the device
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LTP-MWPS-TTP-1-1
-      - name: localId
-        in: path
-        description: Instance identifier that is unique within its list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LP-MWPS-TTP-1-1
-      - name: fields
-        in: query
-        description: Query parameter to filter ressources according to RFC8040 fields
-          filter spec
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: node(node-id;netconf-node-topology:connection-status)
-      responses:
-        "200":
-          description: MacInterfaceCurrentPerformance provided from live network
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200_70'
-        "500":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        "4XX":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        default:
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-      callbacks:
-        RequestForLiveMacInterfaceCurrentPerformanceCausesReadingFromDevice:
-          RequestForReadingFromDevice:
-            get:
-              parameters:
-              - name: controllerInternalPathToMountPoint
-                in: path
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  description: |
-                    'Controller internal path to the device mount points from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                  example: rests/data/network-topology:network-topology/topology=topology-netconf
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              responses:
-                "200":
-                  description: OK
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          mac-interface-1-0:mac-interface-current-performance:
-                            $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-      security:
-      - apiKeyAuth: []
-      x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-historical-performances
-  : get:
-      tags:
-      - IndividualServices
-      summary: Provides MacInterfaceHistoricalPerformances from live network
-      operationId: getLiveMacInterfaceHistoricalPerformances
-      parameters:
-      - name: user
-        in: header
-        description: User identifier from the system starting the service call
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: User Name
-      - name: originator
-        in: header
-        description: |
-          'Identification for the system consuming the API, as defined in
-           [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minLength: 3
-          type: string
-          example: Resolver
-      - name: x-correlator
-        in: header
-        description: UUID for the service execution flow that allows to correlate
-          requests and responses
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 550e8400-e29b-11d4-a716-446655440000
-      - name: trace-indicator
-        in: header
-        description: Sequence of request numbers along the flow
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^([0-9]+)(\\.([0-9]+))*$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 1.3.1
-      - name: customer-journey
-        in: header
-        description: Holds information supporting customer’s journey to which the
-          execution applies
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: Unknown value
-      - name: mountName
-        in: path
-        description: The mountName of the device that is addressed by the request
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: "222250001"
-      - name: uuid
-        in: path
-        description: Instance identifier that is unique within the device
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LTP-MWPS-TTP-1-1
-      - name: localId
-        in: path
-        description: Instance identifier that is unique within its list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LP-MWPS-TTP-1-1
-      - name: fields
-        in: query
-        description: Query parameter to filter ressources according to RFC8040 fields
-          filter spec
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: node(node-id;netconf-node-topology:connection-status)
-      responses:
-        "200":
-          description: MacInterfaceHistoricalPerformances provided from live network
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200_52'
-        "500":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        "4XX":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        default:
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-      callbacks:
-        RequestForLiveMacInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache:
-          RequestForReadingFromDevice:
-            get:
-              parameters:
-              - name: controllerInternalPathToMountPoint
-                in: path
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  description: |
-                    'Controller internal path to the device mount points from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                  example: rests/data/network-topology:network-topology/topology=topology-netconf
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              responses:
-                "200":
-                  description: OK
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          mac-interface-1-0:mac-interface-historical-performances:
-                            $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-          RequestForWritingIntoCache:
-            put:
-              parameters:
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      required:
-                      - mac-interface-1-0:mac-interface-historical-performances
-                      type: object
-                      properties:
-                        mac-interface-1-0:mac-interface-historical-performances:
-                          $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
-                required: true
-              responses:
-                "204":
-                  description: MacInterfaceHistoricalPerformances written to cache
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-      security:
-      - apiKeyAuth: []
-      x-swagger-router-controller: IndividualServices
   ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
   : get:
       tags:
@@ -57522,7 +55920,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_53'
+                $ref: '#/components/schemas/inline_response_200_52'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -58065,7 +56463,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_54'
+                $ref: '#/components/schemas/inline_response_200_53'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -58608,7 +57006,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_55'
+                $ref: '#/components/schemas/inline_response_200_54'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -59152,7 +57550,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_71'
+                $ref: '#/components/schemas/inline_response_200_68'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -59541,7 +57939,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_56'
+                $ref: '#/components/schemas/inline_response_200_55'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -60085,7 +58483,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_57'
+                $ref: '#/components/schemas/inline_response_200_56'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -60628,7 +59026,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_58'
+                $ref: '#/components/schemas/inline_response_200_57'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -61171,7 +59569,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_72'
+                $ref: '#/components/schemas/inline_response_200_69'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -61446,549 +59844,6 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-historical-performances
-  : get:
-      tags:
-      - IndividualServices
-      summary: Provides VlanInterfaceHistoricalPerformances from live network
-      operationId: getLiveVlanInterfaceHistoricalPerformances
-      parameters:
-      - name: user
-        in: header
-        description: User identifier from the system starting the service call
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: User Name
-      - name: originator
-        in: header
-        description: |
-          'Identification for the system consuming the API, as defined in
-           [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-        required: true
-        style: simple
-        explode: false
-        schema:
-          minLength: 3
-          type: string
-          example: Resolver
-      - name: x-correlator
-        in: header
-        description: UUID for the service execution flow that allows to correlate
-          requests and responses
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 550e8400-e29b-11d4-a716-446655440000
-      - name: trace-indicator
-        in: header
-        description: Sequence of request numbers along the flow
-        required: true
-        style: simple
-        explode: false
-        schema:
-          pattern: "^([0-9]+)(\\.([0-9]+))*$"
-          type: string
-          description: Empty string accepted from external applications.
-          example: 1.3.1
-      - name: customer-journey
-        in: header
-        description: Holds information supporting customer’s journey to which the
-          execution applies
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: Unknown value
-      - name: mountName
-        in: path
-        description: The mountName of the device that is addressed by the request
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: "222250001"
-      - name: uuid
-        in: path
-        description: Instance identifier that is unique within the device
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LTP-MWPS-TTP-1-1
-      - name: localId
-        in: path
-        description: Instance identifier that is unique within its list
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: LP-MWPS-TTP-1-1
-      - name: fields
-        in: query
-        description: Query parameter to filter ressources according to RFC8040 fields
-          filter spec
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: node(node-id;netconf-node-topology:connection-status)
-      responses:
-        "200":
-          description: VlanInterfaceHistoricalPerformances provided from live network
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200_59'
-        "500":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        "4XX":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-        default:
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-      callbacks:
-        RequestForLiveVlanInterfaceHistoricalPerformancesCausesReadingFromDeviceAndWritingIntoCache:
-          RequestForReadingFromDevice:
-            get:
-              parameters:
-              - name: controllerInternalPathToMountPoint
-                in: path
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  description: |
-                    'Controller internal path to the device mount points from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                  example: rests/data/network-topology:network-topology/topology=topology-netconf
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              responses:
-                "200":
-                  description: OK
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          vlan-interface-1-0:vlan-interface-historical-performances:
-                            $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-          RequestForWritingIntoCache:
-            put:
-              parameters:
-              - name: mountName
-                in: path
-                description: |
-                  'The mountName of the device that is addressed by the request from {$request.parameters#mountName}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: "222250001"
-              - name: uuid
-                in: path
-                description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request from {$request.parameters#uuid}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LTP-MWPS-TTP-1-1
-              - name: localId
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$request.parameters#localId}'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      required:
-                      - vlan-interface-1-0:vlan-interface-historical-performances
-                      type: object
-                      properties:
-                        vlan-interface-1-0:vlan-interface-historical-performances:
-                          $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
-                required: true
-              responses:
-                "204":
-                  description: VlanInterfaceHistoricalPerformances written to cache
-                "500":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                "4XX":
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-                default:
-                  description: Response in case of errored service requests
-                  headers:
-                    x-correlator:
-                      description: UUID for the service execution flow that allows
-                        to correlate requests and responses. Its value must be identical
-                        at the response compared with its corresponding request
-                      style: simple
-                      explode: false
-                      schema:
-                        pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                        type: string
-                        example: 550e8400-e29b-11d4-a716-446655440000
-                    exec-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the total elapsed time for the execution, including all\
-                        \ the additional processing needed to retrieve the data from\
-                        \ the backend service. Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 1100
-                    backend-time:
-                      description: "Value written by the service provider, reporting\
-                        \ the elapsed time for data retrieval from the backend (service\
-                        \ invocation, database access…). Expressed in milliseconds"
-                      style: simple
-                      explode: false
-                      schema:
-                        type: integer
-                        example: 850
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/errorDescription'
-      security:
-      - apiKeyAuth: []
-      x-swagger-router-controller: IndividualServices
   ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
   : get:
       tags:
@@ -62102,7 +59957,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_60'
+                $ref: '#/components/schemas/inline_response_200_58'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -62645,7 +60500,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_61'
+                $ref: '#/components/schemas/inline_response_200_59'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -63188,7 +61043,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_62'
+                $ref: '#/components/schemas/inline_response_200_60'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -63731,7 +61586,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_73'
+                $ref: '#/components/schemas/inline_response_200_70'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -64119,7 +61974,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_63'
+                $ref: '#/components/schemas/inline_response_200_61'
         "500":
           description: Response in case of errored service requests
           headers:
@@ -71450,7 +69305,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_74'
+                $ref: '#/components/schemas/inline_response_200_71'
         "400":
           description: Response in case of errored service requests
           headers:
@@ -71789,7 +69644,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_75'
+                $ref: '#/components/schemas/inline_response_200_72'
         "400":
           description: Response in case of errored service requests
           headers:
@@ -76557,7 +74412,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_76'
+                $ref: '#/components/schemas/inline_response_200_73'
         "400":
           description: Response in case of errored service requests
           headers:
@@ -77078,7 +74933,7 @@ paths:
                   release-date: 20.11.2010
                   changes: Initial version.
                 items:
-                  $ref: '#/components/schemas/inline_response_200_77'
+                  $ref: '#/components/schemas/inline_response_200_74'
                 x-content-type: application/json
         "400":
           description: Response in case of errored service requests
@@ -77494,7 +75349,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_78'
+                $ref: '#/components/schemas/inline_response_200_75'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -77556,7 +75411,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_79'
+                $ref: '#/components/schemas/inline_response_200_76'
               example:
                 core-model-1-4:profile:
                   uuid: ro-2-0-1-action-p-000
@@ -77632,7 +75487,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_80'
+                $ref: '#/components/schemas/inline_response_200_77'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -77694,7 +75549,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_81'
+                $ref: '#/components/schemas/inline_response_200_78'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -77756,7 +75611,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_82'
+                $ref: '#/components/schemas/inline_response_200_79'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -77818,7 +75673,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_83'
+                $ref: '#/components/schemas/inline_response_200_80'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -77880,7 +75735,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_84'
+                $ref: '#/components/schemas/inline_response_200_81'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78005,7 +75860,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_85'
+                $ref: '#/components/schemas/inline_response_200_82'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78067,7 +75922,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_86'
+                $ref: '#/components/schemas/inline_response_200_83'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78129,7 +75984,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_87'
+                $ref: '#/components/schemas/inline_response_200_84'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78191,7 +76046,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_88'
+                $ref: '#/components/schemas/inline_response_200_85'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78253,7 +76108,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_89'
+                $ref: '#/components/schemas/inline_response_200_86'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78381,7 +76236,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_90'
+                $ref: '#/components/schemas/inline_response_200_87'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78443,7 +76298,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_91'
+                $ref: '#/components/schemas/inline_response_200_88'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78505,7 +76360,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_92'
+                $ref: '#/components/schemas/inline_response_200_89'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78630,7 +76485,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_93'
+                $ref: '#/components/schemas/inline_response_200_90'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78755,7 +76610,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_94'
+                $ref: '#/components/schemas/inline_response_200_91'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78817,7 +76672,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_95'
+                $ref: '#/components/schemas/inline_response_200_92'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78879,7 +76734,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_96'
+                $ref: '#/components/schemas/inline_response_200_93'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -78941,7 +76796,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_97'
+                $ref: '#/components/schemas/inline_response_200_94'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79003,7 +76858,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_98'
+                $ref: '#/components/schemas/inline_response_200_95'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79128,7 +76983,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_99'
+                $ref: '#/components/schemas/inline_response_200_96'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79190,7 +77045,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_100'
+                $ref: '#/components/schemas/inline_response_200_97'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79252,7 +77107,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_101'
+                $ref: '#/components/schemas/inline_response_200_98'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79314,7 +77169,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_102'
+                $ref: '#/components/schemas/inline_response_200_99'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79468,7 +77323,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_103'
+                $ref: '#/components/schemas/inline_response_200_100'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79530,7 +77385,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_104'
+                $ref: '#/components/schemas/inline_response_200_101'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79655,7 +77510,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_105'
+                $ref: '#/components/schemas/inline_response_200_102'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79780,7 +77635,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_106'
+                $ref: '#/components/schemas/inline_response_200_103'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79842,7 +77697,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_107'
+                $ref: '#/components/schemas/inline_response_200_104'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79904,7 +77759,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_108'
+                $ref: '#/components/schemas/inline_response_200_105'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -79966,7 +77821,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_109'
+                $ref: '#/components/schemas/inline_response_200_106'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80028,7 +77883,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_110'
+                $ref: '#/components/schemas/inline_response_200_107'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80090,7 +77945,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_111'
+                $ref: '#/components/schemas/inline_response_200_108'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80152,7 +78007,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_112'
+                $ref: '#/components/schemas/inline_response_200_109'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80214,7 +78069,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_113'
+                $ref: '#/components/schemas/inline_response_200_110'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80339,7 +78194,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_114'
+                $ref: '#/components/schemas/inline_response_200_111'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80464,7 +78319,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_115'
+                $ref: '#/components/schemas/inline_response_200_112'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80589,7 +78444,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_116'
+                $ref: '#/components/schemas/inline_response_200_113'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80714,7 +78569,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_117'
+                $ref: '#/components/schemas/inline_response_200_114'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80839,7 +78694,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_118'
+                $ref: '#/components/schemas/inline_response_200_115'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -80964,7 +78819,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_119'
+                $ref: '#/components/schemas/inline_response_200_116'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81026,7 +78881,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_120'
+                $ref: '#/components/schemas/inline_response_200_117'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81088,7 +78943,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_121'
+                $ref: '#/components/schemas/inline_response_200_118'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81213,7 +79068,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_122'
+                $ref: '#/components/schemas/inline_response_200_119'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81338,7 +79193,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_123'
+                $ref: '#/components/schemas/inline_response_200_120'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81463,7 +79318,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_124'
+                $ref: '#/components/schemas/inline_response_200_121'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81588,7 +79443,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_125'
+                $ref: '#/components/schemas/inline_response_200_122'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81650,7 +79505,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_126'
+                $ref: '#/components/schemas/inline_response_200_123'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81712,7 +79567,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_127'
+                $ref: '#/components/schemas/inline_response_200_124'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81837,7 +79692,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_128'
+                $ref: '#/components/schemas/inline_response_200_125'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -81962,7 +79817,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_129'
+                $ref: '#/components/schemas/inline_response_200_126'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -82087,7 +79942,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_130'
+                $ref: '#/components/schemas/inline_response_200_127'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -82212,7 +80067,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_131'
+                $ref: '#/components/schemas/inline_response_200_128'
         "400":
           description: Response in case of errored OaM requests
           content:
@@ -83373,7 +81228,6 @@ components:
       - required:
         - mac-interface-capability
         - mac-interface-configuration
-        - mac-interface-historical-performances
         - mac-interface-status
         type: object
         properties:
@@ -83383,14 +81237,10 @@ components:
             $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
           mac-interface-status:
             $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
-          mac-interface-historical-performances:
-            $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
         description: cache
       - required:
         - mac-interface-capability
         - mac-interface-configuration
-        - mac-interface-current-performance
-        - mac-interface-historical-performances
         - mac-interface-status
         type: object
         properties:
@@ -83400,20 +81250,12 @@ components:
             $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
           mac-interface-status:
             $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
-          mac-interface-current-performance:
-            $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
-          mac-interface-historical-performances:
-            $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
         description: live
     MAC_INTERFACE_CAPABILITY:
       type: object
     MAC_INTERFACE_CONFIGURATION:
       type: object
     MAC_INTERFACE_STATUS:
-      type: object
-    MAC_INTERFACE_CURRENT_PERFORMANCE:
-      type: object
-    MAC_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
     PURE_ETHERNET_STRUCTURE_PAC:
       oneOf:
@@ -83467,21 +81309,17 @@ components:
       - required:
         - vlan-interface-capability
         - vlan-interface-configuration
-        - vlan-interface-historical-performances
         type: object
         properties:
           vlan-interface-capability:
             $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
           vlan-interface-configuration:
             $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
-          vlan-interface-historical-performances:
-            $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
         description: cache
       - required:
         - vlan-interface-capability
         - vlan-interface-configuration
         - vlan-interface-current-performance
-        - vlan-interface-historical-performances
         type: object
         properties:
           vlan-interface-capability:
@@ -83490,16 +81328,12 @@ components:
             $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
           vlan-interface-current-performance:
             $ref: '#/components/schemas/VLAN_INTERFACE_CURRENT_PERFORMANCE'
-          vlan-interface-historical-performances:
-            $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
         description: live
     VLAN_INTERFACE_CAPABILITY:
       type: object
     VLAN_INTERFACE_CONFIGURATION:
       type: object
     VLAN_INTERFACE_CURRENT_PERFORMANCE:
-      type: object
-    VLAN_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
     WIRE_INTERFACE_PAC:
       oneOf:
@@ -83702,7 +81536,7 @@ components:
       - attribute-name
       - counter
       - new-value
-      - resource
+      - object-path
       - timestamp
       type: object
       properties:
@@ -83713,7 +81547,7 @@ components:
           type: string
           description: The time according to Section 5.6 of RFC 3339 at which the
             device created the notification
-        resource:
+        object-path:
           type: string
           description: Path to the object that holds the attribute that changed its
             value
@@ -83734,14 +81568,14 @@ components:
         notification-proxy-1-0:attribute-value-changed-notification:
           counter: 32
           timestamp: 2010-11-20T14:00:00+01:00
-          resource: /core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration
+          object-path: /core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration
           attribute-name: performance-monitoring-is-on
           new-value: "true"
     v1regarddeviceobjectcreation_notificationproxy10objectcreationnotification:
       required:
       - counter
+      - object-path
       - object-type
-      - resource
       - timestamp
       type: object
       properties:
@@ -83752,7 +81586,7 @@ components:
           type: string
           description: The time according to Section 5.6 of RFC 3339 at which the
             device created the notification
-        resource:
+        object-path:
           type: string
           description: Path to the object that has been created
         object-type:
@@ -83769,12 +81603,12 @@ components:
         notification-proxy-1-0:object-creation-notification:
           counter: 2
           timestamp: 2023-07-10T12:27:03+01:00
-          resource: /core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17
+          object-path: /core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17
           object-type: profile
     v1regarddeviceobjectdeletion_notificationproxy10objectdeletionnotification:
       required:
       - counter
-      - resource
+      - object-path
       - timestamp
       type: object
       properties:
@@ -83786,7 +81620,7 @@ components:
           type: string
           description: |
             'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
-        resource:
+        object-path:
           type: string
           description: |
             'Path to the object that has been deleted'
@@ -83801,7 +81635,7 @@ components:
         notification-proxy-1-0:object-deletion-notification:
           counter: 14
           timestamp: 2023-07-13T09:31:48+01:00
-          resource: /core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857
+          object-path: /core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857
     inline_response_200:
       required:
       - mount-name-list
@@ -84751,88 +82585,74 @@ components:
     inline_response_200_52:
       type: object
       properties:
-        mac-interface-1-0:mac-interface-historical-performances:
-          $ref: '#/components/schemas/MAC_INTERFACE_HISTORICAL_PERFORMANCES'
-      example:
-        mac-interface-1-0:mac-interface-historical-performances: {}
-    inline_response_200_53:
-      type: object
-      properties:
         pure-ethernet-structure-2-0:pure-ethernet-structure-capability:
           $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
       example:
         pure-ethernet-structure-2-0:pure-ethernet-structure-capability: {}
-    inline_response_200_54:
+    inline_response_200_53:
       type: object
       properties:
         pure-ethernet-structure-2-0:pure-ethernet-structure-configuration:
           $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
       example:
         pure-ethernet-structure-2-0:pure-ethernet-structure-configuration: {}
-    inline_response_200_55:
+    inline_response_200_54:
       type: object
       properties:
         pure-ethernet-structure-2-0:pure-ethernet-structure-status:
           $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
       example:
         pure-ethernet-structure-2-0:pure-ethernet-structure-status: {}
-    inline_response_200_56:
+    inline_response_200_55:
       type: object
       properties:
         pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances:
           $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
       example:
         pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances: {}
-    inline_response_200_57:
+    inline_response_200_56:
       type: object
       properties:
         vlan-interface-1-0:vlan-interface-capability:
           $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
       example:
         vlan-interface-1-0:vlan-interface-capability: {}
-    inline_response_200_58:
+    inline_response_200_57:
       type: object
       properties:
         vlan-interface-1-0:vlan-interface-configuration:
           $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
       example:
         vlan-interface-1-0:vlan-interface-configuration: {}
-    inline_response_200_59:
-      type: object
-      properties:
-        vlan-interface-1-0:vlan-interface-historical-performances:
-          $ref: '#/components/schemas/VLAN_INTERFACE_HISTORICAL_PERFORMANCES'
-      example:
-        vlan-interface-1-0:vlan-interface-historical-performances: {}
-    inline_response_200_60:
+    inline_response_200_58:
       type: object
       properties:
         wire-interface-2-0:wire-interface-capability:
           $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
       example:
         wire-interface-2-0:wire-interface-capability: {}
-    inline_response_200_61:
+    inline_response_200_59:
       type: object
       properties:
         wire-interface-2-0:wire-interface-configuration:
           $ref: '#/components/schemas/WIRE_INTERFACE_CONFIGURATION'
       example:
         wire-interface-2-0:wire-interface-configuration: {}
-    inline_response_200_62:
+    inline_response_200_60:
       type: object
       properties:
         wire-interface-2-0:wire-interface-status:
           $ref: '#/components/schemas/WIRE_INTERFACE_STATUS'
       example:
         wire-interface-2-0:wire-interface-status: {}
-    inline_response_200_63:
+    inline_response_200_61:
       type: object
       properties:
         wire-interface-2-0:wire-interface-historical-performances:
           $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
       example:
         wire-interface-2-0:wire-interface-historical-performances: {}
-    inline_response_200_64:
+    inline_response_200_62:
       type: object
       properties:
         core-model-1-4:forwarding-domain:
@@ -84863,7 +82683,7 @@ components:
             - local-id: local-id
             uuid: uuid
           uuid: uuid
-    inline_response_200_65:
+    inline_response_200_63:
       type: object
       properties:
         core-model-1-4:forwarding-construct:
@@ -84882,7 +82702,7 @@ components:
           - local-id: local-id
           - local-id: local-id
           uuid: uuid
-    inline_response_200_66:
+    inline_response_200_64:
       type: object
       properties:
         core-model-1-4:fc-port:
@@ -84895,49 +82715,42 @@ components:
         core-model-1-4:fc-port:
         - local-id: local-id
         - local-id: local-id
-    inline_response_200_67:
+    inline_response_200_65:
       type: object
       properties:
         air-interface-2-0:air-interface-current-performance:
           $ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
       example:
         air-interface-2-0:air-interface-current-performance: {}
-    inline_response_200_68:
+    inline_response_200_66:
       type: object
       properties:
         ethernet-container-2-0:ethernet-container-current-performance:
           $ref: '#/components/schemas/ETHERNET_CONTAINER_CURRENT_PERFORMANCE'
       example:
         ethernet-container-2-0:ethernet-container-current-performance: {}
-    inline_response_200_69:
+    inline_response_200_67:
       type: object
       properties:
         hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance:
           $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
       example:
         hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance: {}
-    inline_response_200_70:
-      type: object
-      properties:
-        mac-interface-1-0:mac-interface-current-performance:
-          $ref: '#/components/schemas/MAC_INTERFACE_CURRENT_PERFORMANCE'
-      example:
-        mac-interface-1-0:mac-interface-current-performance: {}
-    inline_response_200_71:
+    inline_response_200_68:
       type: object
       properties:
         pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance:
           $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
       example:
         pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance: {}
-    inline_response_200_72:
+    inline_response_200_69:
       type: object
       properties:
         vlan-interface-1-0:vlan-interface-current-performance:
           $ref: '#/components/schemas/VLAN_INTERFACE_CURRENT_PERFORMANCE'
       example:
         vlan-interface-1-0:vlan-interface-current-performance: {}
-    inline_response_200_73:
+    inline_response_200_70:
       type: object
       properties:
         wire-interface-2-0:wire-interface-current-performance:
@@ -85530,13 +83343,13 @@ components:
           ip-address:
             ipv-4-address: 1.1.3.8
         future-port: 3008
-    inline_response_200_74:
+    inline_response_200_71:
       required:
       - core-model-1-4:control-construct
       type: object
       properties:
         core-model-1-4:control-construct:
-          $ref: '#/components/schemas/inline_response_200_74_coremodel14controlconstruct'
+          $ref: '#/components/schemas/inline_response_200_71_coremodel14controlconstruct'
       example:
         core-model-1-4:control-construct:
           forwarding-domain:
@@ -85695,13 +83508,13 @@ components:
           ip-address:
             ipv-4-address: 1.1.3.13
         topology-application-port: 3013
-    inline_response_200_75:
+    inline_response_200_72:
       required:
       - core-model-1-4:control-construct
       type: object
       properties:
         core-model-1-4:control-construct:
-          $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct'
+          $ref: '#/components/schemas/inline_response_200_72_coremodel14controlconstruct'
       example:
         core-model-1-4:control-construct:
           forwarding-domain:
@@ -85812,7 +83625,7 @@ components:
         release-number: 2.0.1
         old-operation-name: /v1/register-application
         new-operation-name: /v2/register-application
-    inline_response_200_76:
+    inline_response_200_73:
       required:
       - application-name
       - application-purpose
@@ -85855,7 +83668,7 @@ components:
         data-update-period: real-time
         owner-name: Thorsten Heinze
         owner-email-address: Thorsten.Heinze@telefonica.com
-    inline_response_200_77:
+    inline_response_200_74:
       required:
       - changes
       - release-date
@@ -85871,13 +83684,13 @@ components:
         changes:
           type: string
           description: "from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=*/changes]"
-    inline_response_200_78:
+    inline_response_200_75:
       required:
       - core-model-1-4:control-construct
       type: object
       properties:
         core-model-1-4:control-construct:
-          $ref: '#/components/schemas/inline_response_200_78_coremodel14controlconstruct'
+          $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct'
       example:
         core-model-1-4:control-construct:
           profile-collection:
@@ -85951,7 +83764,7 @@ components:
                   application-name: RegistryOffice
                   release-number: 2.0.1
           uuid: ro-1-0-0
-    inline_response_200_79:
+    inline_response_200_76:
       required:
       - core-model-1-4:profile
       type: object
@@ -86212,7 +84025,7 @@ components:
             description: string profile
       example:
         core-model-1-4:profile: ""
-    inline_response_200_80:
+    inline_response_200_77:
       required:
       - action-profile-1-0:operation-name
       type: object
@@ -86222,7 +84035,7 @@ components:
           example: /v1/start-application-in-generic-representation
       example:
         action-profile-1-0:operation-name: /v1/start-application-in-generic-representation
-    inline_response_200_81:
+    inline_response_200_78:
       required:
       - action-profile-1-0:label
       type: object
@@ -86232,7 +84045,7 @@ components:
           example: Inform about Application
       example:
         action-profile-1-0:label: Inform about Application
-    inline_response_200_82:
+    inline_response_200_79:
       required:
       - action-profile-1-0:input-value-list
       type: object
@@ -86241,14 +84054,14 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/inline_response_200_82_actionprofile10inputvaluelist'
+            $ref: '#/components/schemas/inline_response_200_79_actionprofile10inputvaluelist'
       example:
         action-profile-1-0:input-value-list:
         - field-name: Label of input field
           unit: Unit at input field
         - field-name: Label of input field
           unit: Unit at input field
-    inline_response_200_83:
+    inline_response_200_80:
       required:
       - action-profile-1-0:display-in-new-browser-window
       type: object
@@ -86258,7 +84071,7 @@ components:
           example: false
       example:
         action-profile-1-0:display-in-new-browser-window: false
-    inline_response_200_84:
+    inline_response_200_81:
       required:
       - action-profile-1-0:consequent-operation-reference
       type: object
@@ -86276,7 +84089,7 @@ components:
         action-profile-1-0:consequent-operation-reference:
           type: string
           example: /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name
-    inline_response_200_85:
+    inline_response_200_82:
       required:
       - response-profile-1-0:operation-name
       type: object
@@ -86286,17 +84099,17 @@ components:
           example: /v1/start-application-in-generic-representation
       example:
         response-profile-1-0:operation-name: /v1/start-application-in-generic-representation
-    inline_response_200_86:
+    inline_response_200_83:
       required:
       - response-profile-1-0:field-name
       type: object
       properties:
         response-profile-1-0:field-name:
-          $ref: '#/components/schemas/inline_response_200_86_responseprofile10fieldname'
+          $ref: '#/components/schemas/inline_response_200_83_responseprofile10fieldname'
       example:
         response-profile-1-0:field-name: "{\"static-field-name\":\"applicationName\"\
           }"
-    inline_response_200_87:
+    inline_response_200_84:
       required:
       - response-profile-1-0:description
       type: object
@@ -86306,7 +84119,7 @@ components:
           example: Name of this application
       example:
         response-profile-1-0:description: Name of this application
-    inline_response_200_88:
+    inline_response_200_85:
       required:
       - response-profile-1-0:datatype
       type: object
@@ -86316,7 +84129,7 @@ components:
           example: string
       example:
         response-profile-1-0:datatype: string
-    inline_response_200_89:
+    inline_response_200_86:
       required:
       - response-profile-1-0:value
       type: object
@@ -86343,7 +84156,7 @@ components:
       properties:
         response-profile-1-0:value:
           $ref: '#/components/schemas/coremodel14controlconstructprofilecollectionprofileuuidresponseprofile10responseprofilepacresponseprofileconfigurationvalue_responseprofile10value'
-    inline_response_200_90:
+    inline_response_200_87:
       required:
       - file-profile-1-0:file-identifier
       type: object
@@ -86353,7 +84166,7 @@ components:
           example: applicationData
       example:
         file-profile-1-0:file-identifier: applicationData
-    inline_response_200_91:
+    inline_response_200_88:
       required:
       - file-profile-1-0:file-description
       type: object
@@ -86365,7 +84178,7 @@ components:
       example:
         file-profile-1-0:file-description: "Holds administrator-names, user-names,\
           \ authorization codes and allowed-methods."
-    inline_response_200_92:
+    inline_response_200_89:
       required:
       - file-profile-1-0:file-name
       type: object
@@ -86384,7 +84197,7 @@ components:
           pattern: "^([A-Za-z0-9-_,\\s]{3,})\\.([A-Za-z]{3})$"
           type: string
           example: application-data.json
-    inline_response_200_93:
+    inline_response_200_90:
       required:
       - file-profile-1-0:operation
       type: object
@@ -86412,7 +84225,7 @@ components:
           - file-profile-1-0:OPERATION_TYPE_READ_WRITE
           - file-profile-1-0:OPERATION_TYPE_OFF
           - file-profile-1-0:OPERATION_TYPE_NOT_YET_DEFINED
-    inline_response_200_94:
+    inline_response_200_91:
       required:
       - integer-profile-1-0:integer-name
       type: object
@@ -86422,7 +84235,7 @@ components:
           example: maximumNumberOfEntries
       example:
         integer-profile-1-0:integer-name: maximumNumberOfEntries
-    inline_response_200_95:
+    inline_response_200_92:
       required:
       - integer-profile-1-0:unit
       type: object
@@ -86432,7 +84245,7 @@ components:
           example: records
       example:
         integer-profile-1-0:unit: records
-    inline_response_200_96:
+    inline_response_200_93:
       required:
       - integer-profile-1-0:minimum
       type: object
@@ -86442,7 +84255,7 @@ components:
           example: 0
       example:
         integer-profile-1-0:minimum: 0
-    inline_response_200_97:
+    inline_response_200_94:
       required:
       - integer-profile-1-0:maximum
       type: object
@@ -86452,7 +84265,7 @@ components:
           example: 1000000
       example:
         integer-profile-1-0:maximum: 1000000
-    inline_response_200_98:
+    inline_response_200_95:
       required:
       - integer-profile-1-0:integer-value
       type: object
@@ -86470,7 +84283,7 @@ components:
         integer-profile-1-0:integer-value:
           type: integer
           example: 1000000
-    inline_response_200_99:
+    inline_response_200_96:
       required:
       - string-profile-1-0:string-name
       type: object
@@ -86480,7 +84293,7 @@ components:
           example: operationMode
       example:
         string-profile-1-0:string-name: operationMode
-    inline_response_200_100:
+    inline_response_200_97:
       required:
       - string-profile-1-0:enumeration
       type: object
@@ -86499,7 +84312,7 @@ components:
         - string-profile-1-0:STRING_VALUE_TYPE_REACTIVE
         - string-profile-1-0:STRING_VALUE_TYPE_PROTECTION
         - string-profile-1-0:STRING_VALUE_TYPE_OFF
-    inline_response_200_101:
+    inline_response_200_98:
       required:
       - string-profile-1-0:pattern
       type: object
@@ -86509,7 +84322,7 @@ components:
           example: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
       example:
         string-profile-1-0:pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-    inline_response_200_102:
+    inline_response_200_99:
       required:
       - string-profile-1-0:string-value
       type: object
@@ -86527,7 +84340,7 @@ components:
         string-profile-1-0:string-value:
           type: string
           example: string-profile-1-0:STRING_VALUE_TYPE_OFF
-    inline_response_200_103:
+    inline_response_200_100:
       required:
       - operation-server-interface-1-0:operation-name
       type: object
@@ -86537,7 +84350,7 @@ components:
           example: /v1/register-yourself
       example:
         operation-server-interface-1-0:operation-name: /v1/register-yourself
-    inline_response_200_104:
+    inline_response_200_101:
       required:
       - operation-server-interface-1-0:life-cycle-state
       type: object
@@ -86569,7 +84382,7 @@ components:
           - operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE
           - operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN
           - operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED
-    inline_response_200_105:
+    inline_response_200_102:
       required:
       - operation-server-interface-1-0:operation-key
       type: object
@@ -86588,7 +84401,7 @@ components:
           minLength: 5
           type: string
           example: Operation key not yet provided.
-    inline_response_200_106:
+    inline_response_200_103:
       required:
       - http-server-interface-1-0:application-name
       type: object
@@ -86598,7 +84411,7 @@ components:
           example: ApplicationName
       example:
         http-server-interface-1-0:application-name: ApplicationName
-    inline_response_200_107:
+    inline_response_200_104:
       required:
       - http-server-interface-1-0:release-number
       type: object
@@ -86608,7 +84421,7 @@ components:
           example: 1.0.0
       example:
         http-server-interface-1-0:release-number: 1.0.0
-    inline_response_200_108:
+    inline_response_200_105:
       required:
       - http-server-interface-1-0:application-purpose
       type: object
@@ -86619,7 +84432,7 @@ components:
       example:
         http-server-interface-1-0:application-purpose: Brief description of the purpose
           of the application.
-    inline_response_200_109:
+    inline_response_200_106:
       required:
       - http-server-interface-1-0:data-update-period
       type: object
@@ -86634,7 +84447,7 @@ components:
           - http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_MANUAL
       example:
         http-server-interface-1-0:data-update-period: http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME
-    inline_response_200_110:
+    inline_response_200_107:
       required:
       - http-server-interface-1-0:owner-name
       type: object
@@ -86644,7 +84457,7 @@ components:
           example: Thorsten Heinze
       example:
         http-server-interface-1-0:owner-name: Thorsten Heinze
-    inline_response_200_111:
+    inline_response_200_108:
       required:
       - http-server-interface-1-0:owner-email-address
       type: object
@@ -86654,7 +84467,7 @@ components:
           example: Thorsten.Heinze@telefonica.com
       example:
         http-server-interface-1-0:owner-email-address: Thorsten.Heinze@telefonica.com
-    inline_response_200_112:
+    inline_response_200_109:
       required:
       - http-server-interface-1-0:release-list
       type: object
@@ -86668,14 +84481,14 @@ components:
             release-date: 20.11.2010
             changes: Initial version.
           items:
-            $ref: '#/components/schemas/inline_response_200_112_httpserverinterface10releaselist'
+            $ref: '#/components/schemas/inline_response_200_109_httpserverinterface10releaselist'
       example:
         http-server-interface-1-0:release-list:
         - local-id: 0
           release-number: 1.0.0
           release-date: 20.11.2010
           changes: Initial version.
-    inline_response_200_113:
+    inline_response_200_110:
       required:
       - tcp-server-interface-1-0:description
       type: object
@@ -86691,7 +84504,7 @@ components:
       properties:
         tcp-server-interface-1-0:description:
           type: string
-    inline_response_200_114:
+    inline_response_200_111:
       required:
       - tcp-server-interface-1-0:local-protocol
       type: object
@@ -86715,13 +84528,13 @@ components:
           - tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP
           - tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS
           - tcp-server-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED
-    inline_response_200_115:
+    inline_response_200_112:
       required:
       - tcp-server-interface-1-0:local-address
       type: object
       properties:
         tcp-server-interface-1-0:local-address:
-          $ref: '#/components/schemas/inline_response_200_115_tcpserverinterface10localaddress'
+          $ref: '#/components/schemas/inline_response_200_112_tcpserverinterface10localaddress'
       example:
         tcp-server-interface-1-0:local-address:
           ipv-4-address: 1.1.4.1
@@ -86747,7 +84560,7 @@ components:
       example:
         tcp-server-interface-1-0:local-address:
           ipv-4-address: 1.1.4.1
-    inline_response_200_116:
+    inline_response_200_113:
       required:
       - tcp-server-interface-1-0:local-port
       type: object
@@ -86767,7 +84580,7 @@ components:
           minimum: 0
           type: integer
           example: 1000
-    inline_response_200_117:
+    inline_response_200_114:
       required:
       - operation-client-interface-1-0:operation-name
       type: object
@@ -86786,7 +84599,7 @@ components:
           minLength: 6
           type: string
           example: /v1/bequeath-your-data-and-die
-    inline_response_200_118:
+    inline_response_200_115:
       required:
       - operation-client-interface-1-0:operation-key
       type: object
@@ -86805,7 +84618,7 @@ components:
           minLength: 5
           type: string
           example: Operation key not yet provided.
-    inline_response_200_119:
+    inline_response_200_116:
       required:
       - operation-client-interface-1-0:operational-state
       type: object
@@ -86819,7 +84632,7 @@ components:
           - operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED
       example:
         operation-client-interface-1-0:operational-state: operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED
-    inline_response_200_120:
+    inline_response_200_117:
       required:
       - operation-client-interface-1-0:life-cycle-state
       type: object
@@ -86836,7 +84649,7 @@ components:
           - operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED
       example:
         operation-client-interface-1-0:life-cycle-state: operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED
-    inline_response_200_121:
+    inline_response_200_118:
       required:
       - operation-client-interface-1-0:detailed-logging-is-on
       type: object
@@ -86854,7 +84667,7 @@ components:
         operation-client-interface-1-0:detailed-logging-is-on:
           type: boolean
           example: false
-    inline_response_200_122:
+    inline_response_200_119:
       required:
       - elasticsearch-client-interface-1-0:api-key
       type: object
@@ -86871,7 +84684,7 @@ components:
       properties:
         elasticsearch-client-interface-1-0:api-key:
           type: string
-    inline_response_200_123:
+    inline_response_200_120:
       required:
       - elasticsearch-client-interface-1-0:index-alias
       type: object
@@ -86888,13 +84701,13 @@ components:
       properties:
         elasticsearch-client-interface-1-0:index-alias:
           type: string
-    inline_response_200_124:
+    inline_response_200_121:
       required:
       - elasticsearch-client-interface-1-0:service-records-policy
       type: object
       properties:
         elasticsearch-client-interface-1-0:service-records-policy:
-          $ref: '#/components/schemas/inline_response_200_124_elasticsearchclientinterface10servicerecordspolicy'
+          $ref: '#/components/schemas/inline_response_200_121_elasticsearchclientinterface10servicerecordspolicy'
       example:
         elasticsearch-client-interface-1-0:service-records-policy: "{\"service-records-policy-name\"\
           :\"eatl_service_records_policy\",\"phases\":{\"hot\":{\"min-age\":\"30s\"\
@@ -87160,7 +84973,7 @@ components:
       properties:
         elasticsearch-client-interface-1-0:service-records-policy:
           $ref: '#/components/schemas/coremodel14controlconstructlogicalterminationpointuuidlayerprotocol0elasticsearchclientinterface10elasticsearchclientinterfacepacelasticsearchclientinterfaceconfigurationservicerecordspolicy_elasticsearchclientinterface10servicerecordspolicy'
-    inline_response_200_125:
+    inline_response_200_122:
       required:
       - elasticsearch-client-interface-1-0:operational-state
       type: object
@@ -87174,7 +84987,7 @@ components:
           - elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED
       example:
         elasticsearch-client-interface-1-0:operational-state: elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED
-    inline_response_200_126:
+    inline_response_200_123:
       required:
       - elasticsearch-client-interface-1-0:life-cycle-state
       type: object
@@ -87191,7 +85004,7 @@ components:
           - elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED
       example:
         elasticsearch-client-interface-1-0:life-cycle-state: elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED
-    inline_response_200_127:
+    inline_response_200_124:
       required:
       - http-client-interface-1-0:application-name
       type: object
@@ -87210,7 +85023,7 @@ components:
           pattern: "^([A-Z][a-z0-9]+){2,}$"
           type: string
           example: NewApplication
-    inline_response_200_128:
+    inline_response_200_125:
       required:
       - http-client-interface-1-0:release-number
       type: object
@@ -87229,7 +85042,7 @@ components:
           pattern: "^([0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{1,2})$"
           type: string
           example: 1.0.0
-    inline_response_200_129:
+    inline_response_200_126:
       required:
       - tcp-client-interface-1-0:remote-protocol
       type: object
@@ -87253,13 +85066,13 @@ components:
           - tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP
           - tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS
           - tcp-client-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED
-    inline_response_200_130:
+    inline_response_200_127:
       required:
       - tcp-client-interface-1-0:remote-address
       type: object
       properties:
         tcp-client-interface-1-0:remote-address:
-          $ref: '#/components/schemas/inline_response_200_130_tcpclientinterface10remoteaddress'
+          $ref: '#/components/schemas/inline_response_200_127_tcpclientinterface10remoteaddress'
       example:
         tcp-client-interface-1-0:remote-address:
           ip-address:
@@ -87294,7 +85107,7 @@ components:
         tcp-client-interface-1-0:remote-address:
           ip-address:
             ipv-4-address: 1.1.4.1
-    inline_response_200_131:
+    inline_response_200_128:
       required:
       - tcp-client-interface-1-0:remote-port
       type: object
@@ -87554,7 +85367,7 @@ components:
       example:
         equipment-type-name: equipment-type-name
         uuid: uuid
-    inline_response_200_74_coremodel14controlconstruct:
+    inline_response_200_71_coremodel14controlconstruct:
       required:
       - forwarding-domain
       - logical-termination-point
@@ -87688,7 +85501,7 @@ components:
                 release-number: 2.0.1
                 data-update-period: http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME
         uuid: uuid
-    inline_response_200_75_coremodel14controlconstruct:
+    inline_response_200_72_coremodel14controlconstruct:
       required:
       - forwarding-domain
       - logical-termination-point
@@ -87824,7 +85637,7 @@ components:
                 release-number: 2.0.1
                 data-update-period: http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME
         uuid: uuid
-    inline_response_200_78_coremodel14controlconstruct_profilecollection:
+    inline_response_200_75_coremodel14controlconstruct_profilecollection:
       required:
       - profile
       type: object
@@ -88109,7 +85922,7 @@ components:
               maximum: 1000000
             integer-profile-configuration:
               integer-value: 1000000
-    inline_response_200_78_coremodel14controlconstruct_logicalterminationpoint:
+    inline_response_200_75_coremodel14controlconstruct_logicalterminationpoint:
       required:
       - client-ltp
       - layer-protocol
@@ -88810,7 +86623,7 @@ components:
                         remote-port:
                           type: integer
               description: tcp client
-    inline_response_200_78_coremodel14controlconstruct_fcport:
+    inline_response_200_75_coremodel14controlconstruct_fcport:
       required:
       - local-id
       - logical-termination-point
@@ -88827,7 +86640,7 @@ components:
           - core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT
         logical-termination-point:
           type: string
-    inline_response_200_78_coremodel14controlconstruct_forwardingconstruct:
+    inline_response_200_75_coremodel14controlconstruct_forwardingconstruct:
       required:
       - fc-port
       - name
@@ -88843,8 +86656,8 @@ components:
         fc-port:
           type: array
           items:
-            $ref: '#/components/schemas/inline_response_200_78_coremodel14controlconstruct_fcport'
-    inline_response_200_78_coremodel14controlconstruct_forwardingdomain:
+            $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct_fcport'
+    inline_response_200_75_coremodel14controlconstruct_forwardingdomain:
       required:
       - forwarding-construct
       - uuid
@@ -88855,8 +86668,8 @@ components:
         forwarding-construct:
           type: array
           items:
-            $ref: '#/components/schemas/inline_response_200_78_coremodel14controlconstruct_forwardingconstruct'
-    inline_response_200_78_coremodel14controlconstruct:
+            $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct_forwardingconstruct'
+    inline_response_200_75_coremodel14controlconstruct:
       required:
       - forwarding-domain
       - logical-termination-point
@@ -88869,7 +86682,7 @@ components:
           type: string
           example: ro-1-0-0
         profile-collection:
-          $ref: '#/components/schemas/inline_response_200_78_coremodel14controlconstruct_profilecollection'
+          $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct_profilecollection'
         logical-termination-point:
           uniqueItems: true
           type: array
@@ -88903,7 +86716,7 @@ components:
                   application-name: RegistryOffice
                   release-number: 2.0.1
           items:
-            $ref: '#/components/schemas/inline_response_200_78_coremodel14controlconstruct_logicalterminationpoint'
+            $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct_logicalterminationpoint'
         forwarding-domain:
           maxItems: 1
           minItems: 1
@@ -88938,7 +86751,7 @@ components:
                 port-direction: core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT
                 logical-termination-point: ro-2-0-1-op-c-bs-aa-2-0-1-000
           items:
-            $ref: '#/components/schemas/inline_response_200_78_coremodel14controlconstruct_forwardingdomain'
+            $ref: '#/components/schemas/inline_response_200_75_coremodel14controlconstruct_forwardingdomain'
       example:
         profile-collection:
           profile:
@@ -89011,7 +86824,7 @@ components:
                 application-name: RegistryOffice
                 release-number: 2.0.1
         uuid: ro-1-0-0
-    inline_response_200_82_actionprofile10inputvaluelist:
+    inline_response_200_79_actionprofile10inputvaluelist:
       required:
       - field-name
       type: object
@@ -89025,7 +86838,7 @@ components:
       example:
         field-name: Label of input field
         unit: Unit at input field
-    inline_response_200_86_responseprofile10fieldname:
+    inline_response_200_83_responseprofile10fieldname:
       maxProperties: 1
       minProperties: 1
       type: object
@@ -89036,7 +86849,7 @@ components:
           type: string
       additionalProperties: false
       example: "{\"static-field-name\":\"applicationName\"}"
-    inline_response_200_112_httpserverinterface10releaselist:
+    inline_response_200_109_httpserverinterface10releaselist:
       required:
       - changes
       - local-id
@@ -89052,14 +86865,14 @@ components:
           type: string
         changes:
           type: string
-    inline_response_200_115_tcpserverinterface10localaddress:
+    inline_response_200_112_tcpserverinterface10localaddress:
       type: object
       properties:
         ipv-4-address:
           type: string
         domain-name:
           type: string
-    inline_response_200_124_elasticsearchclientinterface10servicerecordspolicy:
+    inline_response_200_121_elasticsearchclientinterface10servicerecordspolicy:
       required:
       - phases
       - service-records-policy-name
@@ -89076,16 +86889,16 @@ components:
       example: "{\"service-records-policy-name\":\"eatl_service_records_policy\",\"\
         phases\":{\"hot\":{\"min-age\":\"30s\",\"actions\":{\"rollover\":{\"max-age\"\
         :\"5d\"}}},\"delete\":{\"min-age\":\"5d\",\"actions\":{}}}}"
-    inline_response_200_130_tcpclientinterface10remoteaddress_ipaddress:
+    inline_response_200_127_tcpclientinterface10remoteaddress_ipaddress:
       type: object
       properties:
         ipv-4-address:
           type: string
-    inline_response_200_130_tcpclientinterface10remoteaddress:
+    inline_response_200_127_tcpclientinterface10remoteaddress:
       type: object
       properties:
         ip-address:
-          $ref: '#/components/schemas/inline_response_200_130_tcpclientinterface10remoteaddress_ipaddress'
+          $ref: '#/components/schemas/inline_response_200_127_tcpclientinterface10remoteaddress_ipaddress'
         domain-name:
           type: string
   responses:

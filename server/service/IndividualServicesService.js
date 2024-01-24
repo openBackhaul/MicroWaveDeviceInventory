@@ -8777,7 +8777,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     let attributeName = currentJSON['attribute-name'];
     let newValue = currentJSON['new-value'];
 
-    const match = resource.match(/control-construct=(\w+)/);
+    const match = resource.match(/logical-termination-point=(\w+)/);
 
     // Extract the Control-construct
     const logicalTerminationPoint = match ? match[1] : null;

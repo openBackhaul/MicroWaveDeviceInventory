@@ -8805,8 +8805,9 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         reject(error);
       }
     } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-      let indexAlias = common[1].indexAlias
-      let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
+      let indexAlias = common[1].indexAlias;
+      const { deleteRecordFromElasticsearch } = module.exports;
+      let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint); 
       console.log('* ' + ret.result);
     }
     resolve();

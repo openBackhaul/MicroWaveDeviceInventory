@@ -35,6 +35,7 @@ const axios = require('axios');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
 
+const cyclicProcess = require('./individualServices/CyclicProcessService/cyclicProcess');
 
 
 /**
@@ -8796,6 +8797,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 
     //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
     if (attributeName == 'connection-status' && newValue == 'connected') {
+      cyclicProcess.updateDeviceListFromNotification(1, logicalTerminationPoint);
       try {
         let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
         //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
@@ -8805,7 +8807,9 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         reject(error);
       }
     } else if (attributeName == 'connection-status' && newValue !== 'connected') {
+      cyclicProcess.updateDeviceListFromNotification(2, logicalTerminationPoint);
       let indexAlias = common[1].indexAlias
+      const { deleteRecordFromElasticsearch } = module.exports;
       let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
       console.log('* ' + ret.result);
     }

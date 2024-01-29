@@ -330,13 +330,24 @@ function getTime() {
 module.exports.updateDeviceListFromNotification = async function updateDeviceListFromNotification(status, node_id) {
     function printDL(prefix) {
         let dlString = prefix + ': ['
-        for (let i = 0; i < deviceList.length; i++) {
+        let i = 0;
+        for (; i < deviceList.length; i++) {
             dlString += (deviceList[i]['node-id'] + '|')
         }
-        dlString = dlString.slice(0, -1);
+        if (i > 0) {
+            dlString = dlString.slice(0, -1);
+        }        
         dlString += ']';
         console.log(dlString);
     }
+    let busy = true;
+    do {
+        if (synchInProgress == true) {
+            await sleep(50);
+        } else {
+            busy = false;
+        }
+    } while (busy == true);
     if (status == 1) {  // Connected
         for (var i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
@@ -348,9 +359,9 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         let nodeObj = {'node-id': node_id, 'netconf-node-topology:connection-status':'connected'};
         let middleDL = [].concat(nodeObj);
         let rightDL = deviceList.slice(lastDeviceListIndex + 1);
-        printDL('Before Connected Notification')
+        printDL('Device List before connected notification')
         deviceList = [].concat(leftDL, middleDL, rightDL);
-        printDL('After Connected Notification')
+        printDL('Device List after connected notification')
         if (slidingWindow.length < slidingWindowSizeDb) {
             addNextDeviceListElementInWindow();
             requestMessage(slidingWindow.length - 1);
@@ -361,9 +372,9 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
                 found = true;
-                printDL('Before Not Connected Notification');
+                printDL('Device List before not connected notification');
                 deviceList.splice(i, 1);
-                printDL('After Not Connected Notification');
+                printDL('Device List after not connected notification');
                 break;
             }
         }
@@ -403,7 +414,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }        
     } catch (error) {
         console.log(error);
-        synchInProgress = false;
         return;
     }
     odlDeviceList = filterConnectedDevices(odlDeviceList);
@@ -418,7 +428,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*                                                                                                     *');
     
     let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
-    
+    synchInProgress = true;
     //
     // Calculate common elements and drop elements of ES-DL and print ES-DL
     //
@@ -587,6 +597,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
     printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
 
+    synchInProgress = false;
+
     //
     // Erase all the control constructs from elasticsearch referring elements not more present in new odl device list
     //
@@ -597,8 +609,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
     console.log('*******************************************************************************************************');
     console.log('');
-
-    synchInProgress = false;
     return true;
 }
 

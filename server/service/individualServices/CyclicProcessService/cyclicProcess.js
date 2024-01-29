@@ -18,7 +18,6 @@ let deviceListSyncPeriod = 24;
 let maximumNumberOfRetries = 1;
 let responseTimeout = 600;
 let slidingWindowSizeDb = 500;
-let slidingWindowSize = 3;      
 let slidingWindow = [];
 let deviceList = [];
 let lastDeviceListIndex = -1;
@@ -328,6 +327,73 @@ function getTime() {
     return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
 
+module.exports.updateDeviceListFromNotification = async function updateDeviceListFromNotification(status, node_id) {
+    function printDL(prefix) {
+        let dlString = prefix + ': ['
+        let i = 0;
+        for (; i < deviceList.length; i++) {
+            dlString += (deviceList[i]['node-id'] + '|')
+        }
+        if (i > 0) {
+            dlString = dlString.slice(0, -1);
+        }        
+        dlString += ']';
+        console.log(dlString);
+    }
+    let busy = true;
+    do {
+        if (synchInProgress == true) {
+            await sleep(50);
+        } else {
+            busy = false;
+        }
+    } while (busy == true);
+    if (status == 1) {  // Connected
+        for (var i = 0; i < deviceList.length; i++) {
+            if (deviceList[i]['node-id'] == node_id) {
+                console.log("Notification: element " + node_id + " already present in device list. Ignore that.")
+                return; // Element already present
+            }
+        }
+        let leftDL = deviceList.slice(0, lastDeviceListIndex + 1);
+        let nodeObj = {'node-id': node_id, 'netconf-node-topology:connection-status':'connected'};
+        let middleDL = [].concat(nodeObj);
+        let rightDL = deviceList.slice(lastDeviceListIndex + 1);
+        printDL('Device List before connected notification')
+        deviceList = [].concat(leftDL, middleDL, rightDL);
+        printDL('Device List after connected notification')
+        if (slidingWindow.length < slidingWindowSizeDb) {
+            addNextDeviceListElementInWindow();
+            requestMessage(slidingWindow.length - 1);
+            console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+        }
+    } else {            // Not connected        
+        let found = false;
+        for (let i = 0; i < deviceList.length; i++) {
+            if (deviceList[i]['node-id'] == node_id) {
+                found = true;
+                printDL('Device List before not connected notification');
+                deviceList.splice(i, 1);
+                printDL('Device List after not connected notification');
+                break;
+            }
+        }
+        if (found == false) {
+            console.log("Notification: element " + node_id + " not present in device list. Ignore that.");
+            return;
+        }
+        for (let i = 0; i < slidingWindow.length; i++) {
+            if (slidingWindow[i]['node-id'] == node_id) {
+                slidingWindow.splice(i, 1);
+                if (addNextDeviceListElementInWindow()) {
+                    console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+                    requestMessage(slidingWindow.length-1);
+                }                    
+            }
+        }
+    }
+}
+
 /**
  * Realigns the current device list with the new one 
  * 
@@ -348,7 +414,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }        
     } catch (error) {
         console.log(error);
-        synchInProgress = false;
         return;
     }
     odlDeviceList = filterConnectedDevices(odlDeviceList);
@@ -363,7 +428,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*                                                                                                     *');
     
     let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
-    
+    synchInProgress = true;
     //
     // Calculate common elements and drop elements of ES-DL and print ES-DL
     //
@@ -524,13 +589,15 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     // Fill the sliding window at the max allowed
     //
-    slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
+    let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
     for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
         addNextDeviceListElementInWindow();
         requestMessage(slidingWindow.length-1);
         printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length-1]['node-id'], print_log_level >= 2);    
     }
     printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
+
+    synchInProgress = false;
 
     //
     // Erase all the control constructs from elasticsearch referring elements not more present in new odl device list
@@ -542,8 +609,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
     console.log('*******************************************************************************************************');
     console.log('');
-
-    synchInProgress = false;
     return true;
 }
 
@@ -715,7 +780,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     //
     // Sliding Window
     //
-    slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
+    let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
     lastDeviceListIndex = -1;
     for (let i = 0; i < slidingWindowSize; i++) {
         addNextDeviceListElementInWindow();        

@@ -18133,8 +18133,8 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}:
-    get:
+  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}
+  : get:
       tags:
       - IndividualServices
       summary: Provides ForwardingConstruct from cache
@@ -18513,7 +18513,7 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}
   : get:
       tags:
       - IndividualServices
@@ -45367,7 +45367,7 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}:
+  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}:
     get:
       tags:
       - IndividualServices
@@ -45916,7 +45916,7 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+  ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
   : get:
       tags:
       - IndividualServices

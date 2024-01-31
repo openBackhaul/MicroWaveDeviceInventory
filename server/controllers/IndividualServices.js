@@ -546,6 +546,66 @@ module.exports.getCachedFirmwareComponentStatus = function getCachedFirmwareComp
   });
 };
 
+module.exports.getCachedForwardingConstruct = function getCachedForwardingConstruct (req, res, next, fields, mountName, uuid, uuid1, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};  
+  IndividualServices.getCachedForwardingConstruct(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, fields)
+    .then(async function (response) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (response) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
+};
+
+module.exports.getCachedForwardingConstructPort = function getCachedForwardingConstructPort (req, res, next, fields, mountName, uuid, uuid1, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};  
+  IndividualServices.getCachedForwardingConstructPort(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields)
+    .then(async function (response) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (response) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
+};
+
+module.exports.getCachedForwardingDomain = function getCachedForwardingDomain (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {}; 
+  IndividualServices.getCachedForwardingDomain(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
+    .then(async function (response) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (response) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
+};
+
 module.exports.getCachedHybridMwStructureCapability = function getCachedHybridMwStructureCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
@@ -1784,6 +1844,66 @@ module.exports.getLiveFirmwareComponentStatus = function getLiveFirmwareComponen
     responseBodyToDocument = sentResp.body;
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   });
+};
+
+module.exports.getLiveForwardingConstruct = function getLiveForwardingConstruct (req, res, next, fields, mountName, uuid, uuid1, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.getLiveForwardingConstruct(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, fields)
+    .then(async function (response) {
+      responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (response) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
+};
+
+module.exports.getLiveForwardingConstructPort = function getLiveForwardingConstructPort (req, res, next, fields, mountName, uuid, uuid1, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.getLiveForwardingConstructPort(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields)
+    .then(async function (response) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (response) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
+};
+
+module.exports.getLiveForwardingDomain = function getLiveForwardingDomain (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.getLiveForwardingDomain(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
+    .then(async function (response) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (response) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
 };
 
 module.exports.getLiveHybridMwStructureCapability = function getLiveHybridMwStructureCapability (req, res, next, fields, mountName, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {

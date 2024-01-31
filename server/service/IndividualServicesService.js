@@ -35,7 +35,7 @@ const axios = require('axios');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
 
-const cyclicProcess = require('./individualServices/CyclicProcessService/cyclicProcess');
+const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
 
 
 /**
@@ -1655,6 +1655,200 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
  **/
 exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
+    try {
+      const myFields = fields;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctMountname = mountname;
+      }
+      let returnObject = {};
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+/**
+ * Provides ForwardingConstruct from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * uuid1 String Another instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_33
+ **/
+exports.getCachedForwardingConstruct = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      const myFields = fields;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctMountname = mountname;
+      }
+      let returnObject = {};
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides ForwardingConstructPort from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * uuid1 String Another instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_34
+ **/
+exports.getCachedForwardingConstructPort = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      const myFields = fields;
+      url = decodeURIComponent(url);
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctMountname = mountname;
+      }
+      let returnObject = {};
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          returnObject[objectKey] = finalJson;
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        }
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+      }
+      resolve(returnObject);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides ForwardingDomain from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_32
+ **/
+exports.getCachedForwardingDomain = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(async function(resolve, reject) {
     try {
       const myFields = fields;
       url = decodeURIComponent(url);
@@ -5909,6 +6103,229 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
   });
 }
 
+/**
+ * Provides ForwardingConstruct from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * uuid1 String Another instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_63
+ **/
+exports.getLiveForwardingConstruct = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctCc = mountname;
+      }
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides ForwardingConstructPort from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * uuid1 String Another instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_64
+ **/
+exports.getLiveForwardingConstructPort = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctCc = mountname;
+      }
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides ForwardingDomain from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_62
+ **/
+exports.getLiveForwardingDomain = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctCc = mountname;
+      }
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          throw new createHttpError(res.status, res.statusText);
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.log(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
 
 /**
  * Provides HybridMwStructureCapability from live network
@@ -8486,7 +8903,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
   return new Promise(async function (resolve, reject) {
     try {
       let urlParts = url.split("?fields=");
-      let mountName = body['mountName'];
+      let mountName = body['mount-name'];
       const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
       const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
       let returnObject = {};
@@ -8575,7 +8992,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
 exports.provideListOfDeviceInterfaces = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     let urlParts = url.split("?fields=");
-    let mountName = body['mountName'];
+    let mountName = body['mount-name'];
     const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
     const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
     let returnObject = {};
@@ -8797,7 +9214,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 
     //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
     if (attributeName == 'connection-status' && newValue == 'connected') {
-      cyclicProcess.updateDeviceListFromNotification(1, logicalTerminationPoint);
+      updateDeviceListFromNotification(1, logicalTerminationPoint);
       try {
         let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
         //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
@@ -8807,7 +9224,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         reject(error);
       }
     } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-      cyclicProcess.updateDeviceListFromNotification(2, logicalTerminationPoint);
+      updateDeviceListFromNotification(2, logicalTerminationPoint);
       let indexAlias = common[1].indexAlias;
       const { deleteRecordFromElasticsearch } = module.exports;
       let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
@@ -8925,6 +9342,10 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
+      // find the index of the last "/"
+//      const lastIndex = resource.lastIndexOf("/");
+      // Truncate path at last "/"  
+//      const truncatedPath = resource.substring(0, lastIndex);
       url = decodeURIComponent(url);
 
       const appNameAndUuidFromForwarding = await NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter)
@@ -8988,9 +9409,11 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       const controlConstruct = match ? match[1] : null;
       // read from ES
       let result = await ReadRecords(controlConstruct);
+      modifyReturnJson(result);
       // Update json object
       let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
       // Write updated Json to ES
+      modificaUUID(result);
       let elapsedTime = await recordRequest(result, controlConstruct);
 
     } catch (error) {
@@ -9184,9 +9607,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
         "subscribing-application-release": applicationReleaseNumber,
         "subscribing-application-protocol": "HTTP",
         "subscribing-application-address": {
-          "ip-address": {
-            "ipv-4-address": tcpClientLocalAddress
-          }
+          "ip-address":  tcpClientLocalAddress
         },
         "subscribing-application-port": tcpClientLocalport,
         "notifications-receiving-operation": operation

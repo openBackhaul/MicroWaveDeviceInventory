@@ -1253,7 +1253,6 @@ paths:
                     - counter
                     - timestamp
                     - object-path
-                    - object-type
                   properties:
                     counter:
                       type: integer

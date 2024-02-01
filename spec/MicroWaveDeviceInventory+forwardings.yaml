@@ -253,7 +253,7 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-202
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
         uuid: mwdi-1-1-0-op-s-is-203
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-s-is-204
       - server-name: /core-model-1-4:network-control-domain=cache/link={uuid}
         uuid: mwdi-1-1-0-op-s-get-is-205, mwdi-1-1-0-op-s-put-is-205, mwdi-1-1-0-op-s-del-is-205
@@ -367,9 +367,9 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-501
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-1-0-op-s-is-502
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}
         uuid: mwdi-1-1-0-op-s-is-503
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-s-is-504
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-1-0-op-s-is-510
@@ -915,7 +915,7 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-202
       - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-203
-      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-204
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-210
@@ -1028,7 +1028,7 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-502
       - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-503
-      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-504
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-510
@@ -1153,9 +1153,9 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-501
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-502
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-503
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-504
 
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
@@ -1299,7 +1299,7 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-802
       - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-803
-      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-804
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: mwdi-1-1-0-op-c-del-es-1-0-0-810
@@ -1956,10 +1956,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-s-is-204
     consequent-requests:
-      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-get-es-1-0-0-204
 
   - forwarding-name: RequestForCachedLinkCausesReadingFromCache
@@ -2870,7 +2870,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}
         uuid: mwdi-1-1-0-op-s-is-503
     consequent-requests:
       - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/forwarding-construct{uuid1}
@@ -2887,12 +2887,12 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-s-is-504
     consequent-requests:
-      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-504
-      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+      - client-name: ElasticSearch://control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
         uuid: mwdi-1-1-0-op-c-put-es-1-0-0-504
 
   - forwarding-name: RequestForUpdatingLinkCausesWritingIntoCache

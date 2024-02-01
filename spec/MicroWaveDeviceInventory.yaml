@@ -1193,7 +1193,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceAttributeValueChangeCausesUpdateOfCache:
-          ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource but live replaced by cache}]
+          ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
             get:
               responses:
                 '200':
@@ -1204,7 +1204,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource but live replaced by cache}]
+          UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
             put:
               requestBody:
                 required: true
@@ -1263,15 +1263,11 @@ paths:
                     object-path:
                       type: string
                       description: 'Path to the object that has been created'
-                    object-type:
-                      type: string
-                      description: 'Type of the object that has been created'
               example:
                 notification-proxy-1-0:object-creation-notification:
                   counter: 2
                   timestamp: '2023-07-10T12:27:03+01:00'
                   object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
-                  object-type: 'profile'
       responses:
         '204':
           description: 'Notification received'
@@ -1295,7 +1291,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource}]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-mwdi-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:object-creation-notification/object-path}]
             get:
               responses:
                 '200':
@@ -1386,7 +1382,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/resource but live replaced by cache}]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:object-deletion-notification/object-path but live replaced by cache}]
             delete:
               responses:
                 '204':
@@ -2352,7 +2348,6 @@ paths:
                             - counter
                             - timestamp
                             - resource
-                            - object-type
                           properties:
                             counter:
                               type: integer
@@ -2363,15 +2358,11 @@ paths:
                             resource:
                               type: string
                               description: 'Path (cache path as available at the MWDI API) to the object that has been created'
-                            object-type:
-                              type: string
-                              description: 'Type of the object that has been created'
                       example:
                         microwave-device-inventory-1-0:object-creation-notification:
                           counter: 2
                           timestamp: '2023-07-10T12:27:03.0+00:00'
                           resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment'
-                          object-type: 'actual-equipment'
               responses:
                 '204':
                   description: 'Notification received'

@@ -139,7 +139,7 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-202
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-1-0-op-s-is-203
-        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
           uuid: mwdi-1-1-0-op-s-is-204
         - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
           uuid: mwdi-1-1-0-op-s-get-is-205, mwdi-1-1-0-op-s-put-is-205, mwdi-1-1-0-op-s-del-is-205
@@ -267,9 +267,9 @@ servers:
           uuid: mwdi-1-1-0-op-s-is-501
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}
           uuid: mwdi-1-1-0-op-s-is-502
-        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
+        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}
           uuid: mwdi-1-1-0-op-s-is-503
-        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}
           uuid: mwdi-1-1-0-op-s-is-504
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
@@ -436,7 +436,7 @@ clients:
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-202
         - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-203
-        - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+        - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-204
         - operation-name: /link={uuid}
           uuid: mwdi-1-1-0-op-c-get-es-1-0-0-205
@@ -566,7 +566,7 @@ clients:
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-502
         - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-503
-        - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+        - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-504
         - operation-name: /link={uuid}
           uuid: mwdi-1-1-0-op-c-put-es-1-0-0-505
@@ -696,7 +696,7 @@ clients:
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-802
         - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-803
-        - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+        - operation-name: /control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-804
         - operation-name: /link={uuid}
           uuid: mwdi-1-1-0-op-c-del-es-1-0-0-805
@@ -1027,9 +1027,9 @@ clients:
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-501
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-502
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-503
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}
             uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-504
 
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
@@ -1188,7 +1188,7 @@ clients:
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-502
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/forwarding-construct{uuid1}
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-503
-          - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+          - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port={localId}
             uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-504
 
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability

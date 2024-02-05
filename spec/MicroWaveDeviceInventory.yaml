@@ -2140,7 +2140,7 @@ paths:
                           required:
                             - counter
                             - timestamp
-                            - resource
+                            - object-path
                             - attribute-name
                             - new-value
                           properties:
@@ -2150,7 +2150,7 @@ paths:
                             timestamp:
                               type: string
                               description: 'Time when the callback is send'
-                            resource:
+                            object-path:
                               type: string
                               description: 'Path (cache path as available at the MWDI API) to the object that holds the attribute that changed its value'
                             attribute-name:
@@ -2163,7 +2163,7 @@ paths:
                         microwave-device-inventory-1-0:attribute-value-changed-notification:
                           counter: 132
                           timestamp: '2010-11-20T14:00:00+01:00'
-                          resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                          object-path: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
                           attribute-name: 'performance-monitoring-is-on'
                           new-value: 'true'
               responses:
@@ -2347,7 +2347,7 @@ paths:
                           required:
                             - counter
                             - timestamp
-                            - resource
+                            - object-path
                           properties:
                             counter:
                               type: integer
@@ -2355,14 +2355,14 @@ paths:
                             timestamp:
                               type: string
                               description: 'Time when the callback is send'
-                            resource:
+                            object-path:
                               type: string
                               description: 'Path (cache path as available at the MWDI API) to the object that has been created'
                       example:
                         microwave-device-inventory-1-0:object-creation-notification:
                           counter: 2
                           timestamp: '2023-07-10T12:27:03.0+00:00'
-                          resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment'
+                          object-path: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment'
               responses:
                 '204':
                   description: 'Notification received'
@@ -2544,7 +2544,7 @@ paths:
                           required:
                             - counter
                             - timestamp
-                            - resource
+                            - object-path
                           properties:
                             counter:
                               type: integer
@@ -2552,14 +2552,14 @@ paths:
                             timestamp:
                               type: string
                               description: 'Time when the callback is send'
-                            resource:
+                            object-path:
                               type: string
                               description: 'Path (cache path as available at the MWDI API) to the object that has been deleted'
                       example:
                         microwave-device-inventory-1-0:object-deletion-notification:
                           counter: 14
                           timestamp: '2023-07-13T09:31:48.0+00:00'
-                          resource: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/profile-collection/profile=PROFILE-WRED-15'
+                          object-path: '/core-model-1-4:network-control-domain=cache/control-construct=513250009/profile-collection/profile=PROFILE-WRED-15'
               responses:
                 '204':
                   description: 'Notification received'

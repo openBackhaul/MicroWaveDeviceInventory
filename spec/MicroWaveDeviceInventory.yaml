@@ -5037,7 +5037,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -5063,7 +5063,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  core-model-1-4:forwarding-construct:
+                  core-model-1-4:fc:
                     type: array
                     items:
                       $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
@@ -5125,7 +5125,7 @@ paths:
                       schema:
                         type: object
                         properties:
-                          core-model-1-4:forwarding-construct:
+                          core-model-1-4:fc:
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
@@ -5135,7 +5135,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}/fc-port={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12161,7 +12161,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}:
+  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -12187,12 +12187,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  core-model-1-4:forwarding-construct:
+                  core-model-1-4:fc:
                     type: array
                     items:
                       $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
                     description: >
-                      'from {$RequestForReadingFromDevice.response.body#core-model-1-4:forwarding-construct}
+                      'from {$RequestForReadingFromDevice.response.body#core-model-1-4:fc}
                       and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
           headers:
             x-correlator:
@@ -12261,7 +12261,7 @@ paths:
                       schema:
                         type: object
                         properties:
-                          core-model-1-4:forwarding-construct:
+                          core-model-1-4:fc:
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
@@ -12308,14 +12308,14 @@ paths:
                     schema:
                       type: object
                       required:
-                        - core-model-1-4:forwarding-construct
+                        - core-model-1-4:fc
                       properties:
-                        core-model-1-4:forwarding-construct:
+                        core-model-1-4:fc:
                           type: array
                           items:
                             $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
                           description: >
-                            'from {$RequestForReadingFromDevice.response.body#core-model-1-4:forwarding-construct}
+                            'from {$RequestForReadingFromDevice.response.body#core-model-1-4:fc}
                             and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
               responses:
                 '204':
@@ -12326,7 +12326,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct={uuid1}/fc-port={localId}:
+  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}/fc-port={localId}:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -27471,11 +27471,11 @@ components:
       type: object
       required:
         - uuid
-        - forwarding-construct
+        - fc
       properties:
         uuid:
           type: string
-        forwarding-construct:
+        fc:
           type: array
           items:
             $ref: '#/components/schemas/FORWARDING_CONSTRUCT'

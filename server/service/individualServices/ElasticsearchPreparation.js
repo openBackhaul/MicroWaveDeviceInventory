@@ -447,7 +447,13 @@ async function createIndexTemplate() {
                                                     }
                                                 },
                                                 "ready-for-starting-new-operation": {
-                                                    "type": "boolean"
+                                                    "type": "text",
+                                                    "fields": {
+                                                        "keyword": {
+                                                            "type": "keyword",
+                                                            "ignore_above": 256
+                                                        }
+                                                    }
                                                 },
                                                 "restore-operation-status": {
                                                     "type": "text",

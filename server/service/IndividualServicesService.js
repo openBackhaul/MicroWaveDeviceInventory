@@ -1717,7 +1717,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_33
  **/
-exports.getCachedForwardingConstruct = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
+exports.getCachedForwardingConstruct = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
   return new Promise(async function(resolve, reject) {
     try {
       const myFields = fields;
@@ -1783,7 +1783,7 @@ exports.getCachedForwardingConstruct = function(user,originator,xCorrelator,trac
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_34
  **/
-exports.getCachedForwardingConstructPort = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
+exports.getCachedForwardingConstructPort = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
   return new Promise(async function(resolve, reject) {
     try {
       const myFields = fields;
@@ -1847,7 +1847,7 @@ exports.getCachedForwardingConstructPort = function(user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_32
  **/
-exports.getCachedForwardingDomain = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getCachedForwardingDomain = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(async function(resolve, reject) {
     try {
       const myFields = fields;
@@ -4447,7 +4447,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5176,9 +5176,9 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       } else {
         correctCc = mountname;
       }
-      url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(url));
-      const finalUrl = formatUrlForOdl(url);
+      let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
+      const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
@@ -5551,7 +5551,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6117,7 +6117,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_63
  **/
-exports.getLiveForwardingConstruct = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
+exports.getLiveForwardingConstruct = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
   return new Promise(async function(resolve, reject) {
     try {
       let jsonObj = "";
@@ -6193,7 +6193,7 @@ exports.getLiveForwardingConstruct = function(user,originator,xCorrelator,traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_64
  **/
-exports.getLiveForwardingConstructPort = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
+exports.getLiveForwardingConstructPort = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
   return new Promise(async function(resolve, reject) {
     try {
       let jsonObj = "";
@@ -6267,7 +6267,7 @@ exports.getLiveForwardingConstructPort = function(user,originator,xCorrelator,tr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_62
  **/
-exports.getLiveForwardingDomain = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+exports.getLiveForwardingDomain = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
   return new Promise(async function(resolve, reject) {
     try {
       let jsonObj = "";
@@ -6498,7 +6498,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6852,7 +6852,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7501,7 +7501,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8150,7 +8150,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8504,7 +8504,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-      const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -9413,9 +9413,9 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // Update json object
       let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
       // Write updated Json to ES
-      modificaUUID(result);
+      modificaUUID(result, controlConstruct);
       let elapsedTime = await recordRequest(result, controlConstruct);
-
+      resolve();
     } catch (error) {
       console.log(error);
       reject(error);

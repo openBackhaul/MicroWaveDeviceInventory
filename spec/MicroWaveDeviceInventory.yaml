@@ -27467,11 +27467,40 @@ components:
                 - 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
             wire-interface-2-0:wire-interface-pac:
               $ref: '#/components/schemas/WIRE_INTERFACE_PAC'
+        - description: 'ip-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - ip-interface-1-0:ip-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'ip-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_IP_LAYER'
+            ip-interface-1-0:ip-interface-pac:
+              $ref: '#/components/schemas/IP_INTERFACE_PAC'
+        - description: 'tdm-container'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - tdm-container-2-0:tdm-container-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
+            tdm-container-2-0:tdm-container-pac:
+              $ref: '#/components/schemas/TDM_CONTAINER_PAC'
     FORWARDING_DOMAIN:
       type: object
       required:
         - uuid
-        - fc
       properties:
         uuid:
           type: string
@@ -27483,7 +27512,6 @@ components:
       type: object
       required:
         - uuid
-        - fc-port
       properties:
         uuid:
           type: string
@@ -27585,6 +27613,7 @@ components:
             - air-interface-configuration
             - air-interface-status
             - air-interface-historical-performances
+          additionalProperties : false
           properties:
             air-interface-capability:
               $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
@@ -27633,6 +27662,7 @@ components:
             - ethernet-container-configuration
             - ethernet-container-status
             - ethernet-container-historical-performances
+          additionalProperties : false
           properties:
             ethernet-container-capability:
               $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
@@ -27681,6 +27711,7 @@ components:
             - hybrid-mw-structure-configuration
             - hybrid-mw-structure-status
             - hybrid-mw-structure-historical-performances
+          additionalProperties : false
           properties:
             hybrid-mw-structure-capability:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
@@ -27764,6 +27795,7 @@ components:
             - pure-ethernet-structure-configuration
             - pure-ethernet-structure-status
             - pure-ethernet-structure-historical-performances
+          additionalProperties : false
           properties:
             pure-ethernet-structure-capability:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
@@ -27810,6 +27842,7 @@ components:
           required:
             - vlan-interface-capability
             - vlan-interface-configuration
+          additionalProperties : false
           properties:
             vlan-interface-capability:
               $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
@@ -27844,6 +27877,7 @@ components:
             - wire-interface-configuration
             - wire-interface-status
             - wire-interface-historical-performances
+          additionalProperties : false
           properties:
             wire-interface-capability:
               $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
@@ -27882,6 +27916,46 @@ components:
       type: object
     WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
       type: object
+    IP_INTERFACE_PAC:
+      type: object
+      required:
+        - ip-interface-capability
+        - ip-interface-configuration
+        - ip-interface-status
+      properties:
+        ip-interface-capability:
+          $ref: '#/components/schemas/IP_INTERFACE_CAPABILITY'
+        ip-interface-configuration:
+          $ref: '#/components/schemas/IP_INTERFACE_CONFIGURATION'
+        ip-interface-status:
+          $ref: '#/components/schemas/IP_INTERFACE_STATUS'
+    IP_INTERFACE_CAPABILITY:
+      type: object
+    IP_INTERFACE_CONFIGURATION:
+      type: object
+    IP_INTERFACE_STATUS:
+      type: object  
+    
+    TDM_CONTAINER_PAC:
+      type: object
+      required:
+        - tdm-container-capability
+        - tdm-container-configuration
+        - tdm-container-status
+      properties:
+        tdm-container-capability:
+          $ref: '#/components/schemas/TDM_CONTAINER_CAPABILITY'
+        tdm-container-configuration:
+          $ref: '#/components/schemas/TDM_CONTAINER_CONFIGURATION'
+        tdm-container-status:
+          $ref: '#/components/schemas/TDM_CONTAINER_STATUS'
+    TDM_CONTAINER_CAPABILITY:
+      type: object
+    TDM_CONTAINER_CONFIGURATION:
+      type: object
+    TDM_CONTAINER_STATUS:
+      type: object
+
   securitySchemes:
     apiKeyAuth:
       type: apiKey

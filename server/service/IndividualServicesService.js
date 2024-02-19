@@ -1,42 +1,32 @@
 'use strict';
-const ForwardingConfigurationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructConfigurationServices');
-const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
-const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
-const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
-const operationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
-const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-const consequentAction = require('onf-core-model-ap/applicationPattern/rest/server/responseBody/ConsequentAction');
-const responseValue = require('onf-core-model-ap/applicationPattern/rest/server/responseBody/ResponseValue');
-const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
-const HttpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
-const ResponseProfile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/ResponseProfile');
-const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
-const genericRepresentation = require('onf-core-model-ap-bs/basicServices/GenericRepresentation');
 const createHttpError = require('http-errors');
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
 const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
-const { getLiveControlConstruct } = require('../controllers/IndividualServices');
 const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const axios = require('axios');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
+const subscriberManagement = require('./individualServices/SubscriberManagement');
+const inputValidation = require('./individualServices/InputValidation');
+const notificationManagement = require('./individualServices/NotificationManagement');
 
+
+const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
-
+let lastSentMessages = [];
 
 /**
  * Initiates process of embedding a new release
@@ -8845,11 +8835,36 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.notifyAttributeValueChanges = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
-  });
+exports.notifyAttributeValueChanges = async function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  
+    let subscribingApplicationName = body["subscriber-application"];
+    let subscribingApplicationRelease = body["subscriber-release-number"];
+    let subscribingApplicationProtocol = body["subscriber-protocol"];
+    let subscribingApplicationAddress = body["subscriber-address"];
+    let subscribingApplicationPort = body["subscriber-port"];
+    let notificationsReceivingOperation = body["subscriber-operation"];
+
+    let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+    );
+
+    if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+        if (!success) {
+            throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        }
+    } else {
+        throw new Error('notifyControllerObjectCreations: invalid input data');
+    }
 }
+  
 
 
 /**
@@ -8864,8 +8879,33 @@ exports.notifyAttributeValueChanges = function (url, body, user, originator, xCo
  * no response value expected for this operation
  **/
 exports.notifyObjectCreations = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+  return new Promise(async function (resolve, reject) {
+    let subscribingApplicationName = body["subscriber-application"];
+    let subscribingApplicationRelease = body["subscriber-release-number"];
+    let subscribingApplicationProtocol = body["subscriber-protocol"];
+    let subscribingApplicationAddress = body["subscriber-address"];
+    let subscribingApplicationPort = body["subscriber-port"];
+    let notificationsReceivingOperation = body["subscriber-operation"];
+
+    let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+    );
+
+    if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+        if (!success) {
+            throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        }
+    } else {
+        throw new Error('notifyControllerObjectCreations: invalid input data');
+    }
   });
 }
 
@@ -8882,8 +8922,33 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
  * no response value expected for this operation
  **/
 exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+  return new Promise(async function (resolve, reject) {
+    let subscribingApplicationName = body["subscriber-application"];
+    let subscribingApplicationRelease = body["subscriber-release-number"];
+    let subscribingApplicationProtocol = body["subscriber-protocol"];
+    let subscribingApplicationAddress = body["subscriber-address"];
+    let subscribingApplicationPort = body["subscriber-port"];
+    let notificationsReceivingOperation = body["subscriber-operation"];
+
+    let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+    );
+
+    if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+        if (!success) {
+            throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        }
+    } else {
+        throw new Error('notifyControllerObjectCreations: invalid input data');
+    }
   });
 }
 
@@ -9313,6 +9378,19 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       } else if (resRequestor.status != 200) {
         throw new createHttpError(resRequestor.status, resRequestor.statusText);
       } else {
+        let appInformation = await notificationManagement.getAppInformation();
+        const releaseNumber = appInformation["release-number"];
+        let parts = releaseNumber.split(".");
+        const applicationName = appInformation["application-name"] +"-"+ parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
+        const newJson = {
+          applicationName : {
+            "counter": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].counter,
+            "timestamp": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].timestamp,
+            "attribute-name": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].attribute-name,
+            "new-value": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].new-value
+          }
+        };
+        notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
         resolve();
       }
     } catch (error) {
@@ -9362,6 +9440,18 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       } else if (resRequestor.status != 200) {
         throw new createHttpError(resRequestor.status, resRequestor.statusText);
       } else {
+        let appInformation = await notificationManagement.getAppInformation();
+        const releaseNumber = appInformation["release-number"];
+        let parts = releaseNumber.split(".");
+        const applicationName = appInformation["application-name"] +"-"+ parts[0] + "-" + parts[1] + ":object-creation-notification";
+        const newJson = {
+          applicationName : {
+            "counter": originalJson["notification-proxy-1-0:object-creation-notification"].counter,
+            "timestamp": originalJson["notification-proxy-1-0:object-creation-notification"].timestamp,
+            "object-path": originalJson["notification-proxy-1-0:object-creation-notification"].object-path,
+          }
+        };
+        notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
         resolve();
       }
     } catch (error) {
@@ -9415,6 +9505,18 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // Write updated Json to ES
       modificaUUID(result, controlConstruct);
       let elapsedTime = await recordRequest(result, controlConstruct);
+      let appInformation = await notificationManagement.getAppInformation();
+        const releaseNumber = appInformation["release-number"];
+        let parts = releaseNumber.split(".");
+        const applicationName = appInformation["application-name"] +"-"+ parts[0] + "-" + parts[1] + ":object-deletion-notification";
+        const newJson = {
+          applicationName : {
+            "counter": originalJson["notification-proxy-1-0:object-deletion-notification"].counter,
+            "timestamp": originalJson["notification-proxy-1-0:object-deletion-notification"].timestamp,
+            "object-path": originalJson["notification-proxy-1-0:object-deletion-notification"].object-path,
+          }
+        };
+      notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
       resolve();
     } catch (error) {
       console.log(error);
@@ -9531,6 +9633,162 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
 
 
 /* List of functions needed for individual services*/
+
+/**
+ * Notify subscribers of any NP subscription service of a new controller-notification
+ *
+ * @param deviceNotificationType type of subscription
+ * @param controllerNotification inbound notification from controller
+ * @param controllerName
+ * @param controllerRelease
+ * @param controllerTargetUrl
+ */
+async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMessage) {
+  let activeSubscribers = await notificationManagement.getActiveSubscribers(deviceNotificationType);
+
+  if (activeSubscribers.length > 0) {
+      console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
+      
+      for (let subscriber of activeSubscribers) {
+          sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
+      }
+  } else {
+      console.log("no subscribers for " + deviceNotificationType + ", message discarded");
+  }
+}
+
+
+/**
+ * Trigger notification to subscriber with data
+ * @param notificationType type of notification
+ * @param targetOperationURL target url with endpoint where subscriber expects arrival of notifications
+ * @param notificationMessage converted notification to send
+ * @param operationKey
+ */
+async function sendMessageToSubscriber(notificationType, targetOperationURL, operationKey, notificationMessage) {
+  
+  cleanupOutboundNotificationCache();
+
+  //check if same notification was sent more than once in certain timespan
+  let isDuplicate = checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage);
+
+  if (isDuplicate) {
+      console.log.debug("notification duplicate ignored");
+  } else {
+      let sendingTimestampMs = Date.now();
+
+      // "clone"
+      let comparisonNotificationMessage = JSON.parse(JSON.stringify(notificationMessage));
+      //ignore timestamp and counter for comparison
+      delete comparisonNotificationMessage[Object.keys(comparisonNotificationMessage)[0]]["timestamp"];
+      delete comparisonNotificationMessage[Object.keys(comparisonNotificationMessage)[0]]["counter"];
+
+      let messageCacheEntry = {
+          "targetOperationURL": targetOperationURL,
+          "type": notificationType,
+          "notification": comparisonNotificationMessage,
+          "timeMs": sendingTimestampMs
+      }
+      lastSentMessages.push(messageCacheEntry);
+
+      let appInformation = await notificationManagement.getAppInformation();
+
+      let requestHeader =  notificationManagement.createRequestHeader();
+
+      let uniqueSendingID = crypto.randomUUID();
+
+      //send notification
+      console.log("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
+
+      axios.post(targetOperationURL, notificationMessage, {
+          // axios.post("http://localhost:1237", notificationMessage, {
+          headers: {
+              'x-correlator': requestHeader.xCorrelator,
+              'trace-indicator': requestHeader.traceIndicator,
+              'user': requestHeader.user,
+              'originator': requestHeader.originator,
+              'customer-journey': requestHeader.customerJourney,
+              'operation-key': operationKey
+          }
+      })
+          .then((response) => {
+              console.log.debug("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
+
+              executionAndTraceService.recordServiceRequestFromClient(
+                  appInformation["application-name"],
+                  appInformation["release-number"],
+                  requestHeader.xCorrelator,
+                  requestHeader.traceIndicator,
+                  requestHeader.user,
+                  requestHeader.originator,
+                  notificationType, //for example "notifications/device-alarms"
+                  response.status,
+                  notificationMessage,
+                  response.data);
+          })
+          .catch(e => {
+              console.log(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
+
+              executionAndTraceService.recordServiceRequestFromClient(
+                  appInformation["application-name"],
+                  appInformation["release-number"],
+                  requestHeader.xCorrelator,
+                  requestHeader.traceIndicator,
+                  requestHeader.user,
+                  requestHeader.originator,
+                  notificationType,
+                  responseCodeEnum.code.INTERNAL_SERVER_ERROR,
+                  notificationMessage,
+                  e);
+          });
+  }
+}
+
+
+function cleanupOutboundNotificationCache() {
+  let toRemoveElements = [];
+
+  for (const lastSentMessage of lastSentMessages) {
+      let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
+
+      //timeout from env - use 5 seconds as fallback
+      let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
+
+      if (differenceInTimestampMs > timespanMs) {
+          toRemoveElements.push(lastSentMessage)
+      }
+  }
+
+  //remove timed out elements
+  lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
+}
+
+function checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage) {
+
+  // "clone"
+  let newComparisonNotificationMessage = JSON.parse(JSON.stringify(notificationMessage));
+  //ignore timestamp and counter for comparison
+  delete newComparisonNotificationMessage[Object.keys(newComparisonNotificationMessage)[0]]["timestamp"];
+  delete newComparisonNotificationMessage[Object.keys(newComparisonNotificationMessage)[0]]["counter"];
+  let newNotificationString = JSON.stringify(newComparisonNotificationMessage);
+
+  for (const lastSentMessage of lastSentMessages) {
+      // "clone"
+      let oldComparisonNotificationMessage = JSON.parse(JSON.stringify(lastSentMessage.notification));
+      //ignore timestamp and counter for comparison
+      delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["timestamp"];
+      delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["counter"];
+      let oldNotificationString = JSON.stringify(oldComparisonNotificationMessage);
+
+      if (newNotificationString === oldNotificationString &&
+          lastSentMessage.type === notificationType &&
+          lastSentMessage.targetOperationURL === targetOperationURL) {
+          return true;
+      }
+  }
+
+  return false;
+}
 
 async function sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, requestorUrl, operationKey) {
   let httpRequestHeaderRequestor;
@@ -9705,7 +9963,7 @@ async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
     }
   }
 
-  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
+  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter];
   const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
   let applicationNameList = [];
   const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];

@@ -74,7 +74,6 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
     console.log(originalJSON[lastKey])
 
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
-    //console.log(JSON.stringify(jsonOriginale, null, 2));
   }
 };
 
@@ -102,9 +101,9 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         oggetto = oggetto[objectKey1];
         oggetto = oggetto[nomeArray];
       }
-      // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
+      // If the key doesn't contain square brackets get the objet value
       if (i === chiavi.length - 1) {
-        // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
+        // If this is the last key in the path, assign the new value
         if (Filters) {
           let objectKey = Object.keys(nuovoJSON)[0];
           let newJSON = nuovoJSON[objectKey];
@@ -125,12 +124,11 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
       const parentesiQuadraChiusaIndex = chiave.indexOf(']');
 
       if (parentesiQuadraApertaIndex !== -1 && parentesiQuadraChiusaIndex !== -1) {
-        // Se la chiave contiene parentesi quadre per indicare un indice di array
         nomeArray = chiave.substring(0, parentesiQuadraApertaIndex);
         const indice = parseInt(chiave.substring(parentesiQuadraApertaIndex + 1, parentesiQuadraChiusaIndex), 10);
 
         if (i === chiavi.length - 1) {
-          // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
+          // If this is the last key in the path, assign the new value
           if (Filters) {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
@@ -145,11 +143,11 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
             }
           }
         } else {
-          // Altrimenti, prosegui la navigazione dell'oggetto
+          // Otherwise go on parsing the object
           oggetto = oggetto[nomeArray][indice];
         }
       } else {
-        // Se la chiave non contiene parentesi quadre, accedi al campo oggetto
+        // If the key doesn't contain square brackets get the objet value
         /*  if (i === chiavi.length -1) {
             // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
             if (Filters) {
@@ -162,7 +160,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
               oggetto[chiave] = newJSON;
             }
           } else { */
-        // Altrimenti, prosegui la navigazione dell'oggetto
+        // Otherwise go on parsing the object
         oggetto = oggetto[chiave];
         nomeArray = chiave;
         //}
@@ -177,7 +175,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
     if (nuovoJSON !== null) {
       let objectKey = Object.keys(nuovoJSON)[0];
       let newJSON = nuovoJSON[objectKey]
-      oggetto = newJSON;
+      Object.assign(oggetto ,newJSON);
     }
   }
 }

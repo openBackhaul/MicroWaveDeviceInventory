@@ -1,3 +1,5 @@
+const createHttpError = require('http-errors');
+
 exports.cacheResponseBuilder = async function (url, currentJSON) {
     let objectKey = Object.keys(currentJSON)[0];
     currentJSON = currentJSON[objectKey];
@@ -38,14 +40,14 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
                     }
                 } else {
                     //                    console.log(`No elements found with UUID: ${uuidDaCercare}`);
+                    throw new createHttpError(404, `No elements found with UUID: ${uuidDaCercare}`);
                     return
                     break;
                 }
             }
         } else {
-            //            console.log(`Field not found: ${key}`);
             lastValue = key;
-            break;
+            throw new createHttpError(404, `Field not found: ${key}`);
         }
         lastkey = key;
         i--;
@@ -77,6 +79,13 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
                 returnObject = { [topJsonWrapper]: [currentJSON] };
             } else {
                 returnObject = { [topJsonWrapper]: [currentJSON[0]] };
+            }
+        } else {
+            topJsonWrapper = prefix + ":" + lastUrlSegment;
+            if (lastUrlSegment.indexOf("control-construct") != -1) {
+                returnObject = { [topJsonWrapper]: [currentJSON] };
+            } else {
+                returnObject = { [topJsonWrapper]: currentJSON };
             }
         }
     } else if (lastUrlSegment.indexOf("=") != -1) {

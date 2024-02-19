@@ -1870,7 +1870,7 @@ module.exports.getLiveForwardingConstructPort = function getLiveForwardingConstr
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.getLiveForwardingConstructPort(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields)
+  IndividualServices.getLiveForwardingConstructPort(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
@@ -1890,7 +1890,7 @@ module.exports.getLiveForwardingDomain = function getLiveForwardingDomain (req, 
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.getLiveForwardingDomain(user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
+  IndividualServices.getLiveForwardingDomain(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
@@ -2608,7 +2608,7 @@ module.exports.getLiveWredProfileConfiguration = function getLiveWredProfileConf
 
 module.exports.notifyAttributeValueChanges = function notifyAttributeValueChanges (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.OK;
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   IndividualServices.notifyAttributeValueChanges(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {
@@ -2628,7 +2628,7 @@ module.exports.notifyAttributeValueChanges = function notifyAttributeValueChange
 
 module.exports.notifyObjectCreations = function notifyObjectCreations (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.OK;
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   IndividualServices.notifyObjectCreations(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {
@@ -2648,7 +2648,7 @@ module.exports.notifyObjectCreations = function notifyObjectCreations (req, res,
 
 module.exports.notifyObjectDeletions = function notifyObjectDeletions (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.OK;
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   IndividualServices.notifyObjectDeletions(req.url,body, user, originator, xCorrelator, traceIndicator, customerJourney)
   .then(async function (responseBody) {

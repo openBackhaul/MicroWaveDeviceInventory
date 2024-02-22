@@ -47,7 +47,9 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
             }
         } else {
             lastValue = key;
-            throw new createHttpError(404, `Field not found: ${key}`);
+            if (key != "control-construct"){
+                throw new createHttpError(404, `Field not found: ${key}`);
+            }
         }
         lastkey = key;
         i--;

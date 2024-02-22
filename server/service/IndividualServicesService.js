@@ -9083,7 +9083,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           "logical-termination-point-list": toChangeObject["logical-termination-point-list"].map((item) => {
             return {
               "uuid": item.uuid,
-              "localId": item["layer-protocol"][0]["local-id"],
+              "local-id": item["layer-protocol"][0]["local-id"],
               "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"],
             };
           }),

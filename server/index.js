@@ -17,13 +17,13 @@ const prepareElasticsearch = require('./service/individualServices/Elasticsearch
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 //appCommons.openApiValidatorOptions.validateSecurity = false;
-
+appCommons.openApiValidatorOptions.validateResponses = false;
 // swaggerRouter configuration
 var options = {
     routing: {
         controllers: path.join(__dirname, './controllers')
     },
-    //openApiValidator: appCommons.openApiValidatorOptions
+    openApiValidator: appCommons.openApiValidatorOptions
 };
 
 var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);

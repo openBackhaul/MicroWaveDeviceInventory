@@ -6385,7 +6385,7 @@ paths:
                           - attribute-name
                           - counter
                           - new-value
-                          - resource
+                          - object-path
                           - timestamp
                           type: object
                           properties:
@@ -6396,7 +6396,7 @@ paths:
                             timestamp:
                               type: string
                               description: Time when the callback is send
-                            resource:
+                            object-path:
                               type: string
                               description: Path (cache path as available at the MWDI
                                 API) to the object that holds the attribute that changed
@@ -6412,7 +6412,7 @@ paths:
                         microwave-device-inventory-1-0:attribute-value-changed-notification:
                           counter: 132
                           timestamp: 2010-11-20T14:00:00+01:00
-                          resource: /core-model-1-4:network-control-domain=cache/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration
+                          object-path: /core-model-1-4:network-control-domain=cache/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration
                           attribute-name: performance-monitoring-is-on
                           new-value: "true"
                 required: true
@@ -6943,8 +6943,7 @@ paths:
                         microwave-device-inventory-1-0:object-creation-notification:
                           required:
                           - counter
-                          - object-type
-                          - resource
+                          - object-path
                           - timestamp
                           type: object
                           properties:
@@ -6955,19 +6954,15 @@ paths:
                             timestamp:
                               type: string
                               description: Time when the callback is send
-                            resource:
+                            object-path:
                               type: string
                               description: Path (cache path as available at the MWDI
                                 API) to the object that has been created
-                            object-type:
-                              type: string
-                              description: Type of the object that has been created
                       example:
                         microwave-device-inventory-1-0:object-creation-notification:
                           counter: 2
                           timestamp: 2023-07-10T12:27:03.0+00:00
-                          resource: /core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment
-                          object-type: actual-equipment
+                          object-path: /core-model-1-4:network-control-domain=cache/control-construct=513250009/equipment=EQUIPMENT-4-4/actual-equipment
                 required: true
               responses:
                 "204":
@@ -7496,7 +7491,7 @@ paths:
                         microwave-device-inventory-1-0:object-deletion-notification:
                           required:
                           - counter
-                          - resource
+                          - object-path
                           - timestamp
                           type: object
                           properties:
@@ -7507,7 +7502,7 @@ paths:
                             timestamp:
                               type: string
                               description: Time when the callback is send
-                            resource:
+                            object-path:
                               type: string
                               description: Path (cache path as available at the MWDI
                                 API) to the object that has been deleted
@@ -7515,7 +7510,7 @@ paths:
                         microwave-device-inventory-1-0:object-deletion-notification:
                           counter: 14
                           timestamp: 2023-07-13T09:31:48.0+00:00
-                          resource: /core-model-1-4:network-control-domain=cache/control-construct=513250009/profile-collection/profile=PROFILE-WRED-15
+                          object-path: /core-model-1-4:network-control-domain=cache/control-construct=513250009/profile-collection/profile=PROFILE-WRED-15
                 required: true
               responses:
                 "204":
@@ -18133,7 +18128,7 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}:
+  /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}:
     get:
       tags:
       - IndividualServices
@@ -18398,7 +18393,7 @@ paths:
                       schema:
                         type: object
                         properties:
-                          core-model-1-4:forwarding-construct:
+                          core-model-1-4:fc:
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
@@ -18513,7 +18508,7 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
+  ? /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}/fc-port={localId}
   : get:
       tags:
       - IndividualServices
@@ -45367,7 +45362,7 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}:
+  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}:
     get:
       tags:
       - IndividualServices
@@ -45642,7 +45637,7 @@ paths:
                       schema:
                         type: object
                         properties:
-                          core-model-1-4:forwarding-construct:
+                          core-model-1-4:fc:
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
@@ -45792,13 +45787,13 @@ paths:
                   application/json:
                     schema:
                       required:
-                      - core-model-1-4:forwarding-construct
+                      - core-model-1-4:fc
                       type: object
                       properties:
-                        core-model-1-4:forwarding-construct:
+                        core-model-1-4:fc:
                           type: array
                           description: |
-                            'from {$RequestForReadingFromDevice.response.body#core-model-1-4:forwarding-construct} and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
+                            'from {$RequestForReadingFromDevice.response.body#core-model-1-4:fc} and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
                           items:
                             $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
                 required: true
@@ -45916,8 +45911,8 @@ paths:
       security:
       - apiKeyAuth: []
       x-swagger-router-controller: IndividualServices
-  ? /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/forwarding-construct{uuid1}/fc-port{localId}
-  : get:
+  /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}/fc-port={localId}:
+    get:
       tags:
       - IndividualServices
       summary: Provides ForwardingConstructPort from live network
@@ -81632,7 +81627,6 @@ components:
       required:
       - counter
       - object-path
-      - object-type
       - timestamp
       type: object
       properties:
@@ -81646,9 +81640,6 @@ components:
         object-path:
           type: string
           description: Path to the object that has been created
-        object-type:
-          type: string
-          description: Type of the object that has been created
     v1_regarddeviceobjectcreation_body:
       required:
       - notification-proxy-1-0:object-creation-notification
@@ -81661,7 +81652,6 @@ components:
           counter: 2
           timestamp: 2023-07-10T12:27:03+01:00
           object-path: /core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17
-          object-type: profile
     v1regarddeviceobjectdeletion_notificationproxy10objectdeletionnotification:
       required:
       - counter
@@ -82473,12 +82463,12 @@ components:
     inline_response_200_33:
       type: object
       properties:
-        core-model-1-4:forwarding-construct:
+        core-model-1-4:fc:
           type: array
           items:
             $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
       example:
-        core-model-1-4:forwarding-construct:
+        core-model-1-4:fc:
         - fc-port:
           - local-id: local-id
           - local-id: local-id
@@ -82743,14 +82733,14 @@ components:
     inline_response_200_63:
       type: object
       properties:
-        core-model-1-4:forwarding-construct:
+        core-model-1-4:fc:
           type: array
           description: |
-            'from {$RequestForReadingFromDevice.response.body#core-model-1-4:forwarding-construct} and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
+            'from {$RequestForReadingFromDevice.response.body#core-model-1-4:fc} and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
           items:
             $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
       example:
-        core-model-1-4:forwarding-construct:
+        core-model-1-4:fc:
         - fc-port:
           - local-id: local-id
           - local-id: local-id
@@ -85409,7 +85399,7 @@ components:
         uuid: uuid
     inline_response_200_2_actualequipmentlist:
       required:
-      - equipment-type-name
+#      - equipment-type-name
       - uuid
       type: object
       properties:

@@ -340,6 +340,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         dlString += ']';
         console.log(dlString);
     }
+    console.log("<Notification>  node-id: " + node_id + "   status: " + ((status == 1) ? "connected" : "not connected"))
     let busy = true;
     do {
         if (synchInProgress == true) {
@@ -391,6 +392,15 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
                 }                    
             }
         }
+    }
+    // Updating device list in elasticsearch
+    let deviceListString = JSON.stringify(deviceList);
+    try {
+        console.log("Updating device list into cache...")
+        await individualServicesService.writeDeviceListToElasticsearch(deviceListString);
+        console.log("Device list updated into cache.")
+    } catch (error) {
+        console.log(error);        
     }
 }
 

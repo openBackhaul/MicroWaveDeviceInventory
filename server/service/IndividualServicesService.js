@@ -2173,7 +2173,12 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       }
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
-        resolve(result);
+        let objectKey = Object.keys(result)[0];
+        if (objectKey.indexOf("link") != -1){
+          resolve(result);
+        } else {
+          throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+        }
       } else {
         throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
       }
@@ -9280,14 +9285,14 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
     if (attributeName == 'connection-status' && newValue == 'connected') {
       updateDeviceListFromNotification(1, logicalTerminationPoint);
-      try {
+      /*try {
         let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
         //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
         console.log("")
       } catch (error) {
         console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
         reject(error);
-      }
+      } */
     } else if (attributeName == 'connection-status' && newValue !== 'connected') {
       updateDeviceListFromNotification(2, logicalTerminationPoint);
       let indexAlias = common[1].indexAlias;

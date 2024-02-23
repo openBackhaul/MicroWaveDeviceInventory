@@ -5715,6 +5715,15 @@ async function createIndexTemplate() {
                                                 },
                                                 "extension": {
                                                     "properties": {
+                                                        "value": {
+                                                            "type": "text",
+                                                            "fields": {
+                                                                "keyword": {
+                                                                    "type": "keyword",
+                                                                    "ignore_above": 256
+                                                                }
+                                                            }
+                                                        },
                                                         "value-name": {
                                                             "type": "text",
                                                             "fields": {

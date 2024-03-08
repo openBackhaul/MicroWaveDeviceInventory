@@ -8,27 +8,95 @@ var executionAndTraceService = require('onf-core-model-ap/applicationPattern/ser
 var startModule = require('../temporarySupportFiles/StartModule.js');
 var individualServices = require('../service/IndividualServicesService.js');
 
+const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const axios = require('axios');
+const individualServicesService = require( "../service/IndividualServicesService.js");
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
 
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  
+  const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
+  const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  let prefix = forwardingConstruct.uuid.split('op')[0];
+
+  let newPort = await tcpClientInterface.getRemotePortAsync(prefix + "tcp-c-nr-1-0-0-000");
+  let retNewIpAddress = await tcpClientInterface.getRemoteAddressAsync(prefix + "tcp-c-nr-1-0-0-000");
+  let newIpAddress = retNewIpAddress['ip-address']['ipv-4-address'];
+  
+  let oldIpAddress = body['old-release-address']['ip-address']['ipv-4-address'];
+  let oldPort = body['old-release-port'];
+
+  let registryOfficeIpAddress = body['registry-office-address']['ip-address']['ipv-4-address'];
+  let registryOfficePort = body['registry-office-port'];
+  
+  console.log("---------------------------------------------------------------------------------------------------------------------");
+  console.log("EMBED-YOURSELF:   [IP   nr: " + newIpAddress + "   or: " + oldIpAddress + "   ro: " + registryOfficeIpAddress + 
+              "] - [Port   nr: " + newPort + "   or: " + oldPort + "   ro: " + registryOfficePort + "]");
+  console.log("---------------------------------------------------------------------------------------------------------------------");
+
+  if (newPort != oldPort || newIpAddress != oldIpAddress) {
+      
+      let bequeathData = await individualServicesService.GetBequeathYourDataAndDieData();
+      let operationKey = bequeathData.operationKey;
+      let requestorUrl = "http://" + oldIpAddress + ":" + oldPort + bequeathData.operationName;
+      let newApplicationName = await HttpServerInterface.getApplicationNameAsync();
+      let newReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+      let requestorBody = {
+          "new-application-name": newApplicationName,
+          "new-application-release": newReleaseNumber,
+          "new-application-protocol": "HTTP",
+          "new-application-address": {
+              "ip-address": {
+                  "ipv-4-address": newIpAddress
+              }
+          },
+          "new-application-port": newPort
+      };
+  
+      let httpRequestHeader = new RequestHeader(
+          user,
+          originator,
+          xCorrelator,
+          traceIndicator,
+          customerJourney,
+          operationKey
+      );
+  
+      let httpRequestHeaderRequestor = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
+  
+      console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> ....");
+      try {
+          let response = await axios.post(requestorUrl, requestorBody, {
+              headers: httpRequestHeaderRequestor
+          });          
+      } catch (error) {
+          console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> .... ERROR  (" + error + ")");          
+      }
+  } 
+    
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
-    .then(async function (responseBody) {
-      startModule.start();
-      individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
-      responseBodyToDocument = responseBody;
-      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
-    })
-    .catch(async function (responseBody) {
-      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
-      responseCode = sentResp.code;
-      responseBodyToDocument = sentResp.body;
-    });
-  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+      .then(async function (responseBody) {
+        startModule.start();
+        individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
+        responseBodyToDocument = responseBody;
+        let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      })
+      .catch(async function (responseBody) {
+        let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+        responseCode = sentResp.code;
+        responseBodyToDocument = sentResp.body;
+      });
+    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  
 };
 
 module.exports.endSubscription = async function endSubscription(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {

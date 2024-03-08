@@ -1,0 +1,117 @@
+const notificationManagement = require("./NotificationManagement");
+const configConstants = require("./ConfigConstants");
+const axios = require('axios');
+const individualServicesService = require( "../IndividualServicesService.js");
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const cyclicProcess = require('./CyclicProcessService/cyclicProcess.js');
+
+
+async function addSubscribersToNewRelease(appAddress, appPort) {
+
+    
+    try {
+        let subscriberNotificationTypes = [
+            configConstants.OAM_PATH_ATTRIBUTE_VALUE_CHANGES,
+            configConstants.OAM_PATH_ATTRIBUTE_OBJECT_CREATIONS,
+            configConstants.OAM_PATH_ATTRIBUTE_OBJECT_DELETIONS
+        ];
+
+        for (const subscriberNotificationType of subscriberNotificationTypes) {
+            let activeSubscribers = await notificationManagement.getActiveSubscribers(subscriberNotificationType);
+
+            for (const activeSubscriber of activeSubscribers) {
+                let notificationMessage = {
+                    "subscriber-application": activeSubscriber.name,
+                    "subscriber-release-number": activeSubscriber.release,
+                    "subscriber-operation": activeSubscriber.operationName,
+                    "subscriber-protocol": activeSubscriber.protocol,
+                    "subscriber-address": activeSubscriber.address,
+                    "subscriber-port": activeSubscriber.port                      
+                };
+
+                let targetNewReleaseURL = notificationManagement.buildControllerTargetPath("http", appAddress, appPort) + subscriberNotificationType;
+                let requestHeader = notificationManagement.createRequestHeader();
+
+                const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
+                const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+                let prefix = forwardingConstruct.uuid.split('op')[0];
+                const operationKey = await OperationServerInterface.getOperationKeyAsync(prefix + "op-s-is-020");
+
+                await axios.post(targetNewReleaseURL, notificationMessage, {
+                    headers: {
+                        'x-correlator': requestHeader.xCorrelator,
+                        'trace-indicator': requestHeader.traceIndicator,
+                        'user': requestHeader.user,
+                        'originator': requestHeader.originator,
+                        'customer-journey': requestHeader.customerJourney,
+                        'operation-key': operationKey
+                    }
+                })
+                .then((response) => {
+                    console.log("OLD -> NEW RELEASE tranferring ok.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.name + ")");
+                })
+                .catch(e => {
+                    console.log("OLD -> NEW RELEASE tranferring error.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.operationName + ")");
+                });                
+            }
+        }
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+async function endSubscriptionToNotificationProxy() {
+
+    try {
+        npData = await individualServicesService.GetNotificationProxyData();
+        let targetNpURL = npData.tcpConn + npData.operationName;
+        let requestHeader = notificationManagement.createRequestHeader();
+        let applicationName = await HttpServerInterface.getApplicationNameAsync();
+        let releaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+        let body = {
+            "subscriber-application": applicationName,
+            "subscriber-release-number": releaseNumber,
+            "subscription": "/v1/subscription-to-be-stopped"
+        }
+        console.log("OLD RELEASE --> NP  (URL: " + targetNpURL + "  App. Name: " + applicationName + "  Rel. Num: " + releaseNumber + ")....");
+        await axios.post(targetNpURL, body, {
+            headers: {
+                'x-correlator': requestHeader.xCorrelator,
+                'trace-indicator': requestHeader.traceIndicator,
+                'user': requestHeader.user,
+                'originator': requestHeader.originator,
+                'customer-journey': requestHeader.customerJourney,
+                'operation-key': npData.operationKey
+            }
+        })
+        .then((response) => {
+            console.log("OLD RELEASE --> END SUBSCRIPTION TO NOTIFICATION-PROXY OK");
+        })
+        .catch(e => {
+            console.log("OLD RELEASE --> END SUBSCRIPTION TO NOTIFICATION-PROXY ERROR (" + e + ")");
+        });
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+exports.handleRequest = async function (body, requestUrl) {
+
+    let appName = body["new-application-name"];
+    let appRelease = body["new-application-release"];
+    let appAddress = body["new-application-address"];
+    let appPort = body["new-application-port"];
+    
+    var success = await addSubscribersToNewRelease(appAddress, appPort);
+    if (success) {
+        success = await endSubscriptionToNotificationProxy();
+        cyclicProcess.stopCyclicProcess();
+    }
+    
+    return success;
+}
+

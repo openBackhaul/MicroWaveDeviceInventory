@@ -1,11 +1,12 @@
 const notificationManagement = require("./NotificationManagement");
 const configConstants = require("./ConfigConstants");
 const axios = require('axios');
-const individualServicesService = require( "../IndividualServicesService.js");
+
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const cyclicProcess = require('./CyclicProcessService/cyclicProcess.js');
+//const cyclicProcess = require('./CyclicProcessService/cyclicProcess.js');
+
 
 
 async function addSubscribersToNewRelease(appAddress, appPort) {
@@ -66,7 +67,8 @@ async function addSubscribersToNewRelease(appAddress, appPort) {
 async function endSubscriptionToNotificationProxy() {
 
     try {
-        npData = await individualServicesService.GetNotificationProxyData();
+        const {GetNotificationProxyData} = require( "../IndividualServicesService.js");
+        npData = await GetNotificationProxyData();
         let targetNpURL = npData.tcpConn + npData.operationName;
         let requestHeader = notificationManagement.createRequestHeader();
         let applicationName = await HttpServerInterface.getApplicationNameAsync();
@@ -109,7 +111,9 @@ exports.handleRequest = async function (body, requestUrl) {
     var success = await addSubscribersToNewRelease(appAddress, appPort);
     if (success) {
         success = await endSubscriptionToNotificationProxy();
-        cyclicProcess.stopCyclicProcess();
+        //cyclicProcess.stopCyclicProcess();
+        const {stopCyclicProcess} = require('./CyclicProcessService/cyclicProcess.js');
+        stopCyclicProcess();
     }
     
     return success;

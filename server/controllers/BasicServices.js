@@ -37,7 +37,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   console.log("EMBED-YOURSELF:   [IP   nr: " + newIpAddress + "   or: " + oldIpAddress + "   ro: " + registryOfficeIpAddress + 
               "] - [Port   nr: " + newPort + "   or: " + oldPort + "   ro: " + registryOfficePort + "]");
   console.log("---------------------------------------------------------------------------------------------------------------------");
-
+  /*
   if (newPort != oldPort || newIpAddress != oldIpAddress) {
       
       let bequeathData = await individualServicesService.GetBequeathYourDataAndDieData();
@@ -77,7 +77,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
           console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> .... ERROR  (" + error + ")");          
       }
   } 
-    
+  */  
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};

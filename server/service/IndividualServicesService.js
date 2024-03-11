@@ -23,6 +23,7 @@ const subscriberManagement = require('./individualServices/SubscriberManagement'
 const inputValidation = require('./individualServices/InputValidation');
 const notificationManagement = require('./individualServices/NotificationManagement');
 
+const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHandler');
 
 const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
@@ -39,18 +40,26 @@ let lastSentMessages = [];
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
+// exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+//   return new Promise(async function (resolve, reject) {
+
+//     let newApplicationDetails = body;
+//     let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+//     let newReleaseNumber = body["new-application-release"];
+
+//     if (newReleaseNumber !== currentReleaseNumber) {
+
+//       softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
+//         .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+//     }
+//   });
+// }
+
 exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
 
-    let newApplicationDetails = body;
-    let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
-    let newReleaseNumber = body["new-application-release"];
-
-    if (newReleaseNumber !== currentReleaseNumber) {
-
-      softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
-        .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
-    }
+      await bequeathHandler.handleRequest(body, url);
+      resolve();
   });
 }
 
@@ -8841,7 +8850,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
  * no response value expected for this operation
  **/
 exports.notifyAttributeValueChanges = async function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  
+  return new Promise(async function (resolve, reject) {
     let subscribingApplicationName = body["subscriber-application"];
     let subscribingApplicationRelease = body["subscriber-release-number"];
     let subscribingApplicationProtocol = body["subscriber-protocol"];
@@ -8868,6 +8877,8 @@ exports.notifyAttributeValueChanges = async function (url, body, user, originato
     } else {
         throw new Error('notifyControllerObjectCreations: invalid input data');
     }
+    resolve();
+  });
 }
   
 
@@ -8911,6 +8922,7 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
     } else {
         throw new Error('notifyControllerObjectCreations: invalid input data');
     }
+    resolve();
   });
 }
 
@@ -8954,6 +8966,7 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
     } else {
         throw new Error('notifyControllerObjectCreations: invalid input data');
     }
+    resolve();
   });
 }
 
@@ -10258,6 +10271,115 @@ async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
     applicationNameList.push(applicationNameData);
   }
   return applicationNameList;
+}
+
+exports.GetBequeathYourDataAndDieData = function GetBequeathYourDataAndDieData() {
+  return new Promise(async function(resolve, reject) {
+    try {
+      const forwardingName = "PromptForEmbeddingCausesRequestForBequeathingData"
+      const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      
+      let fcPortOutputDirectionLogicalTerminationPointList = [];
+      const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+      for (const fcPort of fcPortList) {
+          const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+          if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+          }
+      }
+
+      let retObj = new Object()
+      for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+        const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+        const httpClientLtpUuid = httpLtpUuidList[0];
+        const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)        
+        const tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+
+        retObj = {
+          operationKey: key,
+          operationName: path
+        }
+      }
+      resolve(retObj);
+    } catch( error ) {
+      reject()
+    }
+  });
+}
+
+exports.GetNotificationProxyData = function GetNotificationProxyData() {
+  return new Promise(async function(resolve, reject) {
+    try {
+      const forwardingName = "PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP";
+      const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      
+      let fcPortOutputDirectionLogicalTerminationPointList = [];
+      const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+      for (const fcPort of fcPortList) {
+          const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+          if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+          }
+      }
+
+      let retObj = new Object()
+      for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+        const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+        const httpClientLtpUuid = httpLtpUuidList[0];
+        const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)        
+        const tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+
+        retObj = {
+          operationKey: key,
+          operationName: path,
+          tcpConn: tcpConn
+        }
+      }
+      resolve(retObj);
+    } catch( error ) {
+      reject()
+    }
+  });
+}
+
+exports.GetApplicationData = function GetApplicationData() {
+  return new Promise(async function(resolve, reject) {
+    try {
+      
+      let name = getApplicationNameAsync
+      const forwardingName = "ServiceRequestCausesLoggingRequest";
+      const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+
+      let fcPortOutputDirectionLogicalTerminationPointList = [];
+      const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+      for (const fcPort of fcPortList) {
+          const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+          if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+          }
+      }
+
+      let retObj = new Object()
+      for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+        const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+        const httpClientLtpUuid = httpLtpUuidList[0];
+        const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)        
+        const tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+
+        retObj = {
+          operationKey: key,
+          operationName: path,
+          tcpConn: tcpConn
+        }
+      }
+      resolve(retObj)
+    } catch (error) {
+      reject()
+    }
+  })
 }
 
 async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName) {

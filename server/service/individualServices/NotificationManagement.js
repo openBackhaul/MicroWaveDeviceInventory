@@ -34,7 +34,7 @@ exports.getAppInformation = async function() {
             appInformation = await BasicServices.informAboutApplication();
         } catch (exception) {
             console.log.error(exception, "no application information found, using fallback");
-            appInformation["application-name"] = "NotificationProxy";
+            appInformation["application-name"] = "MicroWaveDeviceInventory";
             appInformation["release-number"] = "1.0.0";
         }
     }
@@ -47,7 +47,7 @@ exports.getAppInformation = async function() {
  * @returns {RequestHeader}
  */
 exports.createRequestHeader = function () {
-    return new RequestHeader("NotificationProxy", "NotificationProxy", undefined, "1");
+    return new RequestHeader("MicroWaveDeviceInventory", "MicroWaveDeviceInventory", undefined, "1");
 }
 
 function cleanupOutboundNotificationCache() {

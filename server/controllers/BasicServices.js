@@ -15,7 +15,7 @@ const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const axios = require('axios');
 const individualServicesService = require( "../service/IndividualServicesService.js");
-const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
+const NEW_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
 
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   
@@ -82,21 +82,20 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
-      .then(async function (responseBody) {
-        startModule.start();
-        individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
-        responseBodyToDocument = responseBody;
-        let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
-      })
-      .catch(async function (responseBody) {
-        let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
-        responseCode = sentResp.code;
-        responseBodyToDocument = sentResp.body;
-      });
-    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
-  
+    .then(async function (responseBody) {
+      startModule.start();
+      individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    })
+    .catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+    });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.endSubscription = async function endSubscription(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -302,7 +301,7 @@ module.exports.registerYourself = async function registerYourself(req, res, next
     traceIndicator = req.headers["trace-indicator"];
     customerJourney = req.headers["customer-journey"]; 
   }
-  await BasicServices.registerYourself(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url)
+  await BasicServices.registerYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);

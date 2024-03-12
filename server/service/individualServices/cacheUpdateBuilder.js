@@ -41,7 +41,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             }
             currentJSON = currentJSON[key][indexDaSostituire];
           } else {
-            console.log(`Campo "${key}" non trovato.`);
+            console.warn(`Campo "${key}" non trovato.`);
             break;
           }
           //          console.log('JSON originale aggiornato:');

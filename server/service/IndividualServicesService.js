@@ -22,6 +22,7 @@ const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client
 const subscriberManagement = require('./individualServices/SubscriberManagement');
 const inputValidation = require('./individualServices/InputValidation');
 const notificationManagement = require('./individualServices/NotificationManagement');
+const executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 
 const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHandler');
 
@@ -132,7 +133,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
-      if (matchLink || matchId){
+      if (matchLink || matchId) {
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
@@ -219,7 +220,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -284,7 +285,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -349,7 +350,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -414,7 +415,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -479,7 +480,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -542,7 +543,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -605,7 +606,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -668,7 +669,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -732,7 +733,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -796,7 +797,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -861,7 +862,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -926,7 +927,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -954,7 +955,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       url = parts[0];
       //const fields = parts[1];
       let correctMountname = null;
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
@@ -989,7 +990,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1052,7 +1053,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1116,7 +1117,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1181,7 +1182,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1246,7 +1247,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1311,7 +1312,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1376,7 +1377,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1441,7 +1442,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1504,7 +1505,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1568,7 +1569,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1632,7 +1633,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1696,7 +1697,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1716,8 +1717,8 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_33
  **/
-exports.getCachedForwardingConstruct = function(url,user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getCachedForwardingConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, fields) {
+  return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
       url = decodeURIComponent(url);
@@ -1760,7 +1761,7 @@ exports.getCachedForwardingConstruct = function(url,user,originator,xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1782,8 +1783,8 @@ exports.getCachedForwardingConstruct = function(url,user,originator,xCorrelator,
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_34
  **/
-exports.getCachedForwardingConstructPort = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getCachedForwardingConstructPort = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields) {
+  return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
       url = decodeURIComponent(url);
@@ -1826,7 +1827,7 @@ exports.getCachedForwardingConstructPort = function(url, user,originator,xCorrel
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1846,8 +1847,8 @@ exports.getCachedForwardingConstructPort = function(url, user,originator,xCorrel
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_32
  **/
-exports.getCachedForwardingDomain = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
       url = decodeURIComponent(url);
@@ -1890,7 +1891,7 @@ exports.getCachedForwardingDomain = function(url, user,originator,xCorrelator,tr
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -1955,7 +1956,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2020,7 +2021,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2085,7 +2086,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2150,7 +2151,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2183,7 +2184,7 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
-        if (objectKey.indexOf("link") != -1){
+        if (objectKey.indexOf("link") != -1) {
           resolve(result);
         } else {
           throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
@@ -2221,7 +2222,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
-      if (matchLink || matchId){
+      if (matchLink || matchId) {
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
@@ -2272,7 +2273,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -2312,14 +2313,14 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2346,7 +2347,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -2386,14 +2387,14 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2458,7 +2459,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2523,7 +2524,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2588,7 +2589,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2653,7 +2654,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2717,7 +2718,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2781,7 +2782,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2845,7 +2846,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2908,7 +2909,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -2972,7 +2973,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3037,7 +3038,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3102,7 +3103,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3167,7 +3168,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3231,7 +3232,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3295,7 +3296,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3359,7 +3360,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3423,7 +3424,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3488,7 +3489,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3553,7 +3554,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3618,7 +3619,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3683,7 +3684,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3748,7 +3749,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3813,7 +3814,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3878,7 +3879,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -3943,7 +3944,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4007,7 +4008,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4071,7 +4072,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4135,7 +4136,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4199,7 +4200,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       }
       resolve(returnObject);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4226,7 +4227,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4266,14 +4267,14 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4301,7 +4302,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4341,14 +4342,14 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4376,7 +4377,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4416,14 +4417,14 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4451,7 +4452,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4477,7 +4478,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4505,7 +4506,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4545,14 +4546,14 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4580,7 +4581,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4620,14 +4621,14 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4653,7 +4654,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4693,14 +4694,14 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4726,7 +4727,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4766,14 +4767,14 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4799,7 +4800,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4839,14 +4840,14 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4873,7 +4874,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4913,14 +4914,14 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -4947,7 +4948,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -4987,14 +4988,14 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5022,7 +5023,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5062,14 +5063,14 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5097,7 +5098,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5137,14 +5138,14 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5200,7 +5201,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               let elapsedTime = await recordRequest(jsonObj, correctCc);
             }
             catch (error) {
-              console.log(error);
+              console.error(error);
             }
             modifyReturnJson(jsonObj);
             let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
@@ -5219,7 +5220,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               let elapsedTime = await recordRequest(result1, correctCc);
             }
             catch (error) {
-              console.log(error);
+              console.error(error);
             }
             modifyReturnJson(jsonObj)
             resolve(jsonObj);
@@ -5229,7 +5230,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       }
     }
     catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
 
@@ -5256,7 +5257,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5275,7 +5276,13 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          if (res.statusText == undefined) {
+            resolve(res);
+            throw new createHttpError(res.status, res.message);
+          } else {
+            resolve(res);
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5296,14 +5303,14 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5330,7 +5337,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5370,14 +5377,14 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5405,7 +5412,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5445,14 +5452,14 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5480,7 +5487,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5520,14 +5527,14 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5555,7 +5562,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5581,7 +5588,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5609,7 +5616,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5649,14 +5656,14 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5684,7 +5691,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5724,14 +5731,14 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5759,7 +5766,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5799,14 +5806,14 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5832,7 +5839,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5872,14 +5879,14 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5906,7 +5913,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -5946,14 +5953,14 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -5980,7 +5987,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6020,14 +6027,14 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6054,7 +6061,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6094,14 +6101,14 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6121,14 +6128,14 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_63
  **/
-exports.getLiveForwardingConstruct = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, fields) {
+  return new Promise(async function (resolve, reject) {
     try {
       let jsonObj = "";
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6168,14 +6175,14 @@ exports.getLiveForwardingConstruct = function(url, user,originator,xCorrelator,t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6197,14 +6204,14 @@ exports.getLiveForwardingConstruct = function(url, user,originator,xCorrelator,t
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_64
  **/
-exports.getLiveForwardingConstructPort = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,uuid1,localId,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getLiveForwardingConstructPort = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields) {
+  return new Promise(async function (resolve, reject) {
     try {
       let jsonObj = "";
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6244,14 +6251,14 @@ exports.getLiveForwardingConstructPort = function(url, user,originator,xCorrelat
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6271,14 +6278,14 @@ exports.getLiveForwardingConstructPort = function(url, user,originator,xCorrelat
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_62
  **/
-exports.getLiveForwardingDomain = function(url, user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(async function(resolve, reject) {
+exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
     try {
       let jsonObj = "";
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6318,14 +6325,14 @@ exports.getLiveForwardingDomain = function(url, user,originator,xCorrelator,trac
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6352,7 +6359,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6392,14 +6399,14 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6427,7 +6434,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6467,14 +6474,14 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6502,7 +6509,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6528,7 +6535,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6556,7 +6563,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6596,14 +6603,14 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6631,7 +6638,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6671,14 +6678,14 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6706,7 +6713,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6746,14 +6753,14 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6781,7 +6788,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6821,14 +6828,14 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6856,7 +6863,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6882,7 +6889,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6910,7 +6917,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -6950,14 +6957,14 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -6985,7 +6992,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7025,14 +7032,14 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7059,7 +7066,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7099,14 +7106,14 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7133,7 +7140,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7173,14 +7180,14 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7207,7 +7214,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7247,14 +7254,14 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7280,7 +7287,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7320,14 +7327,14 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7355,7 +7362,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7395,14 +7402,14 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7430,7 +7437,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7470,14 +7477,14 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7505,7 +7512,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7531,7 +7538,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7559,7 +7566,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7599,14 +7606,14 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7634,7 +7641,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7674,14 +7681,14 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7708,7 +7715,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7748,14 +7755,14 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7782,7 +7789,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7822,14 +7829,14 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7856,7 +7863,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7896,14 +7903,14 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -7929,7 +7936,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -7969,14 +7976,14 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8004,7 +8011,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8044,14 +8051,14 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8079,7 +8086,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8119,14 +8126,14 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8154,7 +8161,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8180,7 +8187,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8208,7 +8215,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8248,14 +8255,14 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8283,7 +8290,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8323,14 +8330,14 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8358,7 +8365,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8398,14 +8405,14 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8433,7 +8440,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8473,14 +8480,14 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8508,7 +8515,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8534,7 +8541,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8562,7 +8569,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8602,14 +8609,14 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8637,7 +8644,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8677,14 +8684,14 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8711,7 +8718,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8751,14 +8758,14 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8785,7 +8792,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       url = decodeURIComponent(url);
       const urlParts = url.split("?fields=");
       url = urlParts[0];
-     // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
       const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
@@ -8825,14 +8832,14 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.log(error);
+            console.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -8850,37 +8857,35 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
  * no response value expected for this operation
  **/
 exports.notifyAttributeValueChanges = async function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(async function (resolve, reject) {
-    let subscribingApplicationName = body["subscriber-application"];
-    let subscribingApplicationRelease = body["subscriber-release-number"];
-    let subscribingApplicationProtocol = body["subscriber-protocol"];
-    let subscribingApplicationAddress = body["subscriber-address"];
-    let subscribingApplicationPort = body["subscriber-port"];
-    let notificationsReceivingOperation = body["subscriber-operation"];
 
-    let validInput = inputValidation.validateSubscriberInput(
-        subscribingApplicationName,
-        subscribingApplicationRelease,
-        subscribingApplicationProtocol,
-        subscribingApplicationAddress,
-        subscribingApplicationPort,
-        notificationsReceivingOperation
-    );
+  let subscribingApplicationName = body["subscriber-application"];
+  let subscribingApplicationRelease = body["subscriber-release-number"];
+  let subscribingApplicationProtocol = body["subscriber-protocol"];
+  let subscribingApplicationAddress = body["subscriber-address"];
+  let subscribingApplicationPort = body["subscriber-port"];
+  let notificationsReceivingOperation = body["subscriber-operation"];
 
-    if (validInput) {
-        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+  let validInput = inputValidation.validateSubscriberInput(
+    subscribingApplicationName,
+    subscribingApplicationRelease,
+    subscribingApplicationProtocol,
+    subscribingApplicationAddress,
+    subscribingApplicationPort,
+    notificationsReceivingOperation
+  );
 
-        if (!success) {
-            throw new Error('notifyControllerObjectCreations: addSubscriber failed');
-        }
-    } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+  if (validInput) {
+    let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+      subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+    if (!success) {
+      throw new Error('notifyControllerObjectCreations: addSubscriber failed');
     }
-    resolve();
-  });
+  } else {
+    throw new Error('notifyControllerObjectCreations: invalid input data');
+  }
 }
-  
+
 
 
 /**
@@ -8904,23 +8909,23 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
     let notificationsReceivingOperation = body["subscriber-operation"];
 
     let validInput = inputValidation.validateSubscriberInput(
-        subscribingApplicationName,
-        subscribingApplicationRelease,
-        subscribingApplicationProtocol,
-        subscribingApplicationAddress,
-        subscribingApplicationPort,
-        notificationsReceivingOperation
+      subscribingApplicationName,
+      subscribingApplicationRelease,
+      subscribingApplicationProtocol,
+      subscribingApplicationAddress,
+      subscribingApplicationPort,
+      notificationsReceivingOperation
     );
 
     if (validInput) {
-        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+      let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+        subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
-        if (!success) {
-            throw new Error('notifyControllerObjectCreations: addSubscriber failed');
-        }
+      if (!success) {
+        throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+      }
     } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+      throw new Error('notifyControllerObjectCreations: invalid input data');
     }
     resolve();
   });
@@ -8948,23 +8953,23 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
     let notificationsReceivingOperation = body["subscriber-operation"];
 
     let validInput = inputValidation.validateSubscriberInput(
-        subscribingApplicationName,
-        subscribingApplicationRelease,
-        subscribingApplicationProtocol,
-        subscribingApplicationAddress,
-        subscribingApplicationPort,
-        notificationsReceivingOperation
+      subscribingApplicationName,
+      subscribingApplicationRelease,
+      subscribingApplicationProtocol,
+      subscribingApplicationAddress,
+      subscribingApplicationPort,
+      notificationsReceivingOperation
     );
 
     if (validInput) {
-        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+      let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+        subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
-        if (!success) {
-            throw new Error('notifyControllerObjectCreations: addSubscriber failed');
-        }
+      if (!success) {
+        throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+      }
     } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+      throw new Error('notifyControllerObjectCreations: invalid input data');
     }
     resolve();
   });
@@ -9134,14 +9139,21 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       let linkId = body['link-id'];
       let parallelLink = [linkId];
       let linkToCompare = await ReadRecords(linkId);
+      if (linkToCompare == undefined) {
+        throw new createHttpError.NotFound(`unable to fetch records for link ${linkId}`)
+      }
       const controlConstructList = linkToCompare["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
       let result = await ReadRecords("linkList");
       for (var link of result.LinkList) {
         if (link != linkId) {
           let resLink = await ReadRecords(link);
-          const ccList = resLink["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
-          if (arraysHaveSameElements(controlConstructList, ccList)) {
-            parallelLink.push(link);
+          try {
+            const ccList = resLink["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+            if (arraysHaveSameElements(controlConstructList, ccList)) {
+              parallelLink.push(link);
+            }
+          } catch (error) {
+            throw new createHttpError(error);
           }
         }
       }
@@ -9176,7 +9188,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       let link = uuid; //decodeLinkUuid(url, true);
       var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
-      if (matchLink){
+      if (matchLink) {
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
@@ -9202,7 +9214,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       }
       resolve();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -9237,7 +9249,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       let elapsedTime = await recordRequest(body, correctLink);
       let result = await ReadRecords("linkList");
       if (result == undefined) {
-        console.log("link list in Elasticsearch not found");
+        console.warn("link list in Elasticsearch not found");
         const myObject = { LinkList: [] };
         myObject.LinkList.push(correctLink);
         let elapsedTime = await recordRequest(myObject, "linkList");
@@ -9251,7 +9263,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       }
       resolve();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
 
@@ -9287,8 +9299,8 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
     const urlf = require('url');
     const parsedUrl = urlf.parse(urlString);
 
-    const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
-    const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+    // const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
+    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
     // Parse the URL
     const parsedNewUrl = new URL(tempUrl);
     // Construct the base URL
@@ -9335,25 +9347,46 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
       let resource = currentJSON['resource'];
-      const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
-      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      //  const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
+      //  const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
       // Parse the URL
-      const parsedUrl = new URL(tempUrl);
-
+      //  const parsedUrl = new URL(tempUrl);
+      let mountname = decodeMountName(resource, false);
       // Construct the base URL
-      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
-      const finalUrl = baseUrl + resource;
-      let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      //    const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+      //  const finalUrl = baseUrl + "/core-model-1-4:network-control-domain=live/control-construct=" + mountname + "/alarms-1-0:alarm-pac/current-alarms";
+      //  let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
-      if (resRequestor == false) {
+
+
+      const { getLiveCurrentAlarms } = module.exports;
+      let req = {
+        'url': '/core-model-1-4:network-control-domain=live/control-construct=' + mountname + '/alarms-1-0:alarm-pac/current-alarms',
+        'body': {}
+      }
+      let requestHeader = notificationManagement.createRequestHeader();
+      let fields = "";
+      let mountName = "";
+      let user = requestHeader.user;
+      let originator = requestHeader.originator;
+      let xCorrelator = requestHeader.xCorrelator;
+      let traceIndicator = requestHeader.traceIndicator;
+      let customerJourney = requestHeader.customerJourney;
+      let ret = await getLiveCurrentAlarms(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
+
+      if (ret == false) {
         throw new createHttpError.NotFound;
-      } else if (resRequestor.status != 200) {
-        throw new createHttpError(resRequestor.status, resRequestor.statusText);
+      } else if (ret.status != 200) {
+        if (ret.statusText == undefined) {
+          throw new createHttpError(ret.status, ret.message);
+        } else {
+          throw new createHttpError(ret.status, ret.statusText);
+        }
       } else {
         resolve();
       }
     } catch (error) {
-      console.log(error);
+      //console.error(error);
       reject(error);
     }
   });
@@ -9381,15 +9414,15 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       let jsonObj = "";
       url = decodeURIComponent(url);
 
-      const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
-      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
+      const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
       // Parse the URL
       const parsedUrl = new URL(tempUrl);
 
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
@@ -9399,20 +9432,20 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
-        const applicationName = appInformation["application-name"] +"-"+ parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
+        const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
         const newJson = {
-          applicationName : {
-            "counter": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].counter,
-            "timestamp": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].timestamp,
-            "attribute-name": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].attribute-name,
-            "new-value": originalJson["notification-proxy-1-0:attribute-value-changed-notification"].new-value
+          applicationName: {
+            "counter": counter,
+            "timestamp": currentJSON.timestamp,
+            "attribute-name": currentJSON.attribute - name,
+            "new-value": currentJSON.new - value
           }
         };
         notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
         resolve();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -9439,20 +9472,20 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let counter = currentJSON['counter'];
       let jsonObj = "";
       // find the index of the last "/"
-//      const lastIndex = resource.lastIndexOf("/");
+      //      const lastIndex = resource.lastIndexOf("/");
       // Truncate path at last "/"  
-//      const truncatedPath = resource.substring(0, lastIndex);
+      //      const truncatedPath = resource.substring(0, lastIndex);
       url = decodeURIComponent(url);
 
-      const appNameAndUuidFromForwarding = await NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter)
-      const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].finalTcpAddr);
+      //  const appNameAndUuidFromForwarding = await NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter)
+      const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
       // Parse the URL
       const parsedUrl = new URL(tempUrl);
 
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
-      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
@@ -9461,19 +9494,19 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
-        const applicationName = appInformation["application-name"] +"-"+ parts[0] + "-" + parts[1] + ":object-creation-notification";
+        const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-creation-notification";
         const newJson = {
-          applicationName : {
-            "counter": originalJson["notification-proxy-1-0:object-creation-notification"].counter,
-            "timestamp": originalJson["notification-proxy-1-0:object-creation-notification"].timestamp,
-            "object-path": originalJson["notification-proxy-1-0:object-creation-notification"].object-path,
+          applicationName: {
+            "counter": counter,
+            "timestamp": currentJSON.timestamp,
+            "object-path": resource,
           }
         };
         notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
         resolve();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -9524,20 +9557,20 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       modificaUUID(result, controlConstruct);
       let elapsedTime = await recordRequest(result, controlConstruct);
       let appInformation = await notificationManagement.getAppInformation();
-        const releaseNumber = appInformation["release-number"];
-        let parts = releaseNumber.split(".");
-        const applicationName = appInformation["application-name"] +"-"+ parts[0] + "-" + parts[1] + ":object-deletion-notification";
-        const newJson = {
-          applicationName : {
-            "counter": originalJson["notification-proxy-1-0:object-deletion-notification"].counter,
-            "timestamp": originalJson["notification-proxy-1-0:object-deletion-notification"].timestamp,
-            "object-path": originalJson["notification-proxy-1-0:object-deletion-notification"].object-path,
-          }
-        };
+      const releaseNumber = appInformation["release-number"];
+      let parts = releaseNumber.split(".");
+      const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-deletion-notification";
+      const newJson = {
+        applicationName: {
+          "counter": currentJSON.counter,
+          "timestamp": currentJSON.timestamp,
+          "object-path": resource,
+        }
+      };
       notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
       resolve();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       reject(error);
     }
   });
@@ -9665,13 +9698,13 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMe
   let activeSubscribers = await notificationManagement.getActiveSubscribers(deviceNotificationType);
 
   if (activeSubscribers.length > 0) {
-      console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
-      
-      for (let subscriber of activeSubscribers) {
-          sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
-      }
+    console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
+
+    for (let subscriber of activeSubscribers) {
+      sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
+    }
   } else {
-      console.log("no subscribers for " + deviceNotificationType + ", message discarded");
+    console.warn("no subscribers for " + deviceNotificationType + ", message discarded");
   }
 }
 
@@ -9684,81 +9717,81 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMe
  * @param operationKey
  */
 async function sendMessageToSubscriber(notificationType, targetOperationURL, operationKey, notificationMessage) {
-  
+
   cleanupOutboundNotificationCache();
 
   //check if same notification was sent more than once in certain timespan
   let isDuplicate = checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage);
 
   if (isDuplicate) {
-      console.log.debug("notification duplicate ignored");
+    console.warn("notification duplicate ignored");
   } else {
-      let sendingTimestampMs = Date.now();
+    let sendingTimestampMs = Date.now();
 
-      // "clone"
-      let comparisonNotificationMessage = JSON.parse(JSON.stringify(notificationMessage));
-      //ignore timestamp and counter for comparison
-      delete comparisonNotificationMessage[Object.keys(comparisonNotificationMessage)[0]]["timestamp"];
-      delete comparisonNotificationMessage[Object.keys(comparisonNotificationMessage)[0]]["counter"];
+    // "clone"
+    let comparisonNotificationMessage = JSON.parse(JSON.stringify(notificationMessage));
+    //ignore timestamp and counter for comparison
+    delete comparisonNotificationMessage[Object.keys(comparisonNotificationMessage)[0]]["timestamp"];
+    delete comparisonNotificationMessage[Object.keys(comparisonNotificationMessage)[0]]["counter"];
 
-      let messageCacheEntry = {
-          "targetOperationURL": targetOperationURL,
-          "type": notificationType,
-          "notification": comparisonNotificationMessage,
-          "timeMs": sendingTimestampMs
+    let messageCacheEntry = {
+      "targetOperationURL": targetOperationURL,
+      "type": notificationType,
+      "notification": comparisonNotificationMessage,
+      "timeMs": sendingTimestampMs
+    }
+    lastSentMessages.push(messageCacheEntry);
+
+    let appInformation = await notificationManagement.getAppInformation();
+
+    let requestHeader = notificationManagement.createRequestHeader();
+
+    let uniqueSendingID = crypto.randomUUID();
+
+    //send notification
+    console.log("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
+
+    axios.post(targetOperationURL, notificationMessage, {
+      // axios.post("http://localhost:1237", notificationMessage, {
+      headers: {
+        'x-correlator': requestHeader.xCorrelator,
+        'trace-indicator': requestHeader.traceIndicator,
+        'user': requestHeader.user,
+        'originator': requestHeader.originator,
+        'customer-journey': requestHeader.customerJourney,
+        'operation-key': operationKey
       }
-      lastSentMessages.push(messageCacheEntry);
+    })
+      .then((response) => {
+        console.warn("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
 
-      let appInformation = await notificationManagement.getAppInformation();
-
-      let requestHeader =  notificationManagement.createRequestHeader();
-
-      let uniqueSendingID = crypto.randomUUID();
-
-      //send notification
-      console.log("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
-
-      axios.post(targetOperationURL, notificationMessage, {
-          // axios.post("http://localhost:1237", notificationMessage, {
-          headers: {
-              'x-correlator': requestHeader.xCorrelator,
-              'trace-indicator': requestHeader.traceIndicator,
-              'user': requestHeader.user,
-              'originator': requestHeader.originator,
-              'customer-journey': requestHeader.customerJourney,
-              'operation-key': operationKey
-          }
+        executionAndTraceService.recordServiceRequestFromClient(
+          appInformation["application-name"],
+          appInformation["release-number"],
+          requestHeader.xCorrelator,
+          requestHeader.traceIndicator,
+          requestHeader.user,
+          requestHeader.originator,
+          notificationType, //for example "notifications/device-alarms"
+          response.status,
+          notificationMessage,
+          response.data);
       })
-          .then((response) => {
-              console.log.debug("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
+      .catch(e => {
+        console.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
 
-              executionAndTraceService.recordServiceRequestFromClient(
-                  appInformation["application-name"],
-                  appInformation["release-number"],
-                  requestHeader.xCorrelator,
-                  requestHeader.traceIndicator,
-                  requestHeader.user,
-                  requestHeader.originator,
-                  notificationType, //for example "notifications/device-alarms"
-                  response.status,
-                  notificationMessage,
-                  response.data);
-          })
-          .catch(e => {
-              console.log(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
-
-              executionAndTraceService.recordServiceRequestFromClient(
-                  appInformation["application-name"],
-                  appInformation["release-number"],
-                  requestHeader.xCorrelator,
-                  requestHeader.traceIndicator,
-                  requestHeader.user,
-                  requestHeader.originator,
-                  notificationType,
-                  responseCodeEnum.code.INTERNAL_SERVER_ERROR,
-                  notificationMessage,
-                  e);
-          });
+        executionAndTraceService.recordServiceRequestFromClient(
+          appInformation["application-name"],
+          appInformation["release-number"],
+          requestHeader.xCorrelator,
+          requestHeader.traceIndicator,
+          requestHeader.user,
+          requestHeader.originator,
+          notificationType,
+          responseCodeEnum.code.INTERNAL_SERVER_ERROR,
+          notificationMessage,
+          e);
+      });
   }
 }
 
@@ -9767,14 +9800,14 @@ function cleanupOutboundNotificationCache() {
   let toRemoveElements = [];
 
   for (const lastSentMessage of lastSentMessages) {
-      let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
+    let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
 
-      //timeout from env - use 5 seconds as fallback
-      let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
+    //timeout from env - use 5 seconds as fallback
+    let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
 
-      if (differenceInTimestampMs > timespanMs) {
-          toRemoveElements.push(lastSentMessage)
-      }
+    if (differenceInTimestampMs > timespanMs) {
+      toRemoveElements.push(lastSentMessage)
+    }
   }
 
   //remove timed out elements
@@ -9791,18 +9824,18 @@ function checkNotificationDuplicate(notificationType, targetOperationURL, notifi
   let newNotificationString = JSON.stringify(newComparisonNotificationMessage);
 
   for (const lastSentMessage of lastSentMessages) {
-      // "clone"
-      let oldComparisonNotificationMessage = JSON.parse(JSON.stringify(lastSentMessage.notification));
-      //ignore timestamp and counter for comparison
-      delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["timestamp"];
-      delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["counter"];
-      let oldNotificationString = JSON.stringify(oldComparisonNotificationMessage);
+    // "clone"
+    let oldComparisonNotificationMessage = JSON.parse(JSON.stringify(lastSentMessage.notification));
+    //ignore timestamp and counter for comparison
+    delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["timestamp"];
+    delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["counter"];
+    let oldNotificationString = JSON.stringify(oldComparisonNotificationMessage);
 
-      if (newNotificationString === oldNotificationString &&
-          lastSentMessage.type === notificationType &&
-          lastSentMessage.targetOperationURL === targetOperationURL) {
-          return true;
-      }
+    if (newNotificationString === oldNotificationString &&
+      lastSentMessage.type === notificationType &&
+      lastSentMessage.targetOperationURL === targetOperationURL) {
+      return true;
+    }
   }
 
   return false;
@@ -9883,7 +9916,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
         "subscribing-application-release": applicationReleaseNumber,
         "subscribing-application-protocol": "HTTP",
         "subscribing-application-address": {
-          "ip-address":  tcpClientLocalAddress
+          "ip-address": tcpClientLocalAddress
         },
         "subscribing-application-port": tcpClientLocalport,
         "notifications-receiving-operation": operation
@@ -9892,18 +9925,18 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
       let response = await RequestBuilder.BuildAndTriggerRestRequest(opLtpUuidOutput, "POST", httpRequestHeader, httpRequestBody);
       let responseCodeValue = response.status.toString();
       if (responseCodeValue.startsWith("2")) {
-        console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+        console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
       }
-      console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+      console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
     }
 
   } catch (error) {
-    console.log(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
+    console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
     return false;
   }
 }
 
-async function NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache() {
+exports.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = async function () {
   const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {
@@ -10105,7 +10138,7 @@ async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counte
  * the first contains the ODL parameters and the URL to call
  * the second contains the same for ES
  **/
-exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async function() {
+exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async function () {
   const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
   const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   if (forwardingConstruct === undefined) {

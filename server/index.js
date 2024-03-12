@@ -2,7 +2,7 @@
 
 var path = require('path');
 var http = require('http');
-//require('console-stamp')(console);
+require('console-stamp')(console);
 
 var oas3Tools = require('openbackhaul-oas3-tools');
 var serverPort = 8080;
@@ -12,7 +12,7 @@ var apiKeyAuth = require('./utils/apiKeyAuth');
 appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
-//const { Console } = require('console');
+const { Console } = require('console');
 
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
@@ -39,6 +39,7 @@ appCommons.setupExpressApp(app);
 global.databasePath = './database/load.json';
 (async () => {
     global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+    global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
  })()
 
 

@@ -9,12 +9,7 @@ var startModule = require('../temporarySupportFiles/StartModule.js');
 var individualServices = require('../service/IndividualServicesService.js');
 
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
-const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
-const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-const axios = require('axios');
-const individualServicesService = require( "../service/IndividualServicesService.js");
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
 
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {

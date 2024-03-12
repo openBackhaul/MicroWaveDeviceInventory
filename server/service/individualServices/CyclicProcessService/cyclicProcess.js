@@ -3,9 +3,11 @@
 const { strict } = require('assert');
 const { setTimeout, clearInterval } = require('timers');
 const path = require("path");
-const individualServicesService = require( "../../IndividualServicesService.js");
+const individualServicesService = require("../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const notificationManagement = require('../../individualServices/NotificationManagement');
+
 // SIMULATION
 const startModule = require('../../../temporarySupportFiles/StartModule.js');
 const { inherits } = require('util');
@@ -21,7 +23,7 @@ let slidingWindowSizeDb = 500;
 let slidingWindow = [];
 let deviceList = [];
 let lastDeviceListIndex = -1;
-let print_log_level = 2;    
+let print_log_level = 2;
 let synchInProgress = false;
 let coreModelPrefix = '';
 var procedureIsRunning = false;
@@ -31,30 +33,37 @@ var ttlCheckingTimerId = 0;
 /**
  * REST request simulator with random delay
  */
-async function sendRequest(device) {    
+async function sendRequest(device) {
     try {
-        let req = {
-            'url': '/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device['node-id'],
-            'body': {} 
-        }
+        let requestHeader = notificationManagement.createRequestHeader();
         let fields = "";
         let mountName = "";
-        let user = "User Name";
-        let originator = "MicroWaveDeviceInventory";
-        let xCorrelator = "550e8400-e29b-11d4-a716-446655440000";
-        let traceIndicator = "1.3.1";
-        let customerJourney = "Unknown value";
+        let user = requestHeader.user;
+        let originator = requestHeader.originator;
+        let xCorrelator = requestHeader.xCorrelator;
+        let traceIndicator = requestHeader.traceIndicator;
+        let customerJourney = requestHeader.customerJourney;
+        let req = {
+            'url': '/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device['node-id'],
+            'body': {}
+        }
+
+        let responseCode = "";
+        let responseBodyToDocument = {};
         let ret = await individualServicesService.getLiveControlConstruct(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
-        
+
         if (procedureIsRunning == false) {
             return;
         }
         /*
-        let responseCode = 200;  // OK        
-        let responseBodyToDocument = {};
-        responseBodyToDocument = ret;
+        if (ret.code == undefined) {
+            responseCode = 200;
+        } else {
+            responseCode = ret.code;
+            responseBodyToDocument = ret;
+        }
         var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
-        executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+        executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);     
         */
         return {
             'ret': ret,
@@ -72,16 +81,16 @@ async function sendRequest(device) {
 function prepareObjectForWindow(deviceListIndex) {
     try {
         let windowObject = {
-            "index"   : deviceListIndex,
-            "node-id" : deviceList[deviceListIndex]['node-id'],
-            "ttl"     : responseTimeout,
-            "retries" : maximumNumberOfRetries
+            "index": deviceListIndex,
+            "node-id": deviceList[deviceListIndex]['node-id'],
+            "ttl": responseTimeout,
+            "retries": maximumNumberOfRetries
         };
         return windowObject;
-    } catch(error) {
+    } catch (error) {
         console.log("Error in prepareObjectForWindow (" + error + ")");
         debugger;
-    }    
+    }
 }
 
 /**
@@ -98,10 +107,10 @@ function checkDeviceExistsInSlidingWindow(deviceNodeId) {
             }
         }
         return DEVICE_NOT_PRESENT;
-    } catch(error) {
+    } catch (error) {
         console.log("Error in checkDeviceExistsInSlidingWindow (" + error + ")");
         debugger;
-    }    
+    }
 }
 
 
@@ -118,7 +127,7 @@ function getNextDeviceListIndex() {
             lastDeviceListIndex += 1;
         }
         return lastDeviceListIndex;
-    } catch(error) {
+    } catch (error) {
         console.log("Error in getNextDeviceListIndex (" + error + ")");
         debugger;
     }
@@ -146,14 +155,14 @@ function addNextDeviceListElementInWindow() {
                 printLog('+++++ Element ' + deviceList[newDeviceListIndex]['node-id'] + ' (indice: ' + newDeviceListIndex + ') already exists in Sliding Window +++++', print_log_level >= 3)
             } else {
                 slidingWindow.push(prepareObjectForWindow(newDeviceListIndex));
-                elementAdded = true;                
-            }            
+                elementAdded = true;
+            }
         } while (!elementAdded);
         return true;
-    } catch(error) {
+    } catch (error) {
         console.log("Error in addNextDeviceListElementInWindow (" + error + ")")
         debugger
-    }    
+    }
 }
 
 /**
@@ -184,11 +193,11 @@ function setDeviceListElementTimeStamp(node_id) {
     try {
         for (let i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
-                deviceList[i]['timestamp'] = Date.now();                
+                deviceList[i]['timestamp'] = Date.now();
                 return;
             }
         }
-    } catch(error) {
+    } catch (error) {
         console.log("Error in setDeviceListElementTimeStamp (" + error + ")");
         debugger;
     }
@@ -212,7 +221,7 @@ async function startTtlChecking() {
                         slidingWindow.splice(index, 1);
                         if (addNextDeviceListElementInWindow()) {
                             consoleMsg += (' Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and sent request...');
-                            requestMessage(slidingWindow.length-1);
+                            requestMessage(slidingWindow.length - 1);
                         }
                     } else {
                         slidingWindow[index].ttl = responseTimeout;
@@ -227,10 +236,10 @@ async function startTtlChecking() {
         if (procedureIsRunning) {
             ttlCheckingTimerId = setInterval(upgradeTtl, TTL_CHECKING_TIMER);
         }
-    } catch(error) {
+    } catch (error) {
         console.log("Error in startTtlChecking (" + error + ")");
         debugger;
-    }    
+    }
 }
 
 /**
@@ -250,40 +259,40 @@ async function requestMessage(index) {
             let diffTime = endTime.getTime() - startTime.getTime();
             let consoleMsg = '';
             if (retObj.ret.code !== undefined) {
-                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);                
-                if (elementIndex == DEVICE_NOT_PRESENT) {                
-                    consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
-                } else {                                        
+                let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
+                if (elementIndex == DEVICE_NOT_PRESENT) {
+                    consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
+                } else {
                     if (retObj.ret.code == 503) {
-                        consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Element ' + retObj['node-id'] + ' not available. Dropped from S-W.';
+                        consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Element ' + retObj['node-id'] + ' not available. Dropped from S-W.';
                     } else {
-                        consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element ' + retObj['node-id'] + '. Dropped from S-W.';
-                    }                    
+                        consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element ' + retObj['node-id'] + '. Dropped from S-W.';
+                    }
                     slidingWindow.splice(elementIndex, 1);
                     if (addNextDeviceListElementInWindow()) {
                         consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
-                        requestMessage(slidingWindow.length-1);
-                    }                    
+                        requestMessage(slidingWindow.length - 1);
+                    }
                 }
             } else {
                 let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
-                if (elementIndex == DEVICE_NOT_PRESENT) {                
-                    consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
+                if (elementIndex == DEVICE_NOT_PRESENT) {
+                    consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
                 } else {
-                    consoleMsg = '[Resp. Time: '+ diffTime + 'ms] Response from element ' + retObj['node-id'] + '. Dropped from S-W.';
+                    consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj['node-id'] + '. Dropped from S-W.';
                     slidingWindow.splice(elementIndex, 1);
                     setDeviceListElementTimeStamp(retObj['node-id']);
                     if (addNextDeviceListElementInWindow()) {
                         consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
-                        requestMessage(slidingWindow.length-1);
+                        requestMessage(slidingWindow.length - 1);
                     }
-                }                
+                }
             }
-            console.log(consoleMsg);         
+            console.log(consoleMsg);
         }
         function sleep(ms) {
             return new Promise((resolve) => {
-              setTimeout(resolve, ms);
+                setTimeout(resolve, ms);
             });
         }
         sendRequest(slidingWindow[index]).then(async retObj => {
@@ -299,10 +308,10 @@ async function requestMessage(index) {
                 manageResponse(retObj);
             }
         })
-    } catch(error) {
+    } catch (error) {
         console.log("Error in requestMessage (" + error + ")");
         debugger;
-    }      
+    }
 }
 
 /**
@@ -321,7 +330,7 @@ function filterConnectedDevices(deviceList) {
  * 
  * Returns formatted date/time information Ex: ( 25/11/2023 09:43.14 )
  */
-  
+
 function getTime() {
     let d = new Date();
     return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
@@ -336,7 +345,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         }
         if (i > 0) {
             dlString = dlString.slice(0, -1);
-        }        
+        }
         dlString += ']';
         console.log(dlString);
     }
@@ -357,7 +366,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
             }
         }
         let leftDL = deviceList.slice(0, lastDeviceListIndex + 1);
-        let nodeObj = {'node-id': node_id, 'netconf-node-topology:connection-status':'connected'};
+        let nodeObj = { 'node-id': node_id, 'netconf-node-topology:connection-status': 'connected' };
         let middleDL = [].concat(nodeObj);
         let rightDL = deviceList.slice(lastDeviceListIndex + 1);
         printDL('Device List before connected notification')
@@ -388,8 +397,8 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
                 slidingWindow.splice(i, 1);
                 if (addNextDeviceListElementInWindow()) {
                     console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
-                    requestMessage(slidingWindow.length-1);
-                }                    
+                    requestMessage(slidingWindow.length - 1);
+                }
             }
         }
     }
@@ -400,7 +409,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         await individualServicesService.writeDeviceListToElasticsearch(deviceListString);
         console.log("Device list updated into cache.")
     } catch (error) {
-        console.log(error);        
+        console.log(error);
     }
 }
 
@@ -410,7 +419,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
  * newDeviceList is the new device list that update the old one. It's mandatory.
  */
 module.exports.deviceListSynchronization = async function deviceListSynchronization() {
-    
+
     if (procedureIsRunning == false) {
         return;
     }
@@ -421,7 +430,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             odlDeviceList = await individualServicesService.getLiveDeviceList();
         } else if (simulationProgress == true) {
             odlDeviceList = await startModule.getNewDeviceListExp();
-        }        
+        }
     } catch (error) {
         console.log(error);
         return;
@@ -434,9 +443,9 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*                                                                                                     *');
     console.log('*                                       ( ' + getTime() + ' )                                       *');
     console.log('*                                                                                                     *');
-    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*','color:yellow','color:green','color:red', 'color:inherits');
+    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
     console.log('*                                                                                                     *');
-    
+
     let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
     synchInProgress = true;
     //
@@ -459,21 +468,21 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
         if (!found) {
-            dropEsElements.push(esDeviceList[i]);    
+            dropEsElements.push(esDeviceList[i]);
             esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
             esRules.push("color:red");
-            esRules.push("color:inherit");        
+            esRules.push("color:inherit");
         }
     }
     esString += (']  (' + esDeviceList.length + ')');
     console.log(esString, ...esRules);
-    
+
     //
     // Drop all the sliding window elements not more present in new odl device list
     //
-    for (let i = 0; i < slidingWindow.length; ) {
+    for (let i = 0; i < slidingWindow.length;) {
         let found = false;
-        for (let j = 0; j < odlDeviceList.length; j++) {                
+        for (let j = 0; j < odlDeviceList.length; j++) {
             if (slidingWindow[i]['node-id'] == odlDeviceList[j]['node-id']) {
                 found = true;
                 break;
@@ -517,7 +526,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     // Shuffle new odl elements (commented issue 757)
     //
     //newOdlElements = shuffleArray(newOdlElements); 
-    
+
     //
     // Get the next element common to both the esDeviceList and odlDeviceList. 
     // This element will provide the index needed to split the commonElements list.
@@ -595,15 +604,15 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         console.log(error);
     }
     //printLog('* lastDeviceListIndex: ' + lastDeviceListIndex, simulationProgress);    
-    
+
     //
     // Fill the sliding window at the max allowed
     //
     let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
     for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
         addNextDeviceListElementInWindow();
-        requestMessage(slidingWindow.length-1);
-        printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length-1]['node-id'], print_log_level >= 2);    
+        requestMessage(slidingWindow.length - 1);
+        printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length - 1]['node-id'], print_log_level >= 2);
     }
     printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
 
@@ -630,8 +639,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
  * deviceList: list of devices in connected state. It's optional. If
  *             deviceList is present the procedure will starts immediatly
  **/
-module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {    
-    
+module.exports.startCyclicProcess = async function startCyclicProcess(logging_level) {
+
     if (procedureIsRunning) {
         return;
     }
@@ -643,8 +652,8 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         let objectKey = Object.keys(profile)[2];
         profile = profile[objectKey];
         return profile["integer-profile-configuration"]["integer-value"];
-    }    
-    
+    }
+
     const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
     const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
     coreModelPrefix = forwardingConstruct.name[0].value.split(':')[0];
@@ -661,12 +670,12 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('*                                                                                                     *');
     console.log('*                                 ( ' + getTime() + ' )                                             *');
     console.log('*                                                                                                     *');
-    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*','color:yellow','color:green','color:red', 'color:inherits');
+    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     let odlDeviceList;
     try {
-        odlDeviceList = await individualServicesService.getLiveDeviceList();        
+        odlDeviceList = await individualServicesService.getLiveDeviceList();
     } catch (error) {
         console.log(error);
         return;
@@ -689,7 +698,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
             for (let j = 0; j < odlDeviceList.length; j++) {
                 if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
                     found = true;
-                    commonEsElements.push(elasticsearchList[i]);                    
+                    commonEsElements.push(elasticsearchList[i]);
                     esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
                     esRules.push("color:green");
                     esRules.push("color:inherit");
@@ -697,7 +706,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
                 }
             }
             if (!found) {
-                dropEsElements.push(elasticsearchList[i]);                
+                dropEsElements.push(elasticsearchList[i]);
                 esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
                 esRules.push("color:red");
                 esRules.push("color:inherit");
@@ -779,13 +788,13 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         // printLog("Write ODL device list shuffled to Elasticsearch", print_log_level >= 2);
         printLog("Write ODL device list to Elasticsearch", print_log_level >= 2);
     }
-    
+
     let odlDeviceListString = JSON.stringify(odlDeviceList);
     try {
         await individualServicesService.writeDeviceListToElasticsearch(odlDeviceListString);
     } catch (error) {
-        console.log(error);        
-    }         
+        console.log(error);
+    }
     deviceList = odlDeviceList;
     //
     // Sliding Window
@@ -793,7 +802,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
     lastDeviceListIndex = -1;
     for (let i = 0; i < slidingWindowSize; i++) {
-        addNextDeviceListElementInWindow();        
+        addNextDeviceListElementInWindow();
     }
     printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
     for (let i = 0; i < slidingWindowSize; i++) {
@@ -817,7 +826,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
  * Stops the cyclic process disabling the time to live check
  * 
  **/
-module.exports.stopCyclicProcess = async function stopCyclicProcess() { 
+module.exports.stopCyclicProcess = async function stopCyclicProcess() {
 
     console.log('*******************************************************************************************************');
     console.log('*                             CYCLIC PROCESS PROCEDURE STOPPED                                        *');

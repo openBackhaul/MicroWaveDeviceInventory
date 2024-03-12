@@ -15,7 +15,6 @@ const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
 const fieldsManager = require('./individualServices/fieldsManagement');
 const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
-const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const axios = require('axios');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
@@ -59,8 +58,8 @@ let lastSentMessages = [];
 exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
 
-      await bequeathHandler.handleRequest(body, url);
-      resolve();
+    await bequeathHandler.handleRequest(body, url);
+    resolve();
   });
 }
 
@@ -154,7 +153,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
         result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
         let elapsedTime = await recordRequest(result, correctLink);
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
       }
       resolve();
     } catch (error) {
@@ -213,10 +212,10 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -278,10 +277,10 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -343,10 +342,10 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -408,10 +407,10 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -473,10 +472,10 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -536,10 +535,10 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -599,10 +598,10 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -662,10 +661,10 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -726,10 +725,10 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -790,10 +789,10 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -855,10 +854,10 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -920,10 +919,10 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -983,10 +982,10 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1046,10 +1045,10 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1110,10 +1109,10 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1175,10 +1174,10 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1240,10 +1239,10 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1305,10 +1304,10 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1370,10 +1369,10 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1435,10 +1434,10 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1498,10 +1497,10 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1562,10 +1561,10 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1626,10 +1625,10 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1690,10 +1689,10 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1754,10 +1753,10 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1820,10 +1819,10 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1884,10 +1883,10 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1949,10 +1948,10 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2014,10 +2013,10 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2079,10 +2078,10 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2144,10 +2143,10 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2187,10 +2186,10 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
         if (objectKey.indexOf("link") != -1) {
           resolve(result);
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+          throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
       }
     } catch (error) {
       reject(error);
@@ -2244,7 +2243,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
         let returnObject = { [topJsonWrapper]: [linkPortArray] };
         resolve(returnObject);
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
       }
     } catch (error) {
       reject(error);
@@ -2292,7 +2291,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -2366,7 +2365,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -2452,10 +2451,10 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2517,10 +2516,10 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2582,10 +2581,10 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2647,10 +2646,10 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2711,10 +2710,10 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2775,10 +2774,10 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2839,10 +2838,10 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2902,10 +2901,10 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -2966,10 +2965,10 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3031,10 +3030,10 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3096,10 +3095,10 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3161,10 +3160,10 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3225,10 +3224,10 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3289,10 +3288,10 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3353,10 +3352,10 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3417,10 +3416,10 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3482,10 +3481,10 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3547,10 +3546,10 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3612,10 +3611,10 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3677,10 +3676,10 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3742,10 +3741,10 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3807,10 +3806,10 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3872,10 +3871,10 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -3937,10 +3936,10 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -4001,10 +4000,10 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -4065,10 +4064,10 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -4129,10 +4128,10 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -4193,10 +4192,10 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -4246,7 +4245,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4321,7 +4320,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4396,7 +4395,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4470,7 +4469,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -4525,7 +4524,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4600,7 +4599,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4673,7 +4672,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4746,7 +4745,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4819,7 +4818,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4893,7 +4892,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4967,7 +4966,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5042,7 +5041,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5117,7 +5116,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5276,12 +5275,12 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          if (res.statusText == undefined) {
+          if (res.message == undefined) {
             resolve(res);
             throw new createHttpError(res.status, res.message);
           } else {
             resolve(res);
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(res.status, res.message);
           }
         } else {
           let jsonObj = res.data;
@@ -5356,7 +5355,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5431,7 +5430,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5506,7 +5505,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5580,7 +5579,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -5635,7 +5634,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5710,7 +5709,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5785,7 +5784,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5858,7 +5857,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5932,7 +5931,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6006,7 +6005,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6080,7 +6079,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6154,7 +6153,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6230,7 +6229,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6304,7 +6303,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6378,7 +6377,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6453,7 +6452,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6527,7 +6526,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -6582,7 +6581,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6657,7 +6656,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6732,7 +6731,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6807,7 +6806,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6881,7 +6880,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -6936,7 +6935,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7011,7 +7010,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7085,7 +7084,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7159,7 +7158,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7233,7 +7232,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7306,7 +7305,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7381,7 +7380,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7456,7 +7455,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7530,7 +7529,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -7585,7 +7584,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7660,7 +7659,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7734,7 +7733,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7808,7 +7807,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7882,7 +7881,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7955,7 +7954,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8030,7 +8029,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8105,7 +8104,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8179,7 +8178,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -8234,7 +8233,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8309,7 +8308,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8384,7 +8383,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8459,7 +8458,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8533,7 +8532,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
         if (res == false) {
           throw new createHttpError.notFoundError;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -8588,7 +8587,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8663,7 +8662,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8737,7 +8736,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8811,7 +8810,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.statusText);
+          throw new createHttpError(res.status, res.message);
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -9022,10 +9021,10 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
           };
           returnObject = transformedData;
         } else {
-          returnObject = notFoundError();
+          throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
         }
       } else {
-        returnObject = notFoundError();
+        throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -9079,46 +9078,50 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
  **/
 exports.provideListOfDeviceInterfaces = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let urlParts = url.split("?fields=");
-    let mountName = body['mount-name'];
-    const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
-    const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
-    let returnObject = {};
-    let toChangeObject = {};
-    let parts = finalUrl.split("?fields=");
-    let myFields = parts[1];
-    let result = await ReadRecords(mountName);
-    if (result != undefined) {
-      let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
-      if (finalJson != undefined) {
-        modifyReturnJson(finalJson);
-        let objectKey = Object.keys(finalJson)[0];
-        finalJson = finalJson[objectKey];
-        if (myFields != undefined) {
-          var objList = [];
-          var rootObj = { value: "root", children: [] }
-          var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-          objList.push(rootObj)
-          fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+    try {
+      let urlParts = url.split("?fields=");
+      let mountName = body['mount-name'];
+      const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
+      const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
+      let returnObject = {};
+      let toChangeObject = {};
+      let parts = finalUrl.split("?fields=");
+      let myFields = parts[1];
+      let result = await ReadRecords(mountName);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+          }
+          toChangeObject["logical-termination-point-list"] = finalJson[0][Object.keys(finalJson[0])];
+          const transformedData = {
+            "logical-termination-point-list": toChangeObject["logical-termination-point-list"].map((item) => {
+              return {
+                "uuid": item.uuid,
+                "local-id": item["layer-protocol"][0]["local-id"],
+                "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"],
+              };
+            }),
+          };
+          returnObject = transformedData;
+        } else {
+          throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
         }
-        toChangeObject["logical-termination-point-list"] = finalJson[0][Object.keys(finalJson[0])];
-        const transformedData = {
-          "logical-termination-point-list": toChangeObject["logical-termination-point-list"].map((item) => {
-            return {
-              "uuid": item.uuid,
-              "local-id": item["layer-protocol"][0]["local-id"],
-              "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"],
-            };
-          }),
-        };
-        returnObject = transformedData;
       } else {
-        returnObject = notFoundError();
+        throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
       }
-    } else {
-      returnObject = notFoundError();
+      resolve(returnObject);
+    } catch (error) {
+      reject(error);
     }
-    resolve(returnObject);
   });
 }
 
@@ -9210,7 +9213,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
         }
         let elapsedTime = await recordRequest(value, correctLink);
       } else {
-        throw new createHttpError.InternalServerError(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
       }
       resolve();
     } catch (error) {
@@ -10307,18 +10310,18 @@ async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
 }
 
 exports.GetBequeathYourDataAndDieData = function GetBequeathYourDataAndDieData() {
-  return new Promise(async function(resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     try {
       const forwardingName = "PromptForEmbeddingCausesRequestForBequeathingData"
       const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-      
+
       let fcPortOutputDirectionLogicalTerminationPointList = [];
       const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
       for (const fcPort of fcPortList) {
-          const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-          if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-          }
+        const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+        if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+          fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+        }
       }
 
       let retObj = new Object()
@@ -10326,7 +10329,7 @@ exports.GetBequeathYourDataAndDieData = function GetBequeathYourDataAndDieData()
         const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
         const httpClientLtpUuid = httpLtpUuidList[0];
         const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)        
+        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
         const tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
 
         retObj = {
@@ -10335,25 +10338,25 @@ exports.GetBequeathYourDataAndDieData = function GetBequeathYourDataAndDieData()
         }
       }
       resolve(retObj);
-    } catch( error ) {
+    } catch (error) {
       reject()
     }
   });
 }
 
 exports.GetNotificationProxyData = function GetNotificationProxyData() {
-  return new Promise(async function(resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     try {
       const forwardingName = "PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP";
       const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-      
+
       let fcPortOutputDirectionLogicalTerminationPointList = [];
       const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
       for (const fcPort of fcPortList) {
-          const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-          if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-          }
+        const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+        if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+          fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+        }
       }
 
       let retObj = new Object()
@@ -10361,7 +10364,7 @@ exports.GetNotificationProxyData = function GetNotificationProxyData() {
         const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
         const httpClientLtpUuid = httpLtpUuidList[0];
         const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)        
+        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
         const tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
 
         retObj = {
@@ -10371,16 +10374,16 @@ exports.GetNotificationProxyData = function GetNotificationProxyData() {
         }
       }
       resolve(retObj);
-    } catch( error ) {
+    } catch (error) {
       reject()
     }
   });
 }
 
 exports.GetApplicationData = function GetApplicationData() {
-  return new Promise(async function(resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     try {
-      
+
       let name = getApplicationNameAsync
       const forwardingName = "ServiceRequestCausesLoggingRequest";
       const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
@@ -10388,10 +10391,10 @@ exports.GetApplicationData = function GetApplicationData() {
       let fcPortOutputDirectionLogicalTerminationPointList = [];
       const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
       for (const fcPort of fcPortList) {
-          const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-          if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-            fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-          }
+        const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+        if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+          fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+        }
       }
 
       let retObj = new Object()
@@ -10399,7 +10402,7 @@ exports.GetApplicationData = function GetApplicationData() {
         const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
         const httpClientLtpUuid = httpLtpUuidList[0];
         const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)        
+        const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
         const tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
 
         retObj = {

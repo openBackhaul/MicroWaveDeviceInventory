@@ -623,7 +623,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         requestMessage(slidingWindow.length - 1);
         printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length - 1]['node-id'], print_log_level >= 2);
     }
-    printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
+    //printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
 
     
 

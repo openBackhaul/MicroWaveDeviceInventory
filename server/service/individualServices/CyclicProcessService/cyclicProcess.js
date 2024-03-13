@@ -55,7 +55,7 @@ async function sendRequest(device) {
         if (procedureIsRunning == false) {
             return;
         }
-        /*
+        
         if (ret.code == undefined) {
             responseCode = 200;
         } else {
@@ -64,7 +64,7 @@ async function sendRequest(device) {
         }
         var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
         executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);     
-        */
+        
         return {
             'ret': ret,
             'node-id': device['node-id']
@@ -441,10 +441,10 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*******************************************************************************************************');
     console.log('*                                        DEVICE LIST REALIGNMENT                                      *');
     console.log('*                                                                                                     *');
-    console.log('*                                       ( ' + getTime() + ' )                                       *');
+    console.log('*                                       (Started at: ' + getTime() + ' )                            *');
     console.log('*                                                                                                     *');
-    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
-    console.log('*                                                                                                     *');
+    //console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
+    //console.log('*                                                                                                     *');
 
     let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
     synchInProgress = true;
@@ -453,29 +453,29 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     let commonEsElements = [];
     let dropEsElements = [];
-    let esRules = [];
-    let esString = '* Device List (ES): [';
+    //let esRules = [];
+    //let esString = '* Device List (ES): [';
     for (let i = 0; i < esDeviceList.length; i++) {
         let found = false;
         for (let j = 0; j < odlDeviceList.length; j++) {
             if (esDeviceList[i]['node-id'] == odlDeviceList[j]['node-id']) {
                 found = true;
                 commonEsElements.push(esDeviceList[i]);
-                esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
-                esRules.push("color:green");
-                esRules.push("color:inherit");
+                //esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
+                //esRules.push("color:green");
+                //esRules.push("color:inherit");
                 break;
             }
         }
         if (!found) {
             dropEsElements.push(esDeviceList[i]);
-            esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
-            esRules.push("color:red");
-            esRules.push("color:inherit");
+            //esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
+            //esRules.push("color:red");
+            //esRules.push("color:inherit");
         }
     }
-    esString += (']  (' + esDeviceList.length + ')');
-    console.log(esString, ...esRules);
+    //esString += (']  (' + esDeviceList.length + ')');
+    //console.log(esString, ...esRules);
 
     //
     // Drop all the sliding window elements not more present in new odl device list
@@ -499,29 +499,31 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     let newOdlElements = [];
     let commonOdlElements = [];
-    let odlRules = [];
-    let odlString = '* Device List (ODL): [';
+    //let odlRules = [];
+    //let odlString = '* Device List (ODL): [';
     for (let i = 0; i < odlDeviceList.length; i++) {
         let found = false;
         for (let j = 0; j < esDeviceList.length; j++) {
             if (odlDeviceList[i]['node-id'] == esDeviceList[j]['node-id']) {
                 found = true;
                 commonOdlElements.push(odlDeviceList[i]);
-                odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-                odlRules.push("color:green");
-                odlRules.push("color:inherit");
+                //odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
+                //odlRules.push("color:green");
+                //odlRules.push("color:inherit");
                 break;
             }
         }
         if (!found) {
             newOdlElements.push(odlDeviceList[i]);
-            odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-            odlRules.push("color:yellow");
-            odlRules.push("color:inherit");
+            //odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
+            //odlRules.push("color:yellow");
+            //odlRules.push("color:inherit");
         }
     }
-    odlString += (']  (' + odlDeviceList.length + ')');
-    console.log(odlString, ...odlRules);
+    //odlString += (']  (' + odlDeviceList.length + ')');
+    //console.log(odlString, ...odlRules);
+
+
     //
     // Shuffle new odl elements (commented issue 757)
     //
@@ -535,7 +537,13 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     let nextElement;
     if (commonEsElements.length > 0) {
         do {
-            nextElement = esDeviceList[getNextDeviceListIndex()];
+            let nextIndex = getNextDeviceListIndex();
+            if (nextIndex >= esDeviceList.length) {
+                nextElement = esDeviceList[0];    
+            } else {
+                nextElement = esDeviceList[nextIndex];
+            }
+            
             for (let i = 0; i < odlDeviceList.length; i++) {
                 if (nextElement['node-id'] == odlDeviceList[i]['node-id']) {
                     elementFound = true;
@@ -543,7 +551,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
                 }
             }
         } while (elementFound == false);
-        //printLog('* nextElement: ' + nextElement['node-id'], simulationProgress);
     } else if (commonEsElements.length == 0 || newOdlElements.length == 0) {
         lastDeviceListIndex = -1;
     }
@@ -570,6 +577,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     // Print the new ODL-DL (Updated)
     //
+    /*
     let newRules = [];
     let newString = '* Device List (Updated): [';
     let newPiped = false;
@@ -593,6 +601,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
     newString += (']  (' + odlDeviceList.length + ')');
     console.log(newString, ...newRules);
+    */
 
     //
     // Write new ODL-DL to Elasticsearch
@@ -616,7 +625,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
     printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
 
-    synchInProgress = false;
+    
 
     //
     // Erase all the control constructs from elasticsearch referring elements not more present in new odl device list
@@ -626,8 +635,11 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
         printLog('* ' + ret.result, print_log_level >= 2);
     }
+    
+    console.log('*                                       (Stopped at: ' + getTime() + ' )                            *');    
     console.log('*******************************************************************************************************');
     console.log('');
+    synchInProgress = false;
     return true;
 }
 

@@ -22,7 +22,7 @@ const subscriberManagement = require('./individualServices/SubscriberManagement'
 const inputValidation = require('./individualServices/InputValidation');
 const notificationManagement = require('./individualServices/NotificationManagement');
 const executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
-
+const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHandler');
 
 const crypto = require("crypto");
@@ -5190,8 +5190,8 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           resolve(notFoundError());
           throw new createHttpError.NotFound;
         } else if (result.status != 200) {
-          resolve(Error(result.status, result.statusText));
-          throw new createHttpError(result.status, result.statusText);
+          resolve(Error(result.status, result.message));
+          throw new createHttpError(result.status, result.message);
         } else {
           let jsonObj = result.data;
           modificaUUID(jsonObj, correctCc);
@@ -9379,11 +9379,11 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
 
       if (ret == false) {
         throw new createHttpError.NotFound;
-      } else if (ret.status != 200) {
-        if (ret.statusText == undefined) {
+      } else if (ret.status != undefined && ret.status != 200) {
+        if (ret.message == undefined) {
           throw new createHttpError(ret.status, ret.message);
         } else {
-          throw new createHttpError(ret.status, ret.statusText);
+          throw new createHttpError(ret.status, ret.message);
         }
       } else {
         resolve();
@@ -9430,7 +9430,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
-        throw new createHttpError(resRequestor.status, resRequestor.statusText);
+        throw new createHttpError(resRequestor.status, resRequestor.message);
       } else {
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
@@ -9492,7 +9492,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
-        throw new createHttpError(resRequestor.status, resRequestor.statusText);
+        throw new createHttpError(resRequestor.status, resRequestor.message);
       } else {
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
@@ -9553,6 +9553,9 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       const controlConstruct = match ? match[1] : null;
       // read from ES
       let result = await ReadRecords(controlConstruct);
+      if (result == undefined){
+        throw new createHttpError.NotFound("unable to find device")
+      }
       modifyReturnJson(result);
       // Update json object
       let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
@@ -9589,7 +9592,7 @@ exports.getLiveDeviceList = function (url) {
       let deviceList = result["data"]["network-topology:topology"][0].node;
       resolve(deviceList);
     } else {
-      reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.statusText + ")");
+      reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.message + ")");
     }
   });
 }

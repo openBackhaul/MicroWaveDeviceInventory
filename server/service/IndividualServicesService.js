@@ -9584,9 +9584,10 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
 
 exports.getLiveDeviceList = function (url) {
   return new Promise(async function (resolve, reject) {
-    const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList();
-    const finalUrl = appNameAndUuidFromForwarding[0].url;
-    const Authorization = appNameAndUuidFromForwarding[0].key;
+    //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList();
+    let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
+    const finalUrl = common[0].tcpConn + urlForOdl;
+    const Authorization = common[0].key;
     const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization);
     if (result.status == 200) {
       let deviceList = result["data"]["network-topology:topology"][0].node;

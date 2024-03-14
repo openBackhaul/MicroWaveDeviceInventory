@@ -2226,22 +2226,25 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       }
       if (typeof link === 'object') {
         throw new createHttpError(link[0].code, link[0].message);
-        return;
       } else {
         correctLink = link;
       }
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
-        result = result[objectKey];
-        const objectKeyParts = objectKey.split(":");
-        let prefix = objectKeyParts[0];
-        let topJsonWrapper = prefix + ":link-port";
-        const linkPortArray = result[0]["link-port"].find(
-          port => port["local-id"] === id
-        );
-        let returnObject = { [topJsonWrapper]: [linkPortArray] };
-        resolve(returnObject);
+        if (objectKey.indexOf("link") != -1) {
+          result = result[objectKey];
+          const objectKeyParts = objectKey.split(":");
+          let prefix = objectKeyParts[0];
+          let topJsonWrapper = prefix + ":link-port";
+          const linkPortArray = result[0]["link-port"].find(
+            port => port["local-id"] === id
+          );
+          let returnObject = { [topJsonWrapper]: [linkPortArray] };
+          resolve(returnObject);
+        } else {
+          throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+        }
       } else {
         throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
       }
@@ -2291,7 +2294,11 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -2365,7 +2372,11 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4245,7 +4256,11 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4320,7 +4335,11 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4395,7 +4414,11 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4467,9 +4490,13 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -4524,7 +4551,11 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4599,7 +4630,11 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4672,7 +4707,11 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4745,7 +4784,11 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4818,7 +4861,11 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4892,7 +4939,11 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -4966,7 +5017,11 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5041,7 +5096,11 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5116,7 +5175,11 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5187,11 +5250,16 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
-          resolve(notFoundError());
+          resolve(NotFound());
           throw new createHttpError.NotFound;
         } else if (result.status != 200) {
-          resolve(Error(result.status, result.message));
-          throw new createHttpError(result.status, result.message);
+          if (result.statusText == undefined) {
+            resolve(result.status, result.message);
+            throw new createHttpError(result.status, result.message);
+          } else {
+            resolve(result.status, result.statusText);
+            throw new createHttpError(result.status, result.statusText);
+          }
         } else {
           let jsonObj = result.data;
           modificaUUID(jsonObj, correctCc);
@@ -5277,7 +5345,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
         } else if (res.status != 200) {
           if (res.message == undefined) {
             resolve(res);
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(res.status, res.statusText);
           } else {
             resolve(res);
             throw new createHttpError(res.status, res.message);
@@ -5355,7 +5423,11 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5430,7 +5502,11 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5505,7 +5581,11 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5577,9 +5657,13 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.notFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -5634,7 +5718,11 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5709,7 +5797,11 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5784,7 +5876,11 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5857,7 +5953,11 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -5931,7 +6031,11 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6005,7 +6109,11 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6079,7 +6187,11 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6153,7 +6265,11 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6229,7 +6345,11 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6303,7 +6423,11 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6377,7 +6501,11 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6452,7 +6580,11 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6524,9 +6656,13 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -6581,7 +6717,11 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6656,7 +6796,11 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6731,7 +6875,11 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6806,7 +6954,11 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -6878,9 +7030,13 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -6935,7 +7091,11 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7010,7 +7170,11 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7084,7 +7248,11 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7158,7 +7326,11 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7232,7 +7404,11 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7305,7 +7481,11 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7380,7 +7560,11 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7455,7 +7639,11 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7527,9 +7715,13 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -7584,7 +7776,11 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7659,7 +7855,11 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7733,7 +7933,11 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7807,7 +8011,11 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7881,7 +8089,11 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -7954,7 +8166,11 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8029,7 +8245,11 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8104,7 +8324,11 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8176,9 +8400,13 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -8233,7 +8461,11 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8308,7 +8540,11 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8383,7 +8619,11 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8458,7 +8698,11 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8530,9 +8774,13 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFoundError;
+          throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
@@ -8587,7 +8835,11 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8662,7 +8914,11 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8736,7 +8992,11 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -8810,7 +9070,11 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
         if (res == false) {
           throw new createHttpError.NotFound;
         } else if (res.status != 200) {
-          throw new createHttpError(res.status, res.message);
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
@@ -9056,7 +9320,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
         };
         resolve(outputJson);
       } else {
-        resolve(notFoundError());
+        throw new createHttpError.NotFound("Device list not found");
       }
     } catch (error) {
       reject(error);
@@ -9186,6 +9450,12 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
 exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
+      const startsWithCoreLink = (obj) => {
+        return Object.keys(obj)[0].includes("link");
+      };
+      if (!startsWithCoreLink(body)) {
+        throw new createHttpError[400]("Bad Request");
+      }
       url = decodeURIComponent(url);
       let correctLink = null;
       let link = uuid; //decodeLinkUuid(url, true);
@@ -9240,7 +9510,12 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
 exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      url = decodeURIComponent(url);
+      const startsWithCoreLink = (obj) => {
+        return Object.keys(obj)[0].includes("link");
+      };
+      if (!startsWithCoreLink(body)) {
+        throw new createHttpError[400]("Bad Request");
+      }
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
@@ -9381,7 +9656,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
         throw new createHttpError.NotFound;
       } else if (ret.status != undefined && ret.status != 200) {
         if (ret.message == undefined) {
-          throw new createHttpError(ret.status, ret.message);
+          throw new createHttpError(ret.status, ret.statusText);
         } else {
           throw new createHttpError(ret.status, ret.message);
         }
@@ -9430,7 +9705,11 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
-        throw new createHttpError(resRequestor.status, resRequestor.message);
+        if (resRequestor.statusText == undefined) {
+          throw new createHttpError(resRequestor.status, resRequestor.message);
+        } else {
+          throw new createHttpError(resRequestor.status, resRequestor.statusText);
+        }
       } else {
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
@@ -9492,7 +9771,11 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
-        throw new createHttpError(resRequestor.status, resRequestor.message);
+        if (resRequestor.statusText == undefined) {
+          throw new createHttpError(resRequestor.status, resRequestor.message);
+        } else {
+          throw new createHttpError(resRequestor.status, resRequestor.statusText);
+        }
       } else {
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
@@ -9553,7 +9836,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       const controlConstruct = match ? match[1] : null;
       // read from ES
       let result = await ReadRecords(controlConstruct);
-      if (result == undefined){
+      if (result == undefined) {
         throw new createHttpError.NotFound("unable to find device")
       }
       modifyReturnJson(result);
@@ -9593,7 +9876,7 @@ exports.getLiveDeviceList = function (url) {
       let deviceList = result["data"]["network-topology:topology"][0].node;
       resolve(deviceList);
     } else {
-      reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.message + ")");
+      reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.statusText + ")");
     }
   });
 }

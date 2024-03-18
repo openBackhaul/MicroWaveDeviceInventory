@@ -443,40 +443,43 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*                                                                                                     *');
     console.log('*                                       (Started at: ' + getTime() + ' )                            *');
     console.log('*                                                                                                     *');
-    //console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
-    //console.log('*                                                                                                     *');
-
+    
     let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
     synchInProgress = true;
     //
-    // Calculate common elements and drop elements of ES-DL and print ES-DL
+    // Calculate common elements and drop elements of ES-DL
     //
     let commonEsElements = [];
     let dropEsElements = [];
-    //let esRules = [];
-    //let esString = '* Device List (ES): [';
     for (let i = 0; i < esDeviceList.length; i++) {
         let found = false;
         for (let j = 0; j < odlDeviceList.length; j++) {
             if (esDeviceList[i]['node-id'] == odlDeviceList[j]['node-id']) {
                 found = true;
                 commonEsElements.push(esDeviceList[i]);
-                //esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
-                //esRules.push("color:green");
-                //esRules.push("color:inherit");
                 break;
             }
         }
         if (!found) {
             dropEsElements.push(esDeviceList[i]);
-            //esString += (((i == 0) ? '' : '|') + ('%c' + esDeviceList[i]['node-id'] + '%c'));
-            //esRules.push("color:red");
-            //esRules.push("color:inherit");
         }
     }
-    //esString += (']  (' + esDeviceList.length + ')');
-    //console.log(esString, ...esRules);
-
+    //
+    // Calculate new elements of ODL-DL and print ODL-DL
+    //
+    let newOdlElements = [];
+    for (let i = 0; i < odlDeviceList.length; i++) {
+        let found = false;
+        for (let j = 0; j < esDeviceList.length; j++) {
+            if (odlDeviceList[i]['node-id'] == esDeviceList[j]['node-id']) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            newOdlElements.push(odlDeviceList[i]);
+        }
+    }
     //
     // Drop all the sliding window elements not more present in new odl device list
     //
@@ -494,128 +497,75 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             i++;
         }
     }
-    //
-    // Calculate new elements and common elements of ODL-DL and print ODL-DL
-    //
-    let newOdlElements = [];
-    let commonOdlElements = [];
-    //let odlRules = [];
-    //let odlString = '* Device List (ODL): [';
-    for (let i = 0; i < odlDeviceList.length; i++) {
-        let found = false;
-        for (let j = 0; j < esDeviceList.length; j++) {
-            if (odlDeviceList[i]['node-id'] == esDeviceList[j]['node-id']) {
-                found = true;
-                commonOdlElements.push(odlDeviceList[i]);
-                //odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-                //odlRules.push("color:green");
-                //odlRules.push("color:inherit");
-                break;
-            }
-        }
-        if (!found) {
-            newOdlElements.push(odlDeviceList[i]);
-            //odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-            //odlRules.push("color:yellow");
-            //odlRules.push("color:inherit");
-        }
-    }
-    //odlString += (']  (' + odlDeviceList.length + ')');
-    //console.log(odlString, ...odlRules);
-
-
+    
     //
     // Shuffle new odl elements (commented issue 757)
     //
     //newOdlElements = shuffleArray(newOdlElements); 
 
     //
-    // Get the next element common to both the esDeviceList and odlDeviceList. 
-    // This element will provide the index needed to split the commonElements list.
+    // If slidingWindow is empty
     //
-    let elementFound = false;
-    let nextElement;
-    if (commonEsElements.length > 0) {
-        do {
-            let nextIndex = getNextDeviceListIndex();
-            if (nextIndex >= esDeviceList.length) {
-                nextElement = esDeviceList[0];    
-            } else {
-                nextElement = esDeviceList[nextIndex];
-            }
-            
-            for (let i = 0; i < odlDeviceList.length; i++) {
-                if (nextElement['node-id'] == odlDeviceList[i]['node-id']) {
-                    elementFound = true;
-                    break;
-                }
-            }
-        } while (elementFound == false);
-    } else if (commonEsElements.length == 0 || newOdlElements.length == 0) {
+    if (slidingWindow.length == 0) {
+        deviceList = [].concat(newOdlElements, commonEsElements);
         lastDeviceListIndex = -1;
-    }
-    //
-    // Split commonEsElements to insert newOdlElements array inside
-    //
-    let nextElementFound = false;
-    let newDeviceListLeft = [];
-    let newDeviceListRight = [];
-    for (let i = 0; i < commonEsElements.length; i++) {
-        if (nextElement['node-id'] == commonEsElements[i]['node-id']) {
-            nextElementFound = true
-            // Update the lastDeviceListIndex: it must be relocated to the last element of newDeviceListLeft
-            lastDeviceListIndex = i - 1;
+    } else {
+        //
+        // Get the last element of new sliding window
+        //
+        let slidingWindowLastElement = slidingWindow[slidingWindow.length-1];
+        //
+        // Search the last element in commonEsElements to split commonEsElements
+        //
+        let lastElementFound = false;        
+        for (let i = 0; i < commonEsElements.length; i++) {
+            if (slidingWindowLastElement['node-id'] == commonEsElements[i]['node-id']) {
+                lastElementFound = true;
+                lastDeviceListIndex = i;
+                break;
+            }
         }
-        if (nextElementFound == false) {
-            newDeviceListLeft.push(commonEsElements[i]);
+        if (lastElementFound == false) {
+            deviceList = [].concat(newOdlElements, commonEsElements);
+            lastDeviceListIndex = -1;
         } else {
-            newDeviceListRight.push(commonEsElements[i]);
+            if (lastDeviceListIndex == commonEsElements.length - 1) {
+                deviceList = [].concat(newOdlElements, commonEsElements);
+                lastDeviceListIndex = -1;
+            } else {
+                let startIndex = 0
+                let endIndex = lastDeviceListIndex + 1
+                let commonEsElementsLeft = commonEsElements.splice(startIndex, endIndex);
+                let commonEsElementsRight = commonEsElements.splice(endIndex);
+                deviceList = [].concat(commonEsElementsLeft, newOdlElements, commonEsElementsRight);
+            }
         }
     }
-    deviceList = [].concat(newDeviceListLeft, newOdlElements, newDeviceListRight);
-
-    //
-    // Print the new ODL-DL (Updated)
-    //
-    /*
-    let newRules = [];
-    let newString = '* Device List (Updated): [';
-    let newPiped = false;
-    for (let i = 0; i < newDeviceListLeft.length; i++) {
-        newString += (((i == 0) ? '' : '|') + ('%c' + newDeviceListLeft[i]['node-id'] + '%c'));
-        newRules.push("color:green");
-        newRules.push("color:inherit");
-        newPiped = true;
-    }
-    for (let i = 0; i < newOdlElements.length; i++) {
-        newString += (((i == 0 && newPiped == false) ? '' : '|') + ('%c' + newOdlElements[i]['node-id'] + '%c'));
-        newRules.push("color:yellow");
-        newRules.push("color:inherit");
-        newPiped = true;
-    }
-    for (let i = 0; i < newDeviceListRight.length; i++) {
-        newString += (((i == 0 && newPiped == false) ? '' : '|') + ('%c' + newDeviceListRight[i]['node-id'] + '%c'));
-        newRules.push("color:green");
-        newRules.push("color:inherit");
-        newPiped = true;
-    }
-    newString += (']  (' + odlDeviceList.length + ')');
-    console.log(newString, ...newRules);
-    */
-
+       
     //
     // Write new ODL-DL to Elasticsearch
     //
+    let deviceListCleaned = [];
+    for (let i = 0; i < deviceList.length; i++) {
+        deviceListCleaned.push({"node-id" : deviceList[i]["node-id"]});
+    }
+    deviceList = deviceListCleaned;
+    var deviceListStringiflied = JSON.stringify(deviceList);
     try {
-        await individualServicesService.writeDeviceListToElasticsearch(JSON.stringify(deviceList));
+        await individualServicesService.writeDeviceListToElasticsearch(deviceListStringiflied);
         printLog('* Update new device list to Elasticsearch', print_log_level >= 2);
     } catch (error) {
         console.log(error);
     }
-    //printLog('* lastDeviceListIndex: ' + lastDeviceListIndex, simulationProgress);    
-
+    
+    try {
+        console.info("* DeviceList [" + deviceList.length + " element(s)] size in byte (approx): " + new TextEncoder().encode(deviceListStringiflied).length);
+    } catch (error) {
+        console.log(error);
+    }
+    
     //
-    // Fill the sliding window at the max allowed
+    // Fill the sliding window at the max allowed and get new the elements
     //
     let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
     for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
@@ -623,10 +573,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         requestMessage(slidingWindow.length - 1);
         printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length - 1]['node-id'], print_log_level >= 2);
     }
-    //printLog(printList('* Sliding Window', slidingWindow), print_log_level >= 2);
-
     
-
     //
     // Erase all the control constructs from elasticsearch referring elements not more present in new odl device list
     //
@@ -685,6 +632,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
+    
     let odlDeviceList;
     try {
         odlDeviceList = await individualServicesService.getLiveDeviceList();
@@ -801,13 +749,23 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         printLog("Write ODL device list to Elasticsearch", print_log_level >= 2);
     }
 
-    let odlDeviceListString = JSON.stringify(odlDeviceList);
+    let deviceListCleaned = [];
+    for (let i = 0; i < odlDeviceList.length; i++) {
+        deviceListCleaned.push({"node-id" : odlDeviceList[i]["node-id"]});
+    }
+    deviceList = deviceListCleaned;
+    let odlDeviceListString = JSON.stringify(deviceList);
     try {
         await individualServicesService.writeDeviceListToElasticsearch(odlDeviceListString);
     } catch (error) {
         console.log(error);
     }
-    deviceList = odlDeviceList;
+    try {
+        console.info("DeviceList [" + deviceList.length + " element(s)] size in byte (approx): " + new TextEncoder().encode(odlDeviceListString).length);
+    } catch (error) {
+        console.log(error);
+    }
+    
     //
     // Sliding Window
     //

@@ -99,7 +99,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
       } else {
         let objectKey1 = Object.keys(oggetto)[0];
         oggetto = oggetto[objectKey1];
-        oggetto = oggetto[nomeArray];
+       // oggetto = oggetto[nomeArray];
       }
       // If the key doesn't contain square brackets get the objet value
       if (i === chiavi.length - 1) {

@@ -297,14 +297,19 @@ async function requestMessage(index) {
         }
         sendRequest(slidingWindow[index]).then(async retObj => {
             let busy = true;
+            let steps = 0;
             do {
                 if (synchInProgress == true) {
                     await sleep(50);
+                    steps += 1;
                 } else {
                     busy = false;
                 }
             } while (busy == true);
             if (procedureIsRunning) {
+                if (steps > 0) {
+                    console.log('SYNCH_IN_PROGRESS [from response] (steps: ' + steps + ')');
+                }
                 manageResponse(retObj);
             }
         })
@@ -351,13 +356,18 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
     }
     console.log("<Notification>  node-id: " + node_id + "   status: " + ((status == 1) ? "connected" : "not connected"))
     let busy = true;
+    let steps = 0;
     do {
         if (synchInProgress == true) {
             await sleep(50);
+            steps += 1;
         } else {
             busy = false;
         }
     } while (busy == true);
+    if (steps > 0) {
+        console.log('SYNCH_IN_PROGRESS [from notification] (steps: ' + steps + ')');
+    }
     if (status == 1) {  // Connected
         for (var i = 0; i < deviceList.length; i++) {
             if (deviceList[i]['node-id'] == node_id) {
@@ -424,6 +434,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         return;
     }
 
+    synchInProgress = true;
+
     let odlDeviceList;
     try {
         if (simulationProgress == false) {
@@ -441,11 +453,16 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*******************************************************************************************************');
     console.log('*                                        DEVICE LIST REALIGNMENT                                      *');
     console.log('*                                                                                                     *');
-    console.log('*                                       (Started at: ' + getTime() + ' )                            *');
+    console.log('*                                       (Started at: ' + getTime() + ')                             *');
     console.log('*                                                                                                     *');
     
-    let esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
-    synchInProgress = true;
+    let esDeviceList = [];
+    try {
+        esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
+    } catch (error) {
+        console.log('* ' + error);
+    }    
+    
     //
     // Calculate common elements and drop elements of ES-DL
     //
@@ -483,6 +500,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     // Drop all the sliding window elements not more present in new odl device list
     //
+    let elementsDroppedFromSlidingWindow = 0
     for (let i = 0; i < slidingWindow.length;) {
         let found = false;
         for (let j = 0; j < odlDeviceList.length; j++) {
@@ -493,6 +511,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }
         if (!found) {
             slidingWindow.splice(i, 1);
+            elementsDroppedFromSlidingWindow++;
         } else {
             i++;
         }
@@ -535,8 +554,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             } else {
                 let startIndex = 0
                 let endIndex = lastDeviceListIndex + 1
-                let commonEsElementsLeft = commonEsElements.splice(startIndex, endIndex);
-                let commonEsElementsRight = commonEsElements.splice(endIndex);
+                let commonEsElementsLeft = commonEsElements.slice(startIndex, endIndex);
+                let commonEsElementsRight = commonEsElements.slice(endIndex);
                 deviceList = [].concat(commonEsElementsLeft, newOdlElements, commonEsElementsRight);
             }
         }
@@ -552,8 +571,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     deviceList = deviceListCleaned;
     var deviceListStringiflied = JSON.stringify(deviceList);
     try {
+        console.log('* Update new device list to Elasticsearch...                                                          *');
         await individualServicesService.writeDeviceListToElasticsearch(deviceListStringiflied);
-        printLog('* Update new device list to Elasticsearch', print_log_level >= 2);
     } catch (error) {
         console.log(error);
     }
@@ -582,10 +601,18 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
         printLog('* ' + ret.result, print_log_level >= 2);
     }
-    
-    console.log('*                                       (Stopped at: ' + getTime() + ' )                            *');    
+    console.log('* ES Device List size: ' + esDeviceList.length + '                                                                             *');
+    console.log('* ODL Device List size: ' + odlDeviceList.length + '                                                                            *');
+    console.log('* Common element(s): ' + commonEsElements.length + '                                                                               *');
+    console.log('* New element(s): ' + newOdlElements.length + '                                                                                   *');
+    console.log('* Dropped element(s): ' + dropEsElements.length + '                                                                               *');
+    console.log('* Dropped elements from Sliding Window: ' + elementsDroppedFromSlidingWindow + '                                                             *');
+    console.log('* New Sliding Window size: ' + slidingWindow.length + '                                                                          *');
+    console.log('* New Device List size: ' + deviceList.length + '                                                                            *')
+    console.log('*                                       (Stopped at: ' + getTime() + ')                             *');    
     console.log('*******************************************************************************************************');
     console.log('');
+    
     synchInProgress = false;
     return true;
 }

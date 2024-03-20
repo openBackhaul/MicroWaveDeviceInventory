@@ -453,7 +453,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*******************************************************************************************************');
     console.log('*                                        DEVICE LIST REALIGNMENT                                      *');
     console.log('*                                                                                                     *');
-    console.log('*                                       (Started at: ' + getTime() + ')                             *');
+    console.log('*                                  (Started at: ' + getTime() + ')                                  *');
     console.log('*                                                                                                     *');
     
     let esDeviceList = [];
@@ -571,18 +571,12 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     deviceList = deviceListCleaned;
     var deviceListStringiflied = JSON.stringify(deviceList);
     try {
-        console.log('* Update new device list to Elasticsearch...                                                          *');
         await individualServicesService.writeDeviceListToElasticsearch(deviceListStringiflied);
+        console.log('* New Device List updated to Elasticsearch                                                            *');
     } catch (error) {
         console.log(error);
     }
-    
-    try {
-        console.info("* DeviceList [" + deviceList.length + " element(s)] size in byte (approx): " + new TextEncoder().encode(deviceListStringiflied).length);
-    } catch (error) {
-        console.log(error);
-    }
-    
+       
     //
     // Fill the sliding window at the max allowed and get new the elements
     //
@@ -609,7 +603,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('* Dropped elements from Sliding Window: ' + elementsDroppedFromSlidingWindow + '                                                             *');
     console.log('* New Sliding Window size: ' + slidingWindow.length + '                                                                          *');
     console.log('* New Device List size: ' + deviceList.length + '                                                                            *')
-    console.log('*                                       (Stopped at: ' + getTime() + ')                             *');    
+    console.log('*                                  (Stopped at: ' + getTime() + ')                                  *');    
     console.log('*******************************************************************************************************');
     console.log('');
     
@@ -784,11 +778,6 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     let odlDeviceListString = JSON.stringify(deviceList);
     try {
         await individualServicesService.writeDeviceListToElasticsearch(odlDeviceListString);
-    } catch (error) {
-        console.log(error);
-    }
-    try {
-        console.info("DeviceList [" + deviceList.length + " element(s)] size in byte (approx): " + new TextEncoder().encode(odlDeviceListString).length);
     } catch (error) {
         console.log(error);
     }

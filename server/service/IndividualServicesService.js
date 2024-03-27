@@ -92,13 +92,15 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
         let ret = await deleteRequest(correctLink);
         let listLink = await ReadRecords("linkList");
         if (listLink.LinkList.includes(correctLink)) {
-          listLink.LinkList.pop(correctLink);
+          let indexToRemove = listLink.LinkList.indexOf(correctLink);
+          listLink.LinkList.splice(indexToRemove, 1);
           let elapsedTime = await recordRequest(listLink, "linkList");
         }
       }
       let listLink = await ReadRecords("linkList");
       if (listLink.LinkList.includes(correctLink)) {
-        listLink.LinkList.pop(correctLink);
+        let indexToRemove = listLink.LinkList.indexOf(correctLink);
+          listLink.LinkList.splice(indexToRemove, 1);
         let elapsedTime = await recordRequest(listLink, "linkList");
       }
       resolve();
@@ -9403,19 +9405,27 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
 exports.provideListOfParallelLinks = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
+      let index = 0;
+      let index1 = 0;
       let linkId = body['link-id'];
       let parallelLink = [linkId];
       let linkToCompare = await ReadRecords(linkId);
       if (linkToCompare == undefined) {
         throw new createHttpError.NotFound(`unable to fetch records for link ${linkId}`)
       }
-      const controlConstructList = linkToCompare["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+      if (!linkToCompare["core-model-1-4:link"][0]["end-point-list"]){
+        index = 1;
+      }
+      const controlConstructList = linkToCompare["core-model-1-4:link"][index]["end-point-list"].map(endpoint => endpoint["control-construct"]);
       let result = await ReadRecords("linkList");
       for (var link of result.LinkList) {
         if (link != linkId) {
           let resLink = await ReadRecords(link);
           try {
-            const ccList = resLink["core-model-1-4:link"][1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+            if (!resLink["core-model-1-4:link"][0]["end-point-list"]){
+              index1 = 1;
+            }
+            const ccList = resLink["core-model-1-4:link"][index1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
             if (arraysHaveSameElements(controlConstructList, ccList)) {
               parallelLink.push(link);
             }

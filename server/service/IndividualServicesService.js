@@ -9704,11 +9704,11 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
-      } else if (resRequestor.status != 200) {
+      } else if (resRequestor.response.status != 200) {
         if (resRequestor.statusText == undefined) {
-          throw new createHttpError(resRequestor.status, resRequestor.message);
+          throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
         } else {
-          throw new createHttpError(resRequestor.status, resRequestor.statusText);
+          throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
       } else {
         let appInformation = await notificationManagement.getAppInformation();
@@ -9770,11 +9770,11 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
-      } else if (resRequestor.status != 200) {
-        if (resRequestor.statusText == undefined) {
-          throw new createHttpError(resRequestor.status, resRequestor.message);
+      } else if (resRequestor.response.status != 200) {
+        if (resRequestor.response.statusText == undefined) {
+          throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
         } else {
-          throw new createHttpError(resRequestor.status, resRequestor.statusText);
+          throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
       } else {
         let appInformation = await notificationManagement.getAppInformation();
@@ -10156,13 +10156,15 @@ async function sentDataToRequestor(body, user, originator, xCorrelator, traceInd
     return response;
   }
   catch (error) {
-    return (null);
+    return (error);
   }
 }
 
 
 exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (user, originator, xCorrelator, traceIndicator, customerJourney) {
   try {
+    let traceIndicatorIncrementer = 1;
+    originator = 'MicroWaveDeviceInventory';
     const forwardingName = "PromptForEmbeddingCausesSubscribingForNotifications";
     const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
     if (forwardingConstruct === undefined) {
@@ -10200,7 +10202,10 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
       //let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[0];
       const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
       const operation = await OperationClientInterface.getOperationNameAsync(opLtpUuidOutput);
-      let httpRequestHeader = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(new RequestHeader(user, originator, xCorrelator, traceIndicator, customerJourney, key));
+      let traceIndicatorMod = traceIndicator + '.' + traceIndicatorIncrementer;
+      console.log("traceIndicator: " + traceIndicatorMod);
+      let httpRequestHeader = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(new RequestHeader(user, originator, xCorrelator, traceIndicatorMod, customerJourney, key));
+      traceIndicatorIncrementer++;
       let httpRequestBody = {
         "subscribing-application-name": applicationName,
         "subscribing-application-release": applicationReleaseNumber,

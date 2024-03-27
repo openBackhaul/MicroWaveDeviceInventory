@@ -1,3 +1,5 @@
+const createHttpError = require("http-errors");
+
 exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
   const myFields = urlParts[1];
@@ -41,13 +43,15 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             }
             currentJSON = currentJSON[key][indexDaSostituire];
           } else {
-            console.warn(`Campo "${key}" non trovato.`);
+            console.warn(`Field "${key}" not found in cache`);
             break;
           }
           //          console.log('JSON originale aggiornato:');
           //          console.log(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
+          throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
+
           //          console.log(`Nessun elemento trovato con UUID: ${uuidDaCercare}`);
           break;
         }
@@ -97,8 +101,10 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
       if (nomeArray.indexOf("control-construct") != -1) {
         oggetto = oggetto[nomeArray];
       } else {
+        let objectKey = Object.keys(oggetto)[0];
+        oggetto = oggetto[objectKey];
         let objectKey1 = Object.keys(oggetto)[0];
-        oggetto = oggetto[objectKey1];
+        oggetto = oggetto[nomeArray];
        // oggetto = oggetto[nomeArray];
       }
       // If the key doesn't contain square brackets get the objet value
@@ -114,7 +120,8 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
           } else {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
-            oggetto[nomeArray] = newJSON;
+         //   oggetto[nomeArray] = newJSON;
+            oggetto = newJSON;
           }
         }
       }
@@ -135,7 +142,8 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
             let result = mergeJson(oggetto[nomeArray][indice], newJSON)
           } else {
             if (nuovoJSON === null) {
-              delete oggetto[nomeArray][indice];
+              oggetto[nomeArray].splice(indice,1);
+              //delete oggetto[nomeArray][indice];
             } else {
               let objectKey = Object.keys(nuovoJSON)[0];
               let newJSON = nuovoJSON[objectKey][0];
@@ -148,7 +156,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         }
       } else {
         // If the key doesn't contain square brackets get the objet value
-        /*  if (i === chiavi.length -1) {
+          if (i === chiavi.length -1) {
             // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
             if (Filters) {
               let objectKey = Object.keys(nuovoJSON)[0];
@@ -159,14 +167,15 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
               let newJSON = nuovoJSON[objectKey]
               oggetto[chiave] = newJSON;
             }
-          } else { */
+          } else { 
         // Otherwise go on parsing the object
         oggetto = oggetto[chiave];
         nomeArray = chiave;
-        //}
+        }
       }
     }
   }
+  /*
   if (Filters) {
     let objectKey = Object.keys(nuovoJSON)[0];
     let newJSON = nuovoJSON[objectKey];
@@ -178,6 +187,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
       Object.assign(oggetto ,newJSON);
     }
   }
+  */
 }
 
 function mergeJson(target, source) {

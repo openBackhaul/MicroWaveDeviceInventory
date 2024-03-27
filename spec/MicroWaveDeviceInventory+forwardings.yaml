@@ -421,8 +421,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-s-is-560
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-s-is-561
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
-        uuid: mwdi-1-1-0-op-s-is-563
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-s-is-570
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
@@ -1213,8 +1211,6 @@ forwardings:
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-560
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-561
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
-        uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-563
 
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
         uuid: mwdi-1-1-0-op-c-is-mwdi-1-1-0-570
@@ -3412,21 +3408,6 @@ forwardings:
     consequent-requests:
       - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance
         uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-553
-
-  - forwarding-name: RequestForLiveVlanInterfaceCurrentPerformanceCausesReadingFromDevice
-    uuid: mwdi-1-1-0-op-fc-is-563
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
-        uuid: mwdi-1-1-0-op-s-is-563
-    consequent-requests:
-      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-current-performance
-        uuid: mwdi-1-1-0-op-c-is-odl-4-0-2-563
 
   - forwarding-name: RequestForLiveWireInterfaceCurrentPerformanceCausesReadingFromDevice
     uuid: mwdi-1-1-0-op-fc-is-573

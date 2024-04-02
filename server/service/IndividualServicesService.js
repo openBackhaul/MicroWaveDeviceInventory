@@ -9714,7 +9714,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
-      } else if (resRequestor.response.status != 200) {
+      } else if (resRequestor.status != 200) {
         if (resRequestor.statusText == undefined) {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
         } else {
@@ -9725,13 +9725,12 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
         const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
-        const newJson = {
-          applicationName: {
+        const newJson = {};
+        newJson[applicationName] = {
             "counter": counter,
             "timestamp": currentJSON.timestamp,
-            "attribute-name": currentJSON.attribute - name,
-            "new-value": currentJSON.new - value
-          }
+            "attribute-name": currentJSON["attribute-name"],
+            "new-value": currentJSON["new-value"]
         };
         notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
         resolve();
@@ -9780,7 +9779,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
-      } else if (resRequestor.response.status != 200) {
+      } else if (resRequestor.status != 200) {
         if (resRequestor.response.statusText == undefined) {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
         } else {
@@ -9791,12 +9790,11 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
         const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-creation-notification";
-        const newJson = {
-          applicationName: {
+        const newJson = {};
+        newJson[applicationName] = {
             "counter": counter,
             "timestamp": currentJSON.timestamp,
             "object-path": resource,
-          }
         };
         notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
         resolve();
@@ -9859,12 +9857,11 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       const releaseNumber = appInformation["release-number"];
       let parts = releaseNumber.split(".");
       const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-deletion-notification";
-      const newJson = {
-        applicationName: {
+      const newJson = {};
+        newJson[applicationName] = {
           "counter": currentJSON.counter,
           "timestamp": currentJSON.timestamp,
-          "object-path": resource,
-        }
+          "object-path": resource
       };
       notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
       resolve();

@@ -24,6 +24,7 @@ const notificationManagement = require('./individualServices/NotificationManagem
 const executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHandler');
+const alarmHandler = require('./individualServices/alarmUpdater')
 
 const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
@@ -9257,6 +9258,9 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
     try {
       let urlParts = url.split("?fields=");
       let mountName = body['mount-name'];
+      if (mountName == ""){
+        throw new createHttpError.BadRequest("mount-name must not be empty");
+      }
       const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
       const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
       let returnObject = {};
@@ -9347,6 +9351,9 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
     try {
       let urlParts = url.split("?fields=");
       let mountName = body['mount-name'];
+      if (mountName == ""){
+        throw new createHttpError.BadRequest("mount-name must not be empty");
+      }
       const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
       const finalUrl = formatUrlForOdl(decodeURIComponent(appNameAndUuidFromForwarding[0].url), urlParts[1]);
       let returnObject = {};
@@ -9408,6 +9415,9 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       let index = 0;
       let index1 = 0;
       let linkId = body['link-id'];
+      if (linkId == ""){
+        throw new createHttpError.BadRequest("Link-id must not be empty");
+      }
       let parallelLink = [linkId];
       let linkToCompare = await ReadRecords(linkId);
       if (linkToCompare == undefined) {
@@ -9635,44 +9645,34 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
       let resource = currentJSON['resource'];
-      //  const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
-      //  const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
-      // Parse the URL
-      //  const parsedUrl = new URL(tempUrl);
+      let timeStamp = currentJSON['timestamp'];
+      let alarmTypeId = currentJSON['alarm-type-id'];
+      let alarmTypeQualifier = currentJSON['alarm-type-qualifier'];
+      let problemSeverity = currentJSON['problem-severity'];
+
       let mountname = decodeMountName(resource, false);
-      // Construct the base URL
-      //    const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
-      //  const finalUrl = baseUrl + "/core-model-1-4:network-control-domain=live/control-construct=" + mountname + "/alarms-1-0:alarm-pac/current-alarms";
-      //  let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
-      //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
-
-
-      const { getLiveCurrentAlarms } = module.exports;
-      let req = {
-        'url': '/core-model-1-4:network-control-domain=live/control-construct=' + mountname + '/alarms-1-0:alarm-pac/current-alarms',
-        'body': {}
+      
+      let result = await ReadRecords(mountname);
+      if (result == undefined) {
+        throw new createHttpError.NotFound("unable to find device")
       }
-      let requestHeader = notificationManagement.createRequestHeader();
-      let fields = "";
-      let mountName = "";
-      let user = requestHeader.user;
-      let originator = requestHeader.originator;
-      let xCorrelator = requestHeader.xCorrelator;
-      let traceIndicator = requestHeader.traceIndicator;
-      let customerJourney = requestHeader.customerJourney;
-      let ret = await getLiveCurrentAlarms(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
+      modifyReturnJson(result);
 
-      if (ret == false) {
-        throw new createHttpError.NotFound;
-      } else if (ret.status != undefined && ret.status != 200) {
-        if (ret.message == undefined) {
-          throw new createHttpError(ret.status, ret.statusText);
-        } else {
-          throw new createHttpError(ret.status, ret.message);
-        }
-      } else {
-        resolve();
-      }
+      let updatedAttributes = {
+        "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + problemSeverity.toUpperCase(),
+        "alarm-type-qualifier": alarmTypeQualifier,
+        "alarm-type-id": alarmTypeId,
+        "timestamp":timeStamp,
+        "resource":resource
+      };
+      // Update json object
+
+      alarmHandler.updateAlarmByTypeAndResource(result,alarmTypeId,resource,problemSeverity,updatedAttributes);
+      // Write updated Json to ES
+      modificaUUID(result, mountname);
+      let elapsedTime = await recordRequest(result, mountname);
+      
+      resolve();
     } catch (error) {
       //console.error(error);
       reject(error);

@@ -75,7 +75,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   }
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) {
-    console.log(originalJSON[lastKey])
+    //console.log(originalJSON[lastKey])
 
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
   }

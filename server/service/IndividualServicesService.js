@@ -182,6 +182,11 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -247,6 +252,11 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -312,6 +322,11 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -377,6 +392,11 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -442,6 +462,11 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -505,6 +530,11 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -568,6 +598,11 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -631,6 +666,11 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -695,6 +735,11 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -759,6 +804,11 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -824,6 +874,11 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -889,6 +944,11 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -952,6 +1012,11 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1015,6 +1080,11 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1079,6 +1149,11 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1144,6 +1219,11 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1209,6 +1289,11 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1274,6 +1359,11 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1339,6 +1429,11 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1404,6 +1499,11 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1467,6 +1567,11 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1531,6 +1636,11 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1595,6 +1705,11 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1659,6 +1774,11 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1723,6 +1843,11 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1789,6 +1914,11 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1853,6 +1983,11 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1918,6 +2053,11 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -1983,6 +2123,11 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2048,6 +2193,11 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2113,6 +2263,11 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2432,6 +2587,11 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2497,6 +2657,11 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2562,6 +2727,11 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2627,6 +2797,11 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2691,6 +2866,11 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2755,6 +2935,11 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2819,6 +3004,11 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2882,6 +3072,11 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -2946,6 +3141,11 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3011,6 +3211,11 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3076,6 +3281,11 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3141,6 +3351,11 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3205,6 +3420,11 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3269,6 +3489,11 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3333,6 +3558,11 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3397,6 +3627,11 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3462,6 +3697,11 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3527,6 +3767,11 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3592,6 +3837,11 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3657,6 +3907,11 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3722,6 +3977,11 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3787,6 +4047,11 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3852,6 +4117,11 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3917,6 +4187,11 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -3981,6 +4256,11 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -4045,6 +4325,11 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -4109,6 +4394,11 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -4173,6 +4463,11 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
   return new Promise(async function (resolve, reject) {
     try {
       const myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
       const parts = url.split('?fields=');
       url = parts[0];
@@ -5283,7 +5578,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
-              result1 = await ReadRecords(correctCc);
+              let result1 = await ReadRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
               // Write updated Json to ES
@@ -5293,7 +5588,9 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               console.error(error);
             }
             modifyReturnJson(jsonObj)
-            resolve(jsonObj);
+            let splittedUrl = url.split('?');
+            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+            resolve(res);
           }
 
         }
@@ -11076,4 +11373,41 @@ function arraysHaveSameElements(array1, array2) {
   }
 
   return Object.keys(frequencyMap).length === 0;
+}
+
+function isFilterValid(filter) {
+  // Decode filter 
+  let decodedFilter;
+  try {
+    decodedFilter = decodeURIComponent(filter);
+  } catch (e) {
+    // if there is an error in decoding the filter is not vslid
+    return false;
+  }
+
+  // Define valid chars
+  const validChars = ['(', ')', '/', ';', '-', ':'];
+  
+  // Add letters from "a" to "z" and fron"A" to "Z"
+  for (let i = 97; i <= 122; i++) {
+    validChars.push(String.fromCharCode(i)); // add "a"-"z"
+  }
+  for (let i = 65; i <= 90; i++) {
+    validChars.push(String.fromCharCode(i)); // add "A"-"Z"
+  }
+  for (let i = 48; i <= 57; i++) {
+    validChars.push(String.fromCharCode(i)); // add "0"-"9"
+  }
+
+  // Verify if the decoded string contains only valid chars
+  for (let i = 0; i < decodedFilter.length; i++) {
+    const char = decodedFilter.charAt(i);
+    // Se the char is not in the valid chars returns false
+    if (!validChars.includes(char)) {
+      return false;
+    }
+  }
+
+  // If all chars are valid returns true
+  return true;
 }

@@ -36,7 +36,7 @@ function getCloseParId(str, openParId) {
     }
 }
 
-function decodeFieldsSubstring(inputStr, startId, parentObj) {
+function decodeFieldsSubstring(inputStr, startId, parentObj){
     var str = inputStr.substring(startId)
 
     var openParId = str.indexOf('(')
@@ -105,8 +105,8 @@ function decodeFieldsSubstring(inputStr, startId, parentObj) {
     return 0
 }
 
-exports.decodeFieldsSubstringExt = function (inputStr, startId, parentObj) {
-    return decodeFieldsSubstring(inputStr, startId, parentObj);
+exports.decodeFieldsSubstringExt = function(inputStr, startId, parentObj) {
+     return  decodeFieldsSubstring(inputStr, startId, parentObj);
 }
 
 /* function printTree(objList, level) {
@@ -151,14 +151,14 @@ function getKeysRecursively(obj, level) {
 function getObjFromFilter(jsonObjName, filterObjList) {
 
     for (var i = 0; i < filterObjList.length; i++) {
-        if (filterObjList[i].value === jsonObjName) {
+        if (filterObjList[i].value === jsonObjName ) {
             return filterObjList[i]
         }
     }
     return null
 }
 
-function getFilteredJson(jsonObj, filterParentObj) {
+function getFilteredJson (jsonObj, filterParentObj) {
     let keys = [];
 
     if (jsonObj.length > 0) {
@@ -167,10 +167,8 @@ function getFilteredJson(jsonObj, filterParentObj) {
                 if (jsonObj[i].hasOwnProperty(key)) {
                     var filterObj = getObjFromFilter(key, filterParentObj);
                     if (filterObj === null) {
-                        if (key != 'uuid' && key != 'local-id') {
-                            jsonObj[i][key] = null
-                            delete jsonObj[i][key]
-                        }
+                        jsonObj[i][key] = null
+                        delete jsonObj[i][key]
                     } else {
                         if (filterObj.children.length !== null && typeof filterObj.children.length !== 'undefined' && filterObj.children.length > 0) {
                             getFilteredJson(jsonObj[i][key], filterObj.children)
@@ -184,10 +182,8 @@ function getFilteredJson(jsonObj, filterParentObj) {
             if (jsonObj.hasOwnProperty(key)) {
                 var filterObj = getObjFromFilter(key, filterParentObj);
                 if (filterObj === null) {
-                    if (key != 'uuid' && key != 'local-id') {
-                        jsonObj[i][key] = null
-                        delete jsonObj[i][key]
-                    }
+                    jsonObj[key] = null
+                    delete jsonObj[key]
                 } else {
                     if (filterObj.children.length !== null && typeof filterObj.children.length !== 'undefined' && filterObj.children.length > 0) {
                         getFilteredJson(jsonObj[key], filterObj.children)
@@ -199,5 +195,5 @@ function getFilteredJson(jsonObj, filterParentObj) {
 }
 
 exports.getFilteredJsonExt = function (jsonObj, filterParentObj) {
-    return getFilteredJson(jsonObj, filterParentObj);
+    return getFilteredJson (jsonObj, filterParentObj);
 }

@@ -9766,10 +9766,10 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
           };
           returnObject = transformedData;
         } else {
-          throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
+          throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
+        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
       }
       resolve(returnObject);
     } catch (error) {

@@ -9760,7 +9760,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
             "actual-equipment-list": finalJson[0]["equipment"].map((item) => {
               return {
                 uuid: item.uuid,
-                "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"],
+                "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"] || "",
               };
             }),
           };
@@ -9853,9 +9853,9 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           const transformedData = {
             "logical-termination-point-list": toChangeObject["logical-termination-point-list"].map((item) => {
               return {
-                "uuid": item.uuid,
-                "local-id": item["layer-protocol"][0]["local-id"],
-                "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"],
+                "uuid": item.uuid || "",
+                "local-id": item["layer-protocol"][0]["local-id"] || "",
+                "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"] || "",
               };
             }),
           };

@@ -341,7 +341,92 @@ function getTime() {
     return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
 
+/**
+ * Writes the realignment log file
+ * 
+ */
+function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList, elemsAdded, elemsDropped, newSlidingWindow) {
+
+    const fs = require('node:fs');
+    const folderName = '/Realigment_Logs'
+    if (!fs.existsSync(folderName)) {
+        return;
+    }
+
+    function getFileName() {
+        const d = new Date();
+        function dualDigits(value) {
+            let strVal = String(value);
+            return (strVal.length == 1) ? ('0' + strVal) : strVal;
+        }
+        return d.getFullYear() + '.' + dualDigits((d.getMonth()+1)) + '.' + dualDigits(d.getDate()) + '_' + 
+               dualDigits(d.getHours()) + '.' + dualDigits(d.getMinutes()) + '.' + dualDigits(d.getSeconds()) +
+               '.log';
+    }
+
+    function printArray(arr) {
+        var elemsForLine = 0;
+        content += '\r[';
+        for (var i = 0; i < arr.length; i++) {
+            content += (arr[i]['node-id'] + '|');
+            elemsForLine += 1;
+            if (elemsForLine == 6) {
+                content += '\r ';
+                elemsForLine = 0;
+            }
+        }
+        if (content.charAt(content.length-1) == '|') {
+            content = content.slice(0, content.length-1);
+        }
+        content += ']';
+    }
+
+    var content = '****************************************************************';
+    content += '\r\r                      Realignment LOG file';
+    content += '\r\r                      ('+  getTime() + ')';
+    content += '\r\r****************************************************************';
+    
+    content += '\r\r                     BEFORE REALIGMENT EVENT';
+    content += '\r                     -----------------------';
+
+    content += '\r\rDevice List  (' + curDeviceList.length + ' elements)';
+    content += '\r----------------------------------------------------------------';
+    printArray(curDeviceList);
+    
+    content += '\r\rSliding Window  (' + currSlidingWindow.length + ' elements)';
+    content += '\r----------------------------------------------------------------';
+    printArray(currSlidingWindow);
+
+    content += '\r\r\r\r                     AFTER REALIGMENT EVENT';
+    content += '\r                     ----------------------';
+
+    content += '\r\rDevice List  (' + newDeviceList.length + ' elements)';
+    content += '\r----------------------------------------------------------------';
+    printArray(newDeviceList);
+
+    content += '\r\rSliding Window  (' + newSlidingWindow.length + ' elements)';
+    content += '\r----------------------------------------------------------------';
+    printArray(newSlidingWindow);
+
+    content += '\r\rElements added  (' + elemsAdded.length + ' elements)';
+    content += '\r----------------------------------------------------------------';
+    printArray(elemsAdded);
+
+    content += '\r\rElements dropped  (' + elemsDropped.length + ' elements)';
+    content += '\r----------------------------------------------------------------';
+    printArray(elemsDropped);
+
+    content += '\r\r';
+    
+    try {
+        fs.writeFileSync(folderName + '/' + getFileName(), content);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 module.exports.updateDeviceListFromNotification = async function updateDeviceListFromNotification(status, node_id) {
+    
     function printDL(prefix) {
         let dlString = prefix + ': ['
         let i = 0;
@@ -405,6 +490,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         for (let i = 0; i < slidingWindow.length; i++) {
             if (slidingWindow[i]['node-id'] == node_id) {
                 slidingWindow.splice(i, 1);
+                console.log('Deleted ' + node_id + ' from slidingWindow');
                 if (addNextDeviceListElementInWindow()) {
                     console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
                     requestMessage(slidingWindow.length - 1);
@@ -423,6 +509,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
     }
 }
 
+
 /**
  * Realigns the current device list with the new one 
  * 
@@ -436,6 +523,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
 
     synchInProgress = true;
 
+    let currSlidingWindow = [...slidingWindow];
     let odlDeviceList;
     try {
         if (simulationProgress == false) {
@@ -607,6 +695,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*******************************************************************************************************');
     console.log('');
     
+    writeRealigmentLogFile(esDeviceList, currSlidingWindow, deviceList, newOdlElements, dropEsElements, slidingWindow);
     synchInProgress = false;
     return true;
 }
@@ -649,8 +738,6 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('*                             CYCLIC PROCESS PROCEDURE STARTED                                        *');
     console.log('*                                                                                                     *');
     console.log('*                                 ( ' + getTime() + ' )                                             *');
-    console.log('*                                                                                                     *');
-    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     

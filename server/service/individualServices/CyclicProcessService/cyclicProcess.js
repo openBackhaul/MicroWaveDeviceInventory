@@ -592,8 +592,12 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     for (let i = 0; i < dropEsElements.length; i++) {
         let cc_id = dropEsElements[i]['node-id'];
-        let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
-        printLog('* ' + ret.result, print_log_level >= 2);
+        try {
+            let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+            printLog('* ' + ret.result, print_log_level >= 2);
+        } catch(error) {
+            console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
+        }
     }
     console.log('* ES Device List size: ' + esDeviceList.length + '                                                                             *');
     console.log('* ODL Device List size: ' + odlDeviceList.length + '                                                                            *');
@@ -662,114 +666,114 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         return;
     }
     odlDeviceList = filterConnectedDevices(odlDeviceList);
-    //printLog(printList('Device List (ODL)', odlDeviceList), print_log_level >= 1);
-
+    
+    let elasticsearchList;
     try {
-        let elasticsearchList = await individualServicesService.readDeviceListFromElasticsearch();
-        //printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
-        //
-        // Calculate common elements and drop elements of ES-DL and print the ES-DL
-        //
-        let commonEsElements = [];
-        let dropEsElements = [];
-        let esRules = [];
-        let esString = 'Device List (ES): [';
-        for (let i = 0; i < elasticsearchList.length; i++) {
-            let found = false;
-            for (let j = 0; j < odlDeviceList.length; j++) {
-                if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
-                    found = true;
-                    commonEsElements.push(elasticsearchList[i]);
-                    esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
-                    esRules.push("color:green");
-                    esRules.push("color:inherit");
-                    break;
-                }
-            }
-            if (!found) {
-                dropEsElements.push(elasticsearchList[i]);
+        elasticsearchList = await individualServicesService.readDeviceListFromElasticsearch();
+    } catch(error) {
+        console.log(error);
+        return;
+    }
+    //printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
+    //
+    // Calculate common elements and drop elements of ES-DL and print the ES-DL
+    //
+    let commonEsElements = [];
+    let dropEsElements = [];
+    let esRules = [];
+    let esString = 'Device List (ES): [';
+    for (let i = 0; i < elasticsearchList.length; i++) {
+        let found = false;
+        for (let j = 0; j < odlDeviceList.length; j++) {
+            if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
+                found = true;
+                commonEsElements.push(elasticsearchList[i]);
                 esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
-                esRules.push("color:red");
+                esRules.push("color:green");
                 esRules.push("color:inherit");
+                break;
             }
         }
-        esString += (']  (' + elasticsearchList.length + ')');
-        console.log(esString, ...esRules);
+        if (!found) {
+            dropEsElements.push(elasticsearchList[i]);
+            esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
+            esRules.push("color:red");
+            esRules.push("color:inherit");
+        }
+    }
+    esString += (']  (' + elasticsearchList.length + ')');
+    console.log(esString, ...esRules);
 
-        //
-        // Calculate new elements and common elements of ODL-DL and print the ODL-DL
-        //
-        let newOdlElements = [];
-        let commonOdlElements = [];
-        let odlRules = [];
-        let odlString = 'Device List (ODL): [';
-        for (let i = 0; i < odlDeviceList.length; i++) {
-            let found = false;
-            for (let j = 0; j < elasticsearchList.length; j++) {
-                if (odlDeviceList[i]['node-id'] == elasticsearchList[j]['node-id']) {
-                    commonOdlElements.push(odlDeviceList[i]);
-                    odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-                    odlRules.push("color:green");
-                    odlRules.push("color:inherit");
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                newOdlElements.push(odlDeviceList[i])
+    //
+    // Calculate new elements and common elements of ODL-DL and print the ODL-DL
+    //
+    let newOdlElements = [];
+    let commonOdlElements = [];
+    let odlRules = [];
+    let odlString = 'Device List (ODL): [';
+    for (let i = 0; i < odlDeviceList.length; i++) {
+        let found = false;
+        for (let j = 0; j < elasticsearchList.length; j++) {
+            if (odlDeviceList[i]['node-id'] == elasticsearchList[j]['node-id']) {
+                commonOdlElements.push(odlDeviceList[i]);
                 odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-                odlRules.push("color:yellow");
+                odlRules.push("color:green");
                 odlRules.push("color:inherit");
+                found = true;
+                break;
             }
         }
-        odlString += (']  (' + odlDeviceList.length + ')');
-        console.log(odlString, ...odlRules);
-        //
-        // Shuffle the new elements (commented issue 757)
-        //
-        //newOdlElements = shuffleArray(newOdlElements);
-
-        //
-        // Calculate the new ODL-DL: [new odl elements shuffled] + [common es elements]
-        //
-        let newRules = [];
-        let newString = 'Device List (Updated): [';
-        let newPiped = false;
-        for (let i = 0; i < newOdlElements.length; i++) {
-            newString += (((i == 0) ? '' : '|') + ('%c' + newOdlElements[i]['node-id'] + '%c'));
-            newRules.push("color:yellow");
-            newRules.push("color:inherit");
-            newPiped = true;
+        if (!found) {
+            newOdlElements.push(odlDeviceList[i])
+            odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
+            odlRules.push("color:yellow");
+            odlRules.push("color:inherit");
         }
-        for (let i = 0; i < commonEsElements.length; i++) {
-            newString += (((i == 0 && newPiped == false) ? '' : '|') + ('%c' + commonEsElements[i]['node-id'] + '%c'));
-            newRules.push("color:green");
-            newRules.push("color:inherit");
-            newPiped = true;
-        }
-        newString += (']  (' + odlDeviceList.length + ')');
-        console.log(newString, ...newRules);
+    }
+    odlString += (']  (' + odlDeviceList.length + ')');
+    console.log(odlString, ...odlRules);
+    //
+    // Shuffle the new elements (commented issue 757)
+    //
+    //newOdlElements = shuffleArray(newOdlElements);
 
-        //
-        // Drop from ES all the elements not more present in ES-DL
-        //
-        for (let i = 0; i < dropEsElements.length; i++) {
-            let cc_id = dropEsElements[i]['node-id'];
+    //
+    // Calculate the new ODL-DL: [new odl elements shuffled] + [common es elements]
+    //
+    let newRules = [];
+    let newString = 'Device List (Updated): [';
+    let newPiped = false;
+    for (let i = 0; i < newOdlElements.length; i++) {
+        newString += (((i == 0) ? '' : '|') + ('%c' + newOdlElements[i]['node-id'] + '%c'));
+        newRules.push("color:yellow");
+        newRules.push("color:inherit");
+        newPiped = true;
+    }
+    for (let i = 0; i < commonEsElements.length; i++) {
+        newString += (((i == 0 && newPiped == false) ? '' : '|') + ('%c' + commonEsElements[i]['node-id'] + '%c'));
+        newRules.push("color:green");
+        newRules.push("color:inherit");
+        newPiped = true;
+    }
+    newString += (']  (' + odlDeviceList.length + ')');
+    console.log(newString, ...newRules);
+
+    //
+    // Drop from ES all the elements not more present in ES-DL
+    //
+    for (let i = 0; i < dropEsElements.length; i++) {
+        let cc_id = dropEsElements[i]['node-id'];
+        try {
             let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
             printLog(ret.result, print_log_level >= 2);
+        } catch(error) {
+            console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
         }
-
-        odlDeviceList = [].concat(newOdlElements, commonEsElements);
-        printLog("Update device list to elasticsearch", print_log_level >= 2)
-    } catch (error) {
-        console.log(error);
-        // (commented issue 757)
-        // odlDeviceList = shuffleArray(odlDeviceList);
-        printLog(printList('Device List', odlDeviceList), print_log_level >= 1);
-        // printLog("Write ODL device list shuffled to Elasticsearch", print_log_level >= 2);
-        printLog("Write ODL device list to Elasticsearch", print_log_level >= 2);
     }
 
+    odlDeviceList = [].concat(newOdlElements, commonEsElements);
+    printLog("Update device list to elasticsearch", print_log_level >= 2)
+    
     let deviceListCleaned = [];
     for (let i = 0; i < odlDeviceList.length; i++) {
         deviceListCleaned.push({"node-id" : odlDeviceList[i]["node-id"]});

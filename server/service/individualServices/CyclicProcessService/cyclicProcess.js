@@ -348,6 +348,7 @@ function getTime() {
 function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList, elemsAdded, elemsDropped, newSlidingWindow) {
 
     const fs = require('node:fs');
+    const path = require('path');
     const folderName = '/realigment_logs'
     try {
         if (!fs.existsSync(folderName)) {
@@ -424,7 +425,8 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
     content += '\r\r';
     
     try {
-        fs.writeFileSync(folderName + '/' + getFileName(), content);
+        //fs.writeFileSync(folderName + '/' + getFileName(), content);
+        fs.writeFileSync(path.join(folderName, getFileName()), content);
     } catch (err) {
         console.error(err);
     }

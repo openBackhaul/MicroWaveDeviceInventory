@@ -341,6 +341,97 @@ function getTime() {
     return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
 
+/**
+ * Writes the realignment log file
+ * 
+ */
+function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList, elemsAdded, elemsDropped, newSlidingWindow) {
+
+    const fs = require('node:fs');
+    const path = require('path');
+    const folderName = '/realignment_logs'
+    try {
+        if (!fs.existsSync(folderName)) {
+            return;
+        }
+    } catch (error) {
+        console.log('fs.existsSync error: ' + error);
+        return;
+    }
+
+    function getFileName() {
+        const d = new Date();
+        function dualDigits(value) {
+            let strVal = String(value);
+            return (strVal.length == 1) ? ('0' + strVal) : strVal;
+        }
+        return d.getFullYear() + '.' + dualDigits((d.getMonth()+1)) + '.' + dualDigits(d.getDate()) + '_' + 
+               dualDigits(d.getHours()) + '.' + dualDigits(d.getMinutes()) + '.' + dualDigits(d.getSeconds()) +
+               '.log';
+    }
+
+    function printArray(arr) {
+        var elemsForLine = 0;
+        content += '\n[';
+        for (var i = 0; i < arr.length; i++) {
+            content += (arr[i]['node-id'] + '|');
+            elemsForLine += 1;
+            if (elemsForLine == 6) {
+                content += '\n ';
+                elemsForLine = 0;
+            }
+        }
+        if (content.charAt(content.length-1) == '|') {
+            content = content.slice(0, content.length-1);
+        }
+        content += ']';
+    }
+
+    var content = '****************************************************************';
+    content += '\n\n                      Realignment LOG file';
+    content += '\n\n                      ('+  getTime() + ')';
+    content += '\n\n****************************************************************';
+    
+    content += '\n\n                     BEFORE REALIGMENT EVENT';
+    content += '\n                     -----------------------';
+
+    content += '\n\nDevice List  (' + curDeviceList.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
+    printArray(curDeviceList);
+    
+    content += '\n\nSliding Window  (' + currSlidingWindow.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
+    printArray(currSlidingWindow);
+
+    content += '\n\n\n\n                     AFTER REALIGMENT EVENT';
+    content += '\n                     ----------------------';
+
+    content += '\n\nDevice List  (' + newDeviceList.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
+    printArray(newDeviceList);
+
+    content += '\n\nSliding Window  (' + newSlidingWindow.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
+    printArray(newSlidingWindow);
+
+    content += '\n\nElements added  (' + elemsAdded.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
+    printArray(elemsAdded);
+
+    content += '\n\nElements dropped  (' + elemsDropped.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
+    printArray(elemsDropped);
+
+    content += '\n\n';
+    
+    try {
+        //fs.writeFileSync(folderName + '/' + getFileName(), content);
+        fs.writeFileSync(path.join(folderName, getFileName()), content);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 module.exports.updateDeviceListFromNotification = async function updateDeviceListFromNotification(status, node_id) {
     function printDL(prefix) {
         let dlString = prefix + ': ['
@@ -436,6 +527,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
 
     synchInProgress = true;
 
+    let currSlidingWindow = [...slidingWindow];
     let odlDeviceList;
     try {
         if (simulationProgress == false) {
@@ -611,6 +703,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*******************************************************************************************************');
     console.log('');
     
+    writeRealigmentLogFile(esDeviceList, currSlidingWindow, deviceList, newOdlElements, dropEsElements, slidingWindow);
     synchInProgress = false;
     return true;
 }

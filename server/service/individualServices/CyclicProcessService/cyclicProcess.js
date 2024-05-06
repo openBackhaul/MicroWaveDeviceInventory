@@ -349,7 +349,7 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
 
     const fs = require('node:fs');
     const path = require('path');
-    const folderName = '/realigment_logs'
+    const folderName = '/realignment_logs'
     try {
         if (!fs.existsSync(folderName)) {
             return;
@@ -372,12 +372,12 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
 
     function printArray(arr) {
         var elemsForLine = 0;
-        content += '\r[';
+        content += '\n[';
         for (var i = 0; i < arr.length; i++) {
             content += (arr[i]['node-id'] + '|');
             elemsForLine += 1;
             if (elemsForLine == 6) {
-                content += '\r ';
+                content += '\n ';
                 elemsForLine = 0;
             }
         }
@@ -388,41 +388,41 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
     }
 
     var content = '****************************************************************';
-    content += '\r\r                      Realignment LOG file';
-    content += '\r\r                      ('+  getTime() + ')';
-    content += '\r\r****************************************************************';
+    content += '\n\n                      Realignment LOG file';
+    content += '\n\n                      ('+  getTime() + ')';
+    content += '\n\n****************************************************************';
     
-    content += '\r\r                     BEFORE REALIGMENT EVENT';
-    content += '\r                     -----------------------';
+    content += '\n\n                     BEFORE REALIGMENT EVENT';
+    content += '\n                     -----------------------';
 
-    content += '\r\rDevice List  (' + curDeviceList.length + ' elements)';
-    content += '\r----------------------------------------------------------------';
+    content += '\n\nDevice List  (' + curDeviceList.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
     printArray(curDeviceList);
     
-    content += '\r\rSliding Window  (' + currSlidingWindow.length + ' elements)';
-    content += '\r----------------------------------------------------------------';
+    content += '\n\nSliding Window  (' + currSlidingWindow.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
     printArray(currSlidingWindow);
 
-    content += '\r\r\r\r                     AFTER REALIGMENT EVENT';
-    content += '\r                     ----------------------';
+    content += '\n\n\n\n                     AFTER REALIGMENT EVENT';
+    content += '\n                     ----------------------';
 
-    content += '\r\rDevice List  (' + newDeviceList.length + ' elements)';
-    content += '\r----------------------------------------------------------------';
+    content += '\n\nDevice List  (' + newDeviceList.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
     printArray(newDeviceList);
 
-    content += '\r\rSliding Window  (' + newSlidingWindow.length + ' elements)';
-    content += '\r----------------------------------------------------------------';
+    content += '\n\nSliding Window  (' + newSlidingWindow.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
     printArray(newSlidingWindow);
 
-    content += '\r\rElements added  (' + elemsAdded.length + ' elements)';
-    content += '\r----------------------------------------------------------------';
+    content += '\n\nElements added  (' + elemsAdded.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
     printArray(elemsAdded);
 
-    content += '\r\rElements dropped  (' + elemsDropped.length + ' elements)';
-    content += '\r----------------------------------------------------------------';
+    content += '\n\nElements dropped  (' + elemsDropped.length + ' elements)';
+    content += '\n----------------------------------------------------------------';
     printArray(elemsDropped);
 
-    content += '\r\r';
+    content += '\n\n';
     
     try {
         //fs.writeFileSync(folderName + '/' + getFileName(), content);

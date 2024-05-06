@@ -217,6 +217,9 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -287,6 +290,9 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -357,6 +363,9 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -427,6 +436,9 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -497,6 +509,9 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -565,6 +580,9 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -633,6 +651,9 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -701,6 +722,9 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -770,6 +794,9 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -839,6 +866,9 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -909,6 +939,9 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -979,6 +1012,9 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1044,9 +1080,13 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           if (myFields != undefined) {
             var objList = [];
             var rootObj = { value: "root", children: [] }
-            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            const replacedUrlFilter = replaceFilterString(myFields);
+            var ret = fieldsManager.decodeFieldsSubstringExt(replacedUrlFilter, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1115,6 +1155,9 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1184,6 +1227,9 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1254,6 +1300,9 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1324,6 +1373,9 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1394,6 +1446,9 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1464,6 +1519,9 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1534,6 +1592,9 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1602,6 +1663,9 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1671,6 +1735,9 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1740,6 +1807,9 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1809,6 +1879,9 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1878,6 +1951,9 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -1949,6 +2025,9 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2018,6 +2097,9 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2088,6 +2170,9 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2158,6 +2243,9 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2228,6 +2316,9 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2298,6 +2389,9 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2622,6 +2716,9 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2692,6 +2789,9 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2762,6 +2862,9 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2832,6 +2935,9 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2901,6 +3007,9 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -2970,6 +3079,9 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3039,6 +3151,9 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3107,6 +3222,9 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3176,6 +3294,9 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3246,6 +3367,9 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3316,6 +3440,9 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3386,6 +3513,9 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3455,6 +3585,9 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3524,6 +3657,9 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3593,6 +3729,9 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3662,6 +3801,9 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3732,6 +3874,9 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3802,6 +3947,9 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3872,6 +4020,9 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -3942,6 +4093,9 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4012,6 +4166,9 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4082,6 +4239,9 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4152,6 +4312,9 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4222,6 +4385,9 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4291,6 +4457,9 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4360,6 +4529,9 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4429,6 +4601,9 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -4498,6 +4673,9 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (Object.keys(finalJson).length === 0){
+              throw new createHttpError.BadRequest;
+            }
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -9582,16 +9760,16 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
             "actual-equipment-list": finalJson[0]["equipment"].map((item) => {
               return {
                 uuid: item.uuid,
-                "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"],
+                "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"] || "",
               };
             }),
           };
           returnObject = transformedData;
         } else {
-          throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
+          throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
+        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -9675,18 +9853,18 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           const transformedData = {
             "logical-termination-point-list": toChangeObject["logical-termination-point-list"].map((item) => {
               return {
-                "uuid": item.uuid,
-                "local-id": item["layer-protocol"][0]["local-id"],
-                "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"],
+                "uuid": item.uuid || "",
+                "local-id": item["layer-protocol"][0]["local-id"] || "",
+                "layer-protocol-name": item["layer-protocol"][0]["layer-protocol-name"] || "",
               };
             }),
           };
           returnObject = transformedData;
         } else {
-          throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
+          throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for link ${mountName}`);
+        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -11182,13 +11360,6 @@ function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
 
 }
 
-function notFoundError() {
-  const myJson = {
-    "code": 404,
-    "message": "not found"
-  };
-  return myJson;
-}
 
 function Error(code, message) {
   const myJson = {
@@ -11381,14 +11552,14 @@ function isFilterValid(filter) {
   try {
     decodedFilter = decodeURIComponent(filter);
   } catch (e) {
-    // if there is an error in decoding the filter is not vslid
+    // if there is an error in decoding the filter is not valid
     return false;
   }
 
   // Define valid chars
   const validChars = ['(', ')', '/', ';', '-', ':'];
   
-  // Add letters from "a" to "z" and fron"A" to "Z"
+  // Add letters from "a" to "z" and fron"A" to "Z" and numbers
   for (let i = 97; i <= 122; i++) {
     validChars.push(String.fromCharCode(i)); // add "a"-"z"
   }
@@ -11410,4 +11581,31 @@ function isFilterValid(filter) {
 
   // If all chars are valid returns true
   return true;
+}
+
+function replaceFilterString(filter) {
+    
+    const replacements = [
+    ["equipment\\(", "equipment(uuid;"],
+    ["connector\\(", "connector(local-id;"],
+    ["contained-holder\\(", "contained-holder(local-id;"],
+    ["expected-equipment\\(", "expected-equipment(local-id;"],
+    ["firmware-component-list\\(", "firmware-component-list(local-id;"],
+    ["profile\\(", "profile(uuid;"],
+    ["logical-termination-point\\(", "logical-termination-point(uuid;"],
+    ["forwarding-domain\\(", "forwarding-domain(uuid;"],
+    ["fc\\(", "fc(uuid1;"],
+    ["fc-port\\(", "fc-port(local-id;"],
+    ["layer-protocol\\(", "layer-protocol(local-id;"]
+  ];
+
+  let replacedFilter = filter;
+  for (const [search, replace] of replacements) {
+    if (replacedFilter.includes(replace)) {
+      continue; 
+    }
+    replacedFilter = replacedFilter.replace(new RegExp(search, "g"), replace);
+  }
+
+  return replacedFilter;
 }

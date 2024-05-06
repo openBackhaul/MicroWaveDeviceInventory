@@ -58,9 +58,13 @@ let lastSentMessages = [];
 
 exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
+    try {
 
-    await bequeathHandler.handleRequest(body, url);
-    resolve();
+      await bequeathHandler.handleRequest(body, url);
+      resolve();
+    } catch (error) {
+      console.log(error);
+    }
   });
 }
 
@@ -101,7 +105,7 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       let listLink = await ReadRecords("linkList");
       if (listLink.LinkList.includes(correctLink)) {
         let indexToRemove = listLink.LinkList.indexOf(correctLink);
-          listLink.LinkList.splice(indexToRemove, 1);
+        listLink.LinkList.splice(indexToRemove, 1);
         let elapsedTime = await recordRequest(listLink, "linkList");
       }
       resolve();
@@ -217,7 +221,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -290,7 +294,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -363,7 +367,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -436,7 +440,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -509,7 +513,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -580,7 +584,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -651,7 +655,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -722,7 +726,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -794,7 +798,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -866,7 +870,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -939,7 +943,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1012,7 +1016,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1084,7 +1088,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             var ret = fieldsManager.decodeFieldsSubstringExt(replacedUrlFilter, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1155,7 +1159,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1227,7 +1231,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === "0") {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1300,7 +1304,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1373,7 +1377,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1446,7 +1450,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1519,7 +1523,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1592,7 +1596,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1663,7 +1667,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1735,7 +1739,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1807,7 +1811,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1879,7 +1883,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -1951,7 +1955,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2025,7 +2029,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2097,7 +2101,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2170,7 +2174,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2243,7 +2247,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2316,7 +2320,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2389,7 +2393,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2716,7 +2720,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2789,7 +2793,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2862,7 +2866,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -2935,7 +2939,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3007,7 +3011,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3079,7 +3083,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3151,7 +3155,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3222,7 +3226,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3294,7 +3298,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3367,7 +3371,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3440,7 +3444,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3513,7 +3517,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3585,7 +3589,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3657,7 +3661,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3729,7 +3733,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3801,7 +3805,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3874,7 +3878,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -3947,7 +3951,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4020,7 +4024,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4093,7 +4097,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4166,7 +4170,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4239,7 +4243,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4312,7 +4316,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4385,7 +4389,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4457,7 +4461,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4529,7 +4533,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4601,7 +4605,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -4673,7 +4677,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson).length === 0){
+            if (Object.keys(finalJson)[0] === '0') {
               throw new createHttpError.BadRequest;
             }
           }
@@ -9598,33 +9602,39 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
  * no response value expected for this operation
  **/
 exports.notifyAttributeValueChanges = async function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let subscribingApplicationName = body["subscriber-application"];
+      let subscribingApplicationRelease = body["subscriber-release-number"];
+      let subscribingApplicationProtocol = body["subscriber-protocol"];
+      let subscribingApplicationAddress = body["subscriber-address"];
+      let subscribingApplicationPort = body["subscriber-port"];
+      let notificationsReceivingOperation = body["subscriber-operation"];
 
-  let subscribingApplicationName = body["subscriber-application"];
-  let subscribingApplicationRelease = body["subscriber-release-number"];
-  let subscribingApplicationProtocol = body["subscriber-protocol"];
-  let subscribingApplicationAddress = body["subscriber-address"];
-  let subscribingApplicationPort = body["subscriber-port"];
-  let notificationsReceivingOperation = body["subscriber-operation"];
+      let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+      );
 
-  let validInput = inputValidation.validateSubscriberInput(
-    subscribingApplicationName,
-    subscribingApplicationRelease,
-    subscribingApplicationProtocol,
-    subscribingApplicationAddress,
-    subscribingApplicationPort,
-    notificationsReceivingOperation
-  );
+      if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+          subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
-  if (validInput) {
-    let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-      subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
-
-    if (!success) {
-      throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        if (!success) {
+          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        }
+      } else {
+        throw new Error('notifyControllerObjectCreations: invalid input data');
+      }
+      resolve();
+    } catch (error) {
+      reject(error);
     }
-  } else {
-    throw new Error('notifyControllerObjectCreations: invalid input data');
-  }
+  });
 }
 
 
@@ -9642,33 +9652,37 @@ exports.notifyAttributeValueChanges = async function (url, body, user, originato
  **/
 exports.notifyObjectCreations = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let subscribingApplicationName = body["subscriber-application"];
-    let subscribingApplicationRelease = body["subscriber-release-number"];
-    let subscribingApplicationProtocol = body["subscriber-protocol"];
-    let subscribingApplicationAddress = body["subscriber-address"];
-    let subscribingApplicationPort = body["subscriber-port"];
-    let notificationsReceivingOperation = body["subscriber-operation"];
+    try {
+      let subscribingApplicationName = body["subscriber-application"];
+      let subscribingApplicationRelease = body["subscriber-release-number"];
+      let subscribingApplicationProtocol = body["subscriber-protocol"];
+      let subscribingApplicationAddress = body["subscriber-address"];
+      let subscribingApplicationPort = body["subscriber-port"];
+      let notificationsReceivingOperation = body["subscriber-operation"];
 
-    let validInput = inputValidation.validateSubscriberInput(
-      subscribingApplicationName,
-      subscribingApplicationRelease,
-      subscribingApplicationProtocol,
-      subscribingApplicationAddress,
-      subscribingApplicationPort,
-      notificationsReceivingOperation
-    );
+      let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+      );
 
-    if (validInput) {
-      let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-        subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+      if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+          subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
-      if (!success) {
-        throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        if (!success) {
+          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        }
+      } else {
+        throw new Error('notifyControllerObjectCreations: invalid input data');
       }
-    } else {
-      throw new Error('notifyControllerObjectCreations: invalid input data');
+      resolve();
+    } catch (error) {
+      reject(error);
     }
-    resolve();
   });
 }
 
@@ -9686,33 +9700,37 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
  **/
 exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let subscribingApplicationName = body["subscriber-application"];
-    let subscribingApplicationRelease = body["subscriber-release-number"];
-    let subscribingApplicationProtocol = body["subscriber-protocol"];
-    let subscribingApplicationAddress = body["subscriber-address"];
-    let subscribingApplicationPort = body["subscriber-port"];
-    let notificationsReceivingOperation = body["subscriber-operation"];
+    try {
+      let subscribingApplicationName = body["subscriber-application"];
+      let subscribingApplicationRelease = body["subscriber-release-number"];
+      let subscribingApplicationProtocol = body["subscriber-protocol"];
+      let subscribingApplicationAddress = body["subscriber-address"];
+      let subscribingApplicationPort = body["subscriber-port"];
+      let notificationsReceivingOperation = body["subscriber-operation"];
 
-    let validInput = inputValidation.validateSubscriberInput(
-      subscribingApplicationName,
-      subscribingApplicationRelease,
-      subscribingApplicationProtocol,
-      subscribingApplicationAddress,
-      subscribingApplicationPort,
-      notificationsReceivingOperation
-    );
+      let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+      );
 
-    if (validInput) {
-      let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-        subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+      if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+          subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
-      if (!success) {
-        throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        if (!success) {
+          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+        }
+      } else {
+        throw new Error('notifyControllerObjectCreations: invalid input data');
       }
-    } else {
-      throw new Error('notifyControllerObjectCreations: invalid input data');
+      resolve();
+    } catch (error) {
+      reject(error);
     }
-    resolve();
   });
 }
 
@@ -9733,7 +9751,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
     try {
       let urlParts = url.split("?fields=");
       let mountName = body['mount-name'];
-      if (mountName == ""){
+      if (mountName == "") {
         throw new createHttpError.BadRequest("mount-name must not be empty");
       }
       const appNameAndUuidFromForwarding = await RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName)
@@ -9826,7 +9844,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
     try {
       let urlParts = url.split("?fields=");
       let mountName = body['mount-name'];
-      if (mountName == ""){
+      if (mountName == "") {
         throw new createHttpError.BadRequest("mount-name must not be empty");
       }
       const appNameAndUuidFromForwarding = await RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
@@ -9890,7 +9908,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       let index = 0;
       let index1 = 0;
       let linkId = body['link-id'];
-      if (linkId == ""){
+      if (linkId == "") {
         throw new createHttpError.BadRequest("Link-id must not be empty");
       }
       let parallelLink = [linkId];
@@ -9898,7 +9916,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       if (linkToCompare == undefined) {
         throw new createHttpError.NotFound(`unable to fetch records for link ${linkId}`)
       }
-      if (!linkToCompare["core-model-1-4:link"][0]["end-point-list"]){
+      if (!linkToCompare["core-model-1-4:link"][0]["end-point-list"]) {
         index = 1;
       }
       const controlConstructList = linkToCompare["core-model-1-4:link"][index]["end-point-list"].map(endpoint => endpoint["control-construct"]);
@@ -9907,7 +9925,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         if (link != linkId) {
           let resLink = await ReadRecords(link);
           try {
-            if (!resLink["core-model-1-4:link"][0]["end-point-list"]){
+            if (!resLink["core-model-1-4:link"][0]["end-point-list"]) {
               index1 = 1;
             }
             const ccList = resLink["core-model-1-4:link"][index1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
@@ -10057,48 +10075,52 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
  **/
 exports.regardControllerAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    let objectKey = Object.keys(body)[0];
-    let currentJSON = body[objectKey];
-    let resource = currentJSON['resource'];
-    let attributeName = currentJSON['attribute-name'];
-    let newValue = currentJSON['new-value'];
+    try {
+      let objectKey = Object.keys(body)[0];
+      let currentJSON = body[objectKey];
+      let resource = currentJSON['resource'];
+      let attributeName = currentJSON['attribute-name'];
+      let newValue = currentJSON['new-value'];
 
-    const match = resource.match(/logical-termination-point=(\w+)/);
+      const match = resource.match(/logical-termination-point=(\w+)/);
 
-    // Extract the Control-construct
-    const logicalTerminationPoint = match ? match[1] : null;
-    // Create an object req 
-    let urlString = '/core-model-1-4:network-control-domain=live/control-construct=' + logicalTerminationPoint;
-    const urlf = require('url');
-    const parsedUrl = urlf.parse(urlString);
+      // Extract the Control-construct
+      const logicalTerminationPoint = match ? match[1] : null;
+      // Create an object req 
+      let urlString = '/core-model-1-4:network-control-domain=live/control-construct=' + logicalTerminationPoint;
+      const urlf = require('url');
+      const parsedUrl = urlf.parse(urlString);
 
-    // const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
-    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
-    // Parse the URL
-    const parsedNewUrl = new URL(tempUrl);
-    // Construct the base URL
-    const baseUrl = `${parsedNewUrl.protocol}//${parsedNewUrl.host}`;
-    const finalUrl = baseUrl + urlString;
+      // const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
+      const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
+      // Parse the URL
+      const parsedNewUrl = new URL(tempUrl);
+      // Construct the base URL
+      const baseUrl = `${parsedNewUrl.protocol}//${parsedNewUrl.host}`;
+      const finalUrl = baseUrl + urlString;
 
-    //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
-    if (attributeName == 'connection-status' && newValue == 'connected') {
-      updateDeviceListFromNotification(1, logicalTerminationPoint);
-      /*try {
-        let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
-        //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
-        console.log("")
-      } catch (error) {
-        console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
-        reject(error);
-      } */
-    } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-      updateDeviceListFromNotification(2, logicalTerminationPoint);
-      let indexAlias = common[1].indexAlias;
-      const { deleteRecordFromElasticsearch } = module.exports;
-      let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
-      console.log('* ' + ret.result);
+      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
+      if (attributeName == 'connection-status' && newValue == 'connected') {
+        updateDeviceListFromNotification(1, logicalTerminationPoint);
+        /*try {
+          let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
+          //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
+          console.log("")
+        } catch (error) {
+          console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
+          reject(error);
+        } */
+      } else if (attributeName == 'connection-status' && newValue !== 'connected') {
+        updateDeviceListFromNotification(2, logicalTerminationPoint);
+        let indexAlias = common[1].indexAlias;
+        const { deleteRecordFromElasticsearch } = module.exports;
+        let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
+        console.log('* ' + ret.result);
+      }
+      resolve();
+    } catch (error) {
+      reject(error);
     }
-    resolve();
   });
 }
 
@@ -10126,7 +10148,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       let problemSeverity = currentJSON['problem-severity'];
 
       let mountname = decodeMountName(resource, false);
-      
+
       let result = await ReadRecords(mountname);
       if (result == undefined) {
         throw new createHttpError.NotFound("unable to find device")
@@ -10137,16 +10159,16 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
         "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + problemSeverity.toUpperCase(),
         "alarm-type-qualifier": alarmTypeQualifier,
         "alarm-type-id": alarmTypeId,
-        "timestamp":timeStamp,
-        "resource":resource
+        "timestamp": timeStamp,
+        "resource": resource
       };
       // Update json object
 
-      alarmHandler.updateAlarmByTypeAndResource(result,alarmTypeId,resource,problemSeverity,updatedAttributes);
+      alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
       // Write updated Json to ES
       modificaUUID(result, mountname);
       let elapsedTime = await recordRequest(result, mountname);
-      
+
       resolve();
     } catch (error) {
       //console.error(error);
@@ -10202,10 +10224,10 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
         const newJson = {};
         newJson[applicationName] = {
-            "counter": counter,
-            "timestamp": currentJSON.timestamp,
-            "attribute-name": currentJSON["attribute-name"],
-            "new-value": currentJSON["new-value"]
+          "counter": counter,
+          "timestamp": currentJSON.timestamp,
+          "attribute-name": currentJSON["attribute-name"],
+          "new-value": currentJSON["new-value"]
         };
         notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
         resolve();
@@ -10267,9 +10289,9 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
         const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-creation-notification";
         const newJson = {};
         newJson[applicationName] = {
-            "counter": counter,
-            "timestamp": currentJSON.timestamp,
-            "object-path": resource,
+          "counter": counter,
+          "timestamp": currentJSON.timestamp,
+          "object-path": resource,
         };
         notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
         resolve();
@@ -10333,10 +10355,10 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       let parts = releaseNumber.split(".");
       const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-deletion-notification";
       const newJson = {};
-        newJson[applicationName] = {
-          "counter": currentJSON.counter,
-          "timestamp": currentJSON.timestamp,
-          "object-path": resource
+      newJson[applicationName] = {
+        "counter": currentJSON.counter,
+        "timestamp": currentJSON.timestamp,
+        "object-path": resource
       };
       notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
       resolve();
@@ -10349,108 +10371,129 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
 
 exports.getLiveDeviceList = function (url) {
   return new Promise(async function (resolve, reject) {
-    //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList();
-    let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
-    const finalUrl = common[0].tcpConn + urlForOdl;
-    const Authorization = common[0].key;
-    const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization);
-    if (result.status == 200) {
-      let deviceList = result["data"]["network-topology:topology"][0].node;
-      resolve(deviceList);
-    } else {
-      reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.statusText + ")");
+    try {
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList();
+      let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
+      const finalUrl = common[0].tcpConn + urlForOdl;
+      const Authorization = common[0].key;
+      const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization);
+      if (result.status == 200) {
+        let deviceList = result["data"]["network-topology:topology"][0].node;
+        resolve(deviceList);
+      } else {
+        reject("Error in retrieving device list from ODL. (" + result.status + " - " + result.statusText + ")");
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 }
 
 exports.writeDeviceListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
-    let deviceListToWrite = '{"deviceList":' + deviceList + '}';
-    let result = await recordRequest(deviceListToWrite, "DeviceList");
-    if (result.took !== undefined) {
-      resolve(true);
-    } else {
-      reject("Error in writing device list to elasticsearch.")
+    try {
+      let deviceListToWrite = '{"deviceList":' + deviceList + '}';
+      let result = await recordRequest(deviceListToWrite, "DeviceList");
+      if (result.took !== undefined) {
+        resolve(true);
+      } else {
+        reject("Error in writing device list to elasticsearch.")
+      }
+    } catch (error) {
+      reject(error);
     }
   })
 }
 
 exports.readDeviceListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
-    let result = await ReadRecords("DeviceList");
-    if (result == undefined) {
-      reject("Device list in Elasticsearch not found");
-    } else {
-      let esDeviceList = result["deviceList"];
-      resolve(esDeviceList);
+    try {
+      let result = await ReadRecords("DeviceList");
+      if (result == undefined) {
+        reject("Device list in Elasticsearch not found");
+      } else {
+        let esDeviceList = result["deviceList"];
+        resolve(esDeviceList);
+      }
+    } catch (error) {
+      reject(error);
     }
   })
 }
 
 exports.deleteRecordFromElasticsearch = function (index, type, id) {
   return new Promise(async function (resolve, reject) {
-    let exists = false;
-    let client = await common[1].EsClient;
-    if (id) {
-      exists = await client.exists({ index: index, type: type, id: id });
+    try {
+      let exists = false;
+      let client = await common[1].EsClient;
+      if (id) {
+        exists = await client.exists({ index: index, type: type, id: id });
+      }
+      let ret
+      if (exists.body) {
+        await client.delete({ index: index, type: type, id: id });
+        ret = { _id: id, result: 'Element ' + id + ' deleted.' };
+      } else {
+        ret = { _id: id, result: 'Element ' + id + ' not deleted. (Not found in elasticsearch).' };
+      }
+      resolve(ret);
     }
-    let ret
-    if (exists.body) {
-      await client.delete({ index: index, type: type, id: id });
-      ret = { _id: id, result: 'Element ' + id + ' deleted.' };
-    } else {
-      ret = { _id: id, result: 'Element ' + id + ' not deleted. (Not found in elasticsearch).' };
+    catch (error) {
+      reject(error);
     }
-    resolve(ret);
   })
 }
 
 async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDeviceList() {
-  const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  if (forwardingConstruct === undefined) {
-    return null;
-  }
-
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+  try {
+    const forwardingName = "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
     }
-  }
 
-  let applicationNameList = [];
-  //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
-  //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
-  let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
-  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-    const httpClientLtpUuid = httpLtpUuidList[0];
-    let applicationName = 'api';
-    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    let prefix = opLtpUuid.split('op')[0];
-    const key = await extractProfileConfiguration(prefix + "file-p-000");
-    let url = "";
-    let tcpConn = "";
-    if (opLtpUuid.includes("odl")) {
-      applicationName = "OpenDayLight";
-      tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-      url = tcpConn + urlForOdl;
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
     }
-    const applicationNameData = applicationName === undefined ? {
-      applicationName: null,
-      httpClientLtpUuid,
-      url: null, key: null
-    } : {
-      applicationName,
-      httpClientLtpUuid,
-      url, key
-    };
-    applicationNameList.push(applicationNameData);
+
+    let applicationNameList = [];
+    //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+    //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+    let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf?fields=node(node-id;netconf-node-topology:connection-status)"
+    for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+      const httpClientLtpUuid = httpLtpUuidList[0];
+      let applicationName = 'api';
+      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+      let prefix = opLtpUuid.split('op')[0];
+      const key = await extractProfileConfiguration(prefix + "file-p-000");
+      let url = "";
+      let tcpConn = "";
+      if (opLtpUuid.includes("odl")) {
+        applicationName = "OpenDayLight";
+        tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+        url = tcpConn + urlForOdl;
+      }
+      const applicationNameData = applicationName === undefined ? {
+        applicationName: null,
+        httpClientLtpUuid,
+        url: null, key: null
+      } : {
+        applicationName,
+        httpClientLtpUuid,
+        url, key
+      };
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    console.error(error);
   }
-  return applicationNameList;
 }
 
 
@@ -10467,16 +10510,20 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
  * @param controllerTargetUrl
  */
 async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMessage) {
-  let activeSubscribers = await notificationManagement.getActiveSubscribers(deviceNotificationType);
+  try {
+    let activeSubscribers = await notificationManagement.getActiveSubscribers(deviceNotificationType);
 
-  if (activeSubscribers.length > 0) {
-    console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
+    if (activeSubscribers.length > 0) {
+      console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
 
-    for (let subscriber of activeSubscribers) {
-      sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
+      for (let subscriber of activeSubscribers) {
+        sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
+      }
+    } else {
+      console.warn("no subscribers for " + deviceNotificationType + ", message discarded");
     }
-  } else {
-    console.warn("no subscribers for " + deviceNotificationType + ", message discarded");
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -10569,48 +10616,55 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
 
 
 function cleanupOutboundNotificationCache() {
-  let toRemoveElements = [];
+  try {
+    let toRemoveElements = [];
 
-  for (const lastSentMessage of lastSentMessages) {
-    let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
+    for (const lastSentMessage of lastSentMessages) {
+      let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
 
-    //timeout from env - use 5 seconds as fallback
-    let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
+      //timeout from env - use 5 seconds as fallback
+      let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
 
-    if (differenceInTimestampMs > timespanMs) {
-      toRemoveElements.push(lastSentMessage)
+      if (differenceInTimestampMs > timespanMs) {
+        toRemoveElements.push(lastSentMessage)
+      }
     }
-  }
 
-  //remove timed out elements
-  lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
+    //remove timed out elements
+    lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage) {
 
-  // "clone"
-  let newComparisonNotificationMessage = JSON.parse(JSON.stringify(notificationMessage));
-  //ignore timestamp and counter for comparison
-  delete newComparisonNotificationMessage[Object.keys(newComparisonNotificationMessage)[0]]["timestamp"];
-  delete newComparisonNotificationMessage[Object.keys(newComparisonNotificationMessage)[0]]["counter"];
-  let newNotificationString = JSON.stringify(newComparisonNotificationMessage);
-
-  for (const lastSentMessage of lastSentMessages) {
+  try {
     // "clone"
-    let oldComparisonNotificationMessage = JSON.parse(JSON.stringify(lastSentMessage.notification));
+    let newComparisonNotificationMessage = JSON.parse(JSON.stringify(notificationMessage));
     //ignore timestamp and counter for comparison
-    delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["timestamp"];
-    delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["counter"];
-    let oldNotificationString = JSON.stringify(oldComparisonNotificationMessage);
+    delete newComparisonNotificationMessage[Object.keys(newComparisonNotificationMessage)[0]]["timestamp"];
+    delete newComparisonNotificationMessage[Object.keys(newComparisonNotificationMessage)[0]]["counter"];
+    let newNotificationString = JSON.stringify(newComparisonNotificationMessage);
 
-    if (newNotificationString === oldNotificationString &&
-      lastSentMessage.type === notificationType &&
-      lastSentMessage.targetOperationURL === targetOperationURL) {
-      return true;
+    for (const lastSentMessage of lastSentMessages) {
+      // "clone"
+      let oldComparisonNotificationMessage = JSON.parse(JSON.stringify(lastSentMessage.notification));
+      //ignore timestamp and counter for comparison
+      delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["timestamp"];
+      delete oldComparisonNotificationMessage[Object.keys(oldComparisonNotificationMessage)[0]]["counter"];
+      let oldNotificationString = JSON.stringify(oldComparisonNotificationMessage);
+
+      if (newNotificationString === oldNotificationString &&
+        lastSentMessage.type === notificationType &&
+        lastSentMessage.targetOperationURL === targetOperationURL) {
+        return true;
+      }
     }
+    return false;
+  } catch (error) {
+    console.error(error);
   }
-
-  return false;
 }
 
 async function sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, requestorUrl, operationKey) {
@@ -10714,197 +10768,213 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
 }
 
 exports.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = async function () {
-  const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  if (forwardingConstruct === undefined) {
-    return null;
-  }
-
-  let fcPortInputDirectionLogicalTerminationPointList = [];
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.INPUT === portDirection) {
-      fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+  try {
+    const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
     }
-  }
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-    }
-  }
-  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[0];
-  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
-  let applicationNameList = [];
-  const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
-  // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-  const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-  const httpClientLtpUuid = httpLtpUuidList[0];
-  let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
-  let i = 0;
-  let protocol = "";
-  for (const connection of tcpConn) {
-    if (i == 0) {
-      protocol = "HTTP";
-    } else {
-      protocol = "HTTPS";
-    }
-    let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
-    let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
-    //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
-    let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
 
-    const applicationNameData = {
-      key,
-      protocol,
-      finalTcpAddr
-    };
-    i++;
-    applicationNameList.push(applicationNameData);
+    let fcPortInputDirectionLogicalTerminationPointList = [];
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.INPUT === portDirection) {
+        fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
+    let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[0];
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
+    let applicationNameList = [];
+    const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+    // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+    let i = 0;
+    let protocol = "";
+    for (const connection of tcpConn) {
+      if (i == 0) {
+        protocol = "HTTP";
+      } else {
+        protocol = "HTTPS";
+      }
+      let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+      let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+      //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
+      let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+
+      const applicationNameData = {
+        key,
+        protocol,
+        finalTcpAddr
+      };
+      i++;
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    console.error(error);
   }
-  return applicationNameList;
 }
 
 async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
-  const forwardingName = "NotifiedDeviceAttributeValueChangeCausesUpdateOfCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  if (forwardingConstruct === undefined) {
-    return null;
-  }
-
-  let fcPortInputDirectionLogicalTerminationPointList = [];
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.INPUT === portDirection) {
-      fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+  try {
+    const forwardingName = "NotifiedDeviceAttributeValueChangeCausesUpdateOfCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
     }
-  }
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-    }
-  }
 
-  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter];
-  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
-  let applicationNameList = [];
-  const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
-  // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-  const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-  const httpClientLtpUuid = httpLtpUuidList[0];
-  let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
-  let i = 0;
-  let protocol = "";
-  for (const connection of tcpConn) {
-    if (i == 0) {
-      protocol = "HTTP";
-    } else {
-      protocol = "HTTPS";
+    let fcPortInputDirectionLogicalTerminationPointList = [];
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.INPUT === portDirection) {
+        fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
     }
-    let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
-    let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
-    //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
-    let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
 
-    const applicationNameData = {
-      key,
-      protocol,
-      finalTcpAddr
-    };
-    i++;
-    applicationNameList.push(applicationNameData);
+    let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter];
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
+    let applicationNameList = [];
+    const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+    // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+    let i = 0;
+    let protocol = "";
+    for (const connection of tcpConn) {
+      if (i == 0) {
+        protocol = "HTTP";
+      } else {
+        protocol = "HTTPS";
+      }
+      let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+      let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+      //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
+      let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+
+      const applicationNameData = {
+        key,
+        protocol,
+        finalTcpAddr
+      };
+      i++;
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    console.error(error);
   }
-  return applicationNameList;
 }
 
 async function NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter) {
-  const forwardingName = "NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  if (forwardingConstruct === undefined) {
-    return null;
-  }
-
-  let fcPortInputDirectionLogicalTerminationPointList = [];
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.INPUT === portDirection) {
-      fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+  try {
+    const forwardingName = "NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
     }
-  }
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-    }
-  }
 
-  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
-  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
-  let applicationNameList = [];
-  const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
-  // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-  const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-  const httpClientLtpUuid = httpLtpUuidList[0];
-  let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
-  let i = 0;
-  let protocol = "";
-  for (const connection of tcpConn) {
-    if (i == 0) {
-      protocol = "HTTP";
-    } else {
-      protocol = "HTTPS";
+    let fcPortInputDirectionLogicalTerminationPointList = [];
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.INPUT === portDirection) {
+        fcPortInputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
     }
-    let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
-    let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
-    //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
-    let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
 
-    const applicationNameData = {
-      key,
-      protocol,
-      finalTcpAddr
-    };
-    i++;
-    applicationNameList.push(applicationNameData);
+    let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
+    let applicationNameList = [];
+    const opLtpUuid = fcPortInputDirectionLogicalTerminationPointList[0];
+    // const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+    const httpClientLtpUuid = httpLtpUuidList[0];
+    let tcpConn = await LogicalTerminationPoint.getServerLtpListAsync(httpClientLtpUuid)
+    let i = 0;
+    let protocol = "";
+    for (const connection of tcpConn) {
+      if (i == 0) {
+        protocol = "HTTP";
+      } else {
+        protocol = "HTTPS";
+      }
+      let tcpClientRemoteAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+      let tcpClientRemoteport = await tcpServerInterface.getLocalPortOfTheProtocol(protocol)     //     getRemoteAddressAsync(tcpConn[0]);
+      //tcpConne = await getTcpClientConnectionInfoAsync(httpClientLtpUuid);
+      let finalTcpAddr = protocol.toLowerCase() + "://" + tcpClientRemoteAddress['ipv-4-address'] + ":" + tcpClientRemoteport;
+
+      const applicationNameData = {
+        key,
+        protocol,
+        finalTcpAddr
+      };
+      i++;
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    reject(error);
   }
-  return applicationNameList;
 }
 
 async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counter) {
-  const forwardingName = "NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  if (forwardingConstruct === undefined) {
-    return null;
-  }
-
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+  try {
+    const forwardingName = "NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
     }
+
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
+    }
+
+    let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
+    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
+    let applicationNameList = [];
+    let tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuidOutput);
+    const applicationNameData = {
+      key,
+      tcpConn
+    };
+    applicationNameList.push(applicationNameData);
+
+    return applicationNameList;
+  } catch (error) {
+    reject();
   }
-
-  let opLtpUuidOutput = fcPortOutputDirectionLogicalTerminationPointList[counter - 3];
-  const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput)
-  let applicationNameList = [];
-  let tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuidOutput);
-  const applicationNameData = {
-    key,
-    tcpConn
-  };
-  applicationNameList.push(applicationNameData);
-
-  return applicationNameList;
 }
 
 /**
@@ -10916,171 +10986,191 @@ async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counte
  * the second contains the same for ES
  **/
 exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async function () {
-  const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  if (forwardingConstruct === undefined) {
-    return null;
-  }
-
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+  try {
+    const forwardingName = "RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    if (forwardingConstruct === undefined) {
+      return null;
     }
-  }
 
-  /*  if (fcPortOutputDirectionLogicalTerminationPointList.length !== 1) {
-     return null;
-   } */
-  let applicationNameList = [];
-  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-    //const opLtpUuid = fcPortOutputDirectionLogicalTerminationPointList[0];
-    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-    const httpClientLtpUuid = httpLtpUuidList[0];
-    let applicationName = 'api';
-    /*const applicationName = await httpClientInterface.getApplicationNameAsync(httpClientLtpUuid);*/
-    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    let prefix = opLtpUuid.split('op')[0];
-    const key = await extractProfileConfiguration(prefix + "file-p-000");
-    let url = "";
-    let tcpConn = "";
-    let EsClient = null;
-    let indexAlias = await getIndexAliasAsync();
-
-    if (opLtpUuid.includes("odl")) {
-      applicationName = "OpenDayLight";
-      tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
-      EsClient = await elasticsearchService.getClient(false);
-    } else if (opLtpUuid.includes("es")) {
-      tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
-      applicationName = "ElasticSearch";
-      EsClient = await elasticsearchService.getClient(false);
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
     }
-    const applicationNameData = applicationName === undefined ? {
-      applicationName: null,
-      httpClientLtpUuid,
-      tcpConn: null, key: null,
-      indexAlias: null, EsClient: null
-    } : {
-      applicationName,
-      httpClientLtpUuid,
-      tcpConn, key,
-      indexAlias, EsClient
-    };
-    applicationNameList.push(applicationNameData);
+
+    /*  if (fcPortOutputDirectionLogicalTerminationPointList.length !== 1) {
+       return null;
+     } */
+    let applicationNameList = [];
+    for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+      //const opLtpUuid = fcPortOutputDirectionLogicalTerminationPointList[0];
+      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+      const httpClientLtpUuid = httpLtpUuidList[0];
+      let applicationName = 'api';
+      /*const applicationName = await httpClientInterface.getApplicationNameAsync(httpClientLtpUuid);*/
+      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+      let prefix = opLtpUuid.split('op')[0];
+      const key = await extractProfileConfiguration(prefix + "file-p-000");
+      let url = "";
+      let tcpConn = "";
+      let EsClient = null;
+      let indexAlias = await getIndexAliasAsync();
+
+      if (opLtpUuid.includes("odl")) {
+        applicationName = "OpenDayLight";
+        tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
+        EsClient = await elasticsearchService.getClient(false);
+      } else if (opLtpUuid.includes("es")) {
+        tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
+        applicationName = "ElasticSearch";
+        EsClient = await elasticsearchService.getClient(false);
+      }
+      const applicationNameData = applicationName === undefined ? {
+        applicationName: null,
+        httpClientLtpUuid,
+        tcpConn: null, key: null,
+        indexAlias: null, EsClient: null
+      } : {
+        applicationName,
+        httpClientLtpUuid,
+        tcpConn, key,
+        indexAlias, EsClient
+      };
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    console.error(error);
   }
-  return applicationNameList;
 }
 
 async function getTcpClientConnectionInfoAsync(operationClientUuid) {
-  let httpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid);
-  let httpClientUuid = httpClientUuidList[0];
-  let tcpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid);
-  let tcpClientUuid = tcpClientUuidList[0];
-  let tcpServerUuidList = await logicalTerminationPoint.getServerLtpListAsync(tcpClientUuid);
-  let tcpServerUuid = tcpServerUuidList[0];
-  let tcpClientRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpServerUuid);
-  let remoteAddress = await getConfiguredRemoteAddress(tcpClientRemoteAddress);
-  let remotePort = await tcpClientInterface.getRemotePortAsync(tcpServerUuid);
-  let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
-  return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
+  try {
+    let httpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid);
+    let httpClientUuid = httpClientUuidList[0];
+    let tcpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid);
+    let tcpClientUuid = tcpClientUuidList[0];
+    let tcpServerUuidList = await logicalTerminationPoint.getServerLtpListAsync(tcpClientUuid);
+    let tcpServerUuid = tcpServerUuidList[0];
+    let tcpClientRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpServerUuid);
+    let remoteAddress = await getConfiguredRemoteAddress(tcpClientRemoteAddress);
+    let remotePort = await tcpClientInterface.getRemotePortAsync(tcpServerUuid);
+    let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
+    return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function getConfiguredRemoteAddress(remoteAddress) {
-  let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
-  if (domainName in remoteAddress) {
-    remoteAddress = remoteAddress["domain-name"];
-  } else {
-    remoteAddress = remoteAddress[
-      onfAttributes.TCP_CLIENT.IP_ADDRESS][
-      onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
-    ];
+  try {
+    let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
+    if (domainName in remoteAddress) {
+      remoteAddress = remoteAddress["domain-name"];
+    } else {
+      remoteAddress = remoteAddress[
+        onfAttributes.TCP_CLIENT.IP_ADDRESS][
+        onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
+      ];
+    }
+    return remoteAddress;
+  } catch (error) {
+    console.error(error);
   }
-  return remoteAddress;
 }
 
 async function retrieveCorrectUrl(originalUrl, path, applicationName) {
-  const urlParts = originalUrl.split("?fields=");
-  const myFields = urlParts[1];
-  let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
-  let placeHolder = "";
-  if (applicationName === "OpenDayLight") {
-    placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
-  } else if (applicationName === "ElasticSearch") {
-    placeHolder = "/";
-  }
-  var sequenzaDaCercare = "control-construct=" + ControlConstruct;
-  var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
-
-  if (indiceSequenza !== -1) {
-    var parte1 = urlParts[0].substring(0, indiceSequenza);
+  try {
+    const urlParts = originalUrl.split("?fields=");
+    const myFields = urlParts[1];
+    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    let placeHolder = "";
     if (applicationName === "OpenDayLight") {
-      var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
+      placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
     } else if (applicationName === "ElasticSearch") {
-      var parte2 = urlParts[0].substring(indiceSequenza);
+      placeHolder = "/";
     }
-  }
+    var sequenzaDaCercare = "control-construct=" + ControlConstruct;
+    var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
 
-  let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
-  let final = path + correctPlaceHolder + parte2;
-  if (final.indexOf("+") != -1) {
-    var correctUrl = final.replace(/=.*?\+/g, "=");
-  } else {
-    correctUrl = final;
+    if (indiceSequenza !== -1) {
+      var parte1 = urlParts[0].substring(0, indiceSequenza);
+      if (applicationName === "OpenDayLight") {
+        var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
+      } else if (applicationName === "ElasticSearch") {
+        var parte2 = urlParts[0].substring(indiceSequenza);
+      }
+    }
+
+    let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
+    let final = path + correctPlaceHolder + parte2;
+    if (final.indexOf("+") != -1) {
+      var correctUrl = final.replace(/=.*?\+/g, "=");
+    } else {
+      correctUrl = final;
+    }
+    if (myFields != undefined) {
+      final = final + "?fields=" + myFields;
+    }
+    return final;
+  } catch (error) {
+    console.error(error);
   }
-  if (myFields != undefined) {
-    final = final + "?fields=" + myFields;
-  }
-  return final;
 }
 
 async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName) {
 
-  const forwardingName = "RequestForListOfDeviceInterfacesCausesReadingFromCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  // const forwardingConstruct1 = await ForwardingDomain.
+  try {
+    const forwardingName = "RequestForListOfDeviceInterfacesCausesReadingFromCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    // const forwardingConstruct1 = await ForwardingDomain.
 
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
     }
+
+    let applicationNameList = [];
+    //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+    //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+    let urlForEs = "/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
+    let correctUrl = urlForEs.replace("{mountName}", mountName);
+    for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+      const httpClientLtpUuid = httpLtpUuidList[0];
+      let applicationName = 'api';
+      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+      let url = "";
+      let tcpConn = "";
+
+      applicationName = "ElasticSearch";
+      tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
+      url = tcpConn + correctUrl;
+
+      const applicationNameData = applicationName === undefined ? {
+        applicationName: null,
+        httpClientLtpUuid,
+        url: null, key: null
+      } : {
+        applicationName,
+        httpClientLtpUuid,
+        url, key
+      };
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    console.error(error);
   }
-
-  let applicationNameList = [];
-  //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
-  //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
-  let urlForEs = "/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
-  let correctUrl = urlForEs.replace("{mountName}", mountName);
-  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-    const httpClientLtpUuid = httpLtpUuidList[0];
-    let applicationName = 'api';
-    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-    let url = "";
-    let tcpConn = "";
-
-    applicationName = "ElasticSearch";
-    tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
-    url = tcpConn + correctUrl;
-
-    const applicationNameData = applicationName === undefined ? {
-      applicationName: null,
-      httpClientLtpUuid,
-      url: null, key: null
-    } : {
-      applicationName,
-      httpClientLtpUuid,
-      url, key
-    };
-    applicationNameList.push(applicationNameData);
-  }
-  return applicationNameList;
 }
 
 exports.GetBequeathYourDataAndDieData = function GetBequeathYourDataAndDieData() {
@@ -11194,49 +11284,53 @@ exports.GetApplicationData = function GetApplicationData() {
 
 async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mountName) {
 
-  const forwardingName = "RequestForListOfActualDeviceEquipmentCausesReadingFromCache";
-  const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-  // const forwardingConstruct1 = await ForwardingDomain.
+  try {
+    const forwardingName = "RequestForListOfActualDeviceEquipmentCausesReadingFromCache";
+    const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+    // const forwardingConstruct1 = await ForwardingDomain.
 
-  let fcPortOutputDirectionLogicalTerminationPointList = [];
-  const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-  for (const fcPort of fcPortList) {
-    const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-    if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-      fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+    let fcPortOutputDirectionLogicalTerminationPointList = [];
+    const fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (const fcPort of fcPortList) {
+      const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+      if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
+        fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
+      }
     }
+
+    let applicationNameList = [];
+    //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
+    //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
+    let urlForEs = "/control-construct={mountName}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))"
+    let correctUrl = urlForEs.replace("{mountName}", mountName);
+    for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
+      const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
+      const httpClientLtpUuid = httpLtpUuidList[0];
+      let applicationName = 'api';
+      const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
+      const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
+      let url = "";
+      let tcpConn = "";
+
+      applicationName = "ElasticSearch";
+      tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
+      url = tcpConn + correctUrl;
+
+      const applicationNameData = applicationName === undefined ? {
+        applicationName: null,
+        httpClientLtpUuid,
+        url: null, key: null
+      } : {
+        applicationName,
+        httpClientLtpUuid,
+        url, key
+      };
+      applicationNameList.push(applicationNameData);
+    }
+    return applicationNameList;
+  } catch (error) {
+    console.error(error);
   }
-
-  let applicationNameList = [];
-  //let urlForOdl = "/rests/data/network-topology:network-topology/topology=topology-netconf";
-  //let urlForOdl = "/rests/data/network-topology:network-topology?fields=topology/node(node-id;netconf-node-topology:connection-status)"
-  let urlForEs = "/control-construct={mountName}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))"
-  let correctUrl = urlForEs.replace("{mountName}", mountName);
-  for (const opLtpUuid of fcPortOutputDirectionLogicalTerminationPointList) {
-    const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
-    const httpClientLtpUuid = httpLtpUuidList[0];
-    let applicationName = 'api';
-    const path = await OperationClientInterface.getOperationNameAsync(opLtpUuid);
-    const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuid)
-    let url = "";
-    let tcpConn = "";
-
-    applicationName = "ElasticSearch";
-    tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
-    url = tcpConn + correctUrl;
-
-    const applicationNameData = applicationName === undefined ? {
-      applicationName: null,
-      httpClientLtpUuid,
-      url: null, key: null
-    } : {
-      applicationName,
-      httpClientLtpUuid,
-      url, key
-    };
-    applicationNameList.push(applicationNameData);
-  }
-  return applicationNameList;
 }
 
 /**
@@ -11246,17 +11340,21 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
  * no response value expected for this operation
  **/
 async function recordRequest(body, cc) {
-  let indexAlias = common[1].indexAlias
-  let client = await common[1].EsClient;
-  let startTime = process.hrtime();
-  let result = await client.index({
-    index: indexAlias,
-    id: cc,
-    body: body
-  });
-  let backendTime = process.hrtime(startTime);
-  if (result.body.result == 'created' || result.body.result == 'updated') {
-    return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+  try {
+    let indexAlias = common[1].indexAlias
+    let client = await common[1].EsClient;
+    let startTime = process.hrtime();
+    let result = await client.index({
+      index: indexAlias,
+      id: cc,
+      body: body
+    });
+    let backendTime = process.hrtime(startTime);
+    if (result.body.result == 'created' || result.body.result == 'updated') {
+      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+    }
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -11267,16 +11365,20 @@ async function recordRequest(body, cc) {
  * no response value expected for this operation
  **/
 async function deleteRequest(cc) {
-  let indexAlias = common[1].indexAlias
-  let client = await common[1].EsClient;
-  let startTime = process.hrtime();
-  let result = await client.delete({
-    id: cc,
-    index: indexAlias
-  });
-  let backendTime = process.hrtime(startTime);
-  if (result.body.result == 'created' || result.body.result == 'updated') {
-    return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+  try {
+    let indexAlias = common[1].indexAlias
+    let client = await common[1].EsClient;
+    let startTime = process.hrtime();
+    let result = await client.delete({
+      id: cc,
+      index: indexAlias
+    });
+    let backendTime = process.hrtime(startTime);
+    if (result.body.result == 'created' || result.body.result == 'updated') {
+      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+    }
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -11286,77 +11388,93 @@ async function deleteRequest(cc) {
  * response value expected for this operation
  **/
 async function ReadRecords(cc) {
-  let size = 100;
-  let from = 0;
-  let query = {
+  try {
+    let size = 100;
+    let from = 0;
+    let query = {
 
-    term: {
-      _id: cc
-    }
+      term: {
+        _id: cc
+      }
 
-  };
-  let indexAlias = common[1].indexAlias
-  let client = await common[1].EsClient;
-  const result = await client.search({
-    index: indexAlias,
-    body: {
-      query: query
-    }
-  });
-  const resultArray = createResultArray(result);
-  return (resultArray[0])
+    };
+    let indexAlias = common[1].indexAlias
+    let client = await common[1].EsClient;
+    const result = await client.search({
+      index: indexAlias,
+      body: {
+        query: query
+      }
+    });
+    const resultArray = createResultArray(result);
+    return (resultArray[0])
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 
 // Function to modify UUID to mountName+UUID
 function modificaUUID(obj, mountName) {
-  for (const key in obj) {
-    if (typeof obj[key] === 'object') {
-      // if the value is an object, recall the function recursively
-      modificaUUID(obj[key], mountName);
-    } else if (key === 'uuid' || key === 'local-id') {
-      obj[key] = mountName + "+" + obj[key];
+  try {
+    for (const key in obj) {
+      if (typeof obj[key] === 'object') {
+        // if the value is an object, recall the function recursively
+        modificaUUID(obj[key], mountName);
+      } else if (key === 'uuid' || key === 'local-id') {
+        obj[key] = mountName + "+" + obj[key];
+      }
     }
+  } catch (error) {
+    console.error(error);
   }
 }
 
 // function to convert the response from String1+String2 to String1
 function modifyReturnJson(obj) {
-  for (const key in obj) {
-    if (Array.isArray(obj[key])) {
-      obj[key].forEach(item => {
-        modifyReturnJson(item);
-      });
-    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-      modifyReturnJson(obj[key]);
-    } else {
-      if (key === 'uuid' || key === 'local-id') {
-        const parts = obj[key].split('+');
-        obj[key] = parts[1];
+  try {
+    for (const key in obj) {
+      if (Array.isArray(obj[key])) {
+        obj[key].forEach(item => {
+          modifyReturnJson(item);
+        });
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        modifyReturnJson(obj[key]);
+      } else {
+        if (key === 'uuid' || key === 'local-id') {
+          const parts = obj[key].split('+');
+          obj[key] = parts[1];
+        }
       }
     }
+  } catch (error) {
+    console.error(error);
   }
 }
 
 function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
-  const urlParts = url.split("?fields=");
-  const myFields = urlParts[1];
-  // Split the url using = as delimitator 
-  const parts = urlParts[0].split('=');
+  try {
+    const urlParts = url.split("?fields=");
+    const myFields = urlParts[1];
+    // Split the url using = as delimitator 
+    const parts = urlParts[0].split('=');
 
-  // Modify the values
-  for (let i = 1; i < parts.length; i++) {
-    if (parts[i].indexOf("+") == -1) {
-      parts[i] = mountname + "+" + parts[i];
+    // Modify the values
+    for (let i = 1; i < parts.length; i++) {
+      if (parts[i].indexOf("+") == -1) {
+        parts[i] = mountname + "+" + parts[i];
+      }
     }
-  }
 
-  // Reconstruct the string
-  let modifiedString = parts.join('=');
-  if (myFields != undefined) {
-    modifiedString = modifiedString + "?fields=" + myFields;
+    // Reconstruct the string
+    let modifiedString = parts.join('=');
+    if (myFields != undefined) {
+      modifiedString = modifiedString + "?fields=" + myFields;
+    }
+    return modifiedString;
+  } catch (error) {
+    console.error(error);
   }
-  return modifiedString;
 
 }
 
@@ -11370,180 +11488,200 @@ function Error(code, message) {
 }
 
 function formatUrlForOdl(url, fields) {
-  const segments = url.split("/");
-  let newSegments = [];
-  // loop over segments
-  for (const segment of segments) {
-    const parts = segment.split("+");
-    if (parts.length > 1) {
-      if (parts[0].indexOf("control-construct") != -1) {
-        newSegments.push(parts[0]);
+  try {
+    const segments = url.split("/");
+    let newSegments = [];
+    // loop over segments
+    for (const segment of segments) {
+      const parts = segment.split("+");
+      if (parts.length > 1) {
+        if (parts[0].indexOf("control-construct") != -1) {
+          newSegments.push(parts[0]);
+        } else {
+          newSegments.push(parts[0].split("=")[0] + "=" + parts[1]);
+        }
       } else {
-        newSegments.push(parts[0].split("=")[0] + "=" + parts[1]);
+        newSegments.push(segment);
       }
-    } else {
-      newSegments.push(segment);
     }
+    let newUrl = newSegments.join("/");
+    if (fields !== undefined) {
+      newUrl = newUrl + "?fields=" + fields;
+    }
+    return newUrl;
+  } catch (error) {
+    console.error(error);
   }
-  let newUrl = newSegments.join("/");
-  if (fields !== undefined) {
-    newUrl = newUrl + "?fields=" + fields;
-  }
-  return newUrl;
 }
 
 function decodeMountName(url, cc) {
-  let response = [];
-  let responseData = null;
-  let regex = "";
-  let specialChars = "";
-  let extractedValue = "";
-  if (cc) {
-    regex = /control-construct=([^?&]*)(\?fields|$)?/;
-    specialChars = /[^a-zA-Z0-9+]/;
-  } else {
-    regex = /control-construct=([^/]+)\/?/;
-    specialChars = /[^a-zA-Z0-9+]/;
-  }
-  const match = decodeURIComponent(url).match(regex);
-
-  if (match) {
+  try {
+    let response = [];
+    let responseData = null;
+    let regex = "";
+    let specialChars = "";
+    let extractedValue = "";
     if (cc) {
-      extractedValue = match[1];
-      if (!match[2]) {
-        const startIndex = url.indexOf("control-construct=") + "control-construct=".length;
-        extractedValue = url.substring(startIndex);
-      }
+      regex = /control-construct=([^?&]*)(\?fields|$)?/;
+      specialChars = /[^a-zA-Z0-9+]/;
     } else {
-      extractedValue = match[1];
+      regex = /control-construct=([^/]+)\/?/;
+      specialChars = /[^a-zA-Z0-9+]/;
     }
-    if (!specialChars.test(extractedValue)) {
-      if (extractedValue.indexOf("+") != -1) {
-        let parts = extractedValue.split("+");
-        if (parts[1] != "" && parts[1] == parts[0]) {
-          return parts[0];
-        } else {
-          responseData = {
-            code: "400",
-            message: "Control-construct must not contain special char"
-          }
-          response.push(responseData);
-          return response;
+    const match = decodeURIComponent(url).match(regex);
+
+    if (match) {
+      if (cc) {
+        extractedValue = match[1];
+        if (!match[2]) {
+          const startIndex = url.indexOf("control-construct=") + "control-construct=".length;
+          extractedValue = url.substring(startIndex);
         }
       } else {
-        return extractedValue;
+        extractedValue = match[1];
+      }
+      if (!specialChars.test(extractedValue)) {
+        if (extractedValue.indexOf("+") != -1) {
+          let parts = extractedValue.split("+");
+          if (parts[1] != "" && parts[1] == parts[0]) {
+            return parts[0];
+          } else {
+            responseData = {
+              code: "400",
+              message: "Control-construct must not contain special char"
+            }
+            response.push(responseData);
+            return response;
+          }
+        } else {
+          return extractedValue;
+        }
+      } else {
+        responseData = {
+          code: "400",
+          message: "Control-construct must not contain special char"
+        }
+        response.push(responseData);
+        return response;
       }
     } else {
       responseData = {
         code: "400",
-        message: "Control-construct must not contain special char"
+        message: "no match found or wrong char at the end of the string"
       }
       response.push(responseData);
       return response;
     }
-  } else {
-    responseData = {
-      code: "400",
-      message: "no match found or wrong char at the end of the string"
-    }
-    response.push(responseData);
-    return response;
+  } catch (error) {
+    console.error(error);
   }
 }
 
 function decodeLinkUuid(url, uuid) {
-  let response = [];
-  let responseData = null;
-  let regex = "";
-  let specialChars = "";
-  let extractedValue = "";
-  if (uuid) {
-    regex = /link=([^?&]*)(\?fields|$)?/;
-    specialChars = /[^a-zA-Z0-9+]/;
-  } else {
-    regex = /link=([^/]+)\/?/;
-    specialChars = /[^a-zA-Z0-9+]/;
-  }
-  const match = decodeURIComponent(url).match(regex);
-
-  if (match) {
+  try {
+    let response = [];
+    let responseData = null;
+    let regex = "";
+    let specialChars = "";
+    let extractedValue = "";
     if (uuid) {
-      extractedValue = match[1];
-      if (!match[2]) {
-        const startIndex = url.indexOf("link=") + "link=".length;
-        extractedValue = url.substring(startIndex);
-      }
+      regex = /link=([^?&]*)(\?fields|$)?/;
+      specialChars = /[^a-zA-Z0-9+]/;
     } else {
-      extractedValue = match[1];
+      regex = /link=([^/]+)\/?/;
+      specialChars = /[^a-zA-Z0-9+]/;
     }
-    if (!specialChars.test(extractedValue)) {
-      if (extractedValue.indexOf("+") != -1) {
-        let parts = extractedValue.split("+");
-        if (parts[1] != "" && parts[1] == parts[0]) {
-          return parts[0];
-        } else {
-          responseData = {
-            code: "400",
-            message: "link must not contain special char"
-          }
-          response.push(responseData);
-          return response;
+    const match = decodeURIComponent(url).match(regex);
+
+    if (match) {
+      if (uuid) {
+        extractedValue = match[1];
+        if (!match[2]) {
+          const startIndex = url.indexOf("link=") + "link=".length;
+          extractedValue = url.substring(startIndex);
         }
       } else {
-        return extractedValue;
+        extractedValue = match[1];
+      }
+      if (!specialChars.test(extractedValue)) {
+        if (extractedValue.indexOf("+") != -1) {
+          let parts = extractedValue.split("+");
+          if (parts[1] != "" && parts[1] == parts[0]) {
+            return parts[0];
+          } else {
+            responseData = {
+              code: "400",
+              message: "link must not contain special char"
+            }
+            response.push(responseData);
+            return response;
+          }
+        } else {
+          return extractedValue;
+        }
+      } else {
+        responseData = {
+          code: "400",
+          message: "link must not contain special char"
+        }
+        response.push(responseData);
+        return response;
       }
     } else {
       responseData = {
         code: "400",
-        message: "link must not contain special char"
+        message: "no match found or wrong char at the end of the string"
       }
       response.push(responseData);
       return response;
     }
-  } else {
-    responseData = {
-      code: "400",
-      message: "no match found or wrong char at the end of the string"
-    }
-    response.push(responseData);
-    return response;
+  } catch (error) {
+    console.error(error);
   }
 }
 
 async function extractProfileConfiguration(uuid) {
-  const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-  let profile = await profileCollection.getProfileAsync(uuid);
-  let objectKey = Object.keys(profile)[2];
-  profile = profile[objectKey];
-  let filepath = profile["file-profile-configuration"]["file-path"];
-  const fs = require('fs');
-  const data = require(filepath);
+  try {
+    const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+    let profile = await profileCollection.getProfileAsync(uuid);
+    let objectKey = Object.keys(profile)[2];
+    profile = profile[objectKey];
+    let filepath = profile["file-profile-configuration"]["file-path"];
+    const fs = require('fs');
+    const data = require(filepath);
 
-  return data["api-key"];
+    return data["api-key"];
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function arraysHaveSameElements(array1, array2) {
-  if (array1.length !== array2.length) {
-    return false;
-  }
-
-  const frequencyMap = {};
-  for (const element of array1) {
-    frequencyMap[element] = (frequencyMap[element] || 0) + 1;
-  }
-
-  for (const element of array2) {
-    if (!(element in frequencyMap)) {
+  try {
+    if (array1.length !== array2.length) {
       return false;
     }
-    frequencyMap[element]--;
 
-    if (frequencyMap[element] === 0) {
-      delete frequencyMap[element];
+    const frequencyMap = {};
+    for (const element of array1) {
+      frequencyMap[element] = (frequencyMap[element] || 0) + 1;
     }
-  }
 
-  return Object.keys(frequencyMap).length === 0;
+    for (const element of array2) {
+      if (!(element in frequencyMap)) {
+        return false;
+      }
+      frequencyMap[element]--;
+
+      if (frequencyMap[element] === 0) {
+        delete frequencyMap[element];
+      }
+    }
+
+    return Object.keys(frequencyMap).length === 0;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function isFilterValid(filter) {
@@ -11558,7 +11696,7 @@ function isFilterValid(filter) {
 
   // Define valid chars
   const validChars = ['(', ')', '/', ';', '-', ':'];
-  
+
   // Add letters from "a" to "z" and fron"A" to "Z" and numbers
   for (let i = 97; i <= 122; i++) {
     validChars.push(String.fromCharCode(i)); // add "a"-"z"
@@ -11584,28 +11722,32 @@ function isFilterValid(filter) {
 }
 
 function replaceFilterString(filter) {
-    
+
+  try {
     const replacements = [
-    ["equipment\\(", "equipment(uuid;"],
-    ["connector\\(", "connector(local-id;"],
-    ["contained-holder\\(", "contained-holder(local-id;"],
-    ["expected-equipment\\(", "expected-equipment(local-id;"],
-    ["firmware-component-list\\(", "firmware-component-list(local-id;"],
-    ["profile\\(", "profile(uuid;"],
-    ["logical-termination-point\\(", "logical-termination-point(uuid;"],
-    ["forwarding-domain\\(", "forwarding-domain(uuid;"],
-    ["fc\\(", "fc(uuid1;"],
-    ["fc-port\\(", "fc-port(local-id;"],
-    ["layer-protocol\\(", "layer-protocol(local-id;"]
-  ];
+      ["equipment\\(", "equipment(uuid;"],
+      ["connector\\(", "connector(local-id;"],
+      ["contained-holder\\(", "contained-holder(local-id;"],
+      ["expected-equipment\\(", "expected-equipment(local-id;"],
+      ["firmware-component-list\\(", "firmware-component-list(local-id;"],
+      ["profile\\(", "profile(uuid;"],
+      ["logical-termination-point\\(", "logical-termination-point(uuid;"],
+      ["forwarding-domain\\(", "forwarding-domain(uuid;"],
+      ["fc\\(", "fc(uuid1;"],
+      ["fc-port\\(", "fc-port(local-id;"],
+      ["layer-protocol\\(", "layer-protocol(local-id;"]
+    ];
 
-  let replacedFilter = filter;
-  for (const [search, replace] of replacements) {
-    if (replacedFilter.includes(replace)) {
-      continue; 
+    let replacedFilter = filter;
+    for (const [search, replace] of replacements) {
+      if (replacedFilter.includes(replace)) {
+        continue;
+      }
+      replacedFilter = replacedFilter.replace(new RegExp(search, "g"), replace);
     }
-    replacedFilter = replacedFilter.replace(new RegExp(search, "g"), replace);
-  }
 
-  return replacedFilter;
+    return replacedFilter;
+  } catch (error) {
+    console.error(error);
+  }
 }

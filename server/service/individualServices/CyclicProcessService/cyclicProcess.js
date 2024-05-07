@@ -55,7 +55,7 @@ async function sendRequest(device) {
         if (procedureIsRunning == false) {
             return;
         }
-        
+
         if (ret.code == undefined) {
             responseCode = 200;
         } else {
@@ -63,8 +63,8 @@ async function sendRequest(device) {
             responseBodyToDocument = ret;
         }
         var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
-        executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);     
-        
+        executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+
         return {
             'ret': ret,
             'node-id': device['node-id']
@@ -365,9 +365,9 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
             let strVal = String(value);
             return (strVal.length == 1) ? ('0' + strVal) : strVal;
         }
-        return d.getFullYear() + '.' + dualDigits((d.getMonth()+1)) + '.' + dualDigits(d.getDate()) + '_' + 
-               dualDigits(d.getHours()) + '.' + dualDigits(d.getMinutes()) + '.' + dualDigits(d.getSeconds()) +
-               '.log';
+        return d.getFullYear() + '.' + dualDigits((d.getMonth() + 1)) + '.' + dualDigits(d.getDate()) + '_' +
+            dualDigits(d.getHours()) + '.' + dualDigits(d.getMinutes()) + '.' + dualDigits(d.getSeconds()) +
+            '.log';
     }
 
     function printArray(arr) {
@@ -381,24 +381,24 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
                 elemsForLine = 0;
             }
         }
-        if (content.charAt(content.length-1) == '|') {
-            content = content.slice(0, content.length-1);
+        if (content.charAt(content.length - 1) == '|') {
+            content = content.slice(0, content.length - 1);
         }
         content += ']';
     }
 
     var content = '****************************************************************';
     content += '\n\n                      Realignment LOG file';
-    content += '\n\n                      ('+  getTime() + ')';
+    content += '\n\n                      (' + getTime() + ')';
     content += '\n\n****************************************************************';
-    
+
     content += '\n\n                     BEFORE REALIGMENT EVENT';
     content += '\n                     -----------------------';
 
     content += '\n\nDevice List  (' + curDeviceList.length + ' elements)';
     content += '\n----------------------------------------------------------------';
     printArray(curDeviceList);
-    
+
     content += '\n\nSliding Window  (' + currSlidingWindow.length + ' elements)';
     content += '\n----------------------------------------------------------------';
     printArray(currSlidingWindow);
@@ -423,7 +423,7 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
     printArray(elemsDropped);
 
     content += '\n\n';
-    
+
     try {
         //fs.writeFileSync(folderName + '/' + getFileName(), content);
         fs.writeFileSync(path.join(folderName, getFileName()), content);
@@ -547,14 +547,14 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('*                                                                                                     *');
     console.log('*                                  (Started at: ' + getTime() + ')                                  *');
     console.log('*                                                                                                     *');
-    
+
     let esDeviceList = [];
     try {
         esDeviceList = await individualServicesService.readDeviceListFromElasticsearch();
     } catch (error) {
         console.log('* ' + error);
-    }    
-    
+    }
+
     //
     // Calculate common elements and drop elements of ES-DL
     //
@@ -608,7 +608,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             i++;
         }
     }
-    
+
     //
     // Shuffle new odl elements (commented issue 757)
     //
@@ -624,11 +624,11 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         //
         // Get the last element of new sliding window
         //
-        let slidingWindowLastElement = slidingWindow[slidingWindow.length-1];
+        let slidingWindowLastElement = slidingWindow[slidingWindow.length - 1];
         //
         // Search the last element in commonEsElements to split commonEsElements
         //
-        let lastElementFound = false;        
+        let lastElementFound = false;
         for (let i = 0; i < commonEsElements.length; i++) {
             if (slidingWindowLastElement['node-id'] == commonEsElements[i]['node-id']) {
                 lastElementFound = true;
@@ -652,13 +652,13 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
     }
-       
+
     //
     // Write new ODL-DL to Elasticsearch
     //
     let deviceListCleaned = [];
     for (let i = 0; i < deviceList.length; i++) {
-        deviceListCleaned.push({"node-id" : deviceList[i]["node-id"]});
+        deviceListCleaned.push({ "node-id": deviceList[i]["node-id"] });
     }
     deviceList = deviceListCleaned;
     var deviceListStringiflied = JSON.stringify(deviceList);
@@ -668,7 +668,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     } catch (error) {
         console.log(error);
     }
-       
+
     //
     // Fill the sliding window at the max allowed and get new the elements
     //
@@ -678,7 +678,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         requestMessage(slidingWindow.length - 1);
         printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length - 1]['node-id'], print_log_level >= 2);
     }
-    
+
     //
     // Erase all the control constructs from elasticsearch referring elements not more present in new odl device list
     //
@@ -687,7 +687,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         try {
             let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
             printLog('* ' + ret.result, print_log_level >= 2);
-        } catch(error) {
+        } catch (error) {
             console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
         }
     }
@@ -699,10 +699,10 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('* Dropped elements from Sliding Window: ' + elementsDroppedFromSlidingWindow + '                                                             *');
     console.log('* New Sliding Window size: ' + slidingWindow.length + '                                                                          *');
     console.log('* New Device List size: ' + deviceList.length + '                                                                            *')
-    console.log('*                                  (Stopped at: ' + getTime() + ')                                  *');    
+    console.log('*                                  (Stopped at: ' + getTime() + ')                                  *');
     console.log('*******************************************************************************************************');
     console.log('');
-    
+
     writeRealigmentLogFile(esDeviceList, currSlidingWindow, deviceList, newOdlElements, dropEsElements, slidingWindow);
     synchInProgress = false;
     return true;
@@ -750,7 +750,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
-    
+
     let odlDeviceList;
     try {
         odlDeviceList = await individualServicesService.getLiveDeviceList();
@@ -759,13 +759,12 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         return;
     }
     odlDeviceList = filterConnectedDevices(odlDeviceList);
-    
-    let elasticsearchList;
+
+    let elasticsearchList = [];
     try {
         elasticsearchList = await individualServicesService.readDeviceListFromElasticsearch();
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        return;
     }
     //printLog(printList('Device List (ES)', elasticsearchList), print_log_level >= 1);
     //
@@ -859,17 +858,17 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
         try {
             let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
             printLog(ret.result, print_log_level >= 2);
-        } catch(error) {
+        } catch (error) {
             console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
         }
     }
 
     odlDeviceList = [].concat(newOdlElements, commonEsElements);
     printLog("Update device list to elasticsearch", print_log_level >= 2)
-    
+
     let deviceListCleaned = [];
     for (let i = 0; i < odlDeviceList.length; i++) {
-        deviceListCleaned.push({"node-id" : odlDeviceList[i]["node-id"]});
+        deviceListCleaned.push({ "node-id": odlDeviceList[i]["node-id"] });
     }
     deviceList = deviceListCleaned;
     let odlDeviceListString = JSON.stringify(deviceList);
@@ -878,7 +877,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     } catch (error) {
         console.log(error);
     }
-    
+
     //
     // Sliding Window
     //

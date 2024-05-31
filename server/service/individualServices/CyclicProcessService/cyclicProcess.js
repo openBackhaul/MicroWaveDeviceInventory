@@ -747,8 +747,6 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log('*                                                                                                     *');
     console.log('*                                 ( ' + getTime() + ' )                                             *');
     console.log('*                                                                                                     *');
-    console.log('* Colors Legend:    %cNew Elements (Priority)    %cCommon Elements    %cElements To Drop                    %c*', 'color:yellow', 'color:green', 'color:red', 'color:inherits');
-    console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
 
     let odlDeviceList;
@@ -772,7 +770,6 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     //
     let commonEsElements = [];
     let dropEsElements = [];
-    let esRules = [];
     let esString = 'Device List (ES): [';
     for (let i = 0; i < elasticsearchList.length; i++) {
         let found = false;
@@ -780,50 +777,48 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
             if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
                 found = true;
                 commonEsElements.push(elasticsearchList[i]);
-                esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
-                esRules.push("color:green");
-                esRules.push("color:inherit");
+                esString += (((i == 0) ? '' : '|') + elasticsearchList[i]['node-id']);
                 break;
             }
         }
         if (!found) {
             dropEsElements.push(elasticsearchList[i]);
-            esString += (((i == 0) ? '' : '|') + ('%c' + elasticsearchList[i]['node-id'] + '%c'));
-            esRules.push("color:red");
-            esRules.push("color:inherit");
+            esString += (((i == 0) ? '' : '|') + elasticsearchList[i]['node-id']);
         }
     }
     esString += (']  (' + elasticsearchList.length + ')');
-    console.log(esString, ...esRules);
-
+    try {
+        console.log(esString);
+    } catch (error) {
+        console.log("Too many elastic search elements to print in console.");
+    }
     //
     // Calculate new elements and common elements of ODL-DL and print the ODL-DL
     //
     let newOdlElements = [];
     let commonOdlElements = [];
-    let odlRules = [];
     let odlString = 'Device List (ODL): [';
     for (let i = 0; i < odlDeviceList.length; i++) {
         let found = false;
         for (let j = 0; j < elasticsearchList.length; j++) {
             if (odlDeviceList[i]['node-id'] == elasticsearchList[j]['node-id']) {
                 commonOdlElements.push(odlDeviceList[i]);
-                odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-                odlRules.push("color:green");
-                odlRules.push("color:inherit");
+                odlString += (((i == 0) ? '' : '|') + odlDeviceList[i]['node-id']);
                 found = true;
                 break;
             }
         }
         if (!found) {
             newOdlElements.push(odlDeviceList[i])
-            odlString += (((i == 0) ? '' : '|') + ('%c' + odlDeviceList[i]['node-id'] + '%c'));
-            odlRules.push("color:yellow");
-            odlRules.push("color:inherit");
+            odlString += (((i == 0) ? '' : '|') + odlDeviceList[i]['node-id']);
         }
     }
     odlString += (']  (' + odlDeviceList.length + ')');
-    console.log(odlString, ...odlRules);
+    try {
+        console.log(odlString);
+    } catch (error) {
+        console.log("Too many ODL elements to print in console.")
+    }
     //
     // Shuffle the new elements (commented issue 757)
     //
@@ -832,24 +827,22 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     //
     // Calculate the new ODL-DL: [new odl elements shuffled] + [common es elements]
     //
-    let newRules = [];
     let newString = 'Device List (Updated): [';
     let newPiped = false;
     for (let i = 0; i < newOdlElements.length; i++) {
-        newString += (((i == 0) ? '' : '|') + ('%c' + newOdlElements[i]['node-id'] + '%c'));
-        newRules.push("color:yellow");
-        newRules.push("color:inherit");
+        newString += (((i == 0) ? '' : '|') + newOdlElements[i]['node-id']);
         newPiped = true;
     }
     for (let i = 0; i < commonEsElements.length; i++) {
-        newString += (((i == 0 && newPiped == false) ? '' : '|') + ('%c' + commonEsElements[i]['node-id'] + '%c'));
-        newRules.push("color:green");
-        newRules.push("color:inherit");
+        newString += (((i == 0 && newPiped == false) ? '' : '|') + commonEsElements[i]['node-id']);
         newPiped = true;
     }
     newString += (']  (' + odlDeviceList.length + ')');
-    console.log(newString, ...newRules);
-
+    try {
+        console.log(newString);
+    } catch (error) {
+        console.log("Too many updated device list elements to print in console.");
+    }
     //
     // Drop from ES all the elements not more present in ES-DL
     //

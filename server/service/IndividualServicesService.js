@@ -101,14 +101,16 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
           listLink.LinkList.splice(indexToRemove, 1);
           let elapsedTime = await recordRequest(listLink, "linkList");
         }
+        resolve();
+      } else {
+        let listLink = await ReadRecords("linkList");
+        if (listLink.LinkList.includes(correctLink)) {
+          let indexToRemove = listLink.LinkList.indexOf(correctLink);
+          listLink.LinkList.splice(indexToRemove, 1);
+          let elapsedTime = await recordRequest(listLink, "linkList");
+        }
+        throw new createHttpError.notFound(`unable to DELETE records for link ${correctLink}`);
       }
-      let listLink = await ReadRecords("linkList");
-      if (listLink.LinkList.includes(correctLink)) {
-        let indexToRemove = listLink.LinkList.indexOf(correctLink);
-        listLink.LinkList.splice(indexToRemove, 1);
-        let elapsedTime = await recordRequest(listLink, "linkList");
-      }
-      resolve();
     } catch (error) {
       reject(error);
     }
@@ -160,7 +162,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
         result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
         let elapsedTime = await recordRequest(result, correctLink);
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to DELETE records for linkport ${correctLink} / ${id}`);
       }
       resolve();
     } catch (error) {
@@ -2499,10 +2501,10 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
           let returnObject = { [topJsonWrapper]: [linkPortArray] };
           resolve(returnObject);
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+          throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
       }
     } catch (error) {
       reject(error);
@@ -9985,7 +9987,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       }
       let value = await ReadRecords(correctLink);
       let result = await ReadRecords("linkList");
-      if (result != undefined) {
+      if (value != undefined) {
         let objectKey = Object.keys(body)[0];
         let valueObjKey = Object.keys(value)[0];
         body = body[objectKey];
@@ -9996,7 +9998,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
         }
         let elapsedTime = await recordRequest(value, correctLink);
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`link >${correctLink}< not found in cache: cannot put linkport for unknown link`);
       }
       resolve();
     } catch (error) {
@@ -10739,7 +10741,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
       const key = await OperationClientInterface.getOperationKeyAsync(opLtpUuidOutput);
       const operation = await OperationClientInterface.getOperationNameAsync(opLtpUuidOutput);
       let traceIndicatorMod = traceIndicator + '.' + traceIndicatorIncrementer;
-      console.log("traceIndicator: " + traceIndicatorMod);
+      //console.log("traceIndicator: " + traceIndicatorMod);
       let httpRequestHeader = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(new RequestHeader(user, originator, xCorrelator, traceIndicatorMod, customerJourney, key));
       traceIndicatorIncrementer++;
       let httpRequestBody = {
@@ -11347,7 +11349,8 @@ async function recordRequest(body, cc) {
     let result = await client.index({
       index: indexAlias,
       id: cc,
-      body: body
+      body: body,
+      pipeline: "mwdi"
     });
     let backendTime = process.hrtime(startTime);
     if (result.body.result == 'created' || result.body.result == 'updated') {
@@ -11754,23 +11757,23 @@ function replaceFilterString(filter) {
 
 function isJsonEmpty(arr) {
   if (arr != undefined) {
-      if (Array.isArray(arr)) {
-          if (arr.length === 0) {
-              return true;
-          }
-          for (let obj of arr) {
-              // Se trovi un oggetto con almeno una chiave, l'array non è vuoto
-              if (Object.keys(obj).length > 0) {
-                  return false;
-              }
-          }
-          return true;
-      } else if (Object.keys(arr).length === 0) {
-          return true;
-      } else {
-          return false;
+    if (Array.isArray(arr)) {
+      if (arr.length === 0) {
+        return true;
       }
-  } else {
+      for (let obj of arr) {
+        // Se trovi un oggetto con almeno una chiave, l'array non è vuoto
+        if (Object.keys(obj).length > 0) {
+          return false;
+        }
+      }
       return true;
+    } else if (Object.keys(arr).length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return true;
   }
 }

@@ -70,7 +70,7 @@ async function sendRequest(device) {
             'node-id': device['node-id']
         };
     } catch (error) {
-        console.error(`Errore nella chiamata REST per il dispositivo ${device.node_id}:`, error.message);
+        console.error(`Error in REST call for ${device.node_id}:`, error.message);
         debugger;
     }
 }

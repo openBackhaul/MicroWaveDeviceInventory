@@ -69,11 +69,12 @@ async function createIndexTemplate() {
             template: {
                 settings: {
                     "index": {
-                      "mapping": {
-                        "total_fields": {
-                          "limit": "9000"                   
-                        }
-                      }
+                        "mapping": {
+                            "total_fields": {
+                                "limit": "9000"
+                            }
+                        },
+                        "mapping.ignore_malformed": true 
                     }
                 },
                 mappings: {
@@ -9582,11 +9583,15 @@ async function createIndexTemplate() {
                                                             }
                                                         },
                                                         "ptp-transparent-clock-default-dataset": {
-                                                            "type": "text",
-                                                            "fields": {
-                                                                "keyword": {
-                                                                    "type": "keyword",
-                                                                    "ignore_above": 256
+                                                            "properties": {
+                                                                "number-ports" : {
+                                                                    "type" : "text"
+                                                                },
+                                                                "primary-domain" : {
+                                                                    "type" : "text"
+                                                                },
+                                                                "delay-mechanism" : {
+                                                                    "type" : "text"
                                                                 }
                                                             }
                                                         }

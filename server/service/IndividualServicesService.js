@@ -28,6 +28,7 @@ const alarmHandler = require('./individualServices/alarmUpdater')
 
 const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
+const { getDeviceListInMemory } = require('./individualServices/CyclicProcessService/cyclicProcess');
 let lastSentMessages = [];
 
 /**
@@ -104,12 +105,14 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
         resolve();
       } else {
         let listLink = await ReadRecords("linkList");
-        if (listLink.LinkList.includes(correctLink)) {
-          let indexToRemove = listLink.LinkList.indexOf(correctLink);
-          listLink.LinkList.splice(indexToRemove, 1);
-          let elapsedTime = await recordRequest(listLink, "linkList");
+        if (listLink != undefined) {
+          if (listLink.LinkList.includes(correctLink)) {
+            let indexToRemove = listLink.LinkList.indexOf(correctLink);
+            listLink.LinkList.splice(indexToRemove, 1);
+            let elapsedTime = await recordRequest(listLink, "linkList");
+          }
         }
-        throw new createHttpError.notFound(`unable to DELETE records for link ${correctLink}`);
+        throw new createHttpError.NotFound(`unable to DELETE records for link ${correctLink}`);
       }
     } catch (error) {
       reject(error);
@@ -152,15 +155,17 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
-        //result = result[objectKey];
-        //const objectKeyParts = objectKey.split(":");
-        //let prefix = objectKeyParts[0];
-        //let topJsonWrapper = prefix + ":link-port";
-        //const linkPortArray = result[objectKey][0]["link-port"].filter(
-        //  port => port["local-id"] === localId
-        //);
-        result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
-        let elapsedTime = await recordRequest(result, correctLink);
+        if (result[objectKey][0] && Array.isArray(result[objectKey][0]["link-port"])) {
+          const index = result[objectKey][0]["link-port"].findIndex(port => port["local-id"] === id);
+          if (index !== -1) {
+            result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
+            let elapsedTime = await recordRequest(result, correctLink);
+          } else {
+            throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+          }
+        } else {
+          throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+        }
       } else {
         throw new createHttpError.NotFound(`unable to DELETE records for linkport ${correctLink} / ${id}`);
       }
@@ -2495,9 +2500,16 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
           const objectKeyParts = objectKey.split(":");
           let prefix = objectKeyParts[0];
           let topJsonWrapper = prefix + ":link-port";
-          const linkPortArray = result[0]["link-port"].find(
-            port => port["local-id"] === id
-          );
+          if (result[0] && Array.isArray(result[0]["link-port"])) {
+            const linkPortArray = result[0]["link-port"].find(
+              port => port["local-id"] === id
+            );
+          } else {
+            throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+          }
+          // const linkPortArray = result[0]["link-port"].find(
+          //   port => port["local-id"] === id
+          // );
           let returnObject = { [topJsonWrapper]: [linkPortArray] };
           resolve(returnObject);
         } else {
@@ -9990,15 +10002,22 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       if (value != undefined) {
         let objectKey = Object.keys(body)[0];
         let valueObjKey = Object.keys(value)[0];
-        body = body[objectKey];
-        for (let i = 0; i < body.length; i++) {
-          const linkPortArray = value[valueObjKey][0]["link-port"].push(
-            body[i]
-          );
+        let bodyCore = body[objectKey];
+        if (value[valueObjKey][0] && Array.isArray(value[valueObjKey][0]["link-port"])) {
+          for (let i = 0; i < bodyCore.length; i++) {
+            const linkPortArray = value[valueObjKey][0]["link-port"].push(
+              bodyCore[i]
+            );
+          }
+        } else {
+          value[valueObjKey].forEach(link => {
+            link["link-port"] = bodyCore;
+          });
+          //value[valueObjKey][0].push("link-port"[bodyCore]);
         }
         let elapsedTime = await recordRequest(value, correctLink);
       } else {
-        throw new createHttpError.NotFound(`link >${correctLink}< not found in cache: cannot put linkport for unknown link`);
+        throw new createHttpError.NotFound(`link ${correctLink} not found in cache: cannot put linkport for unknown link`);
       }
       resolve();
     } catch (error) {
@@ -11342,16 +11361,38 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
  * no response value expected for this operation
  **/
 async function recordRequest(body, cc) {
+  let pipelineExists = false;
+  let client = await common[1].EsClient;
+  try {
+    // Check if the pipeline exists
+    await client.ingest.getPipeline({ id: 'mwdi' });
+    pipelineExists = true;
+  } catch (error) {
+    if (error.statusCode === 404) {
+      // Pipeline does not exist
+      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+    } else {
+      // Other errors
+      console.error("An error occurred while checking the pipeline:", error);
+      throw error; // Re-throw the error if it's not a 404
+    }
+  }
+
   try {
     let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
     let startTime = process.hrtime();
-    let result = await client.index({
+
+    let indexParams = {
       index: indexAlias,
       id: cc,
-      body: body,
-      pipeline: "mwdi"
-    });
+      body: body
+    };
+
+    if (pipelineExists) {
+      indexParams.pipeline = 'mwdi';
+    }
+
+    let result = await client.index(indexParams);
     let backendTime = process.hrtime(startTime);
     if (result.body.result == 'created' || result.body.result == 'updated') {
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
@@ -11776,4 +11817,92 @@ function isJsonEmpty(arr) {
   } else {
     return true;
   }
+}
+
+exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      url = decodeURIComponent(url);
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const urlParts = url.split("?fields=");
+      const myFields = urlParts[1];
+
+      let correctCc = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, true);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+        return;
+      } else {
+        correctCc = mountname;
+      }
+      let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
+      const finalUrl = formatUrlForOdl(Url);
+      const Authorization = common[0].key;
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (result == false) {
+          resolve(NotFound());
+          throw new createHttpError.NotFound;
+        } else if (result.status != 200) {
+          if (result.statusText == undefined) {
+            resolve(result.status, result.message);
+            throw new createHttpError(result.status, result.message);
+          } else {
+            resolve(result.status, result.statusText);
+            throw new createHttpError(result.status, result.statusText);
+          }
+        } else if (await checkMountNameInDeviceList(correctCc)) {
+          let jsonObj = result.data;
+          modificaUUID(jsonObj, correctCc);
+          if (myFields === undefined) {
+            try {
+              let elapsedTime = await recordRequest(jsonObj, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(jsonObj);
+            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+            resolve(res);
+          } else {
+            let filters = true;
+            // Update record on ES
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            try {
+              // read from ES
+              let result1 = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result1, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(jsonObj)
+            let splittedUrl = url.split('?');
+            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+            resolve(res);
+          }
+
+        } else {
+          console.log(new createHttpError.BadRequest);
+          resolve(new createHttpError.BadRequest);
+        }
+      }
+    }
+    catch (error) {
+      console.error(error);
+      reject(error);
+    }
+
+  });
+}
+
+async function checkMountNameInDeviceList(mountName) {
+  let list = await getDeviceListInMemory();
+  return list.some(device => device['node-id'] === mountName);
 }

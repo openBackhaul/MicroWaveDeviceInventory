@@ -50,7 +50,7 @@ async function sendRequest(device) {
 
         let responseCode = "";
         let responseBodyToDocument = {};
-        let ret = await individualServicesService.getLiveControlConstruct(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
+        let ret = await individualServicesService.getLiveControlConstructFromSW(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
 
         if (procedureIsRunning == false) {
             return;
@@ -913,4 +913,8 @@ module.exports.stopCyclicProcess = async function stopCyclicProcess() {
     procedureIsRunning = false;
     clearInterval(periodicSynchTimerId);
     clearInterval(ttlCheckingTimerId);
+}
+
+module.exports.getDeviceListInMemory = async function getDeviceListInMemory(){
+    return deviceList;
 }

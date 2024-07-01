@@ -186,6 +186,12 @@ function printLog(text, print_log) {
     }
 }
 
+async function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
 /**
  * Sets the timestamp to a deviceList element indexed by its node-id
  */
@@ -290,11 +296,7 @@ async function requestMessage(index) {
             }
             console.log(consoleMsg);
         }
-        function sleep(ms) {
-            return new Promise((resolve) => {
-                setTimeout(resolve, ms);
-            });
-        }
+        
         sendRequest(slidingWindow[index]).then(async retObj => {
             let busy = true;
             let steps = 0;

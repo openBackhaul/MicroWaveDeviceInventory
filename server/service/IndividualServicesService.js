@@ -141,7 +141,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       let correctLink = null;
       let link = uuid;//decodeLinkUuid(url, true);
       let id = localId;
-      var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      var format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
@@ -10217,6 +10217,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       let currentJSON = body[objectKey];
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
+      let attributeName = currentJSON['attribute-name'];
       let jsonObj = "";
       url = decodeURIComponent(url);
 
@@ -10238,6 +10239,8 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         } else {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
+      } else if (!hasAttribute(resRequestor, attributeName)) {
+        throw new createHttpError.BadRequest;
       } else {
         let appInformation = await notificationManagement.getAppInformation();
         const releaseNumber = appInformation["release-number"];
@@ -11630,10 +11633,10 @@ function decodeLinkUuid(url, uuid) {
     let extractedValue = "";
     if (uuid) {
       regex = /link=([^?&]*)(\?fields|$)?/;
-      specialChars = /[^a-zA-Z0-9+]/;
+      specialChars = /[^a-zA-Z0-9+-]/;
     } else {
       regex = /link=([^/]+)\/?/;
-      specialChars = /[^a-zA-Z0-9+]/;
+      specialChars = /[^a-zA-Z0-9+-]/;
     }
     const match = decodeURIComponent(url).match(regex);
 
@@ -11905,4 +11908,30 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
 async function checkMountNameInDeviceList(mountName) {
   let list = await getDeviceListInMemory();
   return list.some(device => device['node-id'] === mountName);
+}
+
+function hasAttribute(json, attributeName) {
+  if (typeof json === 'object' && json !== null) {
+    // Controlla se l'attributo è presente a questo livello
+    if (json.hasOwnProperty(attributeName)) {
+      return true;
+    }
+    // Altrimenti, itera sulle proprietà dell'oggetto
+    for (let key in json) {
+      if (json.hasOwnProperty(key)) {
+        if (hasAttribute(json[key], attributeName)) {
+          return true;
+        }
+      }
+    }
+  }
+  // Se json è un array, itera sugli elementi
+  if (Array.isArray(json)) {
+    for (let item of json) {
+      if (hasAttribute(item, attributeName)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }

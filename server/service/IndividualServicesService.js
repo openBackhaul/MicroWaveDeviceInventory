@@ -1238,7 +1238,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (Object.keys(finalJson)[0] === "0") {
+            if (isJsonEmpty(finalJson)) {
               throw new createHttpError.BadRequest;
             }
           }
@@ -10239,7 +10239,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         } else {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
-      } else if (!hasAttribute(resRequestor, attributeName)) {
+      } else if (!hasAttribute(resRequestor.data, attributeName)) {
         throw new createHttpError.BadRequest;
       } else {
         let appInformation = await notificationManagement.getAppInformation();
@@ -11912,20 +11912,20 @@ async function checkMountNameInDeviceList(mountName) {
 
 function hasAttribute(json, attributeName) {
   if (typeof json === 'object' && json !== null) {
-    // Controlla se l'attributo è presente a questo livello
-    if (json.hasOwnProperty(attributeName)) {
+    // Check if the attribute is at this level
+    if (Object.hasOwnProperty.bind(json)(attributeName)) {
       return true;
     }
-    // Altrimenti, itera sulle proprietà dell'oggetto
+    // Otherwise loop in the object properties
     for (let key in json) {
-      if (json.hasOwnProperty(key)) {
+      if (Object.hasOwnProperty.bind(json)(key)) {
         if (hasAttribute(json[key], attributeName)) {
           return true;
         }
       }
     }
   }
-  // Se json è un array, itera sugli elementi
+  // if json is an array, loop over the elements
   if (Array.isArray(json)) {
     for (let item of json) {
       if (hasAttribute(item, attributeName)) {

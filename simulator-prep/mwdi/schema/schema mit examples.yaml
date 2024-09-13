@@ -1,0 +1,396 @@
+/v1/regard-controller-attribute-value-change:
+  none (204)
+
+/v1/regard-device-alarm:
+  none (204)
+
+/v1/regard-device-attribute-value-change:
+  none (204)
+
+/v1/regard-device-object-creation:
+  none (204)
+
+/v1/regard-device-object-deletion:
+  none (204)
+
+
+/v1/provide-list-of-connected-devices:
+  type: object
+  required:
+    - mount-name-list
+  properties:
+    mount-name-list:
+      type: array
+      items:
+        type: string
+
+example:
+  mount-name-list:
+    - '305251234'
+    - '105258888'
+
+
+/v1/provide-list-of-device-interfaces:
+  type: object
+  required:
+    - logical-termination-point-list
+  properties:
+    logical-termination-point-list:
+      type: array
+      items:
+        type: object
+        required:
+          - uuid
+          - local-id
+          - layer-protocol-name
+        properties:
+          uuid:
+            type: string
+          local-id:
+            type: string
+          layer-protocol-name:
+            type: string
+
+  example:
+    logical-termination-point-list:
+      - uuid: '513250010-ETY-2134638978'
+        local-id: '2134638978'
+        layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+      - uuid: '513250010-RF-2146697857'
+        local-id: '2146697857'
+        layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+
+/v1/provide-list-of-actual-device-equipment:
+  type: object
+  required:
+    - top-level-equipment
+    - actual-equipment-list
+  properties:
+    top-level-equipment:
+      type: array
+      items:
+        type: string
+    actual-equipment-list:
+      type: array
+      items:
+        type: object
+        required:
+          - uuid
+          - equipment-type-name
+        properties:
+          uuid:
+            type: string
+          equipment-type-name:
+            type: string
+
+  example:
+    top-level-equipment:
+      - 'HUAWEI-EQUIPMENT-1'
+    actual-equipment-list:
+      - uuid: '222250001-HUAWEI-EQUIPMENT-1'
+        equipment-type-name: 'OptiXRTN950'
+      - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
+        equipment-type-name: 'SL91EG4'
+
+/v1/provide-list-of-parallel-links:
+  type: object
+  required:
+    - parallel-link-list
+  properties:
+    parallel-link-list:
+      type: array
+      items:
+        type: string
+
+example:
+  parallel-link-list:
+    - '305551234'
+    - '305551235'
+
+/v1/notify-attribute-value-changes:
+  none (204)
+
+/v1/notify-object-creations:
+  none (204)
+
+/v1/notify-object-deletions:
+  none (204)
+
+
+
+# beim matr war ein test fehlgeschlagen - war das der mit anyof? da muss man beim schema ggf. vorsichtig sein
+# (prüfen, ob das einfach so konvertiert und dann eingebaut werden kann...)
+# beim linkport service analog
+/core-model-1-4:network-control-domain=cache/link={uuid}:
+  get:
+    type: object
+    properties:
+      core-model-1-4:link:
+        type: array
+        items:
+          oneOf:
+            - description: 'generic'
+              type: object
+              required:
+                - uuid
+                - layer-protocol-name
+                - link-direction
+                - forwarding-domain
+                - link-port
+              properties:
+                uuid:
+                  type: string
+                layer-protocol-name:
+                  type: string
+                link-direction:
+                  type: string
+                  enum:
+                    - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                    - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                    - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                    - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+                forwarding-domain:
+                  type: array
+                  items:
+                    type: string
+                link-port:
+                  type: array
+                  items:
+                    oneOf:
+                      - description: 'generic'
+                        type: object
+                        required:
+                          - local-id
+                          - link-port-direction
+                          - logical-termination-point
+                        properties:
+                          local-id:
+                            type: string
+                          link-port-direction:
+                            type: string
+                            enum:
+                              - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                              - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                              - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                              - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                              - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                          logical-termination-point:
+                            type: string
+            - description: 'minimum for rest'
+              type: object
+              required:
+                - uuid
+                - layer-protocol-name
+                - end-point-list
+              properties:
+                uuid:
+                  type: string
+                layer-protocol-name:
+                  type: string
+                end-point-list:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - control-construct
+                      - logical-termination-point
+                      - layer-protocol
+                    properties:
+                      control-construct:
+                        type: string
+                      logical-termination-point:
+                        type: string
+                      layer-protocol:
+                        type: string
+
+  examples:
+    generic:
+      value:
+        core-model-1-4:link:
+          - uuid: 'genericLink1'
+            layer-protocol-name: 'layer protocol name for the link'
+            link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+            forwarding-domain:
+              - 'forwarding domain entry'
+            link-port:
+              - local-id: '1'
+                link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                logical-termination-point: 'mountnameA+ltpA'
+              - local-id: '2'
+                link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                logical-termination-point: 'mountnameB+ltpB'
+    minimum-for-rest:
+      value:
+        core-model-1-4:link:
+          - uuid: '513559996'
+            layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+            end-point-list:
+              - control-construct: '513250009'
+                logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+              - control-construct: '513250008'
+                logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+          - uuid: '513559997'
+            layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+            end-point-list:
+              - control-construct: '513250009'
+                logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
+                layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
+              - control-construct: '513250008'
+                logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
+                layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
+  put:
+    none (204)
+  delete:
+    none (204)
+
+
+# bleiben die konkreten Enum-Werte im Schema?
+# im matr kein schema mit enum, aber ggf. im ALAP (oder anderer App mit Simulator)
+/core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}:
+  get:
+    type: object
+    properties:
+      core-model-1-4:link-port:
+        type: array
+        items:
+          oneOf:
+            - description: 'generic'
+              type: object
+              required:
+                - local-id
+                - link-port-direction
+                - logical-termination-point
+              properties:
+                local-id:
+                  type: string
+                link-port-direction:
+                  type: string
+                  enum:
+                    - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                    - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                    - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                    - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                    - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                logical-termination-point:
+                  type: string
+
+    examples:
+      generic:
+        value:
+          core-model-1-4:link-port:
+            - local-id: '1'
+              link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+              logical-termination-point: 'mountnameA+ltpA'
+            - local-id: '2'
+              link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+              logical-termination-point: 'mountnameB+ltpB'
+  put:
+    none (204)
+  delete:
+    none (204)
+
+
+
+
+SCHEMA_COMPONENTS:
+----------
+LINK_PORT:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - local-id
+            - link-port-direction
+            - logical-termination-point
+          properties:
+            local-id:
+              type: string
+            link-port-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+            logical-termination-point:
+              type: string
+
+
+LINK:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - link-direction
+            - forwarding-domain
+            - link-port
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            link-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+            forwarding-domain:
+              type: array
+              items:
+                type: string
+            link-port:
+              type: array
+              items:
+                oneOf:
+                  - description: 'generic'
+                    type: object
+                    required:
+                      - local-id
+                      - link-port-direction
+                      - logical-termination-point
+                    properties:
+                      local-id:
+                        type: string
+                      link-port-direction:
+                        type: string
+                        enum:
+                          - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                          - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                          - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                      logical-termination-point:
+                        type: string
+        - description: 'minimum for rest'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - end-point-list
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            end-point-list:
+              type: array
+              items:
+                type: object
+                required:
+                  - control-construct
+                  - logical-termination-point
+                  - layer-protocol
+                properties:
+                  control-construct:
+                    type: string
+                  logical-termination-point:
+                    type: string
+                  layer-protocol:
+                    type: string

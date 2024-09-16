@@ -1,0 +1,60 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://127.0.0.1:4015",
+				"pathToControlConstruct": "",
+				"authorizationCode": "Basic ????",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "MWDI_1.1.2+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "mwdiSimulator",
+				"server": "http://localhost:3001",
+				"pathToControlConstruct": "",
+				"authorizationCode": "Basic ????",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "MWDI_1.1.2+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "MwdiCompleteness_server",
+				"serverToBeApplied": "Mwdi",
+				"mountName": "513250011",
+				"linkId": "101550001",
+				"genericLink": "genericLink1",
+				"mfrLink": "mfrLink1",
+				"linkPort": "1",
+				"TODO": "PARAMETER FÜR NOTIFICATIONSERVICE REQUESTBODIES",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "MwdiCompleteness_simulator",
+				"serverToBeApplied": "MwdiSimulator",
+				"mountName": "513250010",
+				"linkId": "101550001",
+				"genericLink": "genericLink1",
+				"mfrLink": "mfrLink1",
+				"linkPort": "1",
+				"TODO": "PARAMETER FÜR NOTIFICATIONSERVICE REQUESTBODIES",
+				"kindOfReference": "static",
+				"suffixUrlEncodingIsRequired": true
+			}
+		]
+	}
+]

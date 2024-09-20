@@ -1331,7 +1331,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /core-model-1-4:network-control-domain=cache/link=genericLink          /link-port=1:
+  /core-model-1-4:network-control-domain=cache/link=genericLink1/link-port=1:
     # path is: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}
     # for simulation parameters were replaced with actual sample values (uuid=genericLink          , localId=1)
     parameters:

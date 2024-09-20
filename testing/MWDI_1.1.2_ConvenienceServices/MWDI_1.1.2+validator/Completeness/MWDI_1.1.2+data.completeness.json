@@ -20,7 +20,7 @@
 			},
 			{
 				"serverName": "mwdiSimulator",
-				"server": "http://localhost:3001",
+				"server": "http://localhost:3000",
 				"pathToControlConstruct": "",
 				"authorizationCode": "Basic ????",
 				"operationKey": "Operation key not yet provided.",
@@ -34,24 +34,22 @@
 		"collectionInputList": [
 			{
 				"collectionName": "MwdiCompleteness_server",
-				"serverToBeApplied": "Mwdi",
+				"serverToBeApplied": "mwdi",
 				"mountName": "513250011",
 				"linkId": "101550001",
 				"genericLink": "genericLink1",
 				"mfrLink": "mfrLink1",
 				"linkPort": "1",
-				"TODO": "PARAMETER FÜR NOTIFICATIONSERVICE REQUESTBODIES",
 				"kindOfReference": "dynamic"
 			},
 			{
 				"collectionName": "MwdiCompleteness_simulator",
-				"serverToBeApplied": "MwdiSimulator",
+				"serverToBeApplied": "mwdiSimulator",
 				"mountName": "513250010",
 				"linkId": "101550001",
 				"genericLink": "genericLink1",
 				"mfrLink": "mfrLink1",
 				"linkPort": "1",
-				"TODO": "PARAMETER FÜR NOTIFICATIONSERVICE REQUESTBODIES",
 				"kindOfReference": "static",
 				"suffixUrlEncodingIsRequired": true
 			}

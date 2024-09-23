@@ -1,167 +1,442 @@
-#ndlp reference
+forwardings:
 
-servers:
+  - forwarding-name: PromptForRegisteringCausesRegistrationRequest
+    uuid: ndlp-1-0-0-op-fc-bm-999
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/register-yourself
+          uuid: ndlp-1-0-0-op-s-bm-000
+      fc-port-update:
+        - server-name: /v1/register-yourself
+          uuid: ndlp-1-0-0-op-s-bm-000
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: ndlp-1-0-0-op-s-bm-000
+    consequent-requests:
+      - client-name: RegistryOffice://v2/register-application
+        uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-000
 
+  - forwarding-name: PromptForRegisteringCausesRegistrationRequest2
+    uuid: ndlp-1-0-0-op-fc-bm-000
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/register-yourself
+          uuid: ndlp-1-0-0-op-s-bm-000
+      fc-port-update:
+        - server-name: /v1/register-yourself
+          uuid: ndlp-1-0-0-op-s-bm-000
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: ndlp-1-0-0-op-s-bm-000
+    consequent-requests:
+      - client-name: RegistryOffice://v2/register-application
+        uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-000
 
-clients:
+  - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
+    uuid: ndlp-1-0-0-op-fc-bm-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: ndlp-1-0-0-op-s-bm-001
+    consequent-requests:
+      - client-name: OldRelease://v1/bequeath-your-data-and-die
+        uuid: ndlp-1-0-0-op-c-bm-or-1-0-0-000
 
+  - forwarding-name: ServiceRequestCausesLoggingRequest
+    uuid: ndlp-1-0-0-op-fc-bm-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-service-request-information
+          uuid: ndlp-1-0-0-op-s-bm-002
+      fc-port-update:
+        - server-name: /v1/redirect-service-request-information
+          uuid: ndlp-1-0-0-op-s-bm-002
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: ndlp-1-0-0-op-s-bm-000
+      - server-name: /v1/embed-yourself
+        uuid: ndlp-1-0-0-op-s-bm-001
+      - server-name: /v1/redirect-service-request-information
+        uuid: ndlp-1-0-0-op-s-bm-002
+      - server-name: /v1/redirect-oam-request-information
+        uuid: ndlp-1-0-0-op-s-bm-003
+      - server-name: /v1/end-subscription
+        uuid: ndlp-1-0-0-op-s-bm-004
+      - server-name: /v1/inquire-oam-request-approvals
+        uuid: ndlp-1-0-0-op-s-bm-005
+      - server-name: /v1/update-client
+        uuid: ndlp-1-0-0-op-s-bm-007
+      - server-name: /v1/list-ltps-and-fcs
+        uuid: ndlp-1-0-0-op-s-bm-008
+      - server-name: /v1/redirect-topology-change-information
+        uuid: ndlp-1-0-0-op-s-bm-009
+      - server-name: /v1/update-operation-key
+        uuid: ndlp-1-0-0-op-s-bm-010
+      - server-name: /v1/update-operation-client
+        uuid: ndlp-1-0-0-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: ndlp-1-0-0-op-s-bm-012
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: ndlp-1-0-0-op-s-bm-013
+      - server-name: /v1/inform-about-preceding-release
+        uuid: ndlp-1-0-0-op-s-bm-014
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: ndlp-1-0-0-op-s-bm-015
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: ndlp-1-0-0-op-s-im-000
+      - server-name: /v1/start-application-in-generic-representation
+        uuid: ndlp-1-0-0-op-s-bs-000
+      - server-name: /v1/inform-about-application
+        uuid: ndlp-1-0-0-op-s-bs-001
+      - server-name: /v1/inform-about-application-in-generic-representation
+        uuid: ndlp-1-0-0-op-s-bs-002
+      - server-name: /v1/inform-about-release-history
+        uuid: ndlp-1-0-0-op-s-bs-003
+      - server-name: /v1/inform-about-release-history-in-generic-representation
+        uuid: ndlp-1-0-0-op-s-bs-004
+      - server-name: /docs
+        uuid: ndlp-1-0-0-op-s-bs-005
+      - server-name: /v1/provide-list-of-connected-devices
+        uuid: ndlp-1-0-0-op-s-is-010
+      - server-name: /v1/provide-inventory-data-of-device
+        uuid: ndlp-1-0-0-op-s-is-011
+    consequent-requests:
+      - client-name: ExecutionAndTraceLog://v1/record-service-request
+        uuid: ndlp-1-0-0-op-c-bs-eatl-2-1-2-000
 
-  - http-client:
-      application-name: RegistryOffice
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-ro-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3031
-      uuid: ndlp-1-0-0-tcp-c-ro-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-          - operation-name: /v2/register-application
-            uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-000
-          - operation-name: /v1/relay-server-replacement
-            uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-001
-          - operation-name: /v1/deregister-application
-            uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-002
-          - operation-name: /v1/relay-operation-update
-            uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-003
-        individual:
-      service:
-        basic:
-        individual:
+  - forwarding-name: OamRequestCausesLoggingRequest
+    uuid: ndlp-1-0-0-op-fc-bm-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-oam-request-information
+          uuid: ndlp-1-0-0-op-s-bm-003
+      fc-port-update:
+        - server-name: /v1/redirect-oam-request-information
+          uuid: ndlp-1-0-0-op-s-bm-003
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # [all oam requests]
+    consequent-requests:
+      - client-name: OamLog://v1/record-oam-request
+        uuid: ndlp-1-0-0-op-c-bs-ol-2-1-2-000
 
-  - http-client:
-      application-name: TypeApprovalRegister
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-tar-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3032
-      uuid: ndlp-1-0-0-tcp-c-tar-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-        individual:
+  - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
+    uuid: ndlp-1-0-0-op-fc-bm-005
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: ndlp-1-0-0-op-s-bm-012
+        - server-name: /v1/inquire-oam-request-approvals
+          uuid: ndlp-1-0-0-op-s-bm-005
+      fc-port-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: ndlp-1-0-0-op-s-bm-012
+        - server-name: /v1/inquire-oam-request-approvals
+          uuid: ndlp-1-0-0-op-s-bm-005
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # [all oam requests]
+    consequent-requests:
+      - client-name: AccessAdministration://v1/approve-basic-auth-request
+        uuid: ndlp-1-0-0-op-c-bs-aa-2-1-2-000
 
-  - http-client:
-      application-name: ExecutionAndTraceLog
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-eatl-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3033
-      uuid: ndlp-1-0-0-tcp-c-eatl-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-          - operation-name: /v1/record-service-request
-            uuid: ndlp-1-0-0-op-c-bs-eatl-2-1-2-000
-        individual:
+  - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
+    uuid: ndlp-1-0-0-op-fc-bm-105
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: ndlp-1-0-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: ndlp-1-0-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: ndlp-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/relay-server-replacement
+        uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-001
 
-  - http-client:
-      application-name: OamLog
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-ol-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3034
-      uuid: ndlp-1-0-0-tcp-c-ol-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-          - operation-name: /v1/record-oam-request
-            uuid: ndlp-1-0-0-op-c-bs-ol-2-1-2-000
-        individual:
+  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
+    uuid: ndlp-1-0-0-op-fc-bm-106
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: ndlp-1-0-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: ndlp-1-0-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: ndlp-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/deregister-application
+        uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-002
 
-  - http-client:
-      application-name: AccessAdministration
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-aa-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3035
-      uuid: ndlp-1-0-0-tcp-c-aa-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-          - operation-name: /v1/approve-basic-auth-request
-            uuid: ndlp-1-0-0-op-c-bs-aa-2-1-2-000
-        individual:
+  - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
+    uuid: ndlp-1-0-0-op-fc-bm-107
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: ndlp-1-0-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: ndlp-1-0-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/update-client
+        uuid: ndlp-1-0-0-op-s-bm-007
+    consequent-requests:
+      - client-name: RegistryOffice://v1/relay-operation-update
+        uuid: ndlp-1-0-0-op-c-bm-ro-2-1-2-003
 
-  - http-client:
-      application-name: ApplicationLayerTopology
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-alt-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3036
-      uuid: ndlp-1-0-0-tcp-c-alt-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-          - operation-name: /v1/update-all-ltps-and-fcs
-            uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-000
-          - operation-name: /v1/update-ltp
-            uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-001
-          - operation-name: /v1/delete-ltp-and-dependents
-            uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-002
-          - operation-name: /v1/update-fc
-            uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-003
-          - operation-name: /v1/update-fc-port
-            uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-004
-          - operation-name: /v1/delete-fc-port
-            uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-005
-        individual:
-      service:
-        basic:
-        individual:
+  - forwarding-name: ServiceRequestCausesLtpUpdateRequest
+    uuid: ndlp-1-0-0-op-fc-bm-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: ndlp-1-0-0-op-s-bm-000
+      - server-name: /v1/embed-yourself
+        uuid: ndlp-1-0-0-op-s-bm-001
+      - server-name: /v1/redirect-service-request-information
+        uuid: ndlp-1-0-0-op-s-bm-002
+      - server-name: /v1/redirect-oam-request-information
+        uuid: ndlp-1-0-0-op-s-bm-003
+      - server-name: /v1/inquire-oam-request-approvals
+        uuid: ndlp-1-0-0-op-s-bm-005
+      - server-name: /v1/update-client
+        uuid: ndlp-1-0-0-op-s-bm-007
+      - server-name: /v1/redirect-topology-change-information
+        uuid: ndlp-1-0-0-op-s-bm-009
+      - server-name: /v1/update-operation-client
+        uuid: ndlp-1-0-0-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: ndlp-1-0-0-op-s-bm-012
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: ndlp-1-0-0-op-s-bm-015
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: ndlp-1-0-0-op-s-im-000
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-001
 
-  - http-client:
-      application-name: OperationKeyManagement
-      release-number: 2.1.2
-      uuid: ndlp-1-0-0-http-c-okm-2-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 3037
-      uuid: ndlp-1-0-0-tcp-c-okm-2-1-2-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-        individual:
+  - forwarding-name: ServiceRequestCausesLtpDeletionRequest
+    uuid: ndlp-1-0-0-op-fc-bm-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: ndlp-1-0-0-op-s-bm-013
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-002
 
-  - http-client:
-      application-name: MicroWaveDeviceInventory
-      release-number: 1.1.2
-      uuid: ndlp-1-0-0-http-c-mwdi-1-1-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 4015
-      uuid: ndlp-1-0-0-tcp-c-mwdi-1-1-2-000
-    operation-clients:
-      - operation-name: /v1/provide-list-of-connected-devices
+  - forwarding-name: ServiceRequestCausesFcUpdateRequest
+    uuid: ndlp-1-0-0-op-fc-bm-008
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-003
+
+  - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
+    uuid: ndlp-1-0-0-op-fc-bm-009
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-004
+
+  - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
+    uuid: ndlp-1-0-0-op-fc-bm-010
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/end-subscription
+        uuid: ndlp-1-0-0-op-s-bm-004
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-005
+
+  - forwarding-name: OamRequestCausesLtpUpdateRequest
+    uuid: ndlp-1-0-0-op-fc-bm-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-001
+
+  - forwarding-name: OamRequestCausesLtpDeletionRequest
+    uuid: ndlp-1-0-0-op-fc-bm-012
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-002
+
+  - forwarding-name: OamRequestCausesFcUpdateRequest
+    uuid: ndlp-1-0-0-op-fc-bm-013
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-003
+
+  - forwarding-name: OamRequestCausesFcPortUpdateRequest
+    uuid: ndlp-1-0-0-op-fc-bm-014
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-004
+
+  - forwarding-name: OamRequestCausesFcPortDeletionRequest
+    uuid: ndlp-1-0-0-op-fc-bm-015
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: ndlp-1-0-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: ndlp-1-0-0-op-c-bm-alt-2-1-2-005
+
+  - forwarding-name: PromptForProvidingListOfConnectedDeviceCausesReadingMwdiDeviceList
+    uuid: nep-1-0-0-op-fc-is-010
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-list-of-connected-devices
+        uuid: nep-1-0-0-op-s-is-010
+    consequent-requests:
+      - client-name: MWDI://v1/provide-list-of-connected-devices
         uuid: ndlp-1-0-0-op-c-is-mwdi-1-1-2-010
-      - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}
+
+  - forwarding-name: RequestForProvidingInventoryDataOfDeviceCausesFilteredRequestToMwdi
+    uuid: nep-1-0-0-op-fc-is-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-inventory-data-of-device
+        uuid: nep-1-0-0-op-s-is-011
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
         uuid: ndlp-1-0-0-op-c-is-mwdi-1-1-2-100

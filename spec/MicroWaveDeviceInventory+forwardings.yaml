@@ -17,7 +17,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-bm-000
     consequent-requests:
       - client-name: RegistryOffice://v1/register-application
-        uuid: mwdi-1-2-0-op-c-bm-ro-2-0-1-000
+        uuid: mwdi-1-2-0-op-c-bm-ro-2-1-2-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
     uuid: mwdi-1-2-0-op-fc-bm-001
@@ -433,7 +433,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-is-574
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
-        uuid: mwdi-1-2-0-op-c-bs-eatl-2-0-1-000
+        uuid: mwdi-1-2-0-op-c-bs-eatl-2-1-2-000
 
 
   - forwarding-name: OamRequestCausesLoggingRequest
@@ -451,7 +451,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: OamLog://v1/record-oam-request
-        uuid: mwdi-1-2-0-op-c-bs-ol-2-0-1-000
+        uuid: mwdi-1-2-0-op-c-bs-ol-2-1-2-000
 
   - forwarding-name: OamRequestCausesInquiryForAuthentication
     uuid: mwdi-1-2-0-op-fc-bm-004
@@ -468,7 +468,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: AdministratorAdministration://v1/approve-oam-request
-        uuid: mwdi-1-2-0-op-c-bs-aa-2-0-1-000
+        uuid: mwdi-1-2-0-op-c-bs-aa-2-1-2-000
 
 
   - forwarding-name: PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
@@ -549,7 +549,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice://v1/relay-server-replacement
-        uuid: mwdi-1-2-0-op-c-bm-ro-2-0-1-001
+        uuid: mwdi-1-2-0-op-c-bm-ro-2-1-2-001
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
     uuid: mwdi-1-2-0-op-fc-bm-106
@@ -568,7 +568,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice://v1/deregister-application
-        uuid: mwdi-1-2-0-op-c-bm-ro-2-0-1-002
+        uuid: mwdi-1-2-0-op-c-bm-ro-2-1-2-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
     uuid: mwdi-1-2-0-op-fc-bm-107
@@ -587,7 +587,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-bm-007
     consequent-requests:
       - client-name: RegistryOffice://v1/relay-operation-update
-        uuid: mwdi-1-2-0-op-c-bm-ro-2-0-1-003
+        uuid: mwdi-1-2-0-op-c-bm-ro-2-1-2-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
     uuid: mwdi-1-2-0-op-fc-bm-006
@@ -628,7 +628,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-is-022
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-001
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
     uuid: mwdi-1-2-0-op-fc-bm-007
@@ -647,7 +647,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-bm-004
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-002
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
     uuid: mwdi-1-2-0-op-fc-bm-008
@@ -664,7 +664,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-003
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
     uuid: mwdi-1-2-0-op-fc-bm-009
@@ -687,7 +687,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-is-022
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-004
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
     uuid: mwdi-1-2-0-op-fc-bm-010
@@ -706,7 +706,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-bm-004
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-005
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
     uuid: mwdi-1-2-0-op-fc-bm-011
@@ -723,7 +723,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-001
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
     uuid: mwdi-1-2-0-op-fc-bm-012
@@ -740,7 +740,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-002
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
     uuid: mwdi-1-2-0-op-fc-bm-013
@@ -757,7 +757,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-003
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
     uuid: mwdi-1-2-0-op-fc-bm-014
@@ -774,7 +774,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-004
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
     uuid: mwdi-1-2-0-op-fc-bm-015
@@ -791,7 +791,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: mwdi-1-2-0-op-c-bm-alt-2-0-1-005
+        uuid: mwdi-1-2-0-op-c-bm-alt-2-1-2-005
 
 
   - forwarding-name: NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct

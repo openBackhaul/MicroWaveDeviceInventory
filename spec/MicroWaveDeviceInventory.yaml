@@ -19135,7 +19135,7 @@ paths:
                     'Port of application that shall approve the OaM requests
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                oam-approval-application: 'AdministratorAdministration'
+                oam-approval-application: 'AccessAdministration'
                 oam-approval-application-release-number: '2.1.2'
                 oam-approval-operation: '/v1/approve-oam-request'
                 oam-approval-protocol: 'HTTP'
@@ -19213,12 +19213,12 @@ paths:
                         application-name:
                           type: string
                           description: >
-                            'Own application name for the AdministratorAdministration to check, whether this application is part of the SDN at all
+                            'Own application name for the AccessAdministration to check, whether this application is part of the SDN at all
                             from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         release-number:
                           type: string
                           description: >
-                            'Own application release number for the AdministratorAdministration to check, whether this application is part of the SDN at all
+                            'Own application release number for the AccessAdministration to check, whether this application is part of the SDN at all
                             from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         Authorization:
                           type: string

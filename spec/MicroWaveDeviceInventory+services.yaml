@@ -889,7 +889,7 @@ clients:
         individual:
 
   - http-client:
-      application-name: AdministratorAdministration
+      application-name: AccessAdministration
       release-number: 2.1.2
       uuid: mwdi-1-2-0-http-c-aa-2-1-2-000
     tcp-client:

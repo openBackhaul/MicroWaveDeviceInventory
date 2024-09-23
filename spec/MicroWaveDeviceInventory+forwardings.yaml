@@ -467,7 +467,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: AdministratorAdministration://v1/approve-oam-request
+      - client-name: AccessAdministration://v1/approve-oam-request
         uuid: mwdi-1-2-0-op-c-bs-aa-2-1-2-000
 
 

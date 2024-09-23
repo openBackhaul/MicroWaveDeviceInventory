@@ -1,0 +1,545 @@
+  /v1/inquire-basic-auth-approvals:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: inquireBasicAuthRequestApprovals
+      summary: 'Receives information about where to ask for approval of BasicAuth requests'
+      tags:
+        - BasicServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - application-name
+                - release-number
+                - operation-name
+                - protocol
+                - address
+                - port
+              properties:
+                application-name:
+                  type: string
+                  description: >
+                    'Name of the application that approves the BasicAuth requests
+                    find or update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-aa-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                  description: >
+                    'Release of the application that approves the BasicAuth requests
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-aa-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                operation-name:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'Operation for approving the BasicAuth requests
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-bs-aa-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used for addressing the application that approves the BasicAuth requests
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IPv4 address of the application that approves the BasicAuth requests
+                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name of the application that approves the BasicAuth requests
+                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'Port of the application that approves the BasicAuth requests
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+              example:
+                application-name: 'AccessApplication'
+                release-number: '43.2.4'
+                operation-name: '/v1/approve-basic-auth-request'
+                protocol: 'HTTP'
+                address:
+                  ip-address:
+                    ipv-4-address: '1.1.3.1'
+                port: 3001
+      responses:
+        '204':
+          description: 'Informed about where to inquire for approval of BasicAuth requests'
+          headers:
+            x-correlator:
+              schema:
+                type: string
+                example: '550e8400-e29b-11d4-a716-446655440000'
+              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+            exec-time:
+              schema:
+                type: integer
+                example: 1100
+              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+            backend-time:
+              schema:
+                type: integer
+                example: 850
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        BasicAuthRequestCausesInquiryForAuthentication:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-bs-aa-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - Authorization
+                        - application-name
+                        - release-number
+                        - operation-name
+                        - method
+                      properties:
+                        Authorization:
+                          type: string
+                          description: >
+                            'Authorization code
+                            from {$request.parameters#Authorization} of the BasicAuth request that initiates the inquiry for approval'
+                        application-name:
+                          type: string
+                          description: >
+                            'Own application name
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
+                        release-number:
+                          type: string
+                          description: >
+                            'Own application release number
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
+                        operation-name:
+                          type: string
+                          description: >
+                            'Path (could be service, could be OaM path) that has been addressed by the BasicAuth request
+                            in path parameter values to be replaced by original parameter names in curly brackets
+                            filters to be removed
+                            from {$request.path} of the BasicAuth request that initiates the inquiry for approval'
+                        method:
+                          type: string
+                          description: >
+                            'Method applied in the BasicAuth request
+                            from {$request.method} of the BasicAuth request that initiates the inquiry for approval'
+              responses:
+                '200':
+                  description: 'Response on inquiry for approval of a BasicAuth request provided'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          basic-auth-request-is-approved:
+                            type: boolean
+                            description: 'If true, BasicAuth request can be executed'
+                          reason-of-objection:
+                            type: string
+                            description: >
+                              'if AUTHORIZATION_CODE_UNKNOWN BasicAuth request to be aborted and 401 to be sent
+                              else BasicAuth request to be aborted and 403 to be sent'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/dispose-remainders-of-deregistered-application:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: disposeRemaindersOfDeregisteredApplication
+      summary: 'Removes application from configuration and application data'
+      tags:
+        - BasicServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - application-name
+                - release-number
+              properties:
+                application-name:
+                  type: string
+                  description: 'Name of application that shall be removed from configuration and application data'
+                release-number:
+                  type: string
+                  description: 'Release of application that shall be removed from configuration and application data'
+              example:
+                application-name: 'BadApplication'
+                release-number: '45.4.3'
+      responses:
+        '204':
+          description: 'Application removed from configuration and application data'
+          headers:
+            x-correlator:
+              schema:
+                type: string
+                example: '550e8400-e29b-11d4-a716-446655440000'
+              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+            exec-time:
+              schema:
+                type: integer
+                example: 1100
+              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+            backend-time:
+              schema:
+                type: integer
+                example: 850
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-bm-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/inform-about-preceding-release:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: informAboutPrecedingRelease
+      summary: 'Provides name and number of the preceding release'
+      tags:
+        - BasicServices
+      responses:
+        '200':
+          description: 'Name and number of the preceding release provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - application-name
+                  - release-number
+                properties:
+                  application-name:
+                    type: string
+                    description: >
+                      'ApplicationName of the OldRelease
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-or-1-1-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
+                  release-number:
+                    type: string
+                    description: >
+                      'ReleaseNumber of the OldRelease
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-or-1-1-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
+                example:
+                  application-name: 'ApplicationNameOfTheOldRelease'
+                  release-number: '45.4.7'
+          headers:
+            x-correlator:
+              schema:
+                type: string
+                example: '550e8400-e29b-11d4-a716-446655440000'
+              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+            exec-time:
+              schema:
+                type: integer
+                example: 1100
+              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+            backend-time:
+              schema:
+                type: integer
+                example: 850
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-bm-014/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/update-client-of-subsequent-release:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: UpdateClientOfSubsequentRelease
+      summary: 'Configures Http and TcpClient of the NewRelease'
+      tags:
+        - BasicServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - application-name
+                - release-number
+                - protocol
+                - address
+                - port
+              properties:
+                application-name:
+                  type: string
+                  description: >
+                    'Name of the application that is target of the bequeath-your-data-and-die process
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-nr-1-2-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                  description: >
+                    'Release of the application that is target of the bequeath-your-data-and-die process
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-nr-1-2-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used during the bequeath-your-data-and-die process
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IPv4 address to be used during the bequeath-your-data-and-die process
+                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name to be used during the bequeath-your-data-and-die process
+                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'Port to be used during the bequeath-your-data-and-die process
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+              example:
+                application-name: 'ApplicationNameOfNewRelease'
+                release-number: '17.1.2'
+                protocol: 'HTTP'
+                address:
+                  ip-address:
+                    ipv-4-address: '1.1.3.0'
+                port: 3000
+      responses:
+        '200':
+          description: 'Operations required for transferring data provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - bequeath-your-data-and-die-operation
+                  - data-transfer-operations-list
+                properties:
+                  bequeath-your-data-and-die-operation:
+                    type: string
+                    description: >
+                      'Operation for starting the handover process on the already existing application
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
+                  data-transfer-operations-list:
+                    type: array
+                    items:
+                      type: string
+                    description: >
+                      'List of operations required for transferring data from the oldRelease to the newRelease
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-im-nr-*/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                example:
+                  bequeath-your-data-and-die-operation: '/v1/bequeath-your-data-and-die'
+                  data-transfer-operations-list:
+                    - '/v1/inquire-application-type-approvals'
+                    - '/v1/notify-approvals'
+          headers:
+            x-correlator:
+              schema:
+                type: string
+                example: '550e8400-e29b-11d4-a716-446655440000'
+              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+            exec-time:
+              schema:
+                type: integer
+                example: 1100
+              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+            backend-time:
+              schema:
+                type: integer
+                example: 850
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-bm-015/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'

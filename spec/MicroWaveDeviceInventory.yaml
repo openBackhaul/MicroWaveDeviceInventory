@@ -235,7 +235,7 @@ paths:
                         subscriber-protocol: 'HTTP'
                         subscriber-address:
                           ip-address:
-                            ipv-4-address: '1.1.4.13'
+                            ipv-4-address: '127.0.0.1'
                         subscriber-port: 4013
               responses:
                 '204':
@@ -327,7 +327,7 @@ paths:
                         subscriber-protocol: 'HTTP'
                         subscriber-address:
                           ip-address:
-                            ipv-4-address: '1.1.4.13'
+                            ipv-4-address: '127.0.0.1'
                         subscriber-port: 4013
               responses:
                 '204':
@@ -419,7 +419,7 @@ paths:
                         subscriber-protocol: 'HTTP'
                         subscriber-address:
                           ip-address:
-                            ipv-4-address: '1.1.4.13'
+                            ipv-4-address: '127.0.0.1'
                         subscriber-port: 4013
               responses:
                 '204':
@@ -2092,7 +2092,7 @@ paths:
                 subscriber-protocol: 'HTTP'
                 subscriber-address:
                   ip-address:
-                    ipv-4-address: '1.1.4.13'
+                    ipv-4-address: '127.0.0.1'
                 subscriber-port: 4013
       responses:
         '204':
@@ -2299,7 +2299,7 @@ paths:
                 subscriber-protocol: 'HTTP'
                 subscriber-address:
                   ip-address:
-                    ipv-4-address: '1.1.4.13'
+                    ipv-4-address: '127.0.0.1'
                 subscriber-port: 4013
       responses:
         '204':
@@ -2496,7 +2496,7 @@ paths:
                 subscriber-protocol: 'HTTP'
                 subscriber-address:
                   ip-address:
-                    ipv-4-address: '1.1.4.13'
+                    ipv-4-address: '127.0.0.1'
                 subscriber-port: 4013
       responses:
         '204':

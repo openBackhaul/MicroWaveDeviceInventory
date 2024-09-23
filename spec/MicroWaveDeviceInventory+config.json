@@ -4148,7 +4148,7 @@
             "http-server-interface-1-0:http-server-interface-pac": {
               "http-server-interface-capability": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "1.1.0",
+                "release-number": "1.2.0",
                 "application-purpose": "Provide cached ControlConstruct data for devices in connected state on the Controller",
                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
                 "owner-name": "Katharina Mohr",
@@ -4165,6 +4165,12 @@
                     "release-number": "1.1.0",
                     "release-date": "28.10.2023",
                     "changes": "FD, FC, FcPort, Link and LinkPort added."
+                  },
+                  {
+                    "local-id": "2",
+                    "release-number": "1.2.0",
+                    "release-date": "28.10.2024",
+                    "changes": "todo."
                   }
                 ]
               }
@@ -8825,12 +8831,12 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-op-c-bm-or-1-0-0-000",
+        "uuid": "mwdi-1-2-0-op-c-bm-or-1-1-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-1-2-0-http-c-or-1-0-0-000"
+          "mwdi-1-2-0-http-c-or-1-1-0-000"
         ],
         "layer-protocol": [
           {
@@ -8850,13 +8856,13 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-http-c-or-1-0-0-000",
+        "uuid": "mwdi-1-2-0-http-c-or-1-1-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-2-0-op-c-bm-or-1-0-0-000"
+          "mwdi-1-2-0-op-c-bm-or-1-1-0-000"
         ],
         "server-ltp": [
-          "mwdi-1-2-0-tcp-c-or-1-0-0-000"
+          "mwdi-1-2-0-tcp-c-or-1-1-0-000"
         ],
         "layer-protocol": [
           {
@@ -8865,17 +8871,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "1.0.1"
+                "release-number": "1.2.0"
               }
             }
           }
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-tcp-c-or-1-0-0-000",
+        "uuid": "mwdi-1-2-0-tcp-c-or-1-1-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-2-0-http-c-or-1-0-0-000"
+          "mwdi-1-2-0-http-c-or-1-1-0-000"
         ],
         "server-ltp": [
         ],
@@ -8898,12 +8904,12 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-op-c-im-nr-1-0-0-000",
+        "uuid": "mwdi-1-2-0-op-c-im-nr-1-2-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-1-2-0-http-c-nr-1-0-0-000"
+          "mwdi-1-2-0-http-c-nr-1-2-0-000"
         ],
         "layer-protocol": [
           {
@@ -8923,12 +8929,12 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-op-c-im-nr-1-0-0-001",
+        "uuid": "mwdi-1-2-0-op-c-im-nr-1-2-0-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-1-2-0-http-c-nr-1-0-0-000"
+          "mwdi-1-2-0-http-c-nr-1-2-0-000"
         ],
         "layer-protocol": [
           {
@@ -8948,12 +8954,12 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-op-c-im-nr-1-0-0-002",
+        "uuid": "mwdi-1-2-0-op-c-im-nr-1-2-0-002",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-1-2-0-http-c-nr-1-0-0-000"
+          "mwdi-1-2-0-http-c-nr-1-2-0-000"
         ],
         "layer-protocol": [
           {
@@ -8973,15 +8979,15 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-http-c-nr-1-0-0-000",
+        "uuid": "mwdi-1-2-0-http-c-nr-1-2-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-2-0-op-c-im-nr-1-0-0-000",
-          "mwdi-1-2-0-op-c-im-nr-1-0-0-001",
-          "mwdi-1-2-0-op-c-im-nr-1-0-0-002"
+          "mwdi-1-2-0-op-c-im-nr-1-2-0-000",
+          "mwdi-1-2-0-op-c-im-nr-1-2-0-001",
+          "mwdi-1-2-0-op-c-im-nr-1-2-0-002"
         ],
         "server-ltp": [
-          "mwdi-1-2-0-tcp-c-nr-1-0-0-000"
+          "mwdi-1-2-0-tcp-c-nr-1-2-0-000"
         ],
         "layer-protocol": [
           {
@@ -8990,17 +8996,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "NewRelease",
-                "release-number": "1.1.0"
+                "release-number": "1.2.0"
               }
             }
           }
         ]
       },
       {
-        "uuid": "mwdi-1-2-0-tcp-c-nr-1-0-0-000",
+        "uuid": "mwdi-1-2-0-tcp-c-nr-1-2-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-2-0-http-c-nr-1-0-0-000"
+          "mwdi-1-2-0-http-c-nr-1-2-0-000"
         ],
         "server-ltp": [
         ],
@@ -11296,7 +11302,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "1.1.0"
+                "release-number": "1.2.0"
               }
             }
           }
@@ -13375,7 +13381,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-1-2-0-op-c-bm-or-1-0-0-000"
+                "logical-termination-point": "mwdi-1-2-0-op-c-bm-or-1-1-0-000"
               }
             ]
           },
@@ -14385,7 +14391,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-1-2-0-op-c-im-nr-1-0-0-000"
+                "logical-termination-point": "mwdi-1-2-0-op-c-im-nr-1-2-0-000"
               }
             ]
           },
@@ -14410,7 +14416,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-1-2-0-op-c-im-nr-1-0-0-001"
+                "logical-termination-point": "mwdi-1-2-0-op-c-im-nr-1-2-0-001"
               }
             ]
           },
@@ -14435,7 +14441,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-1-2-0-op-c-im-nr-1-0-0-002"
+                "logical-termination-point": "mwdi-1-2-0-op-c-im-nr-1-2-0-002"
               }
             ]
           },

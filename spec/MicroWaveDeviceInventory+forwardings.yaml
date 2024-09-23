@@ -32,7 +32,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-bm-001
     consequent-requests:
       - client-name: OldRelease://v1/bequeath-your-data-and-die
-        uuid: mwdi-1-2-0-op-c-bm-or-1-0-0-000
+        uuid: mwdi-1-2-0-op-c-bm-or-1-1-0-000
 
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
@@ -484,7 +484,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease://v1/notify-attribute-value-changes
-        uuid: mwdi-1-2-0-op-c-im-nr-1-0-0-000
+        uuid: mwdi-1-2-0-op-c-im-nr-1-2-0-000
 
   - forwarding-name: PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
     uuid: mwdi-1-2-0-op-fc-im-111
@@ -499,7 +499,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease://v1/notify-object-creations
-        uuid: mwdi-1-2-0-op-c-im-nr-1-0-0-001
+        uuid: mwdi-1-2-0-op-c-im-nr-1-2-0-001
 
   - forwarding-name: PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
     uuid: mwdi-1-2-0-op-fc-im-112
@@ -514,7 +514,7 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-im-000
     consequent-requests:
       - client-name: NewRelease://v1/notify-object-deletions
-        uuid: mwdi-1-2-0-op-c-im-nr-1-0-0-002
+        uuid: mwdi-1-2-0-op-c-im-nr-1-2-0-002
 
   - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
     uuid: mwdi-1-2-0-op-fc-im-115

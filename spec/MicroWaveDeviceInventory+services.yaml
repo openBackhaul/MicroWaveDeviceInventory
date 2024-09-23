@@ -820,7 +820,7 @@ clients:
     operation-clients:
       own-oam:
         basic:
-          - operation-name: /v1/register-application
+          - operation-name: /v2/register-application
             uuid: mwdi-1-2-0-op-c-bm-ro-2-1-2-000
           - operation-name: /v1/relay-server-replacement
             uuid: mwdi-1-2-0-op-c-bm-ro-2-1-2-001

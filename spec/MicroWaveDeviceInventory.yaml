@@ -776,7 +776,7 @@ paths:
                       example:
                         application-name: 'RegistryOffice'
                         release-number: '2.1.2'
-                        old-operation-name: '/v1/register-application'
+                        old-operation-name: '/v2/register-application'
                         new-operation-name: '/v2/register-application'
               responses:
                 '204':
@@ -17199,7 +17199,7 @@ paths:
             example:
               registry-office-application: 'RegistryOffice'
               registry-office-application-release-number: '2.1.2'
-              registration-operation: '/v1/register-application'
+              registration-operation: '/v2/register-application'
               registry-office-protocol: 'HTTP'
               registry-office-address:
                 ip-address:
@@ -20785,7 +20785,7 @@ paths:
               example:
                 application-name: 'RegistryOffice'
                 release-number: '2.1.2'
-                old-operation-name: '/v1/register-application'
+                old-operation-name: '/v2/register-application'
                 new-operation-name: '/v2/register-application'
       responses:
         '204':
@@ -22253,7 +22253,7 @@ paths:
                                 layer-protocol-name: 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                 operation-client-interface-1-0:operation-client-interface-pac:
                                   operation-client-interface-configuration:
-                                    operation-name: '/v1/register-application'
+                                    operation-name: '/v2/register-application'
                                     operation-key: 'Operation key not yet provided.'
                                   operation-client-interface-status:
                                     operational-state: 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'

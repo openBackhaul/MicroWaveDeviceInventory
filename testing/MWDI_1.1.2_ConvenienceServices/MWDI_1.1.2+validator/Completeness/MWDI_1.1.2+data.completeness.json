@@ -35,11 +35,17 @@
 			{
 				"collectionName": "MwdiCompleteness_server",
 				"serverToBeApplied": "mwdi",
-				"mountName": "513250011",
+				"mountName": "513250010",
 				"linkId": "101550001",
 				"genericLink": "genericLink1",
 				"mfrLink": "mfrLink1",
-				"linkPort": "1",
+				"linkPort": "1",			
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",				
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "External label not yet defined.",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-281",
 				"kindOfReference": "dynamic"
 			},
 			{
@@ -49,7 +55,13 @@
 				"linkId": "101550001",
 				"genericLink": "genericLink1",
 				"mfrLink": "mfrLink1",
-				"linkPort": "1",
+				"linkPort": "1",			
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",				
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "External label not yet defined.",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-281",
 				"kindOfReference": "static",
 				"suffixUrlEncodingIsRequired": true
 			}

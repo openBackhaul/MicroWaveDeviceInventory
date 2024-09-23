@@ -899,22 +899,20 @@ paths:
                                     type: string
                                   layer-protocol:
                                     type: string
-              examples:
-                generic:
-                  value:
-                    core-model-1-4:link:
-                      - uuid: 'genericLink1'
-                        layer-protocol-name: 'layerProtocol_X'
-                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
-                        forwarding-domain:
-                          - 'forwarding-domain-X'
-                        link-port:
-                          - local-id: '1'
-                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                            logical-termination-point: 'mountnameA+ltpA'
-                          - local-id: '2'
-                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                            logical-termination-point: 'mountnameB+ltpB'
+                example:
+                  core-model-1-4:link:
+                    - uuid: 'genericLink1'
+                      layer-protocol-name: 'layerProtocol_X'
+                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                      forwarding-domain:
+                        - 'forwarding-domain-X'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -1168,19 +1166,17 @@ paths:
                                     type: string
                                   layer-protocol:
                                     type: string
-              examples:
-                minimum-for-rest:
-                  value:
-                    core-model-1-4:link:
-                      - uuid: 'mfrLink1'
-                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                        end-point-list:
-                          - control-construct: '100250001'
-                            logical-termination-point: '10025001+LTP-MWPS-TTP-RADIO-2A'
-                            layer-protocol: '100250001+LP-MWPS-TTP-RADIO-2A'
-                          - control-construct: '100250002'
-                            logical-termination-point: '100250002+LTP-MWPS-TTP-RADIO-2A'
-                            layer-protocol: '100250002+LP-MWPS-TTP-RADIO-2A'
+                example:
+                  core-model-1-4:link:
+                    - uuid: 'mfrLink1'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '100250001'
+                          logical-termination-point: '10025001+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '100250001+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '100250002'
+                          logical-termination-point: '100250002+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '100250002+LP-MWPS-TTP-RADIO-2A'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -1381,16 +1377,14 @@ paths:
                                 - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
                             logical-termination-point:
                               type: string
-              examples:
-                generic:
-                  value:
-                    core-model-1-4:link-port:
-                      - local-id: '1'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                        logical-termination-point: 'mountnameA+ltpA'
-                      - local-id: '2'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                        logical-termination-point: 'mountnameB+ltpB'
+                example:
+                  core-model-1-4:link-port:
+                    - local-id: '1'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                      logical-termination-point: 'mountnameA+ltpA'
+                    - local-id: '2'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                      logical-termination-point: 'mountnameB+ltpB'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

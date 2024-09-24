@@ -1,0 +1,24 @@
+@startuml 105_ProvideListOfLinks
+skinparam responseMessageBelowArrow true
+
+title RequestForListOfLinksCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-list-of-links" as linklist
+participant "ElasticSearch" as es
+
+requestor -> linklist: (apiKeyAuth)
+activate linklist
+
+linklist -> es
+note over es
+  from all <i>core-model-1-4:link</i> records 
+  in the cache retrieve the list of uuids
+end note
+
+es --> linklist: {linkidList}
+
+linklist --> requestor: {linkidList}
+deactivate linklist
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml 106_ProvideDataOfAllLinks
+skinparam responseMessageBelowArrow true
+
+title RequestForDataOfLinksCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-data-of-all-links" as data
+participant "ElasticSearch" as es
+
+requestor -> data: (apiKeyAuth)
+activate data
+
+data -> es
+note over es
+  retrieve all <i>core-model-1-4:link</i> records
+  from the cache
+end note
+
+es --> data: {linkDataList}
+
+data --> requestor: {linkDataList}
+deactivate data
+
+@enduml

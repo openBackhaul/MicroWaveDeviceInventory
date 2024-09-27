@@ -1,6 +1,5 @@
 # MWDI_1.1.2+schema  
-Schemas for convenience services (without link-related services).  
-(I.e. device-based ressource paths are out of scope.)  
+Schemas for and link/link-port services.  
 
 ### JSON Schema  
 - created from YAML  

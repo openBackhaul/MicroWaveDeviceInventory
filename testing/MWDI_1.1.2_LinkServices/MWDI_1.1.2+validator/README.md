@@ -1,6 +1,5 @@
 # MWDI_1.1.2+validator
-Validators for (non-link) convenience services.  
-(I.e. device-based ressource paths are out of scope.)  
+Validators for link/link-port services.  
 
 ### Completeness
 - [MWDI_1.1.2+validator.completeness](./MWDI_1.1.2+validator.completeness/MWDI_1.1.2+validator.completeness.json)  

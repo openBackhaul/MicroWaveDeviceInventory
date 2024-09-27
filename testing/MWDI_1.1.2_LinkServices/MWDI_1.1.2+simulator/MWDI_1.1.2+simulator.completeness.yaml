@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: MWDI_1.1.2+simulator.completeness.convenienceServices
+  title: MWDI_1.1.2+simulator.completeness.linkServices
   version: 1.0.0
 
 paths:
 ########################################################################################################################
-#   MWDI_1.0.2+simulator.completeness in static reference mode for (non-link) convenience services
+#   MWDI_1.0.2+simulator.completeness in static reference mode for link
 ########################################################################################################################  
-  /v1/regard-controller-attribute-value-change:
+  /v1/provide-list-of-parallel-links:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15,8 +15,8 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: regardControllerAttributeValueChange
-      summary: 'Receives notifications about attribute value changes at the Controller'
+      operationId: provideListOfParallelLinks
+      summary: 'Provides list of Links between the same ControlConstructs'
       tags:
         - IndividualServices
       security:
@@ -28,261 +28,28 @@ paths:
             schema:
               type: object
               required:
-                - notification-proxy-1-0:attribute-value-changed-notification
+                - link-id
               properties:
-                notification-proxy-1-0:attribute-value-changed-notification:
-                  type: object
-                  required:
-                    - counter
-                    - timestamp
-                    - resource
-                    - attribute-name
-                    - new-value
-                  properties:
-                    counter:
-                      type: integer
-                    timestamp:
-                      type: string
-                    resource:
-                      type: string
-                    attribute-name:
-                      type: string
-                    new-value:
-                      type: string
+                link-id:
+                  type: string
       responses:
-        '204':
-          description: 'Notification received'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/regard-device-alarm:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: regardDeviceAlarm
-      summary: 'Receives notifications about alarms at devices'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - notification-proxy-1-0:alarm-event-notification
-              properties:
-                notification-proxy-1-0:alarm-event-notification:
-                  type: object
-                  required:
-                    - alarm-event-sequence-number
-                    - timestamp
-                    - resource
-                    - alarm-type-id
-                    - alarm-type-qualifier
-                    - problem-severity
-                  properties:
-                    alarm-event-sequence-number:
-                      type: integer
-                    timestamp:
+        '200':
+          description: 'List of parallel Links provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - parallel-link-list
+                properties:
+                  parallel-link-list:
+                    type: array
+                    items:
                       type: string
-                    resource:
-                      type: string
-                    alarm-type-id:
-                      type: string
-                    alarm-type-qualifier:
-                      type: string
-                    problem-severity:
-                      type: string
-      responses:
-        '204':
-          description: 'Notification received'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/regard-device-attribute-value-change:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: regardDeviceAttributeValueChange
-      summary: 'Receives notifications about changes of values of attributes inside the devices'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - notification-proxy-1-0:attribute-value-changed-notification
-              properties:
-                notification-proxy-1-0:attribute-value-changed-notification:
-                  type: object
-                  required:
-                    - counter
-                    - timestamp
-                    - object-path
-                    - attribute-name
-                    - new-value
-                  properties:
-                    counter:
-                      type: integer
-                    timestamp:
-                      type: string
-                    object-path:
-                      type: string
-                    attribute-name:
-                      type: string
-                    new-value:
-                      type: string
-      responses:
-        '204':
-          description: 'Notification received'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/regard-device-object-creation:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: regardDeviceObjectCreation
-      summary: 'Receives notifications about objects that have been created inside the devices'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - notification-proxy-1-0:object-creation-notification
-              properties:
-                notification-proxy-1-0:object-creation-notification:
-                  type: object
-                  required:
-                    - counter
-                    - timestamp
-                    - object-path
-                  properties:
-                    counter:
-                      type: integer
-                    timestamp:
-                      type: string
-                    object-path:
-                      type: string
-      responses:
-        '204':
-          description: 'Notification received'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-        '4XX':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/regard-device-object-deletion:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: regardDeviceObjectDeletion
-      summary: 'Receives notifications about objects that have been deleted inside the devices'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - notification-proxy-1-0:object-deletion-notification
-              properties:
-                notification-proxy-1-0:object-deletion-notification:
-                  type: object
-                  required:
-                    - counter
-                    - timestamp
-                    - object-path
-                  properties:
-                    counter:
-                      type: integer
-                    timestamp:
-                      type: string
-                    object-path:
-                      type: string
-      responses:
-        '204':
-          description: 'Notification received'
+                example:
+                  parallel-link-list:
+                    - '100550001'
+                    - '100550002'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -299,37 +66,125 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /v1/provide-list-of-connected-devices:
+  # GET responseSchema has oneOf, therefore we need 2 different paths for the link service
+  # genericLink
+  /core-model-1-4:network-control-domain=cache/link=genericLink1:
+    # path is: /core-model-1-4:network-control-domain=cache/link={uuid}
+    # uuid=genericLink1 -> genericLink example
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: provideListOfConnectedDevices
-      summary: 'Provides list of devices that are connected to the controller'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLink
+      summary: 'Provides Link from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'List of connected devices provided'
+          description: 'Link provided from cache'
           content:
             application/json:
               schema:
                 type: object
-                required:
-                  - mount-name-list
                 properties:
-                  mount-name-list:
+                  core-model-1-4:link:
                     type: array
                     items:
-                      type: string
-                    example:
-                      - '100250001'
-                      - '100250002'
+                      oneOf:
+                        - description: 'generic'
+                          type: object
+                          required:
+                            - uuid
+                            - layer-protocol-name
+                            - link-direction
+                            - forwarding-domain
+                            - link-port
+                          properties:
+                            uuid:
+                              type: string
+                            layer-protocol-name:
+                              type: string
+                            link-direction:
+                              type: string
+                              enum:
+                                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+                            forwarding-domain:
+                              type: array
+                              items:
+                                type: string
+                            link-port:
+                              type: array
+                              items:
+                                oneOf:
+                                  - description: 'generic'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - link-port-direction
+                                      - logical-termination-point
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      link-port-direction:
+                                        type: string
+                                        enum:
+                                          - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                                          - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                                          - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                                          - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                                          - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                                      logical-termination-point:
+                                        type: string
+                        - description: 'minimum for rest'
+                          type: object
+                          required:
+                            - uuid
+                            - layer-protocol-name
+                            - end-point-list
+                          properties:
+                            uuid:
+                              type: string
+                            layer-protocol-name:
+                              type: string
+                            end-point-list:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - control-construct
+                                  - logical-termination-point
+                                  - layer-protocol
+                                properties:
+                                  control-construct:
+                                    type: string
+                                  logical-termination-point:
+                                    type: string
+                                  layer-protocol:
+                                    type: string
+                example:
+                  core-model-1-4:link:
+                    - uuid: 'genericLink1'
+                      layer-protocol-name: 'layerProtocol_X'
+                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                      forwarding-domain:
+                        - 'forwarding-domain-X'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -345,16 +200,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/provide-list-of-device-interfaces:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: provideListOfDeviceInterfaces
-      summary: 'Provides list of LTP UUIDs at a device'
+    put:
+      operationId: putLinkToCache
+      summary: 'Writes Link to cache'
       tags:
         - IndividualServices
       security:
@@ -365,44 +213,87 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - mount-name
               properties:
-                mount-name:
-                  type: string
+                core-model-1-4:link:
+                  type: array
+                  items:
+                    oneOf:
+                      - description: 'generic'
+                        type: object
+                        required:
+                          - uuid
+                          - layer-protocol-name
+                          - link-direction
+                          - forwarding-domain
+                          - link-port
+                        properties:
+                          uuid:
+                            type: string
+                          layer-protocol-name:
+                            type: string
+                          link-direction:
+                            type: string
+                            enum:
+                              - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                              - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                              - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                              - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+                          forwarding-domain:
+                            type: array
+                            items:
+                              type: string
+                          link-port:
+                            type: array
+                            items:
+                              oneOf:
+                                - description: 'generic'
+                                  type: object
+                                  required:
+                                    - local-id
+                                    - link-port-direction
+                                    - logical-termination-point
+                                  properties:
+                                    local-id:
+                                      type: string
+                                    link-port-direction:
+                                      type: string
+                                      enum:
+                                        - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                                        - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                                        - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                                        - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                                        - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                                    logical-termination-point:
+                                      type: string
+                      - description: 'minimum for rest'
+                        type: object
+                        required:
+                          - uuid
+                          - layer-protocol-name
+                          - end-point-list
+                        properties:
+                          uuid:
+                            type: string
+                          layer-protocol-name:
+                            type: string
+                          end-point-list:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - control-construct
+                                - logical-termination-point
+                                - layer-protocol
+                              properties:
+                                control-construct:
+                                  type: string
+                                logical-termination-point:
+                                  type: string
+                                layer-protocol:
+                                  type: string
       responses:
-        '200':
-          description: 'List of LTP UUIDs provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - logical-termination-point-list
-                properties:
-                  logical-termination-point-list:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - uuid
-                        - local-id
-                        - layer-protocol-name
-                      properties:
-                        uuid:
-                          type: string
-                        local-id:
-                          type: string
-                        layer-protocol-name:
-                          type: string
-                example:
-                  logical-termination-point-list:
-                    - uuid: '100250001-ETY-1234567890'
-                      local-id: '1234567890'
-                      layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
-                    - uuid: '100250001-RF-2345678901'
-                      local-id: '2345678901'
-                      layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+        '204':
+          description: 'Link written to cache'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -418,16 +309,164 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/provide-list-of-actual-device-equipment:
+    delete:
+      operationId: deleteCachedLink
+      summary: 'Deletes Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'Link deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  # mfrLink
+  /core-model-1-4:network-control-domain=cache/link=mfrLink1:
+    # path is: /core-model-1-4:network-control-domain=cache/link={uuid}
+    # uuid=mfrLink1 -> mfr example
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: provideListOfActualDeviceEquipment
-      summary: 'Provides list of actual equipment UUIDs inside a device'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLink
+      summary: 'Provides Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Link provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    items:
+                      oneOf:
+                        - description: 'generic'
+                          type: object
+                          required:
+                            - uuid
+                            - layer-protocol-name
+                            - link-direction
+                            - forwarding-domain
+                            - link-port
+                          properties:
+                            uuid:
+                              type: string
+                            layer-protocol-name:
+                              type: string
+                            link-direction:
+                              type: string
+                              enum:
+                                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+                            forwarding-domain:
+                              type: array
+                              items:
+                                type: string
+                            link-port:
+                              type: array
+                              items:
+                                oneOf:
+                                  - description: 'generic'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - link-port-direction
+                                      - logical-termination-point
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      link-port-direction:
+                                        type: string
+                                        enum:
+                                          - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                                          - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                                          - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                                          - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                                          - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                                      logical-termination-point:
+                                        type: string
+                        - description: 'minimum for rest'
+                          type: object
+                          required:
+                            - uuid
+                            - layer-protocol-name
+                            - end-point-list
+                          properties:
+                            uuid:
+                              type: string
+                            layer-protocol-name:
+                              type: string
+                            end-point-list:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - control-construct
+                                  - logical-termination-point
+                                  - layer-protocol
+                                properties:
+                                  control-construct:
+                                    type: string
+                                  logical-termination-point:
+                                    type: string
+                                  layer-protocol:
+                                    type: string
+                example:
+                  core-model-1-4:link:
+                    - uuid: 'mfrLink1'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '100250001'
+                          logical-termination-point: '10025001+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '100250001+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '100250002'
+                          logical-termination-point: '100250002+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '100250002+LP-MWPS-TTP-RADIO-2A'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkToCache
+      summary: 'Writes Link to cache'
       tags:
         - IndividualServices
       security:
@@ -438,46 +477,112 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - mount-name
               properties:
-                mount-name:
-                  type: string
+                core-model-1-4:link:
+                  type: array
+                  items:
+                    oneOf:
+                      - description: 'generic'
+                        type: object
+                        required:
+                          - uuid
+                          - layer-protocol-name
+                          - link-direction
+                          - forwarding-domain
+                          - link-port
+                        properties:
+                          uuid:
+                            type: string
+                          layer-protocol-name:
+                            type: string
+                          link-direction:
+                            type: string
+                            enum:
+                              - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                              - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                              - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                              - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+                          forwarding-domain:
+                            type: array
+                            items:
+                              type: string
+                          link-port:
+                            type: array
+                            items:
+                              oneOf:
+                                - description: 'generic'
+                                  type: object
+                                  required:
+                                    - local-id
+                                    - link-port-direction
+                                    - logical-termination-point
+                                  properties:
+                                    local-id:
+                                      type: string
+                                    link-port-direction:
+                                      type: string
+                                      enum:
+                                        - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                                        - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                                        - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                                        - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                                        - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                                    logical-termination-point:
+                                      type: string
+                      - description: 'minimum for rest'
+                        type: object
+                        required:
+                          - uuid
+                          - layer-protocol-name
+                          - end-point-list
+                        properties:
+                          uuid:
+                            type: string
+                          layer-protocol-name:
+                            type: string
+                          end-point-list:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - control-construct
+                                - logical-termination-point
+                                - layer-protocol
+                              properties:
+                                control-construct:
+                                  type: string
+                                logical-termination-point:
+                                  type: string
+                                layer-protocol:
+                                  type: string
       responses:
-        '200':
-          description: 'List of actual equipment UUIDs provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - top-level-equipment
-                  - actual-equipment-list
-                properties:
-                  top-level-equipment:
-                    type: array
-                    items:
-                      type: string
-                  actual-equipment-list:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - uuid
-                        - equipment-type-name
-                      properties:
-                        uuid:
-                          type: string
-                        equipment-type-name:
-                          type: string
-                example:
-                  top-level-equipment:
-                    - 'XYZ-1'
-                  actual-equipment-list:
-                    - uuid: '100250001-XYZ-EQUIPMENT-1'
-                      equipment-type-name: 'OptiXRTN950'
-                    - uuid: '100250001-XYZ-EQUIPMENT-4-4'
-                      equipment-type-name: 'SL91EG4'
+        '204':
+          description: 'Link written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLink
+      summary: 'Deletes Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'Link deleted from cache'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -494,71 +599,64 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /v1/notify-attribute-value-changes:
+  /core-model-1-4:network-control-domain=cache/link=genericLink1/link-port=1:
+    # path is: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}
+    # for simulation parameters were replaced with actual sample values (uuid=genericLink          , localId=1)
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: notifyAttributeValueChanges
-      summary: 'Offers subscribing for notifications about device attributes being changed in the cache'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/localId'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLinkPort
+      summary: 'Provides LinkPort from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - subscriber-application
-                - subscriber-release-number
-                - subscriber-operation
-                - subscriber-protocol
-                - subscriber-address
-                - subscriber-port
-              properties:
-                subscriber-application:
-                  type: string
-                subscriber-release-number:
-                  type: string
-                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
-                subscriber-operation:
-                  type: string
-                  minLength: 6
-                subscriber-protocol:
-                  type: string
-                  enum:
-                    - 'HTTP'
-                    - 'HTTPS'
-                subscriber-address:
-                  type: object
-                  minProperties: 1
-                  maxProperties: 1
-                  additionalProperties: false
-                  properties:
-                    ip-address:
-                      type: object
-                      minProperties: 1
-                      additionalProperties: false
-                      properties:
-                        ipv-4-address:
-                          type: string
-                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-                    domain-name:
-                      type: string
-                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
-                subscriber-port:
-                  type: integer
-                  minimum: 0
-                  maximum: 65535
       responses:
-        '204':
-          description: 'Subscription for notifications about changed device attribute values in the cache has been created'
+        '200':
+          description: 'LinkPort provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link-port:
+                    type: array
+                    items:
+                      oneOf:
+                        - description: 'generic'
+                          type: object
+                          required:
+                            - local-id
+                            - link-port-direction
+                            - logical-termination-point
+                          properties:
+                            local-id:
+                              type: string
+                            link-port-direction:
+                              type: string
+                              enum:
+                                - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                                - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                                - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                                - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                                - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                            logical-termination-point:
+                              type: string
+                example:
+                  core-model-1-4:link-port:
+                    - local-id: '1'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                      logical-termination-point: 'mountnameA+ltpA'
+                    - local-id: '2'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                      logical-termination-point: 'mountnameB+ltpB'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -574,16 +672,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/notify-object-creations:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: notifyObjectCreations
-      summary: 'Offers subscribing for notifications about device objects being created in the cache'
+    put:
+      operationId: putLinkPortToCache
+      summary: 'Writes LinkPort to cache'
       tags:
         - IndividualServices
       security:
@@ -594,51 +685,33 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - subscriber-application
-                - subscriber-release-number
-                - subscriber-operation
-                - subscriber-protocol
-                - subscriber-address
-                - subscriber-port
               properties:
-                subscriber-application:
-                  type: string
-                subscriber-release-number:
-                  type: string
-                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
-                subscriber-operation:
-                  type: string
-                  minLength: 6
-                subscriber-protocol:
-                  type: string
-                  enum:
-                    - 'HTTP'
-                    - 'HTTPS'
-                subscriber-address:
-                  type: object
-                  minProperties: 1
-                  maxProperties: 1
-                  additionalProperties: false
-                  properties:
-                    ip-address:
-                      type: object
-                      minProperties: 1
-                      additionalProperties: false
-                      properties:
-                        ipv-4-address:
-                          type: string
-                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-                    domain-name:
-                      type: string
-                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
-                subscriber-port:
-                  type: integer
-                  minimum: 0
-                  maximum: 65535
+                core-model-1-4:link-port:
+                  type: array
+                  items:
+                    oneOf:
+                      - description: 'generic'
+                        type: object
+                        required:
+                          - local-id
+                          - link-port-direction
+                          - logical-termination-point
+                        properties:
+                          local-id:
+                            type: string
+                          link-port-direction:
+                            type: string
+                            enum:
+                              - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                              - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                              - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                              - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                              - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+                          logical-termination-point:
+                            type: string
       responses:
         '204':
-          description: 'Subscription for notifications about device objects created in the cache has been documented'
+          description: 'LinkPort written to cache'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -654,71 +727,16 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/notify-object-deletions:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: notifyObjectDeletions
-      summary: 'Offers subscribing for notifications about device objects being deleted from the cache'
+    delete:
+      operationId: deleteCachedLinkPort
+      summary: 'Deletes LinkPort from cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - subscriber-application
-                - subscriber-release-number
-                - subscriber-operation
-                - subscriber-protocol
-                - subscriber-address
-                - subscriber-port
-              properties:
-                subscriber-application:
-                  type: string
-                subscriber-release-number:
-                  type: string
-                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
-                subscriber-operation:
-                  type: string
-                  minLength: 6
-                subscriber-protocol:
-                  type: string
-                  enum:
-                    - 'HTTP'
-                    - 'HTTPS'
-                subscriber-address:
-                  type: object
-                  minProperties: 1
-                  maxProperties: 1
-                  additionalProperties: false
-                  properties:
-                    ip-address:
-                      type: object
-                      minProperties: 1
-                      additionalProperties: false
-                      properties:
-                        ipv-4-address:
-                          type: string
-                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-                    domain-name:
-                      type: string
-                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
-                subscriber-port:
-                  type: integer
-                  minimum: 0
-                  maximum: 65535
       responses:
         '204':
-          description: 'Subscription for notifications about device objects deleted from the cache has been created'
+          description: 'LinkPort deleted from cache'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -734,6 +752,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+
 
 ########################################################################################################################
 #   Common Components

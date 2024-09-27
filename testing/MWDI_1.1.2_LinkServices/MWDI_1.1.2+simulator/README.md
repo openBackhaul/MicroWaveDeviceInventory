@@ -1,6 +1,5 @@
 # MWDI_1.1.2+simulator  
-Simulators for convenience services (without link services).  
-(I.e. device-based ressource paths are out of scope.)  
+Simulators for convenience link/link-port services.  
 
 ### Simulators  
 - [MWDI_1.1.2+simulator.1](./MWDI_1.1.2+simulator.1.yaml)  

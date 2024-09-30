@@ -63,6 +63,18 @@
                           - local-id: '2'
                             link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
                             logical-termination-point: 'mountnameB+ltpB'
+                      - uuid: 'genericLink2'
+                        layer-protocol-name: 'layer protocol name for the link'
+                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                        forwarding-domain:
+                          - 'forwarding domain entry'
+                        link-port:
+                          - local-id: 'lc1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: 'mountnameA+ltpA'
+                          - local-id: 'lc2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: 'mountnameB+ltpB'
                 minimum-for-rest:
                   value:
                     core-model-1-4:link:

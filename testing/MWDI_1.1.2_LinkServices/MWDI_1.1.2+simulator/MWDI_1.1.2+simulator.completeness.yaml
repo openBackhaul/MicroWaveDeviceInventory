@@ -654,9 +654,6 @@ paths:
                     - local-id: '1'
                       link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
                       logical-termination-point: 'mountnameA+ltpA'
-                    - local-id: '2'
-                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                      logical-termination-point: 'mountnameB+ltpB'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

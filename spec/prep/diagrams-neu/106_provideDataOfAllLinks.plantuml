@@ -7,18 +7,23 @@ participant "external" as requestor
 participant "MWDI://v1/provide-data-of-all-links" as data
 participant "ElasticSearch" as es
 
-requestor -> data: (apiKeyAuth)
+requestor -> data: {optional: linkType} (apiKeyAuth)
 activate data
 
-data -> es
+data -> es: {optional: linkType} 
 note over es
-  retrieve all <i>core-model-1-4:link</i> records
-  from the cache
+  Retrieve all (filtered) <i>core-model-1-4:link</i> records from the cache.
+
+  A linkType filter can be provided via the requestBody.
+  If linkType is .. return ..:
+  - omitted: all records
+  - <i>"generic"</i>: only records WITH property <i>forwarding-domain</i>
+  - <i>"minimumForRest"</i>: only records WITHOUT property <i>forwarding-domain</i>
 end note
 
-es --> data: {linkDataList}
+es --> data: {(filtered) linkDataList}
 
-data --> requestor: {linkDataList}
+data --> requestor: {(filtered) linkDataList}
 deactivate data
 
 @enduml

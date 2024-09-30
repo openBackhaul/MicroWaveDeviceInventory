@@ -72,6 +72,15 @@ servers:
           uuid: mwdi-1-2-0-op-s-is-012
         - operation-name: /v1/provide-list-of-parallel-links
           uuid: mwdi-1-2-0-op-s-is-013
+        - operation-name: /v1/provide-list-of-links
+          uuid: mwdi-1-2-0-op-s-is-014
+        - operation-name: /v1/provide-list-of-link-ports
+          uuid: mwdi-1-2-0-op-s-is-015
+        - operation-name: /v1/provide-data-of-all-links
+          uuid: mwdi-1-2-0-op-s-is-016
+        - operation-name: /v1/provide-data-of-all-link-ports
+          uuid: mwdi-1-2-0-op-s-is-017
+
 
         # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes

@@ -36,6 +36,8 @@
             application/json:
               schema:
                 type: object
+                required:
+                  - core-model-1-4:link
                 properties:
                     core-model-1-4:link:
                       type: array
@@ -107,7 +109,7 @@
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-014/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-016/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':

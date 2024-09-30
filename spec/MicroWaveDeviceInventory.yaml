@@ -2077,7 +2077,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForListOfLinkPortsCauses:
+        RequestForListOfLinksCausesReadingFromCache:
           ReadingEndpointsFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
@@ -2181,7 +2181,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForListOfLinkPortsCauses:
+        RequestForListOfLinkPortsCausesReadingFromCache:
           ReadingEndpointsFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
@@ -2239,6 +2239,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+
 
   /v1/notify-attribute-value-changes:
     parameters:
@@ -5537,15 +5538,6 @@ paths:
                           - control-construct: '513250008'
                             logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
                             layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
-                      - uuid: '513559997'
-                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                        end-point-list:
-                          - control-construct: '513250009'
-                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
-                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
-                          - control-construct: '513250008'
-                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
-                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -5784,9 +5776,6 @@ paths:
                           - local-id: '1'
                             link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
                             logical-termination-point: '51359991A+819.1.1'
-                          - local-id: '2'
-                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                            logical-termination-point: '51359991B+819.1.1'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

@@ -2016,6 +2016,23 @@ paths:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-type
+              properties:
+                link-id:
+                  type: string
+                  description: 'If provided, the list of links is filtered for links of the given link type, otherwise all links are included.'
+                  enum:
+                    - 'generic'
+                    - 'minimumForRest'
+            example:
+              link-type: 'minimumForRest'
       responses:
         '200':
           description: 'List of links in cache'
@@ -2029,14 +2046,18 @@ paths:
                   link-list:
                     type: array
                     description: >
-                      'List of uuids of links
-                      from {$RequestForListOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*/uuid}'
+                      'List of uuids of links (if applicable filtered for link-type)
+                      from {$RequestForListOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*/uuid}
+                      if {$request.body#link-type}==generic: omit uuids without forwarding-domain property,
+                      if {$request.body#link-type}==minimumForRest: omit uuids with forwarding-domain property
+                      if {$request.body#link-type} not provided: return all uuids'
                     items:
                       type: string
               example:
                 link-list:
                   - '101550001'
                   - '204550003'
+                  - 'genericLink1'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -2091,18 +2112,21 @@ paths:
                                   properties:
                                     uuid:
                                       type: string
+                                    forwarding-domain:
+                                      type: string
                       example:
                         /:
                           core-model-1-4:link:
                             - uuid: '101550001'
                             - uuid: '204550003'
+                            - uuid: 'genericLink1'
+                              forwarding-domain: 'fd1'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-
   /v1/provide-list-of-link-ports:
     parameters:
       - $ref: '#/components/parameters/user'

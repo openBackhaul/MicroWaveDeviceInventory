@@ -12,8 +12,8 @@ activate data
 
 data -> es
 note over es
-  retrieve all <i>core-model-1-4:link-port</i>
-  records from the cache
+  retrieve all <i>core-model-1-4:link</i> records for generic links
+  from the cache, return the linkPortDataList as listOf(uuid;link-port)
 end note
 
 es --> data: {linkPortDataList}

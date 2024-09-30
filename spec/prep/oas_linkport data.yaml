@@ -20,13 +20,13 @@
               schema:
                 type: object
                 properties:
-                    core-model-1-4:link:
-                      type: array
-                      description: >
-                        'List of linkport data
-                        from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=*/link-port=*}'
-                      items:
-                        $ref: '#/components/schemas/LINK'
+                  core-model-1-4:link-port:
+                    type: array
+                    description: >
+                      'List of linkport data
+                      from {$RequestForDataOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=*/link-port=*}'
+                    items:
+                      $ref: '#/components/schemas/LINK_PORT'
               examples:
                 generic:
                   value:
@@ -95,8 +95,8 @@
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForDataOfLinksCausesReadingFromCache:
-          ReadingEndpointsFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+        RequestForDataOfLinkPortsCausesReadingFromCache:
+          SearchingLinkPortsInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               responses:
                 '200':

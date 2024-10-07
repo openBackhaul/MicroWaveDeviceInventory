@@ -80,6 +80,8 @@ servers:
           uuid: mwdi-1-2-0-op-s-is-016
         - operation-name: /v1/provide-data-of-all-link-ports
           uuid: mwdi-1-2-0-op-s-is-017
+        - operation-name: /v1/provide-device-status-metadata
+          uuid: mwdi-1-2-0-op-s-is-018
 
 
         # offered subscriptions

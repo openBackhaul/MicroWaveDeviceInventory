@@ -1,0 +1,54 @@
+@startuml 00x_CyclicOperationBasedDeviceStatusSync
+skinparam responseMessageBelowArrow true
+
+title
+PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController
+PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusMetadataFromCache
+PromptForEmbeddingCausesUpdatingDeviceStatusMetadataInCache
+end title
+
+participant "RO" as ro
+participant "MWDI://v1/embed-yourself" as mwdi
+participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
+participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as ControlConstruct
+participant "ElasticSearch://control-construct={mountName}" as es
+
+ro -> mwdi
+activate mwdi
+
+note over mwdi
+Cyclic operation for 
+updating the internal list of devices starts
+end note
+
+note over mwdi
+compare 
+list from Controller & 
+MWDI deviceList
+end note
+
+'get deviceList from Controller
+mwdi -> odlConnectionStatus
+odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
+
+'get MWDI deviceList from ElasticSearch
+mwdi -> ConnectedDeviceList
+ConnectedDeviceList --> mwdi: {mount-name-list}
+
+note over mwdi
+repeat for all connected devices 
+not in MWDI deviceList
+end note
+
+mwdi -> ControlConstruct: {mountName} (apiKeyAuth)
+
+note over mwdi
+repeat for all devices not marked
+connected in list from Controller
+end note
+
+mwdi -> es: delete {mountName}
+deactivate mwdi
+
+@enduml

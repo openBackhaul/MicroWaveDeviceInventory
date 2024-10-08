@@ -160,6 +160,28 @@ profile-instances:
     configuration:
       integer-value: 24
 
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-2-0-integer-p-004'
+    capability:
+      integer-name: 'connectionStatusSyncPeriod'
+      purpose: 'Time period between the sync of connection-status in MWDI metadata table with the connection-status of devices at the Controller.'
+      unit: 'hour'
+      minimum: 1
+      maximum: 72
+    configuration:
+      integer-value: 1
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-2-0-integer-p-005'
+    capability:
+      integer-name: 'metadataTableRetentionPeriod'
+      purpose: 'Time period for which no longer connected devices are kept in the metadata table, before they are deleted.'
+      unit: 'days'
+      minimum: 1
+      maximum: 30
+    configuration:
+      integer-value: 14
+
   - profile-name: 'StringProfile'
     uuid: 'mwdi-1-2-0-string-p-000'
     capability:

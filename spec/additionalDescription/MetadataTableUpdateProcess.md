@@ -33,9 +33,11 @@ The profileInstances directly relevant to the metadata table are connectionStatu
 ---
 ## Metadata table contents
 
-The table shall contain the following columns, with the device (i.e. mount-name) being the primary key.
+The table shall contain the following columns:
 
-- **mount-name**
+- **mount-name**:
+  - the device name
+  - primary key
 - **connection-status**: 
   - connection status on the controller
   - connected, connecting or unable-to-connect

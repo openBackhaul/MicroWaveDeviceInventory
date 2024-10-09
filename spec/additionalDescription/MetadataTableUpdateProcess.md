@@ -70,7 +70,10 @@ The following picture aims at providing an overview about how the metadata table
 As can be seen, the metadata table is updated due to
 - deviceList updates according to the periodic deviceList sync (pink),
 - periodic connection-status sync with the controller (green)
-- or when there are changes to a controlConstruct
+- or when there are changes to a controlConstruct  
+  - from either the periodic complete controlConstruct retrieval,
+  - or triggered by notifications
+  - _note: the controlConstruct can also be updated by calling live paths on the MWDI. This, however, is ignored for the metadata table update currently._
 
 ![TableUpdate](./pictures/metadataTableUpdate.png)
 

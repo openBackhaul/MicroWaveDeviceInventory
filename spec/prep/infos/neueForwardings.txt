@@ -1,0 +1,34 @@
+neue Diagramme
+-----------------------
+00y: metadataTableSync
+  PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController
+  PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusMetadataFromElasticSearch
+  PromptForEmbeddingCausesUpdatingDeviceStatusMetadataInElasticSearch
+
+108: ProvideTable
+  RequestForDeviceStatusMetadataCausesReadingFromElasticSearch
+
+
+
+erweiterte Diagramme
+-----------------------
+00x: (deviceListSync)
+  PromptForEmbeddingCausesUpdatingMetadataTableInElasticSearchFromDeviceListSync
+
+020: (notificationAddDevice)
+  NotifiedNewDeviceCausesMetadataTableUpdate
+
+021: (notificationDeleteDevice)
+  NotifiedDisconnectedDeviceCausesMetadataTableUpdate
+
+022: (notificationAlarm)
+  NotifiedDeviceAlarmCausesMetadataTableUpdate
+
+023: (notificationAttributeUpdate)
+  NotifiedDeviceAttributeValueChangeCausesMetadataTableUpdate
+
+024: (notificationObject+)
+  NotifiedDeviceObjectCreationCausesMetadataTableUpdate
+
+025: (notificationObject-)
+    NotifiedDeviceObjectDeletionCausesMetadataTableUpdate

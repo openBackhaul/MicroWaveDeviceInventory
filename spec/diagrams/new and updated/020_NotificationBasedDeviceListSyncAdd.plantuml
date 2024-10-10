@@ -1,0 +1,36 @@
+@startuml 020_NotificationBasedDeviceListSyncAdd
+skinparam responseMessageBelowArrow true
+
+title  
+  NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
+  NotifiedNewDeviceCausesMetadataTableUpdate
+end title
+
+participant "NP://v1/notify-controller-attribute-value-changes" as subscription
+participant "MWDI://v1/regard-controller-attribute-value-change" as regardNewDevice
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as liveControlConstruct
+participant "ElasticSearch\n(metadataTable)" as es
+
+subscription -> regardNewDevice: AttributeValueChangedNotification (apiKeyAuth)
+activate regardNewDevice
+
+note over regardNewDevice
+IF attribute-name == 'connection-status' 
+AND IF new-value == 'connected'
+end note
+
+regardNewDevice -> liveControlConstruct: {path = first part of resource incl. control-construct} (apiKeyAuth)
+
+note over regardNewDevice
+  <u>UpdateMetadataTable</u>
+      Either add the device to the metadataTable,
+      if it is not included yet, or update the existing 
+      entry.
+      (see description under <i>spec/additionalDescription/</i>
+      <i>MetadataTableUpdateProcess.md</i>)  
+end note
+regardNewDevice -> es: {mountName from notification}
+
+deactivate regardNewDevice
+
+@enduml

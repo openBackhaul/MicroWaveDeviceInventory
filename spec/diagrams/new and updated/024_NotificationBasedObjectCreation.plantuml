@@ -1,0 +1,29 @@
+@startuml 024_NotificationBasedObjectCreation
+skinparam responseMessageBelowArrow true
+
+title 
+  NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
+  NotifiedDeviceObjectCreationCausesMetadataTableUpdate
+end title
+
+participant "NP://v1/notify-device-object-creations" as subscription
+participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
+participant "MWDI://{resource}" as odlCreatedObject
+participant "ElasticSearch\n(metadataTable)" as es
+
+subscription -> regardObjectCreation: {counter, timestamp, resource, objectType} (apiKeyAuth)
+activate regardObjectCreation
+
+regardObjectCreation -> odlCreatedObject: {path = resource potentially shortened to a supported live path}
+
+note over regardObjectCreation
+  <u>UpdateMetadataTable</u>
+    Upon update completion of the CC data in the cache,
+    update the metadata table for the device
+    (last-control-construct-notification-update-time,
+    number-of-partial-updates-since-last-complete-update)
+end note
+regardObjectCreation -> es: {mount-name}
+
+deactivate regardObjectCreation
+@enduml

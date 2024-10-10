@@ -1,0 +1,19 @@
+@startuml 108_ProvideDeviceMetadataTable
+skinparam responseMessageBelowArrow true
+
+title RequestForDeviceStatusMetadataCausesReadingFromElasticSearch
+
+participant "external" as requestor
+participant "MWDI://v1/provide-device-status-metadata" as data
+participant "ElasticSearch" as es
+
+requestor -> data: (apiKeyAuth)
+activate data
+
+data -> es
+es -> data: {metadataTable}
+
+data -> requestor: {metadataTable}
+deactivate data
+
+@enduml

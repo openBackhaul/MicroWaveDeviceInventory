@@ -1,10 +1,12 @@
-@startuml 00x_CyclicOperationBasedDeviceStatusSync
+@startuml 00x_CyclicOperationBasedDeviceListSync
 skinparam responseMessageBelowArrow true
 
 title
-PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController
-PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusMetadataFromCache
-PromptForEmbeddingCausesUpdatingDeviceStatusMetadataInCache
+PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
+PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
+PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache
+PromptForEmbeddingCausesDeletingUnconnectedDevicesFromCache
+PromptForEmbeddingCausesUpdatingMetadataTableInCacheFromDeviceListSync
 end title
 
 participant "RO" as ro
@@ -13,6 +15,7 @@ participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;ne
 participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
 participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as ControlConstruct
 participant "ElasticSearch://control-construct={mountName}" as es
+participant "ElasticSearch\n(metadataTable)" as mtab
 
 ro -> mwdi
 activate mwdi
@@ -49,6 +52,21 @@ connected in list from Controller
 end note
 
 mwdi -> es: delete {mountName}
+
+note over mwdi
+  <u>UpdateMetadataTable</u>
+  FOR each device that has been...
+    - <b>added to deviceList</b>:
+      either add it to the metadataTable, if it is not
+      included yet, or update the existing entry if necessary
+    - <b>deleted from deviceList</b>:
+      update the metadata table
+  
+  (see description under <i>spec/additionalDescription/</i>
+   <i>MetadataTableUpdateProcess.md</i>)
+end note
+mwdi -> mtab: {mount-name, <i>updateAction</i>}
+
 deactivate mwdi
 
 @enduml

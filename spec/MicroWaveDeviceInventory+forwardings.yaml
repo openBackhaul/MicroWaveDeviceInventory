@@ -3648,7 +3648,6 @@ forwardings:
       - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
         uuid: mwdi-1-2-0-op-c-is-odl-4-0-2-573
 
-
   - forwarding-name: RequestForDeletingLinkCausesDeletingFromCache
     uuid: mwdi-1-2-0-op-fc-is-805
     forwarding-type: InvariantProcessSnippet

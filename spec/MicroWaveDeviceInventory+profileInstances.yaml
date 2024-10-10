@@ -195,3 +195,10 @@ profile-instances:
       string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter'
     configuration:
       string-value: 'node(node-id;netconf-node-topology:connection-status)'
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-2-0-string-p-002'
+    capability:
+      string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController.fieldsFilter'
+    configuration:
+      string-value: 'node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)'

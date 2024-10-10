@@ -1,7 +1,7 @@
 @startuml 108_ProvideDeviceMetadataTable
 skinparam responseMessageBelowArrow true
 
-title RequestForDeviceStatusMetadataCausesReadingFromCache
+title RequestForDeviceStatusMetadataCausesReadingFromElasticSearch
 
 participant "external" as requestor
 participant "MWDI://v1/provide-device-status-metadata" as data

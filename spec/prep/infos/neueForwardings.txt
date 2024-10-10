@@ -2,18 +2,18 @@ neue Diagramme
 -----------------------
 00y: metadataTableSync
   PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController
-  PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusMetadataFromCache
-  PromptForEmbeddingCausesUpdatingDeviceStatusMetadataInCache
+  PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusMetadataFromElasticSearch
+  PromptForEmbeddingCausesUpdatingDeviceStatusMetadataInElasticSearch
 
 108: ProvideTable
-  RequestForDeviceStatusMetadataCausesReadingFromCache
+  RequestForDeviceStatusMetadataCausesReadingFromElasticSearch
 
 
 
 erweiterte Diagramme
 -----------------------
 00x: (deviceListSync)
-  PromptForEmbeddingCausesUpdatingMetadataTableInCacheFromDeviceListSync
+  PromptForEmbeddingCausesUpdatingMetadataTableInElasticSearchFromDeviceListSync
 
 020: (notificationAddDevice)
   NotifiedNewDeviceCausesMetadataTableUpdate

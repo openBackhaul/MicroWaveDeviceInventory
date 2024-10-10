@@ -2545,6 +2545,115 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-device-status-metadata:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDeviceStatusMetadata
+      summary: 'Provides metadata status table of devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Table with device status metadata provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - device-status-metadata
+                properties:
+                  device-status-metadata:
+                    type: array
+                    items:
+                      required:
+                        - mount-name
+                        - connection-status
+                        - changed-to-disconnected-time
+                        - added-to-device-list-time
+                        - last-complete-control-construct-update-time
+                        - last-control-construct-notification-update-time
+                        - number-of-partial-updates-since-last-complete-update
+                        - schema-cache-directory
+                      properties:
+                        mount-name:
+                          type: string
+                          description: >
+                            'Identifier of the device at the Controller'
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/mount-name}'
+                        connection-status:
+                          type: string
+                          enum:
+                            - 'connected'
+                            - 'connecting'
+                            - 'unable-to-connect'
+                          description: >
+                            'The connection-status of the device at the Controller
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/connection-status}'
+                        changed-to-disconnected-time:
+                          type: string
+                          description: >
+                            'Timestamp for the last time the device connection-status changed from connected into connecting or unable-to-connect
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/changed-to-disconnected-time}'
+                        added-to-device-list-time:
+                          type: string
+                          description: >
+                            'Timestamp of the time, the device was added to the deviceList
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/added-to-device-list-time}'
+                        last-complete-control-construct-update-time:
+                          type: string
+                          description: >
+                            'Timestamp of the last time, when the controlConstruct was updated completely by the periodic retrieval
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-complete-control-construct-update-time}'
+                        last-control-construct-notification-update-time:
+                          type: string
+                          description: >
+                            'Timestamp of the last time, when the controlConstruct was updated due a received notification
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-control-construct-notification-update-time}'
+                        number-of-partial-updates-since-last-complete-update:
+                          type: integer
+                          description: >
+                            'Number of controlConstruct updates for this device due to received notifications since the last complete update
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/number-of-partial-updates-since-last-complete-update}'
+                        schema-cache-directory:
+                          type: string
+                          description: >
+                            'The schema cache directy specified at the Controller, which indicates the vendor and for a subset of devices also the device type
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/schema-cache-directory}'
+              example:
+                device-status-metadata:
+                  - mount-name: '305251234'
+                    connection-status: 'connected'
+                    changed-to-disconnected-time: 
+                    added-to-device-list-time: '2024-10-10T14:00:00+01:00'
+                    last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+                    last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
+                    number-of-partial-updates-since-last-complete-update: 7
+                    schema-cache-directory: 'hua'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-018/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/notify-attribute-value-changes:
     parameters:

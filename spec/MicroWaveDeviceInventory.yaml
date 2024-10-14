@@ -28385,6 +28385,29 @@ components:
                   $ref: '#/components/schemas/WRED_PROFILE_CAPABILITY'
                 wred-profile-configuration:
                   $ref: '#/components/schemas/WRED_PROFILE_CONFIGURATION'
+        - description: 'wred-template-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - wred-template-profile-1-0:wred-template-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'wred-template-profile-1-0:PROFILE_NAME_TYPE_WRED_TEMPLATE_PROFILE'
+            wred-template-profile-1-0:wred-template-profile-pac:
+              type: object
+              required:
+                - wred-template-profile-capability
+                - wred-template-profile-configuration
+              properties:
+                wred-profile-capability:
+                  $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CAPABILITY'
+                wred-profile-configuration:
+                  $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CONFIGURATION'
     CO_CHANNEL_PROFILE_CAPABILITY:
       type: object
     CO_CHANNEL_PROFILE_CONFIGURATION:
@@ -28404,6 +28427,10 @@ components:
     WRED_PROFILE_CAPABILITY:
       type: object
     WRED_PROFILE_CONFIGURATION:
+      type: object
+    WRED_TEMPLATE_PROFILE_CAPABILITY:
+      type: object
+    WRED_TEMPLATE_PROFILE_CONFIGURATION:
       type: object
 
     LOGICAL_TERMINATION_POINT:

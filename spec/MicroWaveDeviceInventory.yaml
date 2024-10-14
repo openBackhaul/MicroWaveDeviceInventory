@@ -2076,57 +2076,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForListOfLinksCausesReadingFromCache:
-          SearchingLinksInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    enum:
-                      - 'link(uuid)'
-              responses:
-                '200':
-                  description: 'List of linkids provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - /
-                        properties:
-                          /:
-                            type: object
-                            required:
-                              - core-model-1-4:link
-                            properties:
-                              core-model-1-4:link:
-                                type: array
-                                items:
-                                  type: object
-                                  required:
-                                    - uuid
-                                  properties:
-                                    uuid:
-                                      type: string
-                                    forwarding-domain:
-                                      type: string
-                      example:
-                        /:
-                          core-model-1-4:link:
-                            - uuid: '101550001'
-                            - uuid: '204550003'
-                            - uuid: 'genericLink1'
-                              forwarding-domain: 'fd1'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks: directly to ElasticSearch, see forwardingList
   /v1/provide-list-of-link-ports:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -2180,65 +2130,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForListOfLinkPortsCausesReadingFromCache:
-          SearchingLinkPortsInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    enum:
-                      - 'link(uuid;link-port(local-id))'
-              responses:
-                '200':
-                  description: 'List of linkPortIds provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - /
-                        properties:
-                          /:
-                            type: object
-                            required:
-                              - core-model-1-4:link
-                            properties:
-                              core-model-1-4:link:
-                                type: array
-                                items:
-                                  type: object
-                                  required:
-                                    - uuid
-                                    - link-port
-                                  properties:
-                                    uuid:
-                                      type: string
-                                    link-port:
-                                      type: array
-                                      items:
-                                        type: object
-                                        required:
-                                          - local-id
-                                        properties:
-                                          local-id:
-                                            type: string
-                      example:
-                        /:
-                          core-model-1-4:link:
-                            - uuid: '101550001'
-                              link-port:
-                                - local-id: 'localId1'
-                                - local-id: 'localId2'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/provide-data-of-all-links:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -2357,56 +2248,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForDataOfLinksCausesReadingFromCache:
-          SearchingLinksInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              responses:
-                '200':
-                  description: 'List of link records provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - /
-                        properties:
-                          /:
-                            type: object
-                            required:
-                              - core-model-1-4:link
-                            properties:
-                              core-model-1-4:link:
-                                type: array
-                                items:
-                                  $ref: '#/components/schemas/LINK'
-                      example:
-                        /:
-                          core-model-1-4:link:
-                            - uuid: '513559996'
-                              layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                              end-point-list:
-                                - control-construct: '513250009'
-                                  logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
-                                  layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
-                                - control-construct: '513250008'
-                                  logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
-                                  layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
-                            - uuid: '513559997'
-                              layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                              end-point-list:
-                                - control-construct: '513250009'
-                                  logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
-                                  layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
-                                - control-construct: '513250008'
-                                  logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
-                                  layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks: directly to ElasticSearch, see forwardingList
   /v1/provide-data-of-all-link-ports:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -2487,64 +2329,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForDataOfLinkPortsCausesReadingFromCache:
-          SearchingLinkPortsInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    enum:
-                      - 'link(uuid;link-port)'
-              responses:
-                '200':
-                  description: 'Linkport data provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - /
-                        properties:
-                          /:
-                            type: object
-                            required:
-                              - core-model-1-4:link
-                            properties:
-                              core-model-1-4:link:
-                                type: array
-                                items:
-                                  type: object
-                                  required:
-                                    - uuid
-                                    - link-port
-                                  properties:
-                                    uuid:
-                                      type: string
-                                    link-port:
-                                      type: array
-                                      items:
-                                        $ref: '#/components/schemas/LINK_PORT'
-                      example:
-                        /:
-                          core-model-1-4:link:
-                          - uuid: 'genericLink1'
-                            link-port:
-                              - local-id: '1'
-                                link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                                logical-termination-point: 'mountnameA+ltpA'
-                              - local-id: '2'
-                                link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                                logical-termination-point: 'mountnameB+ltpB'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks: directly to ElasticSearch, see forwardingList
   /v1/provide-device-status-metadata:
     parameters:
       - $ref: '#/components/parameters/user'

@@ -1,11 +1,15 @@
 @startuml 023_NotificationBasedAttributeUpdate
 skinparam responseMessageBelowArrow true
 
-title NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
+title 
+  NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
+  NotifiedDeviceAttributeValueChangeCausesMetadataTableUpdate
+end title
 
 participant "NP://v1/notify-device-attribute-value-changes" as subscription
 participant "MWDI://v1/regard-device-attribute-value-change" as regardAttributeChange
 participant "ElasticSearch://{resource}" as es
+participant "ElasticSearch\n(metadataTable)" as mtab
 
 subscription -> regardAttributeChange: {counter, timestamp, resource, attributeName, newValue} (apiKeyAuth)
 activate regardAttributeChange
@@ -19,6 +23,16 @@ end note
 
 regardAttributeChange -> es: PUT
 deactivate regardAttributeChange
+
+note over regardAttributeChange
+  <u>UpdateMetadataTable</u>
+    Upon update completion of the CC data in the cache,
+    update the metadata table for the device
+    (last-control-construct-notification-update-time,
+    number-of-partial-updates-since-last-complete-update)
+end note
+regardAttributeChange -> es: {mount-name}
+
 
 note over es
 Remark: 

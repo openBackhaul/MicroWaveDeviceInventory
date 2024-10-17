@@ -1,11 +1,15 @@
 @startuml 021_NotificationBasedDeviceListSyncDelete
 skinparam responseMessageBelowArrow true
 
-title  NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+title  
+  NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+  NotifiedDisconnectedDeviceCausesMetadataTableUpdate
+end title
 
 participant "NP://v1/notify-controller-attribute-value-changes" as subscription
 participant "MWDI://v1/regard-controller-attribute-value-change" as regardDisconnectedDevice
 participant "ElasticSearch://control-construct={mountName}" as es
+participant "ElasticSearch\n(metadataTable)" as es
 
 subscription -> regardDisconnectedDevice: notification {mount-name} (apiKeyAuth)
 activate regardDisconnectedDevice
@@ -16,6 +20,16 @@ AND IF new-value != 'connected'
 end note
 
 regardDisconnectedDevice -> es: delete {mount-name = value behind control-construct= in resource}
+
+
+note over regardDisconnectedDevice
+  <u>UpdateMetadataTable</u>
+      Update the device record according to the description in
+      <i>spec/additionalDescription/MetadataTableUpdateProcess.md</i>.
+end note
+regardDisconnectedDevice -> es: {mountName from notification}
+
+
 deactivate regardDisconnectedDevice
 
 @enduml

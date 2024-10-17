@@ -77,3 +77,10 @@ As can be seen, the metadata table is updated due to
 
 ![TableUpdate](./pictures/metadataTableUpdate.png)
 
+---
+## Optional filtering or returned data
+
+By default, the service /v1/provide-device-status-metadata returns the complete metadata table with all contained devices.  
+However, the service can optionally be called with a requestBody containing a list of devices, for which the returned data shall be filtered.  
+(If no such list is provided, there is not filtering on the results.)  
+Also, if the filter list contains devices, for which no data is found in the metadata table, these list entries are ignored.

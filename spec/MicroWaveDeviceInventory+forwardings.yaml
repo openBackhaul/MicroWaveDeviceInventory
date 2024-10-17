@@ -340,6 +340,10 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-is-160
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-0-op-s-is-161
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-s-is-162
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-s-is-163
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-0-op-s-is-200
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
@@ -456,6 +460,10 @@ forwardings:
         uuid: mwdi-1-2-0-op-s-is-460
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-0-op-s-is-461
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-s-is-462
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-s-is-463
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-0-op-s-is-500
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
@@ -1070,6 +1078,10 @@ forwardings:
         uuid: mwdi-1-2-0-op-c-get-es-1-0-0-160
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-0-op-c-get-es-1-0-0-161
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-get-es-1-0-0-162
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-c-get-es-1-0-0-163
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-0-op-c-get-es-1-0-0-200
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
@@ -1182,6 +1194,10 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
         uuid: mwdi-1-2-0-op-c-put-es-1-0-0-460
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
+        uuid: mwdi-1-2-0-op-c-put-es-1-0-0-461
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-put-es-1-0-0-460
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
         uuid: mwdi-1-2-0-op-c-put-es-1-0-0-461
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-0-op-c-put-es-1-0-0-500
@@ -1320,10 +1336,10 @@ forwardings:
         uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-455
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
         uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-456
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
-        uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-460
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
-        uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-461
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-462
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-463
 
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-0-op-c-is-mwdi-1-2-0-500
@@ -1482,6 +1498,10 @@ forwardings:
         uuid: mwdi-1-2-0-op-c-del-es-1-0-0-760
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-0-op-c-del-es-1-0-0-761
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-del-es-1-0-0-762
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-c-del-es-1-0-0-763
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-0-op-c-del-es-1-0-0-800
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
@@ -2166,6 +2186,36 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-0-op-c-get-es-1-0-0-161
+
+  - forwarding-name: RequestForCachedWredTemplateProfileCapabilityCausesReadingFromCache
+    uuid: mwdi-1-2-0-op-fc-is-162
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-s-is-162
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-get-es-1-0-0-162
+
+  - forwarding-name: RequestForCachedWredTemplateProfileConfigurationCausesReadingFromCache
+    uuid: mwdi-1-2-0-op-fc-is-163
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-s-is-163
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-c-get-es-1-0-0-163
 
   - forwarding-name: RequestForCachedLogicalTerminationPointCausesReadingFromCache
     uuid: mwdi-1-2-0-op-fc-is-200
@@ -3089,6 +3139,40 @@ forwardings:
         uuid: mwdi-1-2-0-op-c-is-odl-4-0-2-461
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-0-op-c-put-es-1-0-0-461
+
+  - forwarding-name: RequestForLiveWredTemplateProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-1-2-0-op-fc-is-462
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-s-is-462
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-is-odl-4-0-2-462
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
+        uuid: mwdi-1-2-0-op-c-put-es-1-0-0-462
+
+  - forwarding-name: RequestForLiveWredTemplateProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-1-2-0-op-fc-is-463
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-s-is-463
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-c-is-odl-4-0-2-463
+      - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
+        uuid: mwdi-1-2-0-op-c-put-es-1-0-0-463
 
   - forwarding-name: RequestForLiveLogicalTerminationPointCausesReadingFromDeviceAndWritingIntoCache
     uuid: mwdi-1-2-0-op-fc-is-500

@@ -12348,7 +12348,7 @@ paths:
                 type: object
                 properties:
                   wred-template-profile-1-0:wred-template-profile-capability:
-                    $ref: '#/components/schemas/WRED_TEMPLATEPROFILE_CAPABILITY'
+                    $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CAPABILITY'
                     description: >
                       'from {$RequestForReadingFromDevice.response.body#wred-template-profile-1-0:wred-template-profile-capability}
                       and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
@@ -12602,6 +12602,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+
   /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}:
     parameters:
       - $ref: '#/components/parameters/user'

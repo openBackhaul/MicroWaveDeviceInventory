@@ -2344,6 +2344,21 @@ paths:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mount-name-list:
+                  type: array
+                  items:
+                    type: string
+                  description: 'Optional list of device names. If provided, the returned status metadata is filtered for devices from the list.'
+            example:
+              mount-name-list:
+                - '305251234'
+                - '105258888'
       responses:
         '200':
           description: 'Table with device status metadata provided'

@@ -7,13 +7,20 @@ participant "external" as requestor
 participant "MWDI://v1/provide-device-status-metadata" as data
 participant "ElasticSearch" as es
 
-requestor -> data: (apiKeyAuth)
+requestor -> data: {(optional) mount-name-list} (apiKeyAuth)
 activate data
 
-data -> es
-es -> data: {metadataTable}
+note over es
+  Optionally the metadata service can be called with
+  a mount-name-list (requestBody).
+  If such a list is provided, the metadata table
+  content is filtered for devices from this list.
+end note
 
-data -> requestor: {metadataTable}
+data -> es: {(optional) mount-name-list}
+es -> data: {(filtered) metadataTable}
+
+data -> requestor: {(filtered) metadataTable}
 deactivate data
 
 @enduml

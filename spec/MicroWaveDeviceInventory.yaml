@@ -2347,6 +2347,7 @@ paths:
       security:
         - apiKeyAuth: []
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -2356,7 +2357,7 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: 'Optional list of device names. If provided, the returned status metadata is filtered for devices from the list.'
+                  description: 'List of names of devices for which the status metadata shall be provided.'
             example:
               mount-name-list:
                 - '305251234'

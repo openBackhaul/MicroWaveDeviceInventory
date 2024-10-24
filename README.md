@@ -39,7 +39,7 @@ The v1.2.0 release adds the following new functionality:
 #### Open issues
 Spec release v1.2.0 will be a prerelease of the specification handed over to the implementers for effort estimation.  
 There are still some open issues, which will be fixed and delivered with spec release 1.2.1.  
-The list of open issues in scope can be found in the [spec_1.2.1](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/11) milestone.  
+The list of open issues in scope can be found in the [spec_1.2.1](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/15) milestone.  
 
 ### Relevance
 The MicroWaveDeviceInventory holds the inventory of the live MW network at Telefonica Germany.  

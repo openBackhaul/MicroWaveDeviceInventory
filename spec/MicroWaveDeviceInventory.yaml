@@ -1710,8 +1710,10 @@ paths:
                             from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/uuid}'
                         equipment-type-name:
                           type: string
+                          minLength: 1
                           description: >
-                            'Name of the type of equipment
+                            'Excluding empty strings is for filting for instances of the Equipment class that have an instance of the ActualEquipment class attached.
+                            Name of the type of equipment
                             from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/actual-equipment/manufactured-thing/equipment-type/type-name}'
               example:
                 top-level-equipment:

@@ -1,0 +1,29 @@
+@startuml 106_ProvideDataOfAllLinks
+skinparam responseMessageBelowArrow true
+
+title RequestForDataOfLinksCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-data-of-all-links" as data
+participant "ElasticSearch" as es
+
+requestor -> data: {optional: linkType} (apiKeyAuth)
+activate data
+
+data -> es: {optional: linkType} 
+note over es
+  Retrieve all (filtered) <i>core-model-1-4:link</i> records from the cache.
+
+  A linkType filter can be provided via the requestBody.
+  If linkType is .. return ..:
+  - omitted: all records
+  - <i>"generic"</i>: only records WITH property <i>forwarding-domain</i>
+  - <i>"minimumForRest"</i>: only records WITHOUT property <i>forwarding-domain</i>
+end note
+
+es --> data: {(filtered) linkDataList}
+
+data --> requestor: {(filtered) linkDataList}
+deactivate data
+
+@enduml

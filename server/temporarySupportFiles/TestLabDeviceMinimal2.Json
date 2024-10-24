@@ -2,65 +2,21 @@
     "network-topology:network-topology": {
         "topology": [
             {
-                "node": [                    
+                "node": [
                     {
-                        "node-id": "L",
+                        "node-id": "513250011",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "M",
+                        "node-id": "513250004",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "N",
+                        "node-id": "513250007",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "O",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "P",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "Q",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "R",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "S",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "T",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "U",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "V",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "W",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "X",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "Y",
-                        "netconf-node-topology:connection-status": "connected"
-                    },
-                    {
-                        "node-id": "Z",
+                        "node-id": "513250006",
                         "netconf-node-topology:connection-status": "connected"
                     }
                 ]

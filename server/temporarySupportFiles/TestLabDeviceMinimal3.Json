@@ -2,37 +2,77 @@
     "network-topology:network-topology": {
         "topology": [
             {
-                "node": [                    
+                "node": [
                     {
-                        "node-id": "S",
+                        "node-id": "CO02060",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "T",
+                        "node-id": "513559991A",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "U",
+                        "node-id": "513250012",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "V",
+                        "node-id": "513250011",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "W",
+                        "node-id": "513250005",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "X",
+                        "node-id": "513250004",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "Y",
+                        "node-id": "513250007",
                         "netconf-node-topology:connection-status": "connected"
                     },
                     {
-                        "node-id": "Z",
+                        "node-id": "513250006",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO17691",
+                        "netconf-node-topology:connection-status": "unable-to-connect"
+                    },
+                    {
+                        "node-id": "CO12126",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO17692",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO17694",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO15337",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO17695",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO15950",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO17690",
+                        "netconf-node-topology:connection-status": "unable-to-connect"
+                    },
+                    {
+                        "node-id": "CO02059",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO13306",
                         "netconf-node-topology:connection-status": "connected"
                     }
                 ]

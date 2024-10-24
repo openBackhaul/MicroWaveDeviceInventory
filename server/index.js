@@ -2,23 +2,28 @@
 
 var path = require('path');
 var http = require('http');
+require('console-stamp')(console);
 
-var oas3Tools = require('oas3-tools');
+var oas3Tools = require('openbackhaul-oas3-tools');
 var serverPort = 8080;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
+var individual = require('./service/IndividualServicesService');
+var apiKeyAuth = require('./utils/apiKeyAuth');
+appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
-const startModule = require('./temporarySupportFiles/StartModule.js');
+const { Console } = require('console');
+
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
-appCommons.openApiValidatorOptions.validateSecurity = false;
-
+//appCommons.openApiValidatorOptions.validateSecurity = false;
+appCommons.openApiValidatorOptions.validateResponses = false;
 // swaggerRouter configuration
 var options = {
     routing: {
         controllers: path.join(__dirname, './controllers')
     },
- //   openApiValidator: appCommons.openApiValidatorOptions
+    openApiValidator: appCommons.openApiValidatorOptions
 };
 
 var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
@@ -31,7 +36,11 @@ appCommons.setupExpressApp(app);
     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 });
 */
-global.databasePath = './database/load.json'
+global.databasePath = './database/load.json';
+(async () => {
+    global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+    global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
+ })()
 
 
 
@@ -45,9 +54,6 @@ prepareElasticsearch(false).catch(err => {
         console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
     appCommons.performApplicationRegistration();
-
-    /******************* CYCLIC PROCESS START POINT **********************/
-    startModule.start()
-    /*********************************************************************/
+    
 }
 );

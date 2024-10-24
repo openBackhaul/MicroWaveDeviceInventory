@@ -1,0 +1,24 @@
+@startuml 107_ProvideDataOfAllLinkPorts
+skinparam responseMessageBelowArrow true
+
+title RequestForDataOfLinkPortsCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-data-of-all-link-ports" as data
+participant "ElasticSearch" as es
+
+requestor -> data: (apiKeyAuth)
+activate data
+
+data -> es
+note over es
+  retrieve all <i>core-model-1-4:link</i> records for generic links
+  from the cache, return the linkPortDataList as listOf(uuid;link-port)
+end note
+
+es --> data: {linkPortDataList}
+
+data --> requestor: {linkPortDataList}
+deactivate data
+
+@enduml

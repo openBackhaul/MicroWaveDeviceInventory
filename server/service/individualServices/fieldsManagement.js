@@ -151,7 +151,7 @@ function getKeysRecursively(obj, level) {
 function getObjFromFilter(jsonObjName, filterObjList) {
 
     for (var i = 0; i < filterObjList.length; i++) {
-        if (filterObjList[i].value === jsonObjName) {
+        if (filterObjList[i].value === jsonObjName ) {
             return filterObjList[i]
         }
     }

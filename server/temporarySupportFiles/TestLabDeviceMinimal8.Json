@@ -1,0 +1,42 @@
+{
+    "network-topology:network-topology": {
+        "topology": [
+            {
+                "node": [
+                    {
+                        "node-id": "513250007",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "513250006",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "513250008",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO12126",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "BBBBBBB",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO12124",
+                        "netconf-node-topology:connection-status": "connected"
+                    },
+                    {
+                        "node-id": "CO13306",
+                        "netconf-node-topology:connection-status": "connected"
+                    },                    
+                    {
+                        "node-id": "AAAAAAA",
+                        "netconf-node-topology:connection-status": "connected"
+                    }
+                ]
+            }
+        ]
+    }
+}

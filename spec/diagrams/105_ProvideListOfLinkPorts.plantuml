@@ -1,0 +1,24 @@
+@startuml 105_ProvideListOfLinkPorts
+skinparam responseMessageBelowArrow true
+
+title RequestForListOfLinkPortsCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-list-of-link-ports" as portlist
+participant "ElasticSearch" as es
+
+requestor -> portlist: (apiKeyAuth)
+activate portlist
+
+portlist -> es
+note over es
+  from all <i>core-model-1-4:link</i> records (generic links)
+  in the cache retrieve the list of link-port/local-ids
+end note
+
+es --> portlist: {linkPortList}
+
+portlist --> requestor: {linkPortList}
+deactivate portlist
+
+@enduml

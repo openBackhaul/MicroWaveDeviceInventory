@@ -1,0 +1,38 @@
+@startuml 105_ProvideListOfLinks
+skinparam responseMessageBelowArrow true
+title RequestForListOfLinksCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-list-of-links" as linklist
+participant "ElasticSearch" as es
+
+requestor -> linklist: {optional: linkType} (apiKeyAuth)
+activate linklist
+
+linklist -> es: {optional: linkType}
+note over es
+  From all <i>core-model-1-4:link</i> records in the cache, retrieve
+  the (filtered) list of uuids.
+
+  A linkType filter can be provided via the requestBody.
+  If linkType is .. return ..:
+  - omitted: all uuids
+  - <i>"generic"</i>: only uuids of records WITH property <i>forwarding-domain</i>
+  - <i>"minimumForRest"</i>: only uuids of records WITHOUT property <i>forwarding-domain</i>
+end note
+
+es --> linklist: {(filtered) linkidList}
+
+linklist --> requestor: {(filtered) linkidList}
+deactivate linklist
+
+note over requestor, es #White
+<font color="gray" size="10">Note: links can be of type generic or minimumForRest (mfr).</font>
+<font color="gray" size="10">In addition to the common properties (uuid, layer-protocol-name), each of both has a set of properties the other link type does not have.</font>
+<font color="gray" size="10">- generic: link-direction, forwarding-domain, link-port</font>
+<font color="gray" size="10">- mfr: end-point-list</font>
+<font color="gray" size="10">While each of these properties could be used to identify the type of a link, forwarding-domain has been selected for this.</font>
+end note
+
+
+@enduml

@@ -69,11 +69,12 @@ async function createIndexTemplate() {
             template: {
                 settings: {
                     "index": {
-                      "mapping": {
-                        "total_fields": {
-                          "limit": "9000"                   
-                        }
-                      }
+                        "mapping": {
+                            "total_fields": {
+                                "limit": "9000"
+                            }
+                        },
+                        "mapping.ignore_malformed": true 
                     }
                 },
                 mappings: {
@@ -447,7 +448,13 @@ async function createIndexTemplate() {
                                                     }
                                                 },
                                                 "ready-for-starting-new-operation": {
-                                                    "type": "boolean"
+                                                    "type": "text",
+                                                    "fields": {
+                                                        "keyword": {
+                                                            "type": "keyword",
+                                                            "ignore_above": 256
+                                                        }
+                                                    }
                                                 },
                                                 "restore-operation-status": {
                                                     "type": "text",
@@ -5709,6 +5716,15 @@ async function createIndexTemplate() {
                                                 },
                                                 "extension": {
                                                     "properties": {
+                                                        "value": {
+                                                            "type": "text",
+                                                            "fields": {
+                                                                "keyword": {
+                                                                    "type": "keyword",
+                                                                    "ignore_above": 256
+                                                                }
+                                                            }
+                                                        },
                                                         "value-name": {
                                                             "type": "text",
                                                             "fields": {
@@ -9567,11 +9583,15 @@ async function createIndexTemplate() {
                                                             }
                                                         },
                                                         "ptp-transparent-clock-default-dataset": {
-                                                            "type": "text",
-                                                            "fields": {
-                                                                "keyword": {
-                                                                    "type": "keyword",
-                                                                    "ignore_above": 256
+                                                            "properties": {
+                                                                "number-ports" : {
+                                                                    "type" : "text"
+                                                                },
+                                                                "primary-domain" : {
+                                                                    "type" : "text"
+                                                                },
+                                                                "delay-mechanism" : {
+                                                                    "type" : "text"
                                                                 }
                                                             }
                                                         }

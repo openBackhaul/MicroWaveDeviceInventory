@@ -2,11 +2,15 @@
 
 skinparam responseMessageBelowArrow true
 
-title NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
+title 
+  NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
+  NotifiedDeviceAlarmCausesMetadataTableUpdate
+end title
 
 participant "NP://v1/notify-device-alarms" as subscription
 participant "MWDI://v1/regard-device-alarm" as regardAlarm
 participant "ElasticSearch://control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
+participant "ElasticSearch\n(metadataTable)" as es
 
 subscription -> regardAlarm: {counter, timestamp, resource, alarm-type-id, alarm-type-qualifier, severity} (apiKeyAuth)
 activate regardAlarm
@@ -33,6 +37,16 @@ IF request.body.problem-severity == CLEARED:
 end note
 
 regardAlarm -> CurrentAlarms: PUT {currentAlarmList, numberOfCurrentAlarms, timeOfLatestChange}
+
+note over regardAlarm
+  <u>UpdateMetadataTable</u>
+    Upon update completion of the CC data in the cache,
+    update the metadata table for the device
+    (last-control-construct-notification-update-time,
+    number-of-partial-updates-since-last-complete-update)
+end note
+regardAlarm -> es: {mount-name}
+
 deactivate regardAlarm
 
 note over CurrentAlarms

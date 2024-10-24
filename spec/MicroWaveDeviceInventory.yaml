@@ -23067,13 +23067,9 @@ paths:
                                         file-profile-configuration:
                                           type: object
                                           required:
-                                            - file-path
+                                            - file-name
                                           properties:
-                                            file-path:
-                                              type: string
-                                            user-name:
-                                              type: string
-                                            password:
+                                            file-name:
                                               type: string
                                             operation:
                                               type: string
@@ -24184,13 +24180,9 @@ paths:
                               file-profile-configuration:
                                 type: object
                                 required:
-                                  - file-path
+                                  - file-name
                                 properties:
-                                  file-path:
-                                    type: string
-                                  user-name:
-                                    type: string
-                                  password:
+                                  file-name:
                                     type: string
                                   operation:
                                     type: string
@@ -24976,7 +24968,7 @@ paths:
               properties:
                 file-profile-1-0:file-name:
                   type: string
-                  pattern: '^([A-Za-z0-9-_,\s]{3,})\.([A-Za-z]{3})$'
+                  pattern: '^([A-Za-z0-9-_,\s]{3,}).([A-Za-z]{3,})$'
                   example: 'application-data.json'
       responses:
         '204':

@@ -212,9 +212,7 @@
               "file-description": "Authorization key for OpenDayLight"
             },
             "file-profile-configuration": {
-              "file-path": "../application-data/encrypted-odl-key.json",
-              "user-name": "MicroWaveDeviceInventory",
-              "password": "Operations to add password",
+              "file-name": "encrypted-odl-key.json",
               "operation": "file-profile-1-0:OPERATION_TYPE_READ_ONLY"
             }
           }
@@ -284,7 +282,7 @@
         {
           "uuid": "mwdi-1-2-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
-          "string-profile-1-0:integer-profile-pac": {
+          "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "controllerInternalPathToMountPoint"
             },
@@ -296,7 +294,7 @@
         {
           "uuid": "mwdi-1-2-0-string-p-001",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
-          "string-profile-1-0:integer-profile-pac": {
+          "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter"
             },
@@ -4262,8 +4260,8 @@
                   },
                   {
                     "local-id": "1",
-                    "release-number": "1.1.0",
-                    "release-date": "28.10.2023",
+                    "release-number": "1.1.2",
+                    "release-date": "23.11.2023",
                     "changes": "FD, FC, FcPort, Link and LinkPort added."
                   },
                   {

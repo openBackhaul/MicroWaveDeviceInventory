@@ -204,6 +204,44 @@
           }
         },
         {
+          "uuid": "mwdi-1-2-0-response-p-008",
+          "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+          "response-profile-1-0:response-profile-pac": {
+            "response-profile-capability": {
+              "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+              "field-name": {
+                "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/release-number"
+              },
+              "description": "Represents the second entry in the list of releases",
+              "datatype": "string"
+            },
+            "response-profile-configuration": {
+              "value": {
+                "value-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/changes"
+              }
+            }
+          }
+        },
+        {
+          "uuid": "mwdi-1-2-0-response-p-009",
+          "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+          "response-profile-1-0:response-profile-pac": {
+            "response-profile-capability": {
+              "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+              "field-name": {
+                "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=2/release-number"
+              },
+              "description": "Represents the third entry in the list of releases",
+              "datatype": "string"
+            },
+            "response-profile-configuration": {
+              "value": {
+                "value-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=2/changes"
+              }
+            }
+          }
+        },
+        {
           "uuid": "mwdi-1-2-0-file-p-000",
           "profile-name": "file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE",
           "file-profile-1-0:file-profile-pac": {
@@ -4234,7 +4272,7 @@
           "mwdi-1-2-0-op-s-is-571",
           "mwdi-1-2-0-op-s-is-572",
           "mwdi-1-2-0-op-s-is-573",
-          "mwdi-1-2-0-op-s-is-574"              
+          "mwdi-1-2-0-op-s-is-574"
         ],
         "server-ltp": [
           "mwdi-1-2-0-tcp-s-000"
@@ -4268,7 +4306,7 @@
                     "local-id": "2",
                     "release-number": "1.2.0",
                     "release-date": "28.10.2024",
-                    "changes": "todo."
+                    "changes": "[THIS ENTRY WILL BE CHANGED TO 1.2.1 ONCE 1.2.1_spec ISSUES ARE SOLVED! 1.2.0 IS JUST A PRE-RELEASE] New services for link, linkport, status metadata and update to AppPattern 2.1.2."
                   }
                 ]
               }

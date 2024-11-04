@@ -1,0 +1,130 @@
+# bequeath-your-data-and-die
+# hier auch was??? -> todo
+# callbacks:
+#   PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
+#   PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
+#   PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
+#   PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+
+
+# notification receipt
+  - operation-name: /v1/regard-controller-attribute-value-change
+      # service selbst: defaults sind ok
+      # callbacks:
+        # NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct: 
+          # -> CTRL --> 502, 530, 531, 532
+        # NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+          # -> MWDI --> nur 4xx (404 sollte passen)
+  - operation-name: /v1/regard-device-alarm
+      # 
+      # callbacks:
+      # NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
+      #  ReadCurrentAlarmListFromCache
+      #  WriteUpdatedCurrentAlarmListToCache -> ggf. 470 ergänzen       (theoretisch könnte es sein, dass die Ressource für die der Alarm kommt, nicht im CC steht (wenn das CC zB incomplete ist))
+
+  - operation-name: /v1/regard-device-attribute-value-change
+        # - 470: die Ressource ist nicht da
+        # callbacks:
+        #   NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
+        #     ReadClass.get: -> 470 theoretisch könnte es sein, dass die Ressource nicht da ist (z.B. weil vorheriges CC Update fehlt)
+        #     UpdateAndWriteClass.put -> 470 (falls das ReadClass ein 470 geliefert hat)
+  - operation-name: /v1/regard-device-object-creation
+        # - 533: wenn die Ressource nicht auf dem Gerät exististiert kommt ein Fehler! (CTRL) (NEUEN CODE HINZUFÜGEN!) ===>
+        #   SICHERHEITSHALBER NOCHMAL PRÜFEN, OB DAS MWDI DA AUCH EINE FEHLERMELDUNG JETZT SCHON LIEFERT (kann auch einfach nur ein 204, notification received sein!)
+        # callbacks:
+        #   NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath (get)
+        #   (der Controller gibt hier seine eigene Error Response zurück; die 533 wird nicht vom callback zurückgegeben (der Callback geht ja auf den Controller, d.h. der Callback hat auch nur die COntroller-Responses!))
+  - operation-name: /v1/regard-device-object-deletion
+        # analog zur object creation: 533 
+        # callbacks:
+        #   NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache (delete)
+
+# ordinary services
+  - operation-name: /v1/provide-list-of-connected-devices
+        # keine neuen Codes
+        # callbacks:
+        #   RequestForListOfConnectedDevicesCausesReadingFromCache (get)
+  - operation-name: /v1/provide-list-of-device-interfaces
+        # 460: device not in deviceList
+        # callbacks:
+        #   RequestForListOfDeviceInterfacesCausesReadingFromCache (get)
+        #   (460: device not in deviceList)
+  - operation-name: /v1/provide-list-of-actual-device-equipment
+        # 
+        # callbacks:
+        #   RequestForListOfActualDeviceEquipmentCausesReadingFromCache (get)
+  - operation-name: /v1/provide-list-of-parallel-links
+        # 
+        # callbacks:
+        #   RequestForListOfParallelLinksCauses
+        #     ReadingEndpointsFromCache (get)
+        #     SearchingParallelLinksInCache (get)
+  - operation-name: /v1/provide-list-of-links
+        # 
+        # callbacks: / (direkt ES)
+  - operation-name: /v1/provide-list-of-link-ports
+        # 
+        # callbacks: / (direkt ES)
+  - operation-name: /v1/provide-data-of-all-links
+        # 
+        # callbacks: / (direkt ES)
+  - operation-name: /v1/provide-data-of-all-link-ports
+        # 
+        # callbacks: / (direkt ES)
+  - operation-name: /v1/provide-device-status-metadata
+        # 
+        # callbacks: / (direkt ES)
+
+# offered subscriptions
+  - operation-name: /v1/notify-attribute-value-changes
+        # 
+        # callbacks:
+        #   SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications (post)
+  - operation-name: /v1/notify-object-creations
+        # 
+        # callbacks:
+        #   SubscribingAtMwdiForDeviceObjectCreationsCausesSendingNotifications (post)
+  - operation-name: /v1/notify-object-deletions
+        # 
+        # callbacks:
+        #   SubscribingAtMwdiForDeviceObjectDeletionsCausesSendingNotifications (post)
+
+
+# link service (cache): /core-model-1-4:network-control-domain=cache/link={uuid}
+  - put:
+    # callback: 
+    #   RequestForUpdatingLinkCausesWritingIntoCache (put)
+  - get:
+    # callbacks:
+    #   RequestForCachedLinkCausesReadingFromCache (get)
+  - delete:
+    # callback: 
+    #   RequestForDeletingLinkCausesDeletingFromCache (delete)
+
+# linkport service (cache): /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}
+  - put:
+    # callback: 
+    #   RequestForUpdatingLinkPortCausesWritingIntoCache (put)
+  - get:
+    # callbacks:
+    #   RequestForCachedLinkPortCausesReadingFromCache (get)
+  - delete:
+    # callback: 
+    #   RequestForDeletingLinkPortCausesDeletingFromCache (delete)
+
+
+# device ressource paths
+  # cache: keine Ctrl-Fehler hier, nur MWDI (4xx)!
+  - cache-operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}*
+    # RequestForCachedControlConstructCausesReadingFromCache
+
+  # 502 (Ctrl-Fehler), 530, 531 (sollte eigentlich nicht passieren...), 532
+  - live-operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}*  
+    # RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
+    #   RequestForReadingFromDevice (get)
+    #   RequestForWritingIntoCache (put)
+
+
+#  WAS IST MIT DEN CALLBACKS?!
+#  -> es müssen nicht nur bei den Service-Responses die codes angeschaut werden, sondern auch bei deren callbacks!
+#  -> welche responseCodes kommen vom Controller??

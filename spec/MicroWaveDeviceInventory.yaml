@@ -17915,7 +17915,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
 ########################################################################################################################
 #   Service Layer - Basic Part
 ########################################################################################################################
@@ -17964,7 +17963,7 @@ paths:
                       pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                       description: >
                         'If body provided, release of RegistryOffice application
-                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                        find or update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                     registration-operation:
                       type: string
                       minLength: 6
@@ -18024,57 +18023,21 @@ paths:
                               type: string
                               pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                               description: >
-                                'If provided, own IPv4 address, which has to be documented (but not be directly used for formulating the callback) into the TcpServer with
-                                find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol] == http
-                                update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
+                                'If provided, own IPv4 address, which has to be documented (but not be directly used for formulating the callback)
+                                update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                         domain-name:
                           type: string
                           pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                           description: >
-                            'If provided, own domain name, which has to be documented (but not be directly used for formulating the callback) into the TcpServer with
-                            find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol] == http
-                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
+                            'If provided, own domain name, which has to be documented (but not be directly used for formulating the callback)
+                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
                     http-port:
                       type: integer
                       minimum: 0
                       maximum: 65535
                       description: >
-                        'If provided, own TCP port, which has to be documented (but not be directly used for formulating the callback) into the TcpServer with
-                        find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol] == http
-                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                    https-address:
-                      type: object
-                      minProperties: 1
-                      maxProperties: 1
-                      additionalProperties: false
-                      properties:
-                        ip-address:
-                          type: object
-                          minProperties: 1
-                          additionalProperties: false
-                          properties:
-                            ipv-4-address:
-                              type: string
-                              pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-                              description: >
-                                'If provided, own IPv4 address, which has to be documented (but not be directly used for formulating the callback) into the TcpServer with
-                                find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol] == https
-                                update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                        domain-name:
-                          type: string
-                          pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
-                          description: >
-                            'If provided, own domain name, which has to be documented (but not be directly used for formulating the callback) into the TcpServer with
-                            find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol] == https
-                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
-                    https-port:
-                      type: integer
-                      minimum: 0
-                      maximum: 65535
-                      description: >
-                        'If provided, own TCP port, which has to be documented (but not be directly used for formulating the callback) into the TcpServer with
-                        find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol] == https
-                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
+                        'If provided, own TCP port, which has to be documented (but not be directly used for formulating the callback)
+                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
                     preceding-application-name:
                       type: string
                       minLength: 3
@@ -18089,20 +18052,20 @@ paths:
                         'If application-name in *-http-c-or-* different from OldRelease, the new application will address /v1/bequeath-your-data-and-die at the preceding release after receiving /v1/embed-yourself
                         update [/core-model-1-4:control-construct/logical-termination-point=*-http-c-or-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
             example:
-              registry-office-application: 'RegistryOffice'
-              registry-office-application-release-number: '2.1.2'
+              registry-office-application: 'ApplicationForRegistering'
+              registry-office-application-release-number: '43.3.4'
               registration-operation: '/v2/register-application'
               registry-office-protocol: 'HTTP'
               registry-office-address:
                 ip-address:
-                  ipv-4-address: '1.1.3.8'
-              registry-office-port: 3008
+                  ipv-4-address: '1.1.3.1'
+              registry-office-port: 3001
               http-address:
                 ip-address:
-                  ipv-4-address: '1.1.3.9'
-              http-port: 3009
-              preceding-application-name: 'TypeApprovalRegister'
-              preceding-release-number: '1.0.0'
+                  ipv-4-address: '1.1.3.1'
+              http-port: 3001
+              preceding-application-name: 'OldApplicationName'
+              preceding-release-number: '54.3.3'
       responses:
         '204':
           description: 'Will register at the RegistryOffice'
@@ -18135,7 +18098,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -18466,9 +18429,6 @@ paths:
                 - registry-office-protocol
                 - registry-office-address
                 - registry-office-port
-                - old-release-protocol
-                - old-release-address
-                - old-release-port
               properties:
                 registry-office-application:
                   type: string
@@ -18480,7 +18440,7 @@ paths:
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of RegistryOffice application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 relay-server-replacement-operation:
                   type: string
                   minLength: 6
@@ -18544,7 +18504,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol for addressing the currently running old release of the same application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 old-release-address:
                   type: object
                   minProperties: 1
@@ -18561,31 +18521,31 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address of currently running old release of the same application
-                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of currently running old release of the same application
-                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 old-release-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port of currently running old release of the same application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                registry-office-application: 'RegistryOffice'
-                registry-office-application-release-number: '2.1.2'
+                registry-office-application: 'RegistrationApplication'
+                registry-office-application-release-number: '43.2.5'
                 relay-server-replacement-operation: '/v1/relay-server-replacement'
                 relay-operation-update-operation: '/v1/relay-operation-update'
                 deregistration-operation: '/v1/deregister-application'
                 registry-office-protocol: 'HTTP'
                 registry-office-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.8'
-                registry-office-port: 3008
+                    ipv-4-address: '1.1.3.1'
+                registry-office-port: 3001
                 old-release-protocol: 'HTTP'
                 old-release-address:
                   ip-address:
@@ -18623,7 +18583,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -18638,7 +18598,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForEmbeddingCausesRequestForBequeathingData:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-bm-or-1-1-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-or-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-bm-or-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -18694,15 +18654,7 @@ paths:
                           type: integer
                           description: >
                             'Own TCP port
-                            from[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                      example:
-                        new-application-name: 'OwnApplicationName'
-                        new-application-release: '2.1.2'
-                        new-application-protocol: 'HTTP'
-                        new-application-address:
-                          ip-address:
-                            ipv-4-address: '1.1.4.1'
-                        new-application-port: 4001
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
               responses:
                 '204':
                   description: 'Process of embedding a new release initiated'
@@ -18734,820 +18686,7 @@ paths:
                           - 'NOT_YET_DEFINED'
                         example: 'EXPERIMENTAL'
                       description: >
-                          'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: controllerInternalPathToMountPoint
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    description: >
-                      'Controller internal path to the device mount points
-                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    example: 'node(node-id;netconf-node-topology:connection-status)'
-                  description: >
-                    'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-              responses:
-                '200':
-                  description: 'OK'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - network-topology:topology
-                        properties:
-                          network-topology:topology:
-                            type: array
-                            items:
-                              type: object
-                              required:
-                                - node
-                              properties:
-                                node:
-                                  type: array
-                                  items:
-                                    type: object
-                                    required:
-                                      - node-id
-                                      - netconf-node-topology:connection-status
-                                    properties:
-                                      node-id:
-                                        type: string
-                                      netconf-node-topology:connection-status:
-                                        type: string
-                        example:
-                          network-topology:topology:
-                            - node:
-                                - node-id: '305251234'
-                                  netconf-node-topology:connection-status: 'connected'
-                                - node-id: '105258888'
-                                  netconf-node-topology:connection-status: 'connecting'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    enum:
-                      - 'control-construct(uuid)'
-              responses:
-                '200':
-                  description: 'List of connected devices provided from cache'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - /
-                        properties:
-                          /:
-                            type: object
-                            required:
-                              - core-model-1-4:control-construct
-                            properties:
-                              core-model-1-4:control-construct:
-                                type: array
-                                items:
-                                  type: object
-                                  required:
-                                    - uuid
-                                  properties:
-                                    uuid:
-                                      type: string
-                      example:
-                        /:
-                          core-model-1-4:control-construct:
-                            - uuid: '305251234'
-                            - uuid: '105258888'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-mwdi-1-2-1-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'This callback is to be sent for all devices that are stated to be connected in the list provided by the controller, but not contained in the list loaded from the cache'
-            get:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: 'Mount-name that is stated to be connected in the list provided by the controller, but not contained in the list loaded from the cache'
-              responses:
-                '200':
-                  description: 'ControlConstruct provided from live network'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          core-model-1-4:control-construct:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/CONTROL_CONSTRUCT'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesDeletingUnconnectedDevicesFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'This callback is to be sent for all devices that are contained in the list loaded from the cache, but not stated to be connected in the list provided by the controller'
-            delete:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: 'Mount-name that is listed in the cache, but not stated to be connected in the list provided by the controller'
-              responses:
-                '204':
-                  description: 'ControlConstruct deleted from cache'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: controllerInternalPathToMountPoint
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    description: >
-                      'Controller internal path to the device mount points
-                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-                - name: fields
-                  in: query
-                  required: true
-                  schema:
-                    type: string
-                    example: 'node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)'
-                  description: >
-                    'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-002/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-              responses:
-                '200':
-                  description: 'OK'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - network-topology:topology
-                        properties:
-                          network-topology:topology:
-                            type: array
-                            items:
-                              type: object
-                              required:
-                                - node
-                              properties:
-                                node:
-                                  type: array
-                                  items:
-                                    type: object
-                                    required:
-                                      - node-id
-                                      - netconf-node-topology:connection-status
-                                      - netconf-node-topology:schema-cache-directory
-                                    properties:
-                                      node-id:
-                                        type: string
-                                      netconf-node-topology:connection-status:
-                                        type: string
-                                      netconf-node-topology:schema-cache-directory:
-                                        type: string
-                        example:
-                          network-topology:topology:
-                            - node:
-                                - node-id: '305251234'
-                                  netconf-node-topology:connection-status: 'connected'
-                                  netconf-node-topology:schema-cache-directory: 'hua'
-                                - node-id: '105258888'
-                                  netconf-node-topology:connection-status: 'connecting'
-                                  netconf-node-topology:schema-cache-directory: 'siae_alcp2e'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesSubscribingForNotifications:
-          ControllerAttributeValueChangeNotifications: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-np-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - subscribing-application-name
-                        - subscribing-application-release
-                        - subscribing-application-protocol
-                        - subscribing-application-address
-                        - subscribing-application-port
-                        - notifications-receiving-operation
-                      properties:
-                        subscribing-application-name:
-                          type: string
-                          description: >
-                            'Name of the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
-                        subscribing-application-release:
-                          type: string
-                          description: >
-                            'Release of the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
-                        subscribing-application-protocol:
-                          type: string
-                          description: >
-                            'Protocol to be used for addressing the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
-                        subscribing-application-address:
-                          type: object
-                          properties:
-                            ip-address:
-                              type: object
-                              properties:
-                                ipv-4-address:
-                                  type: string
-                                  description: >
-                                    'IPv4 address of the application that is subscribing for notifications about changes of attributes at the controllers
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                            domain-name:
-                              type: string
-                              description: >
-                                'Domain name of the application that is subscribing for notifications about changes of attributes at the controllers
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
-                        subscribing-application-port:
-                          type: integer
-                          description: >
-                            'Port of the application that is subscribing for notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                        notifications-receiving-operation:
-                          type: string
-                          description: >
-                            'Operation for receiving the notifications about changes of attributes at the controllers
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
-                      example:
-                        subscribing-application-name: 'MicroWaveDeviceInventory'
-                        subscribing-application-release: '1.0.0'
-                        subscribing-application-protocol: 'HTTP'
-                        subscribing-application-address:
-                          ip-address:
-                            ipv-4-address: '1.1.4.4'
-                        subscribing-application-port: 4004
-                        notifications-receiving-operation: '/v1/regard-controller-attribute-value-change'
-              responses:
-                '204':
-                  description: 'Subscription for notifications about changes of attributes at the controllers created'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceAlarms: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-np-1-0-0-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - subscribing-application-name
-                        - subscribing-application-release
-                        - subscribing-application-protocol
-                        - subscribing-application-address
-                        - subscribing-application-port
-                        - notifications-receiving-operation
-                      properties:
-                        subscribing-application-name:
-                          type: string
-                          description: >
-                            'Name of the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
-                        subscribing-application-release:
-                          type: string
-                          description: >
-                            'Release of the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
-                        subscribing-application-protocol:
-                          type: string
-                          description: >
-                            'Protocol to be used for addressing the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
-                        subscribing-application-address:
-                          type: object
-                          properties:
-                            ip-address:
-                              type: object
-                              properties:
-                                ipv-4-address:
-                                  type: string
-                                  description: >
-                                    'IPv4 address of the application that is subscribing for notifications about alarms at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                            domain-name:
-                              type: string
-                              description: >
-                                'Domain name of the application that is subscribing for notifications about alarms at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
-                        subscribing-application-port:
-                          type: integer
-                          description: >
-                            'Port of the application that is subscribing for notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                        notifications-receiving-operation:
-                          type: string
-                          description: >
-                            'Operation for receiving the notifications about alarms at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
-                      example:
-                        subscribing-application-name: 'MicroWaveDeviceInventory'
-                        subscribing-application-release: '1.0.0'
-                        subscribing-application-protocol: 'HTTP'
-                        subscribing-application-address:
-                          ip-address:
-                            ipv-4-address: '1.1.4.4'
-                        subscribing-application-port: 4004
-                        notifications-receiving-operation: '/v1/regard-device-alarm'
-              responses:
-                '204':
-                  description: 'Subscription for notifications about alarms at the devices created'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceAttributeValueChangeNotifications: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-np-1-0-0-011/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - subscribing-application-name
-                        - subscribing-application-release
-                        - subscribing-application-protocol
-                        - subscribing-application-address
-                        - subscribing-application-port
-                        - notifications-receiving-operation
-                      properties:
-                        subscribing-application-name:
-                          type: string
-                          description: >
-                            'Name of the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
-                        subscribing-application-release:
-                          type: string
-                          description: >
-                            'Release of the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
-                        subscribing-application-protocol:
-                          type: string
-                          description: >
-                            'Protocol to be used for addressing the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
-                        subscribing-application-address:
-                          type: object
-                          properties:
-                            ip-address:
-                              type: object
-                              properties:
-                                ipv-4-address:
-                                  type: string
-                                  description: >
-                                    'IPv4 address of the application that is subscribing for notifications about changes of attributes at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                            domain-name:
-                              type: string
-                              description: >
-                                'Domain name of the application that is subscribing for notifications about changes of attributes at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
-                        subscribing-application-port:
-                          type: integer
-                          description: >
-                            'Port of the application that is subscribing for notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                        notifications-receiving-operation:
-                          type: string
-                          description: >
-                            'Operation for receiving the notifications about changes of attributes at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
-                      example:
-                        subscribing-application-name: 'MicroWaveDeviceInventory'
-                        subscribing-application-release: '1.0.0'
-                        subscribing-application-protocol: 'HTTP'
-                        subscribing-application-address:
-                          ip-address:
-                            ipv-4-address: '1.1.4.4'
-                        subscribing-application-port: 4004
-                        notifications-receiving-operation: '/v1/regard-device-attribute-value-change'
-              responses:
-                '204':
-                  description: 'Subscription for notifications about changes of attributes at the devices created'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceObjectCreationNotifications: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-np-1-0-0-012/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - subscribing-application-name
-                        - subscribing-application-release
-                        - subscribing-application-protocol
-                        - subscribing-application-address
-                        - subscribing-application-port
-                        - notifications-receiving-operation
-                      properties:
-                        subscribing-application-name:
-                          type: string
-                          description: >
-                            'Name of the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
-                        subscribing-application-release:
-                          type: string
-                          description: >
-                            'Release of the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
-                        subscribing-application-protocol:
-                          type: string
-                          description: >
-                            'Protocol to be used for addressing the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
-                        subscribing-application-address:
-                          type: object
-                          properties:
-                            ip-address:
-                              type: object
-                              properties:
-                                ipv-4-address:
-                                  type: string
-                                  description: >
-                                    'IPv4 address of the application that is subscribing for notifications about object creations at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                            domain-name:
-                              type: string
-                              description: >
-                                'Domain name of the application that is subscribing for notifications about object creations at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
-                        subscribing-application-port:
-                          type: integer
-                          description: >
-                            'Port of the application that is subscribing for notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                        notifications-receiving-operation:
-                          type: string
-                          description: >
-                            'Operation for receiving the notifications about object creations at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
-                      example:
-                        subscribing-application-name: 'MicroWaveDeviceInventory'
-                        subscribing-application-release: '1.0.0'
-                        subscribing-application-protocol: 'HTTP'
-                        subscribing-application-address:
-                          ip-address:
-                            ipv-4-address: '1.1.4.4'
-                        subscribing-application-port: 4004
-                        notifications-receiving-operation: '/v1/regard-device-object-creation'
-              responses:
-                '204':
-                  description: 'Subscription for notifications about object creations at the devices created'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceObjectDeletionNotifications: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-np-1-0-0-013/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - subscribing-application-name
-                        - subscribing-application-release
-                        - subscribing-application-protocol
-                        - subscribing-application-address
-                        - subscribing-application-port
-                        - notifications-receiving-operation
-                      properties:
-                        subscribing-application-name:
-                          type: string
-                          description: >
-                            'Name of the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
-                        subscribing-application-release:
-                          type: string
-                          description: >
-                            'Release of the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
-                        subscribing-application-protocol:
-                          type: string
-                          description: >
-                            'Protocol to be used for addressing the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol]'
-                        subscribing-application-address:
-                          type: object
-                          properties:
-                            ip-address:
-                              type: object
-                              properties:
-                                ipv-4-address:
-                                  type: string
-                                  description: >
-                                    'IPv4 address of the application that is subscribing for notifications about object deletions at the devices
-                                    from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                            domain-name:
-                              type: string
-                              description: >
-                                'Domain name of the application that is subscribing for notifications about object deletions at the devices
-                                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name]'
-                        subscribing-application-port:
-                          type: integer
-                          description: >
-                            'Port of the application that is subscribing for notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                        notifications-receiving-operation:
-                          type: string
-                          description: >
-                            'Operation for receiving the notifications about object deletions at the devices
-                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
-                      example:
-                        subscribing-application-name: 'MicroWaveDeviceInventory'
-                        subscribing-application-release: '1.0.0'
-                        subscribing-application-protocol: 'HTTP'
-                        subscribing-application-address:
-                          ip-address:
-                            ipv-4-address: '1.1.4.4'
-                        subscribing-application-port: 4004
-                        notifications-receiving-operation: '/v1/regard-device-object-deletion'
-              responses:
-                '204':
-                  description: 'Subscription for notifications about object deletions at the devices created'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
+                        'Life cycle state of the consumed service'
                 '400':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '401':
@@ -19592,13 +18731,13 @@ paths:
                   type: string
                   description: >
                     'Name of application that shall record the service requests
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-eatl-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-eatl-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 service-log-application-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that shall record the service requests
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-eatl-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-eatl-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 service-log-operation:
                   type: string
                   minLength: 6
@@ -19644,14 +18783,14 @@ paths:
                     'Port of application that shall record the service requests
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-eatl-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                service-log-application: 'ExecutionAndTraceLog'
-                service-log-application-release-number: '2.1.2'
+                service-log-application: 'LoggingApplication'
+                service-log-application-release-number: '34.2.6'
                 service-log-operation: '/v1/record-service-request'
                 service-log-protocol: 'HTTP'
                 service-log-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.10'
-                service-log-port: 3010
+                    ipv-4-address: '1.1.3.1'
+                service-log-port: 3001
       responses:
         '204':
           description: 'Information about service requests will be send to the new target'
@@ -19684,7 +18823,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -19722,6 +18861,7 @@ paths:
                         - release-number
                         - operation-name
                         - response-code
+                        - timestamp
                       properties:
                         x-correlator:
                           type: string
@@ -19756,18 +18896,12 @@ paths:
                         stringified-response:
                           type: string
                           description: 'Stringified response sent from [application-name] to [originator]; only to be provided, if [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-bs-eatl-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/detailed-logging-is-on] == true'
-                      example:
-                        x-correlator: '550e8400-e29b-11d4-a716-446655440000'
-                        trace-indicator: '1.1'
-                        user: 'User Name'
-                        originator: 'RegistryOffice'
-                        application-name: 'OwnApplicationName'
-                        release-number: '1.0.0'
-                        operation-name: '/v1/embed-yourself'
-                        response-code: 500
-                        timestamp: '2010-11-20T14:00:00+01:00'
-                        stringified-body: ''
-                        stringified-response: ''
+                        url:
+                          type: string
+                          description: 'Complete URL that has been addressed by the request; only to be provided, if the client is sending the record to EaTL, because the server could not be reached'
+                        exec-time:
+                          type: integer
+                          description: 'Total elapsed time for the execution of the request; value identical with responseHeaders.exec-time; only to be provided, if the server is sending the record to EaTL after processing the request'
               responses:
                 '204':
                   description: 'Request recorded'
@@ -19843,13 +18977,13 @@ paths:
                   type: string
                   description: >
                     'Name of application that shall record the OaM requests
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ol-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ol-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 oam-log-application-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that shall record the OaM request
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ol-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-ol-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 oam-log-operation:
                   type: string
                   minLength: 6
@@ -19895,14 +19029,14 @@ paths:
                     'Port of application that shall record the OaM requests
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-ol-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                oam-log-application: 'OamLog'
-                oam-log-application-release-number: '2.1.2'
+                oam-log-application: 'LoggingApplication'
+                oam-log-application-release-number: '54.3.2'
                 oam-log-operation: '/v1/record-oam-request'
                 oam-log-protocol: 'HTTP'
                 oam-log-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.11'
-                oam-log-port: 3011
+                    ipv-4-address: '1.1.3.1'
+                oam-log-port: 3001
       responses:
         '204':
           description: 'Information about OaM requests will be send to the new target'
@@ -19935,7 +19069,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20002,15 +19136,6 @@ paths:
                         timestamp:
                           type: string
                           description: 'Date and time when the response to the OaM request, which is to be recorded, has been sent'
-                      example:
-                        application-name: 'OwnApplicationName'
-                        release-number: '1.0.0'
-                        method: 'PUT'
-                        resource: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port'
-                        stringified-body: '{"tcp-server-interface-1-0:local-port":"1000"}'
-                        response-code: 204
-                        user-name: 'Max Mustermann'
-                        timestamp: '2010-11-20T14:00:00+01:02'
               responses:
                 '204':
                   description: 'OaM request recorded'
@@ -20098,7 +19223,7 @@ paths:
                     find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-*/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name]'
               example:
                 subscriber-application: 'AlreadySubscribingApplication'
-                subscriber-release-number: '1.0.0'
+                subscriber-release-number: '38.4.3'
                 subscription: '/v1/subscription-to-be-stopped'
       responses:
         '204':
@@ -20132,7 +19257,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20146,6 +19271,10 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inquire-oam-request-approvals:
+    description: >
+      'DEPRECATED
+      Service shall be deleted with AP v3.0.0
+      Starting from AP v2.1.0, /v1/inquire-basic-auth-approvals shall be applied as a backward compatible update'
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -20177,13 +19306,13 @@ paths:
                   type: string
                   description: >
                     'Name of application that shall approve the OaM requests
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-aa-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-aa-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 oam-approval-application-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that shall approve the OaM requests
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-aa-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-aa-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 oam-approval-operation:
                   type: string
                   minLength: 6
@@ -20229,14 +19358,14 @@ paths:
                     'Port of application that shall approve the OaM requests
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                oam-approval-application: 'AccessAdministration'
-                oam-approval-application-release-number: '2.1.2'
-                oam-approval-operation: '/v1/approve-oam-request'
+                oam-approval-application: 'AccessApprover'
+                oam-approval-application-release-number: '34.3.3'
+                oam-approval-operation: '/v1/approve-basic-auth-request'
                 oam-approval-protocol: 'HTTP'
                 oam-approval-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.12'
-                oam-approval-port: 3012
+                    ipv-4-address: '1.1.3.1'
+                oam-approval-port: 3001
       responses:
         '204':
           description: 'Informed about where to inquire for approval of OaM requests'
@@ -20269,7 +19398,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20283,7 +19412,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        OamRequestCausesInquiryForAuthentication:
+        BasicAuthRequestCausesInquiryForAuthentication:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-bs-aa-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
@@ -20299,64 +19428,67 @@ paths:
                     schema:
                       type: object
                       required:
+                        - Authorization
                         - application-name
                         - release-number
-                        - Authorization
+                        - operation-name
                         - method
                       properties:
+                        Authorization:
+                          type: string
+                          description: >
+                            'Authorization code
+                            from {$request.parameters#Authorization} of the BasicAuth request that initiates the inquiry for approval'
                         application-name:
                           type: string
                           description: >
-                            'Own application name for the AccessAdministration to check, whether this application is part of the SDN at all
+                            'Own application name
                             from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         release-number:
                           type: string
                           description: >
-                            'Own application release number for the AccessAdministration to check, whether this application is part of the SDN at all
+                            'Own application release number
                             from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
-                        Authorization:
+                        operation-name:
                           type: string
                           description: >
-                            'Authorization code of the administrator addressing the OaM request to this application from [parameters::Authorization]'
+                            'Path (could be service, could be OaM path) that has been addressed by the BasicAuth request
+                            in path parameter values to be replaced by original parameter names in curly brackets
+                            filters to be removed
+                            from {$request.path} of the BasicAuth request that initiates the inquiry for approval'
                         method:
                           type: string
-                          description: 'Method applied in the OaM request, which is to be recorded'
-                      example:
-                        application-name: 'OwnApplicationName'
-                        release-number: '1.0.0'
-                        Authorization: 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYHduEdBBdXRoIFBhc3N3b3JkPg=='
-                        method: 'PUT'
+                          description: >
+                            'Method applied in the BasicAuth request
+                            from {$request.method} of the BasicAuth request that initiates the inquiry for approval'
               responses:
                 '200':
-                  description: 'Response on inquiry for approval of an OaM request provided'
+                  description: 'Response on inquiry for approval of a BasicAuth request provided'
                   content:
                     application/json:
                       schema:
-                        type: object
-                        required:
-                          - oam-request-is-approved
-                        properties:
-                          oam-request-is-approved:
-                            type: boolean
-                          reason-of-objection:
-                            type: string
-                            enum:
-                              - 'APPLICATION_NAME_UNKNOWN'
-                              - 'RELEASE_NUMBER_UNKNOWN'
-                              - 'AUTHORIZATION_CODE_UNKNOWN'
-                              - 'METHOD_NOT_ALLOWED'
-                              - 'UNKNOWN'
-                            description: >
-                              'This attribute to be represented, if response::oam-request-is-approved==false.
-                              Reasons to be checked and indicated according to the sequence defined in the enumeration.'
-                      examples:
-                        True:
-                          value:
-                            oam-request-is-approved: true
-                        False:
-                          value:
-                            oam-request-is-approved: false
-                            reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
+                        oneOf:
+                          - description: 'AdministratorAdministration is responding'
+                            type: object
+                            properties:
+                              oam-request-is-approved:
+                                type: boolean
+                              reason-of-objection:
+                                type: string
+                                description: >
+                                  'This attribute to be represented, if response::oam-request-is-approved==false.
+                                  Reasons to be checked and indicated according to the sequence defined in the enumeration.'
+                          - description: 'AccessAdministration is responding'
+                            type: object
+                            properties:
+                              basic-auth-request-is-approved:
+                                type: boolean
+                                description: 'If true, BasicAuth request can be executed'
+                              reason-of-objection:
+                                type: string
+                                description: >
+                                  'if AUTHORIZATION_CODE_UNKNOWN BasicAuth request to be aborted and 401 to be sent
+                                  else BasicAuth request to be aborted and 403 to be sent'
                   headers:
                     x-correlator:
                       schema:
@@ -20408,7 +19540,7 @@ paths:
       operationId: updateClient
       summary: 'Allows updating connection data of a serving application'
       description: >
-        'Initiates update of release number and TCP/IP address at existing HttpClients and TcpClients.
+        'Initiates update of release number and TCP/IP address at existing HttpClients and TcpClients, but not at OldRelease or NewRelease.
         If combination of {future-application-name, future-release-number} is different from combination {current-application-name, current-release-number}
         and if HttpClient with combination of {future-application-name, future-release-number} already exists,
         HttpClient with combination {current-application-name, current-release-number} shall not be updated,
@@ -20436,13 +19568,13 @@ paths:
                   type: string
                   description: >
                     'Current name of the application that has updated connection data
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 current-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Current release number of the application that has updated connection data
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 future-application-name:
                   type: string
                   description: >
@@ -20493,15 +19625,15 @@ paths:
                     'Future port of the application that has updated connection data
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                current-application-name: 'RegistryOffice'
-                current-release-number: '1.0.0'
-                future-application-name: 'RegistryOffice'
-                future-release-number: '2.1.2'
+                current-application-name: 'CurrentApplicationName'
+                current-release-number: '43.5.5'
+                future-application-name: 'FutureApplicationName'
+                future-release-number: '43.5.6'
                 future-protocol: 'HTTP'
                 future-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.8'
-                future-port: 3008
+                    ipv-4-address: '1.1.3.1'
+                future-port: 3001
       responses:
         '204':
           description: 'Will update connection information'
@@ -20534,7 +19666,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20586,10 +19718,10 @@ paths:
                         items:
                           $ref: '#/components/schemas/logicalTerminationPoint'
                         example:
-                          - uuid: 'ro-2-1-2-op-s-bm-000'
+                          - uuid: 'xy-15-3-2-op-s-bm-000'
                             ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
                             client-ltp: []
-                            server-ltp: ['ro-2-1-2-http-s-000']
+                            server-ltp: ['xy-15-3-2-http-s-000']
                             layer-protocol:
                               - local-id: '0'
                                 layer-protocol-name: 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
@@ -20598,17 +19730,17 @@ paths:
                                     operation-name: '/v1/register-yourself'
                                   operation-server-interface-configuration:
                                     life-cycle-state: 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
-                          - uuid: 'ro-2-1-2-http-s-000'
+                          - uuid: 'xy-15-3-2-http-s-000'
                             ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
-                            client-ltp: ['ro-2-1-2-op-s-bm-000']
+                            client-ltp: ['xy-15-3-2-op-s-bm-000']
                             server-ltp: []
                             layer-protocol:
                               - local-id: '0'
                                 layer-protocol-name: 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                 http-server-interface-1-0:http-server-interface-pac:
                                   http-server-interface-capability:
-                                    application-name: 'RegistryOffice'
-                                    release-number: '2.1.2'
+                                    application-name: 'ApplicationName'
+                                    release-number: '45.2.7'
                                     data-update-period: 'http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME'
                       forwarding-domain:
                         type: array
@@ -20617,9 +19749,9 @@ paths:
                         items:
                           $ref: '#/components/schemas/forwardingDomain'
                         example:
-                          - uuid: 'ro-2-1-2-op-fd-000'
+                          - uuid: 'xy-15-3-2-op-fd-000'
                             forwarding-construct:
-                              - uuid: 'ro-2-1-2-op-fc-bm-000'
+                              - uuid: 'xy-15-3-2-op-fc-bm-000'
                                 name:
                                   - value-name: 'ForwardingKind'
                                     value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
@@ -20628,11 +19760,11 @@ paths:
                                 fc-port:
                                   - local-id: '000'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-000'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-000'
                                   - local-id: '100'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-000'
-                              - uuid: 'ro-2-1-2-op-fc-bm-001'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-000'
+                              - uuid: 'xy-15-3-2-op-fc-bm-001'
                                 name:
                                   - value-name: 'ForwardingKind'
                                     value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
@@ -20641,10 +19773,10 @@ paths:
                                 fc-port:
                                   - local-id: '100'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-001'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-001'
                                   - local-id: '200'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-c-bm-ro-2-1-2-000'
+                                    logical-termination-point: 'xy-15-3-2-op-c-bm-yz-34-4-4-000'
           headers:
             x-correlator:
               schema:
@@ -20674,7 +19806,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20723,13 +19855,13 @@ paths:
                   type: string
                   description: >
                     'Name of application that shall document the application layer topology
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-alt-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-alt-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 topology-application-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that shall document the application layer topology
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-alt-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or update, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-alt-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 topology-operation-ltp-update:
                   type: string
                   minLength: 6
@@ -20799,8 +19931,8 @@ paths:
                     'Port of application that shall document the application layer topology
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-alt-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                topology-application: 'ApplicationLayerTopology'
-                topology-application-release-number: '2.1.2'
+                topology-application: 'InventoryApplication'
+                topology-application-release-number: '54.1.3'
                 topology-operation-ltp-update: '/v1/update-ltp'
                 topology-operation-ltp-deletion: '/v1/delete-ltp-and-dependents'
                 topology-operation-fc-update: '/v1/update-fc'
@@ -20809,8 +19941,8 @@ paths:
                 topology-application-protocol: 'HTTP'
                 topology-application-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.13'
-                topology-application-port: 3013
+                    ipv-4-address: '1.1.3.1'
+                topology-application-port: 3001
       responses:
         '200':
           description: 'Client side for sending information about topology changes has been updated and current data tree has been provided'
@@ -20839,10 +19971,10 @@ paths:
                         items:
                           $ref: '#/components/schemas/logicalTerminationPoint'
                         example:
-                          - uuid: 'ro-2-1-2-op-s-bm-000'
+                          - uuid: 'xy-15-3-2-op-s-bm-000'
                             ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
                             client-ltp: []
-                            server-ltp: ['ro-2-1-2-http-s-000']
+                            server-ltp: ['xy-15-3-2-http-s-000']
                             layer-protocol:
                               - local-id: '0'
                                 layer-protocol-name: 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
@@ -20851,17 +19983,17 @@ paths:
                                     operation-name: '/v1/register-yourself'
                                   operation-server-interface-configuration:
                                     life-cycle-state: 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
-                          - uuid: 'ro-2-1-2-http-s-000'
+                          - uuid: 'xy-15-3-2-http-s-000'
                             ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
-                            client-ltp: ['ro-2-1-2-op-s-bm-000']
+                            client-ltp: ['xy-15-3-2-op-s-bm-000']
                             server-ltp: []
                             layer-protocol:
                               - local-id: '0'
                                 layer-protocol-name: 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                 http-server-interface-1-0:http-server-interface-pac:
                                   http-server-interface-capability:
-                                    application-name: 'RegistryOffice'
-                                    release-number: '2.1.2'
+                                    application-name: 'ApplicationName'
+                                    release-number: '32.2.3'
                                     data-update-period: 'http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME'
                       forwarding-domain:
                         type: array
@@ -20870,9 +20002,9 @@ paths:
                         items:
                           $ref: '#/components/schemas/forwardingDomain'
                         example:
-                          - uuid: 'ro-2-1-2-op-fd-000'
+                          - uuid: 'xy-15-3-2-op-fd-000'
                             forwarding-construct:
-                              - uuid: 'ro-2-1-2-op-fc-bm-000'
+                              - uuid: 'xy-15-3-2-op-fc-bm-000'
                                 name:
                                   - value-name: 'ForwardingKind'
                                     value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
@@ -20881,11 +20013,11 @@ paths:
                                 fc-port:
                                   - local-id: '000'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-000'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-000'
                                   - local-id: '100'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-000'
-                              - uuid: 'ro-2-1-2-op-fc-bm-001'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-000'
+                              - uuid: 'xy-15-3-2-op-fc-bm-001'
                                 name:
                                   - value-name: 'ForwardingKind'
                                     value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
@@ -20894,10 +20026,10 @@ paths:
                                 fc-port:
                                   - local-id: '100'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-001'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-001'
                                   - local-id: '200'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-c-bm-ro-2-1-2-000'
+                                    logical-termination-point: 'xy-15-3-2-op-c-bm-yz-34-4-4-000'
           headers:
             x-correlator:
               schema:
@@ -20927,7 +20059,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -20957,19 +20089,6 @@ paths:
                   application/json:
                     schema:
                       $ref: '#/components/schemas/logicalTerminationPoint'
-                      example:
-                        uuid: 'ro-2-1-2-op-s-bm-002'
-                        ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
-                        client-ltp: []
-                        server-ltp: ['ro-2-1-2-http-s-000']
-                        layer-protocol:
-                          - local-id: '0'
-                            layer-protocol-name: 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
-                            operation-server-interface-1-0:operation-server-interface-pac:
-                              operation-server-interface-capability:
-                                operation-name: '/v1/redirect-service-request-information'
-                              operation-server-interface-configuration:
-                                life-cycle-state: 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
               responses:
                 '204':
                   description: 'LTP will be updated'
@@ -21034,8 +20153,6 @@ paths:
                       properties:
                         uuid:
                           type: string
-                      example:
-                        uuid: 'ro-2-1-2-op-s-bm-002'
               responses:
                 '204':
                   description: 'LTP and its dependents will be deleted'
@@ -21129,20 +20246,6 @@ paths:
                                 type: string
                               logical-termination-point:
                                 type: string
-                      example:
-                        uuid: 'ro-2-1-2-op-fc-bm-003'
-                        name:
-                          - value-name: 'ForwardingKind'
-                            value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
-                          - value-name: 'ForwardingName'
-                            value: 'OamRequestCausesLoggingRequest'
-                        fc-port:
-                          - local-id: '000'
-                            port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                            logical-termination-point: 'ro-2-1-2-op-s-bm-003'
-                          - local-id: '200'
-                            port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
-                            logical-termination-point: 'ro-2-1-2-op-c-bs-ol-2-1-2-000'
               responses:
                 '204':
                   description: 'FC will be updated'
@@ -21221,12 +20324,6 @@ paths:
                               type: string
                             logical-termination-point:
                               type: string
-                      example:
-                        fc-uuid: 'ro-2-1-2-op-fc-bm-003'
-                        fc-port:
-                          local-id: '000'
-                          port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                          logical-termination-point: 'ro-2-1-2-op-s-bm-003'
               responses:
                 '204':
                   description: 'FC port will be updated'
@@ -21294,9 +20391,6 @@ paths:
                           type: string
                         fc-port-local-id:
                           type: string
-                      example:
-                        fc-uuid: 'ro-2-1-2-op-fc-bm-003'
-                        fc-port-local-id: '202'
               responses:
                 '204':
                   description: 'FC port will be deleted'
@@ -21356,19 +20450,6 @@ paths:
                   application/json:
                     schema:
                       $ref: '#/components/schemas/logicalTerminationPoint'
-                      example:
-                        uuid: 'ro-2-1-2-op-s-bm-002'
-                        ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
-                        client-ltp: []
-                        server-ltp: ['ro-2-1-2-http-s-000']
-                        layer-protocol:
-                          - local-id: '0'
-                            layer-protocol-name: 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
-                            operation-server-interface-1-0:operation-server-interface-pac:
-                              operation-server-interface-capability:
-                                operation-name: '/v1/redirect-service-request-information'
-                              operation-server-interface-configuration:
-                                life-cycle-state: 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
               responses:
                 '204':
                   description: 'LTP will be updated'
@@ -21433,8 +20514,6 @@ paths:
                       properties:
                         uuid:
                           type: string
-                      example:
-                        uuid: 'ro-2-1-2-op-s-bm-002'
               responses:
                 '204':
                   description: 'LTP will be deleted'
@@ -21528,20 +20607,6 @@ paths:
                                 type: string
                               logical-termination-point:
                                 type: string
-                      example:
-                        uuid: 'ro-2-1-2-op-fc-bm-003'
-                        name:
-                          - value-name: 'ForwardingKind'
-                            value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
-                          - value-name: 'ForwardingName'
-                            value: 'OamRequestCausesLoggingRequest'
-                        fc-port:
-                          - local-id: '000'
-                            port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                            logical-termination-point: 'ro-2-1-2-op-s-bm-003'
-                          - local-id: '200'
-                            port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
-                            logical-termination-point: 'ro-2-1-2-op-c-bs-ol-2-1-2-000'
               responses:
                 '204':
                   description: 'FC port will be updated'
@@ -21624,12 +20689,6 @@ paths:
                                 - 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
                             logical-termination-point:
                               type: string
-                      example:
-                        fc-uuid: 'ro-2-1-2-op-fc-bm-003'
-                        fc-port:
-                          local-id: '000'
-                          port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                          logical-termination-point: 'ro-2-1-2-op-s-bm-003'
               responses:
                 '204':
                   description: 'FC port will be updated'
@@ -21697,9 +20756,6 @@ paths:
                           type: string
                         fc-port-local-id:
                           type: string
-                      example:
-                        fc-uuid: 'ro-2-1-2-op-fc-is-000'
-                        fc-port-local-id: '202'
               responses:
                 '204':
                   description: 'FC port will be deleted'
@@ -21769,7 +20825,7 @@ paths:
               properties:
                 operation-uuid:
                   type: string
-                  pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-([sc])-([bi][ms])((-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})){0,1})-([0-9]{3})$'
+                  pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-([sc])(-(get|put|post|del|pat))?-([bi][ms])((-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})){0,1})-([0-9]{3})$'
                   description: >
                     'UUID of LTP that is target of the updating of the operation key
                     find [/core-model-1-4:control-construct/logical-termination-point=uuid]'
@@ -21780,7 +20836,7 @@ paths:
                     'Future operation key
                     update [/core-model-1-4:control-construct/logical-termination-point={operation-uuid}/layer-protocol=0/operation-*-interface-1-0:operation-*-interface-pac/operation-*-interface-configuration/operation-key]'
               example:
-                operation-uuid: 'ro-2-1-2-op-s-is-003'
+                operation-uuid: 'xy-15-3-2-op-s-is-003'
                 new-operation-key: 'Operation key not yet provided.'
       responses:
         '204':
@@ -21814,7 +20870,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -21857,13 +20913,13 @@ paths:
                   type: string
                   description: >
                     'Name of the application that has an updated operation
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release number of the application that has an updated operation
-                    find [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find, but not at OldRelease or NewRelease, [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 old-operation-name:
                   type: string
                   minLength: 6
@@ -21877,9 +20933,9 @@ paths:
                     'Name of the replacing operation
                     update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-*/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
               example:
-                application-name: 'RegistryOffice'
-                release-number: '2.1.2'
-                old-operation-name: '/v2/register-application'
+                application-name: 'ApplicationName'
+                release-number: '75.4.3'
+                old-operation-name: '/v1/register-application'
                 new-operation-name: '/v2/register-application'
       responses:
         '204':
@@ -21913,7 +20969,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bm-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -21926,7 +20982,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-
   /v1/inquire-basic-auth-approvals:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -22275,12 +21330,12 @@ paths:
                     type: string
                     description: >
                       'ApplicationName of the OldRelease
-                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-or-1-1-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-or-1-0-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                   release-number:
                     type: string
                     description: >
                       'ReleaseNumber of the OldRelease
-                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-or-1-1-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-or-1-0-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                 example:
                   application-name: 'ApplicationNameOfTheOldRelease'
                   release-number: '45.4.7'
@@ -22353,13 +21408,13 @@ paths:
                   type: string
                   description: >
                     'Name of the application that is target of the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-nr-1-2-1-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of the application that is target of the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-nr-1-2-1-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 protocol:
                   type: string
                   enum:
@@ -22367,7 +21422,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol to be used during the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 address:
                   type: object
                   minProperties: 1
@@ -22384,20 +21439,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address to be used during the bequeath-your-data-and-die process
-                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name to be used during the bequeath-your-data-and-die process
-                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port to be used during the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
                 application-name: 'ApplicationNameOfNewRelease'
                 release-number: '17.1.2'
@@ -22530,7 +21585,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '403':
@@ -22599,7 +21654,7 @@ paths:
                     description: 'from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address]'
                 example:
                   application-name: 'OwnApplicationName'
-                  release-number: '1.0.0'
+                  release-number: '34.3.6'
                   application-purpose: 'Brief description of the purpose of the application.'
                   data-update-period: 'real-time'
                   owner-name: 'Thorsten Heinze'
@@ -22633,7 +21688,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -22667,7 +21722,7 @@ paths:
                       value: 'OwnApplicationName'
                       datatype: 'string'
                     - field-name: 'releaseNumber'
-                      value: '1.0.0'
+                      value: '43.3.5'
                       datatype: 'string'
                     - field-name: 'applicationPurpose'
                       value: 'Brief description of the purpose of the application.'
@@ -22717,7 +21772,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -22763,7 +21818,7 @@ paths:
                       type: string
                       description: 'from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=*/changes]'
                 example:
-                  - release-number: '1.0.0'
+                  - release-number: '34.5.6'
                     release-date: '20.11.2010'
                     changes: 'Initial version.'
           headers:
@@ -22795,7 +21850,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
@@ -22825,7 +21880,7 @@ paths:
                 $ref: '#/components/schemas/genericRepresentation'
                 example:
                   response-value-list:
-                    - field-name: '1.0.0'
+                    - field-name: '43.6.4'
                       value: '20.11.2010 - Initial version.'
                       datatype: 'string'
                   consequent-action-list:
@@ -22858,7 +21913,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':

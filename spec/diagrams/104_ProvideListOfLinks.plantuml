@@ -1,4 +1,4 @@
-@startuml 105_ProvideListOfLinks
+@startuml 104_ProvideListOfLinks
 skinparam responseMessageBelowArrow true
 title RequestForListOfLinksCausesReadingFromCache
 

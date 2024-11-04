@@ -1663,7 +1663,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-list-of-links
-        uuid: mwdi-1-2-1-op-s-is-016
+        uuid: mwdi-1-2-1-op-s-is-014
     consequent-requests:
       - client-name: ElasticSearch
         uuid: mwdi-1-2-1-op-c-get-es-1-0-0-000
@@ -1678,7 +1678,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-list-of-link-ports
-        uuid: mwdi-1-2-1-op-s-is-017
+        uuid: mwdi-1-2-1-op-s-is-015
     consequent-requests:
       - client-name: ElasticSearch
         uuid: mwdi-1-2-1-op-c-get-es-1-0-0-000
@@ -1693,7 +1693,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-data-of-all-links
-        uuid: mwdi-1-2-1-op-s-is-018
+        uuid: mwdi-1-2-1-op-s-is-016
     consequent-requests:
       - client-name: ElasticSearch
         uuid: mwdi-1-2-1-op-c-get-es-1-0-0-000
@@ -1708,7 +1708,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-data-of-all-link-ports
-        uuid: mwdi-1-2-1-op-s-is-019
+        uuid: mwdi-1-2-1-op-s-is-017
     consequent-requests:
       - client-name: ElasticSearch
         uuid: mwdi-1-2-1-op-c-get-es-1-0-0-000

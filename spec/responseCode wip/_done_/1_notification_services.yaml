@@ -125,6 +125,14 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '502':
+                  $ref: '#/components/responses/502'
+                '530':
+                  $ref: '#/components/responses/530'
+                '531':
+                  $ref: '#/components/responses/531'
+                '532':
+                  $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache:
@@ -325,6 +333,8 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -406,6 +416,8 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -425,6 +437,8 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -451,6 +465,8 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -524,6 +540,8 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -553,6 +571,8 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '533':
+                  $ref: '#/components/responses/533'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-object-deletion:
@@ -627,6 +647,8 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -646,5 +668,7 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '533':
+                  $ref: '#/components/responses/533'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'

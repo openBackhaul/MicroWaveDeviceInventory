@@ -107,7 +107,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -153,6 +157,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -262,7 +270,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -303,6 +315,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -411,7 +427,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -452,6 +472,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -562,7 +586,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -605,6 +633,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -713,7 +745,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -754,6 +790,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -877,7 +917,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -929,6 +973,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1061,7 +1109,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1122,6 +1174,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1254,7 +1310,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1315,6 +1375,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1447,7 +1511,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1508,6 +1576,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1626,7 +1698,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1676,6 +1752,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1785,7 +1865,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1826,6 +1910,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1944,7 +2032,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1994,6 +2086,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2112,7 +2208,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2162,6 +2262,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2280,7 +2384,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2330,6 +2438,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2439,7 +2551,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2480,6 +2596,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2602,7 +2722,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2652,6 +2776,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2770,7 +2898,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2820,6 +2952,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2938,7 +3074,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2988,6 +3128,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3106,7 +3250,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3156,6 +3304,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3274,7 +3426,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3324,6 +3480,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3442,7 +3602,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3492,6 +3656,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3610,7 +3778,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3660,6 +3832,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3778,7 +3954,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3828,6 +4008,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3946,7 +4130,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3996,6 +4184,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -4114,7 +4306,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4164,6 +4360,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -4282,7 +4482,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4332,6 +4536,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -4450,7 +4658,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4500,6 +4712,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -4618,7 +4834,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4668,6 +4888,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -4843,6 +5067,66 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-put-es-1-0-0-500/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            put:
+              parameters:
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by the request
+                    from {$request.parameters#mountName}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$request.parameters#uuid}'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - core-model-1-4:logical-termination-point
+                      properties:
+                        core-model-1-4:logical-termination-point:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/LOGICAL_TERMINATION_POINT'
+                            description: >
+                              'from {$RequestForReadingFromDevice.response.body#core-model-1-4:logical-termination-point}
+                              and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
+              responses:
+                '204':
+                  description: 'LogicalTerminationPoint written to cache'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -4961,7 +5245,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5011,6 +5299,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -5133,7 +5425,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5185,6 +5481,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -5317,7 +5617,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5378,6 +5682,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -5520,7 +5828,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5590,6 +5902,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -5719,7 +6035,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5778,6 +6098,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -5906,7 +6230,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5965,6 +6293,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6093,7 +6425,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6152,6 +6488,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6280,6 +6620,75 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-513/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: controllerInternalPathToMountPoint
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    description: >
+                      'Controller internal path to the device mount points
+                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by the request
+                    from {$request.parameters#mountName}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: localId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from {$request.parameters#localId}'
+              responses:
+                '200':
+                  description: 'OK'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          air-interface-2-0:air-interface-current-performance:
+                            $ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6408,7 +6817,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6467,6 +6880,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6596,7 +7013,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6655,6 +7076,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6783,7 +7208,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6842,6 +7271,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6970,7 +7403,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -7029,6 +7466,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -7157,6 +7598,75 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-523/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: controllerInternalPathToMountPoint
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    description: >
+                      'Controller internal path to the device mount points
+                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by the request
+                    from {$request.parameters#mountName}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: localId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from {$request.parameters#localId}'
+              responses:
+                '200':
+                  description: 'OK'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          ethernet-container-2-0:ethernet-container-current-performance:
+                            $ref: '#/components/schemas/ETHERNET_CONTAINER_CURRENT_PERFORMANCE'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -7285,7 +7795,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -7344,6 +7858,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -7473,7 +7991,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -7532,6 +8054,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -7660,7 +8186,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -7719,6 +8249,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -7847,7 +8381,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -7906,6 +8444,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -8034,6 +8576,75 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-533/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: controllerInternalPathToMountPoint
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    description: >
+                      'Controller internal path to the device mount points
+                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by the request
+                    from {$request.parameters#mountName}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: localId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from {$request.parameters#localId}'
+              responses:
+                '200':
+                  description: 'OK'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          hybrid-mw-structure-2-0:hybrid-mw-structure-current-performance:
+                            $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -8162,7 +8773,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -8221,6 +8836,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -8350,7 +8969,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -8409,6 +9032,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -8537,7 +9164,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -8596,6 +9227,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -8724,7 +9359,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -8783,6 +9422,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -8912,7 +9555,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -8971,6 +9618,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -9099,7 +9750,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -9158,6 +9813,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -9286,7 +9945,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -9345,6 +10008,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -9473,6 +10140,75 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-553/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: controllerInternalPathToMountPoint
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    description: >
+                      'Controller internal path to the device mount points
+                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by the request
+                    from {$request.parameters#mountName}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: localId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from {$request.parameters#localId}'
+              responses:
+                '200':
+                  description: 'OK'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          pure-ethernet-structure-2-0:pure-ethernet-structure-current-performance:
+                            $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -9601,7 +10337,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -9660,6 +10400,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -9789,7 +10533,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -9848,6 +10596,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -9976,7 +10728,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -10035,6 +10791,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -10164,7 +10924,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -10223,6 +10987,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -10351,7 +11119,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -10410,6 +11182,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -10538,7 +11314,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -10597,6 +11377,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -10725,6 +11509,75 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-573/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: controllerInternalPathToMountPoint
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    description: >
+                      'Controller internal path to the device mount points
+                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by the request
+                    from {$request.parameters#mountName}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$request.parameters#uuid}'
+                - name: localId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from {$request.parameters#localId}'
+              responses:
+                '200':
+                  description: 'OK'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          wire-interface-2-0:wire-interface-current-performance:
+                            $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -10853,7 +11706,11 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '409':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -10912,6 +11769,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -11109,6 +11970,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11270,6 +12135,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -11408,6 +12277,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -11604,6 +12477,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11717,6 +12594,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -11854,6 +12735,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11973,6 +12858,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12110,6 +12999,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12217,6 +13110,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12308,6 +13205,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12459,6 +13360,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12587,6 +13492,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12737,6 +13646,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12887,6 +13800,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13150,6 +14067,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13220,6 +14141,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13284,6 +14209,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13377,6 +14306,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13455,6 +14388,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13522,6 +14459,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13581,6 +14522,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13645,6 +14590,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13738,6 +14687,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13820,6 +14773,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13887,6 +14844,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13971,6 +14932,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14080,6 +15045,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14227,6 +15196,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14343,6 +15316,10 @@
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14421,6 +15398,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14505,6 +15486,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14665,6 +15650,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14744,6 +15733,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14855,6 +15848,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14949,6 +15946,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15037,6 +16038,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15110,6 +16115,10 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16253,6 +17262,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16556,6 +17569,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16601,6 +17618,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16641,6 +17662,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -16694,6 +17719,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16734,6 +17763,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -16776,6 +17809,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16809,6 +17846,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -16851,6 +17892,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -16902,6 +17947,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16943,6 +17992,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -16983,6 +18036,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17035,6 +18092,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17079,6 +18140,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17121,6 +18186,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17161,6 +18230,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17203,6 +18276,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17237,6 +18314,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17284,6 +18365,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17322,6 +18407,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17365,6 +18454,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17405,6 +18498,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17447,6 +18544,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17487,6 +18588,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17529,6 +18634,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17562,6 +18671,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17604,6 +18717,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17649,6 +18766,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17690,6 +18811,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17730,6 +18855,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17781,6 +18910,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17823,6 +18956,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17872,6 +19009,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17912,6 +19053,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -17954,6 +19099,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -17988,6 +19137,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18031,6 +19184,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18072,6 +19229,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18112,6 +19273,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18159,6 +19324,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18200,6 +19369,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18240,6 +19413,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18303,6 +19480,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18344,6 +19525,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18376,6 +19561,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18421,6 +19610,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18457,6 +19650,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18506,6 +19703,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18552,6 +19753,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18593,6 +19798,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18628,6 +19837,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18671,6 +19884,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18705,6 +19922,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18747,6 +19968,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18781,6 +20006,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18826,6 +20055,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18875,6 +20108,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18916,6 +20153,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -18949,6 +20190,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -18992,6 +20237,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -19024,6 +20273,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -19066,6 +20319,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -19098,6 +20355,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -19444,6 +20705,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -19783,6 +21048,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -19827,6 +21096,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -19876,6 +21149,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -19918,6 +21195,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -19952,6 +21233,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -19994,6 +21279,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -20028,6 +21317,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -20074,6 +21367,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -20110,6 +21407,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
@@ -20163,6 +21464,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -20215,6 +21520,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -20256,6 +21565,10 @@
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
+          $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
@@ -20291,6 +21604,10 @@
         '403':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '460':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '470':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'

@@ -5935,8 +5935,10 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '40X':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -5967,8 +5969,10 @@ paths:
                             type: array
                             items:
                               $ref: '#/components/schemas/LINK'
-                '4XX':
+                '40X':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '461':
+                  $ref: '#/components/responses/461'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6034,7 +6038,7 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '40X':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6068,7 +6072,7 @@ paths:
               responses:
                 '204':
                   description: 'Link written to cache'
-                '4XX':
+                '40X':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -6096,8 +6100,10 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '40X':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -6119,8 +6125,10 @@ paths:
               responses:
                 '204':
                   description: 'Link deleted from cache'
-                '4XX':
+                '40X':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '461':
+                  $ref: '#/components/responses/461'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6173,8 +6181,12 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '40X':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '471':
+          $ref: '#/components/responses/471'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -6214,8 +6226,12 @@ paths:
                             type: array
                             items:
                               $ref: '#/components/schemas/LINK_PORT'
-                '4XX':
+                '40X':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '461':
+                  $ref: '#/components/responses/461'
+                '471':
+                  $ref: '#/components/responses/471'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6263,8 +6279,10 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '40X':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -6306,8 +6324,10 @@ paths:
               responses:
                 '204':
                   description: 'LinkPort written to cache'
-                '4XX':
+                '40X':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '461':
+                  $ref: '#/components/responses/461'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6334,8 +6354,12 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '40X':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '471':
+          $ref: '#/components/responses/471'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -6366,8 +6390,12 @@ paths:
               responses:
                 '204':
                   description: 'LinkPort deleted from cache'
-                '4XX':
+                '40X':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '461':
+                  $ref: '#/components/responses/461'
+                '471':
+                  $ref: '#/components/responses/471'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:

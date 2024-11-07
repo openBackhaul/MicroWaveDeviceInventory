@@ -128,3 +128,17 @@
 #  WAS IST MIT DEN CALLBACKS?!
 #  -> es müssen nicht nur bei den Service-Responses die codes angeschaut werden, sondern auch bei deren callbacks!
 #  -> welche responseCodes kommen vom Controller??
+
+
+
+neue services:
+        - operation-name: /v1/provide-list-of-links
+          uuid: mwdi-1-2-1-op-s-is-014
+        - operation-name: /v1/provide-list-of-link-ports
+          uuid: mwdi-1-2-1-op-s-is-015
+        - operation-name: /v1/provide-data-of-all-links
+          uuid: mwdi-1-2-1-op-s-is-016
+        - operation-name: /v1/provide-data-of-all-link-ports
+          uuid: mwdi-1-2-1-op-s-is-017
+        - operation-name: /v1/provide-device-status-metadata
+          uuid: mwdi-1-2-1-op-s-is-018

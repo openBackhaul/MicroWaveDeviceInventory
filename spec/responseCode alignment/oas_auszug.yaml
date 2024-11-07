@@ -48,7 +48,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -63,7 +63,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-im-nr-1-2-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-im-nr-1-2-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/customer-journey'
@@ -87,7 +87,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-im-nr-1-2-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-im-nr-1-2-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/customer-journey'
@@ -111,7 +111,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-im-nr-1-2-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-nr-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-im-nr-1-2-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/customer-journey'
@@ -135,7 +135,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-np-1-0-0-020/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-np-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-np-1-0-0-020/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/customer-journey'
@@ -170,7 +170,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-mwdi-1-2-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-mwdi-1-2-1-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
@@ -195,7 +195,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
@@ -238,7 +238,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -247,7 +247,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache:
-          ReadCurrentAlarmListFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-107/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          ReadCurrentAlarmListFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-107/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: mountName
@@ -275,7 +275,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          WriteUpdatedCurrentAlarmListToCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-put-es-1-0-0-407/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          WriteUpdatedCurrentAlarmListToCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-put-es-1-0-0-407/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             put:
               parameters:
                 - name: mountName
@@ -324,7 +324,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -333,7 +333,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceAttributeValueChangeCausesUpdateOfCache:
-          ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
+          ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
             get:
               responses:
                 '200':
@@ -344,7 +344,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
+          UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
             put:
               responses:
                 '204':
@@ -373,7 +373,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -382,7 +382,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-mwdi-1-2-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:object-creation-notification/object-path}]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-mwdi-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:object-creation-notification/object-path}]
             get:
               responses:
                 '200':
@@ -421,7 +421,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -430,7 +430,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:object-deletion-notification/object-path but live replaced by cache}]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$request.body#notification-proxy-1-0:object-deletion-notification/object-path but live replaced by cache}]
             delete:
               responses:
                 '204':
@@ -488,7 +488,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -497,7 +497,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForListOfConnectedDevicesCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: fields
@@ -609,7 +609,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -618,7 +618,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForListOfDeviceInterfacesCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: mountName
@@ -752,7 +752,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-012/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-012/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -761,7 +761,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForListOfActualDeviceEquipmentCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: mountName
@@ -896,7 +896,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -905,7 +905,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForListOfParallelLinksCauses:
-          ReadingEndpointsFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          ReadingEndpointsFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: uuid
@@ -962,7 +962,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          SearchingParallelLinksInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          SearchingParallelLinksInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: uuid
@@ -1072,7 +1072,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-014/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-014/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1126,7 +1126,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-015/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-015/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1244,7 +1244,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-016/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-016/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1325,7 +1325,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-017/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-017/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1450,7 +1450,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-018/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-018/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1486,7 +1486,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1495,7 +1495,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-*-*-*-*-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-*-*-*-*-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: 'This callback is to be sent, when an attribute value has been changed in the cache'
             post:
               parameters:
@@ -1619,19 +1619,19 @@ paths:
                   type: string
                   description: >
                     'Name of application that wants to receive notifications about device objects being created in the cache
-                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 subscriber-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that wants to receive notifications about device objects being created in the cache
-                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 subscriber-operation:
                   type: string
                   minLength: 6
                   description: >
                     'Names of the operation that shall be addressed by notifications about device objects being created in the cache
-                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-*-*-*-*-101/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-*-*-*-*-101/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                 subscriber-protocol:
                   type: string
                   enum:
@@ -1639,7 +1639,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol to be used for addressing the application that wants to receive notifications about device objects being created in the cache
-                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 subscriber-address:
                   type: object
                   minProperties: 1
@@ -1656,20 +1656,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address of application that wants to receive notifications about device objects being created in the cache
-                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of application that wants to receive notifications about device objects being created in the cache
-                        update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 subscriber-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'TCP port of application that wants to receive notifications about device objects being created in the cache
-                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
                 subscriber-application: 'HistoricalMicrowaveDeviceInventory'
                 subscriber-release-number: '1.0.0'
@@ -1693,7 +1693,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1702,7 +1702,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         SubscribingAtMwdiForDeviceObjectCreationsCausesSendingNotifications:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-*-*-*-*-101/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-*-*-*-*-101/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: 'This callback is to be sent, when an object has been created in the cache'
             post:
               parameters:
@@ -1816,19 +1816,19 @@ paths:
                   type: string
                   description: >
                     'Name of application that wants to receive notifications about device objects being deleted from the cache
-                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 subscriber-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that wants to receive notifications about device objects being deleted from the cache
-                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-http-c-*-*-*-*-1??/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 subscriber-operation:
                   type: string
                   minLength: 6
                   description: >
                     'Names of the operation that shall be addressed by notifications about device objects being deleted from the cache
-                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-*-*-*-*-102/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-*-*-*-*-102/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                 subscriber-protocol:
                   type: string
                   enum:
@@ -1836,7 +1836,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol to be used for addressing the application that wants to receive notifications about device objects being deleted from the cache
-                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 subscriber-address:
                   type: object
                   minProperties: 1
@@ -1853,20 +1853,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address of application that wants to receive notifications about device objects being deleted from the cache
-                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of application that wants to receive notifications about device objects being deleted from the cache
-                        update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 subscriber-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'TCP port of application that wants to receive notifications about device objects being deleted from the cache
-                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update or create [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
                 subscriber-application: 'HistoricalMicrowaveDeviceInventory'
                 subscriber-release-number: '1.0.0'
@@ -1890,7 +1890,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -1899,7 +1899,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         SubscribingAtMwdiForDeviceObjectDeletionsCausesSendingNotifications:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-*-*-*-*-102/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-*-*-*-*-1??/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-*-*-*-*-102/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: 'This callback is to be sent, when an object has been deleted from the cache'
             post:
               parameters:
@@ -2021,7 +2021,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-100/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-100/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2030,7 +2030,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForCachedControlConstructCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: mountName
@@ -2128,7 +2128,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2137,7 +2137,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForCachedLinkCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-205/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: uuid
@@ -2227,7 +2227,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2236,7 +2236,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForUpdatingLinkCausesWritingIntoCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-put-es-1-0-0-505/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-put-es-1-0-0-505/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             put:
               parameters:
                 - name: uuid
@@ -2289,7 +2289,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2298,7 +2298,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForDeletingLinkCausesDeletingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-del-es-1-0-0-805/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-del-es-1-0-0-805/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             delete:
               parameters:
                 - name: uuid
@@ -2366,7 +2366,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2375,7 +2375,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForCachedLinkPortCausesReadingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-get-es-1-0-0-206/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-get-es-1-0-0-206/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: uuid
@@ -2456,7 +2456,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2465,7 +2465,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForUpdatingLinkPortCausesWritingIntoCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-put-es-1-0-0-506/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-put-es-1-0-0-506/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             put:
               parameters:
                 - name: uuid
@@ -2527,7 +2527,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2536,7 +2536,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForDeletingLinkPortCausesDeletingFromCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-del-es-1-0-0-806/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-del-es-1-0-0-806/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             delete:
               parameters:
                 - name: uuid
@@ -2603,7 +2603,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-s-is-400/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-400/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -2612,7 +2612,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache:
-          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-is-odl-4-0-2-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-is-odl-4-0-2-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - name: controllerInternalPathToMountPoint
@@ -2622,7 +2622,7 @@ paths:
                     type: string
                     description: >
                       'Controller internal path to the device mount points
-                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
                     example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
                 - name: mountName
                   in: path
@@ -2651,7 +2651,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-op-c-put-es-1-0-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-c-put-es-1-0-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             put:
               parameters:
                 - name: mountName
@@ -3007,17 +3007,17 @@ components:
                 type: string
                 description: >
                   'Field name
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
               value:
                 type: string
                 description: >
                   'Field value
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
               datatype:
                 type: string
                 description: >
                   'Field datatype
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
         consequent-action-list:
           type: array
           items:
@@ -3031,20 +3031,20 @@ components:
                 type: string
                 description: >
                   'Label that shall be presented on the button
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
               request:
                 type: string
                 description: >
                   'Request that shall be called, when button gets pressed
                   from
-                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
                   ://
-                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
                   or
-                  {/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
+                  {/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
                   :
-                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
-                  [{/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
+                  [{/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
               input-value-list:
                 type: array
                 items:
@@ -3056,17 +3056,17 @@ components:
                       type: string
                       description: >
                         'Name of an input value required for executing the Request
-                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
+                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
                     unit:
                       type: string
                       description: >
                         'Unit of an input value required for executing the Request
-                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
+                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
               display-in-new-browser-window:
                 type: boolean
                 description: >
                   'True in case Request shall be represented in a new browser window
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
     logicalTerminationPoint:
       type: object
       required:

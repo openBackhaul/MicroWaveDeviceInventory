@@ -1,0 +1,214 @@
+# service categories
+# 1. notification receipt
+# 2. ordinary services:
+#    - device based
+#    - link/link port based
+#    - metadata
+# 3. subscription services
+# 4. ressource path services - nonLink cache
+# 5. ressource path services - nonLink live
+# 6. ressource path services - LINK (cache)
+# 7. bequeath-your-data-and-die callbacks
+
+# -------------------------------------
+# 1. notification receipt
+# -------------------------------------
+  - operation-name: /v1/regard-controller-attribute-value-change
+      # service selbst: defaults sind ok
+      # callbacks:
+        # NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct: 
+          # -> CTRL --> 502, 530, 531, 532
+        # NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+          # -> MWDI --> nur 4xx (404 sollte passen)
+  - operation-name: /v1/regard-device-alarm
+      # 
+      # callbacks:
+      # NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
+      #  ReadCurrentAlarmListFromCache: 404
+      #  WriteUpdatedCurrentAlarmListToCache -> ggf. 470 ergänzen       
+      #              (theoretisch könnte es sein, dass die Ressource für die der Alarm kommt, nicht im CC steht (wenn das CC zB incomplete ist))
+  - operation-name: /v1/regard-device-attribute-value-change
+        # - 470: die Ressource ist nicht da
+        # callbacks:
+        #   NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
+        #     ReadClass.get: -> 470 theoretisch könnte es sein, dass die Ressource nicht da ist (z.B. weil vorheriges CC Update fehlt)
+        #     UpdateAndWriteClass.put -> 470 (falls das ReadClass ein 470 geliefert hat)
+  - operation-name: /v1/regard-device-object-creation
+        # - 533: wenn die Ressource nicht auf dem Gerät exististiert kommt ein Fehler! (CTRL) (NEUEN CODE HINZUFÜGEN!) ===>
+        #   SICHERHEITSHALBER NOCHMAL PRÜFEN, OB DAS MWDI DA AUCH EINE FEHLERMELDUNG JETZT SCHON LIEFERT (kann auch einfach nur ein 204, notification received sein!)
+        # callbacks:
+        #   NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath (get)
+        #   (der Controller gibt hier seine eigene Error Response zurück; die 533 wird nicht vom callback zurückgegeben (der Callback geht ja auf den Controller, d.h. der Callback hat auch nur die COntroller-Responses!))
+  - operation-name: /v1/regard-device-object-deletion
+        # analog zur object creation: 533 
+        # callbacks:
+        #   NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache (delete)
+
+
+
+# -------------------------------------
+# 2. ordinary services
+# -------------------------------------
+  - operation-name: /v1/provide-list-of-connected-devices
+        # keine neuen Codes
+        # callbacks:
+        #   RequestForListOfConnectedDevicesCausesReadingFromCache (get)
+  - operation-name: /v1/provide-list-of-device-interfaces
+        # 460: device not in deviceList
+        # callbacks:
+        #   RequestForListOfDeviceInterfacesCausesReadingFromCache (get)
+        #   (460: device not in deviceList)
+  - operation-name: /v1/provide-list-of-actual-device-equipment
+        # 460: device not in deviceList
+        # callbacks:
+        #   RequestForListOfActualDeviceEquipmentCausesReadingFromCache (get)
+        #   (460: device not in deviceList)
+  - operation-name: /v1/provide-list-of-parallel-links
+        # 461: if link from requestBody is not found in cache (if callbacks return 471)
+        # callbacks:
+        #   RequestForListOfParallelLinksCauses
+        #     ReadingEndpointsFromCache (get): ruft einen Ressource-Path auf dem ES auf (link=uuid)
+        #     SearchingParallelLinksInCache (get): ruft auch einen Ressource-Path auf
+        #     bei beiden: wenn nicht gefunden: 471: link/topology item from service path not found
+  - operation-name: /v1/provide-list-of-links
+        # default codes remain, if nothing found, returns just empty list
+        # callbacks: / (direkt ES): nothing to add
+  - operation-name: /v1/provide-list-of-link-ports
+        # default codes remain, if nothing found, returns just empty list
+        # callbacks: / (direkt ES): nothing to add
+  - operation-name: /v1/provide-data-of-all-links
+        # default codes remain, if nothing found, returns just empty list
+        # callbacks: / (direkt ES): nothing to add
+  - operation-name: /v1/provide-data-of-all-link-ports
+        # default codes remain, if nothing found, returns just empty list
+        # callbacks: / (direkt ES): nothing to add
+  - operation-name: /v1/provide-device-status-metadata
+        # service itself: keine Zusatzinfos
+        # es wird eine Liste von devices übergeben, wenn man zu denen nichts findet, werden die einfach ignoriert, im worst case wird eine leere Liste zurückgegeben
+        # d.h. wenn was nicht gefunden wird, gibt es keinen Fehler, eine Fehlerbehandlung muss dann ggf. auf Seiten des Aufrufers geschehen: der muss die Anforderungsliste mit der Ergebnisliste vergleichen und ggf. bei sich als Fehler behandeln
+        # callbacks: / (direkt ES)
+
+# -------------------------------------
+# 3. subscription services
+# -------------------------------------
+  # operations return default errors only (e.g. for wrong requestBody)
+  - operation-name: /v1/notify-attribute-value-changes
+      # callbacks: SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications (post)
+  - operation-name: /v1/notify-object-creations
+      # callback: SubscribingAtMwdiForDeviceObjectCreationsCausesSendingNotifications (post)
+  - operation-name: /v1/notify-object-deletions
+      # callback: SubscribingAtMwdiForDeviceObjectDeletionsCausesSendingNotifications (post)
+
+# -------------------------------------
+#  4. ressource path services - live (non link)
+# -------------------------------------
+  - live-operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}*  
+    # service itself: add
+    # - 502: if the device is not found at the Controller, i.e. Controller callback returns 503
+    # - 530, 531, 532
+    # - 533: if Controller callback returns 409
+    # RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
+    #   [server/controller] RequestForReadingFromDevice (get)
+    #   - if device is found, but ressource does not exist, controller returns 409 (Conflict)
+    #   - if device is not found, controller returns 503
+    #   RequestForWritingIntoCache (put)
+    #   - 460: if previous callback returned 503 (device not found)
+    #   - 470: if previous callback returned 409 (ressource not found)
+
+    # Controller responses
+    409:
+      {
+      "errors": {
+            "error": [
+                  {
+                  "error-tag": "data-missing",
+                  "error-message": "Request could not be completed because the relevant data model content does not exist",
+                  "error-type": "protocol"
+                  }
+            ]
+      }
+      }
+    503: 
+      {
+            "errors": {
+                  "error": [
+                        {
+                        "error-tag": "resource-denied-transport",
+                        "error-message": "Mount point does not exist.",
+                        "error-type": "protocol"
+                        }
+                  ]
+            }
+      }
+
+# -------------------------------------
+# 5. ressource path services - cache (non link)
+# -------------------------------------
+  # for all add: 
+  # - 460 (device not connected) - currently MWDI returns 404 "unable to fetch records for mountName *"
+  # - 470 (device exist, but ressource does not) - currently MWDI returns 404 "No elements found with UUID: *"
+  - cache-operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}*
+    # callback: [client] RequestForCachedControlConstructCausesReadingFromCache
+    # - add: 460, 470
+  
+ 
+
+
+  # currently MWDI returns for known device + unknown ressource
+  {
+    "code": 404,
+    "message": "No elements found with UUID: 513250007+foo"
+  }
+  # and for unknown device:
+  {
+    "code": 404,
+    "message": "unable to fetch records for mountName foo"
+  }
+
+# -------------------------------------
+# 6. topology ressource path services - LINK (cache)
+# -------------------------------------
+# link service (cache): /core-model-1-4:network-control-domain=cache/link={uuid}
+  - put:
+    # nothing to add
+    # callback: RequestForUpdatingLinkCausesWritingIntoCache (put)
+  - get:
+    # add 461: the link (parent topology object) is not found in the cache 
+    # callback: RequestForCachedLinkCausesReadingFromCache (get)
+      # add 461
+  - delete:
+    # add 461
+    # callback: RequestForDeletingLinkCausesDeletingFromCache (delete)
+      # add 461
+
+# linkport service (cache): /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}
+  - put:
+    # add 461: returned, if the parent topology object (link) is not found in the cache
+    # callback: RequestForUpdatingLinkPortCausesWritingIntoCache (put)
+      # add 461
+  - get:
+    # add 461 (link not found)
+    # add 471 (link found, but linkport not found)
+    # callback: RequestForCachedLinkPortCausesReadingFromCache (get)
+      # add 461, 471
+  - delete:
+    # add 461 (link not found)
+    # add 471 (link found, but linkport not found)
+    # callback: RequestForDeletingLinkPortCausesDeletingFromCache (delete)
+      # add 461, 471
+
+
+
+
+
+# -------------------------------------
+#  7. bequeath-your-data-and-die callbacks
+# -------------------------------------
+
+# can be ignored!
+#   PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
+#   PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
+#   PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
+#   PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+
+

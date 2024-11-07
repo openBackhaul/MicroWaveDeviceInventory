@@ -1514,6 +1514,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
+
   /v1/provide-list-of-connected-devices:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -1716,6 +1717,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -1789,6 +1792,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -1887,6 +1892,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -1970,6 +1977,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2043,6 +2052,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -2108,6 +2119,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '471':
+                  $ref: '#/components/responses/471'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -2173,6 +2186,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '471':
+                  $ref: '#/components/responses/471'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -3281,7 +3296,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-
 
   /core-model-1-4:network-control-domain=cache/control-construct={mountName}:
     parameters:

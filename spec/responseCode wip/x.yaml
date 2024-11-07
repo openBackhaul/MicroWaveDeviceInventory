@@ -16,3 +16,8 @@
 
                 '533':
                   $ref: '#/components/responses/533'
+
+
+
+                '460':
+                  $ref: '#/components/responses/460'

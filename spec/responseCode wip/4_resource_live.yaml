@@ -62,16 +62,6 @@
           $ref: '#/components/responses/532'
         '533':
           $ref: '#/components/responses/533'
-        '502':
-          $ref: '#/components/responses/502'
-        '530':
-          $ref: '#/components/responses/530'
-        '531':
-          $ref: '#/components/responses/531'
-        '532':
-          $ref: '#/components/responses/532'
-        '533':
-          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:

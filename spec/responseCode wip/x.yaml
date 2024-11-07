@@ -1,0 +1,23 @@
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '470':
+          $ref: '#/components/responses/470'
+
+
+
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '460':
+                  $ref: '#/components/responses/460'
+                '470':
+                  $ref: '#/components/responses/470'

@@ -1,3 +1,4 @@
+
   /core-model-1-4:network-control-domain=cache/control-construct={mountName}:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -38,7 +39,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-100/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -70,7 +77,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/CONTROL_CONSTRUCT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -115,7 +128,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-105/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -145,7 +164,13 @@
                         properties:
                           alarms-1-0:alarm-capability:
                             $ref: '#/components/schemas/ALARM_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -189,7 +214,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-106/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -219,7 +250,13 @@
                         properties:
                           alarms-1-0:alarm-configuration:
                             $ref: '#/components/schemas/ALARM_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -263,7 +300,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-107/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -293,7 +336,13 @@
                         properties:
                           alarms-1-0:current-alarms:
                             $ref: '#/components/schemas/CURRENT_ALARMS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -337,7 +386,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-108/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -367,7 +422,13 @@
                         properties:
                           alarms-1-0:alarm-event-records:
                             $ref: '#/components/schemas/ALARM_EVENT_RECORDS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -415,7 +476,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-110/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -456,7 +523,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/EQUIPMENT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -504,7 +577,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-111/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -554,7 +633,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/CONNECTOR'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -602,7 +687,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-112/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -652,7 +743,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/CONTAINED_HOLDER'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -700,7 +797,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-113/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -750,7 +853,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/EXPECTED_EQUIPMENT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -795,7 +904,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-114/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -834,7 +949,13 @@
                         properties:
                           core-model-1-4:actual-equipment:
                             $ref: '#/components/schemas/ACTUAL_EQUIPMENT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -879,7 +1000,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-120/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -909,7 +1036,13 @@
                         properties:
                           firmware-1-0:firmware-collection:
                             $ref: '#/components/schemas/FIRMWARE_COLLECTION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -954,7 +1087,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-121/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -993,7 +1132,13 @@
                         properties:
                           firmware-1-0:firmware-component-list:
                             $ref: '#/components/schemas/FIRMWARE_COMPONENT_LIST'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1038,7 +1183,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-122/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1077,7 +1228,13 @@
                         properties:
                           firmware-1-0:firmware-component-capability:
                             $ref: '#/components/schemas/FIRMWARE_COMPONENT_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1122,7 +1279,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-123/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1161,7 +1324,13 @@
                         properties:
                           firmware-1-0:firmware-component-status:
                             $ref: '#/components/schemas/FIRMWARE_COMPONENT_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1206,7 +1375,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-130/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1236,7 +1411,13 @@
                         properties:
                           core-model-1-4:profile-collection:
                             $ref: '#/components/schemas/PROFILE_COLLECTION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1283,7 +1464,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-131/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1324,7 +1511,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/PROFILE'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1369,7 +1562,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-135/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1408,7 +1607,13 @@
                         properties:
                           co-channel-profile-1-0:co-channel-profile-capability:
                             $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1453,7 +1658,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-136/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1492,7 +1703,13 @@
                         properties:
                           co-channel-profile-1-0:co-channel-profile-configuration:
                             $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1537,7 +1754,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-145/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1576,7 +1799,13 @@
                         properties:
                           policing-profile-1-0:policing-profile-capability:
                             $ref: '#/components/schemas/POLICING_PROFILE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1621,7 +1850,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-146/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1660,7 +1895,13 @@
                         properties:
                           policing-profile-1-0:policing-profile-configuration:
                             $ref: '#/components/schemas/POLICING_PROFILE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1705,7 +1946,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-150/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1744,7 +1991,13 @@
                         properties:
                           qos-profile-1-0:qos-profile-capability:
                             $ref: '#/components/schemas/QOS_PROFILE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1789,7 +2042,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-151/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1828,7 +2087,13 @@
                         properties:
                           qos-profile-1-0:qos-profile-configuration:
                             $ref: '#/components/schemas/QOS_PROFILE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1873,7 +2138,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-155/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1912,7 +2183,13 @@
                         properties:
                           scheduler-profile-1-0:scheduler-profile-capability:
                             $ref: '#/components/schemas/SCHEDULER_PROFILE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1957,7 +2234,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-156/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -1996,7 +2279,13 @@
                         properties:
                           scheduler-profile-1-0:scheduler-profile-configuration:
                             $ref: '#/components/schemas/SCHEDULER_PROFILE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2041,7 +2330,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-160/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2080,7 +2375,13 @@
                         properties:
                           wred-profile-1-0:wred-profile-capability:
                             $ref: '#/components/schemas/WRED_PROFILE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2125,7 +2426,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-161/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2164,7 +2471,13 @@
                         properties:
                           wred-profile-1-0:wred-profile-configuration:
                             $ref: '#/components/schemas/WRED_PROFILE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2209,7 +2522,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-162/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2248,7 +2567,13 @@
                         properties:
                           wred-template-profile-1-0:wred-template-profile-capability:
                             $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2293,7 +2618,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-163/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2332,7 +2663,13 @@
                         properties:
                           wred-template-profile-1-0:wred-template-profile-configuration:
                             $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2380,7 +2717,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-200/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2421,7 +2764,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/LOGICAL_TERMINATION_POINT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2466,7 +2815,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-201/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2505,7 +2860,13 @@
                         properties:
                           ltp-augment-1-0:ltp-augment-pac:
                             $ref: '#/components/schemas/LTP_AUGMENT_PAC'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2552,7 +2913,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-202/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2593,7 +2960,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_DOMAIN'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2641,7 +3014,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-203/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2691,7 +3070,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2740,7 +3125,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-204/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2799,7 +3190,13 @@
                             type: array
                             items:
                               $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2846,7 +3243,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-210/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2894,7 +3297,13 @@
                         properties:
                           air-interface-2-0:air-interface-capability:
                             $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2940,7 +3349,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-211/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -2988,7 +3403,13 @@
                         properties:
                           air-interface-2-0:air-interface-configuration:
                             $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3034,7 +3455,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-212/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3082,7 +3509,13 @@
                         properties:
                           air-interface-2-0:air-interface-status:
                             $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3128,7 +3561,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-214/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3176,7 +3615,13 @@
                         properties:
                           air-interface-2-0:air-interface-historical-performances:
                             $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3223,7 +3668,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-220/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3271,7 +3722,13 @@
                         properties:
                           ethernet-container-2-0:ethernet-container-capability:
                             $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3317,7 +3774,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-221/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3365,7 +3828,13 @@
                         properties:
                           ethernet-container-2-0:ethernet-container-configuration:
                             $ref: '#/components/schemas/ETHERNET_CONTAINER_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3411,7 +3880,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-222/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3459,7 +3934,13 @@
                         properties:
                           ethernet-container-2-0:ethernet-container-status:
                             $ref: '#/components/schemas/ETHERNET_CONTAINER_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3505,7 +3986,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-224/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3553,7 +4040,13 @@
                         properties:
                           ethernet-container-2-0:ethernet-container-historical-performances:
                             $ref: '#/components/schemas/ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3600,7 +4093,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-230/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3648,7 +4147,13 @@
                         properties:
                           hybrid-mw-structure-2-0:hybrid-mw-structure-capability:
                             $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3694,7 +4199,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-231/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3742,7 +4253,13 @@
                         properties:
                           hybrid-mw-structure-2-0:hybrid-mw-structure-configuration:
                             $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3788,7 +4305,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-232/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3836,7 +4359,13 @@
                         properties:
                           hybrid-mw-structure-2-0:hybrid-mw-structure-status:
                             $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3882,7 +4411,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-234/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3930,7 +4465,13 @@
                         properties:
                           hybrid-mw-structure-2-0:hybrid-mw-structure-historical-performances:
                             $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -3977,7 +4518,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-240/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4025,7 +4572,13 @@
                         properties:
                           mac-interface-1-0:mac-interface-capability:
                             $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4071,7 +4624,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-241/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4119,7 +4678,13 @@
                         properties:
                           mac-interface-1-0:mac-interface-configuration:
                             $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4165,7 +4730,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-242/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4213,7 +4784,13 @@
                         properties:
                           mac-interface-1-0:mac-interface-status:
                             $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4260,7 +4837,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-250/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4308,7 +4891,13 @@
                         properties:
                           pure-ethernet-structure-2-0:pure-ethernet-structure-capability:
                             $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4354,7 +4943,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-251/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4402,7 +4997,13 @@
                         properties:
                           pure-ethernet-structure-2-0:pure-ethernet-structure-configuration:
                             $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4448,7 +5049,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-252/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4496,7 +5103,13 @@
                         properties:
                           pure-ethernet-structure-2-0:pure-ethernet-structure-status:
                             $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4542,7 +5155,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-254/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4590,7 +5209,13 @@
                         properties:
                           pure-ethernet-structure-2-0:pure-ethernet-structure-historical-performances:
                             $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4637,7 +5262,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-260/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4685,7 +5316,13 @@
                         properties:
                           vlan-interface-1-0:vlan-interface-capability:
                             $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4731,7 +5368,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-261/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4779,7 +5422,13 @@
                         properties:
                           vlan-interface-1-0:vlan-interface-configuration:
                             $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4826,7 +5475,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-270/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4874,7 +5529,13 @@
                         properties:
                           wire-interface-2-0:wire-interface-capability:
                             $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4920,7 +5581,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-271/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -4968,7 +5635,13 @@
                         properties:
                           wire-interface-2-0:wire-interface-configuration:
                             $ref: '#/components/schemas/WIRE_INTERFACE_CONFIGURATION'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5014,7 +5687,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-272/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5062,7 +5741,13 @@
                         properties:
                           wire-interface-2-0:wire-interface-status:
                             $ref: '#/components/schemas/WIRE_INTERFACE_STATUS'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5108,7 +5793,13 @@
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-274/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -5156,7 +5847,13 @@
                         properties:
                           wire-interface-2-0:wire-interface-historical-performances:
                             $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
-                '4XX':
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'

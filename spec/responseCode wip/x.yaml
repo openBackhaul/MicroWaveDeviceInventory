@@ -7,7 +7,8 @@
                   $ref: '#/components/responses/531'
                 '532':
                   $ref: '#/components/responses/532'
-
+                '533':
+                  $ref: '#/components/responses/533'
 
 
                 '470':
@@ -21,3 +22,21 @@
 
                 '460':
                   $ref: '#/components/responses/460'
+
+
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'

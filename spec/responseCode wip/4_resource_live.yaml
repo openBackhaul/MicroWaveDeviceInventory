@@ -52,6 +52,26 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -199,6 +219,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -338,6 +368,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -479,6 +519,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -620,6 +670,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -763,6 +823,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -928,6 +998,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -1111,6 +1191,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -1294,6 +1384,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -1474,6 +1574,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -1632,6 +1742,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -1772,6 +1892,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -1930,6 +2060,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -2088,6 +2228,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -2246,6 +2396,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -2388,6 +2548,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -2548,6 +2718,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -2706,6 +2886,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -2864,6 +3054,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3022,6 +3222,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3180,6 +3390,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3338,6 +3558,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3496,6 +3726,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3654,6 +3894,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3812,6 +4062,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -3970,6 +4230,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -4128,6 +4398,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -4286,6 +4566,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -4447,6 +4737,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -4609,6 +4909,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -4769,6 +5079,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -4934,6 +5254,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -5118,6 +5448,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -5318,6 +5658,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -5495,6 +5845,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -5672,6 +6032,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -5849,6 +6219,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -5967,6 +6347,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -6145,6 +6535,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -6322,6 +6722,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -6499,6 +6909,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -6676,6 +7096,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -6794,6 +7224,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -6972,6 +7412,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -7149,6 +7599,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -7326,6 +7786,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -7503,6 +7973,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -7621,6 +8101,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -7799,6 +8289,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -7976,6 +8476,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -8153,6 +8663,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -8331,6 +8851,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -8508,6 +9038,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -8685,6 +9225,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -8862,6 +9412,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -8980,6 +9540,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -9158,6 +9728,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -9335,6 +9915,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -9513,6 +10103,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -9690,6 +10290,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -9867,6 +10477,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -10044,6 +10664,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -10162,6 +10792,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -10481,6 +11121,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -10966,6 +11616,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -11206,6 +11866,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -11452,6 +12122,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -11640,6 +12320,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inquire-oam-request-approvals:
@@ -11781,6 +12471,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -12049,6 +12749,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/list-ltps-and-fcs:
@@ -12189,6 +12899,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/redirect-topology-change-information:
@@ -12442,6 +13162,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -13253,6 +13983,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/update-operation-client:
@@ -13352,6 +14092,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inquire-basic-auth-approvals:
@@ -13489,6 +14239,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
@@ -13673,6 +14433,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-preceding-release:
@@ -13747,6 +14517,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/update-client-of-subsequent-release:
@@ -13897,6 +14677,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
@@ -13966,6 +14756,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-application:
@@ -14067,6 +14867,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-application-in-generic-representation:
@@ -14151,6 +14961,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-release-history:
@@ -14229,6 +15049,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-release-history-in-generic-representation:
@@ -14292,6 +15122,16 @@
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 

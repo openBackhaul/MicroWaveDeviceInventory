@@ -2136,8 +2136,8 @@ paths:
                     example: '305551234'
                   description: >
                     'The uuid of the Link
-                    all Links in Cache to be filtered for 
-                    ( (layer-protocol-name == ReadingEndpointsFromCache.response.body#/core-model-1-4:link/layer-protocol-name) 
+                    all Links in Cache to be filtered for
+                    ( (layer-protocol-name == ReadingEndpointsFromCache.response.body#/core-model-1-4:link/layer-protocol-name)
                     AND ( core-model-1-4:link/end-point-list/control-construct = ReadingEndpointsFromCache.response.body#core-model-1-4:link/end-point-list/control-construct) )
               responses:
                 '200':
@@ -2374,16 +2374,16 @@ paths:
                 required:
                   - core-model-1-4:link
                 properties:
-                    core-model-1-4:link:
-                      type: array
-                      description: >
-                        'List of link data (if applicable filtered for link-type)
-                        from {$RequestForDataOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*}
-                        if {$request.body#link-type}==generic: omit link records without forwarding-domain property,
-                        if {$request.body#link-type}==minimumForRest: omit link records with forwarding-domain property
-                        if {$request.body#link-type} not provided: return all records'
-                      items:
-                        $ref: '#/components/schemas/LINK'
+                  core-model-1-4:link:
+                    type: array
+                    description: >
+                      'List of link data (if applicable filtered for link-type)
+                      from {$RequestForDataOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*}
+                      if {$request.body#link-type}==generic: omit link records without forwarding-domain property,
+                      if {$request.body#link-type}==minimumForRest: omit link records with forwarding-domain property
+                      if {$request.body#link-type} not provided: return all records'
+                    items:
+                      $ref: '#/components/schemas/LINK'
               examples:
                 generic:
                   value:
@@ -2646,7 +2646,7 @@ paths:
                 device-status-metadata:
                   - mount-name: '305251234'
                     connection-status: 'connected'
-                    changed-to-disconnected-time: 
+                    changed-to-disconnected-time:
                     added-to-device-list-time: '2024-10-10T14:00:00+01:00'
                     last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
                     last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
@@ -7100,9 +7100,9 @@ paths:
                 generic:
                   value:
                     core-model-1-4:link-port:
-                          - local-id: '1'
-                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                            logical-termination-point: '51359991A+819.1.1'
+                      - local-id: '1'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                        logical-termination-point: '51359991A+819.1.1'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -7204,12 +7204,12 @@ paths:
               generic:
                 value:
                   core-model-1-4:link-port:
-                        - local-id: '1'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                          logical-termination-point: '513270001+2146435233'
-                        - local-id: '2'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                          logical-termination-point: '513270005+2146435247'
+                    - local-id: '1'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                      logical-termination-point: '513270001+2146435233'
+                    - local-id: '2'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                      logical-termination-point: '513270005+2146435247'
       responses:
         '204':
           description: 'LinkPort written to cache'
@@ -32127,7 +32127,7 @@ components:
             - air-interface-configuration
             - air-interface-status
             - air-interface-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             air-interface-capability:
               $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
@@ -32176,7 +32176,7 @@ components:
             - ethernet-container-configuration
             - ethernet-container-status
             - ethernet-container-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             ethernet-container-capability:
               $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
@@ -32225,7 +32225,7 @@ components:
             - hybrid-mw-structure-configuration
             - hybrid-mw-structure-status
             - hybrid-mw-structure-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             hybrid-mw-structure-capability:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
@@ -32309,7 +32309,7 @@ components:
             - pure-ethernet-structure-configuration
             - pure-ethernet-structure-status
             - pure-ethernet-structure-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             pure-ethernet-structure-capability:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
@@ -32356,7 +32356,7 @@ components:
           required:
             - vlan-interface-capability
             - vlan-interface-configuration
-          additionalProperties : false
+          additionalProperties: false
           properties:
             vlan-interface-capability:
               $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
@@ -32386,7 +32386,7 @@ components:
             - wire-interface-configuration
             - wire-interface-status
             - wire-interface-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             wire-interface-capability:
               $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
@@ -32443,8 +32443,8 @@ components:
     IP_INTERFACE_CONFIGURATION:
       type: object
     IP_INTERFACE_STATUS:
-      type: object  
-    
+      type: object
+
     TDM_CONTAINER_PAC:
       type: object
       required:

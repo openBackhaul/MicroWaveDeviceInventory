@@ -9648,7 +9648,7 @@
             "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-client-interface-1-0:operation-client-interface-pac": {
               "operation-client-interface-configuration": {
-                "operation-name": "/v1/approve-oam-request",
+                "operation-name": "/v1/approve-basic-auth-request",
                 "operation-key": "Operation key not yet provided."
               },
               "operation-client-interface-status": {

@@ -1058,13 +1058,13 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
 exports.getCachedControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
         }
       }
-      url = decodeURIComponent(url);
+      url = decodeURIWithCheck(url);
       const parts = url.split('?fields=');
       url = parts[0];
       //const fields = parts[1];
@@ -1089,6 +1089,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             const replacedUrlFilter = replaceFilterString(myFields);
@@ -2497,11 +2498,12 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
         let objectKey = Object.keys(result)[0];
         if (objectKey.indexOf("link") != -1) {
           result = result[objectKey];
+          let linkPortArray = null;
           const objectKeyParts = objectKey.split(":");
           let prefix = objectKeyParts[0];
           let topJsonWrapper = prefix + ":link-port";
           if (result[0] && Array.isArray(result[0]["link-port"])) {
-            const linkPortArray = result[0]["link-port"].find(
+            linkPortArray = result[0]["link-port"].find(
               port => port["local-id"] === id
             );
           } else {
@@ -4655,7 +4657,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4686,6 +4688,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -11934,4 +11937,15 @@ function hasAttribute(json, attributeName) {
     }
   }
   return false;
+}
+
+function decodeURIWithCheck(encodedUri) {
+  // Verify if URI contains "%25"
+  if (encodedUri.includes("%25")) {
+      // if contains "%25", it means that it's double codified
+      return decodeURIComponent(decodeURIComponent(encodedUri));
+  } else {
+      // Otherwise is codified only once
+      return decodeURIComponent(encodedUri);
+  }
 }

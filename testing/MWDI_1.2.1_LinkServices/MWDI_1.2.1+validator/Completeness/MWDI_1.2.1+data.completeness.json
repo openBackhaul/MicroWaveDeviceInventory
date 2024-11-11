@@ -1,0 +1,58 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://127.0.0.1:4015",
+				"pathToControlConstruct": "",
+				"authorizationCode": "Basic ????",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "MWDI_1.2.1+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "mwdiSimulator",
+				"server": "http://localhost:3000",
+				"pathToControlConstruct": "",
+				"authorizationCode": "Basic ????",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "MWDI_1.2.1+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "MwdiCompleteness_server",
+				"serverToBeApplied": "mwdi",
+				"mountName": "513250010",
+				"linkId": "101550001",
+				"genericLink": "genericLink1",
+				"mfrLink": "mfrLink1",
+				"linkPort": "1",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "MwdiCompleteness_simulator",
+				"serverToBeApplied": "mwdiSimulator",
+				"mountName": "513250010",
+				"linkId": "101550001",
+				"genericLink": "genericLink1",
+				"mfrLink": "mfrLink1",
+				"linkPort": "1",
+				"kindOfReference": "static",
+				"suffixUrlEncodingIsRequired": true
+			}
+		]
+	}
+]

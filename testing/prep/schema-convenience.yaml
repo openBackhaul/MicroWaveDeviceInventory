@@ -1,0 +1,39 @@
+/v1/provide-device-status-metadata:
+  type: object
+  required:
+    - device-status-metadata
+  properties:
+    device-status-metadata:
+      type: array
+      items:
+        required:
+          - mount-name
+          - connection-status
+          - changed-to-disconnected-time
+          - added-to-device-list-time
+          - last-complete-control-construct-update-time
+          - last-control-construct-notification-update-time
+          - number-of-partial-updates-since-last-complete-update
+          - schema-cache-directory
+        properties:
+          mount-name:
+            type: string
+            description: 'Identifier of the device at the Controller'
+          connection-status:
+            type: string
+            enum:
+              - 'connected'
+              - 'connecting'
+              - 'unable-to-connect'
+          changed-to-disconnected-time:
+            type: string
+          added-to-device-list-time:
+            type: string
+          last-complete-control-construct-update-time:
+            type: string
+          last-control-construct-notification-update-time:
+            type: string
+          number-of-partial-updates-since-last-complete-update:
+            type: integer
+          schema-cache-directory:
+            type: string

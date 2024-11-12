@@ -343,7 +343,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
   /core-model-1-4:network-control-domain=cache/link={uuid}:
     parameters:
       - $ref: '#/components/parameters/user'

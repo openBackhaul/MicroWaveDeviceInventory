@@ -1514,7 +1514,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
   /v1/provide-list-of-connected-devices:
     parameters:
       - $ref: '#/components/parameters/user'

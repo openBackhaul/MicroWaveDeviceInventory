@@ -1,0 +1,841 @@
+
+  /v1/provide-list-of-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfLinks
+      summary: 'Provides list of links in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-type
+              properties:
+                link-id:
+                  type: string
+                  description: 'If provided, the list of links is filtered for links of the given link type, otherwise all links are included.'
+                  enum:
+                    - 'generic'
+                    - 'minimumForRest'
+            example:
+              link-type: 'minimumForRest'
+      responses:
+        '200':
+          description: 'List of links in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-list
+                properties:
+                  link-list:
+                    type: array
+                    description: >
+                      'List of uuids of links (if applicable filtered for link-type)
+                      from {$RequestForListOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*/uuid}
+                      if {$request.body#link-type}==generic: omit uuids without forwarding-domain property,
+                      if {$request.body#link-type}==minimumForRest: omit uuids with forwarding-domain property
+                      if {$request.body#link-type} not provided: return all uuids'
+                    items:
+                      type: string
+              example:
+                link-list:
+                  - '101550001'
+                  - '204550003'
+                  - 'genericLink1'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-014/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks: directly to ElasticSearch, see forwardingList
+  /v1/provide-list-of-link-ports:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfLinkPorts
+      summary: 'Provides list of link ports in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of link ports in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-port-list
+                properties:
+                  link-port-list:
+                    type: array
+                    description: >
+                      'List of localIds of linkPorts
+                      from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=*/link-port=*/local-id}'
+                    items:
+                      type: string
+              example:
+                link-port-list:
+                  - 'localId1'
+                  - 'localId2'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-015/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-data-of-all-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDataOfLinks
+      summary: 'Provides data of (filtered) links in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-type
+              properties:
+                link-id:
+                  type: string
+                  description: 'If provided, data is only returned for links of the respective type'
+                  enum:
+                    - 'generic'
+                    - 'minimumForRest'
+            example:
+              link-type: 'minimumForRest'
+      responses:
+        '200':
+          description: 'Data of (filtered) links in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - core-model-1-4:link
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    description: >
+                      'List of link data (if applicable filtered for link-type)
+                      from {$RequestForDataOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*}
+                      if {$request.body#link-type}==generic: omit link records without forwarding-domain property,
+                      if {$request.body#link-type}==minimumForRest: omit link records with forwarding-domain property
+                      if {$request.body#link-type} not provided: return all records'
+                    items:
+                      $ref: '#/components/schemas/LINK'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: 'genericLink1'
+                        layer-protocol-name: 'layer protocol name for the link'
+                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                        forwarding-domain:
+                          - 'forwarding domain entry'
+                        link-port:
+                          - local-id: '1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: 'mountnameA+ltpA'
+                          - local-id: '2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: 'mountnameB+ltpB'
+                      - uuid: 'genericLink2'
+                        layer-protocol-name: 'layer protocol name for the link'
+                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                        forwarding-domain:
+                          - 'forwarding domain entry'
+                        link-port:
+                          - local-id: 'lc1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: 'mountnameA+ltpA'
+                          - local-id: 'lc2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: 'mountnameB+ltpB'
+                minimum-for-rest:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: '513559996'
+                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        end-point-list:
+                          - control-construct: '513250009'
+                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                          - control-construct: '513250008'
+                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+                      - uuid: '513559997'
+                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        end-point-list:
+                          - control-construct: '513250009'
+                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
+                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
+                          - control-construct: '513250008'
+                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
+                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-016/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks: directly to ElasticSearch, see forwardingList
+  /v1/provide-data-of-all-link-ports:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDataOfLinks
+      summary: 'Provides data of linkports in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Data of linkports in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - core-model-1-4:link-ports
+                properties:
+                  core-model-1-4:link-ports:
+                    type: array
+                    description: >
+                      'List of linkport data
+                      from {$RequestForDataOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=*}
+                      where link-port property is available (i.e. only for generic links)'
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - link-port
+                      properties:
+                        uuid:
+                          type: string
+                          description: 'The uuid of the corresponding link'
+                        link-port:
+                          type: array
+                          description: 'The list of link-ports beloning to the link'
+                          items:
+                            $ref: '#/components/schemas/LINK_PORT'
+              example:
+                core-model-1-4:link-ports:
+                  - uuid: "genericLink1"
+                    link-port:
+                      - local-id: '1'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                        logical-termination-point: 'mountnameA+ltpA'
+                      - local-id: '2'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                        logical-termination-point: 'mountnameB+ltpB'
+                  - uuid: "genericLink2"
+                    link-port:
+                      - local-id: '1'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                        logical-termination-point: 'ltpX'
+                      - local-id: '2'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                        logical-termination-point: 'ltpY'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-017/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks: directly to ElasticSearch, see forwardingList
+  /v1/provide-device-status-metadata:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDeviceStatusMetadata
+      summary: 'Provides metadata status table of devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mount-name-list:
+                  type: array
+                  items:
+                    type: string
+                  description: 'List of names of devices for which the status metadata shall be provided.'
+            example:
+              mount-name-list:
+                - '305251234'
+                - '105258888'
+      responses:
+        '200':
+          description: 'Table with device status metadata provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - device-status-metadata
+                properties:
+                  device-status-metadata:
+                    type: array
+                    items:
+                      required:
+                        - mount-name
+                        - connection-status
+                        - changed-to-disconnected-time
+                        - added-to-device-list-time
+                        - last-complete-control-construct-update-time
+                        - last-control-construct-notification-update-time
+                        - number-of-partial-updates-since-last-complete-update
+                        - schema-cache-directory
+                      properties:
+                        mount-name:
+                          type: string
+                          description: >
+                            'Identifier of the device at the Controller'
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/mount-name}'
+                        connection-status:
+                          type: string
+                          enum:
+                            - 'connected'
+                            - 'connecting'
+                            - 'unable-to-connect'
+                          description: >
+                            'The connection-status of the device at the Controller
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/connection-status}'
+                        changed-to-disconnected-time:
+                          type: string
+                          description: >
+                            'Timestamp for the last time the device connection-status changed from connected into connecting or unable-to-connect
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/changed-to-disconnected-time}'
+                        added-to-device-list-time:
+                          type: string
+                          description: >
+                            'Timestamp of the time, the device was added to the deviceList
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/added-to-device-list-time}'
+                        last-complete-control-construct-update-time:
+                          type: string
+                          description: >
+                            'Timestamp of the last time, when the controlConstruct was updated completely by the periodic retrieval
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-complete-control-construct-update-time}'
+                        last-control-construct-notification-update-time:
+                          type: string
+                          description: >
+                            'Timestamp of the last time, when the controlConstruct was updated due a received notification
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-control-construct-notification-update-time}'
+                        number-of-partial-updates-since-last-complete-update:
+                          type: integer
+                          description: >
+                            'Number of controlConstruct updates for this device due to received notifications since the last complete update
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/number-of-partial-updates-since-last-complete-update}'
+                        schema-cache-directory:
+                          type: string
+                          description: >
+                            'The schema cache directy specified at the Controller, which indicates the vendor and for a subset of devices also the device type
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/schema-cache-directory}'
+              example:
+                device-status-metadata:
+                  - mount-name: '305251234'
+                    connection-status: 'connected'
+                    changed-to-disconnected-time:
+                    added-to-device-list-time: '2024-10-10T14:00:00+01:00'
+                    last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+                    last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
+                    number-of-partial-updates-since-last-complete-update: 7
+                    schema-cache-directory: 'hua'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-is-018/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+
+
+
+  /core-model-1-4:network-control-domain=cache/link={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLink
+      summary: 'Provides Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Link provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: 'genericLink1'
+                        layer-protocol-name: 'layer protocol name for the link'
+                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                        forwarding-domain:
+                          - 'forwarding domain entry'
+                        link-port:
+                          - local-id: '1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: 'mountnameA+ltpA'
+                          - local-id: '2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: 'mountnameB+ltpB'
+                minimum-for-rest:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: '513559996'
+                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        end-point-list:
+                          - control-construct: '513250009'
+                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                          - control-construct: '513250008'
+                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-get-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkToCache
+      summary: 'Writes Link to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:link:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link:
+                    - uuid: 'genericLink1'
+                      layer-protocol-name: 'layer protocol name for the link'
+                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                      forwarding-domain:
+                        - 'forwarding domain entry'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
+              minimum-for-rest:
+                value:
+                  core-model-1-4:link:
+                    - uuid: '513559996'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '513250009'
+                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '513250008'
+                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+      responses:
+        '204':
+          description: 'Link written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-put-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLink
+      summary: 'Deletes Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'Link deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-del-is-205/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/localId'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLinkPort
+      summary: 'Provides LinkPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'LinkPort provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link-port:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK_PORT'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link-port:
+                      - local-id: '1'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                        logical-termination-point: '51359991A+819.1.1'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-get-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '471':
+          $ref: '#/components/responses/471'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkPortToCache
+      summary: 'Writes LinkPort to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:link-port:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK_PORT'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link-port:
+                    - local-id: '1'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                      logical-termination-point: '513270001+2146435233'
+                    - local-id: '2'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                      logical-termination-point: '513270005+2146435247'
+      responses:
+        '204':
+          description: 'LinkPort written to cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-put-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLinkPort
+      summary: 'Deletes LinkPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'LinkPort deleted from cache'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-op-s-del-is-206/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '461':
+          $ref: '#/components/responses/461'
+        '471':
+          $ref: '#/components/responses/471'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'

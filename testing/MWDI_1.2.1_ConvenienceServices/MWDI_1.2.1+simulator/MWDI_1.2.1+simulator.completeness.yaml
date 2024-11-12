@@ -61,7 +61,13 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -124,7 +130,13 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -184,8 +196,16 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '470':
+          $ref: '#/components/responses/470'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -238,10 +258,18 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-object-deletion:
@@ -292,10 +320,18 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '533':
+          $ref: '#/components/responses/533'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
@@ -339,7 +375,13 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -412,8 +454,16 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -487,8 +537,16 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -568,7 +626,13 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -648,7 +712,13 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -728,7 +798,13 @@ paths:
               $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-        '4XX':
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
@@ -857,6 +933,196 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/errorDescription'
+    '429':
+      description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 429
+                maximum: 429
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Too many requests'
+    '460':
+      description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 460
+                maximum: 460
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Not connected. Requested device is currently not in connected state at the controller'
+    '461':
+      description: 'Response in case the (parent) topology object provided in the request (body or path) is not found in the cache.'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 461
+                maximum: 461
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Not available. The topology (parent) object is currently not found in the cache.'
+    '470':
+      description: 'Response in case the resource specified in the request does not exist within the connected device'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 470
+                maximum: 470
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Resource not existing. Device informs about addressed resource unknown'
+    '471':
+      description: 'Response in case the (child) topology object specified in the request (body or path) does not exist within the cache.'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 471
+                maximum: 471
+                format: int32
+              message:
+                type: string
+                enum:
+                  - '(Child) topology object not existing. Cache informs about addressed resource unknown.'
+    '502':
+      description: 'Response in case the server is acting as a gateway or proxy and received an invalid response from the upstream server (device or application providing a consumed service)'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 502
+                maximum: 502
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway'
+    '530':
+      description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, incomplete or corrupted'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 530
+                maximum: 530
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Data invalid. Response data not available, incomplete or corrupted'
+    '531':
+      description: 'Response in case the server is acting as a gateway or proxy and was unable to authenticate at the upstream server (device or application providing a consumed service)'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 531
+                maximum: 531
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway. Authentication at upstream server failed.'
+    '532':
+      description: 'Response in case the server is acting as a gateway or proxy and was unable to connect to the upstream server (device or application providing a consumed service)'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 532
+                maximum: 532
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway. Upstream server not responding.'
+    '533':
+      description: 'Response in case the referenced resource for an connected device does not exist at the controller.'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 533
+                maximum: 533
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Resource unknown. The resource for the connected device does not exist at the Controller.'
   headers:
     x-correlator:
       schema:
@@ -915,17 +1181,17 @@ components:
                 type: string
                 description: >
                   'Field name
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
               value:
                 type: string
                 description: >
                   'Field value
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
               datatype:
                 type: string
                 description: >
                   'Field datatype
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
         consequent-action-list:
           type: array
           items:
@@ -939,20 +1205,20 @@ components:
                 type: string
                 description: >
                   'Label that shall be presented on the button
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
               request:
                 type: string
                 description: >
                   'Request that shall be called, when button gets pressed
                   from
-                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
                   ://
-                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
                   or
-                  {/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
+                  {/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
                   :
-                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-1-0-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
-                  [{/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
+                  [{/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
               input-value-list:
                 type: array
                 items:
@@ -964,17 +1230,17 @@ components:
                       type: string
                       description: >
                         'Name of an input value required for executing the Request
-                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
+                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
                     unit:
                       type: string
                       description: >
                         'Unit of an input value required for executing the Request
-                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
+                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
               display-in-new-browser-window:
                 type: boolean
                 description: >
                   'True in case Request shall be represented in a new browser window
-                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
     logicalTerminationPoint:
       type: object
       required:
@@ -1538,6 +1804,29 @@ components:
                   $ref: '#/components/schemas/WRED_PROFILE_CAPABILITY'
                 wred-profile-configuration:
                   $ref: '#/components/schemas/WRED_PROFILE_CONFIGURATION'
+        - description: 'wred-template-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - wred-template-profile-1-0:wred-template-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'wred-template-profile-1-0:PROFILE_NAME_TYPE_WRED_TEMPLATE_PROFILE'
+            wred-template-profile-1-0:wred-template-profile-pac:
+              type: object
+              required:
+                - wred-template-profile-capability
+                - wred-template-profile-configuration
+              properties:
+                wred-profile-capability:
+                  $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CAPABILITY'
+                wred-profile-configuration:
+                  $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CONFIGURATION'
     CO_CHANNEL_PROFILE_CAPABILITY:
       type: object
     CO_CHANNEL_PROFILE_CONFIGURATION:
@@ -1557,6 +1846,10 @@ components:
     WRED_PROFILE_CAPABILITY:
       type: object
     WRED_PROFILE_CONFIGURATION:
+      type: object
+    WRED_TEMPLATE_PROFILE_CAPABILITY:
+      type: object
+    WRED_TEMPLATE_PROFILE_CONFIGURATION:
       type: object
 
     LOGICAL_TERMINATION_POINT:
@@ -1834,7 +2127,7 @@ components:
             - air-interface-configuration
             - air-interface-status
             - air-interface-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             air-interface-capability:
               $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
@@ -1883,7 +2176,7 @@ components:
             - ethernet-container-configuration
             - ethernet-container-status
             - ethernet-container-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             ethernet-container-capability:
               $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
@@ -1932,7 +2225,7 @@ components:
             - hybrid-mw-structure-configuration
             - hybrid-mw-structure-status
             - hybrid-mw-structure-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             hybrid-mw-structure-capability:
               $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
@@ -2016,7 +2309,7 @@ components:
             - pure-ethernet-structure-configuration
             - pure-ethernet-structure-status
             - pure-ethernet-structure-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             pure-ethernet-structure-capability:
               $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
@@ -2063,7 +2356,7 @@ components:
           required:
             - vlan-interface-capability
             - vlan-interface-configuration
-          additionalProperties : false
+          additionalProperties: false
           properties:
             vlan-interface-capability:
               $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
@@ -2093,7 +2386,7 @@ components:
             - wire-interface-configuration
             - wire-interface-status
             - wire-interface-historical-performances
-          additionalProperties : false
+          additionalProperties: false
           properties:
             wire-interface-capability:
               $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
@@ -2150,8 +2443,8 @@ components:
     IP_INTERFACE_CONFIGURATION:
       type: object
     IP_INTERFACE_STATUS:
-      type: object  
-    
+      type: object
+
     TDM_CONTAINER_PAC:
       type: object
       required:

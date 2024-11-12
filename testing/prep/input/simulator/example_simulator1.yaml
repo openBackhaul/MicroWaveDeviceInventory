@@ -1,0 +1,81 @@
+  /v1/provide-list-of-actual-device-equipment:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfActualDeviceEquipment
+      summary: 'Provides list of actual equipment UUIDs inside a device'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+      responses:
+        '200':
+          description: 'List of actual equipment UUIDs provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - top-level-equipment
+                  - actual-equipment-list
+                properties:
+                  top-level-equipment:
+                    type: array
+                    items:
+                      type: string
+                  actual-equipment-list:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - equipment-type-name
+                      properties:
+                        uuid:
+                          type: string
+                        equipment-type-name:
+                          type: string
+                example:
+                  top-level-equipment:
+                    - type: 'string'
+                  actual-equipment-list:
+                    - uuid: 'string'
+                      equipment-type-name: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'

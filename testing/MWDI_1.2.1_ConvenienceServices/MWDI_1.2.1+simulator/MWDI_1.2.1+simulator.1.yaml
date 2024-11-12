@@ -545,6 +545,105 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-device-status-metadata:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDeviceStatusMetadata
+      summary: 'Provides metadata status table of devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mount-name-list:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: 'Table with device status metadata provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - device-status-metadata
+                properties:
+                  device-status-metadata:
+                    type: array
+                    items:
+                      required:
+                        - mount-name
+                        - connection-status
+                        - changed-to-disconnected-time
+                        - added-to-device-list-time
+                        - last-complete-control-construct-update-time
+                        - last-control-construct-notification-update-time
+                        - number-of-partial-updates-since-last-complete-update
+                        - schema-cache-directory
+                      properties:
+                        mount-name:
+                          type: string
+                        connection-status:
+                          type: string
+                          enum:
+                            - 'connected'
+                            - 'connecting'
+                            - 'unable-to-connect'
+                        changed-to-disconnected-time:
+                          type: string
+                        added-to-device-list-time:
+                          type: string
+                        last-complete-control-construct-update-time:
+                          type: string
+                        last-control-construct-notification-update-time:
+                          type: string
+                        number-of-partial-updates-since-last-complete-update:
+                          type: integer
+                        schema-cache-directory:
+                          type: string
+              example:
+                device-status-metadata:
+                  - mount-name: 'string'
+                    connection-status: 'string'
+                    changed-to-disconnected-time: 'string'
+                    added-to-device-list-time: 'string'
+                    last-complete-control-construct-update-time: 'string'
+                    last-control-construct-notification-update-time: 'string'
+                    number-of-partial-updates-since-last-complete-update: 0
+                    schema-cache-directory: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/notify-attribute-value-changes:
     parameters:

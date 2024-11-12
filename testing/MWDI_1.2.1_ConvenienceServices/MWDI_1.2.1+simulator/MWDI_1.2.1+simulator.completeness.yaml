@@ -624,7 +624,7 @@ paths:
                 device-status-metadata:
                   - mount-name: '305251234'
                     connection-status: 'connected'
-                    changed-to-disconnected-time:
+                    changed-to-disconnected-time: ''
                     added-to-device-list-time: '2024-10-10T14:00:00+01:00'
                     last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
                     last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'

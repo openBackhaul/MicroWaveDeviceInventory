@@ -1,0 +1,46 @@
+# /v1/provide-list-of-links:
+link-list:
+  - '101550001'
+  - '204550003'
+
+# /v1/provide-list-of-link-ports:
+link-port-list:
+  - 'localId1'
+  - 'localId2'
+
+#/v1/provide-data-of-all-links:
+core-model-1-4:link:
+  - uuid: 'genericLink1'
+    layer-protocol-name: 'layer protocol name for the link'
+    link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+    forwarding-domain:
+      - 'forwarding domain entry'
+    link-port:
+      - local-id: '1'
+        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+        logical-termination-point: 'mountnameA+ltpA'
+      - local-id: '2'
+        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+        logical-termination-point: 'mountnameB+ltpB'
+
+# /v1/provide-data-of-all-link-ports:
+core-model-1-4:link-ports:
+  - uuid: 'genericLink1'
+    link-port:
+      - local-id: '1'
+        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+        logical-termination-point: 'mountnameA+ltpA'
+      - local-id: '2'
+        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+        logical-termination-point: 'mountnameB+ltpB'
+
+# metadata
+device-status-metadata:
+  - mount-name: '305251234'
+    connection-status: 'connected'
+    changed-to-disconnected-time:
+    added-to-device-list-time: '2024-10-10T14:00:00+01:00'
+    last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+    last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
+    number-of-partial-updates-since-last-complete-update: 7
+    schema-cache-directory: 'hua'

@@ -1,0 +1,2568 @@
+openapi: 3.0.0
+info:
+  title: MWDI_1.2.1+simulator.1.convenienceServices
+  version: 1.0.0
+
+paths:
+########################################################################################################################
+#   Generic Simulator (generic examples, but all response codes) for (non-link) convenience services
+########################################################################################################################  
+  /v1/regard-controller-attribute-value-change:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardControllerAttributeValueChange
+      summary: 'Receives notifications about attribute value changes at the Controller'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:attribute-value-changed-notification
+              properties:
+                notification-proxy-1-0:attribute-value-changed-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - resource
+                    - attribute-name
+                    - new-value
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    resource:
+                      type: string
+                    attribute-name:
+                      type: string
+                    new-value:
+                      type: string
+      responses:
+        '204':
+          description: 'Notification received'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-alarm:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceAlarm
+      summary: 'Receives notifications about alarms at devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:alarm-event-notification
+              properties:
+                notification-proxy-1-0:alarm-event-notification:
+                  type: object
+                  required:
+                    - alarm-event-sequence-number
+                    - timestamp
+                    - resource
+                    - alarm-type-id
+                    - alarm-type-qualifier
+                    - problem-severity
+                  properties:
+                    alarm-event-sequence-number:
+                      type: integer
+                    timestamp:
+                      type: string
+                    resource:
+                      type: string
+                    alarm-type-id:
+                      type: string
+                    alarm-type-qualifier:
+                      type: string
+                    problem-severity:
+                      type: string
+      responses:
+        '204':
+          description: 'Notification received'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-attribute-value-change:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceAttributeValueChange
+      summary: 'Receives notifications about changes of values of attributes inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:attribute-value-changed-notification
+              properties:
+                notification-proxy-1-0:attribute-value-changed-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                    - attribute-name
+                    - new-value
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+                    attribute-name:
+                      type: string
+                    new-value:
+                      type: string
+      responses:
+        '204':
+          description: 'Notification received'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '470':
+          $ref: '#/components/responses/470'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-object-creation:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceObjectCreation
+      summary: 'Receives notifications about objects that have been created inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:object-creation-notification
+              properties:
+                notification-proxy-1-0:object-creation-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+      responses:
+        '204':
+          description: 'Notification received'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '533':
+          $ref: '#/components/responses/533'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/regard-device-object-deletion:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: regardDeviceObjectDeletion
+      summary: 'Receives notifications about objects that have been deleted inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:object-deletion-notification
+              properties:
+                notification-proxy-1-0:object-deletion-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+      responses:
+        '204':
+          description: 'Notification received'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '533':
+          $ref: '#/components/responses/533'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /v1/provide-list-of-connected-devices:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfConnectedDevices
+      summary: 'Provides list of devices that are connected to the controller'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of connected devices provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - mount-name-list
+                properties:
+                  mount-name-list:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-list-of-device-interfaces:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfDeviceInterfaces
+      summary: 'Provides list of LTP UUIDs at a device'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+      responses:
+        '200':
+          description: 'List of LTP UUIDs provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - logical-termination-point-list
+                properties:
+                  logical-termination-point-list:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - local-id
+                        - layer-protocol-name
+                      properties:
+                        uuid:
+                          type: string
+                        local-id:
+                          type: string
+                        layer-protocol-name:
+                          type: string
+                example:
+                  logical-termination-point-list:
+                    - uuid: 'string'
+                      local-id: 'string'
+                      layer-protocol-name: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-list-of-actual-device-equipment:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfActualDeviceEquipment
+      summary: 'Provides list of actual equipment UUIDs inside a device'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+      responses:
+        '200':
+          description: 'List of actual equipment UUIDs provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - top-level-equipment
+                  - actual-equipment-list
+                properties:
+                  top-level-equipment:
+                    type: array
+                    items:
+                      type: string
+                  actual-equipment-list:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - equipment-type-name
+                      properties:
+                        uuid:
+                          type: string
+                        equipment-type-name:
+                          type: string
+                example:
+                  top-level-equipment:
+                    - type: 'string'
+                  actual-equipment-list:
+                    - uuid: 'string'
+                      equipment-type-name: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '460':
+          $ref: '#/components/responses/460'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-device-status-metadata:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDeviceStatusMetadata
+      summary: 'Provides metadata status table of devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mount-name-list:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: 'Table with device status metadata provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - device-status-metadata
+                properties:
+                  device-status-metadata:
+                    type: array
+                    items:
+                      required:
+                        - mount-name
+                        - connection-status
+                        - changed-to-disconnected-time
+                        - added-to-device-list-time
+                        - last-complete-control-construct-update-time
+                        - last-control-construct-notification-update-time
+                        - number-of-partial-updates-since-last-complete-update
+                        - schema-cache-directory
+                      properties:
+                        mount-name:
+                          type: string
+                        connection-status:
+                          type: string
+                          enum:
+                            - 'connected'
+                            - 'connecting'
+                            - 'unable-to-connect'
+                        changed-to-disconnected-time:
+                          type: string
+                        added-to-device-list-time:
+                          type: string
+                        last-complete-control-construct-update-time:
+                          type: string
+                        last-control-construct-notification-update-time:
+                          type: string
+                        number-of-partial-updates-since-last-complete-update:
+                          type: integer
+                        schema-cache-directory:
+                          type: string
+              example:
+                device-status-metadata:
+                  - mount-name: 'string'
+                    connection-status: 'string'
+                    changed-to-disconnected-time: 'string'
+                    added-to-device-list-time: 'string'
+                    last-complete-control-construct-update-time: 'string'
+                    last-control-construct-notification-update-time: 'string'
+                    number-of-partial-updates-since-last-complete-update: 0
+                    schema-cache-directory: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /v1/notify-attribute-value-changes:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: notifyAttributeValueChanges
+      summary: 'Offers subscribing for notifications about device attributes being changed in the cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - subscriber-application
+                - subscriber-release-number
+                - subscriber-operation
+                - subscriber-protocol
+                - subscriber-address
+                - subscriber-port
+              properties:
+                subscriber-application:
+                  type: string
+                subscriber-release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                subscriber-operation:
+                  type: string
+                  minLength: 6
+                subscriber-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                subscriber-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                subscriber-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+      responses:
+        '204':
+          description: 'Subscription for notifications about changed device attribute values in the cache has been created'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/notify-object-creations:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: notifyObjectCreations
+      summary: 'Offers subscribing for notifications about device objects being created in the cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - subscriber-application
+                - subscriber-release-number
+                - subscriber-operation
+                - subscriber-protocol
+                - subscriber-address
+                - subscriber-port
+              properties:
+                subscriber-application:
+                  type: string
+                subscriber-release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                subscriber-operation:
+                  type: string
+                  minLength: 6
+                subscriber-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                subscriber-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                subscriber-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+      responses:
+        '204':
+          description: 'Subscription for notifications about device objects created in the cache has been documented'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/notify-object-deletions:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: notifyObjectDeletions
+      summary: 'Offers subscribing for notifications about device objects being deleted from the cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - subscriber-application
+                - subscriber-release-number
+                - subscriber-operation
+                - subscriber-protocol
+                - subscriber-address
+                - subscriber-port
+              properties:
+                subscriber-application:
+                  type: string
+                subscriber-release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                subscriber-operation:
+                  type: string
+                  minLength: 6
+                subscriber-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                subscriber-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                subscriber-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+      responses:
+        '204':
+          description: 'Subscription for notifications about device objects deleted from the cache has been created'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+########################################################################################################################
+#   Common Components
+########################################################################################################################
+components:
+  parameters:
+    user:
+      name: user
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'User Name'
+      description: 'User identifier from the system starting the service call'
+    originator:
+      name: originator
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        example: 'Resolver'
+      description: >
+        'Identification for the system consuming the API, as defined in
+         [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+    x-correlator:
+      name: x-correlator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+        description: 'Empty string accepted from external applications.'
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses'
+    trace-indicator:
+      name: trace-indicator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^([0-9]+)(\.([0-9]+))*$'
+        description: 'Empty string accepted from external applications.'
+        example: '1.3.1'
+      description: 'Sequence of request numbers along the flow'
+    customer-journey:
+      name: customer-journey
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'Unknown value'
+      description: 'Holds information supporting customer’s journey to which the execution applies'
+    mountName:
+      name: mountName
+      in: path
+      required: true
+      schema:
+        type: string
+        example: '222250001'
+      description: 'The mountName of the device that is addressed by the request'
+    uuid:
+      name: uuid
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'LTP-MWPS-TTP-1-1'
+      description: 'Instance identifier that is unique within the device'
+    uuid1:
+      name: uuid1
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'LTP-MWPS-TTP-1-1'
+      description: 'Another instance identifier that is unique within the device'
+    localId:
+      name: localId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'LP-MWPS-TTP-1-1'
+      description: 'Instance identifier that is unique within its list'
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+        example: 'node(node-id;netconf-node-topology:connection-status)'
+      description: 'Query parameter to filter ressources according to RFC8040 fields filter spec'
+  responses:
+    responseForErroredServiceRequests:
+      description: 'Response in case of errored service requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+      headers:
+        x-correlator:
+          schema:
+            type: string
+            pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+            example: '550e8400-e29b-11d4-a716-446655440000'
+          description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+        exec-time:
+          schema:
+            type: integer
+            example: 1100
+          description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+        backend-time:
+          schema:
+            type: integer
+            example: 850
+          description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    responseForErroredOamRequests:
+      description: 'Response in case of errored OaM requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+    '429':
+      description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 429
+                maximum: 429
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Too many requests'
+    '460':
+      description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 460
+                maximum: 460
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Not connected. Requested device is currently not in connected state at the controller'
+    '461':
+      description: 'Response in case the (parent) topology object provided in the request (body or path) is not found in the cache.'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 461
+                maximum: 461
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Not available. The topology (parent) object is currently not found in the cache.'
+    '470':
+      description: 'Response in case the resource specified in the request does not exist within the connected device'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 470
+                maximum: 470
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Resource not existing. Device informs about addressed resource unknown'
+    '471':
+      description: 'Response in case the (child) topology object specified in the request (body or path) does not exist within the cache.'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 471
+                maximum: 471
+                format: int32
+              message:
+                type: string
+                enum:
+                  - '(Child) topology object not existing. Cache informs about addressed resource unknown.'
+    '502':
+      description: 'Response in case the server is acting as a gateway or proxy and received an invalid response from the upstream server (device or application providing a consumed service)'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 502
+                maximum: 502
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway'
+    '530':
+      description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, incomplete or corrupted'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 530
+                maximum: 530
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Data invalid. Response data not available, incomplete or corrupted'
+    '531':
+      description: 'Response in case the server is acting as a gateway or proxy and was unable to authenticate at the upstream server (device or application providing a consumed service)'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 531
+                maximum: 531
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway. Authentication at upstream server failed.'
+    '532':
+      description: 'Response in case the server is acting as a gateway or proxy and was unable to connect to the upstream server (device or application providing a consumed service)'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 532
+                maximum: 532
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway. Upstream server not responding.'
+    '533':
+      description: 'Response in case the referenced resource for an connected device does not exist at the controller.'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 533
+                maximum: 533
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Resource unknown. The resource for the connected device does not exist at the Controller.'
+  headers:
+    x-correlator:
+      schema:
+        type: string
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+    exec-time:
+      schema:
+        type: integer
+        example: 1100
+      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+    backend-time:
+      schema:
+        type: integer
+        example: 850
+      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    life-cycle-state:
+      schema:
+        type: string
+        enum:
+          - 'EXPERIMENTAL'
+          - 'OPERATIONAL'
+          - 'DEPRECATED'
+          - 'OBSOLETE'
+          - 'UNKNOWN'
+          - 'NOT_YET_DEFINED'
+        example: 'EXPERIMENTAL'
+  schemas:
+    errorDescription:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    genericRepresentation:
+      type: object
+      required:
+        - response-value-list
+        - consequent-action-list
+      properties:
+        response-value-list:
+          type: array
+          items:
+            type: object
+            required:
+              - field-name
+              - value
+              - datatype
+            properties:
+              field-name:
+                type: string
+                description: >
+                  'Field name
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
+              value:
+                type: string
+                description: >
+                  'Field value
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
+              datatype:
+                type: string
+                description: >
+                  'Field datatype
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
+        consequent-action-list:
+          type: array
+          items:
+            type: object
+            required:
+              - label
+              - request
+              - display-in-new-browser-window
+            properties:
+              label:
+                type: string
+                description: >
+                  'Label that shall be presented on the button
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
+              request:
+                type: string
+                description: >
+                  'Request that shall be called, when button gets pressed
+                  from
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
+                  ://
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
+                  or
+                  {/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
+                  :
+                  [{/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
+                  [{/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
+              input-value-list:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - field-name
+                  properties:
+                    field-name:
+                      type: string
+                      description: >
+                        'Name of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
+                    unit:
+                      type: string
+                      description: >
+                        'Unit of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
+              display-in-new-browser-window:
+                type: boolean
+                description: >
+                  'True in case Request shall be represented in a new browser window
+                  from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-2-1-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
+    logicalTerminationPoint:
+      type: object
+      required:
+        - uuid
+        - ltp-direction
+        - client-ltp
+        - server-ltp
+        - layer-protocol
+      properties:
+        uuid:
+          type: string
+        ltp-direction:
+          type: string
+        client-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        server-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        layer-protocol:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            oneOf:
+              - description: 'operation server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-server-interface-1-0:operation-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-server-interface-1-0:operation-server-interface-pac:
+                    type: object
+                    required:
+                      - operation-server-interface-capability
+                      - operation-server-interface-configuration
+                    properties:
+                      operation-server-interface-capability:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-server-interface-configuration:
+                        type: object
+                        required:
+                          - life-cycle-state
+                        properties:
+                          life-cycle-state:
+                            type: string
+              - description: 'http server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-server-interface-1-0:http-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-server-interface-1-0:http-server-interface-pac:
+                    type: object
+                    required:
+                      - http-server-interface-capability
+                    properties:
+                      http-server-interface-capability:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                          - data-update-period
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+                          data-update-period:
+                            type: string
+              - description: 'tcp server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-server-interface-1-0:tcp-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-server-interface-1-0:tcp-server-interface-pac:
+                    type: object
+                    required:
+                      - tcp-server-interface-configuration
+                    properties:
+                      tcp-server-interface-configuration:
+                        type: object
+                        required:
+                          - description
+                          - local-protocol
+                          - local-address
+                          - local-port
+                        properties:
+                          description:
+                            type: string
+                          local-protocol:
+                            type: string
+                          local-address:
+                            type: object
+                            properties:
+                              ipv-4-address:
+                                type: string
+                              domain-name:
+                                type: string
+                          local-port:
+                            type: integer
+              - description: 'operation client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-client-interface-1-0:operation-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-client-interface-1-0:operation-client-interface-pac:
+                    type: object
+                    required:
+                      - operation-client-interface-configuration
+                      - operation-client-interface-status
+                    properties:
+                      operation-client-interface-configuration:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'elasticsearch client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac:
+                    type: object
+                    required:
+                      - elasticsearch-client-interface-configuration
+                      - elasticsearch-client-interface-status
+                    properties:
+                      elasticsearch-client-interface-configuration:
+                        type: object
+                        required:
+                          - index-alias
+                        properties:
+                          index-alias:
+                            type: string
+                      elasticsearch-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'http client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-client-interface-1-0:http-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-client-interface-1-0:http-client-interface-pac:
+                    type: object
+                    required:
+                      - http-client-interface-configuration
+                    properties:
+                      http-client-interface-configuration:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+              - description: 'tcp client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-client-interface-1-0:tcp-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-client-interface-1-0:tcp-client-interface-pac:
+                    type: object
+                    required:
+                      - tcp-client-interface-configuration
+                    properties:
+                      tcp-client-interface-configuration:
+                        type: object
+                        required:
+                          - remote-protocol
+                          - remote-address
+                          - remote-port
+                        properties:
+                          remote-protocol:
+                            type: string
+                          remote-address:
+                            type: object
+                            properties:
+                              ip-address:
+                                type: object
+                                properties:
+                                  ipv-4-address:
+                                    type: string
+                              domain-name:
+                                type: string
+                          remote-port:
+                            type: integer
+    forwardingDomain:
+      type: object
+      required:
+        - uuid
+        - forwarding-construct
+      properties:
+        uuid:
+          type: string
+        forwarding-construct:
+          type: array
+          items:
+            type: object
+            required:
+              - uuid
+              - name
+              - fc-port
+            properties:
+              uuid:
+                type: string
+              name:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - value-name
+                    - value
+                  properties:
+                    value-name:
+                      type: string
+                    value:
+                      type: string
+              fc-port:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - port-direction
+                    - logical-termination-point
+                  properties:
+                    local-id:
+                      type: string
+                    port-direction:
+                      type: string
+                    logical-termination-point:
+                      type: string
+
+    CONTROL_CONSTRUCT:
+      type: object
+      required:
+        - uuid
+        - alarms-1-0:alarm-pac
+        - equipment
+        - firmware-1-0:firmware-collection
+        - profile-collection
+        - logical-termination-point
+      properties:
+        uuid:
+          type: string
+        alarms-1-0:alarm-pac:
+          $ref: '#/components/schemas/ALARM_PAC'
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EQUIPMENT'
+        firmware-1-0:firmware-collection:
+          $ref: '#/components/schemas/FIRMWARE_COLLECTION'
+        profile-collection:
+          $ref: '#/components/schemas/PROFILE_COLLECTION'
+        forwarding-domain:
+          type: array
+          items:
+            $ref: '#/components/schemas/FORWARDING_DOMAIN'
+        logical-termination-point:
+          type: array
+          items:
+            $ref: '#/components/schemas/LOGICAL_TERMINATION_POINT'
+
+    ALARM_PAC:
+      type: object
+      required:
+        - alarm-capability
+        - alarm-configuration
+        - current-alarms
+        - alarm-event-records
+      properties:
+        alarm-capability:
+          $ref: '#/components/schemas/ALARM_CAPABILITY'
+        alarm-configuration:
+          $ref: '#/components/schemas/ALARM_CONFIGURATION'
+        current-alarms:
+          $ref: '#/components/schemas/CURRENT_ALARMS'
+        alarm-event-records:
+          $ref: '#/components/schemas/ALARM_EVENT_RECORDS'
+    ALARM_CAPABILITY:
+      type: object
+    ALARM_CONFIGURATION:
+      type: object
+    CURRENT_ALARMS:
+      type: object
+    ALARM_EVENT_RECORDS:
+      type: object
+
+    EQUIPMENT:
+      type: object
+      required:
+        - uuid
+      properties:
+        uuid:
+          type: string
+        connector:
+          type: array
+          items:
+            $ref: '#/components/schemas/CONNECTOR'
+        contained-holder:
+          type: array
+          items:
+            $ref: '#/components/schemas/CONTAINED_HOLDER'
+        expected-equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EXPECTED_EQUIPMENT'
+        actual-equipment:
+          type: object
+    CONNECTOR:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    CONTAINED_HOLDER:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    EXPECTED_EQUIPMENT:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    ACTUAL_EQUIPMENT:
+      type: object
+
+    FIRMWARE_COLLECTION:
+      type: object
+      required:
+        - firmware-component-list
+      properties:
+        firmware-component-list:
+          $ref: '#/components/schemas/FIRMWARE_COMPONENT_LIST'
+    FIRMWARE_COMPONENT_LIST:
+      type: array
+      items:
+        type: object
+        required:
+          - local-id
+          - firmware-component-pac
+        properties:
+          local-id:
+            type: string
+          firmware-component-pac:
+            type: object
+            required:
+              - firmware-component-capability
+              - firmware-component-status
+            properties:
+              firmware-component-capability:
+                $ref: '#/components/schemas/FIRMWARE_COMPONENT_CAPABILITY'
+              firmware-component-status:
+                $ref: '#/components/schemas/FIRMWARE_COMPONENT_STATUS'
+    FIRMWARE_COMPONENT_CAPABILITY:
+      type: object
+    FIRMWARE_COMPONENT_STATUS:
+      type: object
+
+    PROFILE_COLLECTION:
+      type: object
+      required:
+        - profile
+      properties:
+        profile:
+          type: array
+          items:
+            $ref: '#/components/schemas/PROFILE'
+    PROFILE:
+      oneOf:
+        - description: 'co-channel-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - co-channel-profile-1-0:co-channel-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'co-channel-profile-1-0:PROFILE_NAME_TYPE_CO_CHANNEL_PROFILE'
+            co-channel-profile-1-0:co-channel-profile-pac:
+              type: object
+              required:
+                - co-channel-profile-capability
+                - co-channel-profile-configuration
+              properties:
+                co-channel-profile-capability:
+                  $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CAPABILITY'
+                co-channel-profile-configuration:
+                  $ref: '#/components/schemas/CO_CHANNEL_PROFILE_CONFIGURATION'
+        - description: 'policing-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - policing-profile-1-0:policing-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'policing-profile-1-0:PROFILE_NAME_TYPE_POLICING_PROFILE'
+            policing-profile-1-0:policing-profile-pac:
+              type: object
+              required:
+                - policing-profile-capability
+                - policing-profile-configuration
+              properties:
+                policing-profile-capability:
+                  $ref: '#/components/schemas/POLICING_PROFILE_CAPABILITY'
+                policing-profile-configuration:
+                  $ref: '#/components/schemas/POLICING_PROFILE_CONFIGURATION'
+        - description: 'qos-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - qos-profile-1-0:qos-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'qos-profile-1-0:PROFILE_NAME_TYPE_QOS_PROFILE'
+            qos-profile-1-0:qos-profile-pac:
+              type: object
+              required:
+                - qos-profile-capability
+                - qos-profile-configuration
+              properties:
+                qos-profile-capability:
+                  $ref: '#/components/schemas/QOS_PROFILE_CAPABILITY'
+                qos-profile-configuration:
+                  $ref: '#/components/schemas/QOS_PROFILE_CONFIGURATION'
+        - description: 'scheduler-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - scheduler-profile-1-0:scheduler-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'scheduler-profile-1-0:PROFILE_NAME_TYPE_SCHEDULER_PROFILE'
+            scheduler-profile-1-0:scheduler-profile-pac:
+              type: object
+              required:
+                - scheduler-profile-capability
+                - scheduler-profile-configuration
+              properties:
+                scheduler-profile-capability:
+                  $ref: '#/components/schemas/SCHEDULER_PROFILE_CAPABILITY'
+                scheduler-profile-configuration:
+                  $ref: '#/components/schemas/SCHEDULER_PROFILE_CONFIGURATION'
+        - description: 'wred-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - wred-profile-1-0:wred-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'wred-profile-1-0:PROFILE_NAME_TYPE_WRED_PROFILE'
+            wred-profile-1-0:wred-profile-pac:
+              type: object
+              required:
+                - wred-profile-capability
+                - wred-profile-configuration
+              properties:
+                wred-profile-capability:
+                  $ref: '#/components/schemas/WRED_PROFILE_CAPABILITY'
+                wred-profile-configuration:
+                  $ref: '#/components/schemas/WRED_PROFILE_CONFIGURATION'
+        - description: 'wred-template-profile'
+          type: object
+          required:
+            - uuid
+            - profile-name
+            - wred-template-profile-1-0:wred-template-profile-pac
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
+              enum:
+                - 'wred-template-profile-1-0:PROFILE_NAME_TYPE_WRED_TEMPLATE_PROFILE'
+            wred-template-profile-1-0:wred-template-profile-pac:
+              type: object
+              required:
+                - wred-template-profile-capability
+                - wred-template-profile-configuration
+              properties:
+                wred-profile-capability:
+                  $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CAPABILITY'
+                wred-profile-configuration:
+                  $ref: '#/components/schemas/WRED_TEMPLATE_PROFILE_CONFIGURATION'
+    CO_CHANNEL_PROFILE_CAPABILITY:
+      type: object
+    CO_CHANNEL_PROFILE_CONFIGURATION:
+      type: object
+    POLICING_PROFILE_CAPABILITY:
+      type: object
+    POLICING_PROFILE_CONFIGURATION:
+      type: object
+    QOS_PROFILE_CAPABILITY:
+      type: object
+    QOS_PROFILE_CONFIGURATION:
+      type: object
+    SCHEDULER_PROFILE_CAPABILITY:
+      type: object
+    SCHEDULER_PROFILE_CONFIGURATION:
+      type: object
+    WRED_PROFILE_CAPABILITY:
+      type: object
+    WRED_PROFILE_CONFIGURATION:
+      type: object
+    WRED_TEMPLATE_PROFILE_CAPABILITY:
+      type: object
+    WRED_TEMPLATE_PROFILE_CONFIGURATION:
+      type: object
+
+    LOGICAL_TERMINATION_POINT:
+      type: object
+      required:
+        - uuid
+        - layer-protocol
+      properties:
+        uuid:
+          type: string
+        ltp-augment-1-0:ltp-augment-pac:
+          $ref: '#/components/schemas/LTP_AUGMENT_PAC'
+        embedded-clock:
+          type: array
+          items:
+            $ref: '#/components/schemas/EMBEDDED_CLOCK'
+        layer-protocol:
+          type: array
+          items:
+            $ref: '#/components/schemas/LAYER_PROTOCOL'
+    LTP_AUGMENT_PAC:
+      type: object
+    EMBEDDED_CLOCK:
+      type: object
+    LAYER_PROTOCOL:
+      oneOf:
+        - description: 'air-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - air-interface-2-0:air-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+            air-interface-2-0:air-interface-pac:
+              $ref: '#/components/schemas/AIR_INTERFACE_PAC'
+        - description: 'ethernet-container'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - ethernet-container-2-0:ethernet-container-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'
+            ethernet-container-2-0:ethernet-container-pac:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_PAC'
+        - description: 'hybrid-mw-structure'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - hybrid-mw-structure-2-0:hybrid-mw-structure-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'hybrid-mw-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER'
+            hybrid-mw-structure-2-0:hybrid-mw-structure-pac:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_PAC'
+        - description: 'mac-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - mac-interface-1-0:mac-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER'
+            mac-interface-1-0:mac-interface-pac:
+              $ref: '#/components/schemas/MAC_INTERFACE_PAC'
+        - description: 'pure-ethernet-structure'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - pure-ethernet-structure-2-0:pure-ethernet-structure-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER'
+            pure-ethernet-structure-2-0:pure-ethernet-structure-pac:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_PAC'
+        - description: 'vlan-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - vlan-interface-1-0:vlan-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'
+            vlan-interface-1-0:vlan-interface-pac:
+              $ref: '#/components/schemas/VLAN_INTERFACE_PAC'
+        - description: 'wire-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - wire-interface-2-0:wire-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+            wire-interface-2-0:wire-interface-pac:
+              $ref: '#/components/schemas/WIRE_INTERFACE_PAC'
+        - description: 'ip-interface'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - ip-interface-1-0:ip-interface-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'ip-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_IP_LAYER'
+            ip-interface-1-0:ip-interface-pac:
+              $ref: '#/components/schemas/IP_INTERFACE_PAC'
+        - description: 'tdm-container'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+            - tdm-container-2-0:tdm-container-pac
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
+            tdm-container-2-0:tdm-container-pac:
+              $ref: '#/components/schemas/TDM_CONTAINER_PAC'
+    FORWARDING_DOMAIN:
+      type: object
+      required:
+        - uuid
+      properties:
+        uuid:
+          type: string
+        fc:
+          type: array
+          items:
+            $ref: '#/components/schemas/FORWARDING_CONSTRUCT'
+    FORWARDING_CONSTRUCT:
+      type: object
+      required:
+        - uuid
+      properties:
+        uuid:
+          type: string
+        fc-port:
+          type: array
+          items:
+            $ref: '#/components/schemas/FORWARDING_CONSTRUCT_PORT'
+    FORWARDING_CONSTRUCT_PORT:
+      type: object
+      required:
+        - local-id
+      properties:
+        local-id:
+          type: string
+    LINK:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - link-direction
+            - forwarding-domain
+            - link-port
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            link-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+            forwarding-domain:
+              type: array
+              items:
+                type: string
+            link-port:
+              type: array
+              items:
+                $ref: '#/components/schemas/LINK_PORT'
+        - description: 'minimum for rest'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - end-point-list
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            end-point-list:
+              type: array
+              items:
+                type: object
+                required:
+                  - control-construct
+                  - logical-termination-point
+                  - layer-protocol
+                properties:
+                  control-construct:
+                    type: string
+                  logical-termination-point:
+                    type: string
+                  layer-protocol:
+                    type: string
+    LINK_PORT:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - local-id
+            - link-port-direction
+            - logical-termination-point
+          properties:
+            local-id:
+              type: string
+            link-port-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+            logical-termination-point:
+              type: string
+
+    AIR_INTERFACE_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - air-interface-capability
+            - air-interface-configuration
+            - air-interface-status
+            - air-interface-historical-performances
+          additionalProperties: false
+          properties:
+            air-interface-capability:
+              $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
+            air-interface-configuration:
+              $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
+            air-interface-status:
+              $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
+            air-interface-historical-performances:
+              $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
+        - description: 'live'
+          type: object
+          required:
+            - air-interface-capability
+            - air-interface-configuration
+            - air-interface-status
+            - air-interface-current-performance
+            - air-interface-historical-performances
+          properties:
+            air-interface-capability:
+              $ref: '#/components/schemas/AIR_INTERFACE_CAPABILITY'
+            air-interface-configuration:
+              $ref: '#/components/schemas/AIR_INTERFACE_CONFIGURATION'
+            air-interface-status:
+              $ref: '#/components/schemas/AIR_INTERFACE_STATUS'
+            air-interface-current-performance:
+              $ref: '#/components/schemas/AIR_INTERFACE_CURRENT_PERFORMANCE'
+            air-interface-historical-performances:
+              $ref: '#/components/schemas/AIR_INTERFACE_HISTORICAL_PERFORMANCES'
+    AIR_INTERFACE_CAPABILITY:
+      type: object
+    AIR_INTERFACE_CONFIGURATION:
+      type: object
+    AIR_INTERFACE_STATUS:
+      type: object
+    AIR_INTERFACE_CURRENT_PERFORMANCE:
+      type: object
+    AIR_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
+
+    ETHERNET_CONTAINER_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - ethernet-container-capability
+            - ethernet-container-configuration
+            - ethernet-container-status
+            - ethernet-container-historical-performances
+          additionalProperties: false
+          properties:
+            ethernet-container-capability:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
+            ethernet-container-configuration:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CONFIGURATION'
+            ethernet-container-status:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_STATUS'
+            ethernet-container-historical-performances:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES'
+        - description: 'live'
+          type: object
+          required:
+            - ethernet-container-capability
+            - ethernet-container-configuration
+            - ethernet-container-status
+            - ethernet-container-current-performance
+            - ethernet-container-historical-performances
+          properties:
+            ethernet-container-capability:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CAPABILITY'
+            ethernet-container-configuration:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CONFIGURATION'
+            ethernet-container-status:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_STATUS'
+            ethernet-container-current-performance:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_CURRENT_PERFORMANCE'
+            ethernet-container-historical-performances:
+              $ref: '#/components/schemas/ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES'
+    ETHERNET_CONTAINER_CAPABILITY:
+      type: object
+    ETHERNET_CONTAINER_CONFIGURATION:
+      type: object
+    ETHERNET_CONTAINER_STATUS:
+      type: object
+    ETHERNET_CONTAINER_CURRENT_PERFORMANCE:
+      type: object
+    ETHERNET_CONTAINER_HISTORICAL_PERFORMANCES:
+      type: object
+
+    HYBRID_MW_STRUCTURE_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - hybrid-mw-structure-capability
+            - hybrid-mw-structure-configuration
+            - hybrid-mw-structure-status
+            - hybrid-mw-structure-historical-performances
+          additionalProperties: false
+          properties:
+            hybrid-mw-structure-capability:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
+            hybrid-mw-structure-configuration:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CONFIGURATION'
+            hybrid-mw-structure-status:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_STATUS'
+            hybrid-mw-structure-historical-performances:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES'
+        - description: 'live'
+          type: object
+          required:
+            - hybrid-mw-structure-capability
+            - hybrid-mw-structure-configuration
+            - hybrid-mw-structure-status
+            - hybrid-mw-structure-current-performance
+            - hybrid-mw-structure-historical-performances
+          properties:
+            hybrid-mw-structure-capability:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CAPABILITY'
+            hybrid-mw-structure-configuration:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CONFIGURATION'
+            hybrid-mw-structure-status:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_STATUS'
+            hybrid-mw-structure-current-performance:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE'
+            hybrid-mw-structure-historical-performances:
+              $ref: '#/components/schemas/HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES'
+    HYBRID_MW_STRUCTURE_CAPABILITY:
+      type: object
+    HYBRID_MW_STRUCTURE_CONFIGURATION:
+      type: object
+    HYBRID_MW_STRUCTURE_STATUS:
+      type: object
+    HYBRID_MW_STRUCTURE_CURRENT_PERFORMANCE:
+      type: object
+    HYBRID_MW_STRUCTURE_HISTORICAL_PERFORMANCES:
+      type: object
+
+    MAC_INTERFACE_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - mac-interface-capability
+            - mac-interface-configuration
+            - mac-interface-status
+          properties:
+            mac-interface-capability:
+              $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+            mac-interface-configuration:
+              $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
+            mac-interface-status:
+              $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+        - description: 'live'
+          type: object
+          required:
+            - mac-interface-capability
+            - mac-interface-configuration
+            - mac-interface-status
+          properties:
+            mac-interface-capability:
+              $ref: '#/components/schemas/MAC_INTERFACE_CAPABILITY'
+            mac-interface-configuration:
+              $ref: '#/components/schemas/MAC_INTERFACE_CONFIGURATION'
+            mac-interface-status:
+              $ref: '#/components/schemas/MAC_INTERFACE_STATUS'
+    MAC_INTERFACE_CAPABILITY:
+      type: object
+    MAC_INTERFACE_CONFIGURATION:
+      type: object
+    MAC_INTERFACE_STATUS:
+      type: object
+
+    PURE_ETHERNET_STRUCTURE_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - pure-ethernet-structure-capability
+            - pure-ethernet-structure-configuration
+            - pure-ethernet-structure-status
+            - pure-ethernet-structure-historical-performances
+          additionalProperties: false
+          properties:
+            pure-ethernet-structure-capability:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
+            pure-ethernet-structure-configuration:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
+            pure-ethernet-structure-status:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
+            pure-ethernet-structure-historical-performances:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
+        - description: 'live'
+          type: object
+          required:
+            - pure-ethernet-structure-capability
+            - pure-ethernet-structure-configuration
+            - pure-ethernet-structure-status
+            - pure-ethernet-structure-current-performance
+            - pure-ethernet-structure-historical-performances
+          properties:
+            pure-ethernet-structure-capability:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CAPABILITY'
+            pure-ethernet-structure-configuration:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CONFIGURATION'
+            pure-ethernet-structure-status:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_STATUS'
+            pure-ethernet-structure-current-performance:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE'
+            pure-ethernet-structure-historical-performances:
+              $ref: '#/components/schemas/PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES'
+    PURE_ETHERNET_STRUCTURE_CAPABILITY:
+      type: object
+    PURE_ETHERNET_STRUCTURE_CONFIGURATION:
+      type: object
+    PURE_ETHERNET_STRUCTURE_STATUS:
+      type: object
+    PURE_ETHERNET_STRUCTURE_CURRENT_PERFORMANCE:
+      type: object
+    PURE_ETHERNET_STRUCTURE_HISTORICAL_PERFORMANCES:
+      type: object
+
+    VLAN_INTERFACE_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - vlan-interface-capability
+            - vlan-interface-configuration
+          additionalProperties: false
+          properties:
+            vlan-interface-capability:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+            vlan-interface-configuration:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+        - description: 'live'
+          type: object
+          required:
+            - vlan-interface-capability
+            - vlan-interface-configuration
+          properties:
+            vlan-interface-capability:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CAPABILITY'
+            vlan-interface-configuration:
+              $ref: '#/components/schemas/VLAN_INTERFACE_CONFIGURATION'
+    VLAN_INTERFACE_CAPABILITY:
+      type: object
+    VLAN_INTERFACE_CONFIGURATION:
+      type: object
+
+    WIRE_INTERFACE_PAC:
+      oneOf:
+        - description: 'cache'
+          type: object
+          required:
+            - wire-interface-capability
+            - wire-interface-configuration
+            - wire-interface-status
+            - wire-interface-historical-performances
+          additionalProperties: false
+          properties:
+            wire-interface-capability:
+              $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
+            wire-interface-configuration:
+              $ref: '#/components/schemas/WIRE_INTERFACE_CONFIGURATION'
+            wire-interface-status:
+              $ref: '#/components/schemas/WIRE_INTERFACE_STATUS'
+            wire-interface-historical-performances:
+              $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
+        - description: 'live'
+          type: object
+          required:
+            - wire-interface-capability
+            - wire-interface-configuration
+            - wire-interface-status
+            - wire-interface-current-performance
+            - wire-interface-historical-performances
+          properties:
+            wire-interface-capability:
+              $ref: '#/components/schemas/WIRE_INTERFACE_CAPABILITY'
+            wire-interface-configuration:
+              $ref: '#/components/schemas/WIRE_INTERFACE_CONFIGURATION'
+            wire-interface-status:
+              $ref: '#/components/schemas/WIRE_INTERFACE_STATUS'
+            wire-interface-current-performance:
+              $ref: '#/components/schemas/WIRE_INTERFACE_CURRENT_PERFORMANCE'
+            wire-interface-historical-performances:
+              $ref: '#/components/schemas/WIRE_INTERFACE_HISTORICAL_PERFORMANCES'
+    WIRE_INTERFACE_CAPABILITY:
+      type: object
+    WIRE_INTERFACE_CONFIGURATION:
+      type: object
+    WIRE_INTERFACE_STATUS:
+      type: object
+    WIRE_INTERFACE_CURRENT_PERFORMANCE:
+      type: object
+    WIRE_INTERFACE_HISTORICAL_PERFORMANCES:
+      type: object
+    IP_INTERFACE_PAC:
+      type: object
+      required:
+        - ip-interface-capability
+        - ip-interface-configuration
+        - ip-interface-status
+      properties:
+        ip-interface-capability:
+          $ref: '#/components/schemas/IP_INTERFACE_CAPABILITY'
+        ip-interface-configuration:
+          $ref: '#/components/schemas/IP_INTERFACE_CONFIGURATION'
+        ip-interface-status:
+          $ref: '#/components/schemas/IP_INTERFACE_STATUS'
+    IP_INTERFACE_CAPABILITY:
+      type: object
+    IP_INTERFACE_CONFIGURATION:
+      type: object
+    IP_INTERFACE_STATUS:
+      type: object
+
+    TDM_CONTAINER_PAC:
+      type: object
+      required:
+        - tdm-container-capability
+        - tdm-container-configuration
+        - tdm-container-status
+      properties:
+        tdm-container-capability:
+          $ref: '#/components/schemas/TDM_CONTAINER_CAPABILITY'
+        tdm-container-configuration:
+          $ref: '#/components/schemas/TDM_CONTAINER_CONFIGURATION'
+        tdm-container-status:
+          $ref: '#/components/schemas/TDM_CONTAINER_STATUS'
+    TDM_CONTAINER_CAPABILITY:
+      type: object
+    TDM_CONTAINER_CONFIGURATION:
+      type: object
+    TDM_CONTAINER_STATUS:
+      type: object
+
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: operation-key
+    basicAuth:
+      type: http
+      scheme: basic

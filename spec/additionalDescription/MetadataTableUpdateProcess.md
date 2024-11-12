@@ -75,6 +75,8 @@ As can be seen, the metadata table is updated due to
   - or triggered by notifications
   - _note: the controlConstruct can also be updated by calling live paths on the MWDI. This, however, is ignored for the metadata table update currently._
 
+Also note that an attribute being _null_ shall be represented by an empty string. 
+
 ![TableUpdate](./pictures/metadataTableUpdate.png)
 
 ---

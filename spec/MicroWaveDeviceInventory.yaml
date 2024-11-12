@@ -1514,7 +1514,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
   /v1/provide-list-of-connected-devices:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -2504,7 +2503,7 @@ paths:
                             $ref: '#/components/schemas/LINK_PORT'
               example:
                 core-model-1-4:link-ports:
-                  - uuid: "genericLink1"
+                  - uuid: 'genericLink1'
                     link-port:
                       - local-id: '1'
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
@@ -2512,7 +2511,7 @@ paths:
                       - local-id: '2'
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
                         logical-termination-point: 'mountnameB+ltpB'
-                  - uuid: "genericLink2"
+                  - uuid: 'genericLink2'
                     link-port:
                       - local-id: '1'
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
@@ -2646,7 +2645,7 @@ paths:
                 device-status-metadata:
                   - mount-name: '305251234'
                     connection-status: 'connected'
-                    changed-to-disconnected-time:
+                    changed-to-disconnected-time: ''
                     added-to-device-list-time: '2024-10-10T14:00:00+01:00'
                     last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
                     last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'

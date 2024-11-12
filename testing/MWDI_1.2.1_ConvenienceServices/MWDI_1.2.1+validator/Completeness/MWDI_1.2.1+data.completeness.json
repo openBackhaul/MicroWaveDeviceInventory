@@ -1,0 +1,62 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://127.0.0.1:4015",
+				"pathToControlConstruct": "",
+				"authorizationCode": "Basic ????",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "MWDI_1.2.1+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "mwdiSimulator",
+				"server": "http://localhost:3000",
+				"pathToControlConstruct": "",
+				"authorizationCode": "Basic ????",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "MWDI_1.2.1+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "MwdiCompleteness_server",
+				"serverToBeApplied": "mwdi",
+				"mountName": "513250010",
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",				
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "External label not yet defined.",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-281",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "MwdiCompleteness_simulator",
+				"serverToBeApplied": "mwdiSimulator",
+				"mountName": "513250010",
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",				
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "External label not yet defined.",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-281",
+				"kindOfReference": "static",
+				"suffixUrlEncodingIsRequired": true
+			}
+		]
+	}
+]

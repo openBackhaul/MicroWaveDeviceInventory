@@ -73,6 +73,277 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
+  /v1/provide-list-of-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfLinks
+      summary: 'Provides list of links in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-type
+              properties:
+                link-id:
+                  type: string
+                  enum:
+                    - 'generic'
+                    - 'minimumForRest'
+      responses:
+        '200':
+          description: 'List of links in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-list
+                properties:
+                  link-list:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /v1/provide-list-of-link-ports:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfLinkPorts
+      summary: 'Provides list of link ports in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of link ports in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-port-list
+                properties:
+                  link-port-list:
+                    type: array
+                    items:
+                      type: string
+                      example:
+                        - 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-data-of-all-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDataOfLinks
+      summary: 'Provides data of (filtered) links in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-type
+              properties:
+                link-id:
+                  type: string
+                  enum:
+                    - 'generic'
+                    - 'minimumForRest'
+      responses:
+        '200':
+          description: 'Data of (filtered) links in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - core-model-1-4:link
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: 'string'
+                        layer-protocol-name: 'string'
+                        link-direction: 'string'
+                        forwarding-domain:
+                          - 'string'
+                        link-port:
+                          - local-id: 'string'
+                            link-port-direction: 'string'
+                            logical-termination-point: 'string'
+                minimum-for-rest:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: 'string'
+                        layer-protocol-name: 'string'
+                        end-point-list:
+                          - control-construct: 'string'
+                            logical-termination-point: 'string'
+                            layer-protocol: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+  /v1/provide-data-of-all-link-ports:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideDataOfLinks
+      summary: 'Provides data of linkports in cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Data of linkports in cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - core-model-1-4:link-ports
+                properties:
+                  core-model-1-4:link-ports:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - uuid
+                        - link-port
+                      properties:
+                        uuid:
+                          type: string
+                        link-port:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/LINK_PORT'
+              example:
+                core-model-1-4:link-ports:
+                  - uuid: 'string'
+                    link-port:
+                      - local-id: 'string'
+                        link-port-direction: 'string'
+                        logical-termination-point: 'string'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
   /core-model-1-4:network-control-domain=cache/link={uuid}:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -180,18 +451,18 @@ paths:
                     core-model-1-4:link:
                       - uuid: 'string'
                         layer-protocol-name: 'string'
-                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL''string'
+                        link-direction: 'string'
                         forwarding-domain:
                           - 'string'
                         link-port:
                           - local-id: '1'
-                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            link-port-direction: 'string'
                             logical-termination-point: 'string'
                 minimum-for-rest:
                   value:
                     core-model-1-4:link:
                       - uuid: 'string'
-                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        layer-protocol-name: 'string'
                         end-point-list:
                           - control-construct: 'string'
                             logical-termination-point: 'string'
@@ -420,7 +691,7 @@ paths:
                   value:
                     core-model-1-4:link-port:
                       - local-id: 'string'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                        link-port-direction: 'string'
                         logical-termination-point: 'string'
           headers:
             x-correlator:

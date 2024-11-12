@@ -2503,7 +2503,7 @@ paths:
                             $ref: '#/components/schemas/LINK_PORT'
               example:
                 core-model-1-4:link-ports:
-                  - uuid: "genericLink1"
+                  - uuid: 'genericLink1'
                     link-port:
                       - local-id: '1'
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
@@ -2511,7 +2511,7 @@ paths:
                       - local-id: '2'
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
                         logical-termination-point: 'mountnameB+ltpB'
-                  - uuid: "genericLink2"
+                  - uuid: 'genericLink2'
                     link-port:
                       - local-id: '1'
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'

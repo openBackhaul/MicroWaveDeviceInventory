@@ -516,6 +516,7 @@ paths:
                           type: string
                         equipment-type-name:
                           type: string
+                          minLength: 1
                 example:
                   top-level-equipment:
                     - type: 'string'

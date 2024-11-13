@@ -54,6 +54,7 @@
             type: string
           equipment-type-name:
             type: string
+            minLength: 1
 /v1/provide-device-status-metadata:
   type: object
   required:

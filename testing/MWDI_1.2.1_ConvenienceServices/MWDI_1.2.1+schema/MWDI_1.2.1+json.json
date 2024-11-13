@@ -74,7 +74,8 @@
               "type": "string"
             },
             "equipment-type-name": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           }
         }

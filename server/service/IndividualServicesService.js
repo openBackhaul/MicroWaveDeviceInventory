@@ -9768,6 +9768,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
     try {
       let urlParts = url.split("?fields=");
       let mountName = body['mount-name'];
+      let equipmentType;
       if (mountName == "") {
         throw new createHttpError.BadRequest("mount-name must not be empty");
       }
@@ -9793,11 +9794,13 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
           const transformedData = {
             "top-level-equipment": finalJson[0]["top-level-equipment"],
             "actual-equipment-list": finalJson[0]["equipment"].map((item) => {
+              equipmentType = item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"] 
+              if(equipmentType !== undefined){
               return {
-                uuid: item.uuid,
-                "equipment-type-name": item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"] || "",
-              };
-            }),
+              uuid: item.uuid,
+              "equipment-type-name":equipmentType,
+            }}
+            }).filter((item)=> item !== undefined)
           };
           returnObject = transformedData;
         } else {

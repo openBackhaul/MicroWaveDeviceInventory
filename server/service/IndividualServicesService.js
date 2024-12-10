@@ -192,7 +192,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
 exports.getCachedActualEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -223,6 +223,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -265,7 +266,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
 exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -296,6 +297,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -338,7 +340,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
 exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -369,6 +371,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -411,7 +414,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
 exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -442,6 +445,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -484,7 +488,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
 exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -515,6 +519,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -555,7 +560,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
 exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -586,6 +591,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -626,7 +632,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
 exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -657,6 +663,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -697,7 +704,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
 exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -728,6 +735,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -769,7 +777,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
 exports.getCachedCoChannelProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -800,6 +808,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -841,7 +850,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
 exports.getCachedCoChannelProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -872,6 +881,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -914,7 +924,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
 exports.getCachedConnector = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -945,6 +955,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -987,7 +998,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
 exports.getCachedContainedHolder = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1018,6 +1029,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1131,7 +1143,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
 exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1162,6 +1174,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1203,7 +1216,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
 exports.getCachedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1234,6 +1247,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1276,7 +1290,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
 exports.getCachedEthernetContainerCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1307,6 +1321,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1349,7 +1364,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
 exports.getCachedEthernetContainerConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1380,6 +1395,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1422,7 +1438,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
 exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1453,6 +1469,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1495,7 +1512,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
 exports.getCachedEthernetContainerStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1526,6 +1543,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1568,7 +1586,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
 exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1599,6 +1617,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1639,7 +1658,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
 exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1670,6 +1689,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1711,7 +1731,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
 exports.getCachedFirmwareComponentCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1742,6 +1762,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1783,7 +1804,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
 exports.getCachedFirmwareComponentList = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1814,6 +1835,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1855,7 +1877,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
 exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1886,6 +1908,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -1927,7 +1950,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
 exports.getCachedForwardingConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -1958,6 +1981,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2001,7 +2025,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
 exports.getCachedForwardingConstructPort = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2032,6 +2056,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2073,7 +2098,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
 exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2104,6 +2129,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2146,7 +2172,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
 exports.getCachedHybridMwStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2177,6 +2203,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2219,7 +2246,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
 exports.getCachedHybridMwStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2250,6 +2277,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2292,7 +2320,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
 exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2323,6 +2351,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2365,7 +2394,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
 exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2396,6 +2425,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2482,7 +2512,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       let correctLink = null;
       let link = uuid;//decodeLinkUuid(url, true);
       let id = localId;
-      var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
@@ -2700,7 +2730,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
 exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2731,6 +2761,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2773,7 +2804,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
 exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2804,6 +2835,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2846,7 +2878,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
 exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2877,6 +2909,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2919,7 +2952,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
 exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -2950,6 +2983,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -2991,7 +3025,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
 exports.getCachedPolicingProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3022,6 +3056,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3063,7 +3098,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
 exports.getCachedPolicingProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3094,6 +3129,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3135,7 +3171,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
 exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3166,6 +3202,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3206,7 +3243,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
 exports.getCachedProfileCollection = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3237,6 +3274,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3278,7 +3316,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
 exports.getCachedPureEthernetStructureCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3309,6 +3347,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3351,7 +3390,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
 exports.getCachedPureEthernetStructureConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3382,6 +3421,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3424,7 +3464,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
 exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3455,6 +3495,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3497,7 +3538,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
 exports.getCachedPureEthernetStructureStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3528,6 +3569,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3569,7 +3611,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
 exports.getCachedQosProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3600,6 +3642,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3641,7 +3684,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
 exports.getCachedQosProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3672,6 +3715,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3713,7 +3757,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
 exports.getCachedSchedulerProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3744,6 +3788,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3785,7 +3830,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
 exports.getCachedSchedulerProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3816,6 +3861,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3858,7 +3904,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
 exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3889,6 +3935,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -3931,7 +3978,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
 exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -3962,6 +4009,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4004,7 +4052,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
 exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4035,6 +4083,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4077,7 +4126,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
 exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4108,6 +4157,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4150,7 +4200,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
 exports.getCachedWireInterfaceCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4181,6 +4231,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4223,7 +4274,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
 exports.getCachedWireInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4254,6 +4305,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4296,7 +4348,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
 exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4327,6 +4379,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4369,7 +4422,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
 exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4400,6 +4453,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4441,7 +4495,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
 exports.getCachedWredProfileCapability = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4472,6 +4526,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4513,7 +4568,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
 exports.getCachedWredProfileConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4544,6 +4599,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -4585,7 +4641,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
 exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myFields = fields;
+      let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
           throw new createHttpError.BadRequest;
@@ -4616,6 +4672,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -9881,6 +9938,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
             var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
@@ -9992,7 +10050,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       url = decodeURIComponent(url);
       let correctLink = null;
       let link = uuid; //decodeLinkUuid(url, true);
-      var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       if (matchLink) {
         throw new createHttpError("400", "Fields must not contain special chars");
@@ -10248,7 +10306,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       } else if (!hasAttribute(resRequestor.data, attributeName)) {
         throw new createHttpError.BadRequest;
       } else {
-        let appInformation = await notificationManagement.getAppInformation();
+        let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
         const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
@@ -10313,7 +10371,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
       } else {
-        let appInformation = await notificationManagement.getAppInformation();
+        let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
         const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-creation-notification";
@@ -10380,7 +10438,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // Write updated Json to ES
       modificaUUID(result, controlConstruct);
       let elapsedTime = await recordRequest(result, controlConstruct);
-      let appInformation = await notificationManagement.getAppInformation();
+      let appInformation = proxy;
       const releaseNumber = appInformation["release-number"];
       let parts = releaseNumber.split(".");
       const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":object-deletion-notification";

@@ -107,7 +107,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         oggetto = oggetto[nomeArray];
         // oggetto = oggetto[nomeArray];
       }
-      // If the key doesn't contain square brackets get the objet value
+      // If the key doesn't contain square brackets get the object value
       if (i === chiavi.length - 1) {
         // If this is the last key in the path, assign the new value
         if (Filters) {
@@ -163,9 +163,11 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
             let newJSON = nuovoJSON[objectKey];
             let result = mergeJson(oggetto[nomeArray], newJSON)
           } else {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey]
-            oggetto[chiave] = newJSON;
+            if (nuovoJSON != null) {
+              let objectKey = Object.keys(nuovoJSON)[0];
+              let newJSON = nuovoJSON[objectKey][0];
+              oggetto[nomeArray][indice] = newJSON;
+            }
           }
         } else {
           // Otherwise go on parsing the object

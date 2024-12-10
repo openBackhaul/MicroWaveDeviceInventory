@@ -9,6 +9,7 @@ var serverPort = 8080;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 var individual = require('./service/IndividualServicesService');
 var apiKeyAuth = require('./utils/apiKeyAuth');
+const notificationManagement = require('./service/individualServices/NotificationManagement');
 appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
@@ -40,6 +41,7 @@ global.databasePath = './database/load.json';
 (async () => {
     global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
     global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
+    global.proxy = await notificationManagement.getAppInformation();
  })()
 
 

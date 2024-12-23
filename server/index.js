@@ -59,3 +59,5 @@ prepareElasticsearch(false).catch(err => {
     
 }
 );
+
+global.applicationDataPath = './application-data/';

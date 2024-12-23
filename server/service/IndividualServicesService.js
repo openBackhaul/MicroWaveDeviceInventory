@@ -11757,10 +11757,11 @@ async function extractProfileConfiguration(uuid) {
     let profile = await profileCollection.getProfileAsync(uuid);
     let objectKey = Object.keys(profile)[2];
     profile = profile[objectKey];
-    let filepath = profile["file-profile-configuration"]["file-path"];
+    let filepath = profile["file-profile-configuration"]["file-name"];
     const fs = require('fs');
-    const data = require(filepath);
-
+    const fileProfileOperation = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/FileProfile')
+    let applicationDataFile = await fileProfileOperation.getApplicationDataFileContent();
+    const data = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
     return data["api-key"];
   } catch (error) {
     console.error(error);

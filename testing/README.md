@@ -1,10 +1,12 @@
-# MicroWaveDeviceInventory Testing
+# Testing
 
-### Test Cases (Postman Export)
-- [MicroWaveDeviceInventory+testcases](./MicroWaveDeviceInventory+testcases.json)
+Testing is divided into the following six phases:
+- [Unit Testing](../server/)
+- [Internal Integration Testing](./1_integration/)
+- [Functional Testing](./2_functional/)
+- [Performance Testing](./3_performance/)
+- [Pre-prod Testing](./4_preprod/)
+- [FOA](./5_foa/)
 
-### DATAfile
-- [MicroWaveDeviceInventory+data](./MicroWaveDeviceInventory+data.json)
 
-### Comments
-./.
+![StructureOfTesting](./pictures/241004_StructureOfTesting.png)

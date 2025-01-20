@@ -137,7 +137,7 @@ module.exports.informAboutApplication = async function informAboutApplication(re
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  await BasicServices.informAboutApplication(user, originator, xCorrelator, traceIndicator, customerJourney)
+  await BasicServices.informAboutApplication()
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -181,7 +181,7 @@ module.exports.informAboutReleaseHistory = async function informAboutReleaseHist
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  await BasicServices.informAboutReleaseHistory(user, originator, xCorrelator, traceIndicator, customerJourney)
+  await BasicServices.informAboutReleaseHistory()
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -247,7 +247,7 @@ module.exports.listLtpsAndFcs = async function listLtpsAndFcs(req, res, next, us
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  await BasicServices.listLtpsAndFcs(user, originator, xCorrelator, traceIndicator, customerJourney)
+  await BasicServices.listLtpsAndFcs()
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -388,7 +388,7 @@ module.exports.updateClient = async function updateClient(req, res, next, body, 
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  await BasicServices.updateClient(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
+  await BasicServices.updateClient(body, user, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -410,7 +410,7 @@ module.exports.updateOperationClient = async function updateOperationClient(req,
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  await BasicServices.updateOperationClient(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
+  await BasicServices.updateOperationClient(body, user, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -432,7 +432,7 @@ module.exports.updateOperationKey = async function updateOperationKey(req, res, 
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  await BasicServices.updateOperationKey(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url)
+  await BasicServices.updateOperationKey(body)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -520,7 +520,8 @@ module.exports.UpdateClientOfSubsequentRelease = async function UpdateClientOfSu
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
   try {
-    responseBodyToDocument = await BasicServices.updateClientOfSubsequentRelease(body, user, originator, xCorrelator, traceIndicator, customerJourney,NEW_RELEASE_FORWARDING_NAME);
+    let NEW_RELEASE_FORWARDING = "PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges";
+    responseBodyToDocument = await BasicServices.updateClientOfSubsequentRelease(body, user, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING);
     let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
     restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);
   } catch (responseBody) {

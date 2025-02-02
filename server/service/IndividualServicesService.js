@@ -2558,7 +2558,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
 
 
 /**
- * Provides LogicalTerminationPoint from live network
+ * Provides LogicalTerminationPoint from cache
  *
  * user String User identifier from the system starting the service call
  * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
@@ -2570,63 +2570,58 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      let jsonObj = "";
+      let myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      let retJson = null;
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        correctCc = mountname;
+        correctMountname = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
+      let returnObject = {};
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (isJsonEmpty(finalJson)) {
+              throw new createHttpError.BadRequest;
+            }
           }
+          returnObject[objectKey] = finalJson;
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
-          }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
+      } else {
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
+      resolve(returnObject);
     } catch (error) {
       console.error(error);
       reject(error);
@@ -2636,7 +2631,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
 
 
 /**
- * Provides LtpAugment from live network
+ * Provides LtpAugment from cache
  *
  * user String User identifier from the system starting the service call
  * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
@@ -2648,69 +2643,65 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_30
  **/
-exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
-      let jsonObj = "";
+      let myFields = fields;
+      if (myFields != undefined) {
+        if (!isFilterValid(myFields)) {
+          throw new createHttpError.BadRequest;
+        }
+      }
       url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      let retJson = null;
+      const parts = url.split('?fields=');
+      url = parts[0];
+      //const fields = parts[1];
+      let correctMountname = null;
+      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        correctCc = mountname;
+        correctMountname = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
+      let returnObject = {};
+      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
+
+      let result = await ReadRecords(correctMountname);
+      if (result != undefined) {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        if (finalJson != undefined) {
+          modifyReturnJson(finalJson);
+          let objectKey = Object.keys(finalJson)[0];
+          finalJson = finalJson[objectKey];
+          if (myFields != undefined) {
+            myFields = decodeURIComponent(myFields);
+            var objList = [];
+            var rootObj = { value: "root", children: [] }
+            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
+            objList.push(rootObj)
+            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+            if (isJsonEmpty(finalJson)) {
+              throw new createHttpError.BadRequest;
+            }
           }
+          returnObject[objectKey] = finalJson;
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
-          }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
+          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
+      } else {
+        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
       }
+      resolve(returnObject);
     } catch (error) {
       console.error(error);
       reject(error);
     }
   });
 }
+
 
 
 /**
@@ -2802,80 +2793,6 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
  * returns inline_response_200_44
  **/
 exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let myFields = fields;
-      if (myFields != undefined) {
-        if (!isFilterValid(myFields)) {
-          throw new createHttpError.BadRequest;
-        }
-      }
-      url = decodeURIComponent(url);
-      const parts = url.split('?fields=');
-      url = parts[0];
-      //const fields = parts[1];
-      let correctMountname = null;
-      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctMountname = mountname;
-      }
-      let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
-      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
-      let result = await ReadRecords(correctMountname);
-      if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
-        if (finalJson != undefined) {
-          modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
-          finalJson = finalJson[objectKey];
-          if (myFields != undefined) {
-            myFields = decodeURIComponent(myFields);
-            var objList = [];
-            var rootObj = { value: "root", children: [] }
-            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-            objList.push(rootObj)
-            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
-            }
-          }
-          returnObject[objectKey] = finalJson;
-        } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-        }
-      } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-      }
-      resolve(returnObject);
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
- * Provides MacInterfaceHistoricalPerformances from cache
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_46
- **/
-exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
       let myFields = fields;
@@ -4036,154 +3953,6 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
 
 
 /**
- * Provides VlanInterfaceHistoricalPerformances from cache
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_54
- **/
-exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let myFields = fields;
-      if (myFields != undefined) {
-        if (!isFilterValid(myFields)) {
-          throw new createHttpError.BadRequest;
-        }
-      }
-      url = decodeURIComponent(url);
-      const parts = url.split('?fields=');
-      url = parts[0];
-      //const fields = parts[1];
-      let correctMountname = null;
-      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctMountname = mountname;
-      }
-      let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
-      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
-      let result = await ReadRecords(correctMountname);
-      if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
-        if (finalJson != undefined) {
-          modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
-          finalJson = finalJson[objectKey];
-          if (myFields != undefined) {
-            myFields = decodeURIComponent(myFields);
-            var objList = [];
-            var rootObj = { value: "root", children: [] }
-            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-            objList.push(rootObj)
-            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
-            }
-          }
-          returnObject[objectKey] = finalJson;
-        } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-        }
-      } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-      }
-      resolve(returnObject);
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
- * Provides VlanInterfaceStatus from cache
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_53
- **/
-exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let myFields = fields;
-      if (myFields != undefined) {
-        if (!isFilterValid(myFields)) {
-          throw new createHttpError.BadRequest;
-        }
-      }
-      url = decodeURIComponent(url);
-      const parts = url.split('?fields=');
-      url = parts[0];
-      //const fields = parts[1];
-      let correctMountname = null;
-      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctMountname = mountname;
-      }
-      let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
-      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
-      let result = await ReadRecords(correctMountname);
-      if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
-        if (finalJson != undefined) {
-          modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
-          finalJson = finalJson[objectKey];
-          if (myFields != undefined) {
-            myFields = decodeURIComponent(myFields);
-            var objList = [];
-            var rootObj = { value: "root", children: [] }
-            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-            objList.push(rootObj)
-            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
-            }
-          }
-          returnObject[objectKey] = finalJson;
-        } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-        }
-      } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-      }
-      resolve(returnObject);
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
  * Provides WireInterfaceCapability from cache
  *
  * user String User identifier from the system starting the service call
@@ -4624,151 +4393,62 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
   });
 }
 
-
+//to add
 /**
- * Provides LogicalTerminationPoint from cache
+ * Provides WredTemplateProfileCapability from cache
  *
  * user String User identifier from the system starting the service call
  * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
+ * mountName String The mountName of the device that is addressed by the request
  * uuid String Instance identifier that is unique within the device
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_29
+ * returns inline_response_200_35
  **/
-exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let myFields = fields;
-      if (myFields != undefined) {
-        if (!isFilterValid(myFields)) {
-          throw new createHttpError.BadRequest;
-        }
-      }
-      url = decodeURIComponent(url);
-      const parts = url.split('?fields=');
-      url = parts[0];
-      //const fields = parts[1];
-      let correctMountname = null;
-      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctMountname = mountname;
-      }
-      let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
-      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
-      let result = await ReadRecords(correctMountname);
-      if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
-        if (finalJson != undefined) {
-          modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
-          finalJson = finalJson[objectKey];
-          if (myFields != undefined) {
-            myFields = decodeURIComponent(myFields);
-            var objList = [];
-            var rootObj = { value: "root", children: [] }
-            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-            objList.push(rootObj)
-            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
-            }
-          }
-          returnObject[objectKey] = finalJson;
-        } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-        }
-      } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-      }
-      resolve(returnObject);
-    } catch (error) {
-      console.error(error);
-      reject(error);
+exports.getCachedWredTemplateProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "wred-template-profile-1-0:wred-template-profile-capability" : { }
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
     }
   });
 }
 
-
+//to add
 /**
- * Provides LtpAugment from cache
+ * Provides WredTemplateProfileConfiguration from cache
  *
  * user String User identifier from the system starting the service call
  * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
+ * mountName String The mountName of the device that is addressed by the request
  * uuid String Instance identifier that is unique within the device
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_30
+ * returns inline_response_200_36
  **/
-exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let myFields = fields;
-      if (myFields != undefined) {
-        if (!isFilterValid(myFields)) {
-          throw new createHttpError.BadRequest;
-        }
-      }
-      url = decodeURIComponent(url);
-      const parts = url.split('?fields=');
-      url = parts[0];
-      //const fields = parts[1];
-      let correctMountname = null;
-      //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url);
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctMountname = mountname;
-      }
-      let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
-      const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
-      let result = await ReadRecords(correctMountname);
-      if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
-        if (finalJson != undefined) {
-          modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
-          finalJson = finalJson[objectKey];
-          if (myFields != undefined) {
-            myFields = decodeURIComponent(myFields);
-            var objList = [];
-            var rootObj = { value: "root", children: [] }
-            var ret = fieldsManager.decodeFieldsSubstringExt(myFields, 0, rootObj)
-            objList.push(rootObj)
-            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
-            }
-          }
-          returnObject[objectKey] = finalJson;
-        } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-        }
-      } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
-      }
-      resolve(returnObject);
-    } catch (error) {
-      console.error(error);
-      reject(error);
+exports.getCachedWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "wred-template-profile-1-0:wred-template-profile-configuration" : { }
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
     }
   });
 }
+
 
 
 /**
@@ -7392,6 +7072,162 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
 
 
 /**
+ * Provides LogicalTerminationPoint from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_29
+ **/
+exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctCc = mountname;
+      }
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.error(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides LtpAugment from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_30
+ **/
+exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let jsonObj = "";
+      url = decodeURIComponent(url);
+      const urlParts = url.split("?fields=");
+      url = urlParts[0];
+      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
+      const myFields = urlParts[1];
+      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
+      const Authorization = common[0].key;
+      let correctCc = null;
+      let retJson = null;
+      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
+      let mountname = decodeMountName(url, false);
+      if (typeof mountname === 'object') {
+        throw new createHttpError(mountname[0].code, mountname[0].message);
+      } else {
+        correctCc = mountname;
+      }
+      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        if (res == false) {
+          throw new createHttpError.NotFound;
+        } else if (res.status != 200) {
+          if (res.statusText == undefined) {
+            throw new createHttpError(res.status, res.message);
+          } else {
+            throw new createHttpError(res.status, res.statusText);
+          }
+        } else {
+          let jsonObj = res.data;
+          retJson = jsonObj;
+          modificaUUID(jsonObj, correctCc);
+          let filters = false;
+          if (myFields !== undefined) {
+            filters = true;
+          }
+          try {
+            // Update record on ES
+            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+            // read from ES
+            let result = await ReadRecords(correctCc);
+            // Update json object
+            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+            // Write updated Json to ES
+            let elapsedTime = await recordRequest(result, correctCc);
+          }
+          catch (error) {
+            console.error(error);
+          }
+          modifyReturnJson(retJson)
+          resolve(retJson);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
  * Provides MacInterfaceCapability from live network
  *
  * user String User identifier from the system starting the service call
@@ -7485,143 +7321,6 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
  * returns inline_response_200_44
  **/
 exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let jsonObj = "";
-      url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      let retJson = null;
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctCc = mountname;
-      }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
-          }
-        } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
-          }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
- * Provides MacInterfaceCurrentPerformance from live network
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_62
- **/
-exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let jsonObj = "";
-      url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctCc = mountname;
-      }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
-          }
-        } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
- * Provides MacInterfaceHistoricalPerformances from live network
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_46
- **/
-exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
   return new Promise(async function (resolve, reject) {
     try {
       let jsonObj = "";
@@ -8918,223 +8617,6 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
   });
 }
 
-
-/**
- * Provides VlanInterfaceCurrentPerformance from live network
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_64
- **/
-exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let jsonObj = "";
-      url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctCc = mountname;
-      }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
-          }
-        } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
- * Provides VlanInterfaceHistoricalPerformances from live network
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_54
- **/
-exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let jsonObj = "";
-      url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      let retJson = null;
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctCc = mountname;
-      }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
-          }
-        } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
-          }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
-/**
- * Provides VlanInterfaceStatus from live network
- *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * mountName String The mount-name of the device that is addressed by the request
- * uuid String Instance identifier that is unique within the device
- * localId String Instance identifier that is unique within its list
- * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
- * returns inline_response_200_53
- **/
-exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, localId, fields) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let jsonObj = "";
-      url = decodeURIComponent(url);
-      const urlParts = url.split("?fields=");
-      url = urlParts[0];
-      // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
-      const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
-      const Authorization = common[0].key;
-      let correctCc = null;
-      let retJson = null;
-      //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
-      let mountname = decodeMountName(url, false);
-      if (typeof mountname === 'object') {
-        throw new createHttpError(mountname[0].code, mountname[0].message);
-      } else {
-        correctCc = mountname;
-      }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
-        const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
-        if (res == false) {
-          throw new createHttpError.NotFound;
-        } else if (res.status != 200) {
-          if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
-          } else {
-            throw new createHttpError(res.status, res.statusText);
-          }
-        } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
-          }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
-  });
-}
-
-
 /**
  * Provides WireInterfaceCapability from live network
  *
@@ -9664,6 +9146,63 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
   });
 }
 
+//to add
+/**
+ * Provides WredTemplateProfileCapability from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_35
+ **/
+exports.getLiveWredTemplateProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "wred-template-profile-1-0:wred-template-profile-capability" : { }
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+//to add
+/**
+ * Provides WredTemplateProfileConfiguration from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mountName of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_69
+ **/
+exports.getLiveWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "wred-profile-1-0:wred-profile-configuration" : { }
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
 /**
  * Offers subscribing for notifications about device attributes being changed in the cache
  *
@@ -9804,6 +9343,144 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
       resolve();
     } catch (error) {
       reject(error);
+    }
+  });
+}
+
+//to add
+
+
+/**
+ * Provides data of linkports in cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_7
+ **/
+exports.provideDataOfLinkPorts = function(user,originator,xCorrelator,traceIndicator,customerJourney) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let responseLinkList = [];
+      let linkListRecord = await ReadRecords("linkList");
+      if(linkListRecord != undefined) {
+        let linkUuidList = linkListRecord.LinkList;
+        for(let i=0; i<linkUuidList.length; i++) {
+          let linkUuid = linkUuidList[i];
+          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          if(linkRecordForLinkUuid != undefined) {
+            let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
+            if(link.hasOwnProperty("forwarding-domain")) {
+              let linkRecord = {
+                "uuid": link["uuid"],
+                "link-port": link["link-port"]
+              }
+              responseLinkList.push(linkRecord);
+            }
+          } 
+        }
+        resolve ({
+          "core-model-1-4:link-ports" : responseLinkList
+        });
+      } else {
+        throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
+      }
+
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+//to add
+/**
+ * Provides data of (filtered) links in cache
+ *
+ * body V1_providedataofalllinks_body  (optional)
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_6
+ **/
+exports.provideDataOfLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let requestedLinkType = body["link-type"];
+
+      let responseLinkList = [];
+      let linkListRecord = await ReadRecords("linkList");
+      if(linkListRecord != undefined) {
+        let linkUuidList = linkListRecord.LinkList;
+        let linkType = "";
+        for(let i=0; i<linkUuidList.length; i++) {
+          let linkUuid = linkUuidList[i];
+          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          if(linkRecordForLinkUuid != undefined) {
+            let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
+            if(link.hasOwnProperty("forwarding-domain")) linkType = "generic";
+            else linkType = "minimumForRest";
+            if(linkType == requestedLinkType) responseLinkList.push(link);
+          } 
+        }
+        resolve ({
+          "core-model-1-4:link" : responseLinkList
+        });
+      } else {
+        throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
+      }
+
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+//to add
+/**
+ * Provides metadata status table of devices
+ *
+ * body V1_providedevicestatusmetadata_body 
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_8
+ **/
+exports.provideDeviceStatusMetadata = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "device-status-metadata" : [ {
+    "mount-name" : "mount-name",
+    "added-to-device-list-time" : "added-to-device-list-time",
+    "last-complete-control-construct-update-time" : "last-complete-control-construct-update-time",
+    "number-of-partial-updates-since-last-complete-update" : 0,
+    "schema-cache-directory" : "schema-cache-directory",
+    "last-control-construct-notification-update-time" : "last-control-construct-notification-update-time",
+    "connection-status" : "connected",
+    "changed-to-disconnected-time" : "changed-to-disconnected-time"
+  }, {
+    "mount-name" : "mount-name",
+    "added-to-device-list-time" : "added-to-device-list-time",
+    "last-complete-control-construct-update-time" : "last-complete-control-construct-update-time",
+    "number-of-partial-updates-since-last-complete-update" : 0,
+    "schema-cache-directory" : "schema-cache-directory",
+    "last-control-construct-notification-update-time" : "last-control-construct-notification-update-time",
+    "connection-status" : "connected",
+    "changed-to-disconnected-time" : "changed-to-disconnected-time"
+  } ]
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
     }
   });
 }
@@ -9968,6 +9645,99 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
     }
   });
 }
+
+//to add
+/**
+ * Provides list of link ports in cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_5
+ **/
+exports.provideListOfLinkPorts = function(user,originator,xCorrelator,traceIndicator,customerJourney) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let responseLinkList = [];
+      let linkListRecord = await ReadRecords("linkList");
+      if(linkListRecord != undefined) {
+        let linkUuidList = linkListRecord.LinkList;
+        for(let i=0; i<linkUuidList.length; i++) {
+          let linkUuid = linkUuidList[i];
+          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          if(linkRecordForLinkUuid != undefined) {
+            let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
+            let linkRecord = {};
+            if(link.hasOwnProperty("forwarding-domain")) {
+              let linkPortList = link["link-port"].map(linkPort => linkPort["local-id"]);
+              let responseObject = {
+                "link-uuid": linkUuid,
+                "link-port" : linkPortList
+              }
+              responseLinkList.push(responseObject);
+            }
+          } 
+        }
+        resolve (responseLinkList);
+      } else {
+        throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
+      }
+
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
+//to add
+/**
+ * Provides list of links in cache
+ *
+ * body V1_providelistoflinks_body  (optional)
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_4
+ **/
+exports.provideListOfLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      let requestedLinkType = body["link-type"];
+
+      let responseLinkList = [];
+      let linkListRecord = await ReadRecords("linkList");
+      if(linkListRecord != undefined) {
+        let linkUuidList = linkListRecord.LinkList;
+        let linkType = "";
+        for(let i=0; i<linkUuidList.length; i++) {
+          let linkUuid = linkUuidList[i];
+          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          if(linkRecordForLinkUuid != undefined) {
+            let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
+            if(link.hasOwnProperty("forwarding-domain")) linkType = "generic";
+            else linkType = "minimumForRest";
+            if(linkType == requestedLinkType) responseLinkList.push(linkUuid);
+          } 
+        }
+        resolve ({
+          "link-list" : responseLinkList
+        });
+      } else {
+        throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
+      }
+
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
+
 
 /**
  * Provides list of Links between the same ControlConstructs

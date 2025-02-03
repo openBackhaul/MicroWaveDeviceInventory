@@ -1,0 +1,96 @@
+/v1/regard-controller-attribute-value-change:
+/v1/regard-device-alarm:
+/v1/regard-device-attribute-value-change:
+/v1/regard-device-object-creation:
+/v1/regard-device-object-deletion:
+/v1/provide-list-of-connected-devices:
+  type: object
+  required:
+    - mount-name-list
+  properties:
+    mount-name-list:
+      type: array
+      items:
+        type: string
+/v1/provide-list-of-device-interfaces:
+  type: object
+  required:
+    - logical-termination-point-list
+  properties:
+    logical-termination-point-list:
+      type: array
+      items:
+        type: object
+        required:
+          - uuid
+          - local-id
+          - layer-protocol-name
+        properties:
+          uuid:
+            type: string
+          local-id:
+            type: string
+          layer-protocol-name:
+            type: string
+/v1/provide-list-of-actual-device-equipment:
+  type: object
+  required:
+    - top-level-equipment
+    - actual-equipment-list
+  properties:
+    top-level-equipment:
+      type: array
+      items:
+        type: string
+    actual-equipment-list:
+      type: array
+      items:
+        type: object
+        required:
+          - uuid
+          - equipment-type-name
+        properties:
+          uuid:
+            type: string
+          equipment-type-name:
+            type: string
+            minLength: 1
+/v1/provide-device-status-metadata:
+  type: object
+  required:
+    - device-status-metadata
+  properties:
+    device-status-metadata:
+      type: array
+      items:
+        required:
+          - mount-name
+          - connection-status
+          - changed-to-disconnected-time
+          - added-to-device-list-time
+          - last-complete-control-construct-update-time
+          - last-control-construct-notification-update-time
+          - number-of-partial-updates-since-last-complete-update
+          - schema-cache-directory
+        properties:
+          mount-name:
+            type: string
+            description: 'Identifier of the device at the Controller'
+          connection-status:
+            type: string
+            enum:
+              - 'connected'
+              - 'connecting'
+              - 'unable-to-connect'
+          changed-to-disconnected-time:
+            type: string
+          added-to-device-list-time:
+            type: string
+          last-complete-control-construct-update-time:
+            type: string
+          last-control-construct-notification-update-time:
+            type: string
+          number-of-partial-updates-since-last-complete-update:
+            type: integer
+          schema-cache-directory:
+            type: string

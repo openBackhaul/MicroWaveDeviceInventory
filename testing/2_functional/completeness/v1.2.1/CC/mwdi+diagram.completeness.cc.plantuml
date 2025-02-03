@@ -1,0 +1,26 @@
+@startuml mwdi+diagram.completeness.cc
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.completeness.cc
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+group Preparation
+  Data --\\o Postman : {servers, mount-name}
+  activate Postman
+  Postman --\\o Collection : {servers, mount-name}
+end
+
+group ControlConstruct
+  note right Postman
+    t.b.d.
+  end note
+end
+
+deactivate Postman
+
+@enduml

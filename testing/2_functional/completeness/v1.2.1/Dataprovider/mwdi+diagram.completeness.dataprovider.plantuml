@@ -1,0 +1,122 @@
+@startuml mwdi+diagram.completeness.dataprovider
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.completeness.dataprovider
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/provide-list-of-connected-devices" as PLOCD
+participant "/v1/provide-list-of-device-interfaces" as PLODI
+participant "/v1/provide-list-of-actual-device-equipment" as PLOADE
+participant "/v1/provide-list-of-links" as PLOL
+participant "/v1/provide-data-of-all-links" as PDOAL
+participant "/v1/provide-list-of-parallel-links" as PLOPL
+participant "/v1/provide-list-of-link-ports" as PLOLP
+participant "/v1/provide-data-of-all-link-ports" as PDOALP
+participant "/v1/provide-device-status-metadata" as PDSM
+
+
+group Preparation
+  Data --\\o Postman : {servers}
+  activate Postman
+  Postman --\\o Collection : {servers}
+end
+
+group /v1/provide-list-of-connected-devices
+  Collection --\\o Postman : {servers}
+  Postman -> PLOCD
+  Postman <-- PLOCD : {mount-name-list}
+  note right Postman #Orange
+    schema validation
+  end note
+  Postman --\\o Collection : {mount-name-list}
+end
+
+group /v1/provide-list-of-device-interfaces
+  Collection --\\o Postman : {servers, mount-name-list}
+  Postman -> PLODI : {mount-name}
+  Postman <-- PLODI : {[uuid, local-id, layer-protocol-name]}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /v1/provide-list-of-actual-device-equipment
+  Collection --\\o Postman : {servers, mount-name-list}
+  Postman -> PLOADE : {mount-name}
+  Postman <-- PLOADE : {top-level-equipment, [uuid, equipment-type-name]}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /v1/provide-list-of-links
+  Collection --\\o Postman : {servers}
+  Postman -> PLOL : {link-type}
+  Postman <-- PLOL : {link-list}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /v1/provide-data-of-all-links
+  Collection --\\o Postman : {servers}
+  Postman -> PDOAL : {link-type}
+  Postman <-- PDOAL : {[uuid, layer-protocol-name, link-direction ...]}
+  note right Postman #Orange
+    schema validation
+  end note
+  Postman --\\o Collection : {link-list=\n [uuid, layer-protocol-name, link-direction ...]}
+end
+
+group /v1/provide-list-of-parallel-links
+  Collection --\\o Postman : {servers, link-list=\n [uuid, layer-protocol-name, link-direction ...]}
+  note right Postman
+    search for parallel links => uuidParallelLink_1..n
+  end note
+  Postman --\\o Collection : uuidParallelLink_1..n
+  Postman -> PLOPL : {uuidParallelLink_1}
+  Postman <-- PLOPL : {parallel-link-list}
+  note right Postman #Orange
+    schema validation
+  end note
+  Collection --\\o Postman : uuidParallelLink_1..n
+  note right Postman
+    response == uuidParallelLink_1..n ?
+  end note
+end
+
+group /v1/provide-list-of-link-ports
+  Collection --\\o Postman : {servers}
+  Postman -> PLOLP
+  Postman <-- PLOLP : {link-port-list}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /v1/provide-data-of-all-link-ports
+  Collection --\\o Postman : {servers}
+  Postman -> PDOALP
+  Postman <-- PDOALP : {[uuid, [local-id, link-port-direction, logical-termination-point]]
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /v1/provide-device-status-metadata
+  Collection --\\o Postman : {servers, mount-name-list}
+  Postman -> PDSM : {mount-name-list}
+  Postman <-- PDSM : {[mount-name, connection-status, changed-to-disconnected-time, added-to-device-list-time,\n last-complete-control-construct-update-time, last-control-construct-notification-update-time,\n number-of-partial-updates-since-last-complete-update, schema-cache-directory]}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+deactivate Postman
+
+@enduml

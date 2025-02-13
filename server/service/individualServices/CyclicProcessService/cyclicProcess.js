@@ -54,7 +54,16 @@ async function sendRequest(device) {
 
     let responseCode = "";
     let responseBodyToDocument = {};
-    let ret = await individualServicesService.getLiveControlConstructFromSW(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields);
+    let ret = await individualServicesService.getLiveControlConstructFromSW(
+      req.url,
+      requestHeader.user,
+      requestHeader.originator,
+      requestHeader.xCorrelator,
+      requestHeader.traceIndicator,
+      requestHeader.customerJourney,
+      mountName,
+      fields
+    );
 
     if (procedureIsRunning == false) {
       return;
@@ -68,10 +77,10 @@ async function sendRequest(device) {
     }
 
     executionAndTraceService.recordServiceRequest(
-      xCorrelator,
-      traceIndicator,
-      user,
-      originator,
+      requestHeader.xCorrelator,
+      requestHeader.traceIndicator,
+      requestHeader.user,
+      requestHeader.originator,
       req.url,
       responseCode,
       req.body,
@@ -271,7 +280,9 @@ async function requestMessage(index) {
     if (index >= slidingWindow.length) {
       return;
     }
+
     let startTime = new Date();
+
     function manageResponse(retObj) {
       let endTime = new Date();
       let diffTime = endTime.getTime() - startTime.getTime();
@@ -320,6 +331,7 @@ async function requestMessage(index) {
           busy = false;
         }
       } while (busy == true);
+
       if (procedureIsRunning) {
         if (steps > 0) {
           console.log('SYNCH_IN_PROGRESS [from response] (steps: ' + steps + ')');
@@ -357,7 +369,6 @@ function getTime() {
 
 /**
  * Writes the realignment log file
- * 
  */
 function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList, elemsAdded, elemsDropped, newSlidingWindow) {
   const folderName = '/realignment_logs'
@@ -366,16 +377,18 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
       return;
     }
   } catch (error) {
-    console.log('fs.existsSync error: ' + error);
+    console.error('fs.existsSync error: ' + error);
     return;
   }
 
   function getFileName() {
     const d = new Date();
+
     function dualDigits(value) {
       let strVal = String(value);
       return (strVal.length == 1) ? ('0' + strVal) : strVal;
     }
+
     return d.getFullYear() + '.' + dualDigits((d.getMonth() + 1)) + '.' + dualDigits(d.getDate()) + '_' +
       dualDigits(d.getHours()) + '.' + dualDigits(d.getMinutes()) + '.' + dualDigits(d.getSeconds()) +
       '.log';
@@ -489,8 +502,12 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
       requestMessage(slidingWindow.length - 1);
       console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
     }
-  } else {            // Not connected        
+  } else {            // Not connected
     let found = false;
+    
+    // const res = a.find((item) => item.id === 2);
+    // const res = deviceList.find(())
+
     for (let i = 0; i < deviceList.length; i++) {
       if (deviceList[i]['node-id'] == node_id) {
         found = true;

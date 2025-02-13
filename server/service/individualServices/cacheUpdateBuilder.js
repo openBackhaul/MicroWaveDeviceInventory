@@ -170,7 +170,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
               let newJSON = nuovoJSON[objectKey][0];
-              oggetto[nomeArray][indice] = newJSON;
+              oggetto[chiave] = newJSON;
             }
           }
         } else {

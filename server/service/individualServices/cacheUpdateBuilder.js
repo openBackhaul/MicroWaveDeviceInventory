@@ -2,6 +2,7 @@ const createHttpError = require("http-errors");
 
 exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
+  //TODO @latta-siae better check filters
   const myFields = urlParts[1];
   // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
@@ -21,27 +22,26 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
       continue;
     }
 
-
     const [key, value] = segment.split('=');
 
     // Verify if the property exists in the current JSON
     if (currentJSON.hasOwnProperty(key)) {
       if (Array.isArray(currentJSON[key])) {
         // If the field is an array try to find the elemnt with the corrispondent UUID
-        const uuidDaCercare = decodeURIComponent(value);
-        const indexDaSostituire = currentJSON[key].findIndex(item =>
-          (item.uuid && item.uuid === uuidDaCercare) ||
-          (item['local-id'] && item['local-id'] === uuidDaCercare)
+        const uuidToFind = decodeURIComponent(value);
+        const indexToChange = currentJSON[key].findIndex(item =>
+          (item.uuid && item.uuid === uuidToFind) ||
+          (item['local-id'] && item['local-id'] === uuidToFind)
         );
-        if (indexDaSostituire !== -1) {
+        if (indexToChange !== -1) {
           // Substitute only the element into the array with the new JSON
           if (currentJSON[key]) {
             if (i == 1) {
-              lastKey = "[" + objectKey + "]" + "." + key + "[" + indexDaSostituire + "]";
+              lastKey = "[" + objectKey + "]" + "." + key + "[" + indexToChange + "]";
             } else {
-              lastKey = lastKey + "." + key + "[" + indexDaSostituire + "]";
+              lastKey = lastKey + "." + key + "[" + indexToChange + "]";
             }
-            currentJSON = currentJSON[key][indexDaSostituire];
+            currentJSON = currentJSON[key][indexToChange];
           } else {
             console.warn(`Field "${key}" not found in cache`);
             break;
@@ -52,7 +52,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
           lastKey = lastKey + "." + key;
           //throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
 
-          console.warn(`No elements found with UUID: ${uuidDaCercare}`);
+          console.warn(`No elements found with UUID: ${uuidToFind}`);
           break;
         }
       } else {
@@ -70,11 +70,13 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
     }
     i += 1;
   }
+
   if (lastKey == null) {
     lastKey = "[" + objectKey + "]";
   }
+
   // Verify if exists a last key and substitute it with the new JSON
-  if (lastKey) {
+  if (lastKey) { // I think now is unuseful
     //console.log(originalJSON[lastKey])
 
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
@@ -82,9 +84,10 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
 };
 
 
-function assignValueToJson(json, percorso, nuovoJSON, filters) {
+// What does this function does?
+function assignValueToJson(json, path, nuovoJSON, filters) {
 
-  const chiavi = percorso.split('.');
+  const pathKeys = path.split('.');
 
   let oggetto = json;
   let Filters = false;
@@ -92,9 +95,9 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
     Filters = true;
   }
   let nomeArray = "";
-  for (let i = 0; i < chiavi.length; i++) {
+  for (let i = 0; i < pathKeys.length; i++) {
     if (i == 0) {
-      const chiave = chiavi[i];
+      const chiave = pathKeys[i];
       const parentesiQuadraApertaIndex = chiave.indexOf('[');
       const parentesiQuadraChiusaIndex = chiave.indexOf(']');
       const nomeArray = chiave.substring(1, parentesiQuadraChiusaIndex);
@@ -108,7 +111,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         // oggetto = oggetto[nomeArray];
       }
       // If the key doesn't contain square brackets get the object value
-      if (i === chiavi.length - 1) {
+      if (i === pathKeys.length - 1) {
         // If this is the last key in the path, assign the new value
         if (Filters) {
           let objectKey = Object.keys(nuovoJSON)[0];
@@ -126,15 +129,16 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         }
       }
     } else {
-      const chiave = chiavi[i];
+      const chiave = pathKeys[i];
       const parentesiQuadraApertaIndex = chiave.indexOf('[');
       const parentesiQuadraChiusaIndex = chiave.indexOf(']');
 
+      // This happen when 
       if (parentesiQuadraApertaIndex !== -1 && parentesiQuadraChiusaIndex !== -1) {
         nomeArray = chiave.substring(0, parentesiQuadraApertaIndex);
         const indice = parseInt(chiave.substring(parentesiQuadraApertaIndex + 1, parentesiQuadraChiusaIndex), 10);
 
-        if (i === chiavi.length - 1) {
+        if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
           if (Filters) {
             let objectKey = Object.keys(nuovoJSON)[0];
@@ -156,7 +160,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         }
       } else {
         // If the key doesn't contain square brackets get the objet value
-        if (i === chiavi.length - 1) {
+        if (i === pathKeys.length - 1) {
           // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
           if (Filters) {
             let objectKey = Object.keys(nuovoJSON)[0];
@@ -166,7 +170,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
               let newJSON = nuovoJSON[objectKey][0];
-              oggetto[nomeArray][indice] = newJSON;
+              oggetto[chiave] = newJSON;
             }
           }
         } else {

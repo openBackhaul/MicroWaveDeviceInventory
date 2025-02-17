@@ -7,11 +7,8 @@ const OperationServerInterface = require('onf-core-model-ap/applicationPattern/o
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 //const cyclicProcess = require('./CyclicProcessService/cyclicProcess.js');
 
-
-
 async function addSubscribersToNewRelease(appAddress, appPort) {
 
-    
     try {
         let subscriberNotificationTypes = [
             configConstants.OAM_PATH_ATTRIBUTE_VALUE_CHANGES,
@@ -29,7 +26,7 @@ async function addSubscribersToNewRelease(appAddress, appPort) {
                     "subscriber-operation": activeSubscriber.operationName,
                     "subscriber-protocol": activeSubscriber.protocol,
                     "subscriber-address": activeSubscriber.address,
-                    "subscriber-port": activeSubscriber.port                      
+                    "subscriber-port": activeSubscriber.port
                 };
 
                 let targetNewReleaseURL = notificationManagement.buildControllerTargetPath("http", appAddress, appPort) + subscriberNotificationType;
@@ -55,7 +52,7 @@ async function addSubscribersToNewRelease(appAddress, appPort) {
                 })
                 .catch(e => {
                     console.log("OLD -> NEW RELEASE tranferring error.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.operationName + ")");
-                });                
+                });
             }
         }
         return true;
@@ -115,7 +112,7 @@ exports.handleRequest = async function (body, requestUrl) {
         const {stopCyclicProcess} = require('./CyclicProcessService/cyclicProcess.js');
         stopCyclicProcess();
     }
-    
+
     return success;
 }
 

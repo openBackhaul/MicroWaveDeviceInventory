@@ -22,7 +22,7 @@ async function deleteAllFcPortsForApplication(httpClientUUID) {
             await forwardingConstruct.deleteFcPortAsync(fcPortsForAppElement.forwardingConstruct.uuid, fcPortsForAppElement.fcPort["local-id"]);
         }
     } catch (exception) {
-        console.log.error("cleaning of FcPorts failed for " + httpClientUUID);
+        console.error("cleaning of FcPorts failed for " + httpClientUUID);
         return false;
     }
 

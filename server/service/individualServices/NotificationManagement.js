@@ -33,7 +33,7 @@ exports.getAppInformation = async function() {
         try {
             appInformation = await BasicServices.informAboutApplication();
         } catch (exception) {
-            console.log.error(exception, "no application information found, using fallback");
+            console.error(exception, "no application information found, using fallback");
             appInformation["application-name"] = "MicroWaveDeviceInventory";
             appInformation["release-number"] = "1.0.0";
         }
@@ -110,7 +110,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
     let isDuplicate = checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage);
 
     if (isDuplicate) {
-        console.log.debug("notification duplicate ignored");
+        console.debug("notification duplicate ignored");
     } else {
         let sendingTimestampMs = Date.now();
 
@@ -135,7 +135,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
         let uniqueSendingID = crypto.randomUUID();
 
         //send notification
-        console.log.debug("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
+        console.debug("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
 
         axios.post(targetOperationURL, notificationMessage, {
             // axios.post("http://localhost:1237", notificationMessage, {
@@ -149,7 +149,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
             }
         })
             .then((response) => {
-                console.log.debug("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
+                console.debug("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
 
                 executionAndTraceService.recordServiceRequestFromClient(
                     appInformation["application-name"],
@@ -164,7 +164,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
                     response.data);
             })
             .catch(e => {
-                console.log.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
+                console.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
 
                 executionAndTraceService.recordServiceRequestFromClient(
                     appInformation["application-name"],
@@ -269,7 +269,7 @@ async function registerControllerCallbackChain(registeredController, controllerS
             registeredController.port
         );
 
-        console.log.debug("starting controller stream step1: " + registeredController.name + " " + controllerSubscriptionMode);
+        console.debug("starting controller stream step1: " + registeredController.name + " " + controllerSubscriptionMode);
 
         let user = process.env['CONTROLLER_USER'];
         let password = process.env['CONTROLLER_PASSWORD'];
@@ -286,7 +286,7 @@ async function registerControllerCallbackChain(registeredController, controllerS
             throw new Error('registerControllerCallbackChain: createControllerNotificationStream failed');
         }
 
-        console.log.debug("starting controller stream step2: " + registeredController.name + " " + controllerSubscriptionMode);
+        console.debug("starting controller stream step2: " + registeredController.name + " " + controllerSubscriptionMode);
 
         //step 2
         let streamLocation = await subscribeToControllerNotificationStream(
@@ -308,19 +308,19 @@ async function registerControllerCallbackChain(registeredController, controllerS
                 controllerSubscriptionMode,
                 user, password);
 
-            console.log.debug("controller stream established");
+            console.debug("controller stream established");
         } catch (exception) {
-            console.log.error("controller stream establishing failed");
+            console.error("controller stream establishing failed");
             throw new Error('registerControllerCallbackChain: listenToControllerNotifications failed');
         }
     } else {
-        console.log.warn("controller stream for " + registeredController.name + " already active");
+        console.warn("controller stream for " + registeredController.name + " already active");
     }
 }
 
 async function registerDeviceCallbackChain(registeredController) {
 
-    console.log.debug("starting controller device stream: " + registeredController.name);
+    console.debug("starting controller device stream: " + registeredController.name);
 
     let streamActive = notificationStreamManagement.checkIfStreamIsActive(registeredController, notificationStreamManagement.STREAM_TYPE_DEVICE);
 
@@ -334,7 +334,7 @@ async function registerDeviceCallbackChain(registeredController) {
         await notificationStreamManagement.startStream(controllerTargetUrl, registeredController, handleDeviceNotification,
             notificationStreamManagement.STREAM_TYPE_DEVICE, user, password);
     } else {
-        console.log.warn("device stream for " + registeredController.name + " already active");
+        console.warn("device stream for " + registeredController.name + " already active");
     }
 }
 
@@ -346,7 +346,7 @@ async function registerDeviceCallbackChain(registeredController) {
 exports.buildStreamsForController = async function (registeredController, streamTypeArray) {
     let success = true;
 
-    console.log.debug("starting establishment of streams for controller: " + registeredController.name);
+    console.debug("starting establishment of streams for controller: " + registeredController.name);
 
     //start registering for controller subscriptions (config, operation) and devices
 
@@ -354,7 +354,7 @@ exports.buildStreamsForController = async function (registeredController, stream
         try {
             await registerControllerCallbackChain(registeredController, CONTROLLER_SUB_MODE_CONFIGURATION);
         } catch (exception) {
-            console.log.error(exception, "error during registering CONFIGURATION callback");
+            console.error(exception, "error during registering CONFIGURATION callback");
             success = false;
         }
     }
@@ -364,7 +364,7 @@ exports.buildStreamsForController = async function (registeredController, stream
             try {
                 await registerControllerCallbackChain(registeredController, CONTROLLER_SUB_MODE_OPERATIONAL);
             } catch (exception) {
-                console.log.error(exception, "error during registering OPERATIONAL callback");
+                console.error(exception, "error during registering OPERATIONAL callback");
                 success = false;
             }
         }
@@ -375,7 +375,7 @@ exports.buildStreamsForController = async function (registeredController, stream
             try {
                 await registerDeviceCallbackChain(registeredController);
             } catch (exception) {
-                console.log.error(exception, "error during registering DEVICE callback");
+                console.error(exception, "error during registering DEVICE callback");
                 success = false;
             }
         }
@@ -384,7 +384,7 @@ exports.buildStreamsForController = async function (registeredController, stream
     if (!success) {
         //shutdown all created streams for this controller
         await notificationStreamManagement.removeAllStreamsForController(registeredController.name, registeredController.release);
-        console.log.debug("removed streams for controller " + registeredController.name);
+        console.debug("removed streams for controller " + registeredController.name);
     }
 
     return success;
@@ -454,7 +454,7 @@ async function createControllerNotificationStream(controllerAddress, operationKe
     }
 
 
-    console.log.debug("creating controller configuration stream on controller: " + controllerTargetUrl);
+    console.debug("creating controller configuration stream on controller: " + controllerTargetUrl);
 
     let base64encodedData = Buffer.from(user + ':' + password).toString('base64');
 
@@ -476,7 +476,7 @@ async function createControllerNotificationStream(controllerAddress, operationKe
         }
     })
         .then((response) => {
-            console.log.debug("result " + response.status + " for controller configuration stream creation on url " + controllerTargetUrl);
+            console.debug("result " + response.status + " for controller configuration stream creation on url " + controllerTargetUrl);
 
             executionAndTraceService.recordServiceRequestFromClient(
                 appInformation["application-name"],
@@ -494,12 +494,12 @@ async function createControllerNotificationStream(controllerAddress, operationKe
                 // for example "{\"sal-remote:output\": {\"stream-name\": \"data-change-event-subscription/network-topology:network-topology/datastore=CONFIGURATION/scope=SUBTREE/JSON\"} }"
                 return response.data["sal-remote:output"]["stream-name"];
             } catch (e) {
-                console.log.error(e, "Getting stream-name from payload failed for target url " + controllerTargetUrl);
+                console.error(e, "Getting stream-name from payload failed for target url " + controllerTargetUrl);
                 return null;
             }
         })
         .catch(e => {
-            console.log.error(e, "error during axios call for target url " + controllerTargetUrl);
+            console.error(e, "error during axios call for target url " + controllerTargetUrl);
 
             executionAndTraceService.recordServiceRequestFromClient(
                 appInformation["application-name"],
@@ -537,7 +537,7 @@ async function subscribeToControllerNotificationStream(
     let controllerTargetUrl =
         controllerAddress + configConstants.PATH_STREAM_CONTROLLER_STEP2 + streamNameForSubscription + "?changed-leaf-nodes-only=true";
 
-    console.log.debug("subscribing to change-event stream of controller with path: " + controllerTargetUrl);
+    console.debug("subscribing to change-event stream of controller with path: " + controllerTargetUrl);
 
     let base64encodedData = Buffer.from(user + ':' + password).toString('base64');
 
@@ -558,7 +558,7 @@ async function subscribeToControllerNotificationStream(
         }
     })
         .then((response) => {
-            console.log.debug("result " + response.status + " for controller configuration stream subscription on path " + controllerTargetUrl);
+            console.debug("result " + response.status + " for controller configuration stream subscription on path " + controllerTargetUrl);
 
             executionAndTraceService.recordServiceRequestFromClient(
                 appInformation["application-name"],
@@ -576,12 +576,12 @@ async function subscribeToControllerNotificationStream(
                 // for example "{subscribe-to-notification:location": "/rests/notif/data-change-event-subscription/network-topology:network-topology/datastore=CONFIGURATION/scope=SUBTREE/JSON"}"
                 return response.data["subscribe-to-notification:location"];
             } catch (e) {
-                console.log.error(e, "Getting stream-name from payload failed for path " + controllerTargetUrl);
+                console.error(e, "Getting stream-name from payload failed for path " + controllerTargetUrl);
                 return null;
             }
         })
         .catch(e => {
-            console.log.error(e, "error during axios call for target path " + controllerTargetUrl);
+            console.error(e, "error during axios call for target path " + controllerTargetUrl);
 
             executionAndTraceService.recordServiceRequestFromClient(
                 appInformation["application-name"],
@@ -617,7 +617,7 @@ function handleControllerNotification(message, controllerName, controllerRelease
 
         sendControllerNotification(notificationsToSend, controllerName, controllerTargetUrl);
     } catch (exception) {
-        console.log.warn("count not parse notification - not json: '" + notificationString + "'")
+        console.warn("count not parse notification - not json: '" + notificationString + "'")
     }
 }
 
@@ -629,14 +629,14 @@ async function sendControllerNotification(notificationsToSend, controllerName, c
         let activeSubscribers = await exports.getActiveSubscribers(notificationType);
 
         if (activeSubscribers.length > 0) {
-            console.log.debug("starting notification of " + activeSubscribers.length + " subscribers for '" + notificationType
+            console.debug("starting notification of " + activeSubscribers.length + " subscribers for '" + notificationType
                 + "', source-stream is " + controllerName + ": " + controllerTargetUrl);
 
             for (let subscriber of activeSubscribers) {
                 sendMessageToSubscriber(notificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
             }
         } else {
-            console.log.debug("no subscribers for " + notificationType + ", message discarded");
+            console.debug("no subscribers for " + notificationType + ", message discarded");
         }
     }
 }
@@ -694,7 +694,7 @@ function handleDeviceNotification(message, controllerName, controllerRelease, co
             } else if (inboundNotificationTypeRaw.includes("object-deletion-notification")) {
                 subscriberNotificationType = configConstants.OAM_PATH_DEVICE_OBJECT_DELETIONS;
             } else {
-                console.log.warn("notificationType unknown: " + inboundNotificationTypeRaw);
+                console.warn("notificationType unknown: " + inboundNotificationTypeRaw);
             }
 
             if (subscriberNotificationType) {
@@ -702,7 +702,7 @@ function handleDeviceNotification(message, controllerName, controllerRelease, co
             }
         }
     } catch (exception) {
-        console.log.warn("count not parse notification - not json: '" + notificationString + "'")
+        console.warn("count not parse notification - not json: '" + notificationString + "'")
     }
 }
 
@@ -719,7 +719,7 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, controllerNoti
     let activeSubscribers = await exports.getActiveSubscribers(deviceNotificationType);
 
     if (activeSubscribers.length > 0) {
-        console.log.debug("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "', source-stream is " + controllerName + " -> " + controllerTargetUrl);
+        console.debug("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "', source-stream is " + controllerName + " -> " + controllerTargetUrl);
 
         //build one notification for all subscribers
         let notificationMessage = notificationConverter.convertNotification(controllerNotification, deviceNotificationType, controllerName, controllerRelease);
@@ -728,7 +728,7 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, controllerNoti
             sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
         }
     } else {
-        console.log.debug("no subscribers for " + deviceNotificationType + ", message discarded");
+        console.debug("no subscribers for " + deviceNotificationType + ", message discarded");
     }
 }
 

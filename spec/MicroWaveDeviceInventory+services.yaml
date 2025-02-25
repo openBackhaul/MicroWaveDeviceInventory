@@ -514,6 +514,22 @@ servers:
     own-application-name: MicroWaveDeviceInventory
     own-release-number: 1.2.2
     uuid: mwdi-1-2-2-http-s-000
+    application-purpose: Provide cached ControlConstruct data for devices in connected state on the Controller
+    owner-name: Katharina Mohr
+    owner-email-address: Katharina.Mohr.external@telefonica.com
+    release-list:
+      - release-number: 1.0.1
+        release-date: 27.10.2023
+        changes: Initial version
+      - release-number: 1.1.2
+        release-date: 23.11.2023
+        changes: Adds FD, FC, FcPort, Link and LinkPort
+      - release-number: 1.2.1
+        release-date: 28.11.2024
+        changes: Adds new services for link, linkport, status metadata and update to AppPattern 2.1.2
+      - release-number: 1.2.2
+        release-date: 15.03.2025
+        changes: Adds corrections for findings in 1.2.1 specification
   tcp-server:
     - description: Without TLS layer
       local-protocol: http

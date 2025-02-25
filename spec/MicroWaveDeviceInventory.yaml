@@ -2465,7 +2465,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: provideDataOfLinks
+      operationId: provideDataOfLinkPorts
       summary: 'Provides data of linkports in cache'
       tags:
         - IndividualServices

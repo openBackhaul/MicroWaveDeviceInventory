@@ -2215,7 +2215,7 @@ paths:
               required:
                 - link-type
               properties:
-                link-id:
+                link-type:
                   type: string
                   description: 'If provided, the list of links is filtered for links of the given link type, otherwise all links are included.'
                   enum:
@@ -2355,7 +2355,7 @@ paths:
               required:
                 - link-type
               properties:
-                link-id:
+                link-type:
                   type: string
                   description: 'If provided, data is only returned for links of the respective type'
                   enum:

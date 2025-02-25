@@ -6,6 +6,7 @@ profile-instances:
       operation-name: '/v1/start-application-in-generic-representation'
       label: 'Inform about Application'
       display-in-new-browser-window: false
+      input-value-list: []
     configuration:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 

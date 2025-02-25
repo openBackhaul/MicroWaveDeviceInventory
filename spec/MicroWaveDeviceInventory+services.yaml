@@ -40,337 +40,496 @@ servers:
       basic:
         - operation-name: /v1/start-application-in-generic-representation
           uuid: mwdi-1-2-2-op-s-bs-000
+          operation-key: n.a.
         - operation-name: /v1/inform-about-application
           uuid: mwdi-1-2-2-op-s-bs-001
+          operation-key: n.a.
         - operation-name: /v1/inform-about-application-in-generic-representation
           uuid: mwdi-1-2-2-op-s-bs-002
+          operation-key: n.a.
         - operation-name: /v1/inform-about-release-history
           uuid: mwdi-1-2-2-op-s-bs-003
+          operation-key: n.a.
         - operation-name: /v1/inform-about-release-history-in-generic-representation
           uuid: mwdi-1-2-2-op-s-bs-004
+          operation-key: n.a.
         - operation-name: /docs
           uuid: mwdi-1-2-2-op-s-bs-005
+          operation-key: n.a.
       individual:
         # receivers for notifications from NotificationProxy
         - operation-name: /v1/regard-controller-attribute-value-change
           uuid: mwdi-1-2-2-op-s-is-000
+          operation-key: n.a.
         - operation-name: /v1/regard-device-alarm
           uuid: mwdi-1-2-2-op-s-is-002
+          operation-key: n.a.
         - operation-name: /v1/regard-device-attribute-value-change
           uuid: mwdi-1-2-2-op-s-is-003
+          operation-key: n.a.
         - operation-name: /v1/regard-device-object-creation
           uuid: mwdi-1-2-2-op-s-is-004
+          operation-key: n.a.
         - operation-name: /v1/regard-device-object-deletion
           uuid: mwdi-1-2-2-op-s-is-005
+          operation-key: n.a.
 
         # ordinary services
         - operation-name: /v1/provide-list-of-connected-devices
           uuid: mwdi-1-2-2-op-s-is-010
+          operation-key: n.a.
         - operation-name: /v1/provide-list-of-device-interfaces
           uuid: mwdi-1-2-2-op-s-is-011
+          operation-key: n.a.
         - operation-name: /v1/provide-list-of-actual-device-equipment
           uuid: mwdi-1-2-2-op-s-is-012
+          operation-key: n.a.
         - operation-name: /v1/provide-list-of-parallel-links
           uuid: mwdi-1-2-2-op-s-is-013
+          operation-key: n.a.
         - operation-name: /v1/provide-list-of-links
           uuid: mwdi-1-2-2-op-s-is-014
+          operation-key: n.a.
         - operation-name: /v1/provide-list-of-link-ports
           uuid: mwdi-1-2-2-op-s-is-015
+          operation-key: n.a.
         - operation-name: /v1/provide-data-of-all-links
           uuid: mwdi-1-2-2-op-s-is-016
+          operation-key: n.a.
         - operation-name: /v1/provide-data-of-all-link-ports
           uuid: mwdi-1-2-2-op-s-is-017
+          operation-key: n.a.
         - operation-name: /v1/provide-device-status-metadata
           uuid: mwdi-1-2-2-op-s-is-018
-
+          operation-key: n.a.
 
         # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes
           uuid: mwdi-1-2-2-op-s-is-020
+          operation-key: n.a.
         - operation-name: /v1/notify-object-creations
           uuid: mwdi-1-2-2-op-s-is-021
+          operation-key: n.a.
         - operation-name: /v1/notify-object-deletions
           uuid: mwdi-1-2-2-op-s-is-022
+          operation-key: n.a.
 
         # ressources provided from cache
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}
           uuid: mwdi-1-2-2-op-s-is-100
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-capability
           uuid: mwdi-1-2-2-op-s-is-105
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-configuration
           uuid: mwdi-1-2-2-op-s-is-106
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms
           uuid: mwdi-1-2-2-op-s-is-107
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-event-records
           uuid: mwdi-1-2-2-op-s-is-108
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}
           uuid: mwdi-1-2-2-op-s-is-110
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={localId}
           uuid: mwdi-1-2-2-op-s-is-111
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/contained-holder={localId}
           uuid: mwdi-1-2-2-op-s-is-112
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/expected-equipment={localId}
           uuid: mwdi-1-2-2-op-s-is-113
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment
           uuid: mwdi-1-2-2-op-s-is-114
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection
           uuid: mwdi-1-2-2-op-s-is-120
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection/firmware-component-list={localId}
           uuid: mwdi-1-2-2-op-s-is-121
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-capability
           uuid: mwdi-1-2-2-op-s-is-122
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-status
           uuid: mwdi-1-2-2-op-s-is-123
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection
           uuid: mwdi-1-2-2-op-s-is-130
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}
           uuid: mwdi-1-2-2-op-s-is-131
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
           uuid: mwdi-1-2-2-op-s-is-135
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-136
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
           uuid: mwdi-1-2-2-op-s-is-145
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-146
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
           uuid: mwdi-1-2-2-op-s-is-150
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-151
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
           uuid: mwdi-1-2-2-op-s-is-155
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-156
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
           uuid: mwdi-1-2-2-op-s-is-160
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-161
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
           uuid: mwdi-1-2-2-op-s-is-162
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-163
-
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}
           uuid: mwdi-1-2-2-op-s-is-200
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
           uuid: mwdi-1-2-2-op-s-is-201
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}
           uuid: mwdi-1-2-2-op-s-is-202
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}
           uuid: mwdi-1-2-2-op-s-is-203
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}/fc-port={localId}
           uuid: mwdi-1-2-2-op-s-is-204
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
           uuid: mwdi-1-2-2-op-s-get-is-205, mwdi-1-2-2-op-s-put-is-205, mwdi-1-2-2-op-s-del-is-205
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}
           uuid: mwdi-1-2-2-op-s-get-is-206, mwdi-1-2-2-op-s-put-is-206, mwdi-1-2-2-op-s-del-is-206
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
           uuid: mwdi-1-2-2-op-s-is-210
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-211
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status
           uuid: mwdi-1-2-2-op-s-is-212
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
           uuid: mwdi-1-2-2-op-s-is-214
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
           uuid: mwdi-1-2-2-op-s-is-220
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
           uuid: mwdi-1-2-2-op-s-is-221
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
           uuid: mwdi-1-2-2-op-s-is-222
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
           uuid: mwdi-1-2-2-op-s-is-224
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
           uuid: mwdi-1-2-2-op-s-is-230
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
           uuid: mwdi-1-2-2-op-s-is-231
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
           uuid: mwdi-1-2-2-op-s-is-232
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
           uuid: mwdi-1-2-2-op-s-is-234
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
           uuid: mwdi-1-2-2-op-s-is-240
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-241
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-2-2-op-s-is-242
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-2-2-op-s-is-250
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
           uuid: mwdi-1-2-2-op-s-is-251
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
           uuid: mwdi-1-2-2-op-s-is-252
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
           uuid: mwdi-1-2-2-op-s-is-254
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
           uuid: mwdi-1-2-2-op-s-is-260
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-261
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-2-2-op-s-is-270
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-271
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-status
           uuid: mwdi-1-2-2-op-s-is-272
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
           uuid: mwdi-1-2-2-op-s-is-274
+          operation-key: n.a.
 
         # ressources retrieved from devices
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}
           uuid: mwdi-1-2-2-op-s-is-400
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-capability
           uuid: mwdi-1-2-2-op-s-is-405
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-configuration
           uuid: mwdi-1-2-2-op-s-is-406
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms
           uuid: mwdi-1-2-2-op-s-is-407
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-event-records
           uuid: mwdi-1-2-2-op-s-is-408
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}
           uuid: mwdi-1-2-2-op-s-is-410
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}/connector={localId}
           uuid: mwdi-1-2-2-op-s-is-411
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}/contained-holder={localId}
           uuid: mwdi-1-2-2-op-s-is-412
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}/expected-equipment={localId}
           uuid: mwdi-1-2-2-op-s-is-413
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}/actual-equipment
           uuid: mwdi-1-2-2-op-s-is-414
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/firmware-1-0:firmware-collection
           uuid: mwdi-1-2-2-op-s-is-420
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/firmware-1-0:firmware-collection/firmware-component-list={localId}
           uuid: mwdi-1-2-2-op-s-is-421
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-capability
           uuid: mwdi-1-2-2-op-s-is-422
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/firmware-1-0:firmware-collection/firmware-component-list={localId}/firmware-component-pac/firmware-component-status
           uuid: mwdi-1-2-2-op-s-is-423
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection
           uuid: mwdi-1-2-2-op-s-is-430
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}
           uuid: mwdi-1-2-2-op-s-is-431
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability
           uuid: mwdi-1-2-2-op-s-is-435
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-436
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-capability
           uuid: mwdi-1-2-2-op-s-is-445
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/policing-profile-1-0:policing-profile-pac/policing-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-446
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-capability
           uuid: mwdi-1-2-2-op-s-is-450
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/qos-profile-1-0:qos-profile-pac/qos-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-451
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability
           uuid: mwdi-1-2-2-op-s-is-455
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-456
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-capability
           uuid: mwdi-1-2-2-op-s-is-460
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-461
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
           uuid: mwdi-1-2-2-op-s-is-462
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
           uuid: mwdi-1-2-2-op-s-is-463
-
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}
           uuid: mwdi-1-2-2-op-s-is-500
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
           uuid: mwdi-1-2-2-op-s-is-501
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}
           uuid: mwdi-1-2-2-op-s-is-502
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}
           uuid: mwdi-1-2-2-op-s-is-503
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/forwarding-domain={uuid}/fc={uuid1}/fc-port={localId}
           uuid: mwdi-1-2-2-op-s-is-504
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
           uuid: mwdi-1-2-2-op-s-is-510
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-511
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status
           uuid: mwdi-1-2-2-op-s-is-512
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-current-performance
           uuid: mwdi-1-2-2-op-s-is-513
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
           uuid: mwdi-1-2-2-op-s-is-514
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability
           uuid: mwdi-1-2-2-op-s-is-520
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration
           uuid: mwdi-1-2-2-op-s-is-521
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
           uuid: mwdi-1-2-2-op-s-is-522
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-current-performance
           uuid: mwdi-1-2-2-op-s-is-523
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
           uuid: mwdi-1-2-2-op-s-is-524
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability
           uuid: mwdi-1-2-2-op-s-is-530
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration
           uuid: mwdi-1-2-2-op-s-is-531
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status
           uuid: mwdi-1-2-2-op-s-is-532
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-current-performance
           uuid: mwdi-1-2-2-op-s-is-533
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances
           uuid: mwdi-1-2-2-op-s-is-534
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-capability
           uuid: mwdi-1-2-2-op-s-is-540
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-541
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/mac-interface-1-0:mac-interface-pac/mac-interface-status
           uuid: mwdi-1-2-2-op-s-is-542
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability
           uuid: mwdi-1-2-2-op-s-is-550
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration
           uuid: mwdi-1-2-2-op-s-is-551
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status
           uuid: mwdi-1-2-2-op-s-is-552
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-current-performance
           uuid: mwdi-1-2-2-op-s-is-553
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances
           uuid: mwdi-1-2-2-op-s-is-554
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability
           uuid: mwdi-1-2-2-op-s-is-560
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-561
+          operation-key: n.a.
 
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
           uuid: mwdi-1-2-2-op-s-is-570
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-configuration
           uuid: mwdi-1-2-2-op-s-is-571
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-status
           uuid: mwdi-1-2-2-op-s-is-572
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-current-performance
           uuid: mwdi-1-2-2-op-s-is-573
+          operation-key: n.a.
         - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
           uuid: mwdi-1-2-2-op-s-is-574
+          operation-key: n.a.
   http-server:
     own-application-name: MicroWaveDeviceInventory
     own-release-number: 1.2.2
     uuid: mwdi-1-2-2-http-s-000
+    application-purpose: Provide cached ControlConstruct data for devices in connected state on the Controller
+    owner-name: Katharina Mohr
+    owner-email-address: Katharina.Mohr.external@telefonica.com
+    release-list:
+      - release-number: 1.0.1
+        release-date: 27.10.2023
+        changes: Initial version
+      - release-number: 1.1.2
+        release-date: 23.11.2023
+        changes: Adds FD, FC, FcPort, Link and LinkPort
+      - release-number: 1.2.1
+        release-date: 28.11.2024
+        changes: Adds new services for link, linkport, status metadata and update to AppPattern 2.1.2
+      - release-number: 1.2.2
+        release-date: 15.03.2025
+        changes: Adds corrections for findings in 1.2.1 specification
   tcp-server:
     - description: Without TLS layer
       local-protocol: http

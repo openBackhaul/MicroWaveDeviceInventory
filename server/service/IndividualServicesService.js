@@ -230,7 +230,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -238,7 +238,8 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -304,7 +305,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -312,7 +313,8 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -378,7 +380,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -386,7 +388,8 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -452,7 +455,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -460,7 +463,8 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -526,7 +530,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -534,7 +538,8 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -598,7 +603,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -606,7 +611,8 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -670,7 +676,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -678,7 +684,8 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -742,7 +749,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -750,7 +757,8 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -815,7 +823,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -823,7 +831,8 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -888,7 +897,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -896,7 +905,8 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -962,7 +972,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -970,7 +980,8 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1036,7 +1047,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1044,7 +1055,8 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1109,7 +1121,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1117,7 +1129,8 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1181,7 +1194,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1189,7 +1202,8 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1254,7 +1268,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1262,7 +1276,8 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1328,7 +1343,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1336,7 +1351,8 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1402,7 +1418,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1410,7 +1426,8 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1476,7 +1493,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1484,7 +1501,8 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1550,7 +1568,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1558,7 +1576,8 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1624,7 +1643,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1632,7 +1651,8 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1696,7 +1716,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1704,7 +1724,8 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1769,7 +1790,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1777,7 +1798,8 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1842,7 +1864,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1850,7 +1872,8 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1915,7 +1938,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1923,7 +1946,8 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1988,7 +2012,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -1996,7 +2020,8 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2063,7 +2088,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2071,7 +2096,8 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2136,7 +2162,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2144,7 +2170,8 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2210,7 +2237,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2218,7 +2245,8 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2284,7 +2312,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2292,7 +2320,8 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2358,7 +2387,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2366,7 +2395,8 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2432,7 +2462,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2440,7 +2470,8 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2611,7 +2642,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2619,7 +2650,8 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2684,7 +2716,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2692,7 +2724,8 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2759,7 +2792,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2767,7 +2800,8 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2833,7 +2867,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2841,7 +2875,8 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2907,7 +2942,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2915,7 +2950,8 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2980,7 +3016,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -2988,7 +3024,8 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3053,7 +3090,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3061,7 +3098,8 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3126,7 +3164,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3134,7 +3172,8 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3198,7 +3237,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3206,7 +3245,8 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3271,7 +3311,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3279,7 +3319,8 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3345,7 +3386,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3353,7 +3394,8 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3419,7 +3461,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3427,7 +3469,8 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3493,7 +3536,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3501,7 +3544,8 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3566,7 +3610,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3574,7 +3618,8 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3639,7 +3684,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3647,7 +3692,8 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3712,7 +3758,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3720,7 +3766,8 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3785,7 +3832,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3793,7 +3840,8 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3859,7 +3907,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3867,7 +3915,8 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3933,7 +3982,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -3941,7 +3990,8 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4007,7 +4057,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -4015,7 +4065,8 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4081,7 +4132,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -4089,7 +4140,8 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4155,7 +4207,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -4163,7 +4215,8 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4229,7 +4282,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -4237,7 +4290,8 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4302,7 +4356,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -4310,7 +4364,8 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4375,7 +4430,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
             }
           }
           returnObject[objectKey] = finalJson;
@@ -4383,7 +4438,8 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
           throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -9541,7 +9597,8 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
           throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -9637,7 +9694,8 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {

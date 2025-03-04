@@ -11,7 +11,7 @@ const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
-
+const metadataProcessStart = require('../service/individualServices/CyclicProcessService/metadattablecyclicprocess.js')
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 
@@ -90,10 +90,12 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  startModule.start();
+  
   await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
-     
+      startModule.start();
+     // metadataProcessStart.MetadataTableprocess()
+     // start metadattable process
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);

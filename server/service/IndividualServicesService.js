@@ -9,6 +9,7 @@ const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcP
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const createHttpError = require('http-errors');
+const MetaDataTableIndividualFunction= require('./individualServices/CyclicProcessService/metadatafunction')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
@@ -9340,6 +9341,8 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
       } else {
         throw new Error('notifyControllerObjectCreations: invalid input data');
       }
+
+      
       resolve();
     } catch (error) {
       reject(error);
@@ -9936,6 +9939,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
       let resource = currentJSON['resource'];
       let attributeName = currentJSON['attribute-name'];
       let newValue = currentJSON['new-value'];
+      
 
       const match = resource.match(/logical-termination-point=(\w+)/);
 
@@ -9956,7 +9960,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
       if (attributeName == 'connection-status' && newValue == 'connected') {
-        updateDeviceListFromNotification(1, logicalTerminationPoint);
+       await updateDeviceListFromNotification(1, logicalTerminationPoint);
         /*try {
           let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
           //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
@@ -9966,12 +9970,15 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
           reject(error);
         } */
       } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-        updateDeviceListFromNotification(2, logicalTerminationPoint);
-        let indexAlias = common[1].indexAlias;
+     //  await deviceIsDeletedduetoNotificationUpdate(logicalTerminationPoint,newValue,1234,)
+       updateDeviceListFromNotification(2, logicalTerminationPoint);
+       let indexAlias = common[1].indexAlias;
         const { deleteRecordFromElasticsearch } = module.exports;
+       
         let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
         console.log('* ' + ret.result);
       }
+      MetaDataTableIndividualFunction.MDTableUpdateDuetoPartialControConstruct(logicalTerminationPoint,currentJSON.timestamp)
       resolve();
     } catch (error) {
       reject(error);
@@ -10001,7 +10008,6 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       let alarmTypeId = currentJSON['alarm-type-id'];
       let alarmTypeQualifier = currentJSON['alarm-type-qualifier'];
       let problemSeverity = currentJSON['problem-severity'];
-
       let mountname = decodeMountName(resource, false);
 
       let result = await ReadRecords(mountname);
@@ -10023,7 +10029,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       // Write updated Json to ES
       modificaUUID(result, mountname);
       let elapsedTime = await recordRequest(result, mountname);
-
+MetaDataTableIndividualFunction.MDTableUpdateDuetoPartialControConstruct(mountname,timeStamp)
       resolve();
     } catch (error) {
       //console.error(error);
@@ -10117,6 +10123,8 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
+      const match = resource.match(/control-construct=(\w+)/);
+      const nodeId = match ? match[1] : null;
       // find the index of the last "/"
       //      const lastIndex = resource.lastIndexOf("/");
       // Truncate path at last "/"  
@@ -10151,7 +10159,9 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
           "timestamp": currentJSON.timestamp,
           "object-path": resource,
         };
+        
         notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
+        MetaDataTableIndividualFunction.MDTableUpdateDuetoPartialControConstruct(nodeId,currentJSON.timestamp)
         resolve();
       }
     } catch (error) {
@@ -10180,6 +10190,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       let currentJSON = body[objectKey];
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
+      
       /*
       let jsonObj = "";
       let correctPlaceHolder = resource.replace("live", "cache");      
@@ -10219,6 +10230,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
         "object-path": resource
       };
       notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
+      MetaDataTableIndividualFunction.MDTableUpdateDuetoPartialControConstruct(controlConstruct,currentJSON.timestamp)
       resolve();
     } catch (error) {
       console.error(error);
@@ -11781,4 +11793,38 @@ function decodeURIWithCheck(encodedUri) {
       // Otherwise is codified only once
       return decodeURIComponent(encodedUri);
   }
+}
+
+
+
+exports.writeMetaDataListToElasticsearch = function (deviceList) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let deviceListToWrite = '{"MetaDataList":' + deviceList + '}';
+      let result = await recordRequest(deviceListToWrite, "MetaDataList");
+      if (result.took !== undefined) {
+        resolve(true);
+      } else {
+        reject("Error in writing MetaDataList list to elasticsearch.")
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
+exports.readMeataListFromElasticsearch = function () {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let result = await ReadRecords("MetaDataList");
+      if (result == undefined) {
+        reject("MetaDataList list in Elasticsearch not found");
+      } else {
+        let esDeviceList = result["MetaDataList"];
+        resolve(esDeviceList);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
 }

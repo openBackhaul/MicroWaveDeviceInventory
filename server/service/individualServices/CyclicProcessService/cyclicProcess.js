@@ -7,6 +7,7 @@ const individualServicesService = require("../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const notificationManagement = require('../../individualServices/NotificationManagement');
+const { deviceIsDeletedduetoNotificationUpdate,newDeviceAddedToDeviceList,deviceIsDeletedduetoPeroidicUpdate} = require('./metadatafunction.js');
 
 // SIMULATION
 const startModule = require('../../../temporarySupportFiles/StartModule.js');
@@ -471,6 +472,8 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         let leftDL = deviceList.slice(0, lastDeviceListIndex + 1);
         let nodeObj = { 'node-id': node_id, 'netconf-node-topology:connection-status': 'connected' };
         let middleDL = [].concat(nodeObj);
+        // Device added to device List
+        await newDeviceAddedToDeviceList([nodeObj])
         let rightDL = deviceList.slice(lastDeviceListIndex + 1);
         printDL('Device List before connected notification')
         deviceList = [].concat(leftDL, middleDL, rightDL);
@@ -487,12 +490,14 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
                 found = true;
                 printDL('Device List before not connected notification');
                 deviceList.splice(i, 1);
+                await deviceIsDeletedduetoNotificationUpdate(node_id,deviceList[i]['netconf-node-topology:connection-status'],Date.now())
+                // Device deleted due to Notification
                 printDL('Device List after not connected notification');
                 break;
             }
         }
         if (found == false) {
-            console.log("Notification: element " + node_id + " not present in device list. Ignore that.");
+             console.log("Notification: element " + node_id + " not present in device list. Ignore that.");
             return;
         }
         for (let i = 0; i < slidingWindow.length; i++) {
@@ -572,9 +577,9 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
         if (!found) {
-            dropEsElements.push(esDeviceList[i]);
+            dropEsElements.push(esDeviceList[i]);   
         }
-    }
+    }  
     //
     // Calculate new elements of ODL-DL and print ODL-DL
     //
@@ -611,6 +616,8 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }
     }
 
+    await deviceIsDeletedduetoPeroidicUpdate(dropEsElements,Date.now())
+// device deleted due to periodic update
     //
     // Shuffle new odl elements (commented issue 757)
     //
@@ -660,12 +667,13 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     let deviceListCleaned = [];
     for (let i = 0; i < deviceList.length; i++) {
-        deviceListCleaned.push({ "node-id": deviceList[i]["node-id"] });
+      deviceListCleaned.push({ "node-id": deviceList[i]["node-id"] });
     }
     deviceList = deviceListCleaned;
     var deviceListStringiflied = JSON.stringify(deviceList);
     try {
         await individualServicesService.writeDeviceListToElasticsearch(deviceListStringiflied);
+        await  newDeviceAddedToDeviceList(newOdlElements)
         console.log('* New Device List updated to Elasticsearch                                                            *');
     } catch (error) {
         console.log(error);

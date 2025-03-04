@@ -1,0 +1,82 @@
+  - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
+    uuid: mwdi-1-2-2-op-fc-im-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-2-2-op-s-bm-001
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}?fields=node(node-id;netconf-node-topology:connection-status)
+        uuid: mwdi-1-2-2-op-c-is-odl-4-0-2-000
+
+  - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
+    uuid: mwdi-1-2-2-op-fc-im-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-2-2-op-s-bm-001
+    consequent-requests:
+      - client-name: ElasticSearch://?fields=control-construct(uuid)
+        uuid: mwdi-1-2-2-op-c-get-es-1-0-0-000
+
+  - forwarding-name: PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache
+    uuid: mwdi-1-2-2-op-fc-im-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-2-2-op-s-bm-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}
+        uuid: mwdi-1-2-2-op-c-is-mwdi-1-2-2-400
+
+  - forwarding-name: PromptForEmbeddingCausesSubscribingForNotifications
+    uuid: mwdi-1-2-2-op-fc-im-010
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-2-2-op-s-bm-001
+    consequent-requests:
+      - client-name: NotificationProxy://v1/notify-controller-attribute-value-changes
+        uuid: mwdi-1-2-2-op-c-is-np-1-0-0-000
+      - client-name: NotificationProxy://v1/notify-device-alarms
+        uuid: mwdi-1-2-2-op-c-is-np-1-0-0-010
+      - client-name: NotificationProxy://v1/notify-device-attribute-value-changes
+        uuid: mwdi-1-2-2-op-c-is-np-1-0-0-011
+      - client-name: NotificationProxy://v1/notify-device-object-creations
+        uuid: mwdi-1-2-2-op-c-is-np-1-0-0-012
+      - client-name: NotificationProxy://v1/notify-device-object-deletions
+        uuid: mwdi-1-2-2-op-c-is-np-1-0-0-013
+
+  - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController
+    uuid: mwdi-1-2-2-op-fc-im-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-1-2-2-op-s-bm-001
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}?fields=node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)
+        uuid: mwdi-1-2-2-op-c-is-odl-4-0-2-000

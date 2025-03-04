@@ -1,0 +1,68 @@
+## response for for mwdi-1-2-2-op-c-is-mwdi-1-2-2-400 i.e. ...domain=live/control-construct={mountName}
+
+  /core-model-1-4:network-control-domain=live/control-construct={mountName}:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mountName'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getLiveControlConstruct
+      summary: 'Provides ControlConstruct from live network'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'ControlConstruct provided from live network'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:control-construct:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CONTROL_CONSTRUCT'
+                      description: >
+                        'from {$RequestForReadingFromDevice.response.body#core-model-1-4:control-construct}
+                        but {$RequestForReadingFromDevice.response.body#core-model-1-4:control-construct.uuid} = {$request.parameters#mountName}
+                        and all other UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-400/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        '531':
+          $ref: '#/components/responses/531'
+        '532':
+          $ref: '#/components/responses/532'
+        '533':
+          $ref: '#/components/responses/533'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'

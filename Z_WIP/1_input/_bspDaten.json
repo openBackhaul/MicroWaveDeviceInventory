@@ -1,0 +1,17 @@
+
+DeviceListFromController
+{
+  "network-topology:topology": [
+      {
+          "node": [
+              {
+                  "node-id": "CO02060",
+                  "netconf-node-topology:connection-status": "connected"
+              },                {
+                  "node-id": "CO13306",
+                  "netconf-node-topology:connection-status": "connected"
+              }
+          ]
+      }
+  ]
+}

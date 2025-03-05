@@ -960,7 +960,7 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 1.1.0
+      release-number: 1.2.1
       uuid: mwdi-1-2-2-http-c-or-1-2-1-000
     tcp-client:
       remote-protocol: http
@@ -979,7 +979,7 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: 1.2.1
+      release-number: 1.2.2
       uuid: mwdi-1-2-2-http-c-nr-1-2-2-000
     tcp-client:
       remote-protocol: http

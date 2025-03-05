@@ -1466,13 +1466,13 @@ clients:
 
   - http-client:
       application-name: NotificationProxy
-      release-number: 1.0.1
-      uuid: mwdi-1-2-2-http-c-np-1-0-0-000
+      release-number: 1.0.2
+      uuid: mwdi-1-2-2-http-c-np-1-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4011
-      uuid: mwdi-1-2-2-tcp-c-np-1-0-0-000
+      uuid: mwdi-1-2-2-tcp-c-np-1-0-2-000
     operation-clients:
       own-oam:
         basic:
@@ -1482,21 +1482,21 @@ clients:
         individual:
           ## subscribing for controller notifications
           - operation-name: /v1/notify-controller-attribute-value-changes
-            uuid: mwdi-1-2-2-op-c-is-np-1-0-0-000
+            uuid: mwdi-1-2-2-op-c-is-np-1-0-2-000
 
           ## subscribing for device notifications
           - operation-name: /v1/notify-device-alarms
-            uuid: mwdi-1-2-2-op-c-is-np-1-0-0-010
+            uuid: mwdi-1-2-2-op-c-is-np-1-0-2-010
           - operation-name: /v1/notify-device-attribute-value-changes
-            uuid: mwdi-1-2-2-op-c-is-np-1-0-0-011
+            uuid: mwdi-1-2-2-op-c-is-np-1-0-2-011
           - operation-name: /v1/notify-device-object-creations
-            uuid: mwdi-1-2-2-op-c-is-np-1-0-0-012
+            uuid: mwdi-1-2-2-op-c-is-np-1-0-2-012
           - operation-name: /v1/notify-device-object-deletions
-            uuid: mwdi-1-2-2-op-c-is-np-1-0-0-013
+            uuid: mwdi-1-2-2-op-c-is-np-1-0-2-013
 
           ## unsubscribe from notifications
           - operation-name: /v1/end-subscription
-            uuid: mwdi-1-2-2-op-c-is-np-1-0-0-020
+            uuid: mwdi-1-2-2-op-c-is-np-1-0-2-020
 
   - http-client:
       application-name: HistoricalMicroWaveDeviceInventory

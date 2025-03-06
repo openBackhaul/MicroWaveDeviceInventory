@@ -18000,12 +18000,12 @@
             ],
             "fc-port": [
               {
-                "local-id": "100",
+                "local-id": "1000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-s-is-162"
               },
               {
-                "local-id": "200",
+                "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-c-get-es-1-0-0-162"
               }
@@ -18025,12 +18025,12 @@
             ],
             "fc-port": [
               {
-                "local-id": "100",
+                "local-id": "1000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-s-is-163"
               },
               {
-                "local-id": "200",
+                "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-c-get-es-1-0-0-163"
               }
@@ -19630,17 +19630,17 @@
             ],
             "fc-port": [
               {
-                "local-id": "100",
+                "local-id": "1000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-s-is-462"
               },
               {
-                "local-id": "200",
+                "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-c-is-odl-4-0-2-462"
               },
               {
-                "local-id": "201",
+                "local-id": "2001",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-c-put-es-1-0-0-462"
               }
@@ -19660,17 +19660,17 @@
             ],
             "fc-port": [
               {
-                "local-id": "100",
+                "local-id": "1000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-s-is-463"
               },
               {
-                "local-id": "200",
+                "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-c-is-odl-4-0-2-463"
               },
               {
-                "local-id": "201",
+                "local-id": "2001",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-2-2-op-c-put-es-1-0-0-463"
               }

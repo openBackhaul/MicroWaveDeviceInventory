@@ -1,0 +1,51 @@
+
+      {
+        "uuid": "mwdi-1-2-2-op-c-del-es-1-0-0-762",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-2-2-es-c-es-1-0-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-1-2-2-op-c-del-es-1-0-0-763",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-2-2-es-c-es-1-0-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },

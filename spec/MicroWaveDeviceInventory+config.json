@@ -1956,6 +1956,52 @@
         ]
       },
       {
+        "uuid": "mwdi-1-2-2-op-s-is-162",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [],
+        "server-ltp": [
+          "mwdi-1-2-2-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-1-2-2-op-s-is-163",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [],
+        "server-ltp": [
+          "mwdi-1-2-2-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-1-2-2-op-s-is-200",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
         "client-ltp": [
@@ -3444,6 +3490,52 @@
         ]
       },
       {
+        "uuid": "mwdi-1-2-2-op-s-is-462",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [],
+        "server-ltp": [
+          "mwdi-1-2-2-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-1-2-2-op-s-is-463",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [],
+        "server-ltp": [
+          "mwdi-1-2-2-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-1-2-2-op-s-is-500",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
         "client-ltp": [
@@ -4352,6 +4444,8 @@
           "mwdi-1-2-2-op-s-is-156",
           "mwdi-1-2-2-op-s-is-160",
           "mwdi-1-2-2-op-s-is-161",
+          "mwdi-1-2-2-op-s-is-162",
+          "mwdi-1-2-2-op-s-is-163",
           "mwdi-1-2-2-op-s-is-200",
           "mwdi-1-2-2-op-s-is-201",
           "mwdi-1-2-2-op-s-is-202",
@@ -4414,6 +4508,8 @@
           "mwdi-1-2-2-op-s-is-456",
           "mwdi-1-2-2-op-s-is-460",
           "mwdi-1-2-2-op-s-is-461",
+          "mwdi-1-2-2-op-s-is-462",
+          "mwdi-1-2-2-op-s-is-463",
           "mwdi-1-2-2-op-s-is-500",
           "mwdi-1-2-2-op-s-is-501",
           "mwdi-1-2-2-op-s-is-502",

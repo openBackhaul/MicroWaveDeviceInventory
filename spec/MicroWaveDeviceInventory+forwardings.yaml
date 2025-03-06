@@ -1196,9 +1196,9 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-profile-1-0:wred-profile-pac/wred-profile-configuration
         uuid: mwdi-1-2-2-op-c-put-es-1-0-0-461
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability
-        uuid: mwdi-1-2-2-op-c-put-es-1-0-0-460
+        uuid: mwdi-1-2-2-op-c-put-es-1-0-0-462
       - client-name: ElasticSearch://control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration
-        uuid: mwdi-1-2-2-op-c-put-es-1-0-0-461
+        uuid: mwdi-1-2-2-op-c-put-es-1-0-0-463
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}
         uuid: mwdi-1-2-2-op-c-put-es-1-0-0-500
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac

@@ -1,11 +1,10 @@
-
       {
-        "uuid": "mwdi-1-2-2-op-c-del-es-1-0-0-762",
+        "uuid": "mwdi-1-2-2-op-c-is-odl-4-0-2-462",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-1-2-2-es-c-es-1-0-0-000"
+          "mwdi-1-2-2-http-c-odl-4-0-2-000"
         ],
         "layer-protocol": [
           {
@@ -13,7 +12,7 @@
             "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-client-interface-1-0:operation-client-interface-pac": {
               "operation-client-interface-configuration": {
-                "operation-name": "/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability",
+                "operation-name": "/{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability",
                 "operation-key": "Operation key not yet provided."
               },
               "operation-client-interface-status": {
@@ -25,12 +24,12 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-2-op-c-del-es-1-0-0-763",
+        "uuid": "mwdi-1-2-2-op-c-is-odl-4-0-2-463",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-1-2-2-es-c-es-1-0-0-000"
+          "mwdi-1-2-2-http-c-odl-4-0-2-000"
         ],
         "layer-protocol": [
           {
@@ -38,7 +37,7 @@
             "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-client-interface-1-0:operation-client-interface-pac": {
               "operation-client-interface-configuration": {
-                "operation-name": "/control-construct={mountName}/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration",
+                "operation-name": "/{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/profile-collection/profile={uuid}/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration",
                 "operation-key": "Operation key not yet provided."
               },
               "operation-client-interface-status": {

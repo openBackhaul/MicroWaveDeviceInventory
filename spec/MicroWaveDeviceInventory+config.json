@@ -9764,53 +9764,6 @@
         ]
       },
       {
-        "uuid": "mwdi-1-2-2-http-c-tar-2-1-2-000",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-        "client-ltp": [
-        ],
-        "server-ltp": [
-          "mwdi-1-2-2-tcp-c-tar-2-1-2-000"
-        ],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
-            "http-client-interface-1-0:http-client-interface-pac": {
-              "http-client-interface-configuration": {
-                "application-name": "TypeApprovalRegister",
-                "release-number": "2.1.2"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "uuid": "mwdi-1-2-2-tcp-c-tar-2-1-2-000",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-        "client-ltp": [
-          "mwdi-1-2-2-http-c-tar-2-1-2-000"
-        ],
-        "server-ltp": [
-        ],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
-            "tcp-client-interface-1-0:tcp-client-interface-pac": {
-              "tcp-client-interface-configuration": {
-                "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
-                "remote-address": {
-                  "ip-address": {
-                    "ipv-4-address": "127.0.0.1"
-                  }
-                },
-                "remote-port": 3032
-              }
-            }
-          }
-        ]
-      },
-      {
         "uuid": "mwdi-1-2-2-op-c-bs-eatl-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
@@ -10233,57 +10186,6 @@
           }
         ]
       },
-      {
-        "uuid": "mwdi-1-2-2-http-c-okm-2-1-2-000",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-        "client-ltp": [
-        ],
-        "server-ltp": [
-          "mwdi-1-2-2-tcp-c-okm-2-1-2-000"
-        ],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
-            "http-client-interface-1-0:http-client-interface-pac": {
-              "http-client-interface-configuration": {
-                "application-name": "OperationKeyManagement",
-                "release-number": "2.1.2"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "uuid": "mwdi-1-2-2-tcp-c-okm-2-1-2-000",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-        "client-ltp": [
-          "mwdi-1-2-2-http-c-okm-2-1-2-000"
-        ],
-        "server-ltp": [
-        ],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
-            "tcp-client-interface-1-0:tcp-client-interface-pac": {
-              "tcp-client-interface-configuration": {
-                "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
-                "remote-address": {
-                  "ip-address": {
-                    "ipv-4-address": "127.0.0.1"
-                  }
-                },
-                "remote-port": 3037
-              }
-            }
-          }
-        ]
-      },
-
-
-
-
       {
         "uuid": "mwdi-1-2-2-op-c-is-mwdi-1-2-2-400",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",

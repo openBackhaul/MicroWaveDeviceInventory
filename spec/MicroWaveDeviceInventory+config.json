@@ -1072,7 +1072,7 @@
                 "operation-name": "/v1/provide-list-of-connected-devices"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -1360,7 +1360,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -1480,7 +1480,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -1504,7 +1504,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={localId}"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -1576,7 +1576,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -1600,7 +1600,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2054,7 +2054,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2294,7 +2294,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2318,7 +2318,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2342,7 +2342,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2366,7 +2366,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2438,7 +2438,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2462,7 +2462,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2774,7 +2774,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2798,7 +2798,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-capability"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2846,7 +2846,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-status"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }
@@ -2966,7 +2966,7 @@
                 "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
                 "operation-key": "n.a."
               }
             }

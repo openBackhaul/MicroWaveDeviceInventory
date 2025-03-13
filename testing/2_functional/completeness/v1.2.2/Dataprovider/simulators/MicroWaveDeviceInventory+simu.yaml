@@ -10,12 +10,6 @@ paths:
 ########################################################################################################################
 
   /v1/provide-list-of-connected-devices:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfConnectedDevices
       summary: 'Provides list of devices that are connected to the controller'
@@ -37,45 +31,15 @@ paths:
                     type: array
                     items:
                       type: string
-                      description: >
-                        'MountName of devices in connected state at the Controller
-                        from {$RequestForListOfConnectedDevicesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/uuid}'
               example:
                 mount-name-list:
                   - '305251234'
                   - '105258888'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-device-interfaces:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfDeviceInterfaces
       summary: 'Provides list of LTP UUIDs at a device'
@@ -94,9 +58,6 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  description: 'Identifier of the device at the Controller'
-            example:
-              mount-name: '513250010'
       responses:
         '200':
           description: 'List of LTP UUIDs provided'
@@ -118,19 +79,10 @@ paths:
                       properties:
                         uuid:
                           type: string
-                          description: >
-                            'UUID of the LTP
-                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/uuid}'
                         local-id:
                           type: string
-                          description: >
-                            'Local-ID of the LP
-                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}'
                         layer-protocol-name:
                           type: string
-                          description: >
-                            'LayerProtocolName of the LP
-                            from {$RequestForListOfDeviceInterfacesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name}'
               example:
                 logical-termination-point-list:
                   - uuid: '513250010-ETY-2134638978'
@@ -140,39 +92,10 @@ paths:
                     local-id: '2146697857'
                     layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '460':
-          $ref: '#/components/responses/460'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-actual-device-equipment:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfActualDeviceEquipment
       summary: 'Provides list of actual equipment UUIDs inside a device'
@@ -191,9 +114,6 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  description: 'Identifier of the device at the Controller'
-            example:
-              mount-name: '222250001'
       responses:
         '200':
           description: 'List of actual equipment UUIDs provided'
@@ -209,9 +129,6 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: >
-                      'List of UUIDs of equipment that is at the top of some internal hierarchy
-                      from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/top-level-equipment}'
                   actual-equipment-list:
                     type: array
                     items:
@@ -222,16 +139,9 @@ paths:
                       properties:
                         uuid:
                           type: string
-                          description: >
-                            'UUID of the equipment
-                            from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/uuid}'
                         equipment-type-name:
                           type: string
                           minLength: 1
-                          description: >
-                            'Excluding empty strings is for filting for instances of the Equipment class that have an instance of the ActualEquipment class attached.
-                            Name of the type of equipment
-                            from {$RequestForListOfActualDeviceEquipmentCausesReadingFromCache.response.body#/core-model-1-4:control-construct/equipment/actual-equipment/manufactured-thing/equipment-type/type-name}'
               example:
                 top-level-equipment:
                   - 'HUAWEI-EQUIPMENT-1'
@@ -241,39 +151,10 @@ paths:
                   - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
                     equipment-type-name: 'SL91EG4'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-012/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '460':
-          $ref: '#/components/responses/460'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-parallel-links:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfParallelLinks
       summary: 'Provides list of Links between the same ControlConstructs'
@@ -292,9 +173,6 @@ paths:
               properties:
                 link-id:
                   type: string
-                  description: 'Identifier of the Link to be analyzed for potential parallel Links'
-            example:
-              link-id: '305551234'
       responses:
         '200':
           description: 'List of parallel Links provided'
@@ -307,9 +185,6 @@ paths:
                 properties:
                   parallel-link-list:
                     type: array
-                    description: >
-                      'List of UUIDs of Links that connect the same ControlConstructs
-                      from {$RequestForListOfParallelLinksCauses.SearchingParallelLinksInCache.response.body#/core-model-1-4:link=*/uuid}'
                     items:
                       type: string
               example:
@@ -317,39 +192,10 @@ paths:
                   - '305551234'
                   - '305551235'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '461':
-          $ref: '#/components/responses/461'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-links:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfLinks
       summary: 'Provides list of links in cache'
@@ -368,12 +214,9 @@ paths:
               properties:
                 link-type:
                   type: string
-                  description: 'If provided, the list of links is filtered for links of the given link type, otherwise all links are included.'
                   enum:
                     - 'generic'
                     - 'minimumForRest'
-            example:
-              link-type: 'minimumForRest'
       responses:
         '200':
           description: 'List of links in cache'
@@ -386,12 +229,6 @@ paths:
                 properties:
                   link-list:
                     type: array
-                    description: >
-                      'List of uuids of links (if applicable filtered for link-type)
-                      from {$RequestForListOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*/uuid}
-                      if {$request.body#link-type}==generic: omit uuids without forwarding-domain property,
-                      if {$request.body#link-type}==minimumForRest: omit uuids with forwarding-domain property
-                      if {$request.body#link-type} not provided: return all uuids'
                     items:
                       type: string
               example:
@@ -400,37 +237,10 @@ paths:
                   - '204550003'
                   - 'genericLink1'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-014/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-link-ports:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideListOfLinkPorts
       summary: 'Provides list of link ports in cache'
@@ -450,22 +260,13 @@ paths:
                 properties:
                   link-port-list:
                     type: array
-                    description: >
-                      'List of uuids and associated link-ports from the cache, with one item per uuid
-                      from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=*}'
                     items:
                       type: object
                       properties:
                         link-uuid:
                           type: string
-                          description: >
-                            'The uuid of the respective link
-                            from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=uuid}'
                         link-ports:
                           type: string
-                          description: >
-                            'The list of localIds of linkPorts for the link-uuid
-                            from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=uuid/link-port=*/local-id}'
               example:
                 link-port-list:
                   - link-uuid: link1
@@ -477,37 +278,10 @@ paths:
                       - 'localId1'
                       - 'localId3'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-015/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-data-of-all-links:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideDataOfLinks
       summary: 'Provides data of (filtered) links in cache'
@@ -526,12 +300,9 @@ paths:
               properties:
                 link-type:
                   type: string
-                  description: 'If provided, data is only returned for links of the respective type'
                   enum:
                     - 'generic'
                     - 'minimumForRest'
-            example:
-              link-type: 'minimumForRest'
       responses:
         '200':
           description: 'Data of (filtered) links in cache'
@@ -544,12 +315,6 @@ paths:
                 properties:
                   core-model-1-4:link:
                     type: array
-                    description: >
-                      'List of link data (if applicable filtered for link-type)
-                      from {$RequestForDataOfLinksCausesReadingFromCache.SearchingLinksInCache.response.body#/core-model-1-4:link=*}
-                      if {$request.body#link-type}==generic: omit link records without forwarding-domain property,
-                      if {$request.body#link-type}==minimumForRest: omit link records with forwarding-domain property
-                      if {$request.body#link-type} not provided: return all records'
                     items:
                       $ref: '#/components/schemas/LINK'
               examples:
@@ -602,37 +367,10 @@ paths:
                             logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
                             layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-016/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-data-of-all-link-ports:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideDataOfLinkPorts
       summary: 'Provides data of linkports in cache'
@@ -652,10 +390,6 @@ paths:
                 properties:
                   core-model-1-4:link-ports:
                     type: array
-                    description: >
-                      'List of linkport data
-                      from {$RequestForDataOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=*}
-                      where link-port property is available (i.e. only for generic links)'
                     items:
                       type: object
                       required:
@@ -664,10 +398,8 @@ paths:
                       properties:
                         uuid:
                           type: string
-                          description: 'The uuid of the corresponding link'
                         link-port:
                           type: array
-                          description: 'The list of link-ports beloning to the link'
                           items:
                             $ref: '#/components/schemas/LINK_PORT'
               example:
@@ -689,37 +421,10 @@ paths:
                         link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
                         logical-termination-point: 'ltpY'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-017/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-device-status-metadata:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideDeviceStatusMetadata
       summary: 'Provides metadata status table of devices'
@@ -738,11 +443,6 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: 'List of names of devices for which the status metadata shall be provided.'
-            example:
-              mount-name-list:
-                - '305251234'
-                - '105258888'
       responses:
         '200':
           description: 'Table with device status metadata provided'
@@ -768,48 +468,24 @@ paths:
                       properties:
                         mount-name:
                           type: string
-                          description: >
-                            'Identifier of the device at the Controller'
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/mount-name}'
                         connection-status:
                           type: string
                           enum:
                             - 'connected'
                             - 'connecting'
                             - 'unable-to-connect'
-                          description: >
-                            'The connection-status of the device at the Controller
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/connection-status}'
                         changed-to-disconnected-time:
                           type: string
-                          description: >
-                            'Timestamp for the last time the device connection-status changed from connected into connecting or unable-to-connect
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/changed-to-disconnected-time}'
                         added-to-device-list-time:
                           type: string
-                          description: >
-                            'Timestamp of the time, the device was added to the deviceList
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/added-to-device-list-time}'
                         last-complete-control-construct-update-time:
                           type: string
-                          description: >
-                            'Timestamp of the last time, when the controlConstruct was updated completely by the periodic retrieval
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-complete-control-construct-update-time}'
                         last-control-construct-notification-update-time:
                           type: string
-                          description: >
-                            'Timestamp of the last time, when the controlConstruct was updated due a received notification
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-control-construct-notification-update-time}'
                         number-of-partial-updates-since-last-complete-update:
                           type: integer
-                          description: >
-                            'Number of controlConstruct updates for this device due to received notifications since the last complete update
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/number-of-partial-updates-since-last-complete-update}'
                         schema-cache-directory:
                           type: string
-                          description: >
-                            'The schema cache directy specified at the Controller, which indicates the vendor and for a subset of devices also the device type
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/schema-cache-directory}'
               example:
                 device-status-metadata:
                   - mount-name: '305251234'
@@ -821,40 +497,13 @@ paths:
                     number-of-partial-updates-since-last-complete-update: 7
                     schema-cache-directory: 'hua'
           headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-018/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
 
 ########################################################################################################################
 #   Service Layer - Basic Part
 ########################################################################################################################
   /v1/register-yourself:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: registerYourself
       summary: 'Initiates registering at the currently active RegistryOffice'
@@ -1029,18 +678,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForRegisteringCausesRegistrationRequest2:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://{[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]}:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bm-ro-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -1331,12 +968,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/embed-yourself:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: embedYourself
       summary: 'Embed yourself into the MBH SDN application layer'
@@ -1514,18 +1145,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForEmbeddingCausesRequestForBequeathingData:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bm-or-1-2-1-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -2471,12 +2090,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/redirect-service-request-information:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: redirectServiceRequestInformation
       summary: 'Offers configuring the client side for sending service request information'
@@ -2595,18 +2208,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         ServiceRequestCausesLoggingRequest:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-eatl-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-eatl-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-eatl-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-eatl-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bs-eatl-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -2717,12 +2318,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/redirect-oam-request-information:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: redirectOamRequestInformation
       summary: 'Offers configuring the client side for sending OaM request information'
@@ -2841,18 +2436,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         OamRequestCausesLoggingRequest:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ol-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ol-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ol-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-ol-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bs-ol-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -2951,12 +2534,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/end-subscription:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: endSubscription
       summary: 'Stops sending notifications of a specific subscription'
@@ -3029,29 +2606,11 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inquire-oam-request-approvals:
     description: >
       'DEPRECATED
       Service shall be deleted with AP v3.0.0
       Starting from AP v2.1.0, /v1/inquire-basic-auth-approvals shall be applied as a backward compatible update'
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: inquireOamRequestApprovals
       summary: 'Receives information about where to ask for approval of OaM requests'
@@ -3170,18 +2729,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         BasicAuthRequestCausesInquiryForAuthentication:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bs-aa-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -3301,12 +2848,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/update-client:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: updateClient
       summary: 'Allows updating connection data of a serving application'
@@ -3438,25 +2979,7 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/list-ltps-and-fcs:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: listLtpsAndFcs
       summary: 'Allows retrieving all interface and internal connection data'
@@ -3578,25 +3101,7 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/redirect-topology-change-information:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: redirectTopologyChangeInformation
       summary: 'Offers configuring client side for sending information about topology changes and provides current data tree'
@@ -3831,18 +3336,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         ServiceRequestCausesLtpUpdateRequest:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-alt-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-alt-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-alt-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-alt-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bm-alt-2-1-2-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -4571,12 +4064,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/update-operation-key:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: updateOperationKey
       summary: 'Allows updating operation key at a server or client'
@@ -4642,25 +4129,7 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/update-operation-client:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: updateOperationClient
       summary: 'Allows updating operation clients to redirect to backward compatible services'
@@ -4741,25 +4210,7 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 from [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-011/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inquire-basic-auth-approvals:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: inquireBasicAuthRequestApprovals
       summary: 'Receives information about where to ask for approval of BasicAuth requests'
@@ -4878,18 +4329,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         BasicAuthRequestCausesInquiryForAuthentication:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-aa-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-bs-aa-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -4997,12 +4436,6 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/dispose-remainders-of-deregistered-application:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: disposeRemaindersOfDeregisteredApplication
       summary: 'Removes application from configuration and application data'
@@ -5062,25 +4495,7 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bm-013/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-preceding-release:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: informAboutPrecedingRelease
       summary: 'Provides name and number of the preceding release'
@@ -5149,12 +4564,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/update-client-of-subsequent-release:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: UpdateClientOfSubsequentRelease
       summary: 'Configures Http and TcpClient of the NewRelease'
@@ -5300,12 +4709,6 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/start-application-in-generic-representation:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: startApplicationInGenericRepresentation
       summary: 'Starts application in generic representation'
@@ -5368,12 +4771,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-application:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: informAboutApplication
       summary: 'Returns administrative information'
@@ -5469,12 +4866,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-application-in-generic-representation:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: informAboutApplicationInGenericRepresentation
       summary: 'Returns administrative information for generic representation'
@@ -5553,12 +4944,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-release-history:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: informAboutReleaseHistory
       summary: 'Returns release history'
@@ -5631,12 +5016,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/inform-about-release-history-in-generic-representation:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: informAboutReleaseHistoryInGenericRepresentation
       summary: 'Returns release history for generic representation'

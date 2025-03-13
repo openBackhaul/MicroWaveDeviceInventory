@@ -60,12 +60,16 @@
 				"collectionName": "DataProvider",
 				"serverToBeApplied": "mwdi",
 				"mountName": "513250004",
+				"linkId": "101550001",
+				"linkPort": "1",
 				"kindOfReference": "dynamic"
 			},
 			{
 				"collectionName": "DataProvider_simulator",
 				"serverToBeApplied": "mwdi+simulator.completeness",
 				"mountName": "305250001",
+				"linkId": "101550001",
+				"linkPort": "1",
 				"kindOfReference": "static",
 				"suffixUrlEncodingIsRequired": true
 			},
@@ -73,6 +77,8 @@
 				"collectionName": "DataProviderLinkMfr_simulator",
 				"serverToBeApplied": "mwdi+simulator.completeness.linkMfr",
 				"mountName": "305250001",
+				"linkId": "101550001",
+				"linkPort": "1",
 				"kindOfReference": "static",
 				"suffixUrlEncodingIsRequired": true
 			},
@@ -80,6 +86,8 @@
 				"collectionName": "DataProviderLinkGeneric_simulator",
 				"serverToBeApplied": "mwdi+simulator.completeness.linkGeneric",
 				"mountName": "305250001",
+				"linkId": "101550001",
+				"linkPort": "1",
 				"kindOfReference": "static",
 				"suffixUrlEncodingIsRequired": true
 			}

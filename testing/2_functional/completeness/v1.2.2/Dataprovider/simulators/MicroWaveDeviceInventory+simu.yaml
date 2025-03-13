@@ -265,7 +265,9 @@ paths:
                         link-uuid:
                           type: string
                         link-ports:
-                          type: string
+                          type: array
+                          items:
+                            type: string
                 example:
                   link-port-list:
                     - link-uuid: link1

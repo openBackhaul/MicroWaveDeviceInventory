@@ -1,0 +1,362 @@
+{
+  "/v1/provide-list-of-connected-devices": {
+    "type": "object",
+    "required": [
+      "mount-name-list"
+    ],
+    "properties": {
+      "mount-name-list": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "/v1/provide-list-of-device-interfaces": {
+    "type": "object",
+    "required": [
+      "logical-termination-point-list"
+    ],
+    "properties": {
+      "logical-termination-point-list": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "uuid",
+            "local-id",
+            "layer-protocol-name"
+          ],
+          "properties": {
+            "uuid": {
+              "type": "string"
+            },
+            "local-id": {
+              "type": "string"
+            },
+            "layer-protocol-name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "/v1/provide-list-of-actual-device-equipment": {
+    "type": "object",
+    "required": [
+      "top-level-equipment",
+      "actual-equipment-list"
+    ],
+    "properties": {
+      "top-level-equipment": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "actual-equipment-list": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "uuid",
+            "equipment-type-name"
+          ],
+          "properties": {
+            "uuid": {
+              "type": "string"
+            },
+            "equipment-type-name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "/v1/provide-list-of-parallel-links": {
+    "type": "object",
+    "required": [
+      "parallel-link-list"
+    ],
+    "properties": {
+      "parallel-link-list": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "/v1/provide-list-of-links": {
+    "type": "object",
+    "required": [
+      "link-list"
+    ],
+    "properties": {
+      "link-list": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "/v1/provide-list-of-link-ports": {
+    "type": "object",
+    "required": [
+      "link-port-list"
+    ],
+    "properties": {
+      "link-port-list": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "link-uuid": {
+              "type": "string"
+            },
+            "link-ports": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "/v1/provide-data-of-all-links": {
+    "type": "object",
+    "required": [
+      "core-model-1-4:link"
+    ],
+    "properties": {
+      "core-model-1-4:link": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "description": "generic",
+              "type": "object",
+              "required": [
+                "uuid",
+                "layer-protocol-name",
+                "link-direction",
+                "forwarding-domain",
+                "link-port"
+              ],
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                },
+                "layer-protocol-name": {
+                  "type": "string"
+                },
+                "link-direction": {
+                  "type": "string",
+                  "enum": [
+                    "core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL",
+                    "core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL",
+                    "core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL",
+                    "core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN"
+                  ]
+                },
+                "forwarding-domain": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "link-port": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "description": "generic",
+                        "type": "object",
+                        "required": [
+                          "local-id",
+                          "link-port-direction",
+                          "logical-termination-point"
+                        ],
+                        "properties": {
+                          "local-id": {
+                            "type": "string"
+                          },
+                          "link-port-direction": {
+                            "type": "string",
+                            "enum": [
+                              "core-model-1-4:PORT_DIRECTION_INPUT",
+                              "core-model-1-4:PORT_DIRECTION_OUTPUT",
+                              "core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL",
+                              "core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL",
+                              "core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN"
+                            ]
+                          },
+                          "logical-termination-point": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "description": "minimum for rest",
+              "type": "object",
+              "required": [
+                "uuid",
+                "layer-protocol-name",
+                "end-point-list"
+              ],
+              "properties": {
+                "uuid": {
+                  "type": "string"
+                },
+                "layer-protocol-name": {
+                  "type": "string"
+                },
+                "end-point-list": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "control-construct",
+                      "logical-termination-point",
+                      "layer-protocol"
+                    ],
+                    "properties": {
+                      "control-construct": {
+                        "type": "string"
+                      },
+                      "logical-termination-point": {
+                        "type": "string"
+                      },
+                      "layer-protocol": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "/v1/provide-data-of-all-link-ports": {
+    "type": "object",
+    "required": [
+      "core-model-1-4:link-ports"
+    ],
+    "properties": {
+      "core-model-1-4:link-ports": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "uuid",
+            "link-port"
+          ],
+          "properties": {
+            "uuid": {
+              "type": "string"
+            },
+            "link-port": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "description": "generic",
+                    "type": "object",
+                    "required": [
+                      "local-id",
+                      "link-port-direction",
+                      "logical-termination-point"
+                    ],
+                    "properties": {
+                      "local-id": {
+                        "type": "string"
+                      },
+                      "link-port-direction": {
+                        "type": "string",
+                        "enum": [
+                          "core-model-1-4:PORT_DIRECTION_INPUT",
+                          "core-model-1-4:PORT_DIRECTION_OUTPUT",
+                          "core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL",
+                          "core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL",
+                          "core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN"
+                        ]
+                      },
+                      "logical-termination-point": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/v1/provide-device-status-metadata": {
+    "type": "object",
+    "required": [
+      "device-status-metadata"
+    ],
+    "properties": {
+      "device-status-metadata": {
+        "type": "array",
+        "items": {
+          "required": [
+            "mount-name",
+            "connection-status",
+            "changed-to-disconnected-time",
+            "added-to-device-list-time",
+            "last-complete-control-construct-update-time",
+            "last-control-construct-notification-update-time",
+            "number-of-partial-updates-since-last-complete-update",
+            "schema-cache-directory"
+          ],
+          "properties": {
+            "mount-name": {
+              "type": "string"
+            },
+            "connection-status": {
+              "type": "string",
+              "enum": [
+                "connected",
+                "connecting",
+                "unable-to-connect"
+              ]
+            },
+            "changed-to-disconnected-time": {
+              "type": "string"
+            },
+            "added-to-device-list-time": {
+              "type": "string"
+            },
+            "last-complete-control-construct-update-time": {
+              "type": "string"
+            },
+            "last-control-construct-notification-update-time": {
+              "type": "string"
+            },
+            "number-of-partial-updates-since-last-complete-update": {
+              "type": "integer"
+            },
+            "schema-cache-directory": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

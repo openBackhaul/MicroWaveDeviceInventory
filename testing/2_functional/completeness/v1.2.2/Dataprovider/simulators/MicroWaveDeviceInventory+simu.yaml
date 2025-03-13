@@ -143,7 +143,6 @@ paths:
                           type: string
                         equipment-type-name:
                           type: string
-                          minLength: 1
               example:
                 top-level-equipment:
                   - 'HUAWEI-EQUIPMENT-1'

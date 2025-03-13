@@ -9,6 +9,8 @@ paths:
 #   MWDI_1.2.2+simulator.completeness in static reference mode
 ########################################################################################################################
 
+# todo: split for generic and mfr links
+
   /v1/provide-list-of-connected-devices:
     post:
       operationId: provideListOfConnectedDevices

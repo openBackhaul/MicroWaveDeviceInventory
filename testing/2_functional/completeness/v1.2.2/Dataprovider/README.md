@@ -18,9 +18,10 @@ The list gives some information about testing limitations (currently this applie
     - if no filter is provided, the returned list shall contain data for all links, i.e. depending on the cache content there can be links of both link-types
     - if a filter is provided, the returned list shall just contain data for the desired link-type 
   - the completeness test only covers the case that no requestBody is provided
-    - the (static) [simulator](./simulators/MicroWaveDeviceInventory+simu.yaml) provided can only handle one link-type at once, as the link-type is not part of the path
+    - the (static) [simulator](./simulators/MicroWaveDeviceInventory+simu.yaml) for the [completeness testcase collection](mwdi+data.completeness.json) provided can only handle one link-type at once, as the link-type is not part of the path
     - therefore, the additional tests for filtering are provided as an own Postman collection, with separate simulators per link type
       - see simulators [genericLink](./simulators/MicroWaveDeviceInventory+simu.linkGeneric.yaml) and [mfrLink](./simulators/MicroWaveDeviceInventory+simu.linkMfr.yaml)
+      - which are to be used with separate testcase collections for [genericLink](mwdi+data.completeness.linkGeneric.json) and [mfrLink](mwdi+data.completeness.linkMfr.json)
 - /v1/provide-list-of-parallel-links
 - /v1/provide-list-of-link-ports
 - /v1/provide-data-of-all-link-ports

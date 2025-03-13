@@ -46,27 +46,27 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/LINK'
-              example:
-                #minimum-for-rest:
-                core-model-1-4:link:
-                  - uuid: '513559996'
-                    layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                    end-point-list:
-                      - control-construct: '513250009'
-                        logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
-                        layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
-                      - control-construct: '513250008'
-                        logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
-                        layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
-                  - uuid: '513559997'
-                    layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                    end-point-list:
-                      - control-construct: '513250009'
-                        logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
-                        layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
-                      - control-construct: '513250008'
-                        logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
-                        layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
+                example:
+                  #minimum-for-rest:
+                  core-model-1-4:link:
+                    - uuid: '513559996'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '513250009'
+                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '513250008'
+                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+                    - uuid: '513559997'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '513250009'
+                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-1A'
+                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-1A'
+                        - control-construct: '513250008'
+                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-1A'
+                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-1A'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'

@@ -31,10 +31,10 @@ paths:
                     type: array
                     items:
                       type: string
-              example:
-                mount-name-list:
-                  - '305251234'
-                  - '105258888'
+                example:
+                  mount-name-list:
+                    - '305251234'
+                    - '105258888'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -83,14 +83,14 @@ paths:
                           type: string
                         layer-protocol-name:
                           type: string
-              example:
-                logical-termination-point-list:
-                  - uuid: '513250010-ETY-2134638978'
-                    local-id: '2134638978'
-                    layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
-                  - uuid: '513250010-RF-2146697857'
-                    local-id: '2146697857'
-                    layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                example:
+                  logical-termination-point-list:
+                    - uuid: '513250010-ETY-2134638978'
+                      local-id: '2134638978'
+                      layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
+                    - uuid: '513250010-RF-2146697857'
+                      local-id: '2146697857'
+                      layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -141,14 +141,14 @@ paths:
                           type: string
                         equipment-type-name:
                           type: string
-              example:
-                top-level-equipment:
-                  - 'HUAWEI-EQUIPMENT-1'
-                actual-equipment-list:
-                  - uuid: '222250001-HUAWEI-EQUIPMENT-1'
-                    equipment-type-name: 'OptiXRTN950'
-                  - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
-                    equipment-type-name: 'SL91EG4'
+                example:
+                  top-level-equipment:
+                    - 'HUAWEI-EQUIPMENT-1'
+                  actual-equipment-list:
+                    - uuid: '222250001-HUAWEI-EQUIPMENT-1'
+                      equipment-type-name: 'OptiXRTN950'
+                    - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
+                      equipment-type-name: 'SL91EG4'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -186,10 +186,10 @@ paths:
                     type: array
                     items:
                       type: string
-              example:
-                parallel-link-list:
-                  - '305551234'
-                  - '305551235'
+                example:
+                  parallel-link-list:
+                    - '305551234'
+                    - '305551235'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -230,11 +230,11 @@ paths:
                     type: array
                     items:
                       type: string
-              example:
-                link-list:
-                  - '101550001'
-                  - '204550003'
-                  - 'genericLink1'
+                example:
+                  link-list:
+                    - '101550001'
+                    - '204550003'
+                    - 'genericLink1'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -266,16 +266,16 @@ paths:
                           type: string
                         link-ports:
                           type: string
-              example:
-                link-port-list:
-                  - link-uuid: link1
-                    link-ports:
-                      - 'localId1'
-                      - 'localId2'
-                  - link-uuid: link2
-                    link-ports:
-                      - 'localId1'
-                      - 'localId3'
+                example:
+                  link-port-list:
+                    - link-uuid: link1
+                      link-ports:
+                        - 'localId1'
+                        - 'localId2'
+                    - link-uuid: link2
+                      link-ports:
+                        - 'localId1'
+                        - 'localId3'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -316,29 +316,29 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/LINK'
-              example:
-                core-model-1-4:link:
-                  - uuid: 'genericLink1'
-                    layer-protocol-name: 'layer protocol name for the link'
-                    link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
-                    forwarding-domain:
-                      - 'forwarding domain entry'
-                    link-port:
-                      - local-id: '1'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                        logical-termination-point: 'mountnameA+ltpA'
-                      - local-id: '2'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                        logical-termination-point: 'mountnameB+ltpB'
-                  - uuid: '513559996'
-                    layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                    end-point-list:
-                      - control-construct: '513250009'
-                        logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
-                        layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
-                      - control-construct: '513250008'
-                        logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
-                        layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+                example:
+                  core-model-1-4:link:
+                    - uuid: 'genericLink1'
+                      layer-protocol-name: 'layer protocol name for the link'
+                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                      forwarding-domain:
+                        - 'forwarding domain entry'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
+                    - uuid: '513559996'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '513250009'
+                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '513250008'
+                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -375,24 +375,24 @@ paths:
                           type: array
                           items:
                             $ref: '#/components/schemas/LINK_PORT'
-              example:
-                core-model-1-4:link-ports:
-                  - uuid: 'genericLink1'
-                    link-port:
-                      - local-id: '1'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                        logical-termination-point: 'mountnameA+ltpA'
-                      - local-id: '2'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                        logical-termination-point: 'mountnameB+ltpB'
-                  - uuid: 'genericLink2'
-                    link-port:
-                      - local-id: '1'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                        logical-termination-point: 'ltpX'
-                      - local-id: '2'
-                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                        logical-termination-point: 'ltpY'
+                example:
+                  core-model-1-4:link-ports:
+                    - uuid: 'genericLink1'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
+                    - uuid: 'genericLink2'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'ltpX'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'ltpY'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
@@ -459,16 +459,16 @@ paths:
                           type: integer
                         schema-cache-directory:
                           type: string
-              example:
-                device-status-metadata:
-                  - mount-name: '305251234'
-                    connection-status: 'connected'
-                    changed-to-disconnected-time: ''
-                    added-to-device-list-time: '2024-10-10T14:00:00+01:00'
-                    last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
-                    last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
-                    number-of-partial-updates-since-last-complete-update: 7
-                    schema-cache-directory: 'hua'
+                example:
+                  device-status-metadata:
+                    - mount-name: '305251234'
+                      connection-status: 'connected'
+                      changed-to-disconnected-time: ''
+                      added-to-device-list-time: '2024-10-10T14:00:00+01:00'
+                      last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+                      last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
+                      number-of-partial-updates-since-last-complete-update: 7
+                      schema-cache-directory: 'hua'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'

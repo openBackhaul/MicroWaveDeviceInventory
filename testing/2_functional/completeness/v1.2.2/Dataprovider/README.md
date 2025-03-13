@@ -26,3 +26,8 @@ The list gives some information about testing limitations (currently this applie
 - /v1/provide-list-of-link-ports
 - /v1/provide-data-of-all-link-ports
 - /v1/provide-device-status-metadata
+
+*Special note*:  
+*The examples for the complete service responses (for services under test) should have the same identation as the* schema *keyword*.  
+*However, if the simulators are created from the OAS accordingly, the import in Mockoon will lead to empty examples, altough the examples are shown correctly in the Swagger editor.*
+*Therefore, it was necessary to change the identation of response examples in the simulators to match the identation of the* properties *keyword.*

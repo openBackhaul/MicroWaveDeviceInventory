@@ -119,7 +119,10 @@
               "type": "string"
             },
             "link-ports": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }

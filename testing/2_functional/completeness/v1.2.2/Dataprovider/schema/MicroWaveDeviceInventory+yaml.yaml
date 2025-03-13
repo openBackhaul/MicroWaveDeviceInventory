@@ -86,7 +86,9 @@
             link-uuid:
               type: string
             link-ports:
-              type: string
+              type: array
+              items:
+                type: string
 
   /v1/provide-data-of-all-links:
     type: object

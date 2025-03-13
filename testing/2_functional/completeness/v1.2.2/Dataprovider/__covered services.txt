@@ -1,9 +1,0 @@
-/v1/provide-list-of-connected-devices
-/v1/provide-list-of-device-interfaces
-/v1/provide-list-of-actual-device-equipment
-/v1/provide-list-of-links
-/v1/provide-data-of-all-links
-/v1/provide-list-of-parallel-links
-/v1/provide-list-of-link-ports
-/v1/provide-data-of-all-link-ports
-/v1/provide-device-status-metadata

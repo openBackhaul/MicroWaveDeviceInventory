@@ -2311,10 +2311,12 @@ paths:
                             'The uuid of the respective link
                             from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=uuid}'
                         link-ports:
-                          type: string
-                          description: >
-                            'The list of localIds of linkPorts for the link-uuid
-                            from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=uuid/link-port=*/local-id}'
+                          type: array
+                          items:
+                            type: string
+                            description: >
+                              'The list of localIds of linkPorts for the link-uuid
+                              from {$RequestForListOfLinkPortsCausesReadingFromCache.SearchingLinkPortsInCache.response.body#/core-model-1-4:link=uuid/link-port=*/local-id}'
               example:
                 link-port-list:
                   - link-uuid: link1

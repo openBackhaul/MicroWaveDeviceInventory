@@ -1,3 +1,4 @@
+const net = require('net');
 const createHttpError = require('http-errors');
 
 exports.cacheResponseBuilder = async function (url, currentJSON) {
@@ -148,8 +149,6 @@ function notFoundError(message) {
     };
     return myJson;
 }
-
-const net = require('net');
 
 function isIPAddress(input) {
     return net.isIP(input) !== 0; // Return 0 if the string is not a valid IP address

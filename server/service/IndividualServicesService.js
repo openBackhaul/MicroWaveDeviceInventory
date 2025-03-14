@@ -31,6 +31,12 @@ const { updateDeviceListFromNotification } = require('./individualServices/Cycli
 const { getDeviceListInMemory } = require('./individualServices/CyclicProcessService/cyclicProcess');
 let lastSentMessages = [];
 
+
+
+// -- Application
+const OPENDAYLIGHT_STR = "OpenDayLight";
+const ELASTICSEARCH_STR = "ElasticSearch";
+
 /**
  * Initiates process of embedding a new release
  *
@@ -2591,7 +2597,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -2604,7 +2610,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -2669,7 +2675,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -2682,7 +2688,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -4805,7 +4811,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4818,7 +4824,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -4884,7 +4890,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4897,7 +4903,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -4963,7 +4969,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4976,7 +4982,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5041,7 +5047,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5053,7 +5059,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -5100,7 +5106,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5113,7 +5119,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5179,7 +5185,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5192,7 +5198,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5256,7 +5262,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5269,7 +5275,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5333,7 +5339,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5346,7 +5352,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5410,7 +5416,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5423,7 +5429,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5488,7 +5494,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5501,7 +5507,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5566,7 +5572,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5579,7 +5585,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5645,7 +5651,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5658,7 +5664,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5724,7 +5730,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5737,7 +5743,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5801,7 +5807,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
           resolve(NotFound());
@@ -5816,7 +5822,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           }
         } else {
           let jsonObj = result.data;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           if (myFields === undefined) {
             try {
               let elapsedTime = await recordRequest(jsonObj, correctCc);
@@ -5894,7 +5900,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5909,7 +5915,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -5974,7 +5980,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5987,7 +5993,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6053,7 +6059,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6066,7 +6072,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6132,7 +6138,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6145,7 +6151,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6210,7 +6216,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFound;
@@ -6222,7 +6228,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -6269,7 +6275,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6282,7 +6288,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6348,7 +6354,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6361,7 +6367,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6427,7 +6433,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6440,7 +6446,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6504,7 +6510,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6517,7 +6523,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6582,7 +6588,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6595,7 +6601,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6660,7 +6666,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6673,7 +6679,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6738,7 +6744,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6751,7 +6757,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6816,7 +6822,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6829,7 +6835,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6896,7 +6902,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6909,7 +6915,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -6974,7 +6980,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6987,7 +6993,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7052,7 +7058,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7065,7 +7071,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7131,7 +7137,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7144,7 +7150,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7209,7 +7215,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7221,7 +7227,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -7268,7 +7274,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7281,7 +7287,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7347,7 +7353,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7360,7 +7366,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7426,7 +7432,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7439,7 +7445,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7505,7 +7511,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7518,7 +7524,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7583,7 +7589,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7595,7 +7601,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -7642,7 +7648,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7655,7 +7661,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7721,7 +7727,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7734,7 +7740,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7799,7 +7805,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7812,7 +7818,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7877,7 +7883,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7890,7 +7896,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -7955,7 +7961,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7968,7 +7974,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8032,7 +8038,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8045,7 +8051,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8111,7 +8117,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8124,7 +8130,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8190,7 +8196,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8203,7 +8209,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8268,7 +8274,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8280,7 +8286,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -8327,7 +8333,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8340,7 +8346,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8406,7 +8412,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8419,7 +8425,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8484,7 +8490,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8497,7 +8503,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8562,7 +8568,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8575,7 +8581,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8640,7 +8646,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8653,7 +8659,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8717,7 +8723,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8730,7 +8736,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8796,7 +8802,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8809,7 +8815,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8875,7 +8881,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8888,7 +8894,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -8953,7 +8959,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8965,7 +8971,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -9012,7 +9018,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9025,7 +9031,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9091,7 +9097,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9104,7 +9110,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9170,7 +9176,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9183,7 +9189,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9249,7 +9255,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9262,7 +9268,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9327,7 +9333,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9339,7 +9345,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
           }
         } else {
           let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
+          // modifyUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
       }
@@ -9386,7 +9392,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9399,7 +9405,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9465,7 +9471,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9478,7 +9484,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9543,7 +9549,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9556,7 +9562,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -9621,7 +9627,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9634,7 +9640,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
         } else {
           let jsonObj = res.data;
           retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           let filters = false;
           if (myFields !== undefined) {
             filters = true;
@@ -10251,7 +10257,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
 
       alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
       // Write updated Json to ES
-      modificaUUID(result, mountname);
+      modifyUUID(result, mountname);
       let elapsedTime = await recordRequest(result, mountname);
 
       resolve();
@@ -10436,7 +10442,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // Update json object
       let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
       // Write updated Json to ES
-      modificaUUID(result, controlConstruct);
+      modifyUUID(result, controlConstruct);
       let elapsedTime = await recordRequest(result, controlConstruct);
       let appInformation = proxy;
       const releaseNumber = appInformation["release-number"];
@@ -10563,7 +10569,7 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
       let url = "";
       let tcpConn = "";
       if (opLtpUuid.includes("odl")) {
-        applicationName = "OpenDayLight";
+        applicationName = OPENDAYLIGHT_STR;
         tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
         url = tcpConn + urlForOdl;
       }
@@ -10757,9 +10763,6 @@ function checkNotificationDuplicate(notificationType, targetOperationURL, notifi
 
 async function sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, requestorUrl, operationKey) {
   let httpRequestHeaderRequestor;
-
-  //TO FIX
-  //let operationKey = 'Operation key not yet provided.'
 
   let httpRequestHeader = new RequestHeader(
     user,
@@ -11109,12 +11112,12 @@ exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async fun
       let indexAlias = await getIndexAliasAsync();
 
       if (opLtpUuid.includes("odl")) {
-        applicationName = "OpenDayLight";
+        applicationName = OPENDAYLIGHT_STR; // "OpenDayLight";
         tcpConn = await OperationClientInterface.getTcpClientConnectionInfoAsync(opLtpUuid);
         EsClient = await elasticsearchService.getClient(false);
       } else if (opLtpUuid.includes("es")) {
         tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
-        applicationName = "ElasticSearch";
+        applicationName = ELASTICSEARCH_STR; //"ElasticSearch";
         EsClient = await elasticsearchService.getClient(false);
       }
       const applicationNameData = applicationName === undefined ? {
@@ -11177,9 +11180,9 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     const myFields = urlParts[1];
     let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
     let placeHolder = "";
-    if (applicationName === "OpenDayLight") {
+    if (applicationName ===  OPENDAYLIGHT_STR) { // "OpenDayLight"
       placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
-    } else if (applicationName === "ElasticSearch") {
+    } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
       placeHolder = "/";
     }
     var sequenzaDaCercare = "control-construct=" + ControlConstruct;
@@ -11187,9 +11190,9 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
 
     if (indiceSequenza !== -1) {
       var parte1 = urlParts[0].substring(0, indiceSequenza);
-      if (applicationName === "OpenDayLight") {
+      if (applicationName === OPENDAYLIGHT_STR) { //"OpenDayLight"
         var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
-      } else if (applicationName === "ElasticSearch") {
+      } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
         var parte2 = urlParts[0].substring(indiceSequenza);
       }
     }
@@ -11240,7 +11243,7 @@ async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
       let url = "";
       let tcpConn = "";
 
-      applicationName = "ElasticSearch";
+      applicationName = ELASTICSEARCH_STR; // "ElasticSearch";
       tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
       url = tcpConn + correctUrl;
 
@@ -11400,7 +11403,7 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
       let url = "";
       let tcpConn = "";
 
-      applicationName = "ElasticSearch";
+      applicationName = ELASTICSEARCH_STR; // "ElasticSearch";
       tcpConn = await getTcpClientConnectionInfoAsync(opLtpUuid);
       url = tcpConn + correctUrl;
 
@@ -11536,12 +11539,12 @@ async function ReadRecords(cc) {
 
 
 // Function to modify UUID to mountName+UUID
-function modificaUUID(obj, mountName) {
+function modifyUUID(obj, mountName) {
   try {
     for (const key in obj) {
       if (typeof obj[key] === 'object') {
         // if the value is an object, recall the function recursively
-        modificaUUID(obj[key], mountName);
+        modifyUUID(obj[key], mountName);
       } else if (key === 'uuid' || key === 'local-id') {
         obj[key] = mountName + "+" + obj[key];
       }
@@ -11919,7 +11922,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
           resolve(NotFound());
@@ -11934,7 +11937,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           }
         } else if (await checkMountNameInDeviceList(correctCc)) {
           let jsonObj = result.data;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           if (myFields === undefined) {
             try {
               let elapsedTime = await recordRequest(jsonObj, correctCc);

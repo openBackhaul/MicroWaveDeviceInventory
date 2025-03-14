@@ -13,6 +13,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, Al
                     alarms[i][attr] = updatedAttributes[attr];
                 }
                 found = true;
+                break; // once is found, no needs to iterate..
             } else {
                 alarms.splice(i, 1);
                 alarms.forEach((item, index) => {
@@ -22,6 +23,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, Al
                 json[objectKey]["alarms-1-0:alarm-pac"]["current-alarms"]["number-of-current-alarms"] = numberOfCurrentAlarms;
                 //json["core-model-1-4:control-construct"][0]["alarms-1-0:alarm-pac"]["current-alarms"]["time-of-latest-change"] = newAlarm["timestamp"];
                 found = true;
+                break; // once is found, no needs to iterate..
             }
         }
     }

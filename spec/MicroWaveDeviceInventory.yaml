@@ -22459,7 +22459,7 @@ paths:
                       schema:
                         type: object
                         required:
-                          network-topology:topology
+                          - network-topology:topology
                         properties:
                           network-topology:topology:
                             type: array
@@ -23203,7 +23203,7 @@ paths:
                       schema:
                         type: object
                         required:
-                          network-topology:topology
+                          - network-topology:topology
                         properties:
                           network-topology:topology:
                             type: array

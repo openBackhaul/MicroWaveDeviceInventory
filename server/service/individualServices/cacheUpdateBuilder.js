@@ -46,8 +46,8 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             console.warn(`Field "${key}" not found in cache`);
             break;
           }
-          //          console.log('JSON originale aggiornato:');
-          //          console.log(JSON.stringify(originalJSON, null, 2));
+          // console.log('original JSON updated:');
+          // console.log(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
           //throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
@@ -65,7 +65,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
         currentJSON = currentJSON[key];
       }
     } else {
-      //      console.log(`Campo non trovato: ${key}`);
+      // console.log(`Field not found: ${key}`);
       break;
     }
     i += 1;
@@ -78,7 +78,6 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) { // I think now is unuseful
     //console.log(originalJSON[lastKey])
-
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
   }
 };
@@ -97,10 +96,10 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
   let nomeArray = "";
   for (let i = 0; i < pathKeys.length; i++) {
     if (i == 0) {
-      const chiave = pathKeys[i];
-      const parentesiQuadraApertaIndex = chiave.indexOf('[');
-      const parentesiQuadraChiusaIndex = chiave.indexOf(']');
-      const nomeArray = chiave.substring(1, parentesiQuadraChiusaIndex);
+      const pathKey = pathKeys[i];
+      const squareBracketOpenIdx = pathKey.indexOf('[');
+      const squareBracketCloseIdx = pathKey.indexOf(']');
+      const nomeArray = pathKey.substring(1, squareBracketCloseIdx);
       if (nomeArray.indexOf("control-construct") != -1) {
         oggetto = oggetto[nomeArray];
       } else {
@@ -129,14 +128,14 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
         }
       }
     } else {
-      const chiave = pathKeys[i];
-      const parentesiQuadraApertaIndex = chiave.indexOf('[');
-      const parentesiQuadraChiusaIndex = chiave.indexOf(']');
+      const pathKey = pathKeys[i];
+      const squareBracketOpenIdx = pathKey.indexOf('[');
+      const squareBracketCloseIdx = pathKey.indexOf(']');
 
       // This happen when 
-      if (parentesiQuadraApertaIndex !== -1 && parentesiQuadraChiusaIndex !== -1) {
-        nomeArray = chiave.substring(0, parentesiQuadraApertaIndex);
-        const indice = parseInt(chiave.substring(parentesiQuadraApertaIndex + 1, parentesiQuadraChiusaIndex), 10);
+      if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
+        nomeArray = pathKey.substring(0, squareBracketOpenIdx);
+        const indice = parseInt(pathKey.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
 
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
@@ -161,7 +160,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
       } else {
         // If the key doesn't contain square brackets get the objet value
         if (i === pathKeys.length - 1) {
-          // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
+          // If is the last key on the path, then assign the value
           if (Filters) {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
@@ -170,13 +169,13 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
               let newJSON = nuovoJSON[objectKey][0];
-              oggetto[chiave] = newJSON;
+              oggetto[pathKey] = newJSON;
             }
           }
         } else {
           // Otherwise go on parsing the object
-          oggetto = oggetto[chiave];
-          nomeArray = chiave;
+          oggetto = oggetto[pathKey];
+          nomeArray = pathKey;
         }
       }
     }

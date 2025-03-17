@@ -10418,7 +10418,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       let counter = currentJSON['counter'];
       /*
       let jsonObj = "";
-      let correctPlaceHolder = resource.replace("live", "cache");      
+      let correctPlaceHolder = resource.replace("live", "cache");
       const appNameAndUuidFromForwarding = await NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counter)
       const tempUrl = decodeURIComponent(appNameAndUuidFromForwarding[0].tcpConn);
       // Parse the URL
@@ -11185,22 +11185,26 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
       placeHolder = "/";
     }
-    var sequenzaDaCercare = "control-construct=" + ControlConstruct;
-    var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
+    let ctrlConstrToFind = "control-construct=" + ControlConstruct;
+    let ctrlConstrIdx = originalUrl.indexOf(ctrlConstrToFind);
 
-    if (indiceSequenza !== -1) {
-      var parte1 = urlParts[0].substring(0, indiceSequenza);
+    let subStringCC = "";
+    if (ctrlConstrIdx !== -1) {
+      let subStringCC = urlParts[0].substring(0, ctrlConstrIdx); 
       if (applicationName === OPENDAYLIGHT_STR) { //"OpenDayLight"
-        var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
+        subStringCC = urlParts[0].substring(ctrlConstrIdx + ctrlConstrToFind.length);
       } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
-        var parte2 = urlParts[0].substring(indiceSequenza);
+        subStringCC = urlParts[0].substring(ctrlConstrIdx);
       }
     }
 
     let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
-    let final = path + correctPlaceHolder + parte2;
+    let final = path + correctPlaceHolder + subStringCC;
+
+    // TODO @latta-siae check why correct URL is not working
+    let correctUrl = "";
     if (final.indexOf("+") != -1) {
-      var correctUrl = final.replace(/=.*?\+/g, "=");
+      correctUrl = final.replace(/=.*?\+/g, "=");
     } else {
       correctUrl = final;
     }

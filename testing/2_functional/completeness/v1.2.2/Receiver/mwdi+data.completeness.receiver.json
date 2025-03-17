@@ -26,7 +26,7 @@
 			},
 			{
 				"serverName": "mwdi in mwdi+simulator.completeness.receiver",
-				"server": "http://localhost:3002",
+				"server": "http://localhost:3007",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
 				"operationKey": "Operation key not yet provided.",

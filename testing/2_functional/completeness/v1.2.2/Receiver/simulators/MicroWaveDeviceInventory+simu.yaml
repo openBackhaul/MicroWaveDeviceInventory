@@ -1,48 +1,18 @@
 openapi: 3.0.0
 info:
-  title: MWDI_1.2.2+simulator.completeness.dataprovider
+  title: MWDI_1.2.2+simulator.completeness.receiver
   version: 1.0.0
 
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part
-#   MWDI_1.2.2+simulator.completeness.dataprovider in static reference mode
+#   MWDI_1.2.2+simulator.completeness.receiver in static reference mode
 ########################################################################################################################
 
-  /v1/provide-list-of-connected-devices:
+  /v1/regard-controller-attribute-value-change:
     post:
-      operationId: provideListOfConnectedDevices
-      summary: 'Provides list of devices that are connected to the controller'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'List of connected devices provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - mount-name-list
-                properties:
-                  mount-name-list:
-                    type: array
-                    items:
-                      type: string
-                example:
-                  mount-name-list:
-                    - '305251234'
-                    - '105258888'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-
-  /v1/provide-list-of-device-interfaces:
-    post:
-      operationId: provideListOfDeviceInterfaces
-      summary: 'Provides list of LTP UUIDs at a device'
+      operationId: regardControllerAttributeValueChange
+      summary: 'Receives notifications about attribute value changes at the Controller'
       tags:
         - IndividualServices
       security:
@@ -54,51 +24,45 @@ paths:
             schema:
               type: object
               required:
-                - mount-name
+                - notification-proxy-1-0:attribute-value-changed-notification
               properties:
-                mount-name:
-                  type: string
+                notification-proxy-1-0:attribute-value-changed-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - resource
+                    - attribute-name
+                    - new-value
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    resource:
+                      type: string
+                    attribute-name:
+                      type: string
+                    new-value:
+                      type: string
+              example:
+                notification-proxy-1-0:attribute-value-changed-notification:
+                  counter: 32
+                  timestamp: '2023-07-11T08:21:50+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=odl-1/logical-termination-point=513250009/layer-protocol=0/mount-point-1-0:mount-point-pac/mount-point-status'
+                  attribute-name: 'connection-status'
+                  new-value: 'connecting'
       responses:
-        '200':
-          description: 'List of LTP UUIDs provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - logical-termination-point-list
-                properties:
-                  logical-termination-point-list:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - uuid
-                        - local-id
-                        - layer-protocol-name
-                      properties:
-                        uuid:
-                          type: string
-                        local-id:
-                          type: string
-                        layer-protocol-name:
-                          type: string
-                example:
-                  logical-termination-point-list:
-                    - uuid: '513250010-ETY-2134638978'
-                      local-id: '2134638978'
-                      layer-protocol-name: 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'
-                    - uuid: '513250010-RF-2146697857'
-                      local-id: '2146697857'
-                      layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+        '204':
+          description: 'Notification received'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
 
-  /v1/provide-list-of-actual-device-equipment:
+  /v1/regard-device-alarm:
     post:
-      operationId: provideListOfActualDeviceEquipment
-      summary: 'Provides list of actual equipment UUIDs inside a device'
+      operationId: regardDeviceAlarm
+      summary: 'Receives notifications about alarms at devices'
       tags:
         - IndividualServices
       security:
@@ -110,53 +74,49 @@ paths:
             schema:
               type: object
               required:
-                - mount-name
+                - notification-proxy-1-0:alarm-event-notification
               properties:
-                mount-name:
-                  type: string
-      responses:
-        '200':
-          description: 'List of actual equipment UUIDs provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - top-level-equipment
-                  - actual-equipment-list
-                properties:
-                  top-level-equipment:
-                    type: array
-                    items:
+                notification-proxy-1-0:alarm-event-notification:
+                  type: object
+                  required:
+                    - alarm-event-sequence-number
+                    - timestamp
+                    - resource
+                    - alarm-type-id
+                    - alarm-type-qualifier
+                    - problem-severity
+                  properties:
+                    alarm-event-sequence-number:
+                      type: integer
+                    timestamp:
                       type: string
-                  actual-equipment-list:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - uuid
-                        - equipment-type-name
-                      properties:
-                        uuid:
-                          type: string
-                        equipment-type-name:
-                          type: string
-                example:
-                  top-level-equipment:
-                    - 'HUAWEI-EQUIPMENT-1'
-                  actual-equipment-list:
-                    - uuid: '222250001-HUAWEI-EQUIPMENT-1'
-                      equipment-type-name: 'OptiXRTN950'
-                    - uuid: '222250001-HUAWEI-EQUIPMENT-4-4'
-                      equipment-type-name: 'SL91EG4'
+                    resource:
+                      type: string
+                    alarm-type-id:
+                      type: string
+                    alarm-type-qualifier:
+                      type: string
+                    problem-severity:
+                      type: string
+              example:
+                notification-proxy-1-0:alarm-event-notification:
+                  alarm-event-sequence-number: 1
+                  timestamp: '2023-07-11T08:45:02+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=LTP-MWPS-TTP-RADIO-1A/layer-protocol=LP-MWPS-TTP-RADIO-1A/air-interface-2-0:air-interface-pac'
+                  alarm-type-id: 'siae-alarms-1-0:radioEquipLinkTelemetryFailAlarm'
+                  alarm-type-qualifier: ''
+                  problem-severity: 'major'
+      responses:
+        '204':
+          description: 'Notification received'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
 
-  /v1/provide-list-of-parallel-links:
+  /v1/regard-device-attribute-value-change:
     post:
-      operationId: provideListOfParallelLinks
-      summary: 'Provides list of Links between the same ControlConstructs'
+      operationId: regardDeviceAttributeValueChange
+      summary: 'Receives notifications about changes of values of attributes inside the devices'
       tags:
         - IndividualServices
       security:
@@ -168,241 +128,45 @@ paths:
             schema:
               type: object
               required:
-                - link-id
+                - notification-proxy-1-0:attribute-value-changed-notification
               properties:
-                link-id:
-                  type: string
-      responses:
-        '200':
-          description: 'List of parallel Links provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - parallel-link-list
-                properties:
-                  parallel-link-list:
-                    type: array
-                    items:
+                notification-proxy-1-0:attribute-value-changed-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                    - attribute-name
+                    - new-value
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
                       type: string
-                example:
-                  parallel-link-list:
-                    - '305551234'
-                    - '305551235'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-
-  /v1/provide-list-of-links:
-    post:
-      operationId: provideListOfLinks
-      summary: 'Provides list of links in cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - link-type
-              properties:
-                link-type:
-                  type: string
-                  enum:
-                    - 'generic'
-                    - 'minimumForRest'
-      responses:
-        '200':
-          description: 'List of links in cache'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - link-list
-                properties:
-                  link-list:
-                    type: array
-                    items:
+                    object-path:
                       type: string
-                example:
-                  link-list:
-                    - '101550001'
-                    - '204550003'
-                    - 'genericLink1'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-
-  /v1/provide-list-of-link-ports:
-    post:
-      operationId: provideListOfLinkPorts
-      summary: 'Provides list of link ports in cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
+                    attribute-name:
+                      type: string
+                    new-value:
+                      type: string
+              example:
+                notification-proxy-1-0:attribute-value-changed-notification:
+                  counter: 32
+                  timestamp: '2010-11-20T14:00:00+01:00'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                  attribute-name: 'performance-monitoring-is-on'
+                  new-value: 'true'
       responses:
-        '200':
-          description: 'List of link ports in cache'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - link-port-list
-                properties:
-                  link-port-list:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        link-uuid:
-                          type: string
-                        link-ports:
-                          type: array
-                          items:
-                            type: string
-                example:
-                  link-port-list:
-                    - link-uuid: link1
-                      link-ports:
-                        - 'localId1'
-                        - 'localId2'
-                    - link-uuid: link2
-                      link-ports:
-                        - 'localId1'
-                        - 'localId3'
+        '204':
+          description: 'Notification received'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
 
-  /v1/provide-data-of-all-links:
+  /v1/regard-device-object-creation:
     post:
-      operationId: provideDataOfLinks
-      summary: 'Provides data of (filtered) links in cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - link-type
-              properties:
-                link-type:
-                  type: string
-                  enum:
-                    - 'generic'
-                    - 'minimumForRest'
-      responses:
-        '200':
-          description: 'Data of (filtered) links in cache'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - core-model-1-4:link
-                properties:
-                  core-model-1-4:link:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/LINK'
-                example:
-                  core-model-1-4:link:
-                    - uuid: 'genericLink1'
-                      layer-protocol-name: 'layer protocol name for the link'
-                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
-                      forwarding-domain:
-                        - 'forwarding domain entry'
-                      link-port:
-                        - local-id: '1'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                          logical-termination-point: 'mountnameA+ltpA'
-                        - local-id: '2'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                          logical-termination-point: 'mountnameB+ltpB'
-                    - uuid: '513559996'
-                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                      end-point-list:
-                        - control-construct: '513250009'
-                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
-                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
-                        - control-construct: '513250008'
-                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
-                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-
-  /v1/provide-data-of-all-link-ports:
-    post:
-      operationId: provideDataOfLinkPorts
-      summary: 'Provides data of linkports in cache'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'Data of linkports in cache'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - core-model-1-4:link-ports
-                properties:
-                  core-model-1-4:link-ports:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - uuid
-                        - link-port
-                      properties:
-                        uuid:
-                          type: string
-                        link-port:
-                          type: array
-                          items:
-                            $ref: '#/components/schemas/LINK_PORT'
-                example:
-                  core-model-1-4:link-ports:
-                    - uuid: 'genericLink1'
-                      link-port:
-                        - local-id: '1'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                          logical-termination-point: 'mountnameA+ltpA'
-                        - local-id: '2'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                          logical-termination-point: 'mountnameB+ltpB'
-                    - uuid: 'genericLink2'
-                      link-port:
-                        - local-id: '1'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
-                          logical-termination-point: 'ltpX'
-                        - local-id: '2'
-                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                          logical-termination-point: 'ltpY'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-
-  /v1/provide-device-status-metadata:
-    post:
-      operationId: provideDeviceStatusMetadata
-      summary: 'Provides metadata status table of devices'
+      operationId: regardDeviceObjectCreation
+      summary: 'Receives notifications about objects that have been created inside the devices'
       tags:
         - IndividualServices
       security:
@@ -413,64 +177,72 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - notification-proxy-1-0:object-creation-notification
               properties:
-                mount-name-list:
-                  type: array
-                  items:
-                    type: string
+                notification-proxy-1-0:object-creation-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+              example:
+                notification-proxy-1-0:object-creation-notification:
+                  counter: 2
+                  timestamp: '2023-07-10T12:27:03+01:00'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
       responses:
-        '200':
-          description: 'Table with device status metadata provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - device-status-metadata
-                properties:
-                  device-status-metadata:
-                    type: array
-                    items:
-                      required:
-                        - mount-name
-                        - connection-status
-                        - changed-to-disconnected-time
-                        - added-to-device-list-time
-                        - last-complete-control-construct-update-time
-                        - last-control-construct-notification-update-time
-                        - number-of-partial-updates-since-last-complete-update
-                        - schema-cache-directory
-                      properties:
-                        mount-name:
-                          type: string
-                        connection-status:
-                          type: string
-                          enum:
-                            - 'connected'
-                            - 'connecting'
-                            - 'unable-to-connect'
-                        changed-to-disconnected-time:
-                          type: string
-                        added-to-device-list-time:
-                          type: string
-                        last-complete-control-construct-update-time:
-                          type: string
-                        last-control-construct-notification-update-time:
-                          type: string
-                        number-of-partial-updates-since-last-complete-update:
-                          type: integer
-                        schema-cache-directory:
-                          type: string
-                example:
-                  device-status-metadata:
-                    - mount-name: '305251234'
-                      connection-status: 'connected'
-                      changed-to-disconnected-time: ''
-                      added-to-device-list-time: '2024-10-10T14:00:00+01:00'
-                      last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
-                      last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
-                      number-of-partial-updates-since-last-complete-update: 7
-                      schema-cache-directory: 'hua'
+        '204':
+          description: 'Notification received'
+          headers:
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+
+  /v1/regard-device-object-deletion:
+    post:
+      operationId: regardDeviceObjectDeletion
+      summary: 'Receives notifications about objects that have been deleted inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:object-deletion-notification
+              properties:
+                notification-proxy-1-0:object-deletion-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+              example:
+                notification-proxy-1-0:object-deletion-notification:
+                  counter: 14
+                  timestamp: '2023-07-13T09:31:48+01:00'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857'
+      responses:
+        '204':
+          description: 'Notification received'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'

@@ -48,7 +48,6 @@ module.exports.getNewDeviceListExp = async function getNewDeviceListExp() {
 
   } catch (error) {
     console.log("Error in getNewDeviceList(): " + error);
-    debugger;
   }
 }
 
@@ -100,7 +99,6 @@ module.exports.start = async function start() {
 
     } catch (error) {
       console.log("Error in getNewDeviceList(): " + error);
-      debugger;
     }
   }
 

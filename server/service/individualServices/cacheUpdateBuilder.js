@@ -1,4 +1,5 @@
 const createHttpError = require("http-errors");
+const logger = require('../LoggingService.js').getLogger();
 
 exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
@@ -43,16 +44,16 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             }
             currentJSON = currentJSON[key][indexToChange];
           } else {
-            console.warn(`Field "${key}" not found in cache`);
+            logger.warn(`Field "${key}" not found in cache`);
             break;
           }
-          // console.log('original JSON updated:');
-          // console.log(JSON.stringify(originalJSON, null, 2));
+          logger.debug('original JSON updated:');
+          logger.trace(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
           //throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
 
-          console.warn(`No elements found with UUID: ${uuidToFind}`);
+          logger.warn(`No elements found with UUID: ${uuidToFind}`);
           break;
         }
       } else {
@@ -65,7 +66,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
         currentJSON = currentJSON[key];
       }
     } else {
-      // console.log(`Field not found: ${key}`);
+      logger.trace(`Field not found: ${key}`);
       break;
     }
     i += 1;
@@ -77,7 +78,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
 
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) { // I think now is unuseful
-    //console.log(originalJSON[lastKey])
+    logger.trace(originalJSON[lastKey])
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
   }
 };
@@ -199,16 +200,16 @@ function mergeJson(target, source) {
   if (Array.isArray(source)) {
     for (let i = 0; i < source.length; i++) {
       if (Array.isArray(target)) {
-        mergeJson(target[i], source[i]);
+        mergeJson(target[i], source[i]); // Recursive function
       } else {
-        mergeJson(target, source[i]);
+        mergeJson(target, source[i]); // Recursive function
       }
     }
   } else if (typeof source === 'object') {
     for (const key in source) {
       if (typeof source[key] === 'object') {
         if (target[key] && typeof target[key] === 'object') {
-          mergeJson(target[key], source[key]);
+          mergeJson(target[key], source[key]); // Recursive function
         }
       } else {
         const sourceValue = source[key];

@@ -14,6 +14,7 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/client/eventDispatcher');
+const logger = require('../LoggingService.js').getLogger();
 
 const NOTIFY_APPROVALS_FD_NAME = 'PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease';
 const NOTIFY_WITHDRAWN_APPROVALS_FD_NAME = 'PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease';
@@ -43,6 +44,7 @@ exports.upgradeSoftwareVersion = async function (isdataTransferRequired, newRele
             await replaceOldReleaseWithNewRelease(newReleaseUuid, user, xCorrelator, traceIndicator, customerJourney);
             resolve();
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -68,6 +70,7 @@ async function redirectNotificationNewRelease(newReleaseUuid, user, xCorrelator,
             await PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease(user, xCorrelator, traceIndicator, customerJourney);
             resolve();
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -90,6 +93,7 @@ async function replaceOldReleaseWithNewRelease(newReleaseUuid, user, xCorrelator
             await promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease(newReleaseUuid, user, xCorrelator, traceIndicator, customerJourney);
             resolve();
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -136,7 +140,7 @@ async function PromptForBequeathingDataCausesTransferOfListOfApplications(user, 
                     }
 
                 } catch (error) {
-                    console.log(error);
+                    logger.error(error);
                     throw "operation is not success";
                 }
             }
@@ -182,7 +186,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOf
                     throw NOTIFY_APPROVALS_FD_NAME + "forwarding is not success for the input" + JSON.stringify(requestBody);
                 }
             } catch (error) {
-                console.log(error);
+                logger.error(error);
                 throw "operation is not success";
             }
 
@@ -227,7 +231,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnAp
                     throw NOTIFY_WITHDRAWN_APPROVALS_FD_NAME + "forwarding is not success for the input" + JSON.stringify(requestBody);
                 }
             } catch (error) {
-                console.log(error);
+                logger.error(error);
                 throw "operation is not success";
             }
 
@@ -276,7 +280,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToStopNotifications
                 }
 
             } catch (error) {
-                console.log(error);
+                logger.error(error);
                 throw "operation is not success";
             }
 
@@ -324,12 +328,13 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
                 }
 
             } catch (error) {
-                console.log(error);
+                logger.error(error);
                 throw "operation is not success";
             }
 
             resolve(result);
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -369,12 +374,13 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
                     }
                 }
             } catch (error) {
-                console.log(error);
+                logger.error(error);
                 throw "operation is not success";
             }
 
             resolve(result);
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -434,6 +440,7 @@ function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, tr
             );
             resolve(result);
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });

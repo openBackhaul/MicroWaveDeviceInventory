@@ -2,6 +2,7 @@ const forwardingConstructConfigurationInput = require('onf-core-model-ap/applica
 const operationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const logger = require('../LoggingService.js').getLogger();
 
 exports.regardApplication = function (operationClientConfigurationStatusList, redirectServiceRequestOperation) {
     return new Promise(async function (resolve, reject) {
@@ -28,6 +29,7 @@ exports.regardApplication = function (operationClientConfigurationStatusList, re
             }
             resolve(forwardingConfigurationInputList);
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -60,6 +62,7 @@ exports.disregardApplication = function (operationClientConfigurationStatusList)
             }
             resolve(forwardingConfigurationInputList);
         } catch (error) {
+            logger.error(error);
             reject(error);
         }
     });
@@ -72,5 +75,7 @@ function getValueFromKey(nameList, key) {
             return nameList[i]["value"];
         }
     }
+
+    logger.warn("Value not found from key: " + key);
     return undefined;
 }

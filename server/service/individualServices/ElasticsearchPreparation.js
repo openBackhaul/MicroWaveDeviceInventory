@@ -1,4 +1,5 @@
 const { elasticsearchService, getIndexAliasAsync, operationalStateEnum } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
+const logger = require('../LoggingService.js').getLogger();
 
 /**
  * @description Elasticsearch preparation. Checks if ES instance is configured properly.
@@ -14,15 +15,15 @@ const { elasticsearchService, getIndexAliasAsync, operationalStateEnum } = requi
  * @returns {Promise<void>}
  */
 module.exports = async function prepareElasticsearch() {
-    console.log("Configuring Elasticsearch...");
+    logger.info("Configuring Elasticsearch...");
     let ping = await elasticsearchService.getElasticsearchClientOperationalStateAsync();
     if (ping === operationalStateEnum.UNAVAILABLE) {
-        console.error(`Elasticsearch unavailable. Skipping Elasticsearch configuration.`);
+        logger.error(`Elasticsearch unavailable. Skipping Elasticsearch configuration.`);
         return;
     }
     await createIndexTemplate();
     await elasticsearchService.createAlias();
-    console.log('Elasticsearch is properly configured!');
+    logger.info('Elasticsearch is properly configured!');
 }
 
 /**

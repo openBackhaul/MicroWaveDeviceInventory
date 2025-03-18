@@ -5,7 +5,8 @@ const axios = require('axios');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-//const cyclicProcess = require('./CyclicProcessService/cyclicProcess.js');
+const {stopCyclicProcess} = require('./CyclicProcessService/cyclicProcess');
+const logger = require('../LoggingService.js').getLogger();
 
 async function addSubscribersToNewRelease(appAddress, appPort) {
 
@@ -48,10 +49,10 @@ async function addSubscribersToNewRelease(appAddress, appPort) {
                     }
                 })
                 .then((response) => {
-                    console.log("OLD -> NEW RELEASE tranferring ok.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.name + ")");
+                    logger.info("OLD -> NEW RELEASE tranferring ok.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.name + ")");
                 })
                 .catch(e => {
-                    console.log("OLD -> NEW RELEASE tranferring error.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.operationName + ")");
+                    logger.error("OLD -> NEW RELEASE tranferring error.  (Type: " + subscriberNotificationType + "   name: " + activeSubscriber.operationName + ")");
                 });
             }
         }
@@ -75,7 +76,7 @@ async function endSubscriptionToNotificationProxy() {
             "subscriber-release-number": releaseNumber,
             "subscription": "/v1/subscription-to-be-stopped"
         }
-        console.log("OLD RELEASE --> NP  (URL: " + targetNpURL + "  App. Name: " + applicationName + "  Rel. Num: " + releaseNumber + ")....");
+        logger.info("OLD RELEASE --> NP  (URL: " + targetNpURL + "  App. Name: " + applicationName + "  Rel. Num: " + releaseNumber + ")....");
         await axios.post(targetNpURL, body, {
             headers: {
                 'x-correlator': requestHeader.xCorrelator,
@@ -87,10 +88,10 @@ async function endSubscriptionToNotificationProxy() {
             }
         })
         .then((response) => {
-            console.log("OLD RELEASE --> END SUBSCRIPTION TO NOTIFICATION-PROXY OK");
+            logger.info("OLD RELEASE --> END SUBSCRIPTION TO NOTIFICATION-PROXY OK");
         })
         .catch(e => {
-            console.log("OLD RELEASE --> END SUBSCRIPTION TO NOTIFICATION-PROXY ERROR (" + e + ")");
+            logger.error("OLD RELEASE --> END SUBSCRIPTION TO NOTIFICATION-PROXY ERROR (" + e + ")");
         });
         return true;
     } catch (error) {
@@ -105,11 +106,11 @@ exports.handleRequest = async function (body, requestUrl) {
     let appAddress = body["new-application-address"];
     let appPort = body["new-application-port"];
     
-    var success = await addSubscribersToNewRelease(appAddress, appPort);
+    let success = await addSubscribersToNewRelease(appAddress, appPort);
     if (success) {
         success = await endSubscriptionToNotificationProxy();
         //cyclicProcess.stopCyclicProcess();
-        const {stopCyclicProcess} = require('./CyclicProcessService/cyclicProcess.js');
+        
         stopCyclicProcess();
     }
 

@@ -19,6 +19,7 @@ Some limitations and things to be aware of listed below:
   - the ordering in the testcase collection is as follows:
     1. delete the object via /v1/regard-device-object-deletion
     2. then re-create it via /v1/regard-device-object-creation
+  - note that it might take a while (in the testlab typically a couple of minutes) until the deleted and recreated object is again found in  MWDI cache
 ---
 
 Additional notes:

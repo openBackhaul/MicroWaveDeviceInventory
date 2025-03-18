@@ -55,7 +55,7 @@
 				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
 				"attributeValueChange_attributeName": "external-label",
 				"attributeValueChange_newValue": "External label not yet defined.",
-				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-281",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500",
 				"kindOfReference": "dynamic"
 			},
 			{
@@ -68,8 +68,8 @@
 				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
 				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
 				"attributeValueChange_attributeName": "external-label",
-				"attributeValueChange_newValue": "External label not yet defined.",
-				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-281",
+				"attributeValueChange_newValue": "513559992A",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500",
 				"kindOfReference": "static"
 			}
 		]

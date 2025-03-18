@@ -13,12 +13,11 @@ const notificationManagement = require('./service/individualServices/Notificatio
 appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
-const { Console } = require('console');
-
+const logger = require('./service/LoggingService.js').getLogger();
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
-//appCommons.openApiValidatorOptions.validateSecurity = false;
-appCommons.openApiValidatorOptions.validateResponses = false;
+// appCommons.openApiValidatorOptions.validateSecurity = false;
+// appCommons.openApiValidatorOptions.validateResponses = false;
 // swaggerRouter configuration
 var options = {
     routing: {
@@ -48,16 +47,16 @@ global.databasePath = './database/load.json';
 
 
 prepareElasticsearch(false).catch(err => {
-    console.error(`Error preparing Elasticsearch : ${err}`);
+    logger.error(`Error preparing Elasticsearch : ${err}`);
 }).finally(() => {
     // Initialize the Swagger middleware
     http.createServer(app).listen(serverPort, function () {
-        console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-        console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+        logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+        logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
     appCommons.performApplicationRegistration();
     
 }
 );
 
-global.applicationDataPath = './application-data/';
+global.applicationDataPath = './server/application-data/';

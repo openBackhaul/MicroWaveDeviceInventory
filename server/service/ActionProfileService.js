@@ -10,8 +10,8 @@ var fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver
 exports.getActionProfileConsequentOperationReference = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "action-profile-1-0:consequent-operation-reference" : value
       };
@@ -35,8 +35,8 @@ exports.getActionProfileConsequentOperationReference = function(url) {
 exports.getActionProfileDisplayInNewBrowserWindow = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "action-profile-1-0:display-in-new-browser-window" : value
       };
@@ -60,8 +60,8 @@ exports.getActionProfileDisplayInNewBrowserWindow = function(url) {
 exports.getActionProfileInputValueListt = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "action-profile-1-0:input-value-list" : value
       };
@@ -85,8 +85,8 @@ exports.getActionProfileInputValueListt = function(url) {
 exports.getActionProfileLabel = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "action-profile-1-0:label" : value
       };
@@ -110,8 +110,8 @@ exports.getActionProfileLabel = function(url) {
 exports.getActionProfileOperationName = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "action-profile-1-0:operation-name" : value
       };

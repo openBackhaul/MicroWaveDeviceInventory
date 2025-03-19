@@ -11180,6 +11180,46 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     const myFields = urlParts[1];
     let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
     let placeHolder = "";
+    if (applicationName === "OpenDayLight") {
+      placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
+    } else if (applicationName === "ElasticSearch") {
+      placeHolder = "/";
+    }
+    var sequenzaDaCercare = "control-construct=" + ControlConstruct;
+    var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
+
+    if (indiceSequenza !== -1) {
+      var parte1 = urlParts[0].substring(0, indiceSequenza);
+      if (applicationName === "OpenDayLight") {
+        var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
+      } else if (applicationName === "ElasticSearch") {
+        var parte2 = urlParts[0].substring(indiceSequenza);
+      }
+    }
+
+    let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
+    let final = path + correctPlaceHolder + parte2;
+    if (final.indexOf("+") != -1) {
+      var correctUrl = final.replace(/=.*?\+/g, "=");
+    } else {
+      correctUrl = final;
+    }
+    if (myFields != undefined) {
+      final = final + "?fields=" + myFields;
+    }
+    return final;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+async function newretrieveCorrectUrl(originalUrl, path, applicationName) {
+  try {
+    const urlParts = originalUrl.split("?fields=");
+    const myFields = urlParts[1];
+    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    let placeHolder = "";
     if (applicationName ===  OPENDAYLIGHT_STR) { // "OpenDayLight"
       placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
     } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"

@@ -39,7 +39,7 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
             } */
             resolve(response);
         } catch (error) {
-            const logger = require('../../../LoggingService.js').getLogger();
+            logger.error(error);
             reject(error);
         }
     });

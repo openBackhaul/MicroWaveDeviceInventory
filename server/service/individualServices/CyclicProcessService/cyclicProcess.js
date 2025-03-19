@@ -18,6 +18,8 @@ const startModule = require('../../../temporarySupportFiles/StartModule.js');
 let simulationProgress = false;
 // SIMULATION
 
+const NODE_ID = 'node-id';
+
 const DEVICE_NOT_PRESENT = -1;
 const TTL_CHECKING_TIMER = 1000;
 let deviceListSyncPeriod = 24;
@@ -48,7 +50,7 @@ async function sendRequest(device) {
     let traceIndicator = requestHeader.traceIndicator;
     let customerJourney = requestHeader.customerJourney;
     let req = {
-      'url': '/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device['node-id'],
+      'url': '/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device[NODE_ID],
       'body': {}
     }
 
@@ -89,7 +91,7 @@ async function sendRequest(device) {
 
     return {
       'ret': ret,
-      'node-id': device['node-id']
+      'node-id': device[NODE_ID]
     };
   } catch (error) {
     console.error(`Error in REST call for ${device.node_id}:`, error.message);

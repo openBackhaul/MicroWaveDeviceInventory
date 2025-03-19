@@ -20,7 +20,7 @@ exports.post = async function (options) {
         try {
             let response = await axios(url, header);
             resolve(response);
-            logger.debug(JSON.stringify(response.data));
+            // logger.trace(JSON.stringify(response.data));
         } catch (error) {
             logger.error("Post error", error);
             reject(error);

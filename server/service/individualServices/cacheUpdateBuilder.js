@@ -48,7 +48,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             break;
           }
           logger.debug('original JSON updated:');
-          logger.trace(JSON.stringify(originalJSON, null, 2));
+          // logger.trace(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
           //throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);

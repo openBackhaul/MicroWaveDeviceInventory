@@ -5,7 +5,6 @@ const logger = require('../LoggingService.js').getLogger();
 const CONTROLCONST = "control-construct";
 const LOCALID = 'local-id';
 
-
 exports.cacheResponseBuilder = async function (url, currentJSON) {
   let objectKey = Object.keys(currentJSON)[0];
   currentJSON = currentJSON[objectKey];
@@ -40,14 +39,14 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
           (key[LOCALID] && key[LOCALID] === uuidToFind));
         if (equipmentFound) {
           if (i != 1) {
-            logger.debug("equipmentFound from Object");
+            logger.trace("equipmentFound from Object");
             currentJSON = equipmentFound;
           } else {
-            logger.debug("equipmentFound from Array");
+            logger.trace("equipmentFound from Array");
             currentJSON = [equipmentFound];
           }
         } else {
-          logger.debug(`No elements found with UUID: ${uuidToFind}`);
+          logger.trace(`No elements found with UUID: ${uuidToFind}`);
           throw new createHttpError(404, `No elements found with UUID: ${uuidToFind}`);
         }
       }
@@ -82,7 +81,6 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
   }
 
   if (isIPAddress(prefix) || prefix == "localhost") {
-    logger.debug("is an IP Address: " + prefix);
     prefix = parts[0];
     if (lastUrlSegment.indexOf("=") != -1) {
       let parts2 = lastUrlSegment.split("=");
@@ -101,7 +99,6 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
       }
     }
   } else if (lastUrlSegment.indexOf("=") != -1) {
-    logger.debug("is =");
     let parts2 = lastUrlSegment.split("=");
     topJsonWrapper = prefix + ":" + parts2[0];
     if (lastUrlSegment.indexOf(CONTROLCONST) != -1) {
@@ -110,17 +107,15 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
       returnObject = { [topJsonWrapper]: [currentJSON[0]] };
     }
   } else if (lastUrlSegment.indexOf(":") != -1) {
-    logger.debug("is :");
     let parts2 = lastUrlSegment.split(":");
     topJsonWrapper = prefix + ":" + parts2[1];
     returnObject = { [topJsonWrapper]: currentJSON };
   } else {
-    logger.debug("is something else");
     topJsonWrapper = prefix + ":" + lastUrlSegment;
     returnObject = { [topJsonWrapper]: currentJSON };
   }
   /*
-      if (penultimateUrlSegment.indexOf(":") != -1 && lastUrlSegment.indexOf(CONTROLCONST) == -1) {
+      if (penultimateUrlSegment.indexOf(":") != -1 && lastUrlSegment.indexOf("control-construct") == -1) {
           const parts1 = penultimateUrlSegment.split(':');
           if (lastUrlSegment.indexOf("+") != -1){
               const parts = lastUrlSegment.split('=');
@@ -138,7 +133,7 @@ exports.cacheResponseBuilder = async function (url, currentJSON) {
       } else if (lastUrlSegment.indexOf("=") != -1) {
           let parts2 = lastUrlSegment.split("=");
           topJsonWrapper = parts[0] + ":" + parts2[0];
-          if (lastUrlSegment.indexOf(CONTROLCONST) != -1){
+          if (lastUrlSegment.indexOf("control-construct") != -1){
               returnObject = { [topJsonWrapper]: [currentJSON] };
           } else {
               returnObject = { [topJsonWrapper]: [currentJSON[0]] };

@@ -32,6 +32,6 @@
     - [Connections]  
     - [Interfaces]  
 
-![Overview](./mwdi+diagram.completeness.png)  
+![Overview](./mwdi+diagram.invalidRequestBody.png)  
 
 

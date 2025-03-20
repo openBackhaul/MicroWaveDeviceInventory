@@ -11178,59 +11178,20 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
   try {
     const urlParts = originalUrl.split("?fields=");
     const myFields = urlParts[1];
-    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
-    let placeHolder = "";
-    if (applicationName === "OpenDayLight") {
-      placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
-    } else if (applicationName === "ElasticSearch") {
-      placeHolder = "/";
-    }
-    var sequenzaDaCercare = "control-construct=" + ControlConstruct;
-    var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
-
-    if (indiceSequenza !== -1) {
-      var parte1 = urlParts[0].substring(0, indiceSequenza);
-      if (applicationName === "OpenDayLight") {
-        var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
-      } else if (applicationName === "ElasticSearch") {
-        var parte2 = urlParts[0].substring(indiceSequenza);
-      }
-    }
-
-    let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
-    let final = path + correctPlaceHolder + parte2;
-    if (final.indexOf("+") != -1) {
-      var correctUrl = final.replace(/=.*?\+/g, "=");
-    } else {
-      correctUrl = final;
-    }
-    if (myFields != undefined) {
-      final = final + "?fields=" + myFields;
-    }
-    return final;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-async function newretrieveCorrectUrl(originalUrl, path, applicationName) {
-  try {
-    const urlParts = originalUrl.split("?fields=");
-    const myFields = urlParts[1];
-    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    let controlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
     let placeHolder = "";
     if (applicationName ===  OPENDAYLIGHT_STR) { // "OpenDayLight"
       placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
     } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
       placeHolder = "/";
     }
-    let ctrlConstrToFind = "control-construct=" + ControlConstruct;
+
+    let ctrlConstrToFind = "control-construct=" + controlConstruct;
     let ctrlConstrIdx = originalUrl.indexOf(ctrlConstrToFind);
 
     let subStringCC = "";
     if (ctrlConstrIdx !== -1) {
-      let subStringCC = urlParts[0].substring(0, ctrlConstrIdx); 
+      // let subtringCCextra = urlParts[0].substring(0, ctrlConstrIdx); // is not needed
       if (applicationName === OPENDAYLIGHT_STR) { //"OpenDayLight"
         subStringCC = urlParts[0].substring(ctrlConstrIdx + ctrlConstrToFind.length);
       } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
@@ -11238,10 +11199,9 @@ async function newretrieveCorrectUrl(originalUrl, path, applicationName) {
       }
     }
 
-    let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
+    let correctPlaceHolder = placeHolder.replace("tochange", controlConstruct);
     let final = path + correctPlaceHolder + subStringCC;
 
-    // TODO @latta-siae check why correct URL is not working
     let correctUrl = "";
     if (final.indexOf("+") != -1) {
       correctUrl = final.replace(/=.*?\+/g, "=");

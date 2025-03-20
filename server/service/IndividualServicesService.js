@@ -25,6 +25,7 @@ const executionAndTraceService = require('onf-core-model-ap/applicationPattern/s
 const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHandler');
 const alarmHandler = require('./individualServices/alarmUpdater')
+const logger = require('./LoggingService.js').getLogger();
 
 const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
@@ -70,7 +71,7 @@ exports.bequeathYourDataAndDie = function (url, body, user, originator, xCorrela
       await bequeathHandler.handleRequest(body, url);
       resolve();
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   });
 }
@@ -248,7 +249,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -322,7 +323,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -396,7 +397,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -470,7 +471,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -544,7 +545,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -616,7 +617,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -688,7 +689,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -760,7 +761,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -833,7 +834,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -906,7 +907,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -980,7 +981,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1054,7 +1055,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1127,7 +1128,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1199,7 +1200,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1272,7 +1273,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1346,7 +1347,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1420,7 +1421,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1494,7 +1495,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1568,7 +1569,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1642,7 +1643,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1714,7 +1715,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1787,7 +1788,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1860,7 +1861,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1933,7 +1934,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2006,7 +2007,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2081,7 +2082,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2154,7 +2155,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2228,7 +2229,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2302,7 +2303,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2376,7 +2377,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2450,7 +2451,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2627,14 +2628,14 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2705,14 +2706,14 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2786,7 +2787,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2860,7 +2861,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2934,7 +2935,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3008,7 +3009,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3081,7 +3082,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3154,7 +3155,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3227,7 +3228,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3299,7 +3300,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3372,7 +3373,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3446,7 +3447,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3520,7 +3521,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3594,7 +3595,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3667,7 +3668,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3740,7 +3741,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3813,7 +3814,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3886,7 +3887,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -3960,7 +3961,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4034,7 +4035,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4108,7 +4109,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4182,7 +4183,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4256,7 +4257,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4330,7 +4331,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4404,7 +4405,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4478,7 +4479,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4551,7 +4552,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4624,7 +4625,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4697,7 +4698,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4770,7 +4771,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4841,14 +4842,14 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4920,14 +4921,14 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -4999,14 +5000,14 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5064,7 +5065,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5136,14 +5137,14 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5215,14 +5216,14 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5292,14 +5293,14 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5369,14 +5370,14 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5446,14 +5447,14 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5524,14 +5525,14 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5602,14 +5603,14 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5681,14 +5682,14 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5760,14 +5761,14 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -5828,7 +5829,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               let elapsedTime = await recordRequest(jsonObj, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(jsonObj);
             let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
@@ -5847,7 +5848,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               let elapsedTime = await recordRequest(result1, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
@@ -5859,7 +5860,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       }
     }
     catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
 
@@ -5932,14 +5933,14 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6010,14 +6011,14 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6089,14 +6090,14 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6168,14 +6169,14 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6233,7 +6234,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6305,14 +6306,14 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6384,14 +6385,14 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6463,14 +6464,14 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6540,14 +6541,14 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6618,14 +6619,14 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6696,14 +6697,14 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6774,14 +6775,14 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6852,14 +6853,14 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -6932,14 +6933,14 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7010,14 +7011,14 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7088,14 +7089,14 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7167,14 +7168,14 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7232,7 +7233,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7304,14 +7305,14 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7383,14 +7384,14 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7462,14 +7463,14 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7541,14 +7542,14 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7606,7 +7607,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7678,14 +7679,14 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7757,14 +7758,14 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7835,14 +7836,14 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7913,14 +7914,14 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -7991,14 +7992,14 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8068,14 +8069,14 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8147,14 +8148,14 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8226,14 +8227,14 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8291,7 +8292,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8363,14 +8364,14 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8442,14 +8443,14 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8520,14 +8521,14 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8598,14 +8599,14 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8676,14 +8677,14 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8753,14 +8754,14 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8832,14 +8833,14 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8911,14 +8912,14 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -8976,7 +8977,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9048,14 +9049,14 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9127,14 +9128,14 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9206,14 +9207,14 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9285,14 +9286,14 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9350,7 +9351,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9422,14 +9423,14 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9501,14 +9502,14 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9579,14 +9580,14 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9657,14 +9658,14 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
             let elapsedTime = await recordRequest(result, correctCc);
           }
           catch (error) {
-            console.error(error);
+            logger.error(error);
           }
           modifyReturnJson(retJson)
           resolve(retJson);
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10091,7 +10092,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       }
       resolve();
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10131,7 +10132,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       let elapsedTime = await recordRequest(body, correctLink);
       let result = await ReadRecords("linkList");
       if (result == undefined) {
-        console.warn("link list in Elasticsearch not found");
+        logger.warn("link list in Elasticsearch not found");
         const myObject = { LinkList: [] };
         myObject.LinkList.push(correctLink);
         let elapsedTime = await recordRequest(myObject, "linkList");
@@ -10145,7 +10146,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       }
       resolve();
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
 
@@ -10198,7 +10199,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
           //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
           console.log("")
         } catch (error) {
-          console.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
+          logger.error(`Error in REST call for ${logicalTerminationPoint}:`, error.message);
           reject(error);
         } */
       } else if (attributeName == 'connection-status' && newValue !== 'connected') {
@@ -10206,10 +10207,11 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         let indexAlias = common[1].indexAlias;
         const { deleteRecordFromElasticsearch } = module.exports;
         let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
-        console.log('* ' + ret.result);
+        logger.info('* ' + ret.result);
       }
       resolve();
     } catch (error) {
+      logger.error(error);
       reject(error);
     }
   });
@@ -10262,7 +10264,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
 
       resolve();
     } catch (error) {
-      //console.error(error);
+      //logger.error(error);
       reject(error);
     }
   });
@@ -10327,7 +10329,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         resolve();
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10391,7 +10393,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
         resolve();
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10457,7 +10459,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
       resolve();
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10586,7 +10588,7 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -10608,16 +10610,16 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMe
     let activeSubscribers = await notificationManagement.getActiveSubscribers(deviceNotificationType);
 
     if (activeSubscribers.length > 0) {
-      console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
+      logger.info("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
 
       for (let subscriber of activeSubscribers) {
         sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
       }
     } else {
-      console.warn("no subscribers for " + deviceNotificationType + ", message discarded");
+      logger.warn("no subscribers for " + deviceNotificationType + ", message discarded");
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -10637,7 +10639,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
   let isDuplicate = checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage);
 
   if (isDuplicate) {
-    console.warn("notification duplicate ignored");
+    logger.warn("notification duplicate ignored");
   } else {
     let sendingTimestampMs = Date.now();
 
@@ -10662,7 +10664,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
     let uniqueSendingID = crypto.randomUUID();
 
     //send notification
-    console.log("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
+    logger.info("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
 
     axios.post(targetOperationURL, notificationMessage, {
       // axios.post("http://localhost:1237", notificationMessage, {
@@ -10676,7 +10678,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
       }
     })
       .then((response) => {
-        console.warn("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
+        logger.info("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
 
         executionAndTraceService.recordServiceRequestFromClient(
           appInformation["application-name"],
@@ -10691,7 +10693,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
           response.data);
       })
       .catch(e => {
-        console.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
+        logger.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
 
         executionAndTraceService.recordServiceRequestFromClient(
           appInformation["application-name"],
@@ -10727,7 +10729,7 @@ function cleanupOutboundNotificationCache() {
     //remove timed out elements
     lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -10757,7 +10759,7 @@ function checkNotificationDuplicate(notificationType, targetOperationURL, notifi
     }
     return false;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -10774,7 +10776,7 @@ async function sentDataToRequestor(body, user, originator, xCorrelator, traceInd
   );
 
   httpRequestHeaderRequestor = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
-  console.log('Send data to Requestor:' + requestorUrl);
+  logger.info('Send data to Requestor:' + requestorUrl);
 
   try {
     let response = await axios(requestorUrl, {
@@ -10847,13 +10849,13 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
       let response = await RequestBuilder.BuildAndTriggerRestRequest(opLtpUuidOutput, "POST", httpRequestHeader, httpRequestBody);
       let responseCodeValue = response.status.toString();
       if (responseCodeValue.startsWith("2")) {
-        console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+        logger.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
       }
-      console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+      logger.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
     }
 
   } catch (error) {
-    console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
+    logger.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
     return false;
   }
 }
@@ -10913,7 +10915,7 @@ exports.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = asy
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -10972,7 +10974,7 @@ async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11135,7 +11137,7 @@ exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async fun
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11153,7 +11155,7 @@ async function getTcpClientConnectionInfoAsync(operationClientUuid) {
     let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
     return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11170,7 +11172,7 @@ function getConfiguredRemoteAddress(remoteAddress) {
     }
     return remoteAddress;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11213,7 +11215,7 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     }
     return final;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11264,7 +11266,7 @@ async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11424,7 +11426,7 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11444,10 +11446,10 @@ async function recordRequest(body, cc) {
   } catch (error) {
     if (error.statusCode === 404) {
       // Pipeline does not exist
-      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
     } else {
       // Other errors
-      console.error("An error occurred while checking the pipeline:", error);
+      logger.error("An error occurred while checking the pipeline:", error);
       throw error; // Re-throw the error if it's not a 404
     }
   }
@@ -11470,19 +11472,19 @@ async function recordRequest(body, cc) {
     let backendTime = process.hrtime(startTime);
 
     if (result == undefined || result.body == undefined) {
-      console.warn("result is undefined, ELK not updated")
+      logger.warn("result is undefined, ELK not updated")
       return {"took": -1};
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
-      console.info("Result is: ", result.body.result)
+      logger.debug("Result is: ", result.body.result)
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     } else {
-      console.warn("result is ", result.body.result);
+      logger.warn("result is ", result.body.result);
       return { "took": -1};
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11506,7 +11508,7 @@ async function deleteRequest(cc) {
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11537,7 +11539,7 @@ async function ReadRecords(cc) {
     const resultArray = createResultArray(result);
     return (resultArray[0])
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11554,7 +11556,7 @@ function modifyUUID(obj, mountName) {
       }
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11576,7 +11578,7 @@ function modifyReturnJson(obj) {
       }
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11601,7 +11603,7 @@ function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
     }
     return modifiedString;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 
 }
@@ -11638,7 +11640,7 @@ function formatUrlForOdl(url, fields) {
     }
     return newUrl;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11701,7 +11703,7 @@ function decodeMountName(url, cc) {
       return response;
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11764,7 +11766,7 @@ function decodeLinkUuid(url, uuid) {
       return response;
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11782,7 +11784,7 @@ async function extractProfileConfiguration(uuid) {
     const data = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
     return data["api-key"];
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11810,7 +11812,7 @@ function arraysHaveSameElements(array1, array2) {
 
     return Object.keys(frequencyMap).length === 0;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11878,7 +11880,7 @@ function replaceFilterString(filter) {
 
     return replacedFilter;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11947,7 +11949,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
               let elapsedTime = await recordRequest(jsonObj, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(jsonObj);
             let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
@@ -11966,7 +11968,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
               let elapsedTime = await recordRequest(result1, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
@@ -11975,13 +11977,13 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           }
 
         } else {
-          console.log(new createHttpError.BadRequest);
+          logger.warn(new createHttpError.BadRequest);
           resolve(new createHttpError.BadRequest);
         }
       }
     }
     catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
 

@@ -1,0 +1,64 @@
+@startuml mwdi+diagram.invalidRequestBody.requiredReqBody.dataprovider
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidRequestBody.requiredReqBody.dataprovider
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/provide-list-of-device-interfaces" as PLODI
+participant "/v1/provide-list-of-actual-device-equipment" as PLOADE
+participant "/v1/provide-list-of-parallel-links" as PLOPL
+participant "/v1/provide-device-status-metadata" as PDSM
+
+
+group Preparation
+  Data --\\o Postman : {servers}
+  activate Postman
+  Postman --\\o Collection : {servers}
+end
+
+group /v1/provide-list-of-device-interfaces
+  Collection --\\o Postman : {servers}
+  Postman -> PLODI : {invalidRequestBody}
+  Postman <-- PLODI : 400
+  note right Postman #Orange
+    responseCode validation (400?)
+  end note
+end
+
+group /v1/provide-list-of-actual-device-equipment
+  Collection --\\o Postman : {servers}
+  Postman -> PLOADE : {invalidRequestBody}
+  Postman <-- PLOADE : 400
+  note right Postman #Orange
+    responseCode validation (400?)
+  end note
+end
+
+
+group /v1/provide-list-of-parallel-links
+  Collection --\\o Postman : {servers}
+  Postman -> PLOPL : {invalidRequestBody}
+  Postman <-- PLOPL : 400
+  note right Postman #Orange
+    responseCode validation (400?)
+  end note
+end
+
+
+group /v1/provide-device-status-metadata
+  Collection --\\o Postman : {servers}
+  Postman -> PDSM : {invalidRequestBody}
+  Postman <-- PDSM : (400
+  note right Postman #Orange
+    responseCode validation (400?)
+  end note
+end
+
+deactivate Postman
+
+@enduml

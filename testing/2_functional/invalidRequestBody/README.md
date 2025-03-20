@@ -8,6 +8,7 @@
 
 ### Criteria
 - ResponseCode 400 with ResponseBody not according to the definitions in the OAS
+- special case: for services without a specified requestBody in the OAS, a provided requestBody can just be ignored instead of returning a 400. I.e. the service then should return a 200 or 204.
 
 ### Comments  
 - Need for Updates:  

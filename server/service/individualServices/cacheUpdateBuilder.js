@@ -47,7 +47,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
             logger.warn(`Field "${key}" not found in cache`);
             break;
           }
-          logger.debug('original JSON updated:');
+          // logger.trace('original JSON updated:');
           // logger.trace(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
@@ -66,7 +66,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
         currentJSON = currentJSON[key];
       }
     } else {
-      logger.trace(`Field not found: ${key}`);
+      // logger.trace(`Field not found: ${key}`);
       break;
     }
     i += 1;
@@ -78,7 +78,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
 
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) { // I think now is unuseful
-    logger.trace(originalJSON[lastKey])
+    // logger.trace(originalJSON[lastKey])
     assignValueToJson(originalJSON, lastKey, toInsert, myFields);
   }
 };
@@ -97,10 +97,10 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
   let nomeArray = "";
   for (let i = 0; i < pathKeys.length; i++) {
     if (i == 0) {
-      const pathKey = pathKeys[i];
-      const squareBracketOpenIdx = pathKey.indexOf('[');
-      const squareBracketCloseIdx = pathKey.indexOf(']');
-      const nomeArray = pathKey.substring(1, squareBracketCloseIdx);
+      const chiave = pathKeys[i];
+      const squareBracketOpenIdx = chiave.indexOf('[');
+      const squareBracketCloseIdx = chiave.indexOf(']');
+      const nomeArray = chiave.substring(1, squareBracketCloseIdx);
       if (nomeArray.indexOf("control-construct") != -1) {
         oggetto = oggetto[nomeArray];
       } else {
@@ -129,14 +129,14 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
         }
       }
     } else {
-      const pathKey = pathKeys[i];
-      const squareBracketOpenIdx = pathKey.indexOf('[');
-      const squareBracketCloseIdx = pathKey.indexOf(']');
+      const chiave = pathKeys[i];
+      const squareBracketOpenIdx = chiave.indexOf('[');
+      const squareBracketCloseIdx = chiave.indexOf(']');
 
       // This happen when 
       if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
-        nomeArray = pathKey.substring(0, squareBracketOpenIdx);
-        const indice = parseInt(pathKey.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
+        nomeArray = chiave.substring(0, squareBracketOpenIdx);
+        const indice = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
 
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
@@ -170,13 +170,13 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
               let newJSON = nuovoJSON[objectKey][0];
-              oggetto[pathKey] = newJSON;
+              oggetto[nomeArray] = newJSON;
             }
           }
         } else {
           // Otherwise go on parsing the object
-          oggetto = oggetto[pathKey];
-          nomeArray = pathKey;
+          oggetto = oggetto[chiave];
+          nomeArray = chiave;
         }
       }
     }

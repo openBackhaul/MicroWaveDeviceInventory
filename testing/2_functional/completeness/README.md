@@ -18,18 +18,18 @@
   - Live domain gets addressed next to assure the MWDI to cache the information requested afterwards
 
 
-## MWDI v1.2.1  
+## MWDI v1.2.2  
 - TestCaseCollection for testing Completeness is split, because of very high number of paths  
-  - [Receivers of Notifications](./v1.2.1/Receiver/)  
-  - [Providers of Data](./v1.2.1/Dataprovider/)  
-  - [Offered Subscriptions](./v1.2.1/Subscriptions/)  
-  - [ControlConstruct](./v1.2.1/CC/)  
-  - [Alarms](./v1.2.1/Alarms/)  
-  - [Equipment](./v1.2.1/Equipment/)  
-  - [Firmware](./v1.2.1/Firmware/)  
-  - [Profiles](./v1.2.1/Profiles/)  
-  - [Connections](./v1.2.1/Connections/)  
-  - [Interfaces](./v1.2.1/Interfaces/)  
+  - [Receivers of Notifications](./v1.2.2/Receiver/)  
+  - [Providers of Data](./v1.2.2/Dataprovider/)  
+  - [Offered Subscriptions](./v1.2.2/Subscriptions/)  
+  - [ControlConstruct](./v1.2.2/CC/)  
+  - [Alarms](./v1.2.2/Alarms/)  
+  - [Equipment](./v1.2.2/Equipment/)  
+  - [Firmware](./v1.2.2/Firmware/)  
+  - [Profiles](./v1.2.2/Profiles/)  
+  - [Connections](./v1.2.2/Connections/)  
+  - [Interfaces](./v1.2.2/Interfaces/)  
 
 ![Overview](./mwdi+diagram.completeness.png)  
 

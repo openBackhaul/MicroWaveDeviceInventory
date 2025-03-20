@@ -1,0 +1,26 @@
+@startuml mwdi+diagram.completeness.alarms
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+diagram.completeness.alarms
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+group Preparation
+  Data --\\o Postman : {servers, mount-name}
+  activate Postman
+  Postman --\\o Collection : {servers, mount-name}
+end
+
+group Alarms
+  note right Postman
+    might be transferred into another application
+  end note
+end
+
+deactivate Postman
+
+@enduml

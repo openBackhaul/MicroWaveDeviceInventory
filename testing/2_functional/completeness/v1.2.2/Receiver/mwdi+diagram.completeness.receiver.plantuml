@@ -16,9 +16,9 @@ participant "/v1/regard-device-object-deletion" as RDOD
 participant "/v1/regard-device-object-creation" as RDOC
 
 group Preparation
-  Data --\\o Postman : {servers}
+  Data --\\o Postman : {servers, collection-input-list=(mount-name; deviceAlarm: mount-name, alarm-type-id; deviceAttributeValueChange: target, attribute-name, new-value; objectCreation: target)}
   activate Postman
-  Postman --\\o Collection : {servers}
+  Postman --\\o Collection : {servers, collection-input-list}
 end
 
 group /v1/regard-controller-attribute-value-change
@@ -31,7 +31,7 @@ group /v1/regard-controller-attribute-value-change
 end
 
 group /v1/regard-device-alarm
-  Collection --\\o Postman : {servers}
+  Collection --\\o Postman : {servers, mount-name; alarm-type-id}
   Postman -> RDA : {alarm-event-sequence-number, timestamp, resource, alarm-type-id, alarm-type-qualifier, problem-severity}
   Postman <-- RDA : 204
   note right Postman #Orange
@@ -40,7 +40,7 @@ group /v1/regard-device-alarm
 end
 
 group /v1/regard-device-attribute-value-change
-  Collection --\\o Postman : {servers}
+  Collection --\\o Postman : {servers, target (=object-path), attribute-name, new-value}
   Postman -> RDAVC : {counter, timestamp, object-path, attribute-name, new-value}
   Postman <-- RDAVC : 204
   note right Postman #Orange
@@ -55,7 +55,7 @@ note over Postman, RDOC
 end note
 
 group /v1/regard-device-object-deletion
-  Collection --\\o Postman : {servers}
+  Collection --\\o Postman : {servers, (object-creation) target}
   Postman -> RDOD : {counter, timestamp, object-path}
   Postman <-- RDOD : 204
   note right Postman #Orange
@@ -64,7 +64,7 @@ group /v1/regard-device-object-deletion
 end
 
 group /v1/regard-device-object-creation
-  Collection --\\o Postman : {servers}
+  Collection --\\o Postman : {servers, target}
   Postman -> RDOC : {counter, timestamp, object-path}
   Postman <-- RDOC : 204
   note right Postman #Orange

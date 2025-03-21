@@ -21,9 +21,9 @@ participant "/v1/provide-device-status-metadata" as PDSM
 
 
 group Preparation
-  Data --\\o Postman : {servers}
+  Data --\\o Postman : {servers, mount-name, linkd-id}
   activate Postman
-  Postman --\\o Collection : {servers}
+  Postman --\\o Collection : {servers, mount-name, link-id}
 end
 
 group /v1/provide-list-of-connected-devices
@@ -37,7 +37,7 @@ group /v1/provide-list-of-connected-devices
 end
 
 group /v1/provide-list-of-device-interfaces
-  Collection --\\o Postman : {servers, mount-name-list}
+  Collection --\\o Postman : {servers, mount-name}
   Postman -> PLODI : {mount-name}
   Postman <-- PLODI : {[uuid, local-id, layer-protocol-name]}
   note right Postman #Orange
@@ -46,7 +46,7 @@ group /v1/provide-list-of-device-interfaces
 end
 
 group /v1/provide-list-of-actual-device-equipment
-  Collection --\\o Postman : {servers, mount-name-list}
+  Collection --\\o Postman : {servers, mount-name}
   Postman -> PLOADE : {mount-name}
   Postman <-- PLOADE : {top-level-equipment, [uuid, equipment-type-name]}
   note right Postman #Orange
@@ -70,23 +70,14 @@ group /v1/provide-data-of-all-links
   note right Postman #Orange
     schema validation
   end note
-  Postman --\\o Collection : {link-list=\n [uuid, layer-protocol-name, link-direction ...]}
 end
 
 group /v1/provide-list-of-parallel-links
-  Collection --\\o Postman : {servers, link-list=\n [uuid, layer-protocol-name, link-direction ...]}
-  note right Postman
-    search for parallel links => uuidParallelLink_1..n
-  end note
-  Postman --\\o Collection : uuidParallelLink_1..n
-  Postman -> PLOPL : {uuidParallelLink_1}
+  Collection --\\o Postman : {servers, link-id}
+  Postman -> PLOPL : {link-id}
   Postman <-- PLOPL : {parallel-link-list}
   note right Postman #Orange
     schema validation
-  end note
-  Collection --\\o Postman : uuidParallelLink_1..n
-  note right Postman
-    response == uuidParallelLink_1..n ?
   end note
 end
 
@@ -109,8 +100,8 @@ group /v1/provide-data-of-all-link-ports
 end
 
 group /v1/provide-device-status-metadata
-  Collection --\\o Postman : {servers, mount-name-list}
-  Postman -> PDSM : {mount-name-list}
+  Collection --\\o Postman : {servers, mount-name}
+  Postman -> PDSM : {mount-name}
   Postman <-- PDSM : {[mount-name, connection-status, changed-to-disconnected-time, added-to-device-list-time,\n last-complete-control-construct-update-time, last-control-construct-notification-update-time,\n number-of-partial-updates-since-last-complete-update, schema-cache-directory]}
   note right Postman #Orange
     schema validation

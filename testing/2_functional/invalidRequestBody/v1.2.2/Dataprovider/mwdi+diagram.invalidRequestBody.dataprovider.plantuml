@@ -38,7 +38,7 @@ end
     Postman -> PLODI : {invalidRequestBody}
     Postman <-- PLODI : 400
     note right Postman #Orange
-      responseCode validation (400?)
+      check for 400
     end note
   end
 
@@ -47,7 +47,7 @@ end
     Postman -> PLOADE : {invalidRequestBody}
     Postman <-- PLOADE : 400
     note right Postman #Orange
-      responseCode validation (400?)
+      check for 400
     end note
   end
 
@@ -56,7 +56,7 @@ end
     Postman -> PLOPL : {invalidRequestBody}
     Postman <-- PLOPL : 400
     note right Postman #Orange
-      responseCode validation (400?)
+      check for 400
     end note
   end
 
@@ -65,7 +65,7 @@ end
     Postman -> PDSM : {invalidRequestBody}
     Postman <-- PDSM : (400
     note right Postman #Orange
-      responseCode validation (400?)
+      check for 400
     end note
   end
 
@@ -76,7 +76,7 @@ end
     Postman -> PLOL : {invalidRequestBody}
     Postman <-- PLOL : 400
     note right Postman #Orange
-      responseCode validation (400?)
+      check for 400
     end note
   end
 
@@ -85,7 +85,7 @@ end
     Postman -> PDOAL : {invalidRequestBody}
     Postman <-- PDOAL : 400
     note right Postman #Orange
-      responseCode validation (400?)
+      check for 400
     end note
   end
 
@@ -97,7 +97,7 @@ end
     Postman -> PLOCD : {dummyRequestBody}
     Postman <-- PLOCD : 200
     note right Postman #Orange
-      responseCode validation (200?)
+      check for 200
     end note
   end
 
@@ -106,7 +106,7 @@ end
     Postman -> PLOLP : {dummyRequestBody}
     Postman <-- PLOLP : 200
     note right Postman #Orange
-      responseCode validation (200?)
+      check for 200
     end note
   end
 
@@ -115,7 +115,7 @@ end
     Postman -> PDOALP : {dummyRequestBody}
     Postman <-- PDOALP : 200
     note right Postman #Orange
-      responseCode validation (200?)
+      check for 200
     end note
   end
 

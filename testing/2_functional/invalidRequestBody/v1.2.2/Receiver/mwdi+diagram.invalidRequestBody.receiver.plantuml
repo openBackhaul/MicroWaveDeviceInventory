@@ -1,0 +1,71 @@
+@startuml mwdi+diagram.invalidRequestBody.receiver
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidRequestBody.receiver
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/regard-controller-attribute-value-change" as RCAVC
+participant "/v1/regard-device-alarm" as RDA
+participant "/v1/regard-device-attribute-value-change" as RDAVC
+participant "/v1/regard-device-object-deletion" as RDOD
+participant "/v1/regard-device-object-creation" as RDOC
+
+group Preparation
+  Data --\\o Postman : {servers}
+  activate Postman
+  Postman --\\o Collection : {servers}
+end
+
+group /v1/regard-controller-attribute-value-change
+  Collection --\\o Postman : {servers}
+  Postman -> RCAVC : {invalidRequestBody}
+  Postman <-- RCAVC : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+group /v1/regard-device-alarm
+  Collection --\\o Postman : {servers}
+  Postman -> RDA : {invalidRequestBody}
+  Postman <-- RDA : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+group /v1/regard-device-attribute-value-change
+  Collection --\\o Postman : {servers}
+  Postman -> RDAVC : {invalidRequestBody}
+  Postman <-- RDAVC : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+group /v1/regard-device-object-deletion
+  Collection --\\o Postman : {servers}
+  Postman -> RDOD : {invalidRequestBody}
+  Postman <-- RDOD : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+group /v1/regard-device-object-creation
+  Collection --\\o Postman : {servers}
+  Postman -> RDOC : {invalidRequestBody}
+  Postman <-- RDOC : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+deactivate Postman
+
+@enduml

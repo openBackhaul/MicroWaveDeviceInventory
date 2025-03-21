@@ -1,8 +1,8 @@
-@startuml mwdi+diagram.invalidRequestBody.noReqBody.dataprovider
+@startuml mwdi+diagram.invalidRequestBody.dataprovider
 skinparam responseMessageBelowArrow true
 
 title
-mwdi+testcase.invalidRequestBody.noReqBody.dataprovider
+mwdi+testcase.invalidRequestBody.dataprovider
 end title
 
 participant "Postman" as Postman

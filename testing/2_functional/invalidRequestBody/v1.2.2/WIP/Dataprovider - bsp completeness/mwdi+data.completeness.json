@@ -1,0 +1,52 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://IP_ADRESS:PORT",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "YOUR_BASIC_AUTH_CODE",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "mwdi in mwdi+simulator.completeness.dataProvider",
+				"server": "http://localhost:3002",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "completeness.dataProvider",
+				"serverToBeApplied": "mwdi",
+				"mountName": "513250004",
+				"linkId": "101550001",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "completeness.dataProvider_simulator",
+				"serverToBeApplied": "mwdi in mwdi+simulator.completeness.dataProvider",
+				"mountName": "305250001",
+				"linkId": "101550001",
+				"kindOfReference": "static",
+				"suffixUrlEncodingIsRequired": true
+			}
+		]
+	}
+]

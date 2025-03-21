@@ -1,8 +1,8 @@
-@startuml mwdi+diagram.invalidRequestBody
+@startuml mwdi+diagram.invalidOrMissingRequestBody
 skinparam responseMessageBelowArrow true
 
 title
-mwdi+testcase.invalidRequestBody
+mwdi+testcase.invalidOrMissingRequestBody
 end title
 
 participant "Postman" as Postman
@@ -11,19 +11,19 @@ participant "Collection" as Collection
 
 group Receivers for Notifications
   note right Postman
-    see mwdi+diagram.invalidRequestBody.receiver
+    see mwdi+diagram.invalidOrMissingRequestBody.receiver
   end note
 end
 
 group Providers of Data
   note right Postman
-    see mwdi+diagram.invalidRequestBody.dataprovider
+    see mwdi+diagram.invalidOrMissingRequestBody.dataprovider
   end note
 end
 
 group Offered Subscriptions
   note right Postman
-    see mwdi+diagram.invalidRequestBody.subscriptions
+    see mwdi+diagram.invalidOrMissingRequestBody.subscriptions
   end note
 end
 

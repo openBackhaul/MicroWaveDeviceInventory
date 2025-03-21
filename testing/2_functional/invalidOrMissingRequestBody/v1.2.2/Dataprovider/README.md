@@ -1,6 +1,6 @@
-# Functional Testing of Invalid RequestBody Handling of the Providers of Data  
+# Functional Testing of Invalid or Missing RequestBody Handling of the Providers of Data  
 
-![Overview](./mwdi+diagram.invalidRequestBody.dataprovider.png)  
+![Overview](./mwdi+diagram.invalidOrMissingRequestBody.dataprovider.png)  
 
 A requestBody is not mandatory for all services.
 - optional requestBody: if provided, it must be according to the OAS. The tests will be executed with a requestBody that does not conform to the OAS, i.e. the expected response is 400.

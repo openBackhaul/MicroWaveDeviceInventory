@@ -1,0 +1,81 @@
+@startuml mwdi+diagram.invalidOrMissingRequestBody.subscriptions
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidOrMissingRequestBody.subscriptions
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/notify-attribute-value-changes" as NAVC
+participant "/v1/notify-object-creations" as NOC
+participant "/v1/notify-object-deletions" as NOD
+
+
+group Preparation
+  Data --\\o Postman : {servers}
+  activate Postman
+  Postman --\\o Collection : {servers}
+end
+
+== requestBody provided, but not according to OAS ==
+  group /v1/notify-attribute-value-changes
+    Collection --\\o Postman : {servers}
+    Postman -> NAVC : {invalidRequestBody}
+    Postman <-- NAVC : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+  group /v1/notify-object-creations
+    Collection --\\o Postman : {servers}
+    Postman -> NOC : {invalidRequestBody}
+    Postman <-- NOC : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+  group /v1/notify-object-deletions
+    Collection --\\o Postman : {servers}
+    Postman -> NOD : {invalidRequestBody}
+    Postman <-- NOD : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+== requestBody missing ==
+  group /v1/notify-attribute-value-changes
+    Collection --\\o Postman : {servers}
+    Postman -> NAVC : <i>requestBody missing</i>
+    Postman <-- NAVC : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+  group /v1/notify-object-creations
+    Collection --\\o Postman : {servers}
+    Postman -> NOC : <i>requestBody missing</i>
+    Postman <-- NOC : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+  group /v1/notify-object-deletions
+    Collection --\\o Postman : {servers}
+    Postman -> NOD : <i>requestBody missing</i>
+    Postman <-- NOD : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+deactivate Postman
+
+@enduml

@@ -7,10 +7,16 @@
 - All individual services
 
 ### Criteria
-- ResponseCode 400 with ResponseBody not according to the definitions in the OAS or missing completely
-  - note that where the schemas do not contain an *additionalProperties=false* statement, additional attributes in the requestBody are simply ignored (i.e. the requestBody does not become invalid by adding additional attributes)
-  - also note that in MWDI_1.1.x, a required, but missing requestBody lead to a 415 - starting with MWDI_1.2.x, a 400 shall also be returned for that case
-- special case: for services without a specified requestBody in the OAS, a provided requestBody can just be ignored instead of returning a 400. I.e. the service then should return a 200 or 204.
+- ResponseCode 400:
+  - required requestBody is provided, but does follow the definitions in the OAS
+    - i.e. required attributes are missing
+    - and/or the schema structure is not met
+    - note that additional attributes not listed in the OAS are simply ignored and do make the requestBody invalid unless the OAS explicitly forbidds them (*additionalProperties=false* statement) 
+  - required requestBody is missing
+    - not that with MWDI_1.1.x this lead to a 415
+    - starting with MWDI_1.2.x this shall also return a 400
+- ResponseCode 200/204:
+  - no requestBody is specified in the OAS, but a is provided when a request is called: the provided requestBody is simply ignored
 
 ### Comments  
 - Need for Updates:  

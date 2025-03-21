@@ -5,12 +5,12 @@ const path = require("path");
 const transports = pino.transport({
   targets: [
     {
-      level: 'debug',
+      level: 'info',
       target: 'pino-pretty',
       options: { colorize: true }
     },
     {
-      level: 'trace',
+      level: 'info',
       target: 'pino-roll',
       options: { file: path.join(__dirname, '../logs/MicroWaveDeviceInventory'), extension: '.log', mkdir: true,
         frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit.count": 15 }

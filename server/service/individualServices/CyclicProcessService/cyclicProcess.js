@@ -697,7 +697,9 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
   for (let i = 0; i < dropEsElements.length; i++) {
     let cc_id = dropEsElements[i][NODE_ID];
     try {
-      let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id); //TODO @latta-siae to be check the index
+      // Used a parameter instead a fixed value
+      let indexAlias = common[1].indexAlias;  // Retrieve indexalias for ES
+      let ret = await individualServicesService.deleteRecordFromElasticsearch(indexAlias, '_doc', cc_id);
       printLog('* ' + ret.result, print_log_level >= 2);
     } catch (error) {
       console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
@@ -856,7 +858,9 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   for (let i = 0; i < dropEsElements.length; i++) {
     let cc_id = dropEsElements[i][NODE_ID];
     try {
-      let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id); //TODO @latta-siae index must be a parameter
+      // Used a parameter instead a fixed value
+      let indexAlias = common[1].indexAlias; // Retrieve indexalias for ES
+      let ret = await individualServicesService.deleteRecordFromElasticsearch(indexAlias, '_doc', cc_id); 
       printLog(ret.result, print_log_level >= 2);
     } catch (error) {
       console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);

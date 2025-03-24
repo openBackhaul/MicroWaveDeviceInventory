@@ -22,7 +22,7 @@ exports.post = async function (options) {
             resolve(response);
             // logger.trace(JSON.stringify(response.data));
         } catch (error) {
-            logger.error("Post error", error);
+            logger.error(error, "Post error");
             reject(error);
         }
     });

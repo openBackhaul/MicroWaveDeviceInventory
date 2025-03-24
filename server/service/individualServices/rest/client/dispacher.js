@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @file This module provides funtionality to trigger and dispatch rest request from this application to other applications  
+ * @file This module provides funtionality to trigger and dispatch rest request from this application to other applications
  * This class consolidates the technology specific extensions.
  **/
 
@@ -26,7 +26,7 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
             let response = await RestRequestBuilder.BuildAndTriggerRestRequest(
                 //decodeURIComponent(url),
                 url,
-                httpRequestHeader, 
+                httpRequestHeader,
                 httpRequestBody
                 );
             let responseCode = response.status;

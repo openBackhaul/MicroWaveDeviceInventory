@@ -133,7 +133,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
 
-      // This happen when 
+      // This happen when
       if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
         nomeArray = chiave.substring(0, squareBracketOpenIdx);
         const indice = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);

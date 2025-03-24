@@ -21,10 +21,7 @@ const OLD_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathi
 
 
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  
-  
 
-  
   let newReleaseUuids = await resolveHttpTcpAndOperationClientUuidOfNewRelease()
   /****************************************************************************************
    * Prepare logicalTerminatinPointConfigurationInput object to 
@@ -35,13 +32,13 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   let newPort = await tcpClientInterface.getRemotePortAsync(tcpclientUuid);
   let retNewIpAddress = await tcpClientInterface.getRemoteAddressAsync(tcpclientUuid);
   let newIpAddress = retNewIpAddress['ip-address']['ipv-4-address'];
-  
+
   let oldIpAddress = body['old-release-address']['ip-address']['ipv-4-address'];
   let oldPort = body['old-release-port'];
 
   let registryOfficeIpAddress = body['registry-office-address']['ip-address']['ipv-4-address'];
   let registryOfficePort = body['registry-office-port'];
-  
+
   console.log("---------------------------------------------------------------------------------------------------------------------");
   console.log("EMBED-YOURSELF:   [IP   nr: " + newIpAddress + "   or: " + oldIpAddress + "   ro: " + registryOfficeIpAddress + 
               "] - [Port   nr: " + newPort + "   or: " + oldPort + "   ro: " + registryOfficePort + "]");
@@ -81,19 +78,18 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
       try {
           let response = await axios.post(requestorUrl, requestorBody, {
               headers: httpRequestHeaderRequestor
-          });          
+          });
       } catch (error) {
-          console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> .... ERROR  (" + error + ")");          
+          console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> .... ERROR  (" + error + ")");
       }
-  } 
-  */  
+  }
+  */
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   startModule.start();
   await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
-     
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -335,14 +331,14 @@ module.exports.registerYourself = async function registerYourself(req, res, next
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  
+
   if (Object.keys(req.body).length === 0) {
     body = req.body;
     user = req.headers["user"];
     originator = req.headers["originator"];
     xCorrelator = req.headers["x-correlator"];
     traceIndicator = req.headers["trace-indicator"];
-    customerJourney = req.headers["customer-journey"]; 
+    customerJourney = req.headers["customer-journey"];
   }
   await BasicServices.registerYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {

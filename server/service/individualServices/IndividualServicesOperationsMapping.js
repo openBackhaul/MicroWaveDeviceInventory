@@ -8,7 +8,7 @@ module.exports.individualServicesOperationsMapping =
         },
 
         //mwdi actions
-       
+
         "/v1/notify-device-alarms": {
             "/v1/notify-device-alarms": {
                 "api-segment": "is",

@@ -549,7 +549,7 @@ module.exports.getCachedFirmwareComponentStatus = function getCachedFirmwareComp
 module.exports.getCachedForwardingConstruct = function getCachedForwardingConstruct (req, res, next, fields, mountName, uuid, uuid1, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
-  let responseBodyToDocument = {};  
+  let responseBodyToDocument = {};
   IndividualServices.getCachedForwardingConstruct(req.url,user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, fields)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
@@ -569,7 +569,7 @@ module.exports.getCachedForwardingConstruct = function getCachedForwardingConstr
 module.exports.getCachedForwardingConstructPort = function getCachedForwardingConstructPort (req, res, next, fields, mountName, uuid, uuid1, localId, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
-  let responseBodyToDocument = {};  
+  let responseBodyToDocument = {};
   IndividualServices.getCachedForwardingConstructPort(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, uuid1, localId, fields)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
@@ -589,7 +589,7 @@ module.exports.getCachedForwardingConstructPort = function getCachedForwardingCo
 module.exports.getCachedForwardingDomain = function getCachedForwardingDomain (req, res, next, fields, mountName, uuid, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
-  let responseBodyToDocument = {}; 
+  let responseBodyToDocument = {};
   IndividualServices.getCachedForwardingDomain(req.url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;

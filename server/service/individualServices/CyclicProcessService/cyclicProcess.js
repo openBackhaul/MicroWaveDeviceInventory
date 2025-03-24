@@ -499,7 +499,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
     }
   } else {            // Not connected
     let found = false;
-    
+
     // const res = a.find((item) => item.id === 2);
     // const res = deviceList.find(())
 
@@ -538,7 +538,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
 }
 
 /**
- * Realigns the current device list with the new one 
+ * Realigns the current device list with the new one
  * 
  * newDeviceList is the new device list that update the old one. It's mandatory.
  */
@@ -635,7 +635,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
   //
   // Shuffle new odl elements (commented issue 757)
   //
-  //newOdlElements = shuffleArray(newOdlElements); 
+  //newOdlElements = shuffleArray(newOdlElements);
 
   //
   // If slidingWindow is empty
@@ -747,7 +747,6 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   procedureIsRunning = true;
 
   async function extractProfileConfiguration(uuid) {
-    
     let profile = await profileCollection.getProfileAsync(uuid);
     let objectKey = Object.keys(profile)[2];
     profile = profile[objectKey];

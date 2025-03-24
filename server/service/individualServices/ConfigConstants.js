@@ -41,7 +41,7 @@ function getForwardingName(requestUrl) {
         case OAM_PATH_ATTRIBUTE_OBJECT_CREATIONS:
             return OPERATION_SUB_NOTIF_OBJ_CREATION;
         case OAM_PATH_ATTRIBUTE_OBJECT_DELETIONS:
-            return OPERATION_SUB_NOTIF_OBJ_DELETION;    
+            return OPERATION_SUB_NOTIF_OBJ_DELETION;
         case OAM_PATH_DEVICE_ALARMS:
             return OPERATION_SUB_NOTIF_DEVICE_ALARMS;
         case OAM_PATH_DEVICE_ATTR_VALUE_CHANGES:

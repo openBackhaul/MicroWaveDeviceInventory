@@ -75,7 +75,7 @@ async function createIndexTemplate() {
                                 "limit": "9000"
                             }
                         },
-                        "mapping.ignore_malformed": true 
+                        "mapping.ignore_malformed": true
                     }
                 },
                 mappings: {

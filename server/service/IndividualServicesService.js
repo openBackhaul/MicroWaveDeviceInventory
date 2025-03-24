@@ -10357,7 +10357,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let jsonObj = "";
       // find the index of the last "/"
       //      const lastIndex = resource.lastIndexOf("/");
-      // Truncate path at last "/"  
+      // Truncate path at last "/"
       //      const truncatedPath = resource.substring(0, lastIndex);
       url = decodeURIComponent(url);
 
@@ -11449,7 +11449,7 @@ async function recordRequest(body, cc) {
       logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
     } else {
       // Other errors
-      logger.error("An error occurred while checking the pipeline:", error);
+      logger.error(error, "An error occurred while checking the pipeline:");
       throw error; // Re-throw the error if it's not a 404
     }
   }
@@ -11480,7 +11480,7 @@ async function recordRequest(body, cc) {
       logger.debug("Result is: " + result.body.result);
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     } else {
-      logger.warn("result is ", result.body.result);
+      logger.warn("result is " + result.body.result);
       return { "took": -1};
     }
   } catch (error) {
@@ -11586,7 +11586,7 @@ function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
   try {
     const urlParts = url.split("?fields=");
     const myFields = urlParts[1];
-    // Split the url using = as delimitator 
+    // Split the url using = as delimitator
     const parts = urlParts[0].split('=');
 
     // Modify the values
@@ -11817,7 +11817,7 @@ function arraysHaveSameElements(array1, array2) {
 }
 
 function isFilterValid(filter) {
-  // Decode filter 
+  // Decode filter
   let decodedFilter;
   try {
     decodedFilter = decodeURIComponent(filter);

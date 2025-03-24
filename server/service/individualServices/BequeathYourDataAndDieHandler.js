@@ -105,12 +105,12 @@ exports.handleRequest = async function (body, requestUrl) {
     let appRelease = body["new-application-release"];
     let appAddress = body["new-application-address"];
     let appPort = body["new-application-port"];
-    
+
     let success = await addSubscribersToNewRelease(appAddress, appPort);
     if (success) {
         success = await endSubscriptionToNotificationProxy();
         //cyclicProcess.stopCyclicProcess();
-        
+
         stopCyclicProcess();
     }
 

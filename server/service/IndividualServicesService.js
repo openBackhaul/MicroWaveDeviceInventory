@@ -10527,7 +10527,11 @@ exports.deleteRecordFromElasticsearch = function (index, type, id) {
       }
       let ret
       if (exists.body) {
-        await client.delete({ index: index, type: type, id: id });
+        await client.delete({
+          index: index,
+          type: type,
+          id: id 
+        });
         ret = { _id: id, result: 'Element ' + id + ' deleted.' };
       } else {
         ret = { _id: id, result: 'Element ' + id + ' not deleted. (Not found in elasticsearch).' };

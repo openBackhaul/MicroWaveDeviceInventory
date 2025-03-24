@@ -18,6 +18,7 @@ const startModule = require('../../../temporarySupportFiles/StartModule.js');
 let simulationProgress = false;
 // SIMULATION
 
+// Constants
 const NODE_ID = 'node-id';
 
 const DEVICE_NOT_PRESENT = -1;
@@ -105,7 +106,7 @@ function prepareObjectForWindow(deviceListIndex) {
   try {
     let windowObject = {
       "index": deviceListIndex,
-      "node-id": deviceList[deviceListIndex]['node-id'],
+      "node-id": deviceList[deviceListIndex][NODE_ID],
       "ttl": responseTimeout,
       "retries": maximumNumberOfRetries
     };
@@ -172,7 +173,7 @@ function addNextDeviceListElementInWindow() {
         return false
       }
       if (checkDeviceExistsInSlidingWindow(deviceList[newDeviceListIndex]['node-id']) != DEVICE_NOT_PRESENT) {
-        printLog('+++++ Element ' + deviceList[newDeviceListIndex]['node-id'] + ' (indice: ' + newDeviceListIndex + ') already exists in Sliding Window +++++', print_log_level >= 3)
+        printLog('+++++ Element ' + deviceList[newDeviceListIndex][NODE_ID] + ' (index: ' + newDeviceListIndex + ') already exists in Sliding Window +++++', print_log_level >= 3)
       } else {
         slidingWindow.push(prepareObjectForWindow(newDeviceListIndex));
         elementAdded = true;
@@ -190,7 +191,7 @@ function addNextDeviceListElementInWindow() {
 function printList(listName, list) {
   let listGraph = listName + ': [';
   for (let i = 0; i < list.length; i++) {
-    listGraph += (i < list.length - 1) ? (list[i]['node-id'] + '|') : list[i]['node-id'];
+    listGraph += (i < list.length - 1) ? (list[i][NODE_ID] + '|') : list[i][NODE_ID];
   }
   listGraph += "] (" + list.length + ")";
   return listGraph;
@@ -241,16 +242,16 @@ async function startTtlChecking() {
         if (slidingWindow[index].ttl == 0) {
           let consoleMsg = '';
           if (slidingWindow[index].retries == 0) {
-            consoleMsg = "Element " + slidingWindow[index]['node-id'] + " Timeout/Retries. Dropped from S-W.";
+            consoleMsg = "Element " + slidingWindow[index][NODE_ID] + " Timeout/Retries. Dropped from S-W.";
             slidingWindow.splice(index, 1);
             if (addNextDeviceListElementInWindow()) {
-              consoleMsg += (' Added element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and sent request...');
+              consoleMsg += (' Added element ' + slidingWindow[slidingWindow.length - 1][NODE_ID] + ' in S-W and sent request...');
               requestMessage(slidingWindow.length - 1);
             }
           } else {
             slidingWindow[index].ttl = responseTimeout;
             slidingWindow[index].retries -= 1;
-            consoleMsg = "Element " + slidingWindow[index]['node-id'] + " Timeout. -> Resend the request...";
+            consoleMsg = "Element " + slidingWindow[index][NODE_ID] + " Timeout. -> Resend the request...";
             requestMessage(index);
           }
           console.log(consoleMsg);
@@ -284,31 +285,31 @@ async function requestMessage(index) {
       let diffTime = endTime.getTime() - startTime.getTime();
       let consoleMsg = '';
       if (retObj.ret.code !== undefined) {
-        let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
+        let elementIndex = checkDeviceExistsInSlidingWindow(retObj[NODE_ID]);
         if (elementIndex == DEVICE_NOT_PRESENT) {
-          consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
+          consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj[NODE_ID] + ' not more present in S-W. Ignore that.';
         } else {
           if (retObj.ret.code == 503) {
-            consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Element ' + retObj['node-id'] + ' not available. Dropped from S-W.';
+            consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Element ' + retObj[NODE_ID] + ' not available. Dropped from S-W.';
           } else {
-            consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element ' + retObj['node-id'] + '. Dropped from S-W.';
+            consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Error (' + retObj.ret.code + ' - ' + retObj.ret.message + ') from element ' + retObj[NODE_ID] + '. Dropped from S-W.';
           }
           slidingWindow.splice(elementIndex, 1);
           if (addNextDeviceListElementInWindow()) {
-            consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+            consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1][NODE_ID] + ' in S-W and send request...');
             requestMessage(slidingWindow.length - 1);
           }
         }
       } else {
-        let elementIndex = checkDeviceExistsInSlidingWindow(retObj['node-id']);
+        let elementIndex = checkDeviceExistsInSlidingWindow(retObj[NODE_ID]);
         if (elementIndex == DEVICE_NOT_PRESENT) {
-          consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj['node-id'] + ' not more present in S-W. Ignore that.';
+          consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj[NODE_ID] + ' not more present in S-W. Ignore that.';
         } else {
-          consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj['node-id'] + '. Dropped from S-W.';
+          consoleMsg = '[Resp. Time: ' + diffTime + 'ms] Response from element ' + retObj[NODE_ID] + '. Dropped from S-W.';
           slidingWindow.splice(elementIndex, 1);
-          setDeviceListElementTimeStamp(retObj['node-id']);
+          setDeviceListElementTimeStamp(retObj[NODE_ID]);
           if (addNextDeviceListElementInWindow()) {
-            consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+            consoleMsg += (' Add element ' + slidingWindow[slidingWindow.length - 1][NODE_ID] + ' in S-W and send request...');
             requestMessage(slidingWindow.length - 1);
           }
         }
@@ -390,10 +391,10 @@ function writeRealigmentLogFile(curDeviceList, currSlidingWindow, newDeviceList,
   }
 
   function printArray(arr) {
-    var elemsForLine = 0;
+    let elemsForLine = 0;
     content += '\n[';
     for (var i = 0; i < arr.length; i++) {
-      content += (arr[i]['node-id'] + '|');
+      content += (arr[i][NODE_ID] + '|');
       elemsForLine += 1;
       if (elemsForLine == 6) {
         content += '\n ';
@@ -456,7 +457,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
     let dlString = prefix + ': ['
     let i = 0;
     for (; i < deviceList.length; i++) {
-      dlString += (deviceList[i]['node-id'] + '|')
+      dlString += (deviceList[i][NODE_ID] + '|')
     }
     if (i > 0) {
       dlString = dlString.slice(0, -1);
@@ -480,7 +481,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
   }
   if (status == 1) {  // Connected
     for (var i = 0; i < deviceList.length; i++) {
-      if (deviceList[i]['node-id'] == node_id) {
+      if (deviceList[i][NODE_ID] == node_id) {
         console.log("Notification: element " + node_id + " already present in device list. Ignore that.")
         return; // Element already present
       }
@@ -495,7 +496,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
     if (slidingWindow.length < slidingWindowSizeDb) {
       addNextDeviceListElementInWindow();
       requestMessage(slidingWindow.length - 1);
-      console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+      console.log(' Add element ' + slidingWindow[slidingWindow.length - 1][NODE_ID] + ' in S-W and send request...');
     }
   } else {            // Not connected
     let found = false;
@@ -504,7 +505,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
     // const res = deviceList.find(())
 
     for (let i = 0; i < deviceList.length; i++) {
-      if (deviceList[i]['node-id'] == node_id) {
+      if (deviceList[i][NODE_ID] == node_id) {
         found = true;
         printDL('Device List before not connected notification');
         deviceList.splice(i, 1);
@@ -517,10 +518,10 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
       return;
     }
     for (let i = 0; i < slidingWindow.length; i++) {
-      if (slidingWindow[i]['node-id'] == node_id) {
+      if (slidingWindow[i][NODE_ID] == node_id) {
         slidingWindow.splice(i, 1);
         if (addNextDeviceListElementInWindow()) {
-          console.log(' Add element ' + slidingWindow[slidingWindow.length - 1]['node-id'] + ' in S-W and send request...');
+          console.log(' Add element ' + slidingWindow[slidingWindow.length - 1][NODE_ID] + ' in S-W and send request...');
           requestMessage(slidingWindow.length - 1);
         }
       }
@@ -578,15 +579,14 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log('* ' + error);
   }
 
-  //
+
   // Calculate common elements and drop elements of ES-DL
-  //
   let commonEsElements = [];
   let dropEsElements = [];
   for (let i = 0; i < esDeviceList.length; i++) {
     let found = false;
     for (let j = 0; j < odlDeviceList.length; j++) {
-      if (esDeviceList[i]['node-id'] == odlDeviceList[j]['node-id']) {
+      if (esDeviceList[i]['node-id'] == odlDeviceList[j][NODE_ID]) {
         found = true;
         commonEsElements.push(esDeviceList[i]);
         break;
@@ -596,14 +596,13 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
       dropEsElements.push(esDeviceList[i]);
     }
   }
-  //
+
   // Calculate new elements of ODL-DL and print ODL-DL
-  //
   let newOdlElements = [];
   for (let i = 0; i < odlDeviceList.length; i++) {
     let found = false;
     for (let j = 0; j < esDeviceList.length; j++) {
-      if (odlDeviceList[i]['node-id'] == esDeviceList[j]['node-id']) {
+      if (odlDeviceList[i]['node-id'] == esDeviceList[j][NODE_ID]) {
         found = true;
         break;
       }
@@ -612,14 +611,13 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
       newOdlElements.push(odlDeviceList[i]);
     }
   }
-  //
+
   // Drop all the sliding window elements not more present in new odl device list
-  //
   let elementsDroppedFromSlidingWindow = 0
   for (let i = 0; i < slidingWindow.length;) {
     let found = false;
     for (let j = 0; j < odlDeviceList.length; j++) {
-      if (slidingWindow[i]['node-id'] == odlDeviceList[j]['node-id']) {
+      if (slidingWindow[i]['node-id'] == odlDeviceList[j][NODE_ID]) {
         found = true;
         break;
       }
@@ -632,28 +630,21 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     }
   }
 
-  //
   // Shuffle new odl elements (commented issue 757)
-  //
   //newOdlElements = shuffleArray(newOdlElements);
 
-  //
   // If slidingWindow is empty
-  //
   if (slidingWindow.length == 0) {
     deviceList = [].concat(newOdlElements, commonEsElements);
     lastDeviceListIndex = -1;
   } else {
-    //
     // Get the last element of new sliding window
-    //
     let slidingWindowLastElement = slidingWindow[slidingWindow.length - 1];
-    //
+
     // Search the last element in commonEsElements to split commonEsElements
-    //
     let lastElementFound = false;
     for (let i = 0; i < commonEsElements.length; i++) {
-      if (slidingWindowLastElement['node-id'] == commonEsElements[i]['node-id']) {
+      if (slidingWindowLastElement['node-id'] == commonEsElements[i][NODE_ID]) {
         lastElementFound = true;
         lastDeviceListIndex = i;
         break;
@@ -681,7 +672,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
   //
   let deviceListCleaned = [];
   for (let i = 0; i < deviceList.length; i++) {
-    deviceListCleaned.push({ "node-id": deviceList[i]["node-id"] });
+    deviceListCleaned.push({ "node-id": deviceList[i][NODE_ID] });
   }
   deviceList = deviceListCleaned;
   var deviceListStringiflied = JSON.stringify(deviceList);
@@ -692,23 +683,21 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     console.log(error);
   }
 
-  //
+
   // Fill the sliding window at the max allowed and get new the elements
-  //
   let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
   for (let i = slidingWindow.length; i < slidingWindowSize; i++) {
     addNextDeviceListElementInWindow();
     requestMessage(slidingWindow.length - 1);
-    printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length - 1]['node-id'], print_log_level >= 2);
+    printLog('* Send request for new element: ' + slidingWindow[slidingWindow.length - 1][NODE_ID], print_log_level >= 2);
   }
 
-  //
+
   // Erase all the control constructs from elasticsearch referring elements not more present in new odl device list
-  //
   for (let i = 0; i < dropEsElements.length; i++) {
-    let cc_id = dropEsElements[i]['node-id'];
+    let cc_id = dropEsElements[i][NODE_ID];
     try {
-      let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+      let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id); //TODO @latta-siae to be check the index
       printLog('* ' + ret.result, print_log_level >= 2);
     } catch (error) {
       console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
@@ -796,16 +785,16 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   for (let i = 0; i < elasticsearchList.length; i++) {
     let found = false;
     for (let j = 0; j < odlDeviceList.length; j++) {
-      if (elasticsearchList[i]['node-id'] == odlDeviceList[j]['node-id']) {
+      if (elasticsearchList[i]['node-id'] == odlDeviceList[j][NODE_ID]) {
         found = true;
         commonEsElements.push(elasticsearchList[i]);
-        esString += (((i == 0) ? '' : '|') + elasticsearchList[i]['node-id']);
+        esString += (((i == 0) ? '' : '|') + elasticsearchList[i][NODE_ID]);
         break;
       }
     }
     if (!found) {
       dropEsElements.push(elasticsearchList[i]);
-      esString += (((i == 0) ? '' : '|') + elasticsearchList[i]['node-id']);
+      esString += (((i == 0) ? '' : '|') + elasticsearchList[i][NODE_ID]);
     }
   }
   esString += (']  (' + elasticsearchList.length + ')');
@@ -823,16 +812,16 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   for (let i = 0; i < odlDeviceList.length; i++) {
     let found = false;
     for (let j = 0; j < elasticsearchList.length; j++) {
-      if (odlDeviceList[i]['node-id'] == elasticsearchList[j]['node-id']) {
+      if (odlDeviceList[i]['node-id'] == elasticsearchList[j][NODE_ID]) {
         commonOdlElements.push(odlDeviceList[i]);
-        odlString += (((i == 0) ? '' : '|') + odlDeviceList[i]['node-id']);
+        odlString += (((i == 0) ? '' : '|') + odlDeviceList[i][NODE_ID]);
         found = true;
         break;
       }
     }
     if (!found) {
       newOdlElements.push(odlDeviceList[i])
-      odlString += (((i == 0) ? '' : '|') + odlDeviceList[i]['node-id']);
+      odlString += (((i == 0) ? '' : '|') + odlDeviceList[i][NODE_ID]);
     }
   }
   odlString += (']  (' + odlDeviceList.length + ')');
@@ -841,22 +830,19 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   } catch (error) {
     console.log("Too many ODL elements to print in console.")
   }
-  //
+
   // Shuffle the new elements (commented issue 757)
-  //
   //newOdlElements = shuffleArray(newOdlElements);
 
-  //
   // Calculate the new ODL-DL: [new odl elements shuffled] + [common es elements]
-  //
   let newString = 'Device List (Updated): [';
   let newPiped = false;
   for (let i = 0; i < newOdlElements.length; i++) {
-    newString += (((i == 0) ? '' : '|') + newOdlElements[i]['node-id']);
+    newString += (((i == 0) ? '' : '|') + newOdlElements[i][NODE_ID]);
     newPiped = true;
   }
   for (let i = 0; i < commonEsElements.length; i++) {
-    newString += (((i == 0 && newPiped == false) ? '' : '|') + commonEsElements[i]['node-id']);
+    newString += (((i == 0 && newPiped == false) ? '' : '|') + commonEsElements[i][NODE_ID]);
     newPiped = true;
   }
   newString += (']  (' + odlDeviceList.length + ')');
@@ -865,13 +851,12 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   } catch (error) {
     console.log("Too many updated device list elements to print in console.");
   }
-  //
+
   // Drop from ES all the elements not more present in ES-DL
-  //
   for (let i = 0; i < dropEsElements.length; i++) {
-    let cc_id = dropEsElements[i]['node-id'];
+    let cc_id = dropEsElements[i][NODE_ID];
     try {
-      let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id);
+      let ret = await individualServicesService.deleteRecordFromElasticsearch(7, '_doc', cc_id); //TODO @latta-siae index must be a parameter
       printLog(ret.result, print_log_level >= 2);
     } catch (error) {
       console.log('* An error has occurred deleting ' + cc_id + ' from elasticsearch. Element does not exist.)', print_log_level >= 2);
@@ -883,7 +868,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
 
   let deviceListCleaned = [];
   for (let i = 0; i < odlDeviceList.length; i++) {
-    deviceListCleaned.push({ "node-id": odlDeviceList[i]["node-id"] });
+    deviceListCleaned.push({ "node-id": odlDeviceList[i][NODE_ID] });
   }
   deviceList = deviceListCleaned;
   let odlDeviceListString = JSON.stringify(deviceList);
@@ -893,9 +878,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
     console.log(error);
   }
 
-  //
   // Sliding Window
-  //
   let slidingWindowSize = (slidingWindowSizeDb > deviceList.length) ? deviceList.length : slidingWindowSizeDb;
   lastDeviceListIndex = -1;
   for (let i = 0; i < slidingWindowSize; i++) {
@@ -904,17 +887,15 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
   printLog(printList('Sliding Window', slidingWindow), print_log_level >= 1);
   for (let i = 0; i < slidingWindowSize; i++) {
     requestMessage(i);
-    printLog('Element ' + slidingWindow[i]['node-id'] + ' send request...', print_log_level >= 2);
+    printLog('Element ' + slidingWindow[i][NODE_ID] + ' send request...', print_log_level >= 2);
   }
-  //
+ 
   // Periodic Synchronization
-  //
   const periodicSynchTime = deviceListSyncPeriod * 3600 * 1000;
   const { deviceListSynchronization } = module.exports;
   periodicSynchTimerId = setInterval(deviceListSynchronization, periodicSynchTime);
-  //
+ 
   // TTL checking
-  //
   startTtlChecking();
   return true;
 }

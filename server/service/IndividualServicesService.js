@@ -33,10 +33,18 @@ const { getDeviceListInMemory } = require('./individualServices/CyclicProcessSer
 let lastSentMessages = [];
 
 
-
+// ------ Constants definition
 // -- Application
 const OPENDAYLIGHT_STR = "OpenDayLight";
 const ELASTICSEARCH_STR = "ElasticSearch";
+
+// -- Control-construct
+const NODE_ID = "node-id";
+const CTR_CONST = "control-construct";
+const CORE_MODEL = "core-model-1-4:link";
+const END_POINT_LIST = "end-point-list";
+
+
 
 /**
  * Initiates process of embedding a new release
@@ -9899,7 +9907,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
       let result = await ReadRecords(mountname);
       if (result != undefined) {
         const outputJson = {
-          "mount-name-list": result.deviceList.map(item => item["node-id"])
+          "mount-name-list": result.deviceList.map(item => item[NODE_ID])
         };
         resolve(outputJson);
       } else {
@@ -10001,19 +10009,19 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       if (linkToCompare == undefined) {
         throw new createHttpError.NotFound(`unable to fetch records for link ${linkId}`)
       }
-      if (!linkToCompare["core-model-1-4:link"][0]["end-point-list"]) {
+      if (!linkToCompare[CORE_MODEL][0][END_POINT_LIST]) {
         index = 1;
       }
-      const controlConstructList = linkToCompare["core-model-1-4:link"][index]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+      const controlConstructList = linkToCompare[CORE_MODEL][index][END_POINT_LIST].map(endpoint => endpoint[CTR_CONST]);
       let result = await ReadRecords("linkList");
       for (var link of result.LinkList) {
         if (link != linkId) {
           let resLink = await ReadRecords(link);
           try {
-            if (!resLink["core-model-1-4:link"][0]["end-point-list"]) {
+            if (!resLink[CORE_MODEL][0][END_POINT_LIST]) {
               index1 = 1;
             }
-            const ccList = resLink["core-model-1-4:link"][index1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
+            const ccList = resLink[CORE_MODEL][index1][END_POINT_LIST].map(endpoint => endpoint[CTR_CONST]);
             if (arraysHaveSameElements(controlConstructList, ccList)) {
               parallelLink.push(link);
             }
@@ -11192,7 +11200,7 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
       placeHolder = "/";
     }
 
-    let ctrlConstrToFind = "control-construct=" + controlConstruct;
+    let ctrlConstrToFind = CTR_CONST +"=" + controlConstruct;
     let ctrlConstrIdx = originalUrl.indexOf(ctrlConstrToFind);
 
     let subStringCC = "";
@@ -11629,7 +11637,7 @@ function formatUrlForOdl(url, fields) {
     for (const segment of segments) {
       const parts = segment.split("+");
       if (parts.length > 1) {
-        if (parts[0].indexOf("control-construct") != -1) {
+        if (parts[0].indexOf(CTR_CONST) != -1) {
           newSegments.push(parts[0]);
         } else {
           newSegments.push(parts[0].split("=")[0] + "=" + parts[1]);
@@ -11668,7 +11676,7 @@ function decodeMountName(url, cc) {
       if (cc) {
         extractedValue = match[1];
         if (!match[2]) {
-          const startIndex = url.indexOf("control-construct=") + "control-construct=".length;
+          const startIndex = url.indexOf(CTR_CONST + "=") + "control-construct=".length;
           extractedValue = url.substring(startIndex);
         }
       } else {

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require("path");
 
-// Start cyclic process 
+// Start cyclic process
 const cyclicProcessServicePath = '../service/individualServices/CyclicProcessService';
 const temporarySupportFilesPath = './temporarySupportFiles';
 
@@ -52,9 +52,8 @@ module.exports.getNewDeviceListExp = async function getNewDeviceListExp() {
 }
 
 module.exports.start = async function start() {
-  //
+
   // Returns the deviceList with all equipments connected
-  //
   function filterConnectedDevices(deviceList) {
     try {
       return deviceList.filter(device => {
@@ -65,9 +64,7 @@ module.exports.start = async function start() {
     }
   }
 
-  //
   // Get the device list from a json file at the moment (simulation)
-  //
   async function getNewDeviceList() {
     try {
       await new Promise((resolve, reject) => {

@@ -17,7 +17,7 @@
 								"exec": [
 									"console.clear();\r",
 									"logger.struc(\"==========================================================================================\");\r",
-									"logger.struc(\"===== mwdi+testcase.completeness.receiver ==========================\");\r",
+									"logger.struc(\"===== mwdi+testcase.invalidOrMissingRequestBody.receiver ==========================\");\r",
 									"logger.struc(\"==========================================================================================\");\r",
 									"\r",
 									"\r",

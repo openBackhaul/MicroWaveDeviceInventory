@@ -19,7 +19,7 @@
 				"customerJourney": ""
 			},
 			{
-				"serverName": "mwdi in mwdi+simulator.completeness.dataProvider",
+				"serverName": "mwdi in mwdi+simulator.completeness.dataprovider",
 				"server": "http://localhost:3002",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
@@ -33,15 +33,15 @@
 		],
 		"collectionInputList": [
 			{
-				"collectionName": "completeness.dataProvider",
+				"collectionName": "completeness.dataprovider",
 				"serverToBeApplied": "mwdi",
 				"mountName": "513250004",
 				"linkId": "101550001",
 				"kindOfReference": "dynamic"
 			},
 			{
-				"collectionName": "completeness.dataProvider_simulator",
-				"serverToBeApplied": "mwdi in mwdi+simulator.completeness.dataProvider",
+				"collectionName": "completeness.dataprovider_simulator",
+				"serverToBeApplied": "mwdi in mwdi+simulator.completeness.dataprovider",
 				"mountName": "305250001",
 				"linkId": "101550001",
 				"kindOfReference": "static",

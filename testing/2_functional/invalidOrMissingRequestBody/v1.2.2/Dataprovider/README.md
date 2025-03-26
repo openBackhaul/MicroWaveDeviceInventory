@@ -2,11 +2,22 @@
 
 ![Overview](./mwdi+diagram.invalidOrMissingRequestBody.dataprovider.png)  
 
-A requestBody is not mandatory for all services.
-- optional requestBody: if provided, it must be according to the OAS. The tests will be executed with a requestBody that does not conform to the OAS, i.e. the expected response is 400.
-  - /v1/provide-list-of-links
-  - /v1/provide-data-of-all-links
-- no requestBody expected: if no requestBody is specified. For the tests, a dummy requestBody is handed over. The services could either respond with an error, or the requestBody can simply be ignored. For this scenario, the services are expected to ignore the requestBody and respond normally, i.e. with 200.
-  - /v1/provide-list-of-connected-devices
-  - /v1/provide-list-of-link-ports
-  - /v1/provide-data-of-all-link-ports
+Not all of the tested services require a requestBody.  
+The tested services can be categorized into three groups:
+1. services, where the requestBody is mandatory and must be provided according to the schema from the OAS.
+  - for these services two test will be performed: a) an invalid requestBody is provided and b) no requestBody is provided
+  - in both cases a 400 shall be returned
+2. services, where the requestBody is optional: if provided, it must match the OAS
+  - these services will be tested with an invalid requestBody
+  - a 400 shall be returned
+3. services, where no requestBody is specified.
+  - these services will be tested with a dummy requestBody (as none is specified, any requestBody will do)
+  - a 200 shall be returned  
+
+---
+The respective services per category are:  
+| <br>requestBody category | <br>Services | <br>Tests, expected results |
+|---|---|---|
+| <br>(1) mandatory |/v1/provide-list-of-device-interfaces <br>/v1/provide-list-of-actual-device-equipment <br>/v1/provide-list-of-parallel-links <br>/v1/provide-device-status-metadata <br> | <br>Invalid requestBody, no requestBody <br>400 |
+| <br>(2) optional | <br> /v1/provide-list-of-links <br> /v1/provide-data-of-all-links | <br>Invalid requestBody, <br>400 |
+| <br>(3) none | <br> /v1/provide-list-of-connected-devices <br> /v1/provide-list-of-link-ports <br> /v1/provide-data-of-all-link-ports | <br>Dummy requestBody <br>200 |

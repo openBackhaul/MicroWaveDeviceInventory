@@ -33,9 +33,16 @@ end
 
 '-------------------------------------------------------------
 == RequestBody required ==
+  note over Postman, PLODI
+    For each service with required requestBody there are two testcases to be executed.
+    Both tests differ in the provided requestBody:
+  - an invalid requestBody according to OAS
+  - no requestBody provided at all
+  end note
+
   group /v1/provide-list-of-device-interfaces
     Collection --\\o Postman : {servers}
-    Postman -> PLODI : {invalidRequestBody}
+    Postman -> PLODI : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- PLODI : 400
     note right Postman #Orange
       check for 400
@@ -44,7 +51,7 @@ end
 
   group /v1/provide-list-of-actual-device-equipment
     Collection --\\o Postman : {servers}
-    Postman -> PLOADE : {invalidRequestBody}
+    Postman -> PLOADE : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- PLOADE : 400
     note right Postman #Orange
       check for 400
@@ -53,7 +60,7 @@ end
 
   group /v1/provide-list-of-parallel-links
     Collection --\\o Postman : {servers}
-    Postman -> PLOPL : {invalidRequestBody}
+    Postman -> PLOPL : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- PLOPL : 400
     note right Postman #Orange
       check for 400
@@ -62,7 +69,7 @@ end
 
   group /v1/provide-device-status-metadata
     Collection --\\o Postman : {servers}
-    Postman -> PDSM : {invalidRequestBody}
+    Postman -> PDSM : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- PDSM : (400
     note right Postman #Orange
       check for 400

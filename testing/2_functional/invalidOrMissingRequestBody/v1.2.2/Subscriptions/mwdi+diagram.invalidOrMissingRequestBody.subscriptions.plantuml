@@ -20,10 +20,16 @@ group Preparation
   Postman --\\o Collection : {servers}
 end
 
-== requestBody provided, but not according to OAS ==
+note over Postman, NAVC
+  For each service there are two testcases to be executed.
+  Both tests differ in the provided requestBody:
+  - an invalid requestBody according to OAS
+  - no requestBody provided at all
+end note
+
   group /v1/notify-attribute-value-changes
     Collection --\\o Postman : {servers}
-    Postman -> NAVC : {invalidRequestBody}
+    Postman -> NAVC : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- NAVC : 400
     note right Postman #Orange
       check for 400
@@ -32,7 +38,7 @@ end
 
   group /v1/notify-object-creations
     Collection --\\o Postman : {servers}
-    Postman -> NOC : {invalidRequestBody}
+    Postman -> NOC : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- NOC : 400
     note right Postman #Orange
       check for 400
@@ -41,35 +47,7 @@ end
 
   group /v1/notify-object-deletions
     Collection --\\o Postman : {servers}
-    Postman -> NOD : {invalidRequestBody}
-    Postman <-- NOD : 400
-    note right Postman #Orange
-      check for 400
-    end note
-  end
-
-== requestBody missing ==
-  group /v1/notify-attribute-value-changes
-    Collection --\\o Postman : {servers}
-    Postman -> NAVC : <i>requestBody missing</i>
-    Postman <-- NAVC : 400
-    note right Postman #Orange
-      check for 400
-    end note
-  end
-
-  group /v1/notify-object-creations
-    Collection --\\o Postman : {servers}
-    Postman -> NOC : <i>requestBody missing</i>
-    Postman <-- NOC : 400
-    note right Postman #Orange
-      check for 400
-    end note
-  end
-
-  group /v1/notify-object-deletions
-    Collection --\\o Postman : {servers}
-    Postman -> NOD : <i>requestBody missing</i>
+    Postman -> NOD : (a) {invalidRequestBody} \n(b) no requestBody
     Postman <-- NOD : 400
     note right Postman #Orange
       check for 400

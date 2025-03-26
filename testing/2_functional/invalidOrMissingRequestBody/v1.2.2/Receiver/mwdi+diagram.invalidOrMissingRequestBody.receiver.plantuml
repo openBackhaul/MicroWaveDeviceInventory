@@ -21,9 +21,17 @@ group Preparation
   Postman --\\o Collection : {servers}
 end
 
+note over Postman, RCAVC
+  For each service there are two testcases to be executed.
+  Both tests differ in the provided requestBody:
+  - an invalid requestBody according to OAS
+  - no requestBody provided at all
+end note
+
+
 group /v1/regard-controller-attribute-value-change
   Collection --\\o Postman : {servers}
-  Postman -> RCAVC : {invalidRequestBody}
+  Postman -> RCAVC : (a) {invalidRequestBody} \n(b) no requestBody
   Postman <-- RCAVC : 400
   note right Postman #Orange
     check for 400
@@ -32,7 +40,7 @@ end
 
 group /v1/regard-device-alarm
   Collection --\\o Postman : {servers}
-  Postman -> RDA : {invalidRequestBody}
+  Postman -> RDA : (a) {invalidRequestBody} \n(b) no requestBody
   Postman <-- RDA : 400
   note right Postman #Orange
     check for 400
@@ -41,7 +49,7 @@ end
 
 group /v1/regard-device-attribute-value-change
   Collection --\\o Postman : {servers}
-  Postman -> RDAVC : {invalidRequestBody}
+  Postman -> RDAVC : (a) {invalidRequestBody} \n(b) no requestBody
   Postman <-- RDAVC : 400
   note right Postman #Orange
     check for 400
@@ -50,7 +58,7 @@ end
 
 group /v1/regard-device-object-deletion
   Collection --\\o Postman : {servers}
-  Postman -> RDOD : {invalidRequestBody}
+  Postman -> RDOD : (a) {invalidRequestBody} \n(b) no requestBody
   Postman <-- RDOD : 400
   note right Postman #Orange
     check for 400
@@ -59,7 +67,7 @@ end
 
 group /v1/regard-device-object-creation
   Collection --\\o Postman : {servers}
-  Postman -> RDOC : {invalidRequestBody}
+  Postman -> RDOC : (a) {invalidRequestBody} \n(b) no requestBody
   Postman <-- RDOC : 400
   note right Postman #Orange
     check for 400

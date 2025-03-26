@@ -1,9 +1,7 @@
 {
 	"info": {
-		"_postman_id": "572fa7c7-c371-4fef-b140-d373e607035d",
 		"name": "mwdi+testcase.completeness",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9698906"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{

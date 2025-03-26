@@ -1,10 +1,7 @@
 {
 	"info": {
-		"_postman_id": "8e748c32-ffe9-4bb0-9a49-efabdd268e44",
 		"name": "MWDI_1.2.1+testcase.completeness_convenienceServices",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9698906",
-		"_collection_link": "https://kat123456.postman.co/workspace/Simulator-Testcase-Development~78954625-e639-4884-8c3a-7cc7df891995/collection/9698906-8e748c32-ffe9-4bb0-9a49-efabdd268e44?action=share&source=collection_link&creator=9698906"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{

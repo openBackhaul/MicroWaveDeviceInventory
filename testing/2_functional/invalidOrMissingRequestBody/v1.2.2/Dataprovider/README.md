@@ -4,13 +4,13 @@
 
 Not all of the tested services require a requestBody.  
 The tested services can be categorized into three groups:
-1. services, where the requestBody is mandatory and must be provided according to the schema from the OAS.
-  - for these services two test will be performed: a) an invalid requestBody is provided and b) no requestBody is provided
+- (1) services, where the requestBody is mandatory and must be provided according to the schema from the OAS.
+    - for these services two test will be performed: a) an invalid requestBody is provided and b) no requestBody is provided
   - in both cases a 400 shall be returned
-2. services, where the requestBody is optional: if provided, it must match the OAS
+- (2) services, where the requestBody is optional: if provided, it must match the OAS
   - these services will be tested with an invalid requestBody
   - a 400 shall be returned
-3. services, where no requestBody is specified.
+- (3) services, where no requestBody is specified.
   - these services will be tested with a dummy requestBody (as none is specified, any requestBody will do)
   - a 200 shall be returned  
 

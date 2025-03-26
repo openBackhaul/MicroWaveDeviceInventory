@@ -13,7 +13,7 @@
     - and/or the schema structure is not met
     - note that additional attributes not listed in the OAS are simply ignored and do make the requestBody invalid unless the OAS explicitly forbidds them (*additionalProperties=false* statement) 
   - required requestBody is missing
-    - not that with MWDI_1.1.x this lead to a 415
+    - note that with MWDI_1.1.x this lead to a 415
     - starting with MWDI_1.2.x this shall also return a 400
 - ResponseCode 200/204:
   - no requestBody is specified in the OAS, but a is provided when a request is called: the provided requestBody is simply ignored

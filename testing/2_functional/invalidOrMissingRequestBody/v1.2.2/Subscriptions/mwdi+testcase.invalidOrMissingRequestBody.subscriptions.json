@@ -205,7 +205,7 @@
 					"name": "Subscriptions.invalidOrMissingRequestBody",
 					"item": [
 						{
-							"name": "/v1/notify-attribute-value-changes - attributes missing",
+							"name": "/v1/notify-attribute-value-changes - requestBody invalid",
 							"event": [
 								{
 									"listen": "test",
@@ -481,7 +481,7 @@
 							"response": []
 						},
 						{
-							"name": "/v1/notify-object-creations - attributes missing",
+							"name": "/v1/notify-object-creations - requestBody invalid",
 							"event": [
 								{
 									"listen": "test",
@@ -757,7 +757,7 @@
 							"response": []
 						},
 						{
-							"name": "/v1/notify-object-deletions - attributes missing",
+							"name": "/v1/notify-object-deletions - requestBody invalid",
 							"event": [
 								{
 									"listen": "test",

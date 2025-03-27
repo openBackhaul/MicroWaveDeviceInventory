@@ -11231,8 +11231,18 @@ async function recordRequest(body, cc) {
 
     let result = await client.index(indexParams);
     let backendTime = process.hrtime(startTime);
+
+    if (result == undefined || result.body == undefined) {
+      console.warn("result is undefined, ELK not updated")
+      return {"took": -1};
+    }
+
     if (result.body.result == 'created' || result.body.result == 'updated') {
+      console.info("Result is: ", result.body.result)
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+    } else {
+      console.warn("result is ", result.body.result);
+      return { "took": -1};
     }
   } catch (error) {
     console.error(error);

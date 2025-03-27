@@ -1,0 +1,77 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://IP_ADRESS:PORT",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "YOUR_BASIC_AUTH_CODE",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "mwdi+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000001",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+      {
+				"serverName": "controller",
+				"server": "http://IP_ADRESS:PORT",
+				"pathToControlConstruct": "/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct",
+				"authorizationCode": "YOUR_BASIC_AUTH_CODE"
+			},
+			{
+				"serverName": "mwdi in mwdi+simulator.completeness.receiver",
+				"server": "http://localhost:3007",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "mwdi+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000001",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "controller in mwdi+simulator.completeness.receiver",
+				"server": "http://localhost:3002",
+				"pathToControlConstruct": "/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct",
+				"authorizationCode": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "completeness.receiver",
+				"applicationUnderTest": "mwdi",
+				"serverToBeApplied": "mwdi",
+				"controllerTobeApplied": "controller",
+				"mountName": "513250004",
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",				
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "External label not yet defined.",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "completeness.receiver_simulator",
+				"applicationUnderTest": "mwdi in mwdi+simulator.completeness.receiver",
+				"serverToBeApplied": "mwdi in mwdi+simulator.completeness.receiver",
+				"controllerTobeApplied": "controller in mwdi+simulator.completeness.receiver",
+				"mountName": "305250001",
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "513559992A",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500",
+				"kindOfReference": "static"
+			}
+		]
+	}
+]

@@ -262,6 +262,36 @@
             }
           },
           {
+            "uuid": "mwdi-1-0-0-integer-p-004",
+            "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+            "integer-profile-1-0:integer-profile-pac": {
+              "integer-profile-capability": {
+                "integer-name": "connectionStatusSyncPeriod",
+                "unit": "hour",
+                "minimum": 1,
+                "maximum": 72
+              },
+              "integer-profile-configuration": {
+                "integer-value": 1
+              }
+            }
+          },
+          {
+            "uuid": "mwdi-1-0-0-integer-p-005",
+            "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+            "integer-profile-1-0:integer-profile-pac": {
+              "integer-profile-capability": {
+                "integer-name": "metadataTableRetentionPeriod",
+                "unit": "days",
+                "minimum": 1,
+                "maximum": 30
+              },
+              "integer-profile-configuration": {
+                "integer-value": 14
+              }
+            }
+          },
+          {
             "uuid": "mwdi-1-0-0-string-p-000",
             "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
             "string-profile-1-0:integer-profile-pac": {

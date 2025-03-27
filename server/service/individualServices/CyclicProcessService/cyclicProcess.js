@@ -7,7 +7,7 @@ const individualServicesService = require("../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const notificationManagement = require('../../individualServices/NotificationManagement');
-const { deviceIsDeletedduetoNotificationUpdate,newDeviceAddedToDeviceList,deviceIsDeletedduetoPeroidicUpdate} = require('./metadatafunction.js');
+const { eviceIsDeletedduetoPeroidicUpdate} = require('./metaDataUtility.js');
 
 // SIMULATION
 const startModule = require('../../../temporarySupportFiles/StartModule.js');
@@ -473,7 +473,6 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         let nodeObj = { 'node-id': node_id, 'netconf-node-topology:connection-status': 'connected' };
         let middleDL = [].concat(nodeObj);
         // Device added to device List
-        await newDeviceAddedToDeviceList([nodeObj])
         let rightDL = deviceList.slice(lastDeviceListIndex + 1);
         printDL('Device List before connected notification')
         deviceList = [].concat(leftDL, middleDL, rightDL);
@@ -490,8 +489,6 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
                 found = true;
                 printDL('Device List before not connected notification');
                 deviceList.splice(i, 1);
-                await deviceIsDeletedduetoNotificationUpdate(node_id,deviceList[i]['netconf-node-topology:connection-status'],Date.now())
-                // Device deleted due to Notification
                 printDL('Device List after not connected notification');
                 break;
             }
@@ -616,8 +613,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
         }
     }
 
-    await deviceIsDeletedduetoPeroidicUpdate(dropEsElements,Date.now())
-// device deleted due to periodic update
     //
     // Shuffle new odl elements (commented issue 757)
     //
@@ -673,7 +668,6 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     var deviceListStringiflied = JSON.stringify(deviceList);
     try {
         await individualServicesService.writeDeviceListToElasticsearch(deviceListStringiflied);
-        await  newDeviceAddedToDeviceList(newOdlElements)
         console.log('* New Device List updated to Elasticsearch                                                            *');
     } catch (error) {
         console.log(error);
@@ -908,7 +902,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
 }
 
 /**
- * Stops the cyclic process disabling the time to live check
+ * Stops the cyclic process disabling the time to live check the device list
  * 
  **/
 module.exports.stopCyclicProcess = async function stopCyclicProcess() {

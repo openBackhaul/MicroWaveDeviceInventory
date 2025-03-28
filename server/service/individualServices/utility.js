@@ -36,3 +36,82 @@ exports.getIntegerProfileForIntegerName = async function (integerProfileName) {
     }
     return integerProfile;
 }
+
+/**
+ * Read from ES
+ *
+ * response value expected for this operation
+ **/
+exports.ReadRecords = async function(cc) {
+    try {
+      let size = 100;
+      let from = 0;
+      let query = {
+  
+        term: {
+          _id: cc
+        }
+  
+      };
+      let indexAlias = common[1].indexAlias
+      let client = await common[1].EsClient;
+      const result = await client.search({
+        index: indexAlias,
+        body: {
+          query: query
+        }
+      });
+      const resultArray = createResultArray(result);
+      return (resultArray[0])
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+ * Records a request
+ *
+ * body controlconstruct 
+ * no response value expected for this operation
+ **/
+exports.recordRequest = async function(body, cc) {
+    let pipelineExists = false;
+    let client = await common[1].EsClient;
+    try {
+      // Check if the pipeline exists
+      await client.ingest.getPipeline({ id: 'mwdi' });
+      pipelineExists = true;
+    } catch (error) {
+      if (error.statusCode === 404) {
+        // Pipeline does not exist
+        console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      } else {
+        // Other errors
+        console.error("An error occurred while checking the pipeline:", error);
+        throw error; // Re-throw the error if it's not a 404
+      }
+    }
+  
+    try {
+      let indexAlias = common[1].indexAlias
+      let startTime = process.hrtime();
+  
+      let indexParams = {
+        index: indexAlias,
+        id: cc,
+        body: body
+      };
+  
+      if (pipelineExists) {
+        indexParams.pipeline = 'mwdi';
+      }
+  
+      let result = await client.index(indexParams);
+      let backendTime = process.hrtime(startTime);
+      if (result.body.result == 'created' || result.body.result == 'updated') {
+        return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }

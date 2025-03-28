@@ -8,7 +8,7 @@ exports.writeMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
       let deviceListToWrite = '{"MetaDataList":' + deviceList + '}';
-      let result = await recordRequest(deviceListToWrite, "MetaDataList");
+      let result = await utility.recordRequest(deviceListToWrite, "MetaDataList");
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -23,7 +23,7 @@ exports.writeMetaDataListToElasticsearch = function (deviceList) {
 exports.readMetaDataListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
-      let result = await ReadRecords("MetaDataList");
+      let result = await utility.ReadRecords("MetaDataList");
       if (result == undefined) {
         reject("MetaDataList list in Elasticsearch not found");
       } else {
@@ -93,7 +93,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
  */
 exports.updateMDTableForDeviceStatusChange = async function (mountName, connectionStatus, timestamp) {
   try {
-    let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
       });
@@ -165,7 +165,7 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
  */
 exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp = '') {
   try {
-    let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
       });
@@ -198,7 +198,7 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
  */
 exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp = '') {
   try {
-    let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
       });

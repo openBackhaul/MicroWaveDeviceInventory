@@ -9,17 +9,17 @@ const transports = pino.transport({
       target: 'pino-pretty',
       options: { colorize: true }
     },
-    {
-      level: 'info',
-      target: 'pino-roll',
-      options: { file: path.join(__dirname, '../logs/MicroWaveDeviceInventory'), extension: '.log', mkdir: true,
-        frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit.count": 15 }
-    }
+    // {
+    //   level: 'warn',
+    //   target: 'pino-roll',
+    //   options: { file: path.join(__dirname, '../logs/MicroWaveDeviceInventory'), extension: '.log', mkdir: true,
+    //     frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit": 50, "limit.count": 10 }
+    // }
   ]
 });
 
 // create pino logger instance
-const logger = pino({level: 'trace'}, transports);
+const logger = pino({level: 'info'}, transports);
 
 exports.getLogger = function getLogger() {
   return logger;

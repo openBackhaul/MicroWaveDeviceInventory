@@ -1,17 +1,19 @@
-# Functional Testing of Unknown RequestBody Input Target Object Handling
+# Functional Testing of Unknown Target Object (in RequestBody) Handling
 
 ## General
 With introduction of MWDI_1.2.x, error codes have been harmonized.  
 This testcase collection tests whether the tested services reply according to the harmonized prescriptions.  
-Input target object can be provided as part of the ressource paths or as parameters in the requestBody.
+**Target object** refers to input objects like mountName, link or linkPort **provided in the requestBody**.  
+If objects like mountName are provided in the ressource path instead, they are referred to as ressources in the context of testcase collections.
+Therefore, this testcase collection does not apply to the ressource paths, but only to receivers, dataproviders and subscriptions.
 
 ### Targets
-- All individual services
+- All individual services, except ressource paths
 
 ### Criteria
 - **Input target objects in the requestBody**:
   - *mountName*: if the mountName is unknown, i.e. not found in the list of connected devices: 460
-  - *link*: 461
+  - *link*: if link is unknown: 461
   - *linkPort*:
     - if the parent link is unknown: 461
     - if the parent link is known: 471
@@ -31,7 +33,7 @@ Input target object can be provided as part of the ressource paths or as paramet
 - Unknown input objects in ressource paths (e.g. combinations of mountName, uuid, localId) are not within the scope of this testcase collection
 
 ## MWDI v1.2.2  
-- TestCaseCollection for testing invalid or missing requestBody responses is split, because of very high number of paths  
+- TestCaseCollection is split into the following sections:  
   - [Receivers of Notifications](./v1.2.2/Receiver/)  
   - [Providers of Data](./v1.2.2/Dataprovider/)  
   - [Offered Subscriptions](./v1.2.2/Subscriptions/)  
@@ -44,6 +46,6 @@ Input target object can be provided as part of the ressource paths or as paramet
     - [Connections]  
     - [Interfaces]  
 
-![Overview](./mwdi+diagram.unknownRequestBodyInputTargetObject.png)  
+![Overview](./mwdi+diagram.unknownTargetObject.png)  
 
 

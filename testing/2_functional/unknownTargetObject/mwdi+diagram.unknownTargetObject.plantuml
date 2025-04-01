@@ -1,0 +1,80 @@
+@startuml mwdi+diagram.unknownTargetObject
+
+title
+mwdi+testcase.unknownTargetObject
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+group Receivers for Notifications
+  note right Postman
+    see mwdi+diagram.unknownTargetObject.receiver
+  end note
+end
+
+group Providers of Data
+  note right Postman
+    see mwdi+diagram.unknownTargetObject.dataprovider
+  end note
+end
+
+group Offered Subscriptions
+  note right Postman
+    see mwdi+diagram.unknownTargetObject.subscriptions
+  end note
+end
+
+group ControlConstruct
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+group Alarms
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+group Equipment
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+group Firmware
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+group Profiles
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+group Connections
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+group Interfaces
+  note right Postman
+    out of scope
+    (separate testcase collection)
+  end note
+end
+
+deactivate Postman
+
+@enduml

@@ -59,4 +59,4 @@ prepareElasticsearch(false).catch(err => {
 }
 );
 
-global.applicationDataPath = './server/application-data/';
+global.applicationDataPath = './application-data/';

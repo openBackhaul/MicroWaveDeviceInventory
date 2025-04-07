@@ -22,7 +22,8 @@ end
 
 group Offered Subscriptions
   note right Postman
-    see mwdi+diagram.unknownTargetObject.subscriptions
+    not applicable
+    requestBodies without target object
   end note
 end
 

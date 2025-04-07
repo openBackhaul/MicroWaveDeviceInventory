@@ -8,7 +8,9 @@ If objects like mountName are provided in the ressource path instead, they are r
 Therefore, this testcase collection does not apply to the ressource paths, but only to receivers, dataproviders and subscriptions.
 
 ### Targets
-- All individual services, except ressource paths
+All individual services
+- that are not ressource paths
+- and with a requestBody containing target objects like e.g. mountName
 
 ### Criteria
 - **Input target objects in the requestBody**:
@@ -36,15 +38,17 @@ Therefore, this testcase collection does not apply to the ressource paths, but o
 - TestCaseCollection is split into the following sections:  
   - [Receivers of Notifications](./v1.2.2/Receiver/)  
   - [Providers of Data](./v1.2.2/Dataprovider/)  
-  - [Offered Subscriptions](./v1.2.2/Subscriptions/)  
   - out of scope:
-    - [ControlConstruct]  
-    - [Alarms]  
-    - [Equipment]  
-    - [Firmware]  
-    - [Profiles]  
-    - [Connections]  
-    - [Interfaces]  
+    - not applicable (no related requestBody):
+      - [Offered Subscriptions]  
+    - separate testcase collection(s)
+      - [ControlConstruct]  
+      - [Alarms]  
+      - [Equipment]  
+      - [Firmware]  
+      - [Profiles]  
+      - [Connections]  
+      - [Interfaces]  
 
 ![Overview](./mwdi+diagram.unknownTargetObject.png)  
 

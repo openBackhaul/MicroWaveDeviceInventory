@@ -20,7 +20,7 @@
 			},
 			{
 				"serverName": "mwdi in mwdi+simulator.unknownTargetObject.unknownMountName.receiver",
-				"server": "http://localhost:3011",
+				"server": "http://localhost:3012",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
 				"operationKey": "Operation key not yet provided.",
@@ -32,7 +32,7 @@
 			},
 			{
 				"serverName": "mwdi in mwdi+simulator.unknownTargetObject.unknownClass.receiver",
-				"server": "http://localhost:3012",
+				"server": "http://localhost:3013",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
 				"operationKey": "Operation key not yet provided.",

@@ -1,6 +1,7 @@
 const Profile = require('onf-core-model-ap/applicationPattern/onfModel/models/Profile');
 const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
 exports.getStringValueForStringProfileNameAsync = async function (stringProfileName) {
     let stringValue;
@@ -65,6 +66,7 @@ exports.ReadRecords = async function(cc) {
       return (resultArray[0])
     } catch (error) {
       console.error(error);
+      throw(error);
     }
   }
 
@@ -115,3 +117,14 @@ exports.recordRequest = async function(body, cc) {
       console.error(error);
     }
   }
+
+  /**
+ * getTime()
+ * 
+ * Returns formatted date/time information Ex: ( 25/11/2023 09:43.14 )
+ */
+
+exports.getTime = function() {
+  let d = new Date();
+  return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+}

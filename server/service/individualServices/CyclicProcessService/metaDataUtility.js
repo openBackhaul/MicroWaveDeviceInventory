@@ -2,6 +2,7 @@
 'use strict';
 
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const RestClient = require('../rest/client/dispacher');
 const utility = require('../utility');
 
 exports.writeMetaDataListToElasticsearch = function (deviceList) {
@@ -23,13 +24,12 @@ exports.writeMetaDataListToElasticsearch = function (deviceList) {
 exports.readMetaDataListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
+      let esMetaDataList = [];
       let result = await utility.ReadRecords("MetaDataList");
-      if (result == undefined) {
-        reject("MetaDataList list in Elasticsearch not found");
-      } else {
-        let esDeviceList = result["MetaDataList"];
-        resolve(esDeviceList);
+      if (result != undefined) {
+        esMetaDataList = result["MetaDataList"];
       }
+      resolve(esMetaDataList);
     } catch (error) {
       reject(error);
     }
@@ -62,7 +62,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
   let isDeviceCrossedRetentionPeriod = false;
   try {
     let currentTime = Date.now();
-    let diffTime = currentTime.getTime() - changedToDisconnectedTime.getTime();
+    let diffTime = currentTime - new Date(changedToDisconnectedTime).getTime();
     let profileInstance = await utility.getIntegerProfileForIntegerName("metadataTableRetentionPeriod");
     let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];

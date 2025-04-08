@@ -2,13 +2,14 @@
 'use strict';
 
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const RestClient = require('../rest/client/dispacher');
 const utility = require('../utility');
 
 exports.writeMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
       let deviceListToWrite = '{"MetaDataList":' + deviceList + '}';
-      let result = await recordRequest(deviceListToWrite, "MetaDataList");
+      let result = await utility.recordRequest(deviceListToWrite, "MetaDataList");
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -23,13 +24,12 @@ exports.writeMetaDataListToElasticsearch = function (deviceList) {
 exports.readMetaDataListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
-      let result = await ReadRecords("MetaDataList");
-      if (result == undefined) {
-        reject("MetaDataList list in Elasticsearch not found");
-      } else {
-        let esDeviceList = result["MetaDataList"];
-        resolve(esDeviceList);
+      let esMetaDataList = [];
+      let result = await utility.ReadRecords("MetaDataList");
+      if (result != undefined) {
+        esMetaDataList = result["MetaDataList"];
       }
+      resolve(esMetaDataList);
     } catch (error) {
       reject(error);
     }
@@ -62,7 +62,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
   let isDeviceCrossedRetentionPeriod = false;
   try {
     let currentTime = Date.now();
-    let diffTime = currentTime.getTime() - changedToDisconnectedTime.getTime();
+    let diffTime = currentTime - new Date(changedToDisconnectedTime).getTime();
     let profileInstance = await utility.getIntegerProfileForIntegerName("metadataTableRetentionPeriod");
     let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
@@ -93,7 +93,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
  */
 exports.updateMDTableForDeviceStatusChange = async function (mountName, connectionStatus, timestamp) {
   try {
-    let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
       });
@@ -165,7 +165,7 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
  */
 exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp = '') {
   try {
-    let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
       });
@@ -198,7 +198,7 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
  */
 exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp = '') {
   try {
-    let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
       });

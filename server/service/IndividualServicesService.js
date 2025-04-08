@@ -9463,7 +9463,7 @@ exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrela
       let responseMetaDataList = [];
 
       let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch();
-      for(let i=0; i<mountNameListFromRequestBody; i++) {
+      for(let i=0; i<mountNameListFromRequestBody.length; i++) {
         let mountName = mountNameListFromRequestBody[i];
         for(let j=0; j<metaDataListFromElasticSearch.length; j++) {
           let metaDataMountName = metaDataListFromElasticSearch[j]["mount-name"];

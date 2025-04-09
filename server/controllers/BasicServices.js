@@ -90,9 +90,10 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
+  startModule.start();
   await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
-      startModule.start();
+     
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);

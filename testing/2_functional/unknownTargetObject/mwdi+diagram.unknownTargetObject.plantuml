@@ -20,6 +20,13 @@ group Providers of Data
   end note
 end
 
+group Link Cache
+  note right Postman
+    <i>(Ressource paths for cache enrichment with link and link-port data)</i>
+    see mwdi+diagram.unknownTargetObject.linkcache 
+  end note
+end
+
 group Offered Subscriptions
   note right Postman
     not applicable
@@ -27,52 +34,10 @@ group Offered Subscriptions
   end note
 end
 
-group ControlConstruct
+group Ressource Paths
   note right Postman
-    out of scope
-    (separate testcase collection)
-  end note
-end
-
-group Alarms
-  note right Postman
-    out of scope
-    (separate testcase collection)
-  end note
-end
-
-group Equipment
-  note right Postman
-    out of scope
-    (separate testcase collection)
-  end note
-end
-
-group Firmware
-  note right Postman
-    out of scope
-    (separate testcase collection)
-  end note
-end
-
-group Profiles
-  note right Postman
-    out of scope
-    (separate testcase collection)
-  end note
-end
-
-group Connections
-  note right Postman
-    out of scope
-    (separate testcase collection)
-  end note
-end
-
-group Interfaces
-  note right Postman
-    out of scope
-    (separate testcase collection)
+    Neither cache nor live paths have requestBodies,
+    therefore out of scope
   end note
 end
 

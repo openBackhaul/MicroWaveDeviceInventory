@@ -7225,9 +7225,6 @@ paths:
                     - local-id: '1'
                       link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
                       logical-termination-point: '513270001+2146435233'
-                    - local-id: '2'
-                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
-                      logical-termination-point: '513270005+2146435247'
       responses:
         '204':
           description: 'LinkPort written to cache'

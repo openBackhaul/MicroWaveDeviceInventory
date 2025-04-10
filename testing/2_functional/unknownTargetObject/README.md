@@ -16,11 +16,11 @@ All individual services
 - **Input target objects in the requestBody**:
   - *mountName*: if the mountName is unknown, i.e. not found in the list of connected devices: 460
   - *link*: if link is unknown: 461
-  - *linkPort*:
+  - *linkPort*: (currently no related services to be tested)
     - if the parent link is unknown: 461
     - if the parent link is known: 471
   - special case: received notifications
-    - *resource* or *objectPath* with unknown IDs: 470 (TODO: check!)  
+    - *resource* or *objectPath* with unknown IDs: depending on the actual test the expected response code is one from [204, 404, 500, 533]
 
 ### Comments  
 - Need for Updates:  

@@ -32,16 +32,15 @@ All individual services
 
 ### Scope
 - This testcase collection only tests if unknown input targets (e.g. mountName, link, linkport) in the requestBody are handled correctly
-  - therefore services without requestBody are out of testing scope (all cache and live ressource paths handling device data)
-  - ressource paths to handle enrichment data (i.e. data that is written to MWDI cache from other sources than device data) with requestBodies are within the scope (this applies to link and link-port services)
 - Unknown input objects in the path parameters of ressource paths (e.g. combinations of mountName, uuid, localId) are not within the scope of this testcase collection
+- Therefore all cache and live ressource paths handling data directly derived from the devices are out of scope, as they do not have any requestBodies,
+- ressource paths for handling of cache enrichment data (currently link and linkport data) have a requestBody for the put operation, but the target object is identified via the path parameters and therefore they are also not in scope
+
 
 ## MWDI v1.2.2  
 - TestCaseCollection is split into the following sections:  
   - [Receivers of Notifications](./v1.2.2/Receiver/)  
   - [Providers of Data](./v1.2.2/Dataprovider/)  
-  - Cache enrichment:
-    - [Link Cache](./v1.2.2/LinkCache)
   - out of scope (no requestBody):
       - [Offered Subscriptions]  
       - [ControlConstruct]
@@ -51,6 +50,7 @@ All individual services
       - [Profiles]  
       - [Connections]  
       - [Interfaces]  
+      - [Cache enrichment (link)]
 
 ![Overview](./mwdi+diagram.unknownTargetObject.png)  
 

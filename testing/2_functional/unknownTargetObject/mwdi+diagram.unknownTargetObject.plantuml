@@ -20,13 +20,6 @@ group Providers of Data
   end note
 end
 
-group Link Cache
-  note right Postman
-    <i>(Ressource paths for cache enrichment with link and link-port data)</i>
-    see mwdi+diagram.unknownTargetObject.linkcache 
-  end note
-end
-
 group Offered Subscriptions
   note right Postman
     not applicable
@@ -37,6 +30,8 @@ end
 group Ressource Paths
   note right Postman
     Neither cache nor live paths have requestBodies,
+    for enrichment ressource paths (link/linkPort) targets
+    are identified via path parameters,
     therefore out of scope
   end note
 end

@@ -1,0 +1,278 @@
+
+  /core-model-1-4:network-control-domain=cache/link={uuid}:
+    parameters:
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLink
+      summary: 'Provides Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Link provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: 'genericLink1'
+                        layer-protocol-name: 'layer protocol name for the link'
+                        link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                        forwarding-domain:
+                          - 'forwarding domain entry'
+                        link-port:
+                          - local-id: '1'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                            logical-termination-point: 'mountnameA+ltpA'
+                          - local-id: '2'
+                            link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                            logical-termination-point: 'mountnameB+ltpB'
+                minimum-for-rest:
+                  value:
+                    core-model-1-4:link:
+                      - uuid: '513559996'
+                        layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                        end-point-list:
+                          - control-construct: '513250009'
+                            logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                          - control-construct: '513250008'
+                            logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                            layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkToCache
+      summary: 'Writes Link to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:link:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link:
+                    - uuid: 'genericLink1'
+                      layer-protocol-name: 'layer protocol name for the link'
+                      link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                      forwarding-domain:
+                        - 'forwarding domain entry'
+                      link-port:
+                        - local-id: '1'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                          logical-termination-point: 'mountnameA+ltpA'
+                        - local-id: '2'
+                          link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                          logical-termination-point: 'mountnameB+ltpB'
+              minimum-for-rest:
+                value:
+                  core-model-1-4:link:
+                    - uuid: '513559996'
+                      layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                      end-point-list:
+                        - control-construct: '513250009'
+                          logical-termination-point: '513250009+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250009+LP-MWPS-TTP-RADIO-2A'
+                        - control-construct: '513250008'
+                          logical-termination-point: '513250008+LTP-MWPS-TTP-RADIO-2A'
+                          layer-protocol: '513250008+LP-MWPS-TTP-RADIO-2A'
+      responses:
+        '204':
+          description: 'Link written to cache'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLink
+      summary: 'Deletes Link from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'Link deleted from cache'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+  /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}:
+    parameters:
+      - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/localId'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedLinkPort
+      summary: 'Provides LinkPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'LinkPort provided from cache'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  core-model-1-4:link-port:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LINK_PORT'
+              examples:
+                generic:
+                  value:
+                    core-model-1-4:link-port:
+                      - local-id: '1'
+                        link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                        logical-termination-point: '51359991A+819.1.1'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    put:
+      operationId: putLinkPortToCache
+      summary: 'Writes LinkPort to cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                core-model-1-4:link-port:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LINK_PORT'
+            examples:
+              generic:
+                value:
+                  core-model-1-4:link-port:
+                    - local-id: '1'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                      logical-termination-point: '513270001+2146435233'
+                    - local-id: '2'
+                      link-port-direction: 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                      logical-termination-point: '513270005+2146435247'
+      responses:
+        '204':
+          description: 'LinkPort written to cache'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+    delete:
+      operationId: deleteCachedLinkPort
+      summary: 'Deletes LinkPort from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '204':
+          description: 'LinkPort deleted from cache'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
+
+
+#---------------------
+    LINK:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - link-direction
+            - forwarding-domain
+            - link-port
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            link-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+            forwarding-domain:
+              type: array
+              items:
+                type: string
+            link-port:
+              type: array
+              items:
+                $ref: '#/components/schemas/LINK_PORT'
+        - description: 'minimum for rest'
+          type: object
+          required:
+            - uuid
+            - layer-protocol-name
+            - end-point-list
+          properties:
+            uuid:
+              type: string
+            layer-protocol-name:
+              type: string
+            end-point-list:
+              type: array
+              items:
+                type: object
+                required:
+                  - control-construct
+                  - logical-termination-point
+                  - layer-protocol
+                properties:
+                  control-construct:
+                    type: string
+                  logical-termination-point:
+                    type: string
+                  layer-protocol:
+                    type: string
+    LINK_PORT:
+      oneOf:
+        - description: 'generic'
+          type: object
+          required:
+            - local-id
+            - link-port-direction
+            - logical-termination-point
+          properties:
+            local-id:
+              type: string
+            link-port-direction:
+              type: string
+              enum:
+                - 'core-model-1-4:PORT_DIRECTION_INPUT'
+                - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+                - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+                - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+            logical-termination-point:
+              type: string

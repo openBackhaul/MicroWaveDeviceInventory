@@ -111,8 +111,9 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
             listLink.LinkList.splice(indexToRemove, 1);
             let elapsedTime = await recordRequest(listLink, "linkList");
           }
+        } else {
+          throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
         }
-        throw new createHttpError.NotFound(`unable to DELETE records for link ${correctLink}`);
       }
     } catch (error) {
       reject(error);
@@ -161,13 +162,13 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
             result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
             let elapsedTime = await recordRequest(result, correctLink);
           } else {
-            throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+            throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
           }
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+          throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
         }
       } else {
-        throw new createHttpError.NotFound(`unable to DELETE records for linkport ${correctLink} / ${id}`);
+        throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
       resolve();
     } catch (error) {
@@ -217,7 +218,9 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -230,12 +233,12 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -292,7 +295,9 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -305,12 +310,12 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -367,7 +372,9 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -380,12 +387,12 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -442,7 +449,9 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -455,12 +464,12 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -517,7 +526,9 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -530,12 +541,12 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -590,7 +601,10 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+        .catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -603,16 +617,15 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
       resolve(returnObject);
     } catch (error) {
@@ -663,7 +676,10 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+        .catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -676,12 +692,12 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -736,7 +752,9 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -749,12 +767,12 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -810,7 +828,9 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -823,12 +843,12 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -884,7 +904,9 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -897,16 +919,15 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
       resolve(returnObject);
     } catch (error) {
@@ -959,7 +980,9 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -972,12 +995,12 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1034,7 +1057,9 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1047,12 +1072,12 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1107,7 +1132,9 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1121,16 +1148,15 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
       resolve(returnObject);
     } catch (error) {
@@ -1181,7 +1207,10 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+        .catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1194,12 +1223,12 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1255,7 +1284,9 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1268,12 +1299,12 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1330,7 +1361,9 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1343,12 +1376,12 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1405,7 +1438,9 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1418,12 +1453,12 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1480,7 +1515,9 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1493,12 +1530,12 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1555,7 +1592,9 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1568,12 +1607,12 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1630,7 +1669,9 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1643,12 +1684,12 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1703,7 +1744,9 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1716,12 +1759,12 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1777,7 +1820,9 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1790,12 +1835,12 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1851,7 +1896,9 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1864,16 +1911,15 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
       resolve(returnObject);
     } catch (error) {
@@ -1925,7 +1971,9 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1938,12 +1986,12 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -1999,7 +2047,9 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2012,12 +2062,12 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2075,7 +2125,9 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2088,12 +2140,12 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2149,7 +2201,9 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2162,12 +2216,12 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2224,7 +2278,9 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2237,12 +2293,12 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2299,7 +2355,9 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2312,12 +2370,12 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2374,7 +2432,9 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2387,12 +2447,12 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2449,7 +2509,9 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2462,12 +2524,12 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2511,10 +2573,10 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
         if (objectKey.indexOf("link") != -1) {
           resolve(result);
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+          throw new createHttpError(461, 'Not available. The topology (parent) object is currently not found in the cache.');
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError(461, 'Not available. The topology (parent) object is currently not found in the cache.');
       }
     } catch (error) {
       reject(error);
@@ -2568,7 +2630,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
               port => port["local-id"] === id
             );
           } else {
-            throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+            throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
           }
           // const linkPortArray = result[0]["link-port"].find(
           //   port => port["local-id"] === id
@@ -2576,10 +2638,10 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
           let returnObject = { [topJsonWrapper]: [linkPortArray] };
           resolve(returnObject);
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+          throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+        throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
     } catch (error) {
       reject(error);
@@ -2629,7 +2691,9 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2642,12 +2706,12 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2703,7 +2767,9 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2716,12 +2782,12 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2779,7 +2845,9 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2792,12 +2860,12 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2854,7 +2922,9 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2867,12 +2937,12 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -2929,7 +2999,9 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2942,12 +3014,12 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3003,7 +3075,9 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3016,12 +3090,12 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3077,7 +3151,9 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3090,12 +3166,12 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3151,7 +3227,9 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3164,12 +3242,12 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3224,7 +3302,9 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3237,12 +3317,12 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3298,7 +3378,9 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3311,12 +3393,12 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3373,7 +3455,9 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3386,12 +3470,12 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3448,7 +3532,9 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3461,12 +3547,12 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3523,7 +3609,9 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3536,12 +3624,12 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3597,7 +3685,9 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3610,12 +3700,12 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3671,7 +3761,9 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3684,12 +3776,12 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3745,7 +3837,9 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3758,12 +3852,12 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3819,7 +3913,9 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3832,12 +3928,12 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3894,7 +3990,9 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3907,12 +4005,12 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -3969,7 +4067,9 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3982,12 +4082,12 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -4044,7 +4144,9 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4057,12 +4159,12 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -4119,7 +4221,9 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4132,12 +4236,12 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -4194,7 +4298,9 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4207,12 +4313,12 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -4269,7 +4375,9 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4282,12 +4390,12 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -4343,7 +4451,9 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4356,12 +4466,12 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -4417,7 +4527,9 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4430,12 +4542,12 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `the specified  mountName ${correctMountname} does not exist within the connected device`);
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
@@ -9695,7 +9807,6 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
       resolve(returnObject);
     } catch (error) {
@@ -9820,7 +9931,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       let parallelLink = [linkId];
       let linkToCompare = await ReadRecords(linkId);
       if (linkToCompare == undefined) {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${linkId}`)
+        throw new createHttpError(461, `Not available. The topology (parent) object is currently not found in the cache.`);
       }
       if (!linkToCompare["core-model-1-4:link"][0]["end-point-list"]) {
         index = 1;
@@ -9909,7 +10020,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
         }
         let elapsedTime = await recordRequest(value, correctLink);
       } else {
-        throw new createHttpError.NotFound(`link ${correctLink} not found in cache: cannot put linkport for unknown link`);
+        throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
       resolve();
     } catch (error) {
@@ -10132,7 +10243,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
       } else if (!hasAttribute(resRequestor.data, attributeName)) {
-        throw new createHttpError.BadRequest;
+        throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
       } else {
         let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];
@@ -10191,9 +10302,11 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       const finalUrl = baseUrl + resource;
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       if (resRequestor == null) {
-        throw new createHttpError.NotFound;
+        throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       } else if (resRequestor.status != 200) {
-        if (resRequestor.response.statusText == undefined) {
+        if(resRequestor.status == 404) {
+          throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
+        } else if (resRequestor.response.statusText == undefined) {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
         } else {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
@@ -10258,7 +10371,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // read from ES
       let result = await ReadRecords(controlConstruct);
       if (result == undefined) {
-        throw new createHttpError.NotFound("unable to find device")
+        throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       }
       modifyReturnJson(result);
       // Update json object
@@ -10683,7 +10796,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
   }
 }
 
-exports.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = async function () {
+exports. NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = async function () {
   try {
     const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
     const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);

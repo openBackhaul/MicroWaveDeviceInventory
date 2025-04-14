@@ -1,9 +1,7 @@
 {
 	"info": {
-		"_postman_id": "08fbeaa7-b27b-436f-8a28-b3f9eb588cfc",
 		"name": "mwdi+testcase.unknownTargetObject.dataproviders",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9698906"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{

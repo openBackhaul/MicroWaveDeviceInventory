@@ -1,0 +1,77 @@
+@startuml mwdi+diagram.completeness.receiver
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.completeness.receiver
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/regard-controller-attribute-value-change" as RCAVC
+participant "/v1/regard-device-alarm" as RDA
+participant "/v1/regard-device-attribute-value-change" as RDAVC
+participant "/v1/regard-device-object-deletion" as RDOD
+participant "/v1/regard-device-object-creation" as RDOC
+
+group Preparation
+  Data --\\o Postman : {servers, collection-input-list=(mount-name; deviceAlarm: mount-name, alarm-type-id; deviceAttributeValueChange: target, attribute-name, new-value; objectCreation: target)}
+  activate Postman
+  Postman --\\o Collection : {servers, collection-input-list}
+end
+
+group /v1/regard-controller-attribute-value-change
+  Collection --\\o Postman : {servers}
+  Postman -> RCAVC : {counter, timestamp, resource, attribute-name, new-value}
+  Postman <-- RCAVC : 204
+  note right Postman #Orange
+    check for 204
+  end note
+end
+
+group /v1/regard-device-alarm
+  Collection --\\o Postman : {servers, mount-name; alarm-type-id}
+  Postman -> RDA : {alarm-event-sequence-number, timestamp, resource, alarm-type-id, alarm-type-qualifier, problem-severity}
+  Postman <-- RDA : 204
+  note right Postman #Orange
+    check for 204
+  end note
+end
+
+group /v1/regard-device-attribute-value-change
+  Collection --\\o Postman : {servers, target (=object-path), attribute-name, new-value}
+  Postman -> RDAVC : {counter, timestamp, object-path, attribute-name, new-value}
+  Postman <-- RDAVC : 204
+  note right Postman #Orange
+    check for 204
+  end note
+end
+
+note over Postman, RDOC
+  Execute object deletion and object creation for the same target object
+  - deletion must be executed first
+  - ensure that the target object exists on the Controller
+end note
+
+group /v1/regard-device-object-deletion
+  Collection --\\o Postman : {servers, (object-creation) target}
+  Postman -> RDOD : {counter, timestamp, object-path}
+  Postman <-- RDOD : 204
+  note right Postman #Orange
+    check for 204
+  end note
+end
+
+group /v1/regard-device-object-creation
+  Collection --\\o Postman : {servers, target}
+  Postman -> RDOC : {counter, timestamp, object-path}
+  Postman <-- RDOC : 204
+  note right Postman #Orange
+    check for 204
+  end note
+end
+
+deactivate Postman
+
+@enduml

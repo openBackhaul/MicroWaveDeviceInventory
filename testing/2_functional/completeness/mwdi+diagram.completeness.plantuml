@@ -1,0 +1,80 @@
+@startuml mwdi+diagram.completeness
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.completeness
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+group Receivers for Notifications
+  note right Postman
+    see mwdi+diagram.completeness.receiver
+  end note
+end
+
+group Providers of Data
+  note right Postman
+    see mwdi+diagram.completeness.dataprovider
+  end note
+end
+
+group Offered Subscriptions
+  note right Postman
+    see mwdi+diagram.completeness.subscriptions
+  end note
+end
+
+group Cache Enrichment
+  note right Postman
+    see mwdi+diagram.completeness.cacheEnrichment
+  end note
+end
+
+group ControlConstruct
+  note right Postman
+    t.b.d. (2)
+  end note
+end
+
+group Alarms
+  note right Postman
+    might be transferred into another application
+  end note
+end
+
+group Equipment
+  note right Postman
+    t.b.d. (1)
+  end note
+end
+
+group Firmware
+  note right Postman
+    t.b.d. (5)
+  end note
+end
+
+group Profiles
+  note right Postman
+    see mwdi+diagram.completeness.profiles
+  end note
+end
+
+group Connections
+  note right Postman
+    t.b.d. (4)
+  end note
+end
+
+group Interfaces
+  note right Postman
+    mwdi+diagram.completeness.interfaces
+  end note
+end
+
+deactivate Postman
+
+@enduml

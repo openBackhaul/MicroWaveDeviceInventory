@@ -1,0 +1,41 @@
+@startuml mwdi+diagram.unknownTargetObject
+
+title
+mwdi+testcase.unknownTargetObject
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+group Receivers for Notifications
+  note right Postman
+    see mwdi+diagram.unknownTargetObject.receiver
+  end note
+end
+
+group Providers of Data
+  note right Postman
+    see mwdi+diagram.unknownTargetObject.dataprovider
+  end note
+end
+
+group Offered Subscriptions
+  note right Postman
+    not applicable
+    requestBodies without target object
+  end note
+end
+
+group Ressource Paths
+  note right Postman
+    Neither cache nor live paths have requestBodies,
+    for enrichment ressource paths (link/linkPort) targets
+    are identified via path parameters,
+    therefore out of scope
+  end note
+end
+
+deactivate Postman
+
+@enduml

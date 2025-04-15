@@ -30,18 +30,22 @@ The RESTCONF interface of the controller could process the same requests, too.
 The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based method) that relate to the content of its cache.  
 
 ### Latest Update  
+
+**v1.2.0 and v1.2.1**  
 The v1.2.0 release adds the following new functionality:  
 - new convenience services for retrieving stored information of external connections (link, linkport)  
 - a new metadata table which contains status information for all devices, not only those, which are currently in connected state at the Controller. This includes the connection status, as well as e.g. timestamp information about controlConstruct updates. (Note: this does not include storing of controlConstructs of not connected devices.)  
 - services for wred-template-profile have been added.  
 - also the specification has been updated to use the latest release of the ApplicationPattern (v2.1.2)  
 
-Details can be found in the issue collection [MWDI v1.2.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/11).  
+As release v1.2.0 was a pre-release of the specification handed over to implementers for effort estimation, some open issues were fixed with 1.2.1.  
+
+**v1.2.1**  
+Spec release version 1.2.2 fixes further findings found by implementers during implementation of v1.2.1.  
+The list of issues can be found in issue collection [MWDI v1.2.2_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/18).  
 
 #### Open issues
-Spec release v1.2.0 will be a prerelease of the specification handed over to the implementers for effort estimation.  
-There are still some open issues, which will be fixed and delivered with spec release 1.2.1.  
-The list of open issues in scope can be found in the issue collection [MWDI v1.2.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/15).  
+./. 
 
 ### Relevance
 The MicroWaveDeviceInventory holds the inventory of the live MW network at Telefonica Germany.  

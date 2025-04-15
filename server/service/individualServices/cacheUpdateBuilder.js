@@ -50,9 +50,9 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
           //          console.log(JSON.stringify(originalJSON, null, 2));
         } else {
           lastKey = lastKey + "." + key;
-          throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
+          //throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
 
-          //          console.log(`Nessun elemento trovato con UUID: ${uuidDaCercare}`);
+          console.warn(`No elements found with UUID: ${uuidDaCercare}`);
           break;
         }
       } else {
@@ -105,9 +105,9 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         oggetto = oggetto[objectKey];
         let objectKey1 = Object.keys(oggetto)[0];
         oggetto = oggetto[nomeArray];
-       // oggetto = oggetto[nomeArray];
+        // oggetto = oggetto[nomeArray];
       }
-      // If the key doesn't contain square brackets get the objet value
+      // If the key doesn't contain square brackets get the object value
       if (i === chiavi.length - 1) {
         // If this is the last key in the path, assign the new value
         if (Filters) {
@@ -116,11 +116,11 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
           let result = mergeJson(oggetto, newJSON)
         } else {
           if (nuovoJSON === null) {
-            oggetto[nomeArray].splice(indice,1);
+            oggetto[nomeArray].splice(indice, 1);
           } else {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
-         //   oggetto[nomeArray] = newJSON;
+            //   oggetto[nomeArray] = newJSON;
             oggetto = newJSON;
           }
         }
@@ -142,7 +142,7 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
             let result = mergeJson(oggetto[nomeArray][indice], newJSON)
           } else {
             if (nuovoJSON === null) {
-              oggetto[nomeArray].splice(indice,1);
+              oggetto[nomeArray].splice(indice, 1);
               //delete oggetto[nomeArray][indice];
             } else {
               let objectKey = Object.keys(nuovoJSON)[0];
@@ -156,21 +156,23 @@ function assignValueToJson(json, percorso, nuovoJSON, filters) {
         }
       } else {
         // If the key doesn't contain square brackets get the objet value
-          if (i === chiavi.length -1) {
-            // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
-            if (Filters) {
+        if (i === chiavi.length - 1) {
+          // Se questa è l'ultima chiave nel percorso, assegna il nuovo valore
+          if (Filters) {
+            let objectKey = Object.keys(nuovoJSON)[0];
+            let newJSON = nuovoJSON[objectKey];
+            let result = mergeJson(oggetto[nomeArray], newJSON)
+          } else {
+            if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
-              let newJSON = nuovoJSON[objectKey];
-              let result = mergeJson(oggetto[nomeArray], newJSON)
-            } else {
-              let objectKey = Object.keys(nuovoJSON)[0];
-              let newJSON = nuovoJSON[objectKey]
-              oggetto[chiave] = newJSON;
+              let newJSON = nuovoJSON[objectKey][0];
+              oggetto[nomeArray][indice] = newJSON;
             }
-          } else { 
-        // Otherwise go on parsing the object
-        oggetto = oggetto[chiave];
-        nomeArray = chiave;
+          }
+        } else {
+          // Otherwise go on parsing the object
+          oggetto = oggetto[chiave];
+          nomeArray = chiave;
         }
       }
     }

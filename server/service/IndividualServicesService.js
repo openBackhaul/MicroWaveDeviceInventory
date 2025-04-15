@@ -10875,7 +10875,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
     }
 
   } catch (error) {
-    logger.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
+    logger.error(`SubscribingForNotifications - subscribing request from MWDI, failed with response status: ${error.message}`);
     return false;
   }
 }

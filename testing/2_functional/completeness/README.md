@@ -23,6 +23,7 @@
   - [Receivers of Notifications](./v1.2.2/Receiver/)  
   - [Providers of Data](./v1.2.2/Dataprovider/)  
   - [Offered Subscriptions](./v1.2.2/Subscriptions/)  
+  - [CacheEnrichment](./v1/2.2/CacheEnrichement)  
   - [ControlConstruct](./v1.2.2/CC/)  
   - [Alarms](./v1.2.2/Alarms/)  
   - [Equipment](./v1.2.2/Equipment/)  

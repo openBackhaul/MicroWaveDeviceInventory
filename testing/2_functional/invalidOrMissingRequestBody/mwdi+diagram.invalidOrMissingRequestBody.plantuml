@@ -33,6 +33,12 @@ group ControlConstruct
   end note
 end
 
+group Cache Enrichment
+  note right Postman
+    see mwdi+diagram.invalidOrMissingRequestBody.cacheEnrichment
+  end note
+end
+
 group Alarms
   note right Postman
     might be transferred into another application

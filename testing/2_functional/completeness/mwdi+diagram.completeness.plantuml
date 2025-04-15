@@ -27,6 +27,12 @@ group Offered Subscriptions
   end note
 end
 
+group Cache Enrichment
+  note right Postman
+    see mwdi+diagram.completeness.cacheEnrichment
+  end note
+end
+
 group ControlConstruct
   note right Postman
     t.b.d. (2)

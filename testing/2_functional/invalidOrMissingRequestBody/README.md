@@ -32,6 +32,7 @@
   - [Receivers of Notifications](./v1.2.2/Receiver/)  
   - [Providers of Data](./v1.2.2/Dataprovider/)  
   - [Offered Subscriptions](./v1.2.2/Subscriptions/)  
+  - [Cache Enrichment](./v1.2.2/CacheEnrichment)  
   - not yet existing:
     - [ControlConstruct]  
     - [Alarms]  

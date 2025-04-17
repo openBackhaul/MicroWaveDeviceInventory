@@ -602,9 +602,9 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
-        .catch((error) => {
-          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
-        });
+          .catch((error) => {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -677,9 +677,9 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
-        .catch((error) => {
-          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
-        });
+          .catch((error) => {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1208,9 +1208,9 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
-        .catch((error) => {
-          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
-        });
+          .catch((error) => {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4575,12 +4575,12 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getCachedWredTemplateProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-template-profile-1-0:wred-template-profile-capability" : { }
-};
+      "wred-template-profile-1-0:wred-template-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -4603,12 +4603,12 @@ exports.getCachedWredTemplateProfileCapability = function(user,originator,xCorre
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getCachedWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWredTemplateProfileConfiguration = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-template-profile-1-0:wred-template-profile-configuration" : { }
-};
+      "wred-template-profile-1-0:wred-template-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -4656,14 +4656,19 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -4688,6 +4693,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -4735,14 +4741,19 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -4767,6 +4778,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -4814,14 +4826,19 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -4846,6 +4863,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -4892,18 +4910,24 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -4951,14 +4975,19 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -4983,6 +5012,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5030,14 +5060,19 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5062,6 +5097,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5107,14 +5143,20 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
-        } else {
+        } else { 
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5139,6 +5181,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5184,14 +5227,20 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5216,6 +5265,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5261,14 +5311,19 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5293,6 +5348,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5339,14 +5395,19 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5371,6 +5432,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5417,14 +5479,19 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5449,6 +5516,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5496,14 +5564,19 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5528,6 +5601,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5575,14 +5649,19 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5607,6 +5686,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5652,51 +5732,54 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
-          resolve(NotFound());
-          throw new createHttpError.NotFound;
+          //resolve(NotFound());
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (result.status != 200) {
           if (result.statusText == undefined) {
-            resolve(result.status, result.message);
-            throw new createHttpError(result.status, result.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (result.statusText == 401 || result.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            resolve(result.status, result.statusText);
-            throw new createHttpError(result.status, result.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = result.data;
-          modificaUUID(jsonObj, correctCc);
-          if (myFields === undefined) {
-            try {
-              let elapsedTime = await recordRequest(jsonObj, correctCc);
-            }
-            catch (error) {
-              console.error(error);
-            }
-            modifyReturnJson(jsonObj);
-            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
-            resolve(res);
+          if (result.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-            let filters = true;
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            try {
-              // read from ES
-              let result1 = await ReadRecords(correctCc);
-              // Update json object
-              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
-              // Write updated Json to ES
-              let elapsedTime = await recordRequest(result1, correctCc);
+            let jsonObj = result.data;
+            modificaUUID(jsonObj, correctCc);
+            if (myFields === undefined) {
+              try {
+                let elapsedTime = await recordRequest(jsonObj, correctCc);
+              }
+              catch (error) {
+                console.error(error);
+              }
+              modifyReturnJson(jsonObj);
+              let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+              resolve(res);
+            } else {
+              let filters = true;
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              try {
+                // read from ES
+                let result1 = await ReadRecords(correctCc);
+                // Update json object
+                let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
+                // Write updated Json to ES
+                let elapsedTime = await recordRequest(result1, correctCc);
+              } catch (error) {
+                console.error(error);
+              }
+              modifyReturnJson(jsonObj)
+              let splittedUrl = url.split('?');
+              let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+              resolve(res);
             }
-            catch (error) {
-              console.error(error);
-            }
-            modifyReturnJson(jsonObj)
-            let splittedUrl = url.split('?');
-            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
-            resolve(res);
           }
-
         }
       }
     }
@@ -5745,16 +5828,20 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
-          if (res.message == undefined) {
-            resolve(res);
-            throw new createHttpError(res.status, res.statusText);
+          if (res.statusText == undefined) {
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            resolve(res);
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5779,6 +5866,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5825,14 +5913,19 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5857,6 +5950,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5904,14 +5998,19 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -5936,6 +6035,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -5983,14 +6083,19 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6015,6 +6120,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6061,18 +6167,24 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6120,14 +6232,19 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6152,6 +6269,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6199,14 +6317,19 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6231,6 +6354,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6278,14 +6402,19 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6310,6 +6439,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6355,14 +6485,19 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6387,6 +6522,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6433,14 +6569,19 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6465,6 +6606,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6511,14 +6653,19 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6543,6 +6690,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6589,14 +6737,19 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6621,6 +6774,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6667,14 +6821,19 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6699,6 +6858,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6747,14 +6907,19 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6779,6 +6944,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6825,14 +6991,19 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6857,6 +7028,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6903,14 +7075,19 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -6935,6 +7112,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -6982,14 +7160,19 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7014,6 +7197,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7060,18 +7244,24 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7119,14 +7309,19 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7151,6 +7346,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7198,14 +7394,19 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7230,6 +7431,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7276,14 +7478,19 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7308,6 +7515,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7354,14 +7562,19 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7386,6 +7599,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7433,14 +7647,19 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7465,6 +7684,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7512,14 +7732,19 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7544,6 +7769,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7591,14 +7817,19 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7623,6 +7854,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7669,14 +7901,19 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7701,6 +7938,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7747,14 +7985,19 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7779,6 +8022,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7825,14 +8069,19 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7857,6 +8106,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7902,14 +8152,19 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -7934,6 +8189,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -7981,14 +8237,19 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8013,6 +8274,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8060,14 +8322,19 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8092,6 +8359,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8138,18 +8406,24 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8197,14 +8471,19 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8229,6 +8508,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8276,14 +8556,19 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8308,6 +8593,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8354,14 +8640,19 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8386,6 +8677,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8432,14 +8724,19 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8464,6 +8761,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8510,14 +8808,19 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8542,6 +8845,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8587,14 +8891,19 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8619,6 +8928,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8666,14 +8976,19 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8698,6 +9013,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8745,14 +9061,19 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8777,6 +9098,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8823,14 +9145,19 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8855,6 +9182,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8902,14 +9230,19 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -8934,6 +9267,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -8980,18 +9314,24 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           // modificaUUID(jsonObj, correctCc);
           resolve(jsonObj);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -9039,14 +9379,19 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -9071,6 +9416,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -9118,14 +9464,19 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -9150,6 +9501,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -9196,14 +9548,19 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -9228,6 +9585,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
           modifyReturnJson(retJson)
           resolve(retJson);
         }
+      }
       }
     } catch (error) {
       console.error(error);
@@ -9274,14 +9632,19 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
           let jsonObj = res.data;
           retJson = jsonObj;
           modificaUUID(jsonObj, correctCc);
@@ -9307,6 +9670,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
           resolve(retJson);
         }
       }
+      }
     } catch (error) {
       console.error(error);
       reject(error);
@@ -9328,12 +9692,12 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getLiveWredTemplateProfileCapability = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-template-profile-1-0:wred-template-profile-capability" : { }
-};
+      "wred-template-profile-1-0:wred-template-profile-capability": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -9356,12 +9720,12 @@ exports.getLiveWredTemplateProfileCapability = function(user,originator,xCorrela
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_69
  **/
-exports.getLiveWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getLiveWredTemplateProfileConfiguration = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "wred-profile-1-0:wred-profile-configuration" : { }
-};
+      "wred-profile-1-0:wred-profile-configuration": {}
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -9528,29 +9892,29 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_7
  **/
-exports.provideDataOfLinkPorts = function(user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(async function(resolve, reject) {
+exports.provideDataOfLinkPorts = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
       let linkListRecord = await ReadRecords("linkList");
-      if(linkListRecord != undefined) {
+      if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
-        for(let i=0; i<linkUuidList.length; i++) {
+        for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
           let linkRecordForLinkUuid = await ReadRecords(linkUuid);
-          if(linkRecordForLinkUuid != undefined) {
+          if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
-            if(link.hasOwnProperty("forwarding-domain")) {
+            if (link.hasOwnProperty("forwarding-domain")) {
               let linkRecord = {
                 "uuid": link["uuid"],
                 "link-port": link["link-port"]
               }
               responseLinkList.push(linkRecord);
             }
-          } 
+          }
         }
-        resolve ({
-          "core-model-1-4:link-ports" : responseLinkList
+        resolve({
+          "core-model-1-4:link-ports": responseLinkList
         });
       } else {
         throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
@@ -9575,28 +9939,28 @@ exports.provideDataOfLinkPorts = function(user,originator,xCorrelator,traceIndic
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_6
  **/
-exports.provideDataOfLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(async function(resolve, reject) {
+exports.provideDataOfLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
     try {
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
       let linkListRecord = await ReadRecords("linkList");
-      if(linkListRecord != undefined) {
+      if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
-        for(let i=0; i<linkUuidList.length; i++) {
+        for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
           let linkRecordForLinkUuid = await ReadRecords(linkUuid);
-          if(linkRecordForLinkUuid != undefined) {
+          if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
-            if(link.hasOwnProperty("forwarding-domain")) linkType = "generic";
+            if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
             else linkType = "minimumForRest";
-            if(linkType == requestedLinkType) responseLinkList.push(link);
-          } 
+            if (linkType == requestedLinkType) responseLinkList.push(link);
+          }
         }
-        resolve ({
-          "core-model-1-4:link" : responseLinkList
+        resolve({
+          "core-model-1-4:link": responseLinkList
         });
       } else {
         throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
@@ -9621,30 +9985,30 @@ exports.provideDataOfLinks = function(body,user,originator,xCorrelator,traceIndi
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_8
  **/
-exports.provideDeviceStatusMetadata = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "device-status-metadata" : [ {
-    "mount-name" : "mount-name",
-    "added-to-device-list-time" : "added-to-device-list-time",
-    "last-complete-control-construct-update-time" : "last-complete-control-construct-update-time",
-    "number-of-partial-updates-since-last-complete-update" : 0,
-    "schema-cache-directory" : "schema-cache-directory",
-    "last-control-construct-notification-update-time" : "last-control-construct-notification-update-time",
-    "connection-status" : "connected",
-    "changed-to-disconnected-time" : "changed-to-disconnected-time"
-  }, {
-    "mount-name" : "mount-name",
-    "added-to-device-list-time" : "added-to-device-list-time",
-    "last-complete-control-construct-update-time" : "last-complete-control-construct-update-time",
-    "number-of-partial-updates-since-last-complete-update" : 0,
-    "schema-cache-directory" : "schema-cache-directory",
-    "last-control-construct-notification-update-time" : "last-control-construct-notification-update-time",
-    "connection-status" : "connected",
-    "changed-to-disconnected-time" : "changed-to-disconnected-time"
-  } ]
-};
+      "device-status-metadata": [{
+        "mount-name": "mount-name",
+        "added-to-device-list-time": "added-to-device-list-time",
+        "last-complete-control-construct-update-time": "last-complete-control-construct-update-time",
+        "number-of-partial-updates-since-last-complete-update": 0,
+        "schema-cache-directory": "schema-cache-directory",
+        "last-control-construct-notification-update-time": "last-control-construct-notification-update-time",
+        "connection-status": "connected",
+        "changed-to-disconnected-time": "changed-to-disconnected-time"
+      }, {
+        "mount-name": "mount-name",
+        "added-to-device-list-time": "added-to-device-list-time",
+        "last-complete-control-construct-update-time": "last-complete-control-construct-update-time",
+        "number-of-partial-updates-since-last-complete-update": 0,
+        "schema-cache-directory": "schema-cache-directory",
+        "last-control-construct-notification-update-time": "last-control-construct-notification-update-time",
+        "connection-status": "connected",
+        "changed-to-disconnected-time": "changed-to-disconnected-time"
+      }]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -9696,13 +10060,14 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
           const transformedData = {
             "top-level-equipment": finalJson[0]["top-level-equipment"],
             "actual-equipment-list": finalJson[0]["equipment"].map((item) => {
-              equipmentType = item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"] 
-              if(equipmentType){
-              return {
-              uuid: item.uuid,
-              "equipment-type-name":equipmentType,
-            }}
-            }).filter((item) =>  {return item !== undefined})
+              equipmentType = item["actual-equipment"]?.["manufactured-thing"]?.["equipment-type"]?.["type-name"]
+              if (equipmentType) {
+                return {
+                  uuid: item.uuid,
+                  "equipment-type-name": equipmentType,
+                }
+              }
+            }).filter((item) => { return item !== undefined })
           };
           returnObject = transformedData;
         } else {
@@ -9826,30 +10191,30 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_5
  **/
-exports.provideListOfLinkPorts = function(user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(async function(resolve, reject) {
+exports.provideListOfLinkPorts = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
       let linkListRecord = await ReadRecords("linkList");
-      if(linkListRecord != undefined) {
+      if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
-        for(let i=0; i<linkUuidList.length; i++) {
+        for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
           let linkRecordForLinkUuid = await ReadRecords(linkUuid);
-          if(linkRecordForLinkUuid != undefined) {
+          if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             let linkRecord = {};
-            if(link.hasOwnProperty("forwarding-domain")) {
+            if (link.hasOwnProperty("forwarding-domain")) {
               let linkPortList = link["link-port"].map(linkPort => linkPort["local-id"]);
               let responseObject = {
                 "link-uuid": linkUuid,
-                "link-port" : linkPortList
+                "link-port": linkPortList
               }
               responseLinkList.push(responseObject);
             }
-          } 
+          }
         }
-        resolve (responseLinkList);
+        resolve(responseLinkList);
       } else {
         throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
       }
@@ -9873,28 +10238,28 @@ exports.provideListOfLinkPorts = function(user,originator,xCorrelator,traceIndic
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_4
  **/
-exports.provideListOfLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(async function(resolve, reject) {
+exports.provideListOfLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
     try {
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
       let linkListRecord = await ReadRecords("linkList");
-      if(linkListRecord != undefined) {
+      if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
-        for(let i=0; i<linkUuidList.length; i++) {
+        for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
           let linkRecordForLinkUuid = await ReadRecords(linkUuid);
-          if(linkRecordForLinkUuid != undefined) {
+          if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
-            if(link.hasOwnProperty("forwarding-domain")) linkType = "generic";
+            if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
             else linkType = "minimumForRest";
-            if(linkType == requestedLinkType) responseLinkList.push(linkUuid);
-          } 
+            if (linkType == requestedLinkType) responseLinkList.push(linkUuid);
+          }
         }
-        resolve ({
-          "link-list" : responseLinkList
+        resolve({
+          "link-list": responseLinkList
         });
       } else {
         throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
@@ -10304,7 +10669,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       if (resRequestor == null) {
         throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       } else if (resRequestor.status != 200) {
-        if(resRequestor.status == 404) {
+        if (resRequestor.status == 404) {
           throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
         } else if (resRequestor.response.statusText == undefined) {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
@@ -10796,7 +11161,7 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
   }
 }
 
-exports. NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = async function () {
+exports.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = async function () {
   try {
     const forwardingName = "NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache";
     const forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
@@ -11946,10 +12311,10 @@ function hasAttribute(json, attributeName) {
 function decodeURIWithCheck(encodedUri) {
   // Verify if URI contains "%25"
   if (encodedUri.includes("%25")) {
-      // if contains "%25", it means that it's double codified
-      return decodeURIComponent(decodeURIComponent(encodedUri));
+    // if contains "%25", it means that it's double codified
+    return decodeURIComponent(decodeURIComponent(encodedUri));
   } else {
-      // Otherwise is codified only once
-      return decodeURIComponent(encodedUri);
+    // Otherwise is codified only once
+    return decodeURIComponent(encodedUri);
   }
 }

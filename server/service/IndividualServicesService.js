@@ -112,8 +112,9 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
             listLink.LinkList.splice(indexToRemove, 1);
             let elapsedTime = await recordRequest(listLink, "linkList");
           }
+        } else {
+          throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
         }
-        throw new createHttpError.NotFound(`unable to DELETE records for link ${correctLink}`);
       }
     } catch (error) {
       reject(error);
@@ -162,13 +163,13 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
             result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
             let elapsedTime = await recordRequest(result, correctLink);
           } else {
-            throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+            throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
           }
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+          throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
         }
       } else {
-        throw new createHttpError.NotFound(`unable to DELETE records for linkport ${correctLink} / ${id}`);
+        throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
       resolve();
     } catch (error) {
@@ -218,7 +219,9 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -231,15 +234,16 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -292,7 +296,9 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -305,15 +311,16 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -366,7 +373,9 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -379,15 +388,16 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -440,7 +450,9 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -453,15 +465,16 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -514,7 +527,9 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -527,15 +542,16 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -586,7 +602,10 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+          .catch((error) => {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -599,15 +618,15 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -658,7 +677,10 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+          .catch((error) => {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -671,15 +693,16 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -730,7 +753,9 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -743,15 +768,16 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -803,7 +829,9 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -816,15 +844,16 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -876,7 +905,9 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -889,15 +920,15 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -950,7 +981,9 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -963,15 +996,16 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1024,7 +1058,9 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1037,15 +1073,16 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1096,7 +1133,9 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1110,15 +1149,15 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1169,7 +1208,10 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+          .catch((error) => {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1182,15 +1224,16 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1242,7 +1285,9 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1255,15 +1300,16 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1316,7 +1362,9 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1329,15 +1377,16 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1390,7 +1439,9 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1403,15 +1454,16 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1464,7 +1516,9 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1477,15 +1531,16 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1538,7 +1593,9 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1551,15 +1608,16 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1612,7 +1670,9 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1625,15 +1685,16 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1684,7 +1745,9 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1697,15 +1760,16 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1757,7 +1821,9 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1770,15 +1836,16 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1830,7 +1897,9 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1843,15 +1912,15 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -1903,7 +1972,9 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1916,15 +1987,16 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -1976,7 +2048,9 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -1989,15 +2063,16 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2051,7 +2126,9 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2064,15 +2141,16 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2124,7 +2202,9 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2137,15 +2217,16 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2198,7 +2279,9 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2211,15 +2294,16 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2272,7 +2356,9 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2285,15 +2371,16 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2346,7 +2433,9 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2359,15 +2448,16 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2420,7 +2510,9 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2433,15 +2525,16 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2481,10 +2574,10 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
         if (objectKey.indexOf("link") != -1) {
           resolve(result);
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+          throw new createHttpError(461, 'Not available. The topology (parent) object is currently not found in the cache.');
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${correctLink}`);
+        throw new createHttpError(461, 'Not available. The topology (parent) object is currently not found in the cache.');
       }
     } catch (error) {
       reject(error);
@@ -2538,7 +2631,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
               port => port["local-id"] === id
             );
           } else {
-            throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+            throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
           }
           // const linkPortArray = result[0]["link-port"].find(
           //   port => port["local-id"] === id
@@ -2546,10 +2639,10 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
           let returnObject = { [topJsonWrapper]: [linkPortArray] };
           resolve(returnObject);
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+          throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for linkport ${correctLink} / ${id}`);
+        throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
     } catch (error) {
       reject(error);
@@ -2599,7 +2692,9 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2612,15 +2707,16 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2672,7 +2768,9 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2685,15 +2783,16 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2747,7 +2846,9 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2760,15 +2861,16 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2821,7 +2923,9 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2834,15 +2938,16 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2895,7 +3000,9 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2908,15 +3015,16 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -2968,7 +3076,9 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -2981,15 +3091,16 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3041,7 +3152,9 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3054,15 +3167,16 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3114,7 +3228,9 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3127,15 +3243,16 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3186,7 +3303,9 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3199,15 +3318,16 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3259,7 +3379,9 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3272,15 +3394,16 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3333,7 +3456,9 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3346,15 +3471,16 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3407,7 +3533,9 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3420,15 +3548,16 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3481,7 +3610,9 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3494,15 +3625,16 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3554,7 +3686,9 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3567,15 +3701,16 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3627,7 +3762,9 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3640,15 +3777,16 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3700,7 +3838,9 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3713,15 +3853,16 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3773,7 +3914,9 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3786,15 +3929,16 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3847,7 +3991,9 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3860,15 +4006,16 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3921,7 +4068,9 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -3934,15 +4083,16 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -3995,7 +4145,9 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4008,15 +4160,16 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4069,7 +4222,9 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4082,15 +4237,16 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4143,7 +4299,9 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4156,15 +4314,16 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4217,7 +4376,9 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4230,15 +4391,16 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4290,7 +4452,9 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4303,15 +4467,16 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4363,7 +4528,9 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+        });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -4376,15 +4543,16 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
-              throw new createHttpError.BadRequest;
+              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
           }
           returnObject[objectKey] = finalJson;
         } else {
-          throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+          throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError.NotFound(`unable to fetch records for mountName ${correctMountname}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -4410,16 +4578,20 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  **/
 exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "wred-template-profile-1-0:wred-template-profile-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+    exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+      return new Promise(function (resolve, reject) {
+        var examples = {};
+        examples['application/json'] = {
+          "wred-template-profile-1-0:wred-template-profile-capability": {}
+        };
+        "wred-template-profile-1-0:wred-template-profile-capability": { }
+      };
+      if (Object.keys(examples).length > 0) {
+        resolve(examples[Object.keys(examples)[0]]);
+      } else {
+        resolve();
+      }
+    });
 }
 
 //to add
@@ -4436,8 +4608,8 @@ exports.getCachedWredTemplateProfileCapability = function (user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getCachedWredTemplateProfileConfiguration = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
+exports.getCachedWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
       "wred-template-profile-1-0:wred-template-profile-configuration": {}
@@ -4489,37 +4661,43 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -4568,37 +4746,43 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -4647,37 +4831,43 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -4725,17 +4915,23 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
       }
     } catch (error) {
@@ -4784,37 +4980,43 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -4863,37 +5065,43 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -4940,37 +5148,44 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5017,37 +5232,44 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5094,37 +5316,43 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5172,37 +5400,43 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5250,37 +5484,43 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5329,37 +5569,43 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5408,37 +5654,43 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5485,51 +5737,54 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
-          resolve(NotFound());
-          throw new createHttpError.NotFound;
+          //resolve(NotFound());
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (result.status != 200) {
           if (result.statusText == undefined) {
-            resolve(result.status, result.message);
-            throw new createHttpError(result.status, result.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (result.statusText == 401 || result.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            resolve(result.status, result.statusText);
-            throw new createHttpError(result.status, result.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = result.data;
-          modificaUUID(jsonObj, correctCc);
-          if (myFields === undefined) {
-            try {
-              let elapsedTime = await recordRequest(jsonObj, correctCc);
-            }
-            catch (error) {
-              console.error(error);
-            }
-            modifyReturnJson(jsonObj);
-            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
-            resolve(res);
+          if (result.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-            let filters = true;
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            try {
-              // read from ES
-              let result1 = await ReadRecords(correctCc);
-              // Update json object
-              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
-              // Write updated Json to ES
-              let elapsedTime = await recordRequest(result1, correctCc);
+            let jsonObj = result.data;
+            modificaUUID(jsonObj, correctCc);
+            if (myFields === undefined) {
+              try {
+                let elapsedTime = await recordRequest(jsonObj, correctCc);
+              }
+              catch (error) {
+                console.error(error);
+              }
+              modifyReturnJson(jsonObj);
+              let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+              resolve(res);
+            } else {
+              let filters = true;
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              try {
+                // read from ES
+                let result1 = await ReadRecords(correctCc);
+                // Update json object
+                let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
+                // Write updated Json to ES
+                let elapsedTime = await recordRequest(result1, correctCc);
+              } catch (error) {
+                console.error(error);
+              }
+              modifyReturnJson(jsonObj)
+              let splittedUrl = url.split('?');
+              let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+              resolve(res);
             }
-            catch (error) {
-              console.error(error);
-            }
-            modifyReturnJson(jsonObj)
-            let splittedUrl = url.split('?');
-            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
-            resolve(res);
           }
-
         }
       }
     }
@@ -5578,39 +5833,44 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
-          if (res.message == undefined) {
-            resolve(res);
-            throw new createHttpError(res.status, res.statusText);
+          if (res.statusText == undefined) {
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            // resolve(result.status, result.statusText);
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            resolve(res);
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5658,37 +5918,43 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5737,37 +6003,43 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5816,37 +6088,43 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -5894,17 +6172,23 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.notFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
       }
     } catch (error) {
@@ -5953,37 +6237,43 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6032,37 +6322,43 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6111,37 +6407,43 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6188,37 +6490,43 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6266,37 +6574,43 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6344,37 +6658,43 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6422,37 +6742,43 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6500,37 +6826,43 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6580,37 +6912,43 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6658,37 +6996,43 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6736,37 +7080,43 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6815,37 +7165,43 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -6893,17 +7249,23 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
       }
     } catch (error) {
@@ -6952,37 +7314,43 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7031,37 +7399,43 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7109,37 +7483,43 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7187,37 +7567,43 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7266,37 +7652,43 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7345,37 +7737,43 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7424,37 +7822,43 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7502,37 +7906,43 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7580,37 +7990,43 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7658,37 +8074,43 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7735,37 +8157,43 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7814,37 +8242,43 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7893,37 +8327,43 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -7971,17 +8411,23 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
       }
     } catch (error) {
@@ -8030,37 +8476,43 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8109,37 +8561,43 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8187,37 +8645,43 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8265,37 +8729,43 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8343,37 +8813,43 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8420,37 +8896,43 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8499,37 +8981,43 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8578,37 +9066,43 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8656,37 +9150,43 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8735,37 +9235,43 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8813,17 +9319,23 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
       }
     } catch (error) {
@@ -8872,37 +9384,43 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -8951,37 +9469,43 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -9029,37 +9553,43 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -9107,37 +9637,43 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
-          throw new createHttpError.NotFound;
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (res.status != 200) {
           if (res.statusText == undefined) {
-            throw new createHttpError(res.status, res.message);
+            throw new createHttpError(502, "Bad Gateway");
+          } else if (res.statusText == 401 || res.statusText == 403) {
+            throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else {
-            throw new createHttpError(res.status, res.statusText);
+            throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+          if (res.statusText == undefined) {
+            throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+          } else {
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
       }
     } catch (error) {
@@ -9481,7 +10017,6 @@ exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrela
   });
 }
 
-
 /**
  * Provides list of actual equipment UUIDs inside a device
  *
@@ -9538,7 +10073,8 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
           throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+
       }
       resolve(returnObject);
     } catch (error) {
@@ -9634,7 +10170,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
           throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
         }
       } else {
-        throw new createHttpError(404, `unable to fetch records for mount-name ${mountName}`);
+        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -9759,7 +10295,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
       let parallelLink = [linkId];
       let linkToCompare = await ReadRecords(linkId);
       if (linkToCompare == undefined) {
-        throw new createHttpError.NotFound(`unable to fetch records for link ${linkId}`)
+        throw new createHttpError(461, `Not available. The topology (parent) object is currently not found in the cache.`);
       }
       if (!linkToCompare["core-model-1-4:link"][0]["end-point-list"]) {
         index = 1;
@@ -9848,7 +10384,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
         }
         let elapsedTime = await recordRequest(value, correctLink);
       } else {
-        throw new createHttpError.NotFound(`link ${correctLink} not found in cache: cannot put linkport for unknown link`);
+        throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
       resolve();
     } catch (error) {
@@ -10078,7 +10614,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
         }
       } else if (!hasAttribute(resRequestor.data, attributeName)) {
-        throw new createHttpError.BadRequest;
+        throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
       } else {
         let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];
@@ -10145,9 +10681,11 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       const finalUrl = baseUrl + resource;
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       if (resRequestor == null) {
-        throw new createHttpError.NotFound;
+        throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       } else if (resRequestor.status != 200) {
-        if (resRequestor.response.statusText == undefined) {
+        if (resRequestor.status == 404) {
+          throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
+        } else if (resRequestor.response.statusText == undefined) {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
         } else {
           throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
@@ -10219,7 +10757,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // read from ES
       let result = await ReadRecords(controlConstruct);
       if (result == undefined) {
-        throw new createHttpError.NotFound("unable to find device")
+        throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       }
       modifyReturnJson(result);
       // Update json object
@@ -11259,7 +11797,7 @@ async function recordRequest(body, cc) {
 
     if (result == undefined || result.body == undefined) {
       console.warn("result is undefined, ELK not updated")
-      return {"took": -1};
+      return { "took": -1 };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
@@ -11267,7 +11805,7 @@ async function recordRequest(body, cc) {
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     } else {
       console.warn("result is ", result.body.result);
-      return { "took": -1};
+      return { "took": -1 };
     }
   } catch (error) {
     console.error(error);

@@ -1,0 +1,5 @@
+1. Which new services have to be added to the serviceList?
+2. What http-client changes are required?
+   - what new http-clients to be added?
+     - what services need to be added to those new http-clients?
+   - what services need to be added to existing http-clients?

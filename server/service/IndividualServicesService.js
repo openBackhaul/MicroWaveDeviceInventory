@@ -9,6 +9,7 @@ const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcP
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const createHttpError = require('http-errors');
+const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
@@ -4577,16 +4578,20 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  **/
 exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "wred-template-profile-1-0:wred-template-profile-capability": {}
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+    exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+      return new Promise(function (resolve, reject) {
+        var examples = {};
+        examples['application/json'] = {
+          "wred-template-profile-1-0:wred-template-profile-capability": {}
+        };
+        "wred-template-profile-1-0:wred-template-profile-capability": { }
+      };
+      if (Object.keys(examples).length > 0) {
+        resolve(examples[Object.keys(examples)[0]]);
+      } else {
+        resolve();
+      }
+    });
 }
 
 //to add
@@ -4603,8 +4608,8 @@ exports.getCachedWredTemplateProfileCapability = function (user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getCachedWredTemplateProfileConfiguration = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
+exports.getCachedWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
+  return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
       "wred-template-profile-1-0:wred-template-profile-configuration": {}
@@ -4669,31 +4674,31 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -4754,31 +4759,31 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -4839,31 +4844,31 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -4923,11 +4928,11 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -4988,31 +4993,31 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5073,31 +5078,31 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5153,35 +5158,35 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
           } else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
-        } else { 
+        } else {
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5241,31 +5246,31 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5324,31 +5329,31 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5408,31 +5413,31 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5492,31 +5497,31 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5577,31 +5582,31 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5662,31 +5667,31 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5842,31 +5847,31 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -5926,31 +5931,31 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6011,31 +6016,31 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6096,31 +6101,31 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6180,11 +6185,11 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6245,31 +6250,31 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6330,31 +6335,31 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6415,31 +6420,31 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6498,31 +6503,31 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6582,31 +6587,31 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6666,31 +6671,31 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6750,31 +6755,31 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6834,31 +6839,31 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -6920,31 +6925,31 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7004,31 +7009,31 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7088,31 +7093,31 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7173,31 +7178,31 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7257,11 +7262,11 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7322,31 +7327,31 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7407,31 +7412,31 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7491,31 +7496,31 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7575,31 +7580,31 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7660,31 +7665,31 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7745,31 +7750,31 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7830,31 +7835,31 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7914,31 +7919,31 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -7998,31 +8003,31 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8082,31 +8087,31 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8165,31 +8170,31 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8250,31 +8255,31 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8335,31 +8340,31 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8419,11 +8424,11 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8484,31 +8489,31 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8569,31 +8574,31 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8653,31 +8658,31 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8737,31 +8742,31 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8821,31 +8826,31 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8904,31 +8909,31 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -8989,31 +8994,31 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9074,31 +9079,31 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9158,31 +9163,31 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9243,31 +9248,31 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9327,11 +9332,11 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          // modificaUUID(jsonObj, correctCc);
-          resolve(jsonObj);
+            let jsonObj = res.data;
+            // modificaUUID(jsonObj, correctCc);
+            resolve(jsonObj);
+          }
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9392,31 +9397,31 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9477,31 +9482,31 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9561,31 +9566,31 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9645,31 +9650,31 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
           if (res.statusText == undefined) {
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
-          let jsonObj = res.data;
-          retJson = jsonObj;
-          modificaUUID(jsonObj, correctCc);
-          let filters = false;
-          if (myFields !== undefined) {
-            filters = true;
+            let jsonObj = res.data;
+            retJson = jsonObj;
+            modificaUUID(jsonObj, correctCc);
+            let filters = false;
+            if (myFields !== undefined) {
+              filters = true;
+            }
+            try {
+              // Update record on ES
+              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
+              // read from ES
+              let result = await ReadRecords(correctCc);
+              // Update json object
+              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Write updated Json to ES
+              let elapsedTime = await recordRequest(result, correctCc);
+            }
+            catch (error) {
+              console.error(error);
+            }
+            modifyReturnJson(retJson)
+            resolve(retJson);
           }
-          try {
-            // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
-            let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
-            // read from ES
-            let result = await ReadRecords(correctCc);
-            // Update json object
-            let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-            // Write updated Json to ES
-            let elapsedTime = await recordRequest(result, correctCc);
-          }
-          catch (error) {
-            console.error(error);
-          }
-          modifyReturnJson(retJson)
-          resolve(retJson);
         }
-      }
       }
     } catch (error) {
       console.error(error);
@@ -9872,6 +9877,8 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
       } else {
         throw new Error('notifyControllerObjectCreations: invalid input data');
       }
+
+
       resolve();
     } catch (error) {
       reject(error);
@@ -9986,37 +9993,29 @@ exports.provideDataOfLinks = function (body, user, originator, xCorrelator, trac
  * returns inline_response_200_8
  **/
 exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "device-status-metadata": [{
-        "mount-name": "mount-name",
-        "added-to-device-list-time": "added-to-device-list-time",
-        "last-complete-control-construct-update-time": "last-complete-control-construct-update-time",
-        "number-of-partial-updates-since-last-complete-update": 0,
-        "schema-cache-directory": "schema-cache-directory",
-        "last-control-construct-notification-update-time": "last-control-construct-notification-update-time",
-        "connection-status": "connected",
-        "changed-to-disconnected-time": "changed-to-disconnected-time"
-      }, {
-        "mount-name": "mount-name",
-        "added-to-device-list-time": "added-to-device-list-time",
-        "last-complete-control-construct-update-time": "last-complete-control-construct-update-time",
-        "number-of-partial-updates-since-last-complete-update": 0,
-        "schema-cache-directory": "schema-cache-directory",
-        "last-control-construct-notification-update-time": "last-control-construct-notification-update-time",
-        "connection-status": "connected",
-        "changed-to-disconnected-time": "changed-to-disconnected-time"
-      }]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let mountNameListFromRequestBody = body["mount-name-list"];
+      let responseMetaDataList = [];
+
+      let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch();
+      for(let i=0; i<mountNameListFromRequestBody.length; i++) {
+        let mountName = mountNameListFromRequestBody[i];
+        for(let j=0; j<metaDataListFromElasticSearch.length; j++) {
+          let metaDataMountName = metaDataListFromElasticSearch[j]["mount-name"];
+          if(metaDataMountName == mountName) {
+            responseMetaDataList.push(metaDataListFromElasticSearch[j]);
+            break;
+          }
+        }
+      }
+      resolve(responseMetaDataList);
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
-
 
 /**
  * Provides list of actual equipment UUIDs inside a device
@@ -10471,6 +10470,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
       let attributeName = currentJSON['attribute-name'];
       let newValue = currentJSON['new-value'];
 
+
       const match = resource.match(/logical-termination-point=(\w+)/);
 
       // Extract the Control-construct
@@ -10503,9 +10503,13 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         updateDeviceListFromNotification(2, logicalTerminationPoint);
         let indexAlias = common[1].indexAlias;
         const { deleteRecordFromElasticsearch } = module.exports;
+
         let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
         console.log('* ' + ret.result);
       }
+      //update meta-data for update of connection-status
+      let timestamp = currentJSON['timestamp'];
+      metaDataUtility.updateMDTableForDeviceStatusChange(logicalTerminationPoint, newValue, timestamp)
       resolve();
     } catch (error) {
       reject(error);
@@ -10535,7 +10539,6 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       let alarmTypeId = currentJSON['alarm-type-id'];
       let alarmTypeQualifier = currentJSON['alarm-type-qualifier'];
       let problemSeverity = currentJSON['problem-severity'];
-
       let mountname = decodeMountName(resource, false);
 
       let result = await ReadRecords(mountname);
@@ -10557,6 +10560,9 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
       // Write updated Json to ES
       modificaUUID(result, mountname);
       let elapsedTime = await recordRequest(result, mountname);
+
+      //update meta-data for update of alarm data into CC -- partial update
+      metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
 
       resolve();
     } catch (error) {
@@ -10622,6 +10628,12 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
           "new-value": currentJSON["new-value"]
         };
         notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
+
+        //update meta-data for update of device attribute change data into CC -- partial update
+        let mountname = decodeMountName(resource, false);
+        let timeStamp = currentJSON['timestamp'];
+        metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+
         resolve();
       }
     } catch (error) {
@@ -10651,6 +10663,8 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
+      const match = resource.match(/control-construct=(\w+)/);
+      const nodeId = match ? match[1] : null;
       // find the index of the last "/"
       //      const lastIndex = resource.lastIndexOf("/");
       // Truncate path at last "/"  
@@ -10687,7 +10701,13 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
           "timestamp": currentJSON.timestamp,
           "object-path": resource,
         };
+
         notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
+
+        //update meta-data for update of device attribute change data into CC -- partial update
+        let mountname = decodeMountName(resource, false);
+        let timeStamp = currentJSON['timestamp'];
+        metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
         resolve();
       }
     } catch (error) {
@@ -10716,6 +10736,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       let currentJSON = body[objectKey];
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
+
       /*
       let jsonObj = "";
       let correctPlaceHolder = resource.replace("live", "cache");      
@@ -10755,6 +10776,12 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
         "object-path": resource
       };
       notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
+
+      //update meta-data for update of device attribute change data into CC -- partial update
+      let mountname = decodeMountName(resource, false);
+      let timeStamp = currentJSON['timestamp'];
+      metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+
       resolve();
     } catch (error) {
       console.error(error);
@@ -11767,8 +11794,18 @@ async function recordRequest(body, cc) {
 
     let result = await client.index(indexParams);
     let backendTime = process.hrtime(startTime);
+
+    if (result == undefined || result.body == undefined) {
+      console.warn("result is undefined, ELK not updated")
+      return { "took": -1 };
+    }
+
     if (result.body.result == 'created' || result.body.result == 'updated') {
+      console.info("Result is: ", result.body.result)
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+    } else {
+      console.warn("result is ", result.body.result);
+      return { "took": -1 };
     }
   } catch (error) {
     console.error(error);
@@ -12260,6 +12297,10 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
             let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+
+            //update meta-data for update of connection-status
+            metaDataUtility.updateMDTableForCompleteCCUpdate(correctCc, Date.now());
+
             resolve(res);
           }
 

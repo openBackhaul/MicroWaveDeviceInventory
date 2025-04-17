@@ -2627,7 +2627,7 @@ module.exports.provideDataOfLinks = function provideDataOfLinks(req, res, next, 
       executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
     });
 };
-//to add
+
 module.exports.provideDeviceStatusMetadata = function provideDeviceStatusMetadata(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;

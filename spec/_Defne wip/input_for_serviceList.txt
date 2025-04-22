@@ -3,3 +3,17 @@
    - what new http-clients to be added?
      - what services need to be added to those new http-clients?
    - what services need to be added to existing http-clients?
+
+- http-client:
+    application-name: ElasticSearch
+    release-number: 1.0.0
+    uuid: mwdi-1-3-0-http-c-es-1-0-0-000
+  tcp-client:
+    remote-protocol: http
+    ip-address: 127.0.0.1
+    tcp-port: 3015
+    uuid: mwdi-1-3-0-tcp-c-es-1-0-0-000
+  operation-clients:
+    put:
+      - operation-name: /cache-quality-measurements
+        uuid: mwdi-1-3-0-op-c-put-es-1-0-0-501

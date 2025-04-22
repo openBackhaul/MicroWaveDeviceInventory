@@ -1,0 +1,45 @@
+@startuml NotifiedDisconnectedDeviceCausesCacheComparison
+
+title Cache Quality Measurement Process
+
+box "Scheduler (Internal Cron)" 
+  participant "MWDI_Module::Scheduler" as Scheduler
+end box
+
+box "MWDI HTTP Server" 
+  participant "MWDI_Module::MeasurementHandler" as Handler
+end box
+
+box "MWDI:/cache/" 
+  participant "/cache/control-construct={mountName}" as CacheAPI
+end box
+
+box "ODL Controller" 
+  participant "/live/control-construct={mountName}" as LiveAPI
+end box
+
+box "ElasticSearch" 
+  participant "/cache-quality-measurements" as ResultStore
+end box
+
+== Periodic Measurement Trigger ==
+
+Scheduler -> Handler : triggerMeasurement()
+Handler -> Handler : selectRandomDevice()
+
+== Get Data from MWDI Cache ==
+Handler -> CacheAPI : GET control-construct={mountName}
+CacheAPI --> Handler : cachedControlConstruct
+
+== Get Data from Live ==
+Handler -> LiveAPI : GET control-construct={mountName}
+LiveAPI --> Handler : liveControlConstruct
+
+== Compare & Score ==
+Handler -> Handler : compareDataTrees()
+Handler -> Handler : scoreDifferences()
+
+== Save Result ==
+Handler -> ResultStore : PUT diff_summary (deviceId, score, timestamp)
+
+@enduml

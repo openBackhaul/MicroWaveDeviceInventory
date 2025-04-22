@@ -32867,6 +32867,8 @@ components:
                 - 'tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
             tdm-container-2-0:tdm-container-pac:
               $ref: '#/components/schemas/TDM_CONTAINER_PAC'
+        - description: 'default, if none of above matching'
+          type: object
     FORWARDING_DOMAIN:
       type: object
       required:

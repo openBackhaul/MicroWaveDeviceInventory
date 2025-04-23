@@ -44,6 +44,16 @@ As release v1.2.0 was a pre-release of the specification handed over to implemen
 Spec release version 1.2.2 fixes further findings found by implementers during implementation of v1.2.1.  
 The list of issues can be found in issue collection [MWDI v1.2.2_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/18).  
 
+**v1.3.0**  
+Spec release 1.3.0 adds new functionality to measure the data quality of the cache.  
+It introduces a new cyclic process (in addition to the already existing cyclic retrieval process using the sliding window) to:  
+- retrieve the ControlConstruct (CC) of a "random" device every x minutes (initially a retrieval each minute)
+- compares the new CC with the already existing CC found in the Cache (if found) and creates a scoring for the found changes
+- writes the new CC to the Cache
+- stores and exposes the scoring
+The new process does not only allow for measuring the cache quality but also improves the Cache quality by running as the CCs are updated more frequently. 
+The list of related issues can be found in issue collection [MWDI v1.3.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20)
+
 #### Open issues
 ./. 
 

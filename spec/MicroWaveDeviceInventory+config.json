@@ -403,6 +403,18 @@
               "string-value": "node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)"
             }
           }
+        },
+        {
+          "uuid": "mwdi-1-3-0-string-p-003",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter"
+            },
+            "string-profile-configuration": {
+              "string-value": "logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))"
+            }
+          }
         }
       ]
     },

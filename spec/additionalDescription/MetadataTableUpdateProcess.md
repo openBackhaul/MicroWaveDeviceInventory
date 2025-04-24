@@ -19,7 +19,7 @@ The following picture outlines the differences between both shortly:
 ---
 ## Relevant profileInstances
 
-The profileInstances directly relevant to the metadata table are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
+The profileInstances directly relevant to the metadata table update cycle are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
 
 **`connectionStatusSyncPeriod`**
 - The connection-status of all devices mounted on the controller is retrieved periodically according to the time interval specified here.
@@ -60,7 +60,9 @@ The table shall contain the following columns:
 - **schema-cache-directory**:
   - This attribute contains information about the schema cache directory applied to the device at the controller
   - It indicates the device vendor, and partially also the device type.
-
+- **device-type**:
+  - this attribute contains the device type extracted from the device ControlConstruct data
+  - if no mapping can be found, the value will be "unknown"
 
 ---
 ## Building and updating the metadata table

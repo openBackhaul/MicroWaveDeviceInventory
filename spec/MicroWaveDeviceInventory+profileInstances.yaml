@@ -231,3 +231,10 @@ profile-instances:
       string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController.fieldsFilter'
     configuration:
       string-value: 'node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)'
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-3-0-string-p-003'
+    capability:
+      string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter'
+    configuration:
+      string-value: 'logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))'

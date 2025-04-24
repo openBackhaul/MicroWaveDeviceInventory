@@ -76,7 +76,7 @@ As can be seen, the metadata table is updated due to
 - or when there are changes to a controlConstruct  
   - from either the periodic complete controlConstruct retrieval (either by slidingWindow (pink) or qualityMeasurement (blue)),
   - or triggered by notifications
-  - _note: the controlConstruct can also be updated by calling MWDI live paths directly (e.g. from other applications). This, however, is ignored for the metadata table update currently._
+  - _note: the controlConstruct can also be updated by calling MWDI live paths_ directly _(e.g. from other applications). This, however, is ignored for the metadata table update currently._
 
 Also note that an attribute being _null_ shall be represented by an empty string. 
 

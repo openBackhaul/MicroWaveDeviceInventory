@@ -4,7 +4,7 @@ This page describes the process for updating the MWDI metadata table kept in the
 It also describes the related profileInstances and their usage.
 
 The metadata table is not to be confused with the MWDI's deviceList.  
-- deviceList: stores only the list of currently connected devices and is used as base for retrieving device controlConstructs periodically
+- deviceList: stores only the list of currently connected devices and is used as base for retrieving device controlConstructs periodically (both for the periodic updates due to slidingWindow and the qualityMeasurement)
   - is updated according to periodic syncs with the controller
   - and through notifications about controller status changes
 - metadata table: stores all devices from the controller with their connection status and additional metadata.  
@@ -19,7 +19,7 @@ The following picture outlines the differences between both shortly:
 ---
 ## Relevant profileInstances
 
-The profileInstances directly relevant to the metadata table update cycle are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
+The profileInstances directly relevant to the metadata table update cycle and retention are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
 
 **`connectionStatusSyncPeriod`**
 - The connection-status of all devices mounted on the controller is retrieved periodically according to the time interval specified here.
@@ -62,7 +62,8 @@ The table shall contain the following columns:
   - It indicates the device vendor, and partially also the device type.
 - **device-type**:
   - this attribute contains the device type extracted from the device ControlConstruct data
-  - if no mapping can be found, the value will be "unknown"
+  - if no mapping can be found, the value will be set to the default value "unknown"
+  - in case the device is revisited due to the periodic sync of the metadata table and the value is still "unknown", it again shall be tried to fetch the information from the device CC data.
 
 ---
 ## Building and updating the metadata table
@@ -73,9 +74,9 @@ As can be seen, the metadata table is updated due to
 - deviceList updates according to the periodic deviceList sync (pink),
 - periodic connection-status sync with the controller (green)
 - or when there are changes to a controlConstruct  
-  - from either the periodic complete controlConstruct retrieval,
+  - from either the periodic complete controlConstruct retrieval (either by slidingWindow (pink) or qualityMeasurement (blue)),
   - or triggered by notifications
-  - _note: the controlConstruct can also be updated by calling live paths on the MWDI. This, however, is ignored for the metadata table update currently._
+  - _note: the controlConstruct can also be updated by calling MWDI live paths directly (e.g. from other applications). This, however, is ignored for the metadata table update currently._
 
 Also note that an attribute being _null_ shall be represented by an empty string. 
 

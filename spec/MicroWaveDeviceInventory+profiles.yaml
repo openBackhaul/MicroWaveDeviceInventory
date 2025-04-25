@@ -53,7 +53,7 @@ profiles:
     configuration:
       string-value: string
 
-  - profile-name: 'RegexPatternMapping'
+  - profile-name: 'RegexPatternMappingProfile'
     uuid: '^[a-z]{2,6}-([0-9]+)-([0-9]+)-([0-9]+)-mapping-p-[0-9]{3}$'
     capability:
       mapping-name: string

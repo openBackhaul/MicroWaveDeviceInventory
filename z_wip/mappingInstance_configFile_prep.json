@@ -1,0 +1,29 @@
+//FROM EXAMPLE
+        {
+          "uuid": "mwdi-1-3-0-string-p-000",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter"
+            },
+            "string-profile-configuration": {
+              "string-value": "logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))"
+            }
+          }
+        },
+
+
+
+//NEW PROFILE
+{
+  "uuid": "mwdi-1-3-0-mapping-p-000",
+  "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",
+  "regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac": {
+    "regex-pattern-mapping-capability": {
+      "mapping-name": "deviceTypeMapping"
+    },
+    "regex-pattern-mapping-configuration": {
+      "string-value": "logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))"
+    }
+  }
+},

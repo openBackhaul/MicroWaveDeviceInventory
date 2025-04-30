@@ -169,7 +169,8 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
           } else {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
-              let newJSON = nuovoJSON[objectKey][0];
+              //let newJSON = nuovoJSON[objectKey][0];  // Issue 1092
+              let newJSON = nuovoJSON[objectKey]; 
               oggetto[nomeArray] = newJSON;
             }
           }

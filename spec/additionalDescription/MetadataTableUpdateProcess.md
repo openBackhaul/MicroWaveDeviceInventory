@@ -84,7 +84,33 @@ Also note that an attribute being _null_ shall be represented by an empty string
 ![TableUpdate](./pictures/metadataTableUpdate.png)
 
 ---
+
+## Device-type retrieval
+
+The metadata status table stores the device-type of all contained mount-names.
+- It is to be set initially when the device is added to the metadata status table:
+  - if the MWDI cache does not (yet) contain a retrieved CC for the device, the device-type is to be set to its default value "unknown",
+  - otherwise the device-type shall be derived from the CC data
+- If the table is updated through periodic sync the device-type shall be updated for all devices that are currently connected at the Controller and where the device-type is still "unknown".
+
+**Where to find the information in the CC?**  
+The information is to be retrieved from the air-interface-capability/type-of-equipment attribute.  
+The used fields filter will not only return data that is needed, but all found ltps; the unneeded information can be ignored. 
+Also a CC may contain multiple air-interfaces/type-of-equipment entries (see [issue1156](https://github.com/openBackhaul/MicroWaveDeviceInventory/issues/1156) for examples).
+
+For finding the device-type:
+- go over the found type-of-equipment attributes sequentially
+- map the value of the current record against the mappings provided in *deviceTypeMapping* RegexPatternMappingProfile.
+  - if no mapping other than the default "unknown" is found continue with the next record
+  - if a mapping is found assign the mapped device-type, then stop - the other records do not need to be checked further
+  - if all records have been checked, but still no device-type has been found the value will remain "unknown"
+
+By providing the mappings in the *deviceTypeMapping* profileInstance, the mappings can easily be modified, e.g. when new device types are added to the network.
+
+---
+
 ## Filtering of metadata
 
 The service /v1/provide-device-status-metadata requires a list of device names, for which the metadata shall be returned, to be provided in the requestBody.  
 Listed device names, for which no data could be found in the metadata table, are ignored.  
+

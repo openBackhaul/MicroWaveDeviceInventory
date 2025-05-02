@@ -1164,6 +1164,11 @@ clients:
       service:
         basic:
         individual:
+          # self-calling of cache-path for updating metadata status
+          # called with fields filter PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}
+            uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-100
+
           # self-calling of live-paths for updating the cache content
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}
             uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-400

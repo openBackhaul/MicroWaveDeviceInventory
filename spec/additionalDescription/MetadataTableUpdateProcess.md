@@ -4,7 +4,7 @@ This page describes the process for updating the MWDI metadata table kept in the
 It also describes the related profileInstances and their usage.
 
 The metadata table is not to be confused with the MWDI's deviceList.  
-- deviceList: stores only the list of currently connected devices and is used as base for retrieving device controlConstructs periodically
+- deviceList: stores only the list of currently connected devices and is used as base for retrieving device controlConstructs periodically (both for the periodic updates due to slidingWindow and the qualityMeasurement)
   - is updated according to periodic syncs with the controller
   - and through notifications about controller status changes
 - metadata table: stores all devices from the controller with their connection status and additional metadata.  
@@ -19,7 +19,7 @@ The following picture outlines the differences between both shortly:
 ---
 ## Relevant profileInstances
 
-The profileInstances directly relevant to the metadata table are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
+The profileInstances directly relevant to the metadata table update cycle and retention are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
 
 **`connectionStatusSyncPeriod`**
 - The connection-status of all devices mounted on the controller is retrieved periodically according to the time interval specified here.
@@ -60,7 +60,11 @@ The table shall contain the following columns:
 - **schema-cache-directory**:
   - This attribute contains information about the schema cache directory applied to the device at the controller
   - It indicates the device vendor, and partially also the device type.
-
+- **device-type**:
+  - this attribute contains the device type extracted from the device ControlConstruct data
+  - if no mapping can be found, the value will be set to the default value "unknown"
+  - it will be set initially when the device is added to the metadata status table
+  - in case the device is revisited due to the periodic sync of the metadata table and the value is still "unknown", it again is tried to update it from CC data
 
 ---
 ## Building and updating the metadata table
@@ -71,16 +75,42 @@ As can be seen, the metadata table is updated due to
 - deviceList updates according to the periodic deviceList sync (pink),
 - periodic connection-status sync with the controller (green)
 - or when there are changes to a controlConstruct  
-  - from either the periodic complete controlConstruct retrieval,
+  - from either the periodic complete controlConstruct retrieval (either by slidingWindow (pink) or qualityMeasurement (blue)),
   - or triggered by notifications
-  - _note: the controlConstruct can also be updated by calling live paths on the MWDI. This, however, is ignored for the metadata table update currently._
+  - _note: the controlConstruct can also be updated by calling MWDI live paths_ directly _(e.g. from other applications). This, however, is ignored for the metadata table update currently._
 
 Also note that an attribute being _null_ shall be represented by an empty string. 
 
 ![TableUpdate](./pictures/metadataTableUpdate.png)
 
 ---
+
+## Device-type retrieval
+
+The metadata status table stores the device-type of all contained mount-names.
+- It is to be set initially when the device is added to the metadata status table:
+  - if the MWDI cache does not (yet) contain a retrieved CC for the device, the device-type is to be set to its default value "unknown",
+  - otherwise the device-type shall be derived from the CC data
+- If the table is updated through periodic sync the device-type shall be updated for all devices that are currently connected at the Controller and where the device-type is still "unknown".
+
+**Where to find the information in the CC?**  
+The information is to be retrieved from the air-interface-capability/type-of-equipment attribute.  
+The used fields filter will not only return data that is needed, but all found ltps; the unneeded information can be ignored. 
+Also a CC may contain multiple air-interfaces/type-of-equipment entries (see [issue1156](https://github.com/openBackhaul/MicroWaveDeviceInventory/issues/1156) for examples).
+
+For finding the device-type:
+- go over the found type-of-equipment attributes sequentially
+- map the value of the current record against the mappings provided in *deviceTypeMapping* RegexPatternMappingProfile.
+  - if no mapping other than the default "unknown" is found continue with the next record
+  - if a mapping is found assign the mapped device-type, then stop - the other records do not need to be checked further
+  - if all records have been checked, but still no device-type has been found the value will remain "unknown"
+
+By providing the mappings in the *deviceTypeMapping* profileInstance, the mappings can easily be modified, e.g. when new device types are added to the network.
+
+---
+
 ## Filtering of metadata
 
 The service /v1/provide-device-status-metadata requires a list of device names, for which the metadata shall be returned, to be provided in the requestBody.  
 Listed device names, for which no data could be found in the metadata table, are ignored.  
+

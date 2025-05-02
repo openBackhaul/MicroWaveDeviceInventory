@@ -403,6 +403,84 @@
               "string-value": "node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)"
             }
           }
+        },
+        {
+          "uuid": "mwdi-1-3-0-string-p-003",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter"
+            },
+            "string-profile-configuration": {
+              "string-value": "logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))"
+            }
+          }
+        },
+        {
+          "uuid": "mwdi-1-3-0-mapping-p-000",
+          "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",
+          "regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac": {
+            "regex-pattern-mapping-capability": {
+              "mapping-name": "deviceTypeMapping",
+              "purpose": "Used to map device type information found in device ControlConstruct data into standardized device types via regex"
+            },
+            "regex-pattern-mapping-configuration": {
+              "mapping-list": [
+                {
+                  "regex-string": "(?i).*AGS[-_\\s]?20(?![-]?L).*",
+                  "map-to-string": "AGS20"
+                },
+                {
+                  "regex-string": "(?i).*AGS[-_\\s]?20L.*",
+                  "map-to-string": "AGS20L"
+                },
+                {
+                  "regex-string": "(?i).*ALC(plus|p)?2e.*",
+                  "map-to-string": "ALCPlus2e"
+                },
+                {
+                  "regex-string": "(?i).*ALFO[-_\\s]?80.*",
+                  "map-to-string": "ALFO80"
+                },
+                {
+                  "regex-string": "(?i).*RTN[-_\\s]?950.*",
+                  "map-to-string": "RTN950"
+                },
+                {
+                  "regex-string": "(?i).*RTN[-_\\s]?905.*",
+                  "map-to-string": "RTN905"
+                },
+                {
+                  "regex-string": "(?i).*RTN[-_\\s]?380(?!H|AX).*",
+                  "map-to-string": "RTN380"
+                },
+                {
+                  "regex-string": "(?i).*RTN[-_\\s]?380AX.*",
+                  "map-to-string": "RTN380AX"
+                },
+                {
+                  "regex-string": "(?i).*RTN[-_\\s]?380H.*",
+                  "map-to-string": "RTN380H"
+                },
+                {
+                  "regex-string": "(?i).*(mini[-]?link|ml)[-]?6352.*",
+                  "map-to-string": "ML6352"
+                },
+                {
+                  "regex-string": "(?i).*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*",
+                  "map-to-string": "ML6600"
+                },
+                {
+                  "regex-string": "(?i).*(mltn|traffic[-_\\s]?node).*",
+                  "map-to-string": "MLTN"
+                },
+                {
+                  "regex-string": "(?i)^(?!.*AGS[-_\\s]?20(?![-]?L).*)(?!.*AGS[-_\\s]?20L.*)(?!.*ALC(plus|p)?2e.*)(?!.*ALFO[-_\\s]?80.*)(?!.*RTN[-_\\s]?950.*)(?!.*RTN[-_\\s]?905.*)(?!.*RTN[-_\\s]?380(?!H|AX).*)(?!.*RTN[-_\\s]?380AX.*)(?!.*RTN[-_\\s]?380H.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?6352.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*)(?!.*(mltn|traffic[-_\\s]?node).*).*",
+                  "map-to-string": "unknown"
+                }
+              ]
+            }
+          }
         }
       ]
     },

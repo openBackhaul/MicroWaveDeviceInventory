@@ -2615,6 +2615,7 @@ paths:
                         - last-control-construct-notification-update-time
                         - number-of-partial-updates-since-last-complete-update
                         - schema-cache-directory
+                        - device-type
                       properties:
                         mount-name:
                           type: string
@@ -2660,6 +2661,11 @@ paths:
                           description: >
                             'The schema cache directy specified at the Controller, which indicates the vendor and for a subset of devices also the device type
                             from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/schema-cache-directory}'
+                        device-type:
+                          type: string
+                          description: >
+                            'The device-type derived from air-interface information via regex mappings, default value is unknown
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/device-type}'
               example:
                 device-status-metadata:
                   - mount-name: '305251234'
@@ -2670,6 +2676,7 @@ paths:
                     last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
                     number-of-partial-updates-since-last-complete-update: 7
                     schema-cache-directory: 'hua'
+                    device-type: 'RTN950'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

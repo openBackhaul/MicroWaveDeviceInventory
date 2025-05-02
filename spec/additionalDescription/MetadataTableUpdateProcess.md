@@ -63,7 +63,8 @@ The table shall contain the following columns:
 - **device-type**:
   - this attribute contains the device type extracted from the device ControlConstruct data
   - if no mapping can be found, the value will be set to the default value "unknown"
-  - in case the device is revisited due to the periodic sync of the metadata table and the value is still "unknown", it again shall be tried to fetch the information from the device CC data.
+  - it will be set initially when the device is added to the metadata status table
+  - in case the device is revisited due to the periodic sync of the metadata table and the value is still "unknown", it again is tried to update it from CC data
 
 ---
 ## Building and updating the metadata table

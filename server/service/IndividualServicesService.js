@@ -254,6 +254,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Actual Equipment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -328,6 +329,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -402,6 +404,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -476,6 +479,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Historical Perfomance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -550,6 +554,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -622,6 +627,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Alarm Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -694,6 +700,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Alarm configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -766,6 +773,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Alarm Event Records: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -839,6 +847,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Co Channel Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -912,6 +921,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Co Channel Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -986,6 +996,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Connector: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1060,6 +1071,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Container Holder: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1133,6 +1145,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Control Construct: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1205,6 +1218,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Current Alarms: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1278,6 +1292,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Equiment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1352,6 +1367,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1426,6 +1442,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1500,6 +1517,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1574,6 +1592,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1648,6 +1667,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Expected Equipment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1720,6 +1740,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware Collection: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1793,6 +1814,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware Component capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1866,6 +1888,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware component list: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1939,6 +1962,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware component status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2012,6 +2036,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Forwarding construct: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2087,6 +2112,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Forwarding construct port: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2160,6 +2186,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Forwarding domain: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2234,6 +2261,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2308,6 +2336,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2382,6 +2411,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2456,6 +2486,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2792,6 +2823,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2866,6 +2898,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2940,6 +2973,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface Historical Performances: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3014,6 +3048,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3087,6 +3122,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Policing Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3160,6 +3196,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Policing Profile configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3233,6 +3270,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Profile: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3305,6 +3343,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Profile Collection: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3378,6 +3417,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3452,6 +3492,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3526,6 +3567,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3600,6 +3642,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3673,6 +3716,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("QoS Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3746,6 +3790,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("QoS Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3819,6 +3864,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Scheduler Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3892,6 +3938,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Scheduler Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3966,6 +4013,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4040,6 +4088,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4114,6 +4163,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Historical Perfomance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4188,6 +4238,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4262,6 +4313,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4336,6 +4388,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4410,6 +4463,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4484,6 +4538,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4557,6 +4612,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wired Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4630,6 +4686,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wired Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4703,6 +4760,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Logical Termination Point: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4776,6 +4834,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ltp Augment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -11936,6 +11995,8 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
+        logger.error("Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
         return;
       } else {

@@ -239,6 +239,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Actual Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -314,6 +315,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -389,6 +391,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -464,6 +467,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Historical Performance - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -539,6 +543,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -612,6 +617,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Alarm Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -685,6 +691,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Alarm Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -758,6 +765,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Alarm Event Records - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -832,6 +840,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Co Channel Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -906,6 +915,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Co Channel Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -981,6 +991,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Connector - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1056,6 +1067,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Container Holder - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1129,6 +1141,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1203,6 +1216,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1277,6 +1291,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1352,6 +1367,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1427,6 +1443,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1502,6 +1519,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1577,6 +1595,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1652,6 +1671,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1725,6 +1745,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1799,6 +1820,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1873,6 +1895,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1947,6 +1970,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2021,6 +2045,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2097,6 +2122,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2171,6 +2197,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2246,6 +2273,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2321,6 +2349,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2396,6 +2425,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2471,6 +2501,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2808,6 +2839,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2883,6 +2915,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2958,6 +2991,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3033,6 +3067,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3107,6 +3142,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Policing Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3181,6 +3217,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Policing Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3255,6 +3292,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Profile - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3328,6 +3366,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Profile Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3402,6 +3441,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3477,6 +3517,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3552,6 +3593,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3627,6 +3669,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3701,6 +3744,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3775,6 +3819,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3849,6 +3894,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3923,6 +3969,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3998,6 +4045,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4073,6 +4121,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4148,6 +4197,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4223,6 +4273,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4298,6 +4349,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4373,6 +4425,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4448,6 +4501,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4523,6 +4577,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4597,6 +4652,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wired Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4671,6 +4727,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wired Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4745,6 +4802,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Logical Termination Point - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4819,6 +4877,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("LTP Augmented - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);

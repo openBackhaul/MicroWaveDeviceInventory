@@ -112,7 +112,7 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
-        logger.error("deleteCachedLink - UUID: " + link);
+        logger.error("deleteCachedLink - Link: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
@@ -181,6 +181,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       } else {
         correctLink = link;
       }
+
       logger.info("deleteCachedLinkPort - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
@@ -2623,7 +2624,7 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
-        logger.error("getCachedLink - UUID: " + link);
+        logger.error("getCachedLink - Link: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
@@ -5084,7 +5085,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5165,7 +5166,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5246,7 +5247,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5326,7 +5327,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5387,7 +5388,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5468,7 +5469,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5547,7 +5548,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5626,7 +5627,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5705,7 +5706,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5785,7 +5786,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5865,7 +5866,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5946,7 +5947,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6027,7 +6028,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6106,7 +6107,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
           resolve(NotFound());
@@ -6201,7 +6202,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6283,7 +6284,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6364,7 +6365,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6445,7 +6446,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6525,7 +6526,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFound;
@@ -6586,7 +6587,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6667,7 +6668,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6748,7 +6749,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6827,7 +6828,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6907,7 +6908,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6987,7 +6988,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7067,7 +7068,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7147,7 +7148,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7229,7 +7230,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7309,7 +7310,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7389,7 +7390,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7470,7 +7471,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7550,7 +7551,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7611,7 +7612,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7692,7 +7693,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7773,7 +7774,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7854,7 +7855,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7934,7 +7935,7 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7995,7 +7996,7 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8076,7 +8077,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8156,7 +8157,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8236,7 +8237,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8316,7 +8317,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8395,7 +8396,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8476,7 +8477,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8557,7 +8558,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8637,7 +8638,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8698,7 +8699,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8779,7 +8780,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8859,7 +8860,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8939,7 +8940,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9019,7 +9020,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9098,7 +9099,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9179,7 +9180,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9260,7 +9261,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9340,7 +9341,7 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9401,7 +9402,7 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9482,7 +9483,7 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9563,7 +9564,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9644,7 +9645,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9724,7 +9725,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9785,7 +9786,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9866,7 +9867,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9946,7 +9947,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -10026,7 +10027,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -10526,7 +10527,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
-        logger.error("putLinkToCache - UUID: " + link);
+        logger.error("putLinkToCache - link: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {

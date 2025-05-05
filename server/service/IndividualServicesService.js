@@ -6104,15 +6104,16 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
         correctCc = mountname;
       }
       let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
+          logger.error("Get CC from live network: fails");
           resolve(NotFound());
           throw new createHttpError.NotFound;
         } else if (result.status != 200) {
+          logger.error(result, "Get CC from live network fails, result.status!=200");
           if (result.statusText == undefined) {
             resolve(result.status, result.message);
             throw new createHttpError(result.status, result.message);
@@ -12333,15 +12334,16 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
         correctCc = mountname;
       }
       let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
+          logger.error("Get Live CC from Sliding Window: network fails");
           resolve(NotFound());
           throw new createHttpError.NotFound;
         } else if (result.status != 200) {
+          logger.error(result, "Get Live CC from Sliding Window: result.status != 200");
           if (result.statusText == undefined) {
             resolve(result.status, result.message);
             throw new createHttpError(result.status, result.message);
@@ -12385,7 +12387,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           }
 
         } else {
-          logger.warn(new createHttpError.BadRequest);
+          logger.error("This request is not for ODL, so throwing BAD_REQUEST error");
           resolve(new createHttpError.BadRequest);
         }
       }

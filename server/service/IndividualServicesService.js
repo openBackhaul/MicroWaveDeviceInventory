@@ -112,6 +112,7 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
+        logger.error("deleteCachedLink - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
@@ -169,9 +170,11 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
+        logger.error("deleteCachedLinkPort - UUID: " + link + " - localID: " + id);
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
+        logger.error("deleteCachedLinkPort - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
       } else {
         correctLink = link;
@@ -2617,6 +2620,7 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
+        logger.error("getCachedLink - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
@@ -2664,9 +2668,11 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
+        logger.error("getCachedLinkPort - UUID: " + link + " - localID: " + id);
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
+        logger.error("getCachedLinkPort - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
       } else {
         correctLink = link;
@@ -10445,9 +10451,11 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       if (matchLink) {
+        logger.error("putLinkPortToCache - UUID: " + link);
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
+        logger.error("putLinkPortToCache - link is an object" + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
@@ -10509,6 +10517,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
+        logger.error("putLinkToCache - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {

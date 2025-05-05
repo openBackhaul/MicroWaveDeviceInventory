@@ -118,6 +118,8 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       } else {
         correctLink = link;
       }
+
+      logger.info("deleteCachedLink - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let ret = await deleteRequest(correctLink);
@@ -179,6 +181,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       } else {
         correctLink = link;
       }
+      logger.info("deleteCachedLinkPort - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -2626,6 +2629,8 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       } else {
         correctLink = link;
       }
+
+      logger.info("getCachedLink - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -2677,6 +2682,8 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       } else {
         correctLink = link;
       }
+
+      logger.info("getCachedLinkPort - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -10461,6 +10468,8 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       } else {
         correctLink = link;
       }
+
+      logger.info("putLinkPortToCache - Read from ELK: " + correctLink);
       let value = await ReadRecords(correctLink);
       let result = await ReadRecords("linkList");
       if (value != undefined) {
@@ -10524,6 +10533,8 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
         correctLink = link;
       }
       let elapsedTime = await recordRequest(body, correctLink);
+
+      logger.info("putLinkToCache - Read from ELK: " + correctLink);
       let result = await ReadRecords("linkList");
       if (result == undefined) {
         logger.warn("link list in Elasticsearch not found");

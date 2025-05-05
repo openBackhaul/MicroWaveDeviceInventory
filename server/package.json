@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npm install",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test":"jest"
   },
   "keywords": [
     "swagger"
@@ -24,5 +25,8 @@
     "qs": "^6.11.2",
     "request": "^2.88.2",
     "shuffle-array": "^1.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

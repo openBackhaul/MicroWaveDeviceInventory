@@ -9,6 +9,7 @@ const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcP
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const createHttpError = require('http-errors');
+const Utility = require('./individualServices/utility')
 const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
@@ -4576,16 +4577,15 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
+
+ 
     exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
       return new Promise(function (resolve, reject) {
         var examples = {};
         examples['application/json'] = {
           "wred-template-profile-1-0:wred-template-profile-capability": {}
         };
-        "wred-template-profile-1-0:wred-template-profile-capability": { }
-      };
+       
       if (Object.keys(examples).length > 0) {
         resolve(examples[Object.keys(examples)[0]]);
       } else {
@@ -9775,10 +9775,10 @@ exports.notifyAttributeValueChanges = async function (url, body, user, originato
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+          throw new Error(500,'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+        throw new Error(400,'notifyControllerObjectCreations: invalid input data');
       }
       resolve();
     } catch (error) {
@@ -9824,10 +9824,10 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+          throw new Error(500,'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+        throw new Error(400,'notifyControllerObjectCreations: invalid input data');
       }
       resolve();
     } catch (error) {
@@ -9872,10 +9872,10 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+          throw new Error(500,'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+        throw new Error(400,'notifyControllerObjectCreations: invalid input data');
       }
 
 
@@ -9903,12 +9903,12 @@ exports.provideDataOfLinkPorts = function (user, originator, xCorrelator, traceI
   return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await Utility.ReadRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await Utility.ReadRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) {
@@ -9952,13 +9952,13 @@ exports.provideDataOfLinks = function (body, user, originator, xCorrelator, trac
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await Utility.ReadRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await Utility.ReadRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
@@ -10099,7 +10099,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
     try {
       let mountname = "DeviceList"
       let returnObject = {};
-      let result = await ReadRecords(mountname);
+      let result = await Utility.ReadRecords(mountname);
       if (result != undefined) {
         const outputJson = {
           "mount-name-list": result.deviceList.map(item => item["node-id"])
@@ -10194,12 +10194,12 @@ exports.provideListOfLinkPorts = function (user, originator, xCorrelator, traceI
   return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await Utility.ReadRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await Utility.ReadRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             let linkRecord = {};
@@ -10243,13 +10243,13 @@ exports.provideListOfLinks = function (body, user, originator, xCorrelator, trac
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await Utility.ReadRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await Utility.ReadRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
@@ -10293,7 +10293,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         throw new createHttpError.BadRequest("Link-id must not be empty");
       }
       let parallelLink = [linkId];
-      let linkToCompare = await ReadRecords(linkId);
+      let linkToCompare = await Utility.ReadRecords(linkId);
       if (linkToCompare == undefined) {
         throw new createHttpError(461, `Not available. The topology (parent) object is currently not found in the cache.`);
       }
@@ -10301,16 +10301,16 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         index = 1;
       }
       const controlConstructList = linkToCompare["core-model-1-4:link"][index]["end-point-list"].map(endpoint => endpoint["control-construct"]);
-      let result = await ReadRecords("linkList");
+      let result = await Utility.ReadRecords("linkList");
       for (var link of result.LinkList) {
         if (link != linkId) {
-          let resLink = await ReadRecords(link);
+          let resLink = await Utility.ReadRecords(link);
           try {
             if (!resLink["core-model-1-4:link"][0]["end-point-list"]) {
               index1 = 1;
             }
             const ccList = resLink["core-model-1-4:link"][index1]["end-point-list"].map(endpoint => endpoint["control-construct"]);
-            if (arraysHaveSameElements(controlConstructList, ccList)) {
+            if (Utility.arraysHaveSameElements(controlConstructList, ccList)) {
               parallelLink.push(link);
             }
           } catch (error) {

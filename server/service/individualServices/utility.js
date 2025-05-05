@@ -128,3 +128,59 @@ exports.getTime = function() {
   let d = new Date();
   return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
+
+exports.arraysHaveSameElements = async function (array1, array2) {
+
+  try {
+
+    if (array1.length !== array2.length) {
+
+      return false;
+
+    }
+
+ 
+
+    const frequencyMap = {};
+
+    for (const element of array1) {
+
+      frequencyMap[element] = (frequencyMap[element] || 0) + 1;
+
+    }
+
+ 
+
+    for (const element of array2) {
+
+      if (!(element in frequencyMap)) {
+
+        return false;
+
+      }
+
+      frequencyMap[element]--;
+
+ 
+
+      if (frequencyMap[element] === 0) {
+
+        delete frequencyMap[element];
+
+      }
+
+    }
+
+ 
+
+    return Object.keys(frequencyMap).length === 0;
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+ 

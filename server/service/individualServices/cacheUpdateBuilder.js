@@ -1,10 +1,13 @@
 const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
-exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
+exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters, filterValue) {
   const urlParts = url.split("?fields=");
   //TODO @latta-siae better check filters
-  const myFields = urlParts[1];
+  let myFields = "";
+  if(filters){
+    myFields = filterValue?filterValue:urlParts[1];
+  }
   // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
 
@@ -96,7 +99,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
   }
   let nomeArray = "";
   for (let i = 0; i < pathKeys.length; i++) {
-    if (i == 0) {
+    if (i == 0) { // solo la prima volta
       const chiave = pathKeys[i];
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
@@ -133,7 +136,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
 
-      // This happen when
+      // This happen when is an array
       if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
         nomeArray = chiave.substring(0, squareBracketOpenIdx);
         const indice = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
@@ -154,22 +157,22 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
               oggetto[nomeArray][indice] = newJSON;
             }
           }
-        } else {
+        } else { 
           // Otherwise go on parsing the object
           oggetto = oggetto[nomeArray][indice];
         }
-      } else {
+      } else { // This is a scalar/object value
         // If the key doesn't contain square brackets get the objet value
         if (i === pathKeys.length - 1) {
           // If is the last key on the path, then assign the value
           if (Filters) {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[nomeArray], newJSON)
+            let result = mergeJson(oggetto[chiave], newJSON)
           } else {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
-              //let newJSON = nuovoJSON[objectKey][0];  // Issue 1092
+              // let newJSON = nuovoJSON[objectKey][0];  // Issue 1092
               let newJSON = nuovoJSON[objectKey]; 
               oggetto[nomeArray] = newJSON;
             }

@@ -1,13 +1,11 @@
 const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
-exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters, filterValue) {
+exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
-  //TODO @latta-siae better check filters
-  let myFields = "";
-  if(filters){
-    myFields = filterValue?filterValue:urlParts[1];
-  }
+  const myFields = urlParts[1];
+  let hasFilter = filters ? filters : (myFields != "" || myFields != undefined);
+
   // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
 
@@ -82,24 +80,25 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters, fil
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) { // I think now is unuseful
     // logger.trace(originalJSON[lastKey])
-    assignValueToJson(originalJSON, lastKey, toInsert, myFields);
+    assignValueToJson(originalJSON, lastKey, toInsert, hasFilter);
   }
 };
 
 
 // What does this function does?
-function assignValueToJson(json, path, nuovoJSON, filters) {
+function assignValueToJson(json, path, nuovoJSON, hasFilters) {
 
   const pathKeys = path.split('.');
 
   let oggetto = json;
-  let Filters = false;
-  if (filters != "" && filters != undefined) {
-    Filters = true;
-  }
+  // Unused code
+  // let Filters = false;
+  // if (filters != "" && filters != undefined) {
+  //   Filters = true;
+  // }
   let nomeArray = "";
   for (let i = 0; i < pathKeys.length; i++) {
-    if (i == 0) { // solo la prima volta
+    if (i == 0) { // Only for the first item of the loop
       const chiave = pathKeys[i];
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
@@ -116,7 +115,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
       // If the key doesn't contain square brackets get the object value
       if (i === pathKeys.length - 1) {
         // If this is the last key in the path, assign the new value
-        if (Filters) {
+        if (hasFilters) {
           let objectKey = Object.keys(nuovoJSON)[0];
           let newJSON = nuovoJSON[objectKey];
           let result = mergeJson(oggetto, newJSON)
@@ -143,7 +142,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
 
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
-          if (Filters) {
+          if (hasFilters) {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
             let result = mergeJson(oggetto[nomeArray][indice], newJSON)
@@ -165,7 +164,7 @@ function assignValueToJson(json, path, nuovoJSON, filters) {
         // If the key doesn't contain square brackets get the objet value
         if (i === pathKeys.length - 1) {
           // If is the last key on the path, then assign the value
-          if (Filters) {
+          if (hasFilters) {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
             let result = mergeJson(oggetto[chiave], newJSON)

@@ -112,11 +112,14 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
+        logger.error("deleteCachedLink - Link: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
         correctLink = link;
       }
+
+      logger.info("deleteCachedLink - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let ret = await deleteRequest(correctLink);
@@ -169,13 +172,17 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
+        logger.error("deleteCachedLinkPort - UUID: " + link + " - localID: " + id);
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
+        logger.error("deleteCachedLinkPort - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
       } else {
         correctLink = link;
       }
+
+      logger.info("deleteCachedLinkPort - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -231,6 +238,8 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedActualEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -239,6 +248,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Actual Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -254,6 +264,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Actual Equipment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -305,6 +316,8 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAirInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -313,6 +326,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -328,6 +342,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -379,6 +394,8 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAirInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -387,6 +404,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -402,6 +420,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -453,6 +472,8 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAirInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -461,6 +482,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Historical Performance - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -476,6 +498,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Historical Perfomance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -527,6 +550,8 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAirInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -535,6 +560,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Air Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -550,6 +576,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Air Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -599,6 +626,8 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAlarmCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -607,6 +636,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Alarm Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -622,6 +652,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Alarm Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -671,6 +702,8 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAlarmConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -679,6 +712,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Alarm Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -694,6 +728,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Alarm configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -743,6 +778,8 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedAlarmEventRecords - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -751,6 +788,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Alarm Event Records - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -766,6 +804,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Alarm Event Records: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -816,6 +855,8 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedCoChannelProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -824,6 +865,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Co Channel Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -839,6 +881,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Co Channel Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -889,6 +932,8 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedCoChannelProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -897,6 +942,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Co Channel Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -912,6 +958,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Co Channel Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -963,6 +1010,8 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedConnector - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -971,6 +1020,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Connector - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -986,6 +1036,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Connector: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1037,6 +1088,8 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedContainedHolder - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1045,6 +1098,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Container Holder - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1060,6 +1114,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Container Holder: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1109,6 +1164,8 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
+        logger.error("getCachedControlConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1117,6 +1174,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1133,6 +1191,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Control Construct: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1182,6 +1241,8 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedCurrentAlarms - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1190,6 +1251,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1205,6 +1267,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Current Alarms: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1255,6 +1318,8 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1263,6 +1328,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1278,6 +1344,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Equiment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1329,6 +1396,8 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1337,6 +1406,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1352,6 +1422,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1403,6 +1474,8 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1411,6 +1484,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1426,6 +1500,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1477,6 +1552,8 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1485,6 +1562,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1500,6 +1578,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1551,6 +1630,8 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1559,6 +1640,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1574,6 +1656,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ethernet Container Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1625,6 +1708,8 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedExpectedEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1633,6 +1718,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1648,6 +1734,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Expected Equipment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1697,6 +1784,8 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1705,6 +1794,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1720,6 +1810,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware Collection: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1770,6 +1861,8 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareComponentCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1778,6 +1871,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1793,6 +1887,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware Component capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1843,6 +1938,8 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareComponentList - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1851,6 +1948,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1866,6 +1964,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware component list: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1916,6 +2015,8 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareComponentStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1924,6 +2025,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -1939,6 +2041,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Firmware component status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -1989,6 +2092,8 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedForwardingConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1997,6 +2102,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2012,6 +2118,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Forwarding construct: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2064,6 +2171,8 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedForwardingConstructPort - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2072,6 +2181,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2087,6 +2197,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Forwarding construct port: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2137,6 +2248,8 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedForwardingDomain - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2145,6 +2258,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2160,6 +2274,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Forwarding domain: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2211,6 +2326,8 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedHybridMwStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2219,6 +2336,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2234,6 +2352,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2285,6 +2404,8 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedHybridMwStructureConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2293,6 +2414,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2308,6 +2430,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2359,6 +2482,8 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedHybridMwStructureHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2367,6 +2492,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2382,6 +2508,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2433,6 +2560,8 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedHybridMwStructureStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2441,6 +2570,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2456,6 +2586,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Hybrid MW Structure Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2493,11 +2624,14 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
+        logger.error("getCachedLink - Link: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
         correctLink = link;
       }
+
+      logger.info("getCachedLink - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -2540,13 +2674,17 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
+        logger.error("getCachedLinkPort - UUID: " + link + " - localID: " + id);
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
+        logger.error("getCachedLinkPort - UUID: " + link);
         throw new createHttpError(link[0].code, link[0].message);
       } else {
         correctLink = link;
       }
+
+      logger.info("getCachedLinkPort - Read from ELK: " + correctLink);
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -2611,6 +2749,8 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveLogicalTerminationPoint - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
@@ -2689,6 +2829,8 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveLtpAugment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
@@ -2769,6 +2911,8 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedMacInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2777,6 +2921,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2792,6 +2937,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2843,6 +2989,8 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedMacInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2851,6 +2999,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2866,6 +3015,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2917,6 +3067,8 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedMacInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2925,6 +3077,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -2940,6 +3093,7 @@ exports.getCachedMacInterfaceHistoricalPerformances = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface Historical Performances: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -2991,6 +3145,8 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedMacInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2999,6 +3155,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("MAC Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3014,6 +3171,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Mac Interface status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3064,6 +3222,8 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedPolicingProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3072,6 +3232,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Policing Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3087,6 +3248,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Policing Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3137,6 +3299,8 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedPolicingProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3145,6 +3309,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Policing Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3160,6 +3325,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Policing Profile configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3210,6 +3376,8 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedProfile - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3218,6 +3386,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Profile - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3233,6 +3402,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Profile: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3282,6 +3452,8 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedProfileCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3290,6 +3462,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Profile Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3305,6 +3478,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Profile Collection: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3355,6 +3529,8 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedPureEthernetStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3363,6 +3539,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3378,6 +3555,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3429,6 +3607,8 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedPureEthernetStructureConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3437,6 +3617,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3452,6 +3633,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3503,6 +3685,8 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedPureEthernetStructureHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3511,6 +3695,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3526,6 +3711,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3577,6 +3763,8 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedPureEthernetStructureStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3585,6 +3773,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Pure Ethernet Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3600,6 +3789,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Pure Ethernet Structure Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3650,6 +3840,8 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedQosProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3658,6 +3850,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3673,6 +3866,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("QoS Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3723,6 +3917,8 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedQosProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3731,6 +3927,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3746,6 +3943,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("QoS Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3796,6 +3994,8 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedSchedulerProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3804,6 +4004,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3819,6 +4020,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Scheduler Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3869,6 +4071,8 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedSchedulerProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3877,6 +4081,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3892,6 +4097,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Scheduler Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -3943,6 +4149,8 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedVlanInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -3951,6 +4159,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -3966,6 +4175,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4017,6 +4227,8 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedVlanInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4025,6 +4237,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4040,6 +4253,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4091,6 +4305,8 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedVlanInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4099,6 +4315,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4114,6 +4331,7 @@ exports.getCachedVlanInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Historical Perfomance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4165,6 +4383,8 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedVlanInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4173,6 +4393,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("VLAN Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4188,6 +4409,7 @@ exports.getCachedVlanInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("VLAN Interface Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4239,6 +4461,8 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedWireInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4247,6 +4471,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4262,6 +4487,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4313,6 +4539,8 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedWireInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4321,6 +4549,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4336,6 +4565,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4387,6 +4617,8 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedWireInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4395,6 +4627,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4410,6 +4643,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Historical Performance: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4461,6 +4695,8 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedWireInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4469,6 +4705,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wire Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4484,6 +4721,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wire Interface Status: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4534,6 +4772,8 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedWredProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4542,6 +4782,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wired Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4557,6 +4798,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wired Profile Capability: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4607,6 +4849,8 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedWredProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4615,6 +4859,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Wired Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4630,6 +4875,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Wired Profile Configuration: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4680,6 +4926,8 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedLogicalTerminationPoint - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4688,6 +4936,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Logical Termination Point - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4703,6 +4952,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Logical Termination Point: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4753,6 +5003,8 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedLtpAugment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4761,6 +5013,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("LTP Augmented - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result);
@@ -4776,6 +5029,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
             objList.push(rootObj)
             fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
             if (isJsonEmpty(finalJson)) {
+              logger.warn("Ltp Augment: JSON is empty, throwing BAD_REQUEST");
               throw new createHttpError.BadRequest;
             }
           }
@@ -4825,11 +5079,13 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveActualEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4904,11 +5160,13 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -4983,11 +5241,13 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5061,11 +5321,13 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5120,11 +5382,13 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5199,11 +5463,13 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5276,11 +5542,13 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAlarmCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5353,11 +5621,13 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAlarmConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5430,11 +5700,13 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAlarmEventRecords - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5508,11 +5780,13 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveCoChannelProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5586,11 +5860,13 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveCoChannelProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5665,11 +5941,13 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveConnector - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5744,11 +6022,13 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveContainedHolder - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5816,21 +6096,24 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
+        logger.error("getLiveControlConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
         return;
       } else {
         correctCc = mountname;
       }
       let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
+          logger.error("Get CC from live network: fails");
           resolve(NotFound());
           throw new createHttpError.NotFound;
         } else if (result.status != 200) {
+          logger.error(result, "Get CC from live network fails, result.status!=200");
           if (result.statusText == undefined) {
             resolve(result.status, result.message);
             throw new createHttpError(result.status, result.message);
@@ -5914,11 +6197,13 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveCurrentAlarms - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -5994,11 +6279,13 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6073,11 +6360,13 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6152,11 +6441,13 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6230,11 +6521,13 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.notFound;
@@ -6289,11 +6582,13 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6368,11 +6663,13 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6447,11 +6744,13 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveExpectedEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6524,11 +6823,13 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6602,11 +6903,13 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareComponentCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6680,11 +6983,13 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareComponentList - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6758,11 +7063,13 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareComponentStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6836,11 +7143,13 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveForwardingConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6916,11 +7225,13 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveForwardingConstructPort - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -6994,11 +7305,13 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveForwardingDomain - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7072,11 +7385,13 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7151,11 +7466,13 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7229,11 +7546,13 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7288,11 +7607,13 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7367,11 +7688,13 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7446,11 +7769,13 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7525,11 +7850,13 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7603,11 +7930,13 @@ exports.getLiveMacInterfaceCurrentPerformance = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7662,11 +7991,13 @@ exports.getLiveMacInterfaceHistoricalPerformances = function (url, user, origina
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7741,11 +8072,13 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7819,11 +8152,13 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePolicingProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7897,11 +8232,13 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePolicingProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -7975,11 +8312,13 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveProfile - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8052,11 +8391,13 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveProfileCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8131,11 +8472,13 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8210,11 +8553,13 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureConfiguration- Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8288,11 +8633,13 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8347,11 +8694,13 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8426,11 +8775,13 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8504,11 +8855,13 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveQosProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8582,11 +8935,13 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveQosProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8660,11 +9015,13 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveSchedulerProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8737,11 +9094,13 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveSchedulerProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8816,11 +9175,13 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8895,11 +9256,13 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -8973,11 +9336,13 @@ exports.getLiveVlanInterfaceCurrentPerformance = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9032,11 +9397,13 @@ exports.getLiveVlanInterfaceHistoricalPerformances = function (url, user, origin
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9111,11 +9478,13 @@ exports.getLiveVlanInterfaceStatus = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9190,11 +9559,13 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9269,11 +9640,13 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9347,11 +9720,13 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9406,11 +9781,13 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9485,11 +9862,13 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9563,11 +9942,13 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWredProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -9641,11 +10022,13 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWredProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError.NotFound;
@@ -10077,14 +10460,18 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       if (matchLink) {
+        logger.error("putLinkPortToCache - UUID: " + link);
         throw new createHttpError("400", "Fields must not contain special chars");
       }
       if (typeof link === 'object') {
+        logger.error("putLinkPortToCache - link is an object" + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
         correctLink = link;
       }
+
+      logger.info("putLinkPortToCache - Read from ELK: " + correctLink);
       let value = await ReadRecords(correctLink);
       let result = await ReadRecords("linkList");
       if (value != undefined) {
@@ -10141,12 +10528,15 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       let correctLink = null;
       let link = decodeLinkUuid(url, true);
       if (typeof link === 'object') {
+        logger.error("putLinkToCache - link: " + link);
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
         correctLink = link;
       }
       let elapsedTime = await recordRequest(body, correctLink);
+
+      logger.info("putLinkToCache - Read from ELK: " + correctLink);
       let result = await ReadRecords("linkList");
       if (result == undefined) {
         logger.warn("link list in Elasticsearch not found");
@@ -11936,21 +12326,24 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
+        logger.error("getLiveControlConstructFromSW - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
         return;
       } else {
         correctCc = mountname;
       }
       let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
+          logger.error("Get Live CC from Sliding Window: network fails");
           resolve(NotFound());
           throw new createHttpError.NotFound;
         } else if (result.status != 200) {
+          logger.error(result, "Get Live CC from Sliding Window: result.status != 200");
           if (result.statusText == undefined) {
             resolve(result.status, result.message);
             throw new createHttpError(result.status, result.message);
@@ -11994,7 +12387,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           }
 
         } else {
-          logger.warn(new createHttpError.BadRequest);
+          logger.error("This request is not for ODL, so throwing BAD_REQUEST error");
           resolve(new createHttpError.BadRequest);
         }
       }

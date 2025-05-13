@@ -33161,7 +33161,8 @@ components:
     EMBEDDED_CLOCK:
       type: object
     LAYER_PROTOCOL:
-      oneOf:
+      #must use anyOf instead of oneOf, to allow having the default option
+      anyOf:
         - description: 'air-interface'
           type: object
           required:

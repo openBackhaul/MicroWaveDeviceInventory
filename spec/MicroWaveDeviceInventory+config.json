@@ -10271,6 +10271,31 @@
         ]
       },
       {
+        "uuid": "mwdi-1-3-0-op-c-is-mwdi-1-3-0-100",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-1-3-0-http-c-mwdi-1-3-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL"
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-1-3-0-op-c-is-mwdi-1-3-0-400",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
@@ -11849,6 +11874,7 @@
         "uuid": "mwdi-1-3-0-http-c-mwdi-1-3-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
+          "mwdi-1-3-0-op-c-is-mwdi-1-3-0-100",
           "mwdi-1-3-0-op-c-is-mwdi-1-3-0-400",
           "mwdi-1-3-0-op-c-is-mwdi-1-3-0-405",
           "mwdi-1-3-0-op-c-is-mwdi-1-3-0-406",
@@ -14231,6 +14257,31 @@
                 "local-id": "2004",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-1-3-0-op-c-is-np-1-0-2-013"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-1-3-0-op-fc-im-010",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-1-3-0-op-s-bm-001"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-1-3-0-op-c-is-mwdi-1-3-0-100"
               }
             ]
           },

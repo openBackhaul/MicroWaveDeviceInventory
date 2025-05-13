@@ -136,7 +136,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -524,7 +524,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -647,7 +647,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -722,7 +722,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -814,7 +814,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -2890,7 +2890,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -3093,7 +3093,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -3296,7 +3296,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -21822,7 +21822,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -21977,7 +21977,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22115,7 +22115,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22307,7 +22307,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -22411,7 +22411,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22438,7 +22438,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-odl-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-odl-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -22503,7 +22503,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22582,7 +22582,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]            get:
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -22619,7 +22619,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22656,7 +22656,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesSubscribingForNotifications:
-          ControllerAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          ControllerAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -22735,7 +22735,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22761,7 +22761,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceAlarms: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          DeviceAlarms: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -22840,7 +22840,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22866,7 +22866,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          DeviceAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -22945,7 +22945,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -22971,7 +22971,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceObjectCreations: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-012/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          DeviceObjectCreations: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-012/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -23050,7 +23050,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -23076,7 +23076,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          DeviceObjectDeletions: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-013/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          DeviceObjectDeletions: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-np-1-0-2-013/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -23155,7 +23155,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -23182,7 +23182,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-or-1-2-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-odl-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-odl-4-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -23237,6 +23237,132 @@ paths:
                             - node-id: '101259999'
                               netconf-node-topology:connection-status: 'connecting'
                               netconf-node-topology:schema-cache-directory: 'siae_xyz'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mountName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mountName of the device that is addressed by this callback
+                    from the internally determined list of devices to be updated according to *_CyclicOperationBasedDeviceStatusSync.png diagram'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-3-0-string-p-003/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'List of logical-termination-points with air-interface type-of-equipment info provided.'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - core-model-1-4:control-construct
+                        properties:
+                          core-model-1-4:control-construct:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                  - logical-termination-point
+                              properties:
+                                logical-termination-point:
+                                  type: array
+                                  items:
+                                    required:
+                                    - uuid
+                                    - layer-protocol
+                                    properties:
+                                      uuid:
+                                        type: string
+                                      layer-protocol:
+                                        description: > 
+                                          'Layer-protocols without air-interface-2-0:air-interface-pac/air-interface-capability/type-of-equipment can be ignored'
+                                        required:
+                                          - local-id
+                                        properties:
+                                          local-id:
+                                            type: string
+                                          air-interface-2-0:air-interface-pac:
+                                            type: object
+                                            required:
+                                              - air-interface-capability
+                                            properties:
+                                              air-interface-capability:
+                                                type: object
+                                                required:
+                                                  - type-of-equipment
+                                                properties:
+                                                  type-of-equipment:
+                                                    type: string
+                                                    description: >
+                                                      'This property contains the equipment type information, which needs to be mapped to a normalized equipment-type
+                                                      by using the regex pattern mapping according to mwdi-1-3-0-mapping-p-000'
+                      example:
+                        core-model-1-4:control-construct:
+                          - logical-termination-point:
+                            - uuid: 'LTP-XYZ-TTP-3-4'
+                              layer-protocol:
+                                - local-id: 'LP-XYZ-TTP-3-4'
+                                  air-interface-2-0:air-interface-pac:
+                                    air-interface-capability:
+                                      type-of-equipment: 'OptiXRTN950N/abc/efg'
                   headers:
                     x-correlator:
                       schema:
@@ -23388,7 +23514,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -23499,7 +23625,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -23634,7 +23760,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -23733,7 +23859,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -23822,7 +23948,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -23963,7 +24089,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -24083,7 +24209,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -24231,7 +24357,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -24371,7 +24497,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -24624,7 +24750,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -24686,7 +24812,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -24750,7 +24876,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -24843,7 +24969,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -24921,7 +25047,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -24988,7 +25114,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25047,7 +25173,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25111,7 +25237,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25204,7 +25330,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25286,7 +25412,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25353,7 +25479,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25435,7 +25561,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -25534,7 +25660,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -25671,7 +25797,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -25779,7 +25905,7 @@ paths:
                       schema:
                         type: integer
                         example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string
@@ -25855,7 +25981,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -25933,7 +26059,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -26083,7 +26209,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -26150,7 +26276,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -26253,7 +26379,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -26337,7 +26463,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -26415,7 +26541,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -26478,7 +26604,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -29149,7 +29275,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -31789,7 +31915,7 @@ components:
           schema:
             type: integer
             example: 850
-          description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+          description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
     responseForErroredOamRequests:
       description: 'Response in case of errored OaM requests'
       content:
@@ -32001,7 +32127,7 @@ components:
       schema:
         type: integer
         example: 850
-      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
     life-cycle-state:
       schema:
         type: string

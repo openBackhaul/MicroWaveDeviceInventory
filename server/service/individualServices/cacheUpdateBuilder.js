@@ -4,7 +4,7 @@ const logger = require('../LoggingService.js').getLogger();
 exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
   const myFields = urlParts[1];
-  let hasFilter = filters ? filters : (myFields != "" || myFields != undefined);
+  let hasFilter = filters ? filters : (myFields != "" && myFields != undefined);
 
   // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
@@ -102,7 +102,8 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
       const chiave = pathKeys[i];
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
-      const nomeArray = chiave.substring(1, squareBracketCloseIdx);
+      // const nomeArray = chiave.substring(1, squareBracketCloseIdx);
+      nomeArray = chiave.substring(1, squareBracketCloseIdx);
       if (nomeArray.indexOf("control-construct") != -1) {
         oggetto = oggetto[nomeArray];
       } else {
@@ -163,6 +164,9 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
       } else { // This is a scalar/object value
         // If the key doesn't contain square brackets get the objet value
         if (i === pathKeys.length - 1) {
+          if (pathKeys.length == 2) {
+            nomeArray = chiave;
+          }
           // If is the last key on the path, then assign the value
           if (hasFilters) {
             let objectKey = Object.keys(nuovoJSON)[0];

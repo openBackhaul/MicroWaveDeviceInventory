@@ -1,0 +1,21 @@
+put testcase stuff here, 
+first only add tests (requests) for 
+- services with domain=cache
+- response 460 (invalid mountName)
+
+(In Postman collection maybe create an own folder for 460 response Code and one for 470)
+
+two scenarios to test, examples:
+a) /core-model-1-4:network-control-domain=cache/control-construct={mountName}
+b) /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment
+
+Test 1: provide invalid mountName ("dummyMountName"): expected is 460 response
+ - both a and b will return 460, if for b an invalid uuid parameter is provided that does not matter
+
+Test 2: provide valid mountName, but invalid other parameters: expected is 470 response
+ - a can be skipped, there are no additional parameters -> don't create a request for this service
+ - b: the mountName is known, but the remaining path is invalid, here the uuid does matter => 470
+
+
+
+

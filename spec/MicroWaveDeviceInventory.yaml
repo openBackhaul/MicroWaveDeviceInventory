@@ -2582,17 +2582,28 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                mount-name-list:
-                  type: array
-                  items:
+              oneOf:
+                - description: 'Mount-name list filter'
+                  type: object
+                  properties:
+                    mount-name-list:
+                      type: array
+                      items:
+                        type: string
+                      description: 'List of names of devices for which the status metadata shall be provided.'
+                  example:
+                    mount-name-list:
+                      - '305251234'
+                      - '105258888'
+                - description: 'Timestamp filter on last-complete-control-construct-update-time'
+                  type: object
+                  property:
+                    timestamp-filter:
                     type: string
-                  description: 'List of names of devices for which the status metadata shall be provided.'
-            example:
-              mount-name-list:
-                - '305251234'
-                - '105258888'
+                    enum:
+                      - 'oldest-or-null'
+                      - 'oldest'
+                    description: 'Filter for the device with either oldest-or-null or oldest (non-null) timestamp value (for connected devices only). Resulting list will not contain more than a single device.'
       responses:
         '200':
           description: 'Table with device status metadata provided'

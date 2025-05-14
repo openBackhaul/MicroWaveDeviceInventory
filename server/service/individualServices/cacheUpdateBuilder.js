@@ -99,10 +99,10 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
   let arrayName = "";
   for (let i = 0; i < pathKeys.length; i++) {
     if (i == 0) { // Only for the first item of the loop
-      const chiave = pathKeys[i];
-      const squareBracketOpenIdx = chiave.indexOf('[');
-      const squareBracketCloseIdx = chiave.indexOf(']');
-      arrayName = chiave.substring(1, squareBracketCloseIdx);
+      const keyToUse = pathKeys[i];
+      const squareBracketOpenIdx = keyToUse.indexOf('[');
+      const squareBracketCloseIdx = keyToUse.indexOf(']');
+      arrayName = keyToUse.substring(1, squareBracketCloseIdx);
       if (arrayName.indexOf("control-construct") != -1) {
         oggetto = oggetto[arrayName];
       } else {
@@ -127,14 +127,14 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
         }
       }
     } else { // From the second element of iteration
-      const chiave = pathKeys[i];
-      const squareBracketOpenIdx = chiave.indexOf('[');
-      const squareBracketCloseIdx = chiave.indexOf(']');
+      const keyToUse = pathKeys[i];
+      const squareBracketOpenIdx = keyToUse.indexOf('[');
+      const squareBracketCloseIdx = keyToUse.indexOf(']');
 
       // This happen when is an array
       if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
-        arrayName = chiave.substring(0, squareBracketOpenIdx);
-        const index = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
+        arrayName = keyToUse.substring(0, squareBracketOpenIdx);
+        const index = parseInt(keyToUse.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
 
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
@@ -158,12 +158,12 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
         // If the key doesn't contain square brackets get the objet value
         if (i === pathKeys.length - 1) {
           if (pathKeys.length == 2) {
-            arrayName = chiave;
+            arrayName = keyToUse;
           }
           // If is the last key on the path, then assign the value
           if (hasFilters) {
             let objectKey = Object.keys(newJSON)[0];
-            let result = mergeJson(oggetto[chiave], newJSON[objectKey]);
+            let result = mergeJson(oggetto[keyToUse], newJSON[objectKey]);
           } else {
             if (newJSON != null) {
               let objectKey = Object.keys(newJSON)[0];
@@ -172,8 +172,8 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
           }
         } else {
           // Otherwise go on parsing the object
-          oggetto = oggetto[chiave];
-          arrayName = chiave;
+          oggetto = oggetto[keyToUse];
+          arrayName = keyToUse;
         }
       }
     }

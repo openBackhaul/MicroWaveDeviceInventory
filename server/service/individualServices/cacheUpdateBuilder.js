@@ -3,8 +3,9 @@ const logger = require('../LoggingService.js').getLogger();
 
 exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   const urlParts = url.split("?fields=");
-  //TODO @latta-siae better check filters
   const myFields = urlParts[1];
+  let hasFilter = filters ? filters : (myFields != "" && myFields != undefined);
+
   // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');
 
@@ -79,118 +80,112 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
   // Verify if exists a last key and substitute it with the new JSON
   if (lastKey) { // I think now is unuseful
     // logger.trace(originalJSON[lastKey])
-    assignValueToJson(originalJSON, lastKey, toInsert, myFields);
+    assignValueToJson(originalJSON, lastKey, toInsert, hasFilter);
   }
 };
 
 
 // What does this function does?
-function assignValueToJson(json, path, nuovoJSON, filters) {
+function assignValueToJson(json, path, newJSON, hasFilters) {
 
   const pathKeys = path.split('.');
 
-  let oggetto = json;
-  let Filters = false;
-  if (filters != "" && filters != undefined) {
-    Filters = true;
-  }
-  let nomeArray = "";
+  let objJSON = json;
+  // Unused code
+  // let Filters = false;
+  // if (filters != "" && filters != undefined) {
+  //   Filters = true;
+  // }
+  let arrayName = "";
   for (let i = 0; i < pathKeys.length; i++) {
-    if (i == 0) {
-      const chiave = pathKeys[i];
-      const squareBracketOpenIdx = chiave.indexOf('[');
-      const squareBracketCloseIdx = chiave.indexOf(']');
-      const nomeArray = chiave.substring(1, squareBracketCloseIdx);
-      if (nomeArray.indexOf("control-construct") != -1) {
-        oggetto = oggetto[nomeArray];
+    if (i == 0) { // Only for the first item of the loop
+      const keyToUse = pathKeys[i];
+      const squareBracketOpenIdx = keyToUse.indexOf('[');
+      const squareBracketCloseIdx = keyToUse.indexOf(']');
+      arrayName = keyToUse.substring(1, squareBracketCloseIdx);
+      if (arrayName.indexOf("control-construct") != -1) {
+        objJSON = objJSON[arrayName];
       } else {
-        let objectKey = Object.keys(oggetto)[0];
-        oggetto = oggetto[objectKey];
-        let objectKey1 = Object.keys(oggetto)[0];
-        oggetto = oggetto[nomeArray];
-        // oggetto = oggetto[nomeArray];
+        let objectKey = Object.keys(objJSON)[0];
+        objJSON = objJSON[objectKey];
+        // let objectKey1 = Object.keys(objJSON)[0]; // no more used
+        objJSON = objJSON[arrayName];
       }
       // If the key doesn't contain square brackets get the object value
       if (i === pathKeys.length - 1) {
         // If this is the last key in the path, assign the new value
-        if (Filters) {
-          let objectKey = Object.keys(nuovoJSON)[0];
-          let newJSON = nuovoJSON[objectKey];
-          let result = mergeJson(oggetto, newJSON)
+        if (hasFilters) {
+          let objectKey = Object.keys(newJSON)[0];
+          let result = mergeJson(objJSON, newJSON[objectKey]);
         } else {
-          if (nuovoJSON === null) {
-            oggetto[nomeArray].splice(indice, 1);
+          if (newJSON === null) {
+            objJSON[arrayName].splice(indice, 1); // indice doesn't exists
           } else {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            //   oggetto[nomeArray] = newJSON;
-            oggetto = newJSON;
+            let objectKey = Object.keys(newJSON)[0];
+            objJSON = newJSON[objectKey];
           }
         }
       }
-    } else {
-      const chiave = pathKeys[i];
-      const squareBracketOpenIdx = chiave.indexOf('[');
-      const squareBracketCloseIdx = chiave.indexOf(']');
+    } else { // From the second element of iteration
+      const keyToUse = pathKeys[i];
+      const squareBracketOpenIdx = keyToUse.indexOf('[');
+      const squareBracketCloseIdx = keyToUse.indexOf(']');
 
-      // This happen when
+      // This happen when is an array
       if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
-        nomeArray = chiave.substring(0, squareBracketOpenIdx);
-        const indice = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
+        arrayName = keyToUse.substring(0, squareBracketOpenIdx);
+        const index = parseInt(keyToUse.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
 
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
-          if (Filters) {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[nomeArray][indice], newJSON)
+          if (hasFilters) {
+            let objectKey = Object.keys(newJSON)[0];
+            let result = mergeJson(objJSON[arrayName][index], newJSON[objectKey]);
           } else {
-            if (nuovoJSON === null) {
-              oggetto[nomeArray].splice(indice, 1);
-              //delete oggetto[nomeArray][indice];
+            if (newJSON === null) {
+              objJSON[arrayName].splice(index, 1);
+              //delete objJSON[arrayName][index];
             } else {
-              let objectKey = Object.keys(nuovoJSON)[0];
-              let newJSON = nuovoJSON[objectKey][0];
-              oggetto[nomeArray][indice] = newJSON;
+              let objectKey = Object.keys(newJSON)[0];
+              objJSON[arrayName][index] = newJSON[objectKey];
             }
           }
-        } else {
+        } else { 
           // Otherwise go on parsing the object
-          oggetto = oggetto[nomeArray][indice];
+          objJSON = objJSON[arrayName][index];
         }
-      } else {
+      } else { // This is a scalar/object value
         // If the key doesn't contain square brackets get the objet value
         if (i === pathKeys.length - 1) {
+          if (pathKeys.length == 2) {
+            arrayName = keyToUse;
+          }
           // If is the last key on the path, then assign the value
-          if (Filters) {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[nomeArray], newJSON)
+          if (hasFilters) {
+            let objectKey = Object.keys(newJSON)[0];
+            let result = mergeJson(objJSON[keyToUse], newJSON[objectKey]);
           } else {
-            if (nuovoJSON != null) {
-              let objectKey = Object.keys(nuovoJSON)[0];
-              let newJSON = nuovoJSON[objectKey][0];
-              oggetto[nomeArray] = newJSON;
+            if (newJSON != null) {
+              let objectKey = Object.keys(newJSON)[0];
+              objJSON[arrayName] = newJSON[objectKey];
             }
           }
         } else {
           // Otherwise go on parsing the object
-          oggetto = oggetto[chiave];
-          nomeArray = chiave;
+          objJSON = objJSON[keyToUse];
+          arrayName = keyToUse;
         }
       }
     }
   }
   /*
   if (Filters) {
-    let objectKey = Object.keys(nuovoJSON)[0];
-    let newJSON = nuovoJSON[objectKey];
-    let result = mergeJson(oggetto, newJSON)
+    let objectKey = Object.keys(newJSON)[0];
+    let result = mergeJson(objJSON, newJSON[objectKey]);
   } else {
-    if (nuovoJSON !== null) {
-      let objectKey = Object.keys(nuovoJSON)[0];
-      let newJSON = nuovoJSON[objectKey]
-      Object.assign(oggetto ,newJSON);
+    if (newJSON !== null) {
+      let objectKey = Object.keys(newJSON)[0];
+      Object.assign(objJSON ,newJSON[objectKey]);
     }
   }
   */

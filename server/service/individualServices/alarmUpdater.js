@@ -14,7 +14,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
 
     // Get the current alarms list
     let alarms = json[objectKey][ALARMS_PAC][CURRENT_ALARMS]["current-alarm-list"];
-    logger.info('Get List of current alarms, size is: ' + alarms.length);
+    logger.info("Get List of current alarms, size is: " + alarms.length);
     logger.debug(alarms);
     let found = false;
 
@@ -36,10 +36,10 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
             } else {
                 logger.info("Alarm id: " + alarmTypeId + " - on resource: " + resourceToUpdate + " - CLEARED");
                 alarms.splice(i, 1);
-                // TO be verify
-                alarms.forEach((item, index) => {
-                    item[CURRENT_ALARM_ID] = (index + 1).toString();
-                });
+                // No More used
+                // alarms.forEach((item, index) => {
+                //     item[CURRENT_ALARM_ID] = (index + 1).toString();
+                // });
                 let numberOfCurrentAlarms = alarms.length;
                 json[objectKey][ALARMS_PAC][CURRENT_ALARMS][N_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
                 //json["core-model-1-4:control-construct"][0][ALARMS_PAC][CURRENT_ALARMS]["time-of-latest-change"] = newAlarm["timestamp"];
@@ -51,12 +51,12 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
 
     if (!found) {
         logger.debug("Alarm not found in the list");
-        // TO be verify
-        let maxIdentifier = Math.max(...alarms.map(alarm => parseInt(alarm[CURRENT_ALARM_ID])));
-        logger.debug("Alarm Max Identifier: " + maxIdentifier);
+        // No More used
+        // let maxIdentifier = Math.max(...alarms.map(alarm => parseInt(alarm[CURRENT_ALARM_ID])));
+        // logger.debug("Alarm Max Identifier: " + maxIdentifier);
         logger.info("Alarm id: " + alarmTypeId + " - on resource: " + resourceToUpdate + " - Added");
         let newAlarm = {
-            "current-alarm-identifier": (maxIdentifier + 1).toString(),
+            // "current-alarm-identifier": (maxIdentifier + 1).toString(),
             "timestamp": updatedAttributes.timestamp,
             "resource": updatedAttributes.resource,
             "alarm-type-id": updatedAttributes[ALARM_TYPE_ID],

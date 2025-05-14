@@ -111,6 +111,22 @@ By providing the mappings in the *deviceTypeMapping* profileInstance, the mappin
 
 ## Filtering of metadata
 
-The service /v1/provide-device-status-metadata requires a list of device names, for which the metadata shall be returned, to be provided in the requestBody.  
-Listed device names, for which no data could be found in the metadata table, are ignored.  
+There are two options for data retrieval. The filter is mandatory and provided in the requestBody:
+- **_MountNameList_**: when the service is called, a mount-name list can be handed over as input.
+  - The metadata table data is filtered for devices found in the list.
+  - Data for other devices is not returned.
+- **_TimestampFilter_**: the 2nd option is a filter on the *last-complete-control-construct-update-time* property.
+  - It shall return an output list with only a single device record (if found).
+  - Only devices in *connected* state are to be considered.
+  - Depending on the provided value, the data shall be filtered for the device with:
+    - the oldest, not-null timestamp value: this will be used for the quality measurements
+    - or for the oldest or null timestamp value (if there are multiple devices with null timestamps, take the first one found): this is to be used for the regular cyclic CC updates (slidingWindow process)
 
+## Sorting the metadata table
+
+In order to efficiently allow for filtering on the *last-complete-control-construct-update-time* timestamp values, the devices in the metadata table should be ordered accordingly.  
+The devices shall be ordered according to the timestamp value, in from-oldest-to-newest order. Starting with those devices where the timestamp is *null* (as those shall be updated with priority).
+
+Ordering updates:
+- after successful ControlConstruct retrieval: move device to the end of the table
+- in case of failed retrievals (after the configured amount of retries): also move it to the end of the table

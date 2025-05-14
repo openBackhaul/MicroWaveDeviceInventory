@@ -112,11 +112,15 @@ By providing the mappings in the *deviceTypeMapping* profileInstance, the mappin
 ## Filtering of metadata
 
 There are two options for data retrieval. The filter is mandatory and provided in the requestBody:
-- **_MountNameList_**: when the service is called, a mount-name list is handed over as input. The metadata table data is filtered for devices found in the list. Data for other devices is not returned.
-- **_TimestampFilter_**: the 2nd option is a filter on the *last-complete-control-construct-update-time* property. It shall return a list with only a single device (if found). Only devices in *connected* state are to be considered.
-Depending on the provided value, the data shall be filtered for the device with:
-  - the oldest, non-null timestamp value: this will be used for the quality measurements
-  - or for the oldest or null timestamp value (if there are multiple devices with null timestamps, take the first one found): this is to be used for the regular cyclic CC updates (slidingWindow process)
+- **_MountNameList_**: when the service is called, a mount-name list can be handed over as input.
+  - The metadata table data is filtered for devices found in the list.
+  - Data for other devices is not returned.
+- **_TimestampFilter_**: the 2nd option is a filter on the *last-complete-control-construct-update-time* property.
+  - It shall return an output list with only a single device record (if found).
+  - Only devices in *connected* state are to be considered.
+  - Depending on the provided value, the data shall be filtered for the device with:
+    - the oldest, not-null timestamp value: this will be used for the quality measurements
+    - or for the oldest or null timestamp value (if there are multiple devices with null timestamps, take the first one found): this is to be used for the regular cyclic CC updates (slidingWindow process)
 
 ## Sorting the metadata table
 

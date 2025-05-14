@@ -116,16 +116,16 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
         // If this is the last key in the path, assign the new value
         if (hasFilters) {
           let objectKey = Object.keys(nuovoJSON)[0];
-          let newJSON = nuovoJSON[objectKey];
-          let result = mergeJson(oggetto, newJSON)
+          // let newJSON = nuovoJSON[objectKey]; // Old Code
+          let result = mergeJson(oggetto, nuovoJSON[objectKey]);
         } else {
           if (nuovoJSON === null) {
             oggetto[nomeArray].splice(indice, 1);
           } else {
             let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            //   oggetto[nomeArray] = newJSON;
-            oggetto = newJSON;
+            // let newJSON = nuovoJSON[objectKey];  // Old code
+            //   oggetto[nomeArray] = nuovoJSON[objectKey];
+            oggetto = nuovoJSON[objectKey];
           }
         }
       }
@@ -143,16 +143,16 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
           // If this is the last key in the path, assign the new value
           if (hasFilters) {
             let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[nomeArray][index], newJSON)
+            // let newJSON = nuovoJSON[objectKey]; // Old code
+            let result = mergeJson(oggetto[nomeArray][index], nuovoJSON[objectKey]);
           } else {
             if (nuovoJSON === null) {
               oggetto[nomeArray].splice(index, 1);
               //delete oggetto[nomeArray][index];
             } else {
               let objectKey = Object.keys(nuovoJSON)[0];
-              let newJSON = nuovoJSON[objectKey][0];
-              oggetto[nomeArray][index] = newJSON;
+              // let newJSON = nuovoJSON[objectKey]; // Old code
+              oggetto[nomeArray][index] = nuovoJSON[objectKey];
             }
           }
         } else { 
@@ -168,14 +168,14 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
           // If is the last key on the path, then assign the value
           if (hasFilters) {
             let objectKey = Object.keys(nuovoJSON)[0];
-            let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[chiave], newJSON)
+            // let newJSON = nuovoJSON[objectKey]; // Old code
+            let result = mergeJson(oggetto[chiave], nuovoJSON[objectKey]);
           } else {
             if (nuovoJSON != null) {
               let objectKey = Object.keys(nuovoJSON)[0];
               // let newJSON = nuovoJSON[objectKey][0];  // Issue 1092
-              let newJSON = nuovoJSON[objectKey]; 
-              oggetto[nomeArray] = newJSON;
+              // let newJSON = nuovoJSON[objectKey]; // Old code
+              oggetto[nomeArray] = nuovoJSON[objectKey];
             }
           }
         } else {
@@ -189,13 +189,11 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
   /*
   if (Filters) {
     let objectKey = Object.keys(nuovoJSON)[0];
-    let newJSON = nuovoJSON[objectKey];
-    let result = mergeJson(oggetto, newJSON)
+    let result = mergeJson(oggetto, nuovoJSON[objectKey]);
   } else {
     if (nuovoJSON !== null) {
       let objectKey = Object.keys(nuovoJSON)[0];
-      let newJSON = nuovoJSON[objectKey]
-      Object.assign(oggetto ,newJSON);
+      Object.assign(oggetto ,nuovoJSON[objectKey]);
     }
   }
   */

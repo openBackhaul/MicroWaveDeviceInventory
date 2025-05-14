@@ -86,7 +86,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
 
 
 // What does this function does?
-function assignValueToJson(json, path, nuovoJSON, hasFilters) {
+function assignValueToJson(json, path, newJSON, hasFilters) {
 
   const pathKeys = path.split('.');
 
@@ -115,17 +115,14 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
       if (i === pathKeys.length - 1) {
         // If this is the last key in the path, assign the new value
         if (hasFilters) {
-          let objectKey = Object.keys(nuovoJSON)[0];
-          // let newJSON = nuovoJSON[objectKey]; // Old Code
-          let result = mergeJson(oggetto, nuovoJSON[objectKey]);
+          let objectKey = Object.keys(newJSON)[0];
+          let result = mergeJson(oggetto, newJSON[objectKey]);
         } else {
-          if (nuovoJSON === null) {
+          if (newJSON === null) {
             oggetto[nomeArray].splice(indice, 1);
           } else {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            // let newJSON = nuovoJSON[objectKey];  // Old code
-            //   oggetto[nomeArray] = nuovoJSON[objectKey];
-            oggetto = nuovoJSON[objectKey];
+            let objectKey = Object.keys(newJSON)[0];
+            oggetto = newJSON[objectKey];
           }
         }
       }
@@ -142,17 +139,15 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
           if (hasFilters) {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            // let newJSON = nuovoJSON[objectKey]; // Old code
-            let result = mergeJson(oggetto[nomeArray][index], nuovoJSON[objectKey]);
+            let objectKey = Object.keys(newJSON)[0];
+            let result = mergeJson(oggetto[nomeArray][index], newJSON[objectKey]);
           } else {
-            if (nuovoJSON === null) {
+            if (newJSON === null) {
               oggetto[nomeArray].splice(index, 1);
               //delete oggetto[nomeArray][index];
             } else {
-              let objectKey = Object.keys(nuovoJSON)[0];
-              // let newJSON = nuovoJSON[objectKey]; // Old code
-              oggetto[nomeArray][index] = nuovoJSON[objectKey];
+              let objectKey = Object.keys(newJSON)[0];
+              oggetto[nomeArray][index] = newJSON[objectKey];
             }
           }
         } else { 
@@ -167,15 +162,12 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
           }
           // If is the last key on the path, then assign the value
           if (hasFilters) {
-            let objectKey = Object.keys(nuovoJSON)[0];
-            // let newJSON = nuovoJSON[objectKey]; // Old code
-            let result = mergeJson(oggetto[chiave], nuovoJSON[objectKey]);
+            let objectKey = Object.keys(newJSON)[0];
+            let result = mergeJson(oggetto[chiave], newJSON[objectKey]);
           } else {
-            if (nuovoJSON != null) {
-              let objectKey = Object.keys(nuovoJSON)[0];
-              // let newJSON = nuovoJSON[objectKey][0];  // Issue 1092
-              // let newJSON = nuovoJSON[objectKey]; // Old code
-              oggetto[nomeArray] = nuovoJSON[objectKey];
+            if (newJSON != null) {
+              let objectKey = Object.keys(newJSON)[0];
+              oggetto[nomeArray] = newJSON[objectKey];
             }
           }
         } else {
@@ -188,12 +180,12 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
   }
   /*
   if (Filters) {
-    let objectKey = Object.keys(nuovoJSON)[0];
-    let result = mergeJson(oggetto, nuovoJSON[objectKey]);
+    let objectKey = Object.keys(newJSON)[0];
+    let result = mergeJson(oggetto, newJSON[objectKey]);
   } else {
-    if (nuovoJSON !== null) {
-      let objectKey = Object.keys(nuovoJSON)[0];
-      Object.assign(oggetto ,nuovoJSON[objectKey]);
+    if (newJSON !== null) {
+      let objectKey = Object.keys(newJSON)[0];
+      Object.assign(oggetto ,newJSON[objectKey]);
     }
   }
   */

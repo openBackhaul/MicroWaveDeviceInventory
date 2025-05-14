@@ -90,7 +90,7 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
 
   const pathKeys = path.split('.');
 
-  let oggetto = json;
+  let objJSON = json;
   // Unused code
   // let Filters = false;
   // if (filters != "" && filters != undefined) {
@@ -104,25 +104,25 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
       const squareBracketCloseIdx = keyToUse.indexOf(']');
       arrayName = keyToUse.substring(1, squareBracketCloseIdx);
       if (arrayName.indexOf("control-construct") != -1) {
-        oggetto = oggetto[arrayName];
+        objJSON = objJSON[arrayName];
       } else {
-        let objectKey = Object.keys(oggetto)[0];
-        oggetto = oggetto[objectKey];
-        // let objectKey1 = Object.keys(oggetto)[0]; // no more used
-        oggetto = oggetto[arrayName];
+        let objectKey = Object.keys(objJSON)[0];
+        objJSON = objJSON[objectKey];
+        // let objectKey1 = Object.keys(objJSON)[0]; // no more used
+        objJSON = objJSON[arrayName];
       }
       // If the key doesn't contain square brackets get the object value
       if (i === pathKeys.length - 1) {
         // If this is the last key in the path, assign the new value
         if (hasFilters) {
           let objectKey = Object.keys(newJSON)[0];
-          let result = mergeJson(oggetto, newJSON[objectKey]);
+          let result = mergeJson(objJSON, newJSON[objectKey]);
         } else {
           if (newJSON === null) {
-            oggetto[arrayName].splice(indice, 1);
+            objJSON[arrayName].splice(indice, 1); // indice doesn't exists
           } else {
             let objectKey = Object.keys(newJSON)[0];
-            oggetto = newJSON[objectKey];
+            objJSON = newJSON[objectKey];
           }
         }
       }
@@ -140,19 +140,19 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
           // If this is the last key in the path, assign the new value
           if (hasFilters) {
             let objectKey = Object.keys(newJSON)[0];
-            let result = mergeJson(oggetto[arrayName][index], newJSON[objectKey]);
+            let result = mergeJson(objJSON[arrayName][index], newJSON[objectKey]);
           } else {
             if (newJSON === null) {
-              oggetto[arrayName].splice(index, 1);
-              //delete oggetto[arrayName][index];
+              objJSON[arrayName].splice(index, 1);
+              //delete objJSON[arrayName][index];
             } else {
               let objectKey = Object.keys(newJSON)[0];
-              oggetto[arrayName][index] = newJSON[objectKey];
+              objJSON[arrayName][index] = newJSON[objectKey];
             }
           }
         } else { 
           // Otherwise go on parsing the object
-          oggetto = oggetto[arrayName][index];
+          objJSON = objJSON[arrayName][index];
         }
       } else { // This is a scalar/object value
         // If the key doesn't contain square brackets get the objet value
@@ -163,16 +163,16 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
           // If is the last key on the path, then assign the value
           if (hasFilters) {
             let objectKey = Object.keys(newJSON)[0];
-            let result = mergeJson(oggetto[keyToUse], newJSON[objectKey]);
+            let result = mergeJson(objJSON[keyToUse], newJSON[objectKey]);
           } else {
             if (newJSON != null) {
               let objectKey = Object.keys(newJSON)[0];
-              oggetto[arrayName] = newJSON[objectKey];
+              objJSON[arrayName] = newJSON[objectKey];
             }
           }
         } else {
           // Otherwise go on parsing the object
-          oggetto = oggetto[keyToUse];
+          objJSON = objJSON[keyToUse];
           arrayName = keyToUse;
         }
       }
@@ -181,11 +181,11 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
   /*
   if (Filters) {
     let objectKey = Object.keys(newJSON)[0];
-    let result = mergeJson(oggetto, newJSON[objectKey]);
+    let result = mergeJson(objJSON, newJSON[objectKey]);
   } else {
     if (newJSON !== null) {
       let objectKey = Object.keys(newJSON)[0];
-      Object.assign(oggetto ,newJSON[objectKey]);
+      Object.assign(objJSON ,newJSON[objectKey]);
     }
   }
   */

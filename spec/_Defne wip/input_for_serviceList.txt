@@ -17,3 +17,38 @@
     put:
       - operation-name: /cache-quality-measurements
         uuid: mwdi-1-3-0-op-c-put-es-1-0-0-501
+
+
+#operation server ALREADY EXISTS:
+
+  #individual:
+
+        - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}
+
+          uuid: mwdi-1-3-0-op-s-is-100
+
+          operation-key: n.a.
+
+        - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}
+
+          uuid: mwdi-1-3-0-op-s-is-400
+
+          operation-key: n.a.
+
+        - operation-name: /v1/provide-device-status-metadata
+
+          uuid: mwdi-1-3-0-op-s-is-018
+
+          operation-key: n.a.
+
+ 
+
+ 
+
+# will be added
+
+        - operation-name: /v1/provide-cache-quality-statistics
+
+          uuid: mwdi-1-3-0-op-s-is-018
+
+          operation-key: n.a.

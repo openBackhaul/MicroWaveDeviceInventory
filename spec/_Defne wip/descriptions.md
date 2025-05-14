@@ -1,5 +1,5 @@
 
-# Technical Documentation: Cache Quality Measurement Module
+# Technical Documentation: Cyclic Cache Quality Measurement 
 
 ## 1. Introduction
 
@@ -60,11 +60,11 @@ The module performs a structured tree-based comparison:
 
 Each type of difference is assigned a configurable weight:
 
-| Difference Type         | Weight | Description                                     |
-|-------------------------|--------|-------------------------------------------------|
+| Difference Type         | Weight | Description                                      |
+|-------------------------|--------|--------------------------------------------------|
 | Attribute mismatch      | 1      | Value inconsistency in leaf nodes                |
 | Missing class           | 5      | Class exists in one of them  but missing in other|     
-| Object creation/deletion| 4      | Presence or absence of significant data objects  |
+| Object creation/deletion| 3      | Presence or absence of significant data objects  |
 
 A total weighted score is computed per device and used to quantify the extent of divergence.
 
@@ -72,32 +72,17 @@ A total weighted score is computed per device and used to quantify the extent of
 
 The results of each measurement are stored in a designated ElasticSearch index or database. Example endpoint:
 ```
-PUT /cache-quality-measurements
+PUT /provide-cache-quality-statistics
 ```
-
-
----
-
-## 4. Analysis Service
-
-An independent analysis service is provided to allow users and monitoring tools to retrieve and interpret the results of cache quality measurements. This service exposes RESTful endpoints to:
-- Query measurement results by `deviceId`,
-- Retrieve grouped and aggregated quality scores by `vendor`.
-
-The service reads from the persistent measurement store and does not trigger any new measurement processes. It enables visualization of the comparisons.
-
----
-
-## 5. Sample Output
+ 
+## 4. Sample Output
 
 ```json
 {
   "deviceId": "mw-node-001",
   "timestamp": "2025-04-21T12:03:45Z",
-  "diff_summary": {
-    "attribute_mismatches": 18,
-    "missing_classes": 2,
-    "new_classes": 1
-  },
-  "weighted_score": 33
+  "attribute_mismatches": 18,
+  "missing_classes": 2,
+  "new_classes": 1,
+  "weighted_score": 31
 }

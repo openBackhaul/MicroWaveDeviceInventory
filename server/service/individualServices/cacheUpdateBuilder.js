@@ -102,16 +102,14 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
       const chiave = pathKeys[i];
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
-      // const nomeArray = chiave.substring(1, squareBracketCloseIdx);
       nomeArray = chiave.substring(1, squareBracketCloseIdx);
       if (nomeArray.indexOf("control-construct") != -1) {
         oggetto = oggetto[nomeArray];
       } else {
         let objectKey = Object.keys(oggetto)[0];
         oggetto = oggetto[objectKey];
-        let objectKey1 = Object.keys(oggetto)[0];
+        // let objectKey1 = Object.keys(oggetto)[0]; // no more used
         oggetto = oggetto[nomeArray];
-        // oggetto = oggetto[nomeArray];
       }
       // If the key doesn't contain square brackets get the object value
       if (i === pathKeys.length - 1) {
@@ -131,7 +129,7 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
           }
         }
       }
-    } else {
+    } else { // From the second element of iteration
       const chiave = pathKeys[i];
       const squareBracketOpenIdx = chiave.indexOf('[');
       const squareBracketCloseIdx = chiave.indexOf(']');
@@ -139,27 +137,27 @@ function assignValueToJson(json, path, nuovoJSON, hasFilters) {
       // This happen when is an array
       if (squareBracketOpenIdx !== -1 && squareBracketCloseIdx !== -1) {
         nomeArray = chiave.substring(0, squareBracketOpenIdx);
-        const indice = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
+        const index = parseInt(chiave.substring(squareBracketOpenIdx + 1, squareBracketCloseIdx), 10);
 
         if (i === pathKeys.length - 1) {
           // If this is the last key in the path, assign the new value
           if (hasFilters) {
             let objectKey = Object.keys(nuovoJSON)[0];
             let newJSON = nuovoJSON[objectKey];
-            let result = mergeJson(oggetto[nomeArray][indice], newJSON)
+            let result = mergeJson(oggetto[nomeArray][index], newJSON)
           } else {
             if (nuovoJSON === null) {
-              oggetto[nomeArray].splice(indice, 1);
-              //delete oggetto[nomeArray][indice];
+              oggetto[nomeArray].splice(index, 1);
+              //delete oggetto[nomeArray][index];
             } else {
               let objectKey = Object.keys(nuovoJSON)[0];
               let newJSON = nuovoJSON[objectKey][0];
-              oggetto[nomeArray][indice] = newJSON;
+              oggetto[nomeArray][index] = newJSON;
             }
           }
         } else { 
           // Otherwise go on parsing the object
-          oggetto = oggetto[nomeArray][indice];
+          oggetto = oggetto[nomeArray][index];
         }
       } else { // This is a scalar/object value
         // If the key doesn't contain square brackets get the objet value

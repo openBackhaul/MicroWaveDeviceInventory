@@ -60,6 +60,18 @@ Each type of difference is assigned a configurable weight:
 
 A total weighted score is computed per device and used to quantify the extent of divergence.  
 
+**Sample output**
+```json
+{
+  "deviceId": "100250001",
+  "timestamp": "2025-04-21T12:03:45Z",
+  "attribute_mismatches": 18,
+  "missing_classes": 2,
+  "new_classes": 1,
+  "weighted_score": 31
+}
+```
+
 ## Outlook
 For now, the gathered quality statistics will only be made available via a new provider service offered by MWDI.  
 In the future it is planned that these statistics will be gathered in a (not yet existing) Performance Management application.  

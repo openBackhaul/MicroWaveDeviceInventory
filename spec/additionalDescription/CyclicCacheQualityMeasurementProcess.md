@@ -8,7 +8,7 @@ Below a comprehensive description of the measurement process, architectural comp
 ## Objective
 
 The objective of the process is to:
-- Periodically or manually evaluate the content of the MWDI cache.
+- Periodically evaluate the content of the MWDI cache.
 - Compare the cached version of a ControlConstruct with its current live version obtained from the device.
 - Identify and categorize differences.
 - Compute a weighted score based on the nature and severity of the detected differences.
@@ -23,21 +23,23 @@ The process runs in tandem with the regular ControlConstruct update process (sli
 
 ### Device selection strategy
 
-Instead of selecting a device randomly, the process utilizes the MWDI metadata status service (/v1/provide-device-status-metadata) to identify the next update candidate device. The metadata status services bases its decision on the timestamp values found in metadata status attribute *last-complete-control-construct-update-time*. Note that the quality measurement process only is applied to devices, for which a ControlConstruct is already present inside the Cache - i.e. the device is currently in connected state and the last update timestamp is not null.  
+Instead of selecting a device randomly, the process utilizes the MWDI metadata status service (/v1/provide-device-status-metadata) to identify the next update candidate device. The metadata status services bases its decision on the timestamp values found in metadata status attribute *last-complete-control-construct-update-time*. Note that the quality measurement process only is applied to devices, for which a ControlConstruct is already present inside the cache - i.e. the device is currently in connected state and the last update timestamp is not null.  
 
 Selecting the device, whose cached ControlConstruct was updated the longest time ago, ensures that devices with outdated entries are prioritized for quality assessment. This strategy helps systematically improve the overall cache quality by always targeting the least recently updated devices first.
 
 **Comparison of quality measurement and slidingWindow process:**  
 - for both the next update candidate device is selected from the pool of connected devices found in the metadata status table
   - candidate selection is done based on *last-complete-control-construct-update-time*
-- a different filter is provided to the metadata status service:
+- a different filter value is provided to the metadata status service:
   - quality measurement: select the device with the oldest timestamp, which is NOT null
   - slidingWindow: select a device with timestamp == null, if none are null, select the one with the oldest timestamp
 
 ### Data retrieval
 Once a candidate devices has been identified, first its ControlConstruct is retrieved from the MWDI's cache. In the next step, the ControlConstruct is fetched from live (via MWDI live service).
 
-Both ControlConstructs are then compared to determine the differences. After the comparison and scoring has been finished, results are written to ElasticSearch.
+Both ControlConstructs are then compared to determine the differences. After the comparison and scoring has been finished, results are written to ElasticSearch.  
+
+There are no specific presciptions for how the comparison shall be implemented. An appropriate approach shall be selected by the implementer.  
 
 ## Comparison logic and scoring model
 

@@ -77,10 +77,33 @@ For the related device from the notification:
 
 A ControlConstruct for a device is updated by first retrieving it from the Controller via sending a live path request (`/core-model-1-4:network-control-domain=live/control-construct={mountName}`), and upon receipt the ControlConstruct is written to the ElasticSearch database.
 
-To update the MWDI cache the deviceList is used as input to a cyclic operation which processed the list in a sliding window approach. 
+The retrieval process was changed with MWDI 1.3.0 due to the introduction of the qualityMeasurement process.
+
+### Approach until to MWDI 1.2.x
+To update the MWDI cache the deviceList was used as input to a cyclic operation which processed the list in a sliding window approach. 
 This means, that a configured amount of devices is queried in parallel. Once a retrieval is finished the next device from the deviceList is added to the sliding window until all devices have been queried. When the end of the list is reached, the process just starts again at the start of the list. 
 If the retrieval fails for a device, retries are allowed until the limit from maximumNumberOfRetries is reached.
 
+The picture provides an example for the ControlConstruct retrieval according to the old approach using a sliding window.
+![ControlConstructRetrieval](./pictures/CyclicCCRetrievalPics_03_CCRetrieval.png)
+
+### Approach introduced with MWDI 1.3.0
+The slidingWindow approach is still used, but the approach to select the next device for ControlConstruct retrieval has been changed.  
+Instead of using the deviceList as input, the MWDI now will utilize the information in the metadata status table to determine the next update candidate.  
+Now the slidingWindow and the qualityMeasurement process will both update ControlConstructs in the cache in an aligned fashion:
+- for the slidingWindow the next update candidate is either a connected device where no ControlConstruct is currently in the cache (highest priority) or, if no such device is found, the device which has the oldest ControlConstruct in the cache
+- for the qualityMeasurement process devices without an already existing ControlConstruct in the cache are ignored
+
+![DeviceSelectionStrategy](./pictures/deviceSelectionStrategy.png)
+
+The selection of the next candidate now completely capsulated inside the */v1/provide-device-status-metadata* service. It can be controlled by handing over the following inputs to the timestamp filter (requestBody):
+- slidingWindow: "oldest-or-null"
+- qualityMeasurement: "oldest"
+
+The following schema shows how both processes are working collaboratively on updating the cache:  
+![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
+
+### Relevant profileInstances and ElasticSearch update
 The above table shows the relevant profileInstances for configuration of the retrieval process: 
 -	the slidingWindowSize to specify the number of parallel requests
 -	the responseTimeout to specify on how long to wait for an answer from the Controller
@@ -88,15 +111,9 @@ The above table shows the relevant profileInstances for configuration of the ret
 
 Upon successful retrieval, the ControlConstruct is written to the ElasticSearch database.
 
-*Note that ControlConstructs for new devices are not retrieved immediately, but only once there is an open slot in the sliding window. Retrieval for new devices should be prioritized over updating already cached ControlConstructs. 
-The actual retrieval strategy for adding the devices to the sliding window chosen by the implementer should take this into consideration.*
+### ControlConstruct updates which are not part of the cyclic processes
 
-The picture provides an example for the ControlConstruct retrieval using a sliding window.
-![ControlConstructRetrieval](./pictures/CyclicCCRetrievalPics_03_CCRetrieval.png)
-
-### ControlConstruct updates which are not part of the cyclic process
-
-For the sake of completeness it also should be mentioned that there are two mechanisms to ensure more frequent updates to the cached control constructs, which are not part of the cyclic process described above.  
+For the sake of completeness it also should be mentioned that there are two mechanisms (in addition to the qualityMeasurement process) to ensure more frequent updates to the cached control constructs, which are not part of the cyclic process described above.  
 These mechanisms are:
 
 -	notification-based updates of ControlConstruct parts

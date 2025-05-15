@@ -39,7 +39,7 @@ Once a candidate devices has been identified, first its ControlConstruct is retr
 
 Both ControlConstructs are then compared to determine the differences. After the comparison and scoring has been finished, results are written to ElasticSearch.  
 
-There are no specific presciptions for how the comparison shall be implemented. An appropriate approach shall be selected by the implementer.  
+There are no specific presciptions for how the comparison shall be implemented apart from the comparison logic to be applied. An appropriate approach shall be selected by the implementer.  
 
 ## Comparison logic and scoring model
 

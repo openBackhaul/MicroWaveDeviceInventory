@@ -1,10 +1,10 @@
 const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
-exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, filters) {
+exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, hasFilter) {
   const urlParts = url.split("?fields=");
   const myFields = urlParts[1];
-  let hasFilter = filters ? filters : (myFields != "" && myFields != undefined);
+  // let hasFilter = filters ? filters : (myFields != "" && myFields != undefined);
 
   // Analyze URL to extract segments
   const urlSegments = urlParts[0].split('/').filter(segment => segment.trim() !== '');

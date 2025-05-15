@@ -77,7 +77,7 @@ As can be seen, the metadata table is updated due to
 - or when there are changes to a controlConstruct  
   - from either the periodic complete controlConstruct retrieval (either by slidingWindow (pink) or qualityMeasurement (blue)),
   - or triggered by notifications
-  - _note: the controlConstruct can also be updated by calling MWDI live paths_ directly _(e.g. from other applications). This, however, is ignored for the metadata table update currently._
+  - _note: the controlConstruct can also be updated by calling MWDI live paths_ directly _(e.g. from other applications, not as part of the qualityMeasurement process). This, however, is ignored for the metadata table update currently._
 
 Also note that an attribute being _null_ shall be represented by an empty string. 
 
@@ -128,5 +128,11 @@ In order to efficiently allow for filtering on the *last-complete-control-constr
 The devices shall be ordered according to the timestamp value, in from-oldest-to-newest order. Starting with those devices where the timestamp is *null* (as those shall be updated with priority).
 
 Ordering updates:
-- after successful ControlConstruct retrieval: move device to the end of the table
-- in case of failed retrievals (after the configured amount of retries): also move it to the end of the table
+- after successful ControlConstruct retrieval...
+  - if there are only connected devices in the table: move the device at the end of the table
+  - if there are also not-connected devices: move the device right in front of the first not-connected device 
+- in case of failed retrievals (after the configured amount of retries):
+  - move in the same fashion as for the successful retrieval
+  - moving the device in the table ensures that the same device is not selected over and over again in case of failure
+
+![MetadataTableOrdering](./pictures/metadataTableOrdering.png)

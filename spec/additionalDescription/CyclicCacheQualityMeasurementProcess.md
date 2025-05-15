@@ -65,10 +65,10 @@ A total weighted score is computed per device and used to quantify the extent of
 {
   "deviceId": "100250001",
   "timestamp": "2025-04-21T12:03:45Z",
-  "attribute_mismatches": 18,
-  "missing_classes": 2,
-  "new_classes": 1,
-  "weighted_score": 31
+  "attribute-mismatches": 18,
+  "missing-classes": 2,
+  "new-classes": 1,
+  "weighted-score": 31
 }
 ```
 

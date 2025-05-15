@@ -31,6 +31,30 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 ### Latest Update  
 
+**v1.3.0**  
+Spec release 1.3.0 adds new functionality to improve and measure data quality of the cache in terms of the new qualityMeasurement process.
+The qualityMeasurement process
+- selects a new update candidate device every x minutes (configurable, intially set to 1 minute)
+- retrieves both the already cached and the current ControlConstruct from live (thereby also updating the cache)
+- compares both and scores the changes
+- writes the results into ElasticSearch for evaluation and analysis purposes
+
+The introduction of this mechanism required changes to
+- slidingWindow process: the next update candidate for the slidingWindow is no longer taken from deviceList, but read from the metadata status table
+- metadata status table:
+  - new attribute for device-type
+  - ordering according to the timestamp storing the last complete ControlConstruct update time
+  - a new input filter (requestBody) for retrieving the next update candidate for both qualityMeasurement and slidingWindow process
+
+(TBD) Moreover, an interface to Kafka has been introduced, to improve the performance of notification handling. (Receiving notifications from NotificationProxy was turned-off before, due to it not being performant enough.)
+
+The list of related issues can be found in issue collection [MWDI v1.3.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20)
+
+
+**v1.2.1**  
+Spec release version 1.2.2 fixes further findings found by implementers during implementation of v1.2.1.  
+The list of issues can be found in issue collection [MWDI v1.2.2_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/18).  
+
 **v1.2.0 and v1.2.1**  
 The v1.2.0 release adds the following new functionality:  
 - new convenience services for retrieving stored information of external connections (link, linkport)  
@@ -39,20 +63,6 @@ The v1.2.0 release adds the following new functionality:
 - also the specification has been updated to use the latest release of the ApplicationPattern (v2.1.2)  
 
 As release v1.2.0 was a pre-release of the specification handed over to implementers for effort estimation, some open issues were fixed with 1.2.1.  
-
-**v1.2.1**  
-Spec release version 1.2.2 fixes further findings found by implementers during implementation of v1.2.1.  
-The list of issues can be found in issue collection [MWDI v1.2.2_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/18).  
-
-**v1.3.0**  
-Spec release 1.3.0 adds new functionality to measure the data quality of the cache.  
-It introduces a new cyclic process (in addition to the already existing cyclic retrieval process using the sliding window) to:  
-- retrieve the ControlConstruct (CC) of a "random" device every x minutes (initially a retrieval each minute)
-- compares the new CC with the already existing CC found in the Cache (if found) and creates a scoring for the found changes
-- writes the new CC to the Cache
-- stores and exposes the scoring
-The new process does not only allow for measuring the cache quality but also improves the Cache quality by running as the CCs are updated more frequently. 
-The list of related issues can be found in issue collection [MWDI v1.3.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20)
 
 #### Open issues
 ./. 

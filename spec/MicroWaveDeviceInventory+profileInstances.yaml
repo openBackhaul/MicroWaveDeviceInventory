@@ -211,6 +211,17 @@ profile-instances:
     configuration:
       integer-value: 14
 
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-1-3-0-integer-p-006'
+    capability:
+      integer-name: 'qualityMeasurementUpdatePeriod'
+      purpose: 'Time period until selection of the next candidate device to undergo the quality measurement process.'
+      unit: 'minute'
+      minimum: 1
+      maximum: 60
+    configuration:
+      integer-value: 1
+
   - profile-name: 'StringProfile'
     uuid: 'mwdi-1-3-0-string-p-000'
     capability:

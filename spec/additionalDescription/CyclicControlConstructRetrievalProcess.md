@@ -88,14 +88,14 @@ Upon successful retrieval, the ControlConstruct is written to the ElasticSearch 
 
 ### Approach until to MWDI 1.2.x
 To update the MWDI cache the deviceList was used as input to a cyclic operation which processed the list in a sliding window approach. 
-This means, that a configured amount of devices is queried in parallel. Once a retrieval is finished the next device from the deviceList is added to the sliding window until all devices have been queried. When the end of the list is reached, the process just starts again at the start of the list. 
-If the retrieval fails for a device, retries are allowed until the limit from maximumNumberOfRetries is reached.
+This means, that a configured amount of devices was queried in parallel. Once a retrieval was finished the next device from the deviceList was added to the sliding window until all devices had been queried. When the end of the list was reached, the process just started again at the start of the list. 
+If the retrieval failed for a device, retries were allowed until the limit from maximumNumberOfRetries was reached.
 
 The picture provides an example for the ControlConstruct retrieval according to the old approach using a sliding window.
 ![ControlConstructRetrieval](./pictures/CyclicCCRetrievalPics_03_CCRetrieval.png)
 
 ### Approach introduced with MWDI 1.3.0
-The slidingWindow approach is still used, but the approach to select the next device for ControlConstruct retrieval has been changed.  
+The slidingWindow approach is still used, but the approach to select the next device to be added to the slidingWindow has been changed.  
 Instead of using the deviceList as input, the MWDI now will utilize the information in the metadata status table to determine the next update candidate.  
 Now the slidingWindow and the qualityMeasurement process will both update ControlConstructs in the cache in an aligned fashion:
 - for the slidingWindow the next update candidate is either a connected device where no ControlConstruct is currently in the cache (highest priority) or, if no such device is found, the device which has the oldest ControlConstruct in the cache

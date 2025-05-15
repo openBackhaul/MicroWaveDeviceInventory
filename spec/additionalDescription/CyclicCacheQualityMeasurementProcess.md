@@ -17,7 +17,7 @@ The objective of the process is to:
 ## Measurement workflow
 
 The measurement process is a cyclic process, triggered by the MWDI's internal scheduler.  
-At configurable time intervals (via integerProfile *qualityMeasurementWaitingTime*), a candidate device is selected for which the quality measurement is carried out.
+At configurable time intervals (via integerProfile *qualityMeasurementUpdatePeriod*), a candidate device is selected for which the quality measurement is carried out.
 
 The process runs in tandem with the regular ControlConstruct update process (slidingWindow), whereby the chosen update strategy ensures that both updating older over newer ControlConstructs is prioritized as well as that both processes work in an aligned fashion. This is achieved by the device selection mechanism described below. 
 

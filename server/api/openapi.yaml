@@ -80416,21 +80416,6 @@ components:
           wred-profile-1-0:wred-profile-pac:
             $ref: "#/components/schemas/PROFILE_wredprofile10wredprofilepac"
         description: wred-profile
-      - required:
-        - profile-name
-        - uuid
-        - l-3vpn-profile-1-0:l-3vpn-pac
-        type: object
-        properties:
-          uuid:
-            type: string
-          profile-name:
-            type: string
-            enum:
-            - l-3vpn-profile-1-0:PROFILE_NAME_TYPE_L3VPN_PROFILE
-          wred-profile-1-0:wred-profile-pac:
-            type: object
-        description: L3VPN-profile
     CO_CHANNEL_PROFILE_CAPABILITY:
       type: object
     CO_CHANNEL_PROFILE_CONFIGURATION:
@@ -80483,7 +80468,7 @@ components:
     EMBEDDED_CLOCK:
       type: object
     LAYER_PROTOCOL:
-      oneOf:
+      anyOf:
       - required:
         - air-interface-2-0:air-interface-pac
         - layer-protocol-name
@@ -80631,6 +80616,8 @@ components:
             enum:
               - synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_SYNCHRONIZATION_LAYER
         description: sync-data
+      - type: object
+        description: "default, if none of above matching"
     FORWARDING_DOMAIN:
       required:
       - uuid
@@ -80903,6 +80890,19 @@ components:
           mac-interface-status:
             $ref: "#/components/schemas/MAC_INTERFACE_STATUS"
         description: cache
+      - required:
+        - mac-interface-capability
+        - mac-interface-configuration
+        - mac-interface-status
+        type: object
+        properties:
+          mac-interface-capability:
+            $ref: "#/components/schemas/MAC_INTERFACE_CAPABILITY"
+          mac-interface-configuration:
+            $ref: "#/components/schemas/MAC_INTERFACE_CONFIGURATION"
+          mac-interface-status:
+            $ref: "#/components/schemas/MAC_INTERFACE_STATUS"
+        description: live
     MAC_INTERFACE_CAPABILITY:
       type: object
     MAC_INTERFACE_CONFIGURATION:
@@ -80970,6 +80970,16 @@ components:
             $ref: "#/components/schemas/VLAN_INTERFACE_CONFIGURATION"
         additionalProperties: false
         description: cache
+      - required:
+        - vlan-interface-capability
+        - vlan-interface-configuration
+        type: object
+        properties:
+          vlan-interface-capability:
+            $ref: "#/components/schemas/VLAN_INTERFACE_CAPABILITY"
+          vlan-interface-configuration:
+            $ref: "#/components/schemas/VLAN_INTERFACE_CONFIGURATION"
+        description: live
     VLAN_INTERFACE_CAPABILITY:
       type: object
     VLAN_INTERFACE_CONFIGURATION:

@@ -43,13 +43,15 @@ There are no specific presciptions for how the comparison shall be implemented a
 
 ## Comparison logic and scoring model
 
-**Comparison logic:**  
+For comparing the two ControlConstructs and scoring the differences the following logic shall be applied.  
+
+### Comparison logic
 The module performs a structured tree-based comparison:
 - Attribute-level differences: mismatches in leaf-node values.
 - Missing classes: data classes present in the live structure but absent in the cache or vice versa.
 - Object creations and deletions if derived from structural changes.
 
-**Scoring model**:  
+### Scoring model**
 Each type of difference is assigned a configurable weight:
 
 | Difference Type         | Weight | Description                                      |
@@ -60,7 +62,7 @@ Each type of difference is assigned a configurable weight:
 
 A total weighted score is computed per device and used to quantify the extent of divergence.  
 
-**Sample output**
+### Sample output
 ```json
 {
   "deviceId": "100250001",

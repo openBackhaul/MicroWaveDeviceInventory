@@ -46,8 +46,7 @@ There are no specific presciptions for how the comparison shall be implemented a
 **Comparison logic:**  
 The module performs a structured tree-based comparison:
 - Attribute-level differences: mismatches in leaf-node values.
-- Missing classes: data classes present in the live structure but absent in the cache.
-- Additional classes: data classes present in the cache but not in the live structure.
+- Missing classes: data classes present in the live structure but absent in the cache or vice versa.
 - Object creations and deletions if derived from structural changes.
 
 **Scoring model**:  

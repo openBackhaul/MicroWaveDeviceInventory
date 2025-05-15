@@ -77,6 +77,13 @@ For the related device from the notification:
 
 A ControlConstruct for a device is updated by first retrieving it from the Controller via sending a live path request (`/core-model-1-4:network-control-domain=live/control-construct={mountName}`), and upon receipt the ControlConstruct is written to the ElasticSearch database.
 
+The above table shows the relevant profileInstances for configuration of the retrieval process: 
+-	the slidingWindowSize to specify the number of parallel requests
+-	the responseTimeout to specify on how long to wait for an answer from the Controller
+-	the maximumNumberOfRetries to specify how many retries are allowed in case of failure
+
+Upon successful retrieval, the ControlConstruct is written to the ElasticSearch database.
+
 The retrieval process was changed with MWDI 1.3.0 due to the introduction of the qualityMeasurement process.
 
 ### Approach until to MWDI 1.2.x
@@ -102,14 +109,6 @@ The selection of the next candidate now completely capsulated inside the */v1/pr
 
 The following schema shows how both processes are working collaboratively on updating the cache:  
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
-
-### Relevant profileInstances and ElasticSearch update
-The above table shows the relevant profileInstances for configuration of the retrieval process: 
--	the slidingWindowSize to specify the number of parallel requests
--	the responseTimeout to specify on how long to wait for an answer from the Controller
--	the maximumNumberOfRetries to specify how many retries are allowed in case of failure
-
-Upon successful retrieval, the ControlConstruct is written to the ElasticSearch database.
 
 ### ControlConstruct updates which are not part of the cyclic processes
 

@@ -4,13 +4,18 @@ This page describes the process for updating the MWDI metadata table kept in the
 It also describes the related profileInstances and their usage.
 
 The metadata table is not to be confused with the MWDI's deviceList.  
-- deviceList: stores only the list of currently connected devices and is used as base for retrieving device controlConstructs periodically (both for the periodic updates due to slidingWindow and the qualityMeasurement)
+- deviceList: stores only the list of currently connected devices
   - is updated according to periodic syncs with the controller
   - and through notifications about controller status changes
+  - up to MWDI 1.2.x it was used as base for retrieving device ControlConstructs periodically (slidingWindow)
 - metadata table: stores all devices from the controller with their connection status and additional metadata.  
   - is also update according to the deviceList periodic syncs with the controller,
   - but in addition has also an own periodic sync,
   - as well as being updated due to the controller status notifications
+  - is ordered according to connection state and timestamp of the last complete control construct update
+  - is used to determine the next update candidate for both slidingWindow and qualityMeasurement process (since MWDI 1.3.0)
+
+Although the deviceList no longer is used as base for the cyclic cache updates anymore directly, it still plays an important role in updating the metadata status table, which now is used as the base for the cyclic updates. Also deletions of devices from the deviceList will lead to their respective cached ControlConstructs being deleted from the cache.  
 
 The following picture outlines the differences between both shortly:  
 

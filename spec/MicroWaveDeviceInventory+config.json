@@ -11890,6 +11890,7 @@
         "uuid": "mwdi-1-3-0-http-c-mwdi-1-3-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
+          "mwdi-1-3-0-op-c-is-mwdi-1-3-0-018",
           "mwdi-1-3-0-op-c-is-mwdi-1-3-0-100",
           "mwdi-1-3-0-op-c-is-mwdi-1-3-0-400",
           "mwdi-1-3-0-op-c-is-mwdi-1-3-0-405",
@@ -14182,7 +14183,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-3-0-op-fc-im-003",
+            "uuid": "mwdi-1-3-0-op-fc-im-007",
             "name": [
               {
                 "value-name": "ForwardingKind",
@@ -14232,7 +14233,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-3-0-op-fc-im-010",
+            "uuid": "mwdi-1-3-0-op-fc-im-035",
             "name": [
               {
                 "value-name": "ForwardingKind",
@@ -14277,7 +14278,7 @@
             ]
           },
           {
-            "uuid": "mwdi-1-3-0-op-fc-im-010",
+            "uuid": "mwdi-1-3-0-op-fc-im-035",
             "name": [
               {
                 "value-name": "ForwardingKind",

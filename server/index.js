@@ -17,7 +17,17 @@ const logger = require('./service/LoggingService.js').getLogger();
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // appCommons.openApiValidatorOptions.validateSecurity = false;
-// appCommons.openApiValidatorOptions.validateResponses = false;
+if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
+    logger.warn("Working in debug mode");
+    logger.warn("Checking validation")
+    // appCommons.openApiValidatorOptions.validateSecurity = false;
+    appCommons.openApiValidatorOptions.validateResponses = false;
+    // appCommons.openApiValidatorOptions.validateRequests = false;
+    logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
+    logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
+    logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);
+}
+
 // swaggerRouter configuration
 var options = {
     routing: {

@@ -1,6 +1,7 @@
 @startuml 00x_CyclicOperationBasedDeviceListSync
 skinparam responseMessageBelowArrow true
 
+
 title
 PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
 PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
@@ -13,7 +14,7 @@ participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
 participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as ControlConstruct
+participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as ControlConstruct
 participant "ElasticSearch://control-construct={mountName}" as es
 participant "ElasticSearch\n(metadataTable)" as mtab
 

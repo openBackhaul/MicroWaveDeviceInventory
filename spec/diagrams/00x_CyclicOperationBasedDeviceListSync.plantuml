@@ -1,71 +1,104 @@
 @startuml 00x_CyclicOperationBasedDeviceListSync
 skinparam responseMessageBelowArrow true
 
+
+'new:
+
 title
 PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
 PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
-PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache
+PromptForEmbeddingCausesUpdateOfDeviceListInCache
 PromptForEmbeddingCausesDeletingUnconnectedDevicesFromCache
+PromptForEmbeddingCausesRetrievingNextSlidingWindowCandidateDeviceFromMetadataTable
 PromptForEmbeddingCausesUpdatingMetadataTableInElasticSearchFromDeviceListSync
+PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache
 end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
 participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as ControlConstruct
-participant "ElasticSearch://control-construct={mountName}" as es
+participant "ElasticSearch" as es
+participant "ElasticSearch://control-construct={mountName}" as esCC
 participant "ElasticSearch\n(metadataTable)" as mtab
+participant "MWDI://v1/provide-device-status-metadata" as metadata
+participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as ControlConstruct
+
+
 
 ro -> mwdi
 activate mwdi
 
 note over mwdi
 Cyclic operation for 
-updating the internal list of devices starts
+internal deviceList and
+cache update starts
 end note
 
-note over mwdi
-compare 
-list from Controller & 
-MWDI deviceList
-end note
+== Get and compare deviceLists ==
 
 'get deviceList from Controller
+note over mwdi
+  <u>GetDeviceListFromController</u>
+end note
 mwdi -> odlConnectionStatus
 odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
 
 'get MWDI deviceList from ElasticSearch
+note over mwdi
+  <u>GetMwdiDeviceList</u>
+end note
 mwdi -> ConnectedDeviceList
 ConnectedDeviceList --> mwdi: {mount-name-list}
 
-note over mwdi
-repeat for all connected devices 
-not in MWDI deviceList
-end note
-
-mwdi -> ControlConstruct: {mountName} (apiKeyAuth)
+== Update deviceLists, cleanup cache for disconnected devices ==
 
 note over mwdi
-repeat for all devices not marked
-connected in list from Controller
+  <u>UpdateMwdiDeviceList</u>
+  (a) add new connected devices
+  (b) delete no longer connected devices
 end note
+mwdi -> es: (a) add {mountName} / (b) delete {mountName}
 
-mwdi -> es: delete {mountName}
+note over mwdi
+  <u>DeleteCcsInCache</u>
+  Repeat for all devices not marked
+  as connected in Controller: delete CC from cache
+end note
+mwdi -> esCC: delete {mountName}
 
+== Update metadataTable ==
 note over mwdi
   <u>UpdateMetadataTable</u>
-  FOR each device that has been...
-    - <b>added to deviceList</b>:
-      either add it to the metadataTable, if it is not
-      included yet, or update the existing entry if necessary
-    - <b>deleted from deviceList</b>:
-      update the metadata table
-  
+  - add new devices
+  - or update info for existing devices accordingly
+
   (see description under <i>spec/additionalDescription/</i>
    <i>MetadataTableUpdateProcess.md</i>)
 end note
 mwdi -> mtab: {mount-name, <i>updateAction</i>}
+
+== Cycically find next update candidate for slidingWindow and update cache == 
+
+note over mwdi
+  <u>GetNextUpdateCandidateForSlidingWindow</u>
+  Repeat cyclically, everytime a slot in
+  the slidingWindow becomes free:
+  Fetch the next device to be updated
+  from MetadataTable
+end note
+mwdi -> metadata: {timestamp-filter = "oldest-or-null"} (apiKeyAuth)
+metadata --> mwdi: {mount-name}
+
+note over mwdi
+  <u>SlidingWindowCcUpdate</u>
+  Update ControlConstruct in cache
+  for devices from slidingWindow
+
+  (This also leads to the metadataTable
+  being updated in case of success.) 
+end note
+mwdi -> ControlConstruct: {mountName} (apiKeyAuth)
 
 deactivate mwdi
 

@@ -41,8 +41,8 @@ LiveControlConstructClass -> EsControlConstructClass: PUT {class that is updated
 
 note over LiveControlConstructClass
   Only for the update of the complete ControlConstruct:
-  update deviceList metadata accordingly,
-  for cyclic processes this is documented in related diagrams
+  update the device's position in deviceList and the 
+  metadata accordingly.
 end note
 LiveControlConstructClass -> deviceList: <i>update deviceList metadata</i>
 

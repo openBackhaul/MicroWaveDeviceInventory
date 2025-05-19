@@ -84,6 +84,8 @@ Ordering updates:
   - move in the same fashion as for the successful retrieval
   - moving the device in the list ensures that the same device is not selected over and over again in case of failure
 
+![DeviceListOrdering](./pictures/deviceListOrdering.png)
+
 ---
 
 ## Updating the metadata attributes

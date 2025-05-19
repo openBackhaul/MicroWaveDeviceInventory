@@ -83,6 +83,7 @@ The steps for the update are as follows:
  - a
  - b
 
+
 ![PeriodicDeviceListSync](./pictures/CyclicCCRetrievalPics_01_deviceListSync.png)
 
 ### Notification-based deviceList update

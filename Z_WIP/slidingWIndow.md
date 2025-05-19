@@ -35,7 +35,7 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 
 **`deviceListSyncPeriod`**  
 - **The deviceListSyncPeriod determines in which intervals the MWDI deviceList is synced with the list of connected devices from the Controller**
-- The MWDI deviceList stores the devices for which the MWDI knows that they are connected to the Controller. If (new) devices come into connected state or if (existing) devices leave connected state on the Controller, the MWDI normally receives a notification from the NotificationProxy to update its deviceList. However, those notifications may be lost e.g. due to connection errors. This is why a periodic sync is necessary. (The sync also needs to be done once at MWDI startup to build the initial deviceList) 
+- The MWDI deviceList stores the devices for which the MWDI knows that they are connected to the Controller. If (new) devices come into connected state or if (existing) devices leave connected state on the Controller, the MWDI normally receives a notification from the NotificationProxy (via Kafka) to update its deviceList. However, those notifications may be lost e.g. due to connection errors. This is why a periodic sync is necessary. (The sync also needs to be done once at MWDI startup to build the initial deviceList).
 - After each deviceListSyncPeriod hours the current MWDI deviceList needs to be compared to the list of connected devices on the Controller and then has to be modified accordingly.
 
 **`ControllerInternalPathToMountPoint`**  
@@ -45,7 +45,7 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 
 **`metadataRetentionPeriod`**
 - **The retention period determines how long devices are kept in the deviceList after they have changed into a disconnected state (i.e. connecting or unable-to-connect).**
-- Each time a deviceList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceList. Otherwise it is kept.
+- Each time a deviceList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceList. Otherwise it is kept. Also if a device is deleted from the deviceList its ControlConstruct is also deleted from the cache.
 
 
 ---
@@ -75,6 +75,13 @@ The steps for the update are as follows:
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
   - for all new devices or connected devices where the device-type in metadata attributes is still unknown, it is tried to determine the deviceType (again)
+
+- x
+  - y
+  - z
+- x
+ - a
+ - b
 
 ![PeriodicDeviceListSync](./pictures/CyclicCCRetrievalPics_01_deviceListSync.png)
 

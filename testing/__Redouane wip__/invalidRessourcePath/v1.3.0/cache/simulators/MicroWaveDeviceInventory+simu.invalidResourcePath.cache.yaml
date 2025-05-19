@@ -104,7 +104,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errorDescription"
- 
+
+  /core-model-1-4:network-control-domain=cache/control-construct=100250001/equipment=dummyUuid:
+    get:
+      operationId: getCachedEquipment
+      summary: Provides Equipment from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
   /core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/equipment=dummyUuid/connector=dummyLocalId:
     get:
       operationId: getCachedConnector

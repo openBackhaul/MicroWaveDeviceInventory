@@ -4,7 +4,7 @@ skinparam responseMessageBelowArrow true
 
  
 title
-PromptForEmbeddingCausesCyclicLoadingOfDeviceInfoFromMetadataTableForQualityMeasurement
+PromptForEmbeddingCausesCyclicLoadingOfCandidateDeviceFromDeviceListForQualityMeasurement
 PromptForEmbeddingCausesLoadingOfCachedControlConstructForQualityMeasurement
 PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForQualityMeasurement
 PromptForEmbeddingCausesWritingQualityMeasurementToElasticSearch
@@ -13,10 +13,10 @@ end title
 participant RO as ro
 
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "MWDI://v1/provide-device-status-metadata" as metadata
+participant "ElasticSearch" as es
 participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mountName}" as cache
 participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as live 
-participant "ElasticSearch" as es
+
 
 ro -> mwdi
 
@@ -29,12 +29,16 @@ end note
 
 note over mwdi
   <u>GetCandidateDevice</u>
-  Select the device with the oldest 
-  <i>last-complete-control-construct-update-time</i>
-  and which is not NULL from list
+  Select the candidate device from the deviceList
+  along with its deviceType.
+  Select the first found device, which is
+  - connected,
+  - not locked,
+  - and with <i>last-complete-control-construct-update-time</i> != null
+    (i.e. the one with the oldest CC data in the cache)
 end note
-mwdi -> metadata : {timestamp-filter = "oldest"}
-metadata --> mwdi : {mountName, deviceType}
+mwdi -> es
+es --> mwdi : {mountName, deviceType}
 
 note over mwdi
   <u>GetCachedControlConstruct</u>

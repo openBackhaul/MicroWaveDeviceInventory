@@ -1,6 +1,9 @@
 # Metadata Attributes
 
-Below details about the metadata attributes are provided.
+Below details about the metadata attributes are provided.  
+These are stored along with the deviceList and are used to manage the cache update.  
+The following sections describe what attributes are used, provide some information about how these attributes are filled/updated and also how they are used to sort the deviceList.
+
 
 ## DeviceList with metadata attributes
 
@@ -80,3 +83,8 @@ Ordering updates:
 - in case of failed retrievals (after the configured amount of retries):
   - move in the same fashion as for the successful retrieval
   - moving the device in the list ensures that the same device is not selected over and over again in case of failure
+
+---
+
+## Updating the metadata attributes
+**TODO**: update and include the diagram (see #1204)

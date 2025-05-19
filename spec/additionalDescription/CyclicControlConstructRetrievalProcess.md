@@ -125,10 +125,9 @@ Both processes only consider devices in connected state which are not locked.
 - **_qualityMeasurement_**: take the first (connected, unlocked) device from the deviceList,
   - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time* timestamp value is not null)
 
-*Locked devices*:  
+**Locked devices**:  
 - When a device gets selected by either of the two cyclic processes, it gets locked, so it is not picked again.
 - Once it has been processed (either successfully or in case of failure after all the allowed retries have failed), it is unlocked again.
-
 
 The following schema shows how both processes are working collaboratively on updating the cache (the pink and blue devices are those currently processed and, therefore are locked):  
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)

@@ -70,7 +70,7 @@ The steps for the update are as follows:
 - [disconnected devices]: all devices from the deviceList which are no longer found in the controllerDeviceList, but found inside the MWDI deviceList
   - no longer deleted from deviceList, but connection-status is set according to the connection-status on Controller
   - the device will be moved to the end of the deviceList
-  - deviceList attributes are set accordingly to reflect the device is no longer connected
+  - deviceList metadata attributes are set accordingly to reflect the device is no longer connected
   - per default, the ControlConstruct for a disconnected device is deleted from cache; however, if the related profileInstance **TODO** indicates that it shall be kept, it is not deleted
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:

@@ -8,6 +8,8 @@ Based on the deviceList, the ControlConstructs can be retrieved from the devices
 
 Up till MWDI 1.2.x the retrieval was done via a slidingWindow approach. With introduction of the qualityMeasurement process in MWDI 1.3.x, this has been changed, as both the cyclic process and the qualityMeasurement process are working together in updating the Cache.
 
+![DeviceListOverview](./pictures/devList_overview.png)
+
 ---
 ## Relevant profileInstances
 

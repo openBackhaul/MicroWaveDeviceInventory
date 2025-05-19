@@ -112,20 +112,21 @@ The picture provides an example for the ControlConstruct retrieval according to 
 The slidingWindow approach is still used, but the selection mechanism of the next update candidate has been changed.
 Also the slidingWindow approach works in tandem with the qualityMeasurement process in keeping the cache up-to-date.
 
-**Device selection strategy**
+**Device selection strategy**  
 When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front of the deviceList.
 Both processes only consider devices in connected state which are not locked.
-- slidingWindow: take the first (connected, unlocked) device from the deviceList
+- **slidingWindow**: take the first (connected, unlocked) device from the deviceList
   - this is either a device for which currently no ControlConstruct is stored in the cache
   - or, if the Cache has ControlConstructs for all connected devices, it is the device with the oldest ControlConstruct
-- qualityMeasurement: take the first (connected, unlocked) device from the deviceList,
+- **qualityMeasurement**: take the first (connected, unlocked) device from the deviceList,
   - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time* timestamp value is not null)
+
+*Locked devices*: When a device gets selected by either of the two cyclic processes, it gets locked, so it is not picked again. Once it has been processed (either successfully or in case of failure after all the allowed retries have failed), it is unlocked again.
+
 
 The following schema shows how both processes are working collaboratively on updating the cache (the pink and blue devices are those currently processed and, therefore are locked):  
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
 
-*Locked devices*  
-When a device gets selected by either of the two cyclic processes, it gets locked, so it is not picked again. Once it has been processed (either successfully or in case of failure after all the allowed retries have failed), it is unlocked again.
 
 ### DeviceList metadata
 The metadata table introduced in 1.2.x is replaced by the deviceList metadata attributes. I.e. the deviceList no longer consists only of the devices, but also stores the additional metadata attributes.  

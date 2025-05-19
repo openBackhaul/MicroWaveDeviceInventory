@@ -42,10 +42,14 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 - The profileInstance allows to **configure the path to the mount-point depending on the used Controller**. The related **path-parameter** `{controllerInternalPathToMountPoint}`, which is **used in all operation-clients of the OpenDaylight client-stack**, contains a reference to the profileInstance information inside the ConfigFile.
 - (initial) configuration: `rests/data/network-topology:network-topology/topology=topology-netconf`
 
-**`metadataRetentionPeriod`**
+**`metadataRetentionPeriod`**  
 - **The retention period determines how long devices are kept in the deviceList after they have changed into a disconnected state (i.e. connecting or unable-to-connect).**
 - Each time a deviceList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceList. Otherwise it is kept. Also if a device is deleted from the deviceList its ControlConstruct is also deleted from the cache.
 
+**`historicalControlConstructPolicy`**  
+- **determines what shall happen to a device's ControlConstruct in the cache, if the device gets disconnected**
+- if MWDI recognized that a device is no longer in connected state and has copy of the device's ControlConstruct in the cache, that copy is deleted per default
+- however, if the policy is set to allows for keeping the ControlConstruct as historical data, it is not deleted immediately, but only when the device is removed from MWDI deviceList (either after it has expired due to the configured rentention of because the policy has been changed to the default)
 
 ---
 ## Building and updating the list of connected devices managed by the MWDI
@@ -70,7 +74,7 @@ The steps for the update are as follows:
   - no longer deleted from deviceList, but connection-status is set according to the connection-status on Controller
   - the device will be moved to the end of the deviceList
   - deviceList metadata attributes are set accordingly to reflect the device is no longer connected
-  - per default, the ControlConstruct for a disconnected device is deleted from cache; however, if the related profileInstance **TODO** indicates that it shall be kept, it is not deleted
+  - per default, the ControlConstruct for a disconnected device is deleted from cache; however, if the related profileInstance `historicalControlConstructPolicy` indicates that it shall be kept, it is not deleted
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
   - for all new devices or connected devices where the device-type in metadata attributes is still unknown, it is tried to determine the deviceType (again)

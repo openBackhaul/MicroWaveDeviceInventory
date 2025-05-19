@@ -64,10 +64,10 @@ The MWDI stores its list of managed devices inside the deviceList. At MWDI start
 The steps for the update are as follows:
 -	retrieve the MWDI deviceList from the ElasticSearch database (deviceList)
 -	retrieve the list of connected devices from the Controller (controllerDeviceList)
--	[new devices]: all devices found on the controllerList, but not on the deviceList
+- [new devices]: all devices found on the controllerList, but not on the deviceList
   - are added to the deviceList
   - metadata attributes are initialized 
--	[disconnected devices]: all devices from the deviceList which are no longer found in the controllerDeviceList, but found inside the MWDI deviceList
+- [disconnected devices]: all devices from the deviceList which are no longer found in the controllerDeviceList, but found inside the MWDI deviceList
   - no longer deleted from deviceList, but connection-status is set according to the connection-status on Controller
   - the device will be moved to the end of the deviceList
   - deviceList attributes are set accordingly to reflect the device is no longer connected
@@ -75,14 +75,6 @@ The steps for the update are as follows:
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
   - for all new devices or connected devices where the device-type in metadata attributes is still unknown, it is tried to determine the deviceType (again)
-
-- x
-  - y
-  - z
-- x
- - a
- - b
-
 
 ![PeriodicDeviceListSync](./pictures/CyclicCCRetrievalPics_01_deviceListSync.png)
 

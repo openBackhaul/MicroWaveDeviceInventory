@@ -8,6 +8,7 @@ RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
 RequestForLiveAlarmCapabilityCausesReadingFromDeviceAndWritingIntoCache
 RequestForLiveFirmwareCollectionCausesReadingFromDeviceAndWritingIntoCache
 and many more)
+RequestForLiveUpdateCausesUpdatingDeviceListMetadata
 end title
 
 
@@ -15,8 +16,7 @@ participant "external" as requestor
 participant "MWDI:/{livePath}" as LiveControlConstructClass
 participant "ODL://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct\n{livePath shortened by /core-model-1-4:network-control-domain=cache/control-construct={mountName}}" as OdlControlConstructClass
 participant "ElasticSearch:/{livePath, but shortened by /core-model-1-4:network-control-domain=live}" as EsControlConstructClass
-
-
+participant "ElasticSearch (deviceList)" as deviceList
 
 requestor -> LiveControlConstructClass: (apiKeyAuth)
 activate LiveControlConstructClass
@@ -38,6 +38,13 @@ LiveControlConstructClass -> EsControlConstructClass: GET
 EsControlConstructClass --> LiveControlConstructClass: {class}
 
 LiveControlConstructClass -> EsControlConstructClass: PUT {class that is updated in all or a subset of attributes}
+
+note over LiveControlConstructClass
+  Only for the update of the complete ControlConstruct:
+  update deviceList metadata accordingly,
+  for cyclic processes this is documented in related diagrams
+end note
+LiveControlConstructClass -> deviceList: <i>update deviceList metadata</i>
 
 deactivate LiveControlConstructClass
 

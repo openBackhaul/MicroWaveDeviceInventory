@@ -1,14 +1,7 @@
 # Metadata Attributes
 
-With 1.2.x the metadata table was introduced. It was an addition to the deviceList and provided information like update timestamps or the connection-status.  
+Below details about the metadata attributes are provided.
 
-With introduction of the qualityMeasurement functionality in 1.3.x, the deviceList and metadata table are merged to enable both processes to work in aligned and efficiently.
- 
----
-## Relevant profileInstances
-
-
----
 ## DeviceList with metadata attributes
 
 The table shall contain the following columns:
@@ -43,6 +36,10 @@ The table shall contain the following columns:
   - if no mapping can be found, the value will be set to the default value "unknown"
   - it will be set initially when the device is added to the deviceList
   - in case the device is revisited due to the periodic deviceList sync and the value is still "unknown", it again is tried to update it from CC data
+- **locked-status**:
+  - this attribute is only to be used internally
+  - if a device is either added to the slidingWindow or processed by the qualityMeasurement process, it is locked
+  - once it has been processed (or if it gets disconnected), the lock is released
 
 ---
 

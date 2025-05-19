@@ -357,7 +357,7 @@
           "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
-              "integer-name": "metadataTableRetentionPeriod",
+              "integer-name": "metadataRetentionPeriod",
               "purpose": "Time period for which no longer connected devices are kept in the metadata table, before they are deleted.",
               "unit": "days",
               "minimum": 1,

@@ -24,14 +24,14 @@ The following picture outlines the differences between both shortly:
 ---
 ## Relevant profileInstances
 
-The profileInstances directly relevant to the metadata table update cycle and retention are connectionStatusSyncPeriod and metadataTableRetentionPeriod.  
+The profileInstances directly relevant to the metadata table update cycle and retention are connectionStatusSyncPeriod and metadataRetentionPeriod.  
 
 **`connectionStatusSyncPeriod`**
 - The connection-status of all devices mounted on the controller is retrieved periodically according to the time interval specified here.
 - Under normal conditions, the MWDI should receive notifications from NotificationProxy about devices changing their connection status, however notifications may be lost (e.g. due to connection errors). Therefore, a periodic sync is executed.
 - After each connectionStatusSyncPeriod hours the current metadata table entries are compared against the Controller information and updated accordingly.
 
-**`metadataTableRetentionPeriod`**
+**`metadataRetentionPeriod`**
 - **The retention period determines how long devices are kept in the metadata table after they have changed into a disconnected state (i.e. connecting or unable-to-connect).**
 - Each time a periodic metadata table sync is executed, all devices with connection-status!=connected in the table are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the metadata table. Otherwise it is kept in the table.
 

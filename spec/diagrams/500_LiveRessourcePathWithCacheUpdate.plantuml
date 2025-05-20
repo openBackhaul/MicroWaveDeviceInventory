@@ -8,7 +8,7 @@ RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
 RequestForLiveAlarmCapabilityCausesReadingFromDeviceAndWritingIntoCache
 RequestForLiveFirmwareCollectionCausesReadingFromDeviceAndWritingIntoCache
 and many more)
-RequestForLiveUpdateCausesUpdatingDeviceListMetadata
+RequestForLiveUpdateCausesUpdatingDeviceMetadataList
 end title
 
 
@@ -41,10 +41,10 @@ LiveControlConstructClass -> EsControlConstructClass: PUT {class that is updated
 
 note over LiveControlConstructClass
   Only for the update of the complete ControlConstruct:
-  update the device's position in deviceList and the 
+  update the device's position in deviceMetadataList and the 
   metadata accordingly.
 end note
-LiveControlConstructClass -> deviceList: <i>update deviceList metadata</i>
+LiveControlConstructClass -> deviceList: <i>update deviceMetadataList's metadata attributes</i>
 
 deactivate LiveControlConstructClass
 

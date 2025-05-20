@@ -44,7 +44,7 @@
       - client-name: ElasticSearch
         uuid: mwdi-1-3-0-op-c-get-es-1-0-0-000
 
-  - forwarding-name: 
+  - forwarding-name: PromptForEmbeddingCausesDeletingExpiredDevicesFromCache
     uuid: mwdi-1-3-0-op-fc-im-013
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -59,7 +59,7 @@
       - client-name: 
         uuid: 
 
-  - forwarding-name: 
+  - forwarding-name: PromptForEmbeddingCausesRetrievingNextSlidingWindowCandidateDeviceFromDeviceList
     uuid: mwdi-1-3-0-op-fc-im-014
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -74,7 +74,7 @@
       - client-name: 
         uuid: 
 
-  - forwarding-name: 
+  - forwarding-name: PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForCyclicUpdate
     uuid: mwdi-1-3-0-op-fc-im-015
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -89,7 +89,7 @@
       - client-name: 
         uuid: 
 
-  - forwarding-name: 
+  - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo
     uuid: mwdi-1-3-0-op-fc-im-016
     forwarding-type: InvariantProcessSnippet
     management-requests:

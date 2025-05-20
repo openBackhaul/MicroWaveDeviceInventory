@@ -1,11 +1,11 @@
 # Metadata Attributes
 
 Below details about the metadata attributes are provided.  
-These are stored along with the deviceList and are used to manage the cache update.  
-The following sections describe what attributes are used, provide some information about how these attributes are filled/updated and also how they are used to sort the deviceList.
+These are stored along with the deviceMetadataList and are used to manage the cache update.  
+The following sections describe what attributes are used, provide some information about how these attributes are filled/updated and also how they are used to sort the deviceMetadataList.
 
 
-## DeviceList with metadata attributes
+## deviceMetadataList with metadata attributes
 
 The table shall contain the following columns:
 
@@ -19,8 +19,8 @@ The table shall contain the following columns:
   - Indicates when the device changed (the last time) from connected state into not being connected anymore
   - Initially null; if a device changes back to connected, the timestamp is again reset to null
 - **added-to-device-list-time**: 
-  - the time, when the device has been initially added to the MWDI‘s deviceList
-  - If a device goes into connecting or unable-to-connect state, the timestamp is not set to null, as the device shall no longer be removed from the deviceList
+  - the time, when the device has been initially added to the MWDI‘s deviceMetadataList
+  - If a device goes into connecting or unable-to-connect state, the timestamp is not set to null, as the device shall no longer be removed from the deviceMetadataList
 - **last-complete-control-construct-update-time**:
   - the last time, the CC has been updated completely (i.e. periodic or initial retrieval)
   - If the device is no longer connected, the timestamp is set to null, to ensure it gets retrieved again with priority if the device gets connected again
@@ -37,8 +37,8 @@ The table shall contain the following columns:
 - **device-type**:
   - this attribute contains the device type extracted from the device ControlConstruct data
   - if no mapping can be found, the value will be set to the default value "unknown"
-  - it will be set initially when the device is added to the deviceList
-  - in case the device is revisited due to the periodic deviceList sync and the value is still "unknown", it again is tried to update it from CC data
+  - it will be set initially when the device is added to the deviceMetadataList
+  - in case the device is revisited due to the periodic deviceMetadataList sync and the value is still "unknown", it again is tried to update it from CC data
 - **locked-status**:
   - this attribute is only to be used internally
   - if a device is either added to the slidingWindow or processed by the qualityMeasurement process, it is locked
@@ -48,11 +48,11 @@ The table shall contain the following columns:
 
 ## Device-type retrieval
 
-The deviceList stores the device-type of all contained mount-names.
-- It is to be set initially when the device is added to the deviceList:
+The deviceMetadataList stores the device-type of all contained mount-names.
+- It is to be set initially when the device is added to the deviceMetadataList:
   - if the MWDI cache does not (yet) contain a retrieved CC for the device, the device-type is to be set to its default value "unknown",
   - otherwise the device-type shall be derived from the CC data
-- If the deviceList is updated through periodic sync, the device-type shall be updated for all devices that are currently connected at the Controller and where the device-type is still "unknown".
+- If the deviceMetadataList is updated through periodic sync, the device-type shall be updated for all devices that are currently connected at the Controller and where the device-type is still "unknown".
 
 **Where to find the information in the CC?**  
 The information is to be retrieved from the air-interface-capability/type-of-equipment attribute.  
@@ -70,9 +70,9 @@ By providing the mappings in the *deviceTypeMapping* profileInstance, the mappin
 
 ---
 
-## Sorting the deviceList
+## Sorting the deviceMetadataList
 
-In order to effiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceList is sorted by priority.  
+In order to effiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
 The ordering is based on the the *last-complete-control-construct-update-time* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is *null*.
 Devices with connection-state not being *connected* are found at the end of the list.
 
@@ -84,7 +84,7 @@ Ordering updates:
   - move in the same fashion as for the successful retrieval
   - moving the device in the list ensures that the same device is not selected over and over again in case of failure
 
-![DeviceListOrdering](./pictures/deviceListOrdering.png)
+![deviceMetadataListOrdering](./pictures/deviceMetadataListOrdering.png)
 
 ---
 

@@ -4,7 +4,7 @@ This page describes the cyclic process for updating the MWDI cache by uploading 
 
 The MWDI caches the ControlConstructs of all devices, which are in connected state at the Controller. This is done via a cyclic process. 
 To build and update the cache, first the list of connected devices needs to be obtained. It is constantly updated if device connection-state changes occur on the Controller. 
-Based on the deviceList, the ControlConstructs can be retrieved from the devices. Retrieved ControlConstructs are then written to the cache, i.e. an ElasticSearch database.
+Based on the deviceMetadataList, the ControlConstructs can be retrieved from the devices. Retrieved ControlConstructs are then written to the cache, i.e. an ElasticSearch database.
 
 Up till MWDI 1.2.x the retrieval was done via a slidingWindow approach. With introduction of the qualityMeasurement process in MWDI 1.3.x, this has been changed, as both the cyclic process and the qualityMeasurement process are working together in updating the Cache.
 
@@ -18,7 +18,7 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 **`slidingWindowSize`**  
 - The ControlConstructs (CC) of all devices need to be retrieved periodically
 - It is not feasible to query all CCs in parallel at once or sequentially – the sliding window combines both approaches. 
-- **constantly a specified number (=slidingWindowSize**, initally 500) **of devices are queried for their ControlConstructs in parallel**; once a request is finished the next device from the MWDI deviceList is added to the slidingWindow retrieval list. Once all devices from the MWDI device list have been queried, the retrieval starts again at the start of the deviceList.
+- **constantly a specified number (=slidingWindowSize**, initally 500) **of devices are queried for their ControlConstructs in parallel**; once a request is finished the next device from the MWDI deviceMetadataList is added to the slidingWindow retrieval list. Once all devices from the MWDI device list have been queried, the retrieval starts again at the start of the deviceMetadataList.
 - Note: the slidingWindow retrieval only is used for periodic CC retrieval, not for individual live paths (to update only certain parts of the CC).
 - (initial) configuration: 500
 
@@ -35,9 +35,9 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 - (initial) configuration: 1
 
 **`deviceListSyncPeriod`**  
-- **The deviceListSyncPeriod determines in which intervals the MWDI deviceList is synced with the list of connected devices from the Controller**
-- The MWDI deviceList stores the devices for which the MWDI knows that they are connected to the Controller. If (new) devices come into connected state or if (existing) devices leave connected state on the Controller, the MWDI normally receives a notification from the NotificationProxy (via Kafka) to update its deviceList. However, those notifications may be lost e.g. due to connection errors. This is why a periodic sync is necessary. (The sync also needs to be done once at MWDI startup to build the initial deviceList).
-- After each deviceListSyncPeriod hours the current MWDI deviceList needs to be compared to the list of connected devices on the Controller and then has to be modified accordingly.
+- **The deviceListSyncPeriod determines in which intervals the MWDI deviceMetadataList is synced with the list of connected devices from the Controller**
+- The MWDI deviceMetadataList stores the devices for which the MWDI knows that they are connected to the Controller. If (new) devices come into connected state or if (existing) devices leave connected state on the Controller, the MWDI normally receives a notification from the NotificationProxy (via Kafka) to update its deviceMetadataList. However, those notifications may be lost e.g. due to connection errors. This is why a periodic sync is necessary. (The sync also needs to be done once at MWDI startup to build the initial deviceMetadataList).
+- After each deviceListSyncPeriod hours the current MWDI deviceMetadataList needs to be compared to the list of connected devices on the Controller and then has to be modified accordingly.
 
 **`ControllerInternalPathToMountPoint`**  
 - The actual path to the mount-point inside the Controller depends on the used Controller (currently ODL). After the mount-point has been reached the subsequent parts of the path are the same across different Controllers.
@@ -45,37 +45,37 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 - (initial) configuration: `rests/data/network-topology:network-topology/topology=topology-netconf`
 
 **`metadataRetentionPeriod`**  
-- **The retention period determines how long devices are kept in the deviceList after they have changed into a disconnected state (i.e. connecting or unable-to-connect).**
-- Each time a deviceList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceList. Otherwise it is kept. Also if a device is deleted from the deviceList its ControlConstruct is also deleted from the cache.
+- **The retention period determines how long devices are kept in the devideviceMetadataListceList after they have changed into a disconnected state (i.e. connecting or unable-to-connect).**
+- Each time a deviceMetadataList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceMetadataList. Otherwise it is kept. Also if a device is deleted from the deviceMetadataList its ControlConstruct is also deleted from the cache.
 
 **`historicalControlConstructPolicy`**  
 - **determines what shall happen to a device's ControlConstruct in the cache, if the device gets disconnected**
 - if MWDI recognized that a device is no longer in connected state and has copy of the device's ControlConstruct in the cache, that copy is deleted per default
-- however, if the policy is set to allows for keeping the ControlConstruct as historical data, it is not deleted immediately, but only when the device is removed from MWDI deviceList (either after it has expired due to the configured rentention of because the policy has been changed to the default)
+- however, if the policy is set to allows for keeping the ControlConstruct as historical data, it is not deleted immediately, but only when the device is removed from MWDI deviceMetadataList (either after it has expired due to the configured rentention of because the policy has been changed to the default)
 
 ---
 ## Building and updating the list of connected devices managed by the MWDI
 
-The MWDI manages the deviceList. This list is initially built by retrieving the list of connected devices from the Controller at MWDI startup.
-After the initial deviceList has been created is must constantly be updated, this happens via:
-- periodic deviceList sync with the list of devices on the Controller 
+The MWDI manages the deviceMetadataList. This list is initially built by retrieving the list of connected devices from the Controller at MWDI startup.
+After the initial deviceMetadataList has been created is must constantly be updated, this happens via:
+- periodic deviceMetadataList sync with the list of devices on the Controller 
 - notifications provided by NotificationProxy (NP) via Kafka
 
-Theoretically, it would suffice to just build the deviceList once and then update it according to the received notifications. But as the notifications can e.g. get lost due to connection errors, it is not sufficient to rely only on the notifications. Thus, the periodc sync needs to be executed as well.
+Theoretically, it would suffice to just build the deviceMetadataList once and then update it according to the received notifications. But as the notifications can e.g. get lost due to connection errors, it is not sufficient to rely only on the notifications. Thus, the periodc sync needs to be executed as well.
 
-### Periodic deviceList synchronization
+### Periodic deviceMetadataList synchronization
 
-The MWDI stores its list of managed devices inside the deviceList. At MWDI startup this deviceList is initialized with all the list of all devices in connected state on the Controller. Afterwards the deviceList is periodically synchronized with the Controller. 
+The MWDI stores its list of managed devices inside the deviceMetadataList. At MWDI startup this deviceMetadataList is initialized with all the list of all devices in connected state on the Controller. Afterwards the deviceMetadataList is periodically synchronized with the Controller. 
 The steps for the update are as follows:
--	retrieve the MWDI deviceList from the ElasticSearch database (deviceList)
--	retrieve the list of connected devices from the Controller (controllerDeviceList)
-- [new devices]: all devices found on the controllerList, but not on the deviceList
-  - are added to the deviceList
+-	retrieve the MWDI deviceMetadataList from the ElasticSearch database (deviceMetadataList)
+-	retrieve the list of connected devices from the Controller (controllerdeviceMetadataList)
+- [new devices]: all devices found on the controllerList, but not on the deviceMetadataList
+  - are added to the deviceMetadataList
   - metadata attributes are initialized 
-- [disconnected devices]: all devices from the deviceList which are no longer found in the controllerDeviceList, but found inside the MWDI deviceList
-  - no longer deleted from deviceList, but connection-status is set according to the connection-status on Controller
-  - the device will be moved to the end of the deviceList
-  - deviceList metadata attributes are set accordingly to reflect the device is no longer connected
+- [disconnected devices]: all devices from the deviceMetadataList which are no longer found in the controllerdeviceMetadataList, but found inside the MWDI deviceMetadataList
+  - no longer deleted from deviceMetadataList, but connection-status is set according to the connection-status on Controller
+  - the device will be moved to the end of the deviceMetadataList
+  - deviceMetadataList metadata attributes are set accordingly to reflect the device is no longer connected
   - per default, the ControlConstruct for a disconnected device is deleted from cache; however, if the related profileInstance `historicalControlConstructPolicy` indicates that it shall be kept, it is not deleted
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
@@ -83,12 +83,12 @@ The steps for the update are as follows:
 
 ![PeriodicDeviceListSync](./pictures/CyclicCCRetrievalPics_01_deviceListSync.png)
 
-### Notification-based deviceList update
+### Notification-based deviceMetadataList update
 
 The MWDI receives notifications about controller-attribute-value-changes provided by the NotificationProxy (via Kafka).  
 For the related device from the notification:
--	connection-status == *connected*: add the device to the MWDI deviceList
--	connection-status != *connected*: if the device was part of the MWDI deviceList its metadata status is updated accordingly and its ControlConstruct is also deleted from cache if not configured otherwise
+-	connection-status == *connected*: add the device to the MWDI deviceMetadataList
+-	connection-status != *connected*: if the device was part of the MWDI deviceMetadataList its metadata status is updated accordingly and its ControlConstruct is also deleted from cache if not configured otherwise
 
 ![NotificationBasedDeviceListUpdate](./pictures/CyclicCCRetrievalPics_02_deviceListUpdate.png)
 
@@ -107,8 +107,8 @@ Upon successful retrieval, the ControlConstruct is written to the ElasticSearch 
 **The retrieval process was changed with MWDI 1.3.0 due to the introduction of the qualityMeasurement process.**
 
 ### Approach until to MWDI 1.2.x
-To update the MWDI cache the deviceList was used as input to a cyclic operation which processed the list in a sliding window approach. 
-This means, that a configured amount of devices was queried in parallel. Once a retrieval was finished the next device from the deviceList was added to the sliding window until all devices had been queried. When the end of the list was reached, the process just started again at the start of the list. 
+To update the MWDI cache the deviceMetadataList was used as input to a cyclic operation which processed the list in a sliding window approach. 
+This means, that a configured amount of devices was queried in parallel. Once a retrieval was finished the next device from the deviceMetadataList was added to the sliding window until all devices had been queried. When the end of the list was reached, the process just started again at the start of the list. 
 If the retrieval failed for a device, retries were allowed until the limit from maximumNumberOfRetries was reached.
 
 The picture provides an example for the ControlConstruct retrieval according to the old approach using a sliding window.
@@ -119,12 +119,12 @@ The slidingWindow approach is still used, but the selection mechanism of the nex
 Also the slidingWindow approach works in tandem with the qualityMeasurement process in keeping the cache up-to-date.
 
 **Device selection strategy**  
-When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front of the deviceList.
+When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front of the deviceMetadataList.
 Both processes only consider devices in connected state which are not locked.
-- **_slidingWindow_**: take the first (connected, unlocked) device from the deviceList
+- **_slidingWindow_**: take the first (connected, unlocked) device from the deviceMetadataList
   - this is either a device for which currently no ControlConstruct is stored in the cache
   - or, if the Cache has ControlConstructs for all connected devices, it is the device with the oldest ControlConstruct
-- **_qualityMeasurement_**: take the first (connected, unlocked) device from the deviceList,
+- **_qualityMeasurement_**: take the first (connected, unlocked) device from the deviceMetadataList,
   - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time* timestamp value is not null)
 
 **Locked devices**:  
@@ -135,8 +135,8 @@ The following schema shows how both processes are working collaboratively on upd
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
 
 
-### DeviceList metadata
-The metadata table introduced in 1.2.x is replaced by the deviceList metadata attributes. I.e. the deviceList no longer consists only of the devices, but also stores the additional metadata attributes.  
+### DeviceMetadataList metadata
+The metadata table introduced in 1.2.x is replaced by the deviceMetadataList metadata attributes. I.e. the deviceMetadataList no longer consists only of the devices, but also stores the additional metadata attributes.  
 
 The additional metadata comprises the following attributes:
 - mount-name:
@@ -151,7 +151,7 @@ The additional metadata comprises the following attributes:
 - locked-status: for internal use only
 
 For managing the slidingWindow and qualityMeasurement processes, the metadata is accessed directly, i.e. without calling of additional services.  
-Moreover, the order of the devices in the deviceList is based on *connection-status* and *last-complete-control-construct-update-time*.
+Moreover, the order of the devices in the deviceMetadataList is based on *connection-status* and *last-complete-control-construct-update-time*.
 
 A more detailed description is found in the [DeviceListMetadataDescription](./DeviceListMetadataDescription.md).
 

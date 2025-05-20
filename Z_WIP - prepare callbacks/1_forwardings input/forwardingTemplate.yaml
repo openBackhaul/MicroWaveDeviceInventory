@@ -29,7 +29,7 @@
       - client-name: ElasticSearch
         uuid: mwdi-1-3-0-es-c-es-1-0-0-000
 
-  - forwarding-name: 
+  - forwarding-name: PromptForEmbeddingCausesUpdateOfDeviceListInCache
     uuid: mwdi-1-3-0-op-fc-im-012
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -41,8 +41,8 @@
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-3-0-op-s-bm-001
     consequent-requests:
-      - client-name: 
-        uuid: 
+      - client-name: ElasticSearch
+        uuid: mwdi-1-3-0-op-c-get-es-1-0-0-000
 
   - forwarding-name: 
     uuid: mwdi-1-3-0-op-fc-im-013

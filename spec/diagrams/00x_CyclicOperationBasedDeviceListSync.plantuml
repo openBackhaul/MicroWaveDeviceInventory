@@ -15,7 +15,6 @@ participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status;schema-cache-directory)" as odlConnectionStatus
 participant "ElasticSearch\n(deviceMetadataList)" as deviceList
-participant "ElasticSearch://control-construct={mountName}" as esCC
 participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as ControlConstruct
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n?fields=logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac\n(air-interface-capability(type-of-equipment))))" as mwdiDevType
 
@@ -71,7 +70,7 @@ note over mwdi
   then it's CC is deleted from the cache
   (without regards to the policy)
 end note
-mwdi -> esCC: delete {mountName}
+mwdi -> deviceList: delete {mountName}
 
 == Cycically find next update candidate for slidingWindow and update cache == 
 

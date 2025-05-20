@@ -65,7 +65,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-1-3-0-op-s-bm-001
     consequent-requests:
-      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}?fields=node(node-id;netconf-node-topology:connection-status)
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}?fields=node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)
         uuid: mwdi-1-3-0-op-c-is-odl-4-0-2-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache

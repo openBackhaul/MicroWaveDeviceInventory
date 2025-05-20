@@ -86,6 +86,14 @@ Ordering updates:
 
 ![deviceMetadataListOrdering](./pictures/deviceMetadataListOrdering.png)
 
+### Concept vs. actual implementation
+
+According to the concept, the deviceMetadataList shall be sorted by retrieval priority, as described above.  
+Due to the large number of devices in production and numerous updated device per minute, this could be not efficient and performant enough.  
+Therefore in the actual implementation it would suffice, if implementers instead e.g. maintain a reduced copy of the list in memory, which just stores the mount-name, timestamp of the last complete ControlConstruct update and the locked-state in the cache for the devices in connected state. This table in temporary memory then would be sorted on each ControlConstruct update. While starting of process cycles, both the input for the slidingWindow and qualityMeasurement would be retrieved from the in-memory table instead.
+
+Also note, that there is no service to provide the actual complete deviceMetadataList, there is only a service to provide metadata information based on a set of devices handed over as input in the requestBody of said service. I.e. for the deviceMetadataList itself it is no problem, if it is not sorted as described above, if instead the in-memory table is used.
+
 ---
 
 ## Updating the metadata attributes

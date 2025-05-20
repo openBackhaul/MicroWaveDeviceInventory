@@ -10,6 +10,8 @@ Up till MWDI 1.2.x the retrieval was done via a slidingWindow approach. With int
 
 ![DeviceListOverview](./pictures/devList_overview.png)
 
+*Note that deviceMetadataList is also referred to as only* deviceList *(e.g. in profileInstances or diagrams) too keep naming short.*
+
 ---
 ## Relevant profileInstances
 

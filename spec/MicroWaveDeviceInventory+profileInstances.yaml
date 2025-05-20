@@ -190,17 +190,6 @@ profile-instances:
       integer-value: 24
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-3-0-integer-p-004'
-    capability:
-      integer-name: 'connectionStatusSyncPeriod'
-      purpose: 'Time period between the sync of connection-status in MWDI metadata table with the connection-status of devices at the Controller.'
-      unit: 'hour'
-      minimum: 1
-      maximum: 72
-    configuration:
-      integer-value: 1
-
-  - profile-name: 'IntegerProfile'
     uuid: 'mwdi-1-3-0-integer-p-005'
     capability:
       integer-name: 'metadataRetentionPeriod'
@@ -228,13 +217,6 @@ profile-instances:
       string-name: 'controllerInternalPathToMountPoint'
     configuration:
       string-value: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-
-  - profile-name: 'StringProfile'
-    uuid: 'mwdi-1-3-0-string-p-001'
-    capability:
-      string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter'
-    configuration:
-      string-value: 'node(node-id;netconf-node-topology:connection-status)'
 
   - profile-name: 'StringProfile'
     uuid: 'mwdi-1-3-0-string-p-002'

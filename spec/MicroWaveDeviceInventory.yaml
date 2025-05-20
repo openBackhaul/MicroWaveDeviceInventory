@@ -22462,10 +22462,10 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'node(node-id;netconf-node-topology:connection-status)'
+                    example: 'node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-3-0-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-1-3-0-string-p-002/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'List of devices with their connection state at Controller provided'

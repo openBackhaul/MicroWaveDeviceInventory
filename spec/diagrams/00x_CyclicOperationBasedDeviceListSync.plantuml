@@ -14,7 +14,7 @@ end title
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status;schema-cache-directory)" as odlConnectionStatus
-participant "ElasticSearch\n(deviceList)" as deviceList
+participant "ElasticSearch\n(deviceMetadataList)" as deviceList
 participant "ElasticSearch://control-construct={mountName}" as esCC
 participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as ControlConstruct
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n?fields=logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac\n(air-interface-capability(type-of-equipment))))" as mwdiDevType
@@ -26,7 +26,7 @@ activate mwdi
 
 note over mwdi
 Cyclic operation for 
-internal deviceList and
+internal deviceMetadataList and
 cache update starts
 end note
 
@@ -39,19 +39,19 @@ end note
 mwdi -> odlConnectionStatus
 odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status, schema-cache-directory)}
 
-'get MWDI deviceList from ElasticSearch
+'get MWDI deviceMetadataList from ElasticSearch
 note over mwdi
   <u>GetMwdiDeviceList</u>
 end note
 mwdi -> deviceList
 deviceList --> mwdi: {list of-(mount-name, connection-status)}
 
-== Update deviceList (including metadata), apply CC deletion policy for disconnected devices ==
+== Update deviceMetadataList, apply CC deletion policy for disconnected devices ==
 
 note over mwdi
   <u>UpdateMwdiDeviceList</u>
-  Compare controllerDeviceList with mwdiDeviceList: 
-  (a) new connected devices: add to deviceList (initialize metadata)
+  Compare controllerDeviceList with MWDI deviceMetadataList: 
+  (a) new connected devices: add to deviceMetadataList (initialize metadata)
   (b) no longer connected devices: update metadata accordingly
 
   (c) previously disconnected devices now expired
@@ -79,7 +79,7 @@ note over mwdi
   <u>GetNextUpdateCandidateForSlidingWindow</u>
   Repeat cyclically, everytime a slot in
   the slidingWindow becomes free add the next update candidate:
-  from the deviceList select the first device, with
+  from the deviceMetadataList select the first device, with
   - connection-status == connected
   - locked-status == false
   
@@ -92,7 +92,7 @@ note over mwdi
   <u>SlidingWindowCcUpdate</u>
   Update ControlConstruct in cache
   for devices from slidingWindow.
-  (When done, update the device's position in the deviceList and related metadata
+  (When done, update the device's position in the deviceMetadataList and related metadata
   (see live-service diagram).)
 end note
 mwdi -> ControlConstruct: {mountName} (apiKeyAuth)
@@ -101,7 +101,7 @@ mwdi -> ControlConstruct: {mountName} (apiKeyAuth)
 
 note over mwdi
   <u>GetDeviceTypeFromCC</u>
-  FOR EACH mount-name in the deviceList
+  FOR EACH mount-name in the deviceMetadataList
   WITH connected-state == "connected"
        AND deviceType == "unknown"
   REPEAT:
@@ -109,7 +109,7 @@ note over mwdi
     and apply the regex mapping according to <i>deviceTypeMapping</i>
     (see DeviceListMetadataDescription document) on the obtained data.
     For newly generated devices, the CC may not yet be found in the Cache.
-    Write the mapped deviceType to the deviceList.
+    Write the mapped deviceType to the deviceMetadataList.
 end note
 mwdi -> mwdiDevType: {mount-name}
 mwdiDevType -> mwdi: {filtered CC data}

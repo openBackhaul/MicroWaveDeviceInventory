@@ -250,6 +250,17 @@ profile-instances:
     configuration:
       string-value: 'logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))'
 
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-3-0-string-p-004'
+    capability:
+      string-name: 'historicalControlConstructPolicy'
+      enumeration:
+        - 'keep-on-disconnect'
+        - 'delete-on-disconnect'
+      #description: 'Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise'
+    configuration:
+      string-value: 'delete-on-disconnect'
+
   - profile-name: 'RegexPatternMappingProfile'
     uuid: 'mwdi-1-3-0-mapping-p-000'
     capability:

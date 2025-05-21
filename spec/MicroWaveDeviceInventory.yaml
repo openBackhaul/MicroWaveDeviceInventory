@@ -2627,6 +2627,7 @@ paths:
                         - number-of-partial-updates-since-last-complete-update
                         - schema-cache-directory
                         - device-type
+                        - vendor
                       properties:
                         mount-name:
                           type: string
@@ -2677,6 +2678,11 @@ paths:
                           description: >
                             'The device-type derived from air-interface information via regex mappings, default value is unknown
                             from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/device-type}'
+                        vendor:
+                          type: string
+                          description: >
+                            'The vendor derived from device-type via regex mappings, default value is unknown
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/vendor}'
               example:
                 device-status-metadata:
                   - mount-name: '305251234'
@@ -2688,6 +2694,7 @@ paths:
                     number-of-partial-updates-since-last-complete-update: 7
                     schema-cache-directory: 'hua'
                     device-type: 'RTN950'
+                    vendor: 'Huawei'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

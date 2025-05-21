@@ -38,6 +38,7 @@ By selecting the device, whose cached ControlConstruct was updated the longest t
 Once a candidate devices has been identified, first its ControlConstruct is retrieved from the MWDI's cache. In the next step, the ControlConstruct is fetched from live (via MWDI live service).
 
 Both ControlConstructs are then compared to determine the differences. After the comparison and scoring has been finished, results are written to ElasticSearch.  
+Data is kept according to the retention period specified in integerProfile *qualityMeasurementRetentionPeriod*.
 
 There are no specific presciptions for how the comparison shall be implemented apart from the comparison logic to be applied. An appropriate approach shall be selected by the implementer.  
 *First analysis results showed that* deepdiff *could be a suitable candidate for comparing the ControlConstructs (large JSON structures), as it is claimed to be easy to use and to be handling deep comparisons really well (it can detect value changes, missing or new objects, type mismatches etc., and its output potentially can be easily connected with the intended scoring model).*  

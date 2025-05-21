@@ -106,12 +106,14 @@ note over mwdi
     Query cached CC with fields filter from <i>string-p-003</i>-profile
     and apply the regex mapping according to <i>deviceTypeMapping</i>
     (see DeviceListMetadataDescription document) on the obtained data.
-    For newly generated devices, the CC may not yet be found in the Cache.
-    Write the mapped deviceType to the deviceMetadataList.
+    (For newly generated devices, the CC may not yet be found in the Cache.)
+    Once the deviceType has been determined, determine the vendor from the
+    mapped deviceType according to <i>vendorFromDeviceMapping</i>.
+    Write both the mapped deviceType and vendor to the deviceMetadataList.
 end note
 mwdi -> mwdiDevType: {mount-name}
 mwdiDevType -> mwdi: {filtered CC data}
-mwdi -> deviceList: {mount-name, mapped-device-type}
+mwdi -> deviceList: {mount-name, (mapped) device-type, (mapped) vendor}
 
 deactivate mwdi
 

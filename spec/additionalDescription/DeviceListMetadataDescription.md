@@ -37,8 +37,12 @@ The table shall contain the following columns:
 - **device-type**:
   - this attribute contains the device type extracted from the device ControlConstruct data
   - if no mapping can be found, the value will be set to the default value "unknown"
-  - it will be set initially when the device is added to the deviceMetadataList
+  - it will be set initially after the device has been added to the deviceMetadataList
   - in case the device is revisited due to the periodic deviceMetadataList sync and the value is still "unknown", it again is tried to update it from CC data
+- **vendor**:
+  - this attribute contains the vendor and is set along with the device-type
+  - if no mapping can be found, the value will be set to the default value "unknown"
+  - everytime an update of an unknown device-type is tried, the vendor update will also be tried
 - **locked-status**:
   - this attribute is only to be used internally
   - if a device is either added to the slidingWindow or processed by the qualityMeasurement process, it is locked
@@ -46,13 +50,13 @@ The table shall contain the following columns:
 
 ---
 
-## Device-type retrieval
+## Device-type and vendor retrieval
 
-The deviceMetadataList stores the device-type of all contained mount-names.
-- It is to be set initially when the device is added to the deviceMetadataList:
-  - if the MWDI cache does not (yet) contain a retrieved CC for the device, the device-type is to be set to its default value "unknown",
-  - otherwise the device-type shall be derived from the CC data
-- If the deviceMetadataList is updated through periodic sync, the device-type shall be updated for all devices that are currently connected at the Controller and where the device-type is still "unknown".
+The deviceMetadataList stores the device-type and vendor of all contained mount-names.
+- When the device is added to the deviceMetadataList, the device-type and vendor are initialized with their default value ("unknown")
+- Due to the cyclic deviceList sync, all devices in connected state with unknown device-type are revisited and the process tries (again) to fetch the device-type and vendor for them
+  - if there is no ControlConstruct for the specific device in the cache, when this is happening, the update is tried again during the next cycle and the values remain "unknown"
+  - otherwise the device-type shall be dreived from the ControlConstruct data
 
 **Where to find the information in the CC?**  
 The information is to be retrieved from the air-interface-capability/type-of-equipment attribute.  
@@ -66,7 +70,11 @@ For finding the device-type:
   - if a mapping is found assign the mapped device-type, then stop - the other records do not need to be checked further
   - if all records have been checked, but still no device-type has been found the value will remain "unknown"
 
-By providing the mappings in the *deviceTypeMapping* profileInstance, the mappings can easily be modified, e.g. when new device types are added to the network.
+For mapping the vendor:
+- when the device-type has been determined, determine the vendor according to the mappings provided in *vendorFromDeviceMapping*
+- if the device-type is still "unknown", the vendor also remains "unknown" 
+
+By providing the mappings in the *deviceTypeMapping* and *vendorFromDeviceMapping* profileInstances, the mappings can easily be modified, e.g. when new device types are added to the network.
 
 ---
 

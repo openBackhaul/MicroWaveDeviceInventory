@@ -517,6 +517,36 @@
               ]
             }
           }
+        },
+        {
+          "uuid": "mwdi-1-3-0-mapping-p-001",
+          "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",
+          "regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac": {
+            "regex-pattern-mapping-capability": {
+              "mapping-name": "vendorFromDeviceTypeMapping",
+              "purpose": "Used to map the vendor from normalized device types"
+            },
+            "regex-pattern-mapping-configuration": {
+              "mapping-list": [
+                {
+                  "regex-string": "AGS20|AGS20L|ALFO80|ALCPlus2e",
+                  "map-to-string": "Siae"
+                },
+                {
+                  "regex-string": "RTN.*",
+                  "map-to-string": "Huawei"
+                },
+                {
+                  "regex-string": "ML.*",
+                  "map-to-string": "Ericsson"
+                },
+                {
+                  "regex-string": "^(?!AGS20$|AGS20L$|ALFO80$|ALCPlus2e$|RTN.*|ML.*).+$",
+                  "map-to-string": "unknown"
+                }
+              ]
+            }
+          }
         }
       ]
     },

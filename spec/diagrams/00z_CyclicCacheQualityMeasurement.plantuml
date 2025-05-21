@@ -30,7 +30,7 @@ end note
 note over mwdi
   <u>GetCandidateDevice</u>
   Cyclically select the next candidate device from the deviceMetadataList
-  along with its deviceType.
+  along with its deviceType and vendor.
   Select the first found device, which is
   - connected,
   - not locked,
@@ -38,7 +38,7 @@ note over mwdi
     (i.e. the one with the oldest CC data in the cache)
 end note
 mwdi -> es
-es --> mwdi : {mountName, deviceType}
+es --> mwdi : {mountName, deviceType, vendor}
 
 note over mwdi
   <u>GetCachedControlConstruct</u>
@@ -74,7 +74,7 @@ note over mwdi
 end note
 
 
-mwdi -> es : {diff_summary=(deviceId, diff-counts, score, timestamp, deviceType)}
+mwdi -> es : {diff_summary=(deviceId, diff-counts, score, timestamp, deviceType, vendor)}
 
  
 

@@ -2627,6 +2627,7 @@ paths:
                         - number-of-partial-updates-since-last-complete-update
                         - schema-cache-directory
                         - device-type
+                        - vendor
                       properties:
                         mount-name:
                           type: string
@@ -2677,6 +2678,11 @@ paths:
                           description: >
                             'The device-type derived from air-interface information via regex mappings, default value is unknown
                             from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/device-type}'
+                        vendor:
+                          type: string
+                          description: >
+                            'The vendor derived from device-type via regex mappings, default value is unknown
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/vendor}'
               example:
                 device-status-metadata:
                   - mount-name: '305251234'
@@ -2688,6 +2694,7 @@ paths:
                     number-of-partial-updates-since-last-complete-update: 7
                     schema-cache-directory: 'hua'
                     device-type: 'RTN950'
+                    vendor: 'Huawei'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -22764,8 +22771,9 @@ paths:
                                                   type-of-equipment:
                                                     type: string
                                                     description: >
-                                                      'This property contains the equipment type information, which needs to be mapped to a normalized equipment-type
-                                                      by using the regex pattern mapping according to mwdi-1-3-0-mapping-p-000'
+                                                      'This property contains the equipment type information, which needs to be mapped to the normalized device-type
+                                                      by using the regex pattern mapping according to mwdi-1-3-0-mapping-p-000
+                                                      (and from the mapped device-type the vendor is mapped according to mwdi-1-3-0-mapping-p-001)'
                       example:
                         core-model-1-4:control-construct:
                           - logical-termination-point:

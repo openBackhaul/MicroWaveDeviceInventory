@@ -1,0 +1,22 @@
+@startuml 03x_ProvideCacheQualityStatistics
+
+skinparam responseMessageBelowArrow true
+title  RequestForCacheQualityStatisticsCausesReadingFromElasticSearch
+
+participant "Client" as client
+participant "MWDI://v1/provide-cache-quality-statistics" as mwdi
+participant "ElasticSearch" as elastic
+
+client -> mwdi : POST /v1/provide-cache-quality-statistics\nRequest body with filters:\n- deviceId\n- vendor\n- deviceType\n- since\n- groupBy
+activate mwdi
+
+mwdi -> elastic : Query with specified filters
+activate elastic
+elastic --> mwdi : List of filtered measurement entries\n(possibly grouped or aggregated)
+deactivate elastic
+
+
+mwdi --> client : JSON response with\nfiltered statistics 
+deactivate mwdi
+
+@enduml

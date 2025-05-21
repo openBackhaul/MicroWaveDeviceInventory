@@ -291,3 +291,20 @@ profile-instances:
         # DEFAULT: unknown, if none above matches
         - regex-string: '(?i)^(?!.*AGS[-_\s]?20(?![-]?L).*)(?!.*AGS[-_\s]?20L.*)(?!.*ALC(plus|p)?2e.*)(?!.*ALFO[-_\s]?80.*)(?!.*RTN[-_\s]?950.*)(?!.*RTN[-_\s]?905.*)(?!.*RTN[-_\s]?380(?!H|AX).*)(?!.*RTN[-_\s]?380AX.*)(?!.*RTN[-_\s]?380H.*)(?!.*(mini[-_\s]?link|ml)[-_\s]?6352.*)(?!.*(mini[-_\s]?link|ml)[-_\s]?66\d{2}.*)(?!.*(mltn|traffic[-_\s]?node).*).*'
           map-to-string: 'unknown'
+
+  - profile-name: 'RegexPatternMappingProfile'
+    uuid: 'mwdi-1-3-0-mapping-p-001'
+    capability:
+      mapping-name: 'vendorFromDeviceTypeMapping'
+      purpose: 'Used to map the vendor from normalized device types'
+    configuration:
+      mapping-list:
+        - regex-to-string: 'AGS20|AGS20L|ALFO80|ALCPlus2e'
+          map-to-string: 'Siae'
+        - regex-to-string: 'RTN.*'
+          map-to-string: 'Huawei'
+        - regex-to-string: 'ML.*'
+          map-to-string: 'Ericsson'
+        # DEFAULT: unknown, if none above matches
+        - regex-to-string: '^(?!AGS20$|AGS20L$|ALFO80$|ALCPlus2e$|RTN.*|ML.*).+$'
+          map-to-string: 'unknown'

@@ -73,6 +73,7 @@ A total weighted score is computed per device and used to quantify the extent of
   "timestamp": "2025-04-21T12:03:45Z",
   "attribute-mismatches": 18,
   "missing-classes": 2,
+  "missing-objects": 1,
   "weighted-score": 31
 }
 ```

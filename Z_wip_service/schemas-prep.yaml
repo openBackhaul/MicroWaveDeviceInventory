@@ -1,0 +1,49 @@
+    CONTROL_CONSTRUCT:
+      type: object
+      required:
+        - uuid
+        - alarms-1-0:alarm-pac
+      properties:
+        uuid:
+          type: string
+        alarms-1-0:alarm-pac:
+          $ref: '#/components/schemas/ALARM_PAC'
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EQUIPMENT'
+
+
+    AGGREGATED_QUALITY_STATISTICS:
+      type: object
+      description: 'The aggregated statistics for all relevant records from the selected timeframe according to the selected grouping option'
+      required:
+        - attribute-mismatches-sum
+        - missing-classes-sum
+        - missing-objects-sum
+        - attribute-mismatches-avg
+        - missing-classes-avg
+        - missing-objects-avg
+        - weighted-score
+      properties:
+        attribute-mismatches-sum:
+          type: integer
+          description: 'The summed up attribute-mismatches'
+        missing-classes-sum:
+          type: integer
+          description: 'The summed up missing-classes'
+        missing-objects-sum:
+          type: integer
+          description: 'The summed up missing-objects'
+        attribute-mismatches-avg:
+          type: integer
+          description: 'The averaged attribute-mismatches'
+        missing-objects-avg:
+          type: integer
+          description: 'The averaged missing-objects'
+        missing-classes-avg:
+          type: integer
+          description: 'The averaged missing-classes'
+        weighted-score:
+          type: integer
+          description: 'The averaged weighted-score'

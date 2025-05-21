@@ -116,25 +116,44 @@
                           type: object
                           required:
                             - date
-                            - aggregated-cache-quality-statistics
+                            - attribute-mismatches
+                            - missing-classes
+                            - weighted-score
                           properties:
-                            date: 
+                            date:
                               type: string
                               description: 'The date for which the data is aggregated'
-                            aggregated-cache-quality-statistics:
-                              type:
-                              $ref: '#/components/schemas/AGGREGATED_QUALITY_STATISTICS'
+                            attribute-mismatches-sum:
+                              type: integer
+                              description: 'The summed up attribute-mismatches for all records from the given day'
+                            missing-classes-sum:
+                              type: integer
+                              description: 'The summed up missing-classes for all records from the given day'
+                            missing-objects-sum:
+                              type: integer
+                              description: 'The summed up missing-objects for all records from the given day'
+                            attribute-mismatches-avg:
+                              type: integer
+                              description: 'The averaged attribute-mismatches for all records from the given day'
+                            missing-objects-avg:
+                              type: integer
+                              description: 'The averaged missing-objects for all records from the given day'
+                            missing-classes-avg:
+                              type: integer
+                              description: 'The averaged missing-classes for all records from the given day'
+                            weighted-score-sum:
+                              type: integer
+                              description: 'The averaged weighted-score for all records from the given day'
                     example:
                       grouped-cache-quality-statistics:
                         - date: '2025-04-21'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 259
-                            missing-classes-sum: 399
-                            missing-objects-sum: 120
-                            attribute-mismatches-avg: 32
-                            missing-classes-avg: 17
-                            missing-objects-avg: 8
-                            weighted-score: 122
+                          attribute-mismatches-sum: 259
+                          missing-classes-sum: 399
+                          missing-objects-sum: 120
+                          attribute-mismatches-avg: 32
+                          missing-classes-avg: 17
+                          missing-objects-avg: 8
+                          weighted-score: 122
                   - description: 'statistics grouped by device-type'
                     required:
                       - grouped-cache-quality-statistics
@@ -146,25 +165,48 @@
                           type: object
                           required:
                             - device-type
-                            - aggregated-cache-quality-statistics
+                            - attribute-mismatches-sum
+                            - missing-classes-sum
+                            - missing-objects-sum
+                            - attribute-mismatches-avg
+                            - missing-classes-avg
+                            - missing-objects-avg
+                            - weighted-score
                           properties:
                             device-type:
                               type: string
                               description: 'The device-type for which the data is aggregated'
-                            aggregated-cache-quality-statistics:
-                              type:
-                              $ref: '#/components/schemas/AGGREGATED_QUALITY_STATISTICS'
+                            attribute-mismatches-sum:
+                              type: integer
+                              description: 'The summed up attribute-mismatches for all records from the timeframe'
+                            missing-classes-sum:
+                              type: integer
+                              description: 'The summed up missing-classes for all records from the timeframe'
+                            missing-objects-sum:
+                              type: integer
+                              description: 'The summed up missing-objects for all records from the timeframe'
+                            attribute-mismatches-avg:
+                              type: integer
+                              description: 'The averaged attribute-mismatches for all records from the timeframe'
+                            missing-objects-avg:
+                              type: integer
+                              description: 'The averaged missing-objects for all records from the timeframe'
+                            missing-classes-avg:
+                              type: integer
+                              description: 'The averaged missing-classes for all records from the timeframe'
+                            weighted-score-sum:
+                              type: integer
+                              description: 'The averaged weighted-score for all records from the timeframe'
                     example:
                       grouped-cache-quality-statistics:
                         - device-type: 'AGS20'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 259
-                            missing-classes-sum: 399
-                            missing-objects-sum: 120
-                            attribute-mismatches-avg: 32
-                            missing-classes-avg: 17
-                            missing-objects-avg: 8
-                            weighted-score: 122
+                          attribute-mismatches-sum: 259
+                          missing-classes-sum: 399
+                          missing-objects-sum: 120
+                          attribute-mismatches-avg: 32
+                          missing-classes-avg: 17
+                          missing-objects-avg: 8
+                          weighted-score: 122
                   - description: 'statistics grouped by vendor'
                     required:
                       - grouped-cache-quality-statistics
@@ -176,25 +218,44 @@
                           type: object
                           required:
                             - vendor
-                            - aggregated-cache-quality-statistics
+                            - attribute-mismatches
+                            - missing-classes
+                            - weighted-score
                           properties:
                             vendor:
                               type: string
                               description: 'The vendor for which the data is aggregated'
-                            aggregated-cache-quality-statistics:
-                              type:
-                              $ref: '#/components/schemas/AGGREGATED_QUALITY_STATISTICS'
+                            attribute-mismatches-sum:
+                              type: integer
+                              description: 'The summed up attribute-mismatches for all records from the timeframe'
+                            missing-classes-sum:
+                              type: integer
+                              description: 'The summed up missing-classes for all records from the timeframe'
+                            missing-objects-sum:
+                              type: integer
+                              description: 'The summed up missing-objects for all records from the timeframe'
+                            attribute-mismatches-avg:
+                              type: integer
+                              description: 'The averaged attribute-mismatches for all records from the timeframe'
+                            missing-objects-avg:
+                              type: integer
+                              description: 'The averaged missing-objects for all records from the timeframe'
+                            missing-classes-avg:
+                              type: integer
+                              description: 'The averaged missing-classes for all records from the timeframe'
+                            weighted-score-sum:
+                              type: integer
+                              description: 'The averaged weighted-score for all records from the timeframe'
                     example:
                       grouped-cache-quality-statistics:
                         - vendor: 'Siae'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 259
-                            missing-classes-sum: 399
-                            missing-objects-sum: 120
-                            attribute-mismatches-avg: 32
-                            missing-classes-avg: 17
-                            missing-objects-avg: 8
-                            weighted-score: 122
+                          attribute-mismatches-sum: 259
+                          missing-classes-sum: 399
+                          missing-objects-sum: 120
+                          attribute-mismatches-avg: 32
+                          missing-classes-avg: 17
+                          missing-objects-avg: 8
+                          weighted-score: 122
                   - description: 'statistics grouped by day and device-type'
                     required:
                       - grouped-cache-quality-statistics
@@ -207,7 +268,9 @@
                           required:
                             - date
                             - device-type
-                            - aggregated-cache-quality-statistics
+                            - attribute-mismatches
+                            - missing-classes
+                            - weighted-score
                           properties:
                             date:
                               type: string
@@ -215,31 +278,47 @@
                             device-type:
                               type: string
                               description: 'The device-type for which the data is aggregated'
-                            aggregated-cache-quality-statistics:
-                              type:
-                              $ref: '#/components/schemas/AGGREGATED_QUALITY_STATISTICS'
+                            attribute-mismatches-sum:
+                              type: integer
+                              description: 'The summed up attribute-mismatches for all records from the timeframe'
+                            missing-classes-sum:
+                              type: integer
+                              description: 'The summed up missing-classes for all records from the timeframe'
+                            missing-objects-sum:
+                              type: integer
+                              description: 'The summed up missing-objects for all records from the timeframe'
+                            attribute-mismatches-avg:
+                              type: integer
+                              description: 'The averaged attribute-mismatches for all records from the timeframe'
+                            missing-objects-avg:
+                              type: integer
+                              description: 'The averaged missing-objects for all records from the timeframe'
+                            missing-classes-avg:
+                              type: integer
+                              description: 'The averaged missing-classes for all records from the timeframe'
+                            weighted-score-sum:
+                              type: integer
+                              description: 'The averaged weighted-score for all records from the timeframe'
                     example:
                       grouped-cache-quality-statistics:
                         - date: '2025-03-12'
                           device-type: 'AGS20'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 259
-                            missing-classes-sum: 399
-                            missing-objects-sum: 120
-                            attribute-mismatches-avg: 32
-                            missing-classes-avg: 17
-                            missing-objects-avg: 8
-                            weighted-score: 122
+                          attribute-mismatches-sum: 259
+                          missing-classes-sum: 399
+                          missing-objects-sum: 120
+                          attribute-mismatches-avg: 32
+                          missing-classes-avg: 17
+                          missing-objects-avg: 8
+                          weighted-score: 122
                         - date: '2025-03-12'
                           device-type: 'MLTN'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 1000
-                            missing-classes-sum: 500
-                            missing-objects-sum: 300
-                            attribute-mismatches-avg: 100
-                            missing-classes-avg: 50
-                            missing-objects-avg: 30
-                            weighted-score: 135
+                          attribute-mismatches-sum: 1000
+                          missing-classes-sum: 300
+                          missing-objects-sum: 400
+                          attribute-mismatches-avg: 50
+                          missing-classes-avg: 13
+                          missing-objects-avg: 7
+                          weighted-score: 210
                   - description: 'statistics grouped by day and vendor'
                     required:
                       - grouped-cache-quality-statistics
@@ -252,7 +331,9 @@
                           required:
                             - date
                             - vendor
-                            - aggregated-cache-quality-statistics
+                            - attribute-mismatches
+                            - missing-classes
+                            - weighted-score
                           properties:
                             date:
                               type: string
@@ -260,31 +341,47 @@
                             vendor:
                               type: string
                               description: 'The vendor for which the data is aggregated'
-                            aggregated-cache-quality-statistics:
-                              type:
-                              $ref: '#/components/schemas/AGGREGATED_QUALITY_STATISTICS'
+                            attribute-mismatches-sum:
+                              type: integer
+                              description: 'The summed up attribute-mismatches for all records from the timeframe'
+                            missing-classes-sum:
+                              type: integer
+                              description: 'The summed up missing-classes for all records from the timeframe'
+                            missing-objects-sum:
+                              type: integer
+                              description: 'The summed up missing-objects for all records from the timeframe'
+                            attribute-mismatches-avg:
+                              type: integer
+                              description: 'The averaged attribute-mismatches for all records from the timeframe'
+                            missing-objects-avg:
+                              type: integer
+                              description: 'The averaged missing-objects for all records from the timeframe'
+                            missing-classes-avg:
+                              type: integer
+                              description: 'The averaged missing-classes for all records from the timeframe'
+                            weighted-score-sum:
+                              type: integer
+                              description: 'The averaged weighted-score for all records from the timeframe'
                     example:
                       grouped-cache-quality-statistics:
                         - date: '2025-03-12'
                           vendor: 'Siae'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 259
-                            missing-classes-sum: 399
-                            missing-objects-sum: 120
-                            attribute-mismatches-avg: 32
-                            missing-classes-avg: 17
-                            missing-objects-avg: 8
-                            weighted-score: 122
+                          attribute-mismatches-sum: 259
+                          missing-classes-sum: 399
+                          missing-objects-sum: 120
+                          attribute-mismatches-avg: 32
+                          missing-classes-avg: 17
+                          missing-objects-avg: 8
+                          weighted-score: 122
                         - date: '2025-03-12'
                           vendor: 'Huawei'
-                          aggregated-cache-quality-statistics:
-                            attribute-mismatches-sum: 1000
-                            missing-classes-sum: 500
-                            missing-objects-sum: 300
-                            attribute-mismatches-avg: 100
-                            missing-classes-avg: 50
-                            missing-objects-avg: 30
-                            weighted-score: 135
+                          attribute-mismatches-sum: 22
+                          missing-classes-sum: 30
+                          missing-objects-sum: 15
+                          attribute-mismatches-avg: 2
+                          missing-classes-avg: 3
+                          missing-objects-avg: 4
+                          weighted-score: 10
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

@@ -29,7 +29,7 @@ end note
 
 note over mwdi
   <u>GetCandidateDevice</u>
-  Select the candidate device from the deviceMetadataList
+  Cyclically select the next candidate device from the deviceMetadataList
   along with its deviceType.
   Select the first found device, which is
   - connected,
@@ -48,6 +48,11 @@ end note
 mwdi -> cache : {mountName}
 cache --> mwdi : {cachedControlConstruct}
 
+note over mwdi #LightGray
+  IF retrieval from Cache failed
+  THEN skip further steps for current device
+end note
+
 note over mwdi
   <u>GetLiveControlConstruct</u>
   Fetch the CC for the candidate device
@@ -56,6 +61,10 @@ end note
 mwdi -> live : {mountName}
 live --> mwdi :  {liveControlConstruct}
 
+note over mwdi #LightGray
+  IF retrieval from live failed
+  THEN skip further steps for current device
+end note
  
 note over mwdi
   <u>WriteStatisticsToElasticSearch</u>

@@ -102,6 +102,8 @@ servers:
         - operation-name: /v1/provide-device-status-metadata
           uuid: mwdi-1-3-0-op-s-is-018
           operation-key: n.a.
+        - operation-name: /v1/provide-cache-quality-statistics
+          uuid: mwdi-1-3-0-op-s-is-019
 
         # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes

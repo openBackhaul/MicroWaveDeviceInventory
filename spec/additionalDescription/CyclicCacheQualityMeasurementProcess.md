@@ -66,11 +66,12 @@ A total weighted score is computed per device and used to quantify the extent of
 ### Sample output
 ```json
 {
-  "deviceId": "100250001",
+  "mount-name": "100250001",
+  "device-type": "AGS20",
+  "vendor": "SIAE",
   "timestamp": "2025-04-21T12:03:45Z",
   "attribute-mismatches": 18,
   "missing-classes": 2,
-  "new-classes": 1,
   "weighted-score": 31
 }
 ```

@@ -1,4 +1,4 @@
-@startuml 120_MwdiNotifiesAttributeChange
+@startuml 140_MwdiNotifiesAttributeChange
 skinparam responseMessageBelowArrow true
 
 title 

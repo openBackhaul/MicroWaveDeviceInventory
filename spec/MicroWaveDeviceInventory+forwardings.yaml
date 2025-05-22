@@ -344,11 +344,11 @@ forwardings:
       - server-name: /v1/provide-device-status-metadata
         uuid: mwdi-1-3-0-op-s-is-018
       - server-name: /v1/notify-attribute-value-changes
-        uuid: mwdi-1-3-0-op-s-is-020
+        uuid: mwdi-1-3-0-op-s-is-040
       - server-name: /v1/notify-object-creations
-        uuid: mwdi-1-3-0-op-s-is-021
+        uuid: mwdi-1-3-0-op-s-is-041
       - server-name: /v1/notify-object-deletions
-        uuid: mwdi-1-3-0-op-s-is-022
+        uuid: mwdi-1-3-0-op-s-is-042
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}
         uuid: mwdi-1-3-0-op-s-is-100
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-capability
@@ -811,11 +811,11 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: mwdi-1-3-0-op-s-im-000
       - server-name: /v1/notify-attribute-value-changes
-        uuid: mwdi-1-3-0-op-s-is-020
+        uuid: mwdi-1-3-0-op-s-is-040
       - server-name: /v1/notify-object-creations
-        uuid: mwdi-1-3-0-op-s-is-021
+        uuid: mwdi-1-3-0-op-s-is-041
       - server-name: /v1/notify-object-deletions
-        uuid: mwdi-1-3-0-op-s-is-022
+        uuid: mwdi-1-3-0-op-s-is-042
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: mwdi-1-3-0-op-c-bm-alt-2-1-2-001
@@ -870,11 +870,11 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/notify-attribute-value-changes
-        uuid: mwdi-1-3-0-op-s-is-020
+        uuid: mwdi-1-3-0-op-s-is-040
       - server-name: /v1/notify-object-creations
-        uuid: mwdi-1-3-0-op-s-is-021
+        uuid: mwdi-1-3-0-op-s-is-041
       - server-name: /v1/notify-object-deletions
-        uuid: mwdi-1-3-0-op-s-is-022
+        uuid: mwdi-1-3-0-op-s-is-042
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: mwdi-1-3-0-op-c-bm-alt-2-1-2-004
@@ -1690,10 +1690,10 @@ forwardings:
     management-requests:
       operation-client-update:
         - server-name: /v1/notify-attribute-value-changes
-          uuid: mwdi-1-3-0-op-s-is-020
+          uuid: mwdi-1-3-0-op-s-is-040
       fc-port-update:
         - server-name: /v1/notify-attribute-value-changes
-          uuid: mwdi-1-3-0-op-s-is-020
+          uuid: mwdi-1-3-0-op-s-is-040
       fc-port-deletion:
         - server-name: /v1/end-subscription
           uuid: mwdi-1-3-0-op-s-bm-004
@@ -1713,10 +1713,10 @@ forwardings:
     management-requests:
       operation-client-update:
         - server-name: /v1/notify-object-creations
-          uuid: mwdi-1-3-0-op-s-is-021
+          uuid: mwdi-1-3-0-op-s-is-041
       fc-port-update:
         - server-name: /v1/notify-object-creations
-          uuid: mwdi-1-3-0-op-s-is-021
+          uuid: mwdi-1-3-0-op-s-is-041
       fc-port-deletion:
         - server-name: /v1/end-subscription
           uuid: mwdi-1-3-0-op-s-bm-004
@@ -1736,10 +1736,10 @@ forwardings:
     management-requests:
       operation-client-update:
         - server-name: /v1/notify-object-deletions
-          uuid: mwdi-1-3-0-op-s-is-022
+          uuid: mwdi-1-3-0-op-s-is-042
       fc-port-update:
         - server-name: /v1/notify-object-deletions
-          uuid: mwdi-1-3-0-op-s-is-022
+          uuid: mwdi-1-3-0-op-s-is-042
       fc-port-deletion:
         - server-name: /v1/end-subscription
           uuid: mwdi-1-3-0-op-s-bm-004

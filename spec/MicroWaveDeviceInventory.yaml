@@ -3086,7 +3086,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-040/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -3299,7 +3299,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-041/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -3502,7 +3502,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-022/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-042/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':

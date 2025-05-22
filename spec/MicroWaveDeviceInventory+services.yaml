@@ -104,16 +104,20 @@ servers:
           operation-key: n.a.
         - operation-name: /v1/provide-cache-quality-statistics
           uuid: mwdi-1-3-0-op-s-is-019
+          operation-key: n.a.
+        - operation-name: /v1/provide-list-of-all-mwdi-devices
+          uuid: mwdi-1-3-0-op-s-is-020
+          operation-key: n.a.
 
         # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes
-          uuid: mwdi-1-3-0-op-s-is-020
+          uuid: mwdi-1-3-0-op-s-is-040
           operation-key: n.a.
         - operation-name: /v1/notify-object-creations
-          uuid: mwdi-1-3-0-op-s-is-021
+          uuid: mwdi-1-3-0-op-s-is-041
           operation-key: n.a.
         - operation-name: /v1/notify-object-deletions
-          uuid: mwdi-1-3-0-op-s-is-022
+          uuid: mwdi-1-3-0-op-s-is-042
           operation-key: n.a.
 
         # ressources provided from cache

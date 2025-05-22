@@ -1,4 +1,4 @@
-@startuml 122_MwdiNotifiesObjectDeletion
+@startuml 142_MwdiNotifiesObjectDeletion
 skinparam responseMessageBelowArrow true
 
 title 

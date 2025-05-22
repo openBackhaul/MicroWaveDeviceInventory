@@ -2979,6 +2979,80 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-list-of-mwdi-devices:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideListOfMwdiDevices
+      summary: 'Provides list of devices that are found in MWDI deviceMetadataList'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of mwdi devices provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - mount-name-list
+                properties:
+                  mount-name-list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mount-name:
+                          type: string
+                          description: >
+                            'MountName of the device in deviceMetadataList
+                            from {$RequestForListOfMwdiDevicesCausesReadingFromCache}'
+                        connection-status:
+                          type: string
+                          enum:
+                            - 'connected'
+                            - 'connecting'
+                            - 'unable-to-connect'
+                          description: >
+                            'Connection-status of the device in deviceMetadataList
+                            from {$RequestForListOfMwdiDevicesCausesReadingFromCache}'
+              example:
+                mount-name-list:
+                  - mount-name: '305251234'
+                    connection-status: 'connected'
+                  - mount-name: '105258888'
+                    connection-status: 'connecting'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-s-is-020/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+
 
   /v1/notify-attribute-value-changes:
     parameters:

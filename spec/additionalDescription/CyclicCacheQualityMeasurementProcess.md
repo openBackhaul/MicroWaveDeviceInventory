@@ -64,7 +64,9 @@ Each type of difference is assigned a configurable weight:
 
 A total weighted score is computed per device and used to quantify the extent of divergence.  
 
-### Sample output
+### Output
+
+Each completed comparison will add a new entry into ElasticSearch. The following example shows such an entry:
 ```json
 {
   "mount-name": "100250001",
@@ -77,6 +79,12 @@ A total weighted score is computed per device and used to quantify the extent of
   "weighted-score": 31
 }
 ```
+
+The */v1/provide-cache-quality-statistics* service enables external clients to retrieve previously calculated cache quality measurement results from ElasticSearch. 
+It is a read-only provider service and does not perform any new measurement itself.
+When triggered, the service constructs a query based on the provided filters and fetches the relevant data entries from the measurement database. 
+Results may include raw statistics or grouped data, depending on the input.
+The service supports MWDI's broader monitoring goals by making the quality status of cached ControlConstructs transparent and accessible for analysis or visualization.
 
 ## Outlook
 For now, the gathered quality statistics will only be made available via a new provider service offered by MWDI.  

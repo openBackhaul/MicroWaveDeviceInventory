@@ -32,21 +32,33 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 ### Latest Update  
 
 **v1.3.0**  
-Spec release 1.3.0 adds new functionality to improve and measure data quality of the cache in terms of the new qualityMeasurement process.
-The qualityMeasurement process
-- selects a new update candidate device every x minutes (configurable, intially set to 1 minute)
-- retrieves both the already cached and the current ControlConstruct from live (thereby also updating the cache)
-- compares both and scores the changes
-- writes the results into ElasticSearch for evaluation and analysis purposes
+This release introduced some major changes to the underlying processes for updating the cache.
 
-The introduction of this mechanism required changes to
-- slidingWindow process: the next update candidate for the slidingWindow is no longer taken from deviceList, but read from the metadata status table
-- metadata status table:
-  - new attribute for device-type
-  - ordering according to the timestamp storing the last complete ControlConstruct update time
-  - a new input filter (requestBody) for retrieving the next update candidate for both qualityMeasurement and slidingWindow process
+First of all, the deviceList and metadataTable have been merged into **deviceMetadataList**:
+- before the MWDI was going over the deviceList with a slidingWindow to find the next device update candidate device. Devices were removed from the deviceList when the were no longer in connected state and their ControlConstructs in the cache as well. In addition there was the metadataTable, which also included information about devices, which had been added to the MWDI before, but no longer were in connected state
+- now all of this has been changed:
+  - the deviceMetadataList is now sorted according to retrieval priority (based on timestamp of last complete ControlConstruct update) and slidingWindow takes the next update device according to the sorting (or possibly it could use a (reduced) sorted in-memory copy of the list instead): highest priority have those devices without a ControlConstruct copy in the cache, followed by the device with the oldest ControlConstruct in the cache
+  - when devices leave connected state: (a) they are no longer deleted from the deviceMetadataList, but kept according to the configured retention (will not be queried for CCs though) and (b) their ControlConstructs in the cache could be kept rather than being deleted (according to the new *historicalControlConstructPolicy* profileInstance) as a means to allow for historical MWDI functionality
+- the metadata has been enriched with deviceType, which is mapped from airInterface information (via new regex profile), and vendor, which in turn is mapped from the deviceType; per default both are set to *unknown* (periodical retries to update it to a proper value)
+- adds new service */v1/provide-list-of-all-mwdi-devices*, which returns all devices from the deviceMetadataList (complements already existing service */v1/provide-list-of-connected-devices*)
 
-(TBD) Moreover, an interface to Kafka has been introduced, to improve the performance of notification handling. (Receiving notifications from NotificationProxy was turned-off before, due to it not being performant enough.)
+Next is the introduction of a **cache quality measurement process**:
+- it selectes a new candidate device from the deviceMetadataList every x minutes (configurable, intially set to 1 minute)
+  - works in tandem with the slidingWindow process and selects the next device with oldest ControlConstruct in the cache, not yet found in the slidingWindow
+  - retrieves the ControlConstruct from live (thereby updating the cache) and the copy from the cache
+  - compares both and scores the changes
+  - writes the results into ElasticSearch for evaluation and analysis purposes
+  - if either/or retrieval of live or cache ControlConstruct fails, there is no comparison for the given device, i.e. no statistics record written to the cache
+- new service */v1/provide-cache-quality-statistics* to retrieve the statistics, allows filtering on date (day, since) and grouping (day, deviceType, vendor, or combined)
+
+Also **notification handling** has been changed:
+- before, MWDI had subscriptions for receiving notifications from NotificationProxy (NP).
+  - In case of a new notification, NP was pushing the notification to MWDI.
+  - Due to performance problems this had been disabled in production
+- now, Kafka has been added in between NP and MWDI to overcome the performance problems
+  - NP will push the notifications to Kafka ("proper" notification topic)
+  - MWDI will pull the notifications from Kafka ("proper" notification topic)
+- the *regard*-services previously used to receive notifications have been marked as deprecated
 
 The list of related issues can be found in issue collection [MWDI v1.3.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20)
 

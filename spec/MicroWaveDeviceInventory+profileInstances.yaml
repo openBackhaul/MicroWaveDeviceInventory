@@ -254,6 +254,14 @@ profile-instances:
     configuration:
       string-value: 'delete-on-disconnect'
 
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-1-3-0-string-p-005'
+    capability:
+      string-name: 'kafkaTopicNameForProperNotifications'
+      #description: 'Used to configure the name of the Kafka topic offering the proper notifications'
+    configuration:
+      string-value: 'properNotifications'
+
   - profile-name: 'RegexPatternMappingProfile'
     uuid: 'mwdi-1-3-0-mapping-p-000'
     capability:

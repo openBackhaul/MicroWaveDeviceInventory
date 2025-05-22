@@ -1096,7 +1096,7 @@
                 "operation-name": "/v1/regard-controller-attribute-value-change"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "n.a."
               }
             }
@@ -1120,7 +1120,7 @@
                 "operation-name": "/v1/regard-device-alarm"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "n.a."
               }
             }
@@ -1144,7 +1144,7 @@
                 "operation-name": "/v1/regard-device-attribute-value-change"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "n.a."
               }
             }
@@ -1168,7 +1168,7 @@
                 "operation-name": "/v1/regard-device-object-creation"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "n.a."
               }
             }
@@ -1192,7 +1192,7 @@
                 "operation-name": "/v1/regard-device-object-deletion"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "n.a."
               }
             }

@@ -984,7 +984,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-bm-alt-2-1-2-005
 
   - forwarding-name: NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
-    uuid: mwdi-1-3-0-op-fc-is-000
+    uuid: mwdi-1-3-0-op-fc-is-900
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -999,7 +999,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-400
 
   - forwarding-name: NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
-    uuid: mwdi-1-3-0-op-fc-is-004
+    uuid: mwdi-1-3-0-op-fc-is-904
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1016,7 +1016,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-put-es-1-0-0-407
 
   - forwarding-name: NotifiedDeviceAlarmCausesMetadataTableUpdate
-    uuid: mwdi-1-3-0-op-fc-is-005
+    uuid: mwdi-1-3-0-op-fc-is-905
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1031,7 +1031,7 @@ forwardings:
         uuid: mwdi-1-3-0-es-c-es-1-0-0-000
 
   - forwarding-name: NotifiedDeviceAttributeValueChangeCausesUpdateOfCache
-    uuid: mwdi-1-3-0-op-fc-is-006
+    uuid: mwdi-1-3-0-op-fc-is-906
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1277,7 +1277,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-put-es-1-0-0-574
 
   - forwarding-name: NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
-    uuid: mwdi-1-3-0-op-fc-is-008
+    uuid: mwdi-1-3-0-op-fc-is-908
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1421,7 +1421,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-574
 
   - forwarding-name: NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache
-    uuid: mwdi-1-3-0-op-fc-is-010
+    uuid: mwdi-1-3-0-op-fc-is-910
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1551,7 +1551,7 @@ forwardings:
 
 
   - forwarding-name: NotifiedNewDeviceCausesMetadataTableUpdate
-    uuid: mwdi-1-3-0-op-fc-is-001
+    uuid: mwdi-1-3-0-op-fc-is-901
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1566,7 +1566,7 @@ forwardings:
         uuid: mwdi-1-3-0-es-c-es-1-0-0-000
 
   - forwarding-name: NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
-    uuid: mwdi-1-3-0-op-fc-is-002
+    uuid: mwdi-1-3-0-op-fc-is-902
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1581,7 +1581,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-del-es-1-0-0-700
 
   - forwarding-name: NotifiedDisconnectedDeviceCausesMetadataTableUpdate
-    uuid: mwdi-1-3-0-op-fc-is-003
+    uuid: mwdi-1-3-0-op-fc-is-903
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1596,7 +1596,7 @@ forwardings:
         uuid: mwdi-1-3-0-es-c-es-1-0-0-000
 
   - forwarding-name: NotifiedDeviceAttributeValueChangeCausesMetadataTableUpdate
-    uuid: mwdi-1-3-0-op-fc-is-007
+    uuid: mwdi-1-3-0-op-fc-is-907
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1611,7 +1611,7 @@ forwardings:
         uuid: mwdi-1-3-0-es-c-es-1-0-0-000
 
   - forwarding-name: NotifiedDeviceObjectCreationCausesMetadataTableUpdate
-    uuid: mwdi-1-3-0-op-fc-is-009
+    uuid: mwdi-1-3-0-op-fc-is-909
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -1626,7 +1626,7 @@ forwardings:
         uuid: mwdi-1-3-0-es-c-es-1-0-0-000
 
   - forwarding-name: NotifiedDeviceObjectDeletionCausesMetadataTableUpdate
-    uuid: mwdi-1-3-0-op-fc-is-011
+    uuid: mwdi-1-3-0-op-fc-is-911
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

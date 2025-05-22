@@ -1549,6 +1549,97 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-1-3-0-op-c-del-es-1-0-0-874
 
+
+  - forwarding-name: NotifiedNewDeviceCausesMetadataTableUpdate
+    uuid: mwdi-1-3-0-op-fc-is-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-controller-attribute-value-change
+        uuid: mwdi-1-3-0-op-s-is-000
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-3-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+    uuid: mwdi-1-3-0-op-fc-is-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-controller-attribute-value-change
+        uuid: mwdi-1-3-0-op-s-is-000
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}
+        uuid: mwdi-1-3-0-op-c-del-es-1-0-0-700
+
+  - forwarding-name: NotifiedDisconnectedDeviceCausesMetadataTableUpdate
+    uuid: mwdi-1-3-0-op-fc-is-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-controller-attribute-value-change
+        uuid: mwdi-1-3-0-op-s-is-000
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-3-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceAttributeValueChangeCausesMetadataTableUpdate
+    uuid: mwdi-1-3-0-op-fc-is-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-attribute-value-change
+        uuid: mwdi-1-3-0-op-s-is-003
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-3-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceObjectCreationCausesMetadataTableUpdate
+    uuid: mwdi-1-3-0-op-fc-is-009
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-object-creation
+        uuid: mwdi-1-3-0-op-s-is-004
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-3-0-es-c-es-1-0-0-000
+
+  - forwarding-name: NotifiedDeviceObjectDeletionCausesMetadataTableUpdate
+    uuid: mwdi-1-3-0-op-fc-is-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-device-object-deletion
+        uuid: mwdi-1-3-0-op-s-is-005
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-1-3-0-es-c-es-1-0-0-000
+
   - forwarding-name: RequestForListOfConnectedDevicesCausesReadingFromCache
     uuid: mwdi-1-3-0-op-fc-is-020
     forwarding-type: InvariantProcessSnippet

@@ -841,6 +841,10 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/regard-controller-attribute-value-change:
+    description: >
+      'DEPRECATED
+      Service shall be deleted with MWDI v2.0.0
+      Starting from MWDI v1.3.0, service shall no longer be used'
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1009,6 +1013,10 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-alarm:
+    description: >
+      'DEPRECATED
+      Service shall be deleted with MWDI v2.0.0
+      Starting from MWDI v1.3.0, service shall no longer be used'
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1181,6 +1189,10 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-attribute-value-change:
+    description: >
+      'DEPRECATED
+      Service shall be deleted with MWDI v2.0.0
+      Starting from MWDI v1.3.0, service shall no longer be used'
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1313,6 +1325,10 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-object-creation:
+    description: >
+      'DEPRECATED
+      Service shall be deleted with MWDI v2.0.0
+      Starting from MWDI v1.3.0, service shall no longer be used'
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1417,6 +1433,10 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-object-deletion:
+    description: >
+      'DEPRECATED
+      Service shall be deleted with MWDI v2.0.0
+      Starting from MWDI v1.3.0, service shall no longer be used'
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

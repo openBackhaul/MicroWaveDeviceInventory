@@ -57,7 +57,7 @@ servers:
           uuid: mwdi-1-3-0-op-s-bs-005
           operation-key: n.a.
       individual:
-        # receivers for notifications from NotificationProxy
+        # receivers for notifications from NotificationProxy: deprecated since v1.3.0
         - operation-name: /v1/regard-controller-attribute-value-change
           uuid: mwdi-1-3-0-op-s-is-000
           operation-key: n.a.

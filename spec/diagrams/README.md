@@ -1,7 +1,10 @@
 # MicroWaveDeviceInventory Diagrams
 .  
 .  
-![PromptForEmbeddingCauses](./00x_CyclicOperationBasedDeviceListSync.png)  
+![PromptForEmbeddingCausesCyclicCacheUpdate](./00x_CyclicOperationBasedDeviceListSync.png)  
+.  
+.  
+![PromptForEmbeddingCausesCyclicQualityMeasurement](./00z_CyclicCacheQualityMeasurement.png)
 .  
 .  
 ![PromptForEmbeddingCausesSubscribingForNotifications](./01x_MwdiSubscribesAtNp.png)  
@@ -38,6 +41,24 @@
 .  
 .  
 ![RequestForListOfActualDeviceEquipmentCausesReadingFromCache](./103_ProvideListOfParallelLinks.png)  
+.  
+.  
+![RequestForListOfLinksCausesReadingFromCache](./104_ProvideListOfLinks.png)
+.  
+.  
+![RequestFor](./105_ProvideListOfLinkPorts.png)
+.  
+.  
+![RequestForListOfLinkPortsCausesReadingFromCache](./106_ProvideDataOfAllLinks.png)
+.  
+.  
+![RequestForDataOfLinksCausesReadingFromCache](./107_ProvideDataOfAllLinkPorts.png)
+.  
+.  
+![RequestForDeviceStatusMetadataCausesReadingFromElasticSearch](./108_ProvideDeviceMetadata.png)
+.  
+.  
+![RequestForCacheQualityStatisticsCausesReadingFromElasticSearch](./109_ProvideCacheQualityStatistics.png)
 .  
 .  
 ![SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications](./120_MwdiNotifiesAttributeChange.png)  

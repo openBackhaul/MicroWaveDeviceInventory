@@ -1,0 +1,29 @@
+@startuml 024_NotificationBasedObjectCreation
+skinparam responseMessageBelowArrow true
+
+title 
+  NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
+  NotifiedDeviceObjectCreationCausesMetadataUpdate
+end title
+
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>DeviceObjectCreation</i>" as init
+participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
+participant "MWDI://{resource}" as odlCreatedObject
+participant "ElasticSearch\n(deviceMetadataList)" as es
+
+init -> regardObjectCreation: {counter, timestamp, resource, objectType} (apiKeyAuth)
+activate regardObjectCreation
+
+regardObjectCreation -> odlCreatedObject: {path = resource potentially shortened to a supported live path}
+
+note over regardObjectCreation
+  <u>UpdateMetadata</u>
+    Upon update completion of the CC data in the cache,
+    update the metadata for the device
+    (last-control-construct-notification-update-time,
+    number-of-partial-updates-since-last-complete-update)
+end note
+regardObjectCreation -> es: {mount-name}
+
+deactivate regardObjectCreation
+@enduml

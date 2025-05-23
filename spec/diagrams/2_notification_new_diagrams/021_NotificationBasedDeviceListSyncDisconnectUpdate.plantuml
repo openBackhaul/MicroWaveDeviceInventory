@@ -1,0 +1,40 @@
+@startuml 021_NotificationBasedDeviceListSyncDisconnectUpdate
+skinparam responseMessageBelowArrow true
+
+title  
+  NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache
+  NotifiedDisconnectedDeviceCausesMetadataUpdate
+end title
+
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardControllerAttributeValueChange</i>" as init
+participant "MWDI://v1/regard-controller-attribute-value-change" as regardDisconnectedDevice
+participant "ElasticSearch\n(deviceMetadataList)" as es
+
+init -> regardDisconnectedDevice: {controller-attribute-value-change-notification} (apiKeyAuth)
+activate regardDisconnectedDevice
+
+note over regardDisconnectedDevice
+IF attribute-name == 'connection-status' 
+AND IF new-value != 'connected'
+end note
+
+note over regardDisconnectedDevice
+  <u>DeleteControlConstructFromCache</u>
+  IF <i>historicalControlConstructPolicy</i> == "delete-on-disconnect"
+  THEN delete the ControlConstruct from the cache
+end note
+regardDisconnectedDevice -> es: delete {mount-name = value behind control-construct= in resource}
+
+
+note over regardDisconnectedDevice
+  <u>UpdateMetadata</u>
+    The metadata has to be updated
+    according to the disconnect
+end note
+regardDisconnectedDevice -> es: {mount-name from notification}
+
+
+deactivate regardDisconnectedDevice
+
+@enduml
+

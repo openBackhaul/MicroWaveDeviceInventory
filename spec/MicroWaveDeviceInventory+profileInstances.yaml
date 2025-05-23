@@ -271,7 +271,7 @@ profile-instances:
       string-name: 'kafkaTopicNameForProperNotifications'
       #description: 'Used to configure the name of the Kafka topic offering the proper notifications'
     configuration:
-      string-value: 'properNotifications'
+      string-value: 'proper_notifications'
 
   - profile-name: 'RegexPatternMappingProfile'
     uuid: 'mwdi-1-3-0-mapping-p-000'

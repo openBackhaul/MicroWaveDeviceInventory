@@ -476,7 +476,7 @@
               "string-name": "kafkaTopicNameForProperNotifications"
             },
             "string-profile-configuration": {
-              "string-value": "properNotifications"
+              "string-value": "proper_notifications"
             }
           }
         },

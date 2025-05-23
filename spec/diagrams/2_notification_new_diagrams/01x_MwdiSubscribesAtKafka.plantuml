@@ -1,0 +1,27 @@
+@startuml 01x_MwdiSubscribesAtKafka
+skinparam responseMessageBelowArrow true
+
+title PromptForEmbeddingCausesSubscribingForNotificationsAtKafka
+
+participant "RO" as ro
+participant "MWDI://v1/embed-yourself" as mwdi
+participant "Kafka: properNotifications topic" as kafka
+
+ro -> mwdi
+activate mwdi
+
+note over mwdi
+subscribe at Kafka for the properNotifications topic
+(topic name from <i>mwdi-x-x-x-string-p-005</i> stringProfile)
+end note
+mwdi -> kafka: {topicName, consumerConfigParameters} (apiKeyAuth)
+
+
+
+mwdi -> npnew: {ownIp, ownPort, ownReceiveOperation} (apiKeyAuth)
+npnew -> receivers: {notifications} (apiKeyAuth)
+
+
+npobjdelete -> receivers: {notifications} (apiKeyAuth)
+
+@enduml

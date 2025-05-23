@@ -1,0 +1,39 @@
+@startuml 09x_BequeathYourDataAndDie
+skinparam responseMessageBelowArrow true
+
+title
+PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
+PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
+PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
+PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka
+end title
+
+participant "NR://v1/embed-yourself" as NewRelease
+participant "OR://v1/bequeath-your-data-and-die" as OldRelease
+participant "NR://v1/notify-attribute-value-changes" as notifyAttributeChange
+participant "NR://v1/notify-object-creations" as notifyObjectCreation
+participant "NR://v1/notify-object-deletions" as notifyObjectDeletion
+participant "Kafka \nproperNotifications topic" as endSubsriptionAtKafka
+
+NewRelease -> OldRelease
+activate OldRelease
+
+note over OldRelease
+Transfer all existing subscriptions 
+of 3rd applications to NewRelease
+end note
+OldRelease -> notifyAttributeChange: {address info of subscriber at OldRelease}
+OldRelease -> notifyObjectCreation: {address info of subscriber at OldRelease}
+OldRelease -> notifyObjectDeletion: {address info of subscriber at OldRelease}
+
+note over OldRelease
+Terminate existing subscriptions 
+of discontinued release at Kafka,
+with topic-name from 
+<i>mwdi-x-x-x-string-p-005</i>.
+end note
+OldRelease -> endSubsriptionAtKafka: {own application info, topic-name}
+
+deactivate OldRelease
+
+@enduml

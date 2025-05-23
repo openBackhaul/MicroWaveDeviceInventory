@@ -1,0 +1,64 @@
+@startuml 01x_NotificationPollingFromKafkaAndProcessing
+skinparam responseMessageBelowArrow true
+
+title 
+PromptForEmbeddingCausesSubscribingForNotificationsAtKafka
+PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka
+PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange
+PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm
+PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange
+PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation
+PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion
+end title
+
+participant "RO" as ro
+participant "MWDI://v1/embed-yourself" as mwdi
+participant "Kafka: \nproperNotifications topic" as kafka
+participant "MWDI://v1/regard-controller-attribute-value-change" as regardCtrlAttChange
+participant "MWDI://v1/regard-device-alarm" as regardAlarm
+participant "MWDI://v1/regard-device-attribute-value-change" as regardDevAttChange
+participant "MWDI://v1/regard-device-object-creation" as regardDevObjCreation
+participant "MWDI://v1/regard-device-object-deletion" as regardDevObjDeletion
+
+ro -> mwdi
+activate mwdi
+
+
+== subscribe at Kafka ==
+note over mwdi
+<u>SubscribeForProperNotifications</u>
+  subscribe at Kafka for the
+  properNotifications topic
+  (topic name from stringProfile
+  <i>mwdi-x-x-x-string-p-005</i>)
+end note
+mwdi -> kafka: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
+
+== cycically poll new notifications and process them ==
+note over mwdi
+<u>ProperNotificationPolling</u>
+  Cycically poll all new proper notifications from Kafka.
+  Time interval according to <i>notificationPollingInterval</i>
+  profileInstance.
+  As the MWDI (consumer) repeats polling cycically,
+  it will not wait for new notifications at Kafka, before
+  polling is completed.
+end note
+mwdi -> kafka: {pollWaitingTime=0}
+kafka -> mwdi: {consumerRecords = list-of(partition, offset, properNotification)}
+
+note over mwdi
+<u>IdentifyAndProcessProperNotifications</u>
+  For each properNotification in the consumerRecords,
+  identify the notification type and 
+  call the respective regard-service
+end note
+mwdi -> regardCtrlAttChange: {controller-attribute-value-change-notification}
+mwdi -> regardAlarm: {device-alarm-notification}
+mwdi -> regardDevAttChange: {device-attribute-value-change-notification}
+mwdi -> regardDevObjCreation: {device-object-creation-notification}
+mwdi -> regardDevObjDeletion: {device-object-deletion-notification}
+
+deactivate mwdi
+
+@enduml

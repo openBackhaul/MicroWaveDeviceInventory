@@ -57,7 +57,7 @@ servers:
           uuid: mwdi-1-3-0-op-s-bs-005
           operation-key: n.a.
       individual:
-        # receivers for notifications from NotificationProxy: deprecated since v1.3.0
+        # receivers for notifications
         - operation-name: /v1/regard-controller-attribute-value-change
           uuid: mwdi-1-3-0-op-s-is-000
           operation-key: n.a.
@@ -1479,40 +1479,6 @@ clients:
             uuid: mwdi-1-3-0-op-c-is-odl-4-0-2-573
           - operation-name: /{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
             uuid: mwdi-1-3-0-op-c-is-odl-4-0-2-574
-
-  - http-client:
-      application-name: NotificationProxy
-      release-number: 1.0.2
-      uuid: mwdi-1-3-0-http-c-np-1-0-2-000
-    tcp-client:
-      remote-protocol: http
-      ip-address: 127.0.0.1
-      tcp-port: 4011
-      uuid: mwdi-1-3-0-tcp-c-np-1-0-2-000
-    operation-clients:
-      own-oam:
-        basic:
-        individual:
-      service:
-        basic:
-        individual:
-          ## subscribing for controller notifications
-          - operation-name: /v1/notify-controller-attribute-value-changes
-            uuid: mwdi-1-3-0-op-c-is-np-1-0-2-000
-
-          ## subscribing for device notifications
-          - operation-name: /v1/notify-device-alarms
-            uuid: mwdi-1-3-0-op-c-is-np-1-0-2-010
-          - operation-name: /v1/notify-device-attribute-value-changes
-            uuid: mwdi-1-3-0-op-c-is-np-1-0-2-011
-          - operation-name: /v1/notify-device-object-creations
-            uuid: mwdi-1-3-0-op-c-is-np-1-0-2-012
-          - operation-name: /v1/notify-device-object-deletions
-            uuid: mwdi-1-3-0-op-c-is-np-1-0-2-013
-
-          ## unsubscribe from notifications
-          - operation-name: /v1/end-subscription
-            uuid: mwdi-1-3-0-op-c-is-np-1-0-2-020
 
   - http-client:
       application-name: HistoricalMicroWaveDeviceInventory

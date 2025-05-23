@@ -58,7 +58,7 @@ Also **notification handling** has been changed:
 - now, Kafka has been added in between NP and MWDI to overcome the performance problems
   - NP will push the notifications to Kafka ("proper" notification topic)
   - MWDI will pull the notifications from Kafka ("proper" notification topic)
-- the *regard*-services previously used to receive notifications have been marked as deprecated
+  - the *regard*-services previously called by NP to push the notifications to MWDI, will now be called from MWDI internally after pulling of notifications
 
 The list of related issues can be found in issue collection [MWDI v1.3.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20)
 

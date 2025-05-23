@@ -401,6 +401,22 @@
           }
         },
         {
+          "uuid": "mwdi-1-3-0-integer-p-008",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+          "integer-profile-1-0:integer-profile-pac": {
+            "integer-profile-capability": {
+              "integer-name": "notificationPollingInterval",
+              "purpose": "Time interval with which MWDI shall poll notifications from Kafka.",
+              "unit": "seconds",
+              "minimum": 0,
+              "maximum": 900
+            },
+            "integer-profile-configuration": {
+              "integer-value": 60
+            }
+          }
+        },
+        {
           "uuid": "mwdi-1-3-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {

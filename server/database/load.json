@@ -212,7 +212,7 @@
               "file-description": "Authorization key for OpenDayLight"
             },
             "file-profile-configuration": {
-              "file-name": "../application-data/encrypted-odl-key.json",
+              "file-name": "encrypted-odl-key.json",
               "user-name": "MicroWaveDeviceInventory",
               "password": "Operations to add password",
               "operation": "file-profile-1-0:OPERATION_TYPE_READ_ONLY"

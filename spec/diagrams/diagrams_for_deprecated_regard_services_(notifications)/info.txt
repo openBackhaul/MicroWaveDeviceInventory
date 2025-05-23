@@ -1,4 +1,0 @@
-The regard-services /v1/regard-* used to receive notifications from NotificationProxy (up to MWDI v1.2.x),
-will no longer be used (starting from v1.3.0); instead MWDI will pull notifications from Kafka.
-
-The old diagrams using regard-services are kept until v2.0.0 (then the deprecated services will be removed).

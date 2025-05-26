@@ -758,7 +758,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: regardControllerAttributeValueChange
-      summary: 'Receives notifications about attribute value changes at the Controller'
+      summary: 'Processes notifications about attribute value changes at the Controller'
       tags:
         - IndividualServices
       security:
@@ -805,7 +805,7 @@ paths:
                   new-value: 'connecting'
       responses:
         '204':
-          description: 'Notification received'
+          description: 'Notification processing started.'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -890,7 +890,8 @@ paths:
             description: >
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
-              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected'
+              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected
+              AND IF (profileInstance historicalControlConstructPolicy == delete-on-disconnect)'
             delete:
               parameters:
                 - name: mountName

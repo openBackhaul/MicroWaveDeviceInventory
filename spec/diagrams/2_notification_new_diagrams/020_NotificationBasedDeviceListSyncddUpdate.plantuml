@@ -1,4 +1,4 @@
-@startuml 020_NotificationBasedDeviceListSyncAdd
+@startuml 020_NotificationBasedDeviceListSyncAddUpdate
 skinparam responseMessageBelowArrow true
 
 title  

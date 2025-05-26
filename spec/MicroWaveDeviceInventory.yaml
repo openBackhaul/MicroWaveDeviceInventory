@@ -23168,6 +23168,344 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        #PromptForEmbeddingCausesSubscribingForNotificationsAtKafka: omitted
+        #PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka: omitted
+        #PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka: omitted
+        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange:
+          description: >
+            'call for notifications, which are controller-attribute-value-change notifications, retrieved
+            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          regardControllerAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      description: >
+                        'notification-proxy-1-0:attribute-value-changed-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                      required:
+                        - notification-proxy-1-0:attribute-value-changed-notification
+                      properties:
+                        notification-proxy-1-0:attribute-value-changed-notification:
+                          type: object
+                          properties:
+                            counter:
+                              type: integer
+                            timestamp:
+                              type: string
+                            resource:
+                              type: string
+                            attribute-name:
+                              type: string
+                            new-value:
+                              type: string
+                      example:
+                        notification-proxy-1-0:attribute-value-changed-notification:
+                          counter: 32
+                          timestamp: '2023-07-11T08:21:50+01:00'
+                          resource: '/core-model-1-4:network-control-domain=live/control-construct=odl-1/logical-termination-point=513250009/layer-protocol=0/mount-point-1-0:mount-point-pac/mount-point-status'
+                          attribute-name: 'connection-status'
+                          new-value: 'connecting'
+              responses:
+                '204':
+                  description: 'Notification processing started.'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '502':
+                  $ref: '#/components/responses/502'
+                '530':
+                  $ref: '#/components/responses/530'
+                '531':
+                  $ref: '#/components/responses/531'
+                '532':
+                  $ref: '#/components/responses/532'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm:
+          description: >
+            'call for notifications, which are device-alarm notifications, retrieved
+            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          regardDeviceAlarm: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      description: >
+                        'notification-proxy-1-0:alarm-event-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                      required:
+                        - notification-proxy-1-0:alarm-event-notification
+                      properties:
+                        notification-proxy-1-0:alarm-event-notification:
+                          type: object
+                          properties:
+                            alarm-event-sequence-number:
+                              type: integer
+                            timestamp:
+                              type: string
+                            resource:
+                              type: string
+                            alarm-type-id:
+                              type: string
+                            alarm-type-qualifier:
+                              type: string
+                            problem-severity:
+                              type: string
+                      example:
+                        notification-proxy-1-0:alarm-event-notification:
+                          alarm-event-sequence-number: 1
+                          timestamp: '2023-07-11T08:45:02+01:00'
+                          resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=LTP-MWPS-TTP-RADIO-1A/layer-protocol=LP-MWPS-TTP-RADIO-1A/air-interface-2-0:air-interface-pac'
+                          alarm-type-id: 'siae-alarms-1-0:radioEquipLinkTelemetryFailAlarm'
+                          alarm-type-qualifier: ''
+                          problem-severity: 'major'
+              responses:
+                '204':
+                  description: 'Notification processing started.'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '502':
+                  $ref: '#/components/responses/502'
+                '530':
+                  $ref: '#/components/responses/530'
+                '531':
+                  $ref: '#/components/responses/531'
+                '532':
+                  $ref: '#/components/responses/532'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange:
+          description: >
+            'call for notifications, which are device attribute value change notifications, retrieved
+            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          regardDeviceAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-004/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      description: >
+                        'notification-proxy-1-0:attribute-value-changed-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                      required:
+                        - notification-proxy-1-0:attribute-value-changed-notification
+                      properties:
+                        notification-proxy-1-0:attribute-value-changed-notification:
+                          type: object
+                          properties:
+                            counter:
+                              type: integer
+                            timestamp:
+                              type: string
+                            object-path:
+                              type: string
+                            attribute-name:
+                              type: string
+                            new-value:
+                              type: string
+                      example:
+                        notification-proxy-1-0:attribute-value-changed-notification:
+                          counter: 32
+                          timestamp: '2010-11-20T14:00:00+01:00'
+                          object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                          attribute-name: 'performance-monitoring-is-on'
+                          new-value: 'true'
+              responses:
+                '204':
+                  description: 'Notification processing started.'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '502':
+                  $ref: '#/components/responses/502'
+                '530':
+                  $ref: '#/components/responses/530'
+                '531':
+                  $ref: '#/components/responses/531'
+                '532':
+                  $ref: '#/components/responses/532'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation:
+          description: >
+            'call for notifications, which are device object creation notifications, retrieved
+            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          regardDeviceObjectCreation: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-005/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      description: >
+                        'notification-proxy-1-0:object-creation-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                      required:
+                        - notification-proxy-1-0:object-creation-notification
+                      properties:
+                        notification-proxy-1-0:object-creation-notification:
+                          type: object
+                          required:
+                            - counter
+                            - timestamp
+                            - object-path
+                          properties:
+                            counter:
+                              type: integer
+                              description: 'Sequence number of the notification at the device'
+                            timestamp:
+                              type: string
+                              description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
+                            object-path:
+                              type: string
+                              description: 'Path to the object that has been created'
+                      example:
+                        notification-proxy-1-0:object-creation-notification:
+                          counter: 2
+                          timestamp: '2023-07-10T12:27:03+01:00'
+                          object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
+              responses:
+                '204':
+                  description: 'Notification processing started.'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '502':
+                  $ref: '#/components/responses/502'
+                '530':
+                  $ref: '#/components/responses/530'
+                '531':
+                  $ref: '#/components/responses/531'
+                '532':
+                  $ref: '#/components/responses/532'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion:
+          description: >
+            'call for notifications, which are device object deletion notifications, retrieved
+            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          regardDeviceDeletionCreation: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-tcp-c-mwdi-1-3-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-3-0-op-c-is-mwdi-1-3-0-006/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      description: >
+                        'notification-proxy-1-0:object-deletion-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                      required:
+                        - notification-proxy-1-0:object-deletion-notification
+                      properties:
+                        notification-proxy-1-0:object-deletion-notification:
+                          type: object
+                          required:
+                            - counter
+                            - timestamp
+                            - object-path
+                          properties:
+                            counter:
+                              type: integer
+                              description: 'Sequence number of the notification at the device'
+                            timestamp:
+                              type: string
+                              description: 'The time according to Section 5.6 of RFC 3339 at which the device created the notification'
+                            object-path:
+                              type: string
+                              description: 'Path to the object that has been created'
+                      example:
+                        notification-proxy-1-0:object-deletion-notification:
+                          counter: 2
+                          timestamp: '2023-07-10T12:27:03+01:00'
+                          object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
+              responses:
+                '204':
+                  description: 'Notification processing started.'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '502':
+                  $ref: '#/components/responses/502'
+                '530':
+                  $ref: '#/components/responses/530'
+                '531':
+                  $ref: '#/components/responses/531'
+                '532':
+                  $ref: '#/components/responses/532'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/redirect-service-request-information:
     parameters:

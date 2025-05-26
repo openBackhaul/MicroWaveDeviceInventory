@@ -31,8 +31,8 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 ### Latest Update  
 
-**v1.3.0**  
-This release introduced some major changes to the underlying processes for updating the cache.
+**v2.0.0**  
+This release introduced some major changes to the underlying processes for updating the cache.  
 
 First of all, the deviceList and metadataTable have been merged into **deviceMetadataList**:
 - before the MWDI was going over the deviceList with a slidingWindow to find the next device update candidate device. Devices were removed from the deviceList when the were no longer in connected state and their ControlConstructs in the cache as well. In addition there was the metadataTable, which also included information about devices, which had been added to the MWDI before, but no longer were in connected state
@@ -60,8 +60,8 @@ Also **notification handling** has been changed:
   - MWDI will pull the notifications from Kafka ("proper" notification topic)
   - the *regard*-services previously called by NP to push the notifications to MWDI, will now be called from MWDI internally after pulling of notifications
 
-The list of related issues can be found in issue collection [MWDI v1.3.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20)
-
+The list of related issues can be found in issue collection [MWDI v2.0.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20).  
+Any issues found during implementer review will be found in [MWDI v2.0.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/21).  
 
 **v1.2.1**  
 Spec release version 1.2.2 fixes further findings found by implementers during implementation of v1.2.1.  

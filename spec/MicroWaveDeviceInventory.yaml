@@ -26425,7 +26425,7 @@ paths:
                       uuid:
                         type: string
                         pattern: '^([a-z]{2,6})-([0-9]+)-([0-9]+)-([0-9]+)$'
-                        example: 'ro-1-0-0'
+                        example: 'xy-15-3-2'
                       profile-collection:
                         type: object
                         required:
@@ -26438,7 +26438,6 @@ paths:
                               oneOf:
                                 - description: 'action profile'
                                   type: object
-                                  additionalProperties: false
                                   required:
                                     - uuid
                                     - profile-name
@@ -26447,6 +26446,7 @@ paths:
                                     # - action-profile-1-0:action-profile-pac
                                     # workaround code is:
                                     # - empty line -
+                                  additionalProperties: false
                                   properties:
                                     uuid:
                                       type: string
@@ -26633,6 +26633,8 @@ paths:
                                           properties:
                                             integer-name:
                                               type: string
+                                            purpose:
+                                              type: string
                                             unit:
                                               type: string
                                             minimum:
@@ -26690,11 +26692,12 @@ paths:
                                             string-value:
                                               type: string
                             example:
-                              - uuid: 'ro-2-1-2-integer-p-000'
+                              - uuid: 'xy-15-3-2-integer-p-000'
                                 profile-name: 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                 integer-profile-1-0:integer-profile-pac:
                                   integer-profile-capability:
                                     integer-name: 'maximumNumberOfEntries'
+                                    purpose: 'Limiting the number of entries for controlling the storage consumption and access response time'
                                     unit: 'records'
                                     minimum: 0
                                     maximum: 1000000
@@ -26754,6 +26757,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       operation-server-interface-1-0:operation-server-interface-pac:
@@ -26803,6 +26807,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       http-server-interface-1-0:http-server-interface-pac:
@@ -26874,6 +26879,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       tcp-server-interface-1-0:tcp-server-interface-pac:
@@ -26922,6 +26928,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       operation-client-interface-1-0:operation-client-interface-pac:
@@ -26980,6 +26987,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac:
@@ -27320,6 +27328,74 @@ paths:
                                                   - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
                                                   - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
                                                   - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                                  - description: 'ApacheKafka client'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - kafka-client-interface-1-0:kafka-client-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      kafka-client-interface-1-0:kafka-client-interface-pac:
+                                        type: object
+                                        required:
+                                          - kafka-client-interface-configuration
+                                          - kafka-client-interface-status
+                                        properties:
+                                          kafka-client-interface-configuration:
+                                            type: object
+                                            required:
+                                              - auth
+                                              - topic-name
+                                            properties:
+                                              auth:
+                                                type: object
+                                                minProperties: 1
+                                                additionalProperties: false
+                                                properties:
+                                                  user-name:
+                                                    type: string
+                                                  password:
+                                                    type: string
+                                              topic-name:
+                                                type: string
+                                              client-id:
+                                                type: string
+                                              group-id:
+                                                type: string
+                                          kafka-client-interface-status:
+                                            type: object
+                                            required:
+                                              - operational-state
+                                              - life-cycle-state
+                                            properties:
+                                              operational-state:
+                                                type: string
+                                                enum:
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+                                              life-cycle-state:
+                                                type: string
+                                                enum:
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
                                   - description: 'http client'
                                     type: object
                                     required:
@@ -27337,6 +27413,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       http-client-interface-1-0:http-client-interface-pac:
@@ -27371,6 +27448,7 @@ paths:
                                           - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                           - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
                                           - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
                                           - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                           - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                                       tcp-client-interface-1-0:tcp-client-interface-pac:
@@ -27405,10 +27483,10 @@ paths:
                                               remote-port:
                                                 type: integer
                         example:
-                          - uuid: 'ro-2-1-2-op-c-bm-ro-2-1-2-000'
+                          - uuid: 'xy-15-3-2-op-c-bm-yz-34-4-4-000'
                             ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SINK'
                             client-ltp: []
-                            server-ltp: ['ro-2-1-2-http-c-ro-2-1-2-000']
+                            server-ltp: ['xy-15-3-2-http-c-yz-34-4-4-000']
                             layer-protocol:
                               - local-id: '0'
                                 layer-protocol-name: 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
@@ -27419,17 +27497,17 @@ paths:
                                   operation-client-interface-status:
                                     operational-state: 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
                                     life-cycle-state: 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
-                          - uuid: 'ro-2-1-2-http-c-ro-2-1-2-000'
+                          - uuid: 'xy-15-3-2-http-c-yz-34-4-4-000'
                             ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SINK'
-                            client-ltp: ['ro-2-1-2-op-c-bm-ro-2-1-2-000']
-                            server-ltp: ['ro-2-1-2-tcp-c-ro-2-1-2-000']
+                            client-ltp: ['xy-15-3-2-op-c-bm-yz-34-4-4-000']
+                            server-ltp: ['xy-15-3-2-tcp-c-yz-34-4-4-000']
                             layer-protocol:
                               - local-id: '0'
                                 layer-protocol-name: 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                                 http-client-interface-1-0:http-client-interface-pac:
                                   http-client-interface-configuration:
-                                    application-name: 'RegistryOffice'
-                                    release-number: '2.1.2'
+                                    application-name: 'ApplicationName'
+                                    release-number: '15.3.2'
                       forwarding-domain:
                         type: array
                         minItems: 1
@@ -27485,9 +27563,9 @@ paths:
                                         logical-termination-point:
                                           type: string
                         example:
-                          - uuid: 'ro-2-1-2-op-fd-000'
+                          - uuid: 'xy-15-3-2-op-fd-000'
                             forwarding-construct:
-                              - uuid: 'ro-2-1-2-op-fc-bm-003'
+                              - uuid: 'xy-15-3-2-op-fc-bm-003'
                                 name:
                                   - value-name: 'ForwardingKind'
                                     value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
@@ -27496,23 +27574,23 @@ paths:
                                 fc-port:
                                   - local-id: '000'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-003'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-003'
                                   - local-id: '200'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-c-bs-ol-2-1-2-000'
-                              - uuid: 'ro-2-1-2-op-fc-bm-004'
+                                    logical-termination-point: 'xy-15-3-2-op-c-bs-yz-34-3-3-000'
+                              - uuid: 'xy-15-3-2-op-fc-bm-004'
                                 name:
                                   - value-name: 'ForwardingKind'
                                     value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
                                   - value-name: 'ForwardingName'
-                                    value: 'OamRequestCausesInquiryForAuthentication'
+                                    value: 'BasicAuthRequestCausesInquiryForAuthentication'
                                 fc-port:
                                   - local-id: '000'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
-                                    logical-termination-point: 'ro-2-1-2-op-s-bm-005'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-005'
                                   - local-id: '200'
                                     port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
-                                    logical-termination-point: 'ro-2-1-2-op-c-bs-aa-2-1-2-000'
+                                    logical-termination-point: 'xy-15-3-2-op-c-bs-yz-34-3-3-000'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -27534,7 +27612,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([a-z]+)-p-([0-9,a-f]{3})$'
-          example: 'ro-2-1-2-action-p-000'
+          example: 'xy-15-3-2-action-p-000'
     get:
       operationId: getProfileInstance
       summary: 'Returns entire instance of Profile'
@@ -27560,6 +27638,7 @@ paths:
                           - uuid
                           - profile-name
                           - action-profile-1-0:action-profile-pac
+                        additionalProperties: false
                         properties:
                           uuid:
                             type: string
@@ -27746,6 +27825,8 @@ paths:
                                 properties:
                                   integer-name:
                                     type: string
+                                  purpose:
+                                    type: string
                                   unit:
                                     type: string
                                   minimum:
@@ -27804,7 +27885,7 @@ paths:
                                     type: string
               example:
                 core-model-1-4:profile:
-                  uuid: 'ro-2-1-2-action-p-000'
+                  uuid: 'xy-15-3-2-action-p-000'
                   profile-name: 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
                   action-profile-1-0:action-profile-pac:
                     action-profile-capability:
@@ -27840,7 +27921,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-action-p-([0-9]{3})$'
-          example: 'ro-2-1-2-action-p-000'
+          example: 'xy-15-3-2-action-p-000'
     get:
       operationId: getActionProfileOperationName
       summary: 'Returns the name of the Operation'
@@ -27881,7 +27962,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-action-p-([0-9]{3})$'
-          example: 'ro-2-1-2-action-p-000'
+          example: 'xy-15-3-2-action-p-000'
     get:
       operationId: getActionProfileLabel
       summary: 'Returns the Label of the Action'
@@ -27922,7 +28003,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-action-p-([0-9]{3})$'
-          example: 'ro-2-1-2-action-p-000'
+          example: 'xy-15-3-2-action-p-000'
     get:
       operationId: getActionProfileInputValueListt
       summary: 'Returns the list of input values'
@@ -27974,7 +28055,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-action-p-([0-9]{3})$'
-          example: 'ro-2-1-2-action-p-000'
+          example: 'xy-15-3-2-action-p-000'
     get:
       operationId: getActionProfileDisplayInNewBrowserWindow
       summary: 'Returns whether to be presented in new browser window'
@@ -28015,7 +28096,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-action-p-([0-9]{3})$'
-          example: 'ro-2-1-2-action-p-000'
+          example: 'xy-15-3-2-action-p-000'
     get:
       operationId: getActionProfileConsequentOperationReference
       summary: 'Returns the reference on the consequent operation'
@@ -28035,7 +28116,7 @@ paths:
                 properties:
                   action-profile-1-0:consequent-operation-reference:
                     type: string
-                    example: '/core-model-1-4:control-construct/logical-termination-point=ro-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+                    example: '/core-model-1-4:control-construct/logical-termination-point=xy-15-3-2-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -28091,7 +28172,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-response-p-([0-9]{3})$'
-          example: 'ro-2-1-2-response-p-000'
+          example: 'xy-15-3-2-response-p-000'
     get:
       operationId: getGenericResponseProfileOperationName
       summary: 'Returns the name of the Operation'
@@ -28132,7 +28213,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-response-p-([0-9]{3})$'
-          example: 'ro-2-1-2-response-p-000'
+          example: 'xy-15-3-2-response-p-000'
     get:
       operationId: getGenericResponseProfileFieldName
       summary: 'Returns the name of the Field'
@@ -28160,8 +28241,9 @@ paths:
                         type: string
                       field-name-reference:
                         type: string
-                    example:
-                      static-field-name: 'applicationName'
+                example:
+                  response-profile-1-0:field-name:
+                    static-field-name: 'applicationName'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -28182,7 +28264,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-response-p-([0-9]{3})$'
-          example: 'ro-2-1-2-response-p-000'
+          example: 'xy-15-3-2-response-p-000'
     get:
       operationId: getGenericResponseProfileDescription
       summary: 'Returns the Description of the Field'
@@ -28223,7 +28305,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-response-p-([0-9]{3})$'
-          example: 'ro-2-1-2-response-p-000'
+          example: 'xy-15-3-2-response-p-000'
     get:
       operationId: getGenericResponseProfileDatatype
       summary: 'Returns the Datatype of the Field'
@@ -28264,7 +28346,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-response-p-([0-9]{3})$'
-          example: 'ro-2-1-2-response-p-000'
+          example: 'xy-15-3-2-response-p-000'
     get:
       operationId: getGenericResponseProfileValue
       summary: 'Returns the Value of the Field'
@@ -28360,7 +28442,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'ro-2-1-2-file-p-000'
+          example: 'xy-15-3-2-file-p-000'
     get:
       operationId: getFileProfileFileIdentifier
       summary: 'Returns the identifier of the file'
@@ -28401,7 +28483,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'ro-2-1-2-file-p-000'
+          example: 'xy-15-3-2-file-p-000'
     get:
       operationId: getFileProfileFileDescription
       summary: 'Returns the description of the file'
@@ -28442,7 +28524,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'ro-2-1-2-file-p-000'
+          example: 'xy-15-3-2-file-p-000'
     get:
       operationId: getFileProfileFileName
       summary: 'Returns the name of the file'
@@ -28493,7 +28575,7 @@ paths:
               properties:
                 file-profile-1-0:file-name:
                   type: string
-                  pattern: '^([A-Za-z0-9-_,\s]{3,}).([A-Za-z]{3,})$'
+                  pattern: '^([A-Za-z0-9-_,\s]{3,})\.([A-Za-z]{3,})$'
                   example: 'application-data.json'
       responses:
         '204':
@@ -28518,7 +28600,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'ro-2-1-2-file-p-000'
+          example: 'xy-15-3-2-file-p-000'
     get:
       operationId: getFileProfileOperation
       summary: 'Returns the allowed operation on the file'
@@ -28604,7 +28686,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-integer-p-([0-9]{3})$'
-          example: 'ro-2-1-2-integer-p-000'
+          example: 'xy-15-3-2-integer-p-000'
     get:
       operationId: getIntegerProfileIntegerName
       summary: 'Returns the name of the Integer'
@@ -28637,6 +28719,47 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/integer-profile-1-0:integer-profile-pac/integer-profile-capability/purpose:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-integer-p-([0-9]{3})$'
+          example: 'yz-34-4-4-integer-p-000'
+    get:
+      operationId: getIntegerProfilePurpose
+      summary: 'Returns the purpose of the Integer'
+      tags:
+        - IntegerProfile
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Integer purpose provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - integer-profile-1-0:purpose
+                properties:
+                  integer-profile-1-0:purpose:
+                    type: string
+                    example: 'Limiting the number of entries for controlling the storage consumption and access response time'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/integer-profile-1-0:integer-profile-pac/integer-profile-capability/unit:
     parameters:
       - in: path
@@ -28645,7 +28768,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-integer-p-([0-9]{3})$'
-          example: 'ro-2-1-2-integer-p-000'
+          example: 'xy-15-3-2-integer-p-000'
     get:
       operationId: getIntegerProfileUnit
       summary: 'Returns the unit of the Integer'
@@ -28686,7 +28809,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-integer-p-([0-9]{3})$'
-          example: 'ro-2-1-2-integer-p-000'
+          example: 'xy-15-3-2-integer-p-000'
     get:
       operationId: getIntegerProfileMinimum
       summary: 'Returns the minimum value of the Integer'
@@ -28727,7 +28850,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-integer-p-([0-9]{3})$'
-          example: 'ro-2-1-2-integer-p-000'
+          example: 'xy-15-3-2-integer-p-000'
     get:
       operationId: getIntegerProfileMaximum
       summary: 'Returns the maximum value of the Integer'
@@ -28768,7 +28891,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-integer-p-([0-9]{3})$'
-          example: 'ro-2-1-2-integer-p-000'
+          example: 'xy-15-3-2-integer-p-000'
     get:
       operationId: getIntegerProfileIntegerValue
       summary: 'Returns the configured value of the Integer'
@@ -28819,6 +28942,7 @@ paths:
               properties:
                 integer-profile-1-0:integer-value:
                   type: integer
+                  description: 'Value must be between /integer-profile-capability/minimum and /integer-profile-capability/maximum to be accepted, if those attributes are available in the Capability section'
                   example: 1000000
       responses:
         '204':
@@ -28844,7 +28968,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-string-p-([0-9]{3})$'
-          example: 'ro-2-1-2-string-p-000'
+          example: 'xy-15-3-2-string-p-000'
     get:
       operationId: getStringProfileStringName
       summary: 'Returns the name of the String'
@@ -28885,7 +29009,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-string-p-([0-9]{3})$'
-          example: 'ro-2-1-2-string-p-000'
+          example: 'xy-15-3-2-string-p-000'
     get:
       operationId: getStringProfileEnumeration
       summary: 'Returns the enumeration values of the String'
@@ -28929,7 +29053,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-string-p-([0-9]{3})$'
-          example: 'ro-2-1-2-string-p-000'
+          example: 'xy-15-3-2-string-p-000'
     get:
       operationId: getStringProfilePattern
       summary: 'Returns the pattern of the String'
@@ -28970,7 +29094,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-string-p-([0-9]{3})$'
-          example: 'ro-2-1-2-string-p-000'
+          example: 'xy-15-3-2-string-p-000'
     get:
       operationId: getStringProfileStringValue
       summary: 'Returns the configured value of the String'
@@ -29021,6 +29145,7 @@ paths:
               properties:
                 string-profile-1-0:string-value:
                   type: string
+                  description: 'Value must be one of the options defined in /string-profile-capability/enumeration to be accepted, if such enumeration is available in the Capability section'
                   example: 'string-profile-1-0:STRING_VALUE_TYPE_OFF'
       responses:
         '204':
@@ -29040,7 +29165,7 @@ paths:
               schema:
                 type: integer
                 example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -29053,6 +29178,7 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
+
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-profile-capability/mapping-name:
     parameters:
@@ -29359,8 +29485,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-s-([bi][ms])-([0-9]{3})$'
-          example: 'ro-2-1-2-op-s-bm-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-s(-(get|put|post|del|pat))?-([bi][ms])-([0-9]{3})$'
+          example: 'xy-15-3-2-op-s-bm-000'
     get:
       operationId: getOperationServerOperationName
       summary: 'Returns operation name'
@@ -29400,8 +29526,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-s-([bi][ms])-([0-9]{3})$'
-          example: 'ro-2-1-2-op-s-bm-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-s(-(get|put|post|del|pat))?-([bi][ms])-([0-9]{3})$'
+          example: 'xy-15-3-2-op-s-bm-000'
     get:
       operationId: getOperationServerLifeCycleState
       summary: 'Returns the configured life cycle state of the operation'
@@ -29489,8 +29615,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-s-([bi][ms])-([0-9]{3})$'
-          example: 'ro-2-1-2-op-s-bm-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-s(-(get|put|post|del|pat))?-([bi][ms])-([0-9]{3})$'
+          example: 'xy-15-3-2-op-s-bm-000'
     get:
       operationId: getOperationServerOperationKey
       summary: 'Returns key for connecting'
@@ -29567,7 +29693,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerApplicationName
       summary: 'Returns application name'
@@ -29608,7 +29734,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerReleaseNumber
       summary: 'Returns release number'
@@ -29628,7 +29754,7 @@ paths:
                 properties:
                   http-server-interface-1-0:release-number:
                     type: string
-                    example: '1.0.0'
+                    example: '34.5.2'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -29649,7 +29775,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerApplicationPurpose
       summary: 'Returns application purpose'
@@ -29690,7 +29816,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerDataUpdatePeriode
       summary: 'Returns update period'
@@ -29736,7 +29862,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerOwnerName
       summary: 'Returns owner name'
@@ -29777,7 +29903,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerOwnerEmailAddress
       summary: 'Returns owner email address'
@@ -29818,7 +29944,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-s-000'
-          example: 'ro-2-1-2-http-s-000'
+          example: 'xy-15-3-2-http-s-000'
     get:
       operationId: getHttpServerReleaseList
       summary: 'Returns list of releases'
@@ -29857,7 +29983,7 @@ paths:
                           type: string
                     example:
                       - local-id: 0
-                        release-number: '1.0.0'
+                        release-number: '23.2.2'
                         release-date: '20.11.2010'
                         changes: 'Initial version.'
         '400':
@@ -29880,8 +30006,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-([0-9]{3})$'
-          example: 'ro-2-1-2-tcp-s-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-000$'
+          example: 'xy-15-3-2-tcp-s-000'
     get:
       operationId: getTcpServerDescription
       summary: 'Returns Description of TcpServer'
@@ -29953,8 +30079,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-([0-9]{3})$'
-          example: 'ro-2-1-2-tcp-s-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-000$'
+          example: 'xy-15-3-2-tcp-s-000'
     get:
       operationId: getTcpServerLocalProtocol
       summary: 'Returns Protocol of TcpServer'
@@ -30034,8 +30160,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-([0-9]{3})$'
-          example: 'ro-2-1-2-tcp-s-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-000$'
+          example: 'xy-15-3-2-tcp-s-000'
     get:
       operationId: getTcpServerLocalAddress
       summary: 'Returns address of the server'
@@ -30128,8 +30254,8 @@ paths:
         required: true
         schema:
           type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-([0-9]{3})$'
-          example: 'ro-2-1-2-tcp-s-000'
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-s-000$'
+          example: 'xy-15-3-2-tcp-s-000'
     get:
       operationId: getTcpServerLocalPort
       summary: 'Returns TCP port of the server'
@@ -30207,7 +30333,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'ro-2-1-2-op-c-bm-or-1-2-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientOperationName
       summary: 'Returns operation name'
@@ -30283,7 +30409,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'ro-2-1-2-op-c-bm-or-1-2-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientOperationKey
       summary: 'Returns key used for connecting to server.'
@@ -30359,7 +30485,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'ro-2-1-2-op-c-bm-or-1-2-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientOperationalState
       summary: 'Returns operational state of the operation'
@@ -30404,7 +30530,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'ro-2-1-2-op-c-bm-or-1-2-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientLifeCycleState
       summary: 'Returns life cycle state of the operation'
@@ -30452,7 +30578,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-bs-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'ro-2-1-2-op-c-bs-eatl-2-1-2-000'
+          example: 'xy-15-3-2-op-c-bs-yz-34-4-3-000'
     get:
       operationId: getOperationClientDetailedLoggingIsOn
       summary: 'Returns detailed logging configuration.'
@@ -30528,7 +30654,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'eatl-2-1-2-es-c-es-1-0-0-000'
+          example: 'yz-34-3-3-es-c-es-1-0-0-000'
     get:
       operationId: getElasticsearchClientApiKey
       summary: 'Returns API key'
@@ -30602,7 +30728,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'eatl-2-1-2-es-c-es-1-0-0-000'
+          example: 'yz-34-3-3-es-c-es-1-0-0-000'
     get:
       operationId: getElasticsearchClientIndexAlias
       summary: 'Returns index alias'
@@ -30676,7 +30802,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'eatl-2-1-2-es-c-es-1-0-0-000'
+          example: 'yz-34-3-3-es-c-es-1-0-0-000'
     get:
       operationId: getElasticsearchClientServiceRecordsPolicy
       summary: 'Returns service records policy'
@@ -30989,18 +31115,19 @@ paths:
                                     properties:
                                       policy:
                                         type: string
-                    example:
-                      service-records-policy-name: 'eatl_service_records_policy'
-                      phases:
-                        hot:
-                          min-age: '30s'
-                          actions:
-                            rollover:
-                              max-age: '5d'
-                        delete:
-                          min-age: '5d'
-                          actions:
-                            delete:
+                example:
+                  elasticsearch-client-interface-1-0:service-records-policy:
+                    service-records-policy-name: 'eatl_service_records_policy'
+                    phases:
+                      hot:
+                        min-age: '30s'
+                        actions:
+                          rollover:
+                            max-age: '5d'
+                      delete:
+                        min-age: '5d'
+                        actions:
+                          delete:
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -31324,19 +31451,20 @@ paths:
                                   properties:
                                     policy:
                                       type: string
-                  example:
-                    service-records-policy-name: 'eatl_service_records_policy'
-                    phases:
-                      hot:
-                        min-age: '30s'
-                        actions:
-                          rollover:
-                            max-age: '5d'
-                      delete:
-                        min-age: '5d'
-                        actions:
-                          delete:
-                            delete-searchable-snapshot: true
+              example:
+                elasticsearch-client-interface-1-0:service-records-policy:
+                  service-records-policy-name: 'eatl_service_records_policy'
+                  phases:
+                    hot:
+                      min-age: '30s'
+                      actions:
+                        rollover:
+                          max-age: '5d'
+                    delete:
+                      min-age: '5d'
+                      actions:
+                        delete:
+                          delete-searchable-snapshot: true
       responses:
         '204':
           description: 'Service records policy configured'
@@ -31360,7 +31488,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'eatl-2-1-2-es-c-es-1-0-0-000'
+          example: 'yz-34-3-3-es-c-es-1-0-0-000'
     get:
       operationId: getElasticsearchClientOperationalState
       summary: 'Returns operational state of the connection towards Elasticsearch'
@@ -31405,7 +31533,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'eatl-2-1-2-es-c-es-1-0-0-000'
+          example: 'yz-34-3-3-es-c-es-1-0-0-000'
     get:
       operationId: getElasticsearchClientLifeCycleState
       summary: 'Returns life cycle state of the connection towards Elasticsearch'
@@ -31446,6 +31574,470 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-configuration/auth/user-name:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientUserName
+      summary: 'Returns UserName'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'UserName provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:user-name
+                properties:
+                  kafka-client-interface-1-0:user-name:
+                    type: string
+                    example: 'kafkaBroker'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putKafkaClientUserName
+      summary: 'Configures UserName'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - kafka-client-interface-1-0:user-name
+              properties:
+                kafka-client-interface-1-0:user-name:
+                  type: string
+      responses:
+        '204':
+          description: 'UserName configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-configuration/auth/password:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientPassword
+      summary: 'Returns Password'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Password provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:password
+                properties:
+                  kafka-client-interface-1-0:password:
+                    type: string
+                    example: 'YWRtaW46MTIzNDU2'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putKafkaClientPassword
+      summary: 'Configures Password'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - kafka-client-interface-1-0:password
+              properties:
+                kafka-client-interface-1-0:password:
+                  type: string
+      responses:
+        '204':
+          description: 'Password configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-configuration/topic-name:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientTopicName
+      summary: 'Returns topic name'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'topic name provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:topic-name
+                properties:
+                  kafka-client-interface-1-0:topic-name:
+                    type: string
+                    example: 'NotificationTopic'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putKafkaClientTopicName
+      summary: 'Configures topic name'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - kafka-client-interface-1-0:topic-name
+              properties:
+                kafka-client-interface-1-0:topic-name:
+                  type: string
+      responses:
+        '204':
+          description: 'TopicName configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-configuration/client-id:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientClientId
+      summary: 'Returns client id (Identifier of the application)'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'client id provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:client-id
+                properties:
+                  kafka-client-interface-1-0:client-id:
+                    type: string
+                    example: 'notification-proxy'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putKafkaClientClientId
+      summary: 'Configures client id'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - kafka-client-interface-1-0:client-id
+              properties:
+                kafka-client-interface-1-0:client-id:
+                  type: string
+      responses:
+        '204':
+          description: 'client id configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-configuration/group-id:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientGroupId
+      summary: 'Returns group id (Identifier for consumers consuming a topic)'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'group id provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:group-id
+                properties:
+                  kafka-client-interface-1-0:group-id:
+                    type: string
+                    example: 'notification-consumer'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+    put:
+      operationId: putKafkaClientGroupId
+      summary: 'Configures group id'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - kafka-client-interface-1-0:group-id
+              properties:
+                kafka-client-interface-1-0:group-id:
+                  type: string
+      responses:
+        '204':
+          description: 'group id configured'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-status/operational-state:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientOperationalState
+      summary: 'Returns operational state of the connection towards Kafka'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Operational state provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:operational-state
+                properties:
+                  kafka-client-interface-1-0:operational-state:
+                    type: string
+                    enum:
+                      - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
+                      - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                      - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+                    example: 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/kafka-client-interface-1-0:kafka-client-interface-pac/kafka-client-interface-status/life-cycle-state:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-ak-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
+          example: 'yz-34-3-3-ak-c-ak-1-0-0-000'
+    get:
+      operationId: getKafkaClientLifeCycleState
+      summary: 'Returns life cycle state of the connection towards Kafka'
+      tags:
+        - KafkaClient
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'Life cycle state provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - kafka-client-interface-1-0:life-cycle-state
+                properties:
+                  kafka-client-interface-1-0:life-cycle-state:
+                    type: string
+                    enum:
+                      - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
+                      - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
+                      - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
+                      - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
+                      - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
+                      - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                    example: 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'
+
   /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name:
     parameters:
       - in: path
@@ -31454,7 +32046,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'ro-2-1-2-http-c-or-1-2-2-000'
+          example: 'xy-15-3-2-http-c-or-1-0-0-000'
     get:
       operationId: getHttpClientApplicationName
       summary: 'Returns name of application to be addressed'
@@ -31530,7 +32122,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'ro-2-1-2-http-c-or-1-2-2-000'
+          example: 'xy-15-3-2-http-c-or-1-0-0-000'
     get:
       operationId: getHttpClientReleaseNumber
       summary: 'Returns release number of application to be addressed'
@@ -31550,7 +32142,7 @@ paths:
                 properties:
                   http-client-interface-1-0:release-number:
                     type: string
-                    example: '1.0.0'
+                    example: '34.2.3'
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -31582,7 +32174,7 @@ paths:
                 http-client-interface-1-0:release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
-                  example: '1.0.0'
+                  example: '34.3.2'
       responses:
         '204':
           description: 'Release number configured'
@@ -31607,7 +32199,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'ro-2-1-2-tcp-c-or-1-2-2-000'
+          example: 'xy-15-3-2-tcp-c-or-1-0-0-000'
     get:
       operationId: getTcpClientRemoteProtocol
       summary: 'Returns protocol for addressing remote side'
@@ -31688,7 +32280,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'ro-2-1-2-tcp-c-or-1-2-2-000'
+          example: 'xy-15-3-2-tcp-c-or-1-0-0-000'
     get:
       operationId: getTcpClientRemoteAddress
       summary: 'Returns remote address'
@@ -31792,7 +32384,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'ro-2-1-2-tcp-c-or-1-2-2-000'
+          example: 'xy-15-3-2-tcp-c-or-1-0-0-000'
     get:
       operationId: getTcpClientRemotePort
       summary: 'Returns target TCP port at server'
@@ -31861,6 +32453,7 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
+
 
 ########################################################################################################################
 #   Common Components

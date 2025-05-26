@@ -968,6 +968,19 @@ clients:
           uuid: mwdi-1-3-0-op-c-del-es-1-0-0-874
 
   - http-client:
+      application-name: KafkaMessageBroker
+      release-number: 1.0.0
+      uuid: mwdi-1-3-0-http-c-kmb-1-0-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 127.0.0.1
+      tcp-port: 9092
+      uuid: mwdi-1-3-0-tcp-c-kmb-1-0-0-000
+    kafka-client:
+      uuid: mwdi-1-3-0-kmb-c-kmb-1-0-0-000
+      topic-name:
+
+  - http-client:
       application-name: MicroWaveDeviceInventory
       release-number: 1.2.2
       uuid: mwdi-1-3-0-http-c-or-1-2-2-000

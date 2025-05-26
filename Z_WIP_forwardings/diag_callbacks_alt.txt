@@ -1,6 +1,12 @@
 # subsrcibe
 PromptForEmbeddingCausesSubscribingForNotifications
 
+
+
+
+
+
+
 # bequeath
 PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
 PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations

@@ -1170,6 +1170,17 @@ clients:
       service:
         basic:
         individual:
+          - operation-name: /v1/regard-controller-attribute-value-change
+            uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-000
+          - operation-name: /v1/regard-device-alarm
+            uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-002
+          - operation-name: /v1/regard-device-attribute-value-change
+            uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-003
+          - operation-name: /v1/regard-device-object-creation
+            uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-004
+          - operation-name: /v1/regard-device-object-deletion
+            uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-005
+
           - operation-name: /v1/provide-device-status-metadata
             uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-018
 

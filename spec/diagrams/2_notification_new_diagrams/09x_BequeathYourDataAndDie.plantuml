@@ -13,7 +13,7 @@ participant "OR://v1/bequeath-your-data-and-die" as OldRelease
 participant "NR://v1/notify-attribute-value-changes" as notifyAttributeChange
 participant "NR://v1/notify-object-creations" as notifyObjectCreation
 participant "NR://v1/notify-object-deletions" as notifyObjectDeletion
-participant "Kafka \nproperNotifications topic" as endSubsriptionAtKafka
+participant "KafkaMessageBroker \nproperNotifications topic" as endSubsriptionAtKafka
 
 NewRelease -> OldRelease
 activate OldRelease

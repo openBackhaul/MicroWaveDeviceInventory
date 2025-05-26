@@ -666,7 +666,7 @@ forwardings:
         uuid: mwdi-1-3-0-kmb-c-kmb-1-0-0-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange
-    uuid: mwdi-1-3-0-op-fc-im-00
+    uuid: mwdi-1-3-0-op-fc-im-002
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -681,7 +681,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm
-    uuid: mwdi-1-3-0-op-fc-im-00
+    uuid: mwdi-1-3-0-op-fc-im-003
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -696,7 +696,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-002
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange
-    uuid: mwdi-1-3-0-op-fc-im-00
+    uuid: mwdi-1-3-0-op-fc-im-004
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -711,7 +711,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-003
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation
-    uuid: mwdi-1-3-0-op-fc-im-00
+    uuid: mwdi-1-3-0-op-fc-im-005
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -726,7 +726,7 @@ forwardings:
         uuid: mwdi-1-3-0-op-c-is-mwdi-1-3-0-004
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion
-    uuid: mwdi-1-3-0-op-fc-im-00
+    uuid: mwdi-1-3-0-op-fc-im-006
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

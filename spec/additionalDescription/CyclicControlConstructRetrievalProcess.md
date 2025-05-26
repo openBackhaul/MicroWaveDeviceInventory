@@ -106,7 +106,7 @@ The above section showed the relevant profileInstances for configuration of the 
 
 Upon successful retrieval, the ControlConstruct is written to the ElasticSearch database.
 
-**The retrieval process was changed with MWDI 1.3.0 due to the introduction of the qualityMeasurement process.**
+**The retrieval process was changed with MWDI 2.0.0 due to the introduction of the qualityMeasurement process.**
 
 ### Approach until to MWDI 1.2.x
 To update the MWDI cache the deviceMetadataList was used as input to a cyclic operation which processed the list in a sliding window approach. 
@@ -116,7 +116,7 @@ If the retrieval failed for a device, retries were allowed until the limit from 
 The picture provides an example for the ControlConstruct retrieval according to the old approach using a sliding window.
 ![ControlConstructRetrieval](./pictures/CyclicCCRetrievalPics_03_CCRetrieval.png)
 
-### Approach introduced with MWDI 1.3.0
+### Approach introduced with MWDI 2.0.0
 The slidingWindow approach is still used, but the selection mechanism of the next update candidate has been changed.
 Also the slidingWindow approach works in tandem with the qualityMeasurement process in keeping the cache up-to-date.
 

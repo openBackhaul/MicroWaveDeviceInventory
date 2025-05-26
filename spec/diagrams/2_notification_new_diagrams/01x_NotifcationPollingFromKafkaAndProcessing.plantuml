@@ -13,7 +13,7 @@ end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "Kafka: \nproperNotifications topic" as kafka
+participant "KafkaMessageBroker: \nproperNotifications topic" as kafka
 participant "MWDI://v1/regard-controller-attribute-value-change" as regardCtrlAttChange
 participant "MWDI://v1/regard-device-alarm" as regardAlarm
 participant "MWDI://v1/regard-device-attribute-value-change" as regardDevAttChange

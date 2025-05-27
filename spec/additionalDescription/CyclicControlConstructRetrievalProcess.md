@@ -127,7 +127,7 @@ Both processes only consider devices in connected state which are not locked.
   - this is either a device for which currently no ControlConstruct is stored in the cache
   - or, if the Cache has ControlConstructs for all connected devices, it is the device with the oldest ControlConstruct
 - **_qualityMeasurement_**: take the first (connected, unlocked) device from the deviceMetadataList,
-  - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time* timestamp value is not null)
+  - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time-attempt* timestamp value is not null)
 
 **Locked devices**:  
 - When a device gets selected by either of the two cyclic processes, it gets locked, so it is not picked again.
@@ -145,7 +145,7 @@ The additional metadata comprises the following attributes:
 - connection-status: 
 - changed-to-disconnected-time: 
 - added-to-device-list-time: 
-- last-complete-control-construct-update-time:
+- last-complete-control-construct-update-time-attempt:
 - last-control-construct-notification-update-time:
 - number-of-partial-updates-since-last-complete-update:
 - schema-cache-directory:
@@ -153,7 +153,7 @@ The additional metadata comprises the following attributes:
 - locked-status: for internal use only
 
 For managing the slidingWindow and qualityMeasurement processes, the metadata is accessed directly, i.e. without calling of additional services.  
-Moreover, the order of the devices in the deviceMetadataList is based on *connection-status* and *last-complete-control-construct-update-time*.
+Moreover, the order of the devices in the deviceMetadataList is based on *connection-status* and *last-complete-control-construct-update-time-attempt*.
 
 A more detailed description is found in the [DeviceListMetadataDescription](./DeviceListMetadataDescription.md).
 

@@ -21,9 +21,14 @@ The table shall contain the following columns:
 - **added-to-device-list-time**: 
   - the time, when the device has been initially added to the MWDI‘s deviceMetadataList
   - If a device goes into connecting or unable-to-connect state, the timestamp is not set to null, as the device shall no longer be removed from the deviceMetadataList
+- **last-complete-control-construct-update-time-attempt**:
+  - the last time, a complete CC update has been tried (either periodic retrieval by slidingWindow/QM or on-demand by live-service call)
+  - Is set upon both successful or unsuccessful retrieval
+  - Is used for retrieval prioritization
+  - If the device is no longer connected, the timestamp is set to null, to ensure the CC gets retrieved again with priority if the device gets connected again
 - **last-complete-control-construct-update-time**:
-  - the last time, the CC has been updated completely (i.e. periodic or initial retrieval)
-  - If the device is no longer connected, the timestamp is set to null, to ensure it gets retrieved again with priority if the device gets connected again
+  - the last time, the CC has successfully been updated completely
+  - If the device is no longer disconnected, the timestamp is kept. If the deletion policy for historical CCs is set to "keep-on-disconnect", this attributes indicates how old the CC for the disconnected device in the cache is
 - **last-control-construct-notification-update-time**:
   - the last time, the CC has been updated due to a received notification (object creation/deletion or attribute value change)
   - If the device is no longer connected, the timestamp is set to null
@@ -81,7 +86,7 @@ By providing the mappings in the *deviceTypeMapping* and *vendorFromDeviceMappin
 ## Sorting the deviceMetadataList
 
 In order to effiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
-The ordering is based on the the *last-complete-control-construct-update-time* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is *null*.
+The ordering is based on the the *last-complete-control-construct-update-time-attempt* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is *null*.
 Devices with connection-state not being *connected* are found at the end of the list.
 
 Ordering updates:

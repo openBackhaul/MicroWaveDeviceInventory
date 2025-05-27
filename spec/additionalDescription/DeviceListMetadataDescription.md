@@ -110,4 +110,7 @@ Also note, that there is no service to provide the actual complete deviceMetadat
 ---
 
 ## Updating the metadata attributes
-**TODO**: update and include the diagram (see #1204)
+
+The following table gives an overview about how the metadata attributes shall be updated.  
+
+![metadataUpdateRules](./pictures/metadataUpdateRules.png)

@@ -7,7 +7,7 @@
 ![PromptForEmbeddingCausesCyclicQualityMeasurement](./00z_CyclicCacheQualityMeasurement.png)
 .  
 .  
-![PromptForEmbeddingCausesSubscribingForNotifications](./01x_MwdiSubscribesAtNp.png)  
+![PromptForEmbeddingCausesPollingOfNotificationsFromKafka](./01x_NotificationPollingFromKafkaAndProcessing.png)  
 .  
 .  
 ![PromptForBequeathingDataCauses](./09x_BequeathYourDataAndDie.png)  
@@ -16,7 +16,7 @@
 ![NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct](./020_NotificationBasedDeviceListSyncAdd.png)  
 .  
 .  
-![NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache](./021_NotificationBasedDeviceListSyncDelete.png)  
+![NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache](./021_NotificationBasedDeviceListSyncDisconnect.png)  
 .  
 .  
 ![NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache](./022_NotificationBasedAlarmListUpdate.png)  

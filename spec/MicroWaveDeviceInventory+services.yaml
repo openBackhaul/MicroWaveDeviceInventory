@@ -968,7 +968,7 @@ clients:
           uuid: mwdi-2-0-0-op-c-del-es-1-0-0-874
 
   - http-client:
-      application-name: KafkaMessageBroker
+      application-name: KafkaMessageBus
       release-number: 1.0.0
       uuid: mwdi-2-0-0-http-c-kmb-1-0-0-000
     tcp-client:

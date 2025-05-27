@@ -27,10 +27,8 @@ activate mwdi
 == subscribe at Kafka ==
 note over mwdi
 <u>SubscribeForProperNotifications</u>
-  subscribe at Kafka for the
-  properNotifications topic
-  (topic name from stringProfile
-  <i>mwdi-x-x-x-string-p-005</i>)
+  subscribe at Kafka topic with
+  topicName=proper_notifications
 end note
 mwdi -> kafka: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
 

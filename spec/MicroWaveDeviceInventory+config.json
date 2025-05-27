@@ -469,18 +469,6 @@
           }
         },
         {
-          "uuid": "mwdi-2-0-0-string-p-005",
-          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
-          "string-profile-1-0:string-profile-pac": {
-            "string-profile-capability": {
-              "string-name": "kafkaTopicNameForProperNotifications"
-            },
-            "string-profile-configuration": {
-              "string-value": "proper_notifications"
-            }
-          }
-        },
-        {
           "uuid": "mwdi-2-0-0-mapping-p-000",
           "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",
           "regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac": {
@@ -9644,11 +9632,11 @@
       },
 
       {
-        "uuid": "mwdi-1-0-0-ak-c-ak-1-0-0-000",
+        "uuid": "mwdi-1-0-0-kmb-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [],
         "server-ltp": [
-          "mwdi-1-0-0-http-c-ak-1-0-0-000"
+          "mwdi-1-0-0-http-c-kmb-1-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9657,12 +9645,12 @@
             "kafka-client-interface-1-0:kafka-client-interface-pac": {
               "kafka-client-interface-configuration": {
                 "auth": {
-                  "user-name": " >>> user name <<< ",
+                  "user-name": "mwdi",
                   "password": " >>> password <<< "
                 },
-                "topic-name": " >>> Application specific topic name <<< ",
-                "client-id": " >>> Application specific Identifier <<< ",
-                "group-id": " >>> Identifier for set of consumers (optional attribute: only for consumer application) <<< "
+                "topic-name": "proper_notifications",
+                "client-id": "mwdi-consumer",
+                "group-id": "mwdi-consumer-group"
               },
               "kafka-client-interface-status": {
                 "operational-state": "kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
@@ -9673,13 +9661,13 @@
         ]
       },
       {
-        "uuid": "mwdi-1-0-0-http-c-ak-1-0-0-000",
+        "uuid": "mwdi-1-0-0-http-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-0-0-ak-c-ak-1-0-0-000"
+          "mwdi-1-0-0-kmb-c-kmb-1-0-0-000"
         ],
         "server-ltp": [
-          "mwdi-1-0-0-tcp-c-ak-1-0-0-000"
+          "mwdi-1-0-0-tcp-c-kmb-1-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9695,10 +9683,10 @@
         ]
       },
       {
-        "uuid": "mwdi-1-0-0-tcp-c-ak-1-0-0-000",
+        "uuid": "mwdi-1-0-0-tcp-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-0-0-http-c-ak-1-0-0-000"
+          "mwdi-1-0-0-http-c-kmb-1-0-0-000"
         ],
         "server-ltp": [],
         "layer-protocol": [
@@ -9713,7 +9701,7 @@
                     "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 9092
+                "remote-port": 3017
               }
             }
           }

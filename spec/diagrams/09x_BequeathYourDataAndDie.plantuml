@@ -29,8 +29,7 @@ OldRelease -> notifyObjectDeletion: {address info of subscriber at OldRelease}
 note over OldRelease
 Terminate existing subscriptions 
 of discontinued release at Kafka,
-with topic-name from 
-<i>mwdi-x-x-x-string-p-005</i>.
+with topic-name=proper_notifications
 end note
 OldRelease -> endSubsriptionAtKafka: {own application info, topic-name}
 

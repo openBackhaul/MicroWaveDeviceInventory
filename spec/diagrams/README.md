@@ -13,10 +13,10 @@
 ![PromptForBequeathingDataCauses](./09x_BequeathYourDataAndDie.png)  
 .  
 .  
-![NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct](./020_NotificationBasedDeviceListSyncAdd.png)  
+![NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct](./020_NotificationBasedDeviceListSyncAddUpdate.png)  
 .  
 .  
-![NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache](./021_NotificationBasedDeviceListSyncDisconnect.png)  
+![NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache](./021_NotificationBasedDeviceListSyncDisconnectUpdate.png)  
 .  
 .  
 ![NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache](./022_NotificationBasedAlarmListUpdate.png)  

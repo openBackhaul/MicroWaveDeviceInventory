@@ -2431,7 +2431,7 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideDeviceStatusMetadata
-      summary: 'Provides metadata status table of devices'
+      summary: 'Provides metadata status of devices from deviceMetadataList'
       tags:
         - IndividualServices
       security:
@@ -2454,18 +2454,9 @@ paths:
                     mount-name-list:
                       - '305251234'
                       - '105258888'
-                - description: 'Timestamp filter on last-complete-control-construct-update-time'
-                  type: object
-                  property:
-                    timestamp-filter:
-                    type: string
-                    enum:
-                      - 'oldest-or-null'
-                      - 'oldest'
-                    description: 'Filter for the device with either oldest-or-null or oldest (non-null) timestamp value (for connected devices only). Resulting list will not contain more than a single device.'
       responses:
         '200':
-          description: 'Table with device status metadata provided'
+          description: 'Device status metadata provided'
           content:
             application/json:
               schema:
@@ -2481,7 +2472,8 @@ paths:
                         - connection-status
                         - changed-to-disconnected-time
                         - added-to-device-list-time
-                        - last-complete-control-construct-update-time
+                        - last-complete-control-construct-update-time-attempt
+                        - last-successful-complete-control-construct-update-time
                         - last-control-construct-notification-update-time
                         - number-of-partial-updates-since-last-complete-update
                         - schema-cache-directory
@@ -2512,11 +2504,16 @@ paths:
                           description: >
                             'Timestamp of the time, the device was added to the deviceList
                             from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/added-to-device-list-time}'
-                        last-complete-control-construct-update-time:
+                        last-complete-control-construct-update-time-attempt:
                           type: string
                           description: >
-                            'Timestamp of the last time, when the controlConstruct was updated completely by the periodic retrieval
-                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-complete-control-construct-update-time}'
+                            'Timestamp of the last time, when it was tried to update the controlConstruct completely
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-complete-control-construct-update-time-attempt}'
+                        last-successful-complete-control-construct-update-time:
+                          type: string
+                          description: >
+                            'Timestamp of the last time, when the controlConstruct was successfully updated completely
+                            from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/last-successful-complete-control-construct-update-time}'
                         last-control-construct-notification-update-time:
                           type: string
                           description: >
@@ -2548,7 +2545,8 @@ paths:
                     connection-status: 'connected'
                     changed-to-disconnected-time: ''
                     added-to-device-list-time: '2024-10-10T14:00:00+01:00'
-                    last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+                    last-complete-control-construct-update-time-attempt: '2024-10-10T14:00:05+01:00'
+                    last-successful-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
                     last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
                     number-of-partial-updates-since-last-complete-update: 7
                     schema-cache-directory: 'hua'

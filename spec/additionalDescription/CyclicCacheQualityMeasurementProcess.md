@@ -29,9 +29,9 @@ The process directly accesses the deviceMetadataList to determine the next measu
 Each time a new candidate device has to be chosen, the process selects the first device found in the deviceMetadataList, ...
 - with *connection-status* == connected
 - *locked-status* == unlocked
-- *last-complete-control-construct-update-time* != null
+- *last-complete-control-construct-update-time-attempt* != null
 
-Due to the ordering of the deviceMetadataList by priority (*last-complete-control-construct-update-time* and *connection-status*), the process will always pick the device with the oldest ControlConstruct, which is not yet already processed by the slidingWindow process.  
+Due to the ordering of the deviceMetadataList by priority (*last-complete-control-construct-update-time-attempt* and *connection-status*), the process will always pick the device with the oldest ControlConstruct, which is not yet already processed by the slidingWindow process.  
 By selecting the device, whose cached ControlConstruct was updated the longest time ago, it is ensured that devices with outdated entries are prioritized for quality assessment. This strategy helps systematically improve the overall cache quality by always targeting the least recently updated devices first.
 
 ### Data retrieval
